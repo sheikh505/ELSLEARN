@@ -1,0 +1,49 @@
+<%= form_for :question, :url => questions_path do |f| %>
+
+    <div class="field">
+      <%= f.label :statement %><br />
+      <%= f.text_field :statement%>
+    </div>
+    <div class="field">
+      <%= label_tag :answer %><br />
+      <%= text_field_tag :answer %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :instruction %><br />
+      <%= f.text_area :instruction, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :source %><br />
+      <%= f.text_field :source %>
+    </div>
+
+    <div class="field">
+      <%= f.label :author %><br />
+      <%= f.text_field :author, value: current_user.email %>
+    </div>
+
+    <div class="field">
+      <%= f.label :Difficulty %><br />
+      <select id="difficulty" name="difficulty">
+        <option>1</option>
+        <option>2</option>
+        <option selected>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+
+    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
+    <%=hidden_field_tag :type_ques, 'des' %>
+
+    <div class="actions">
+      <%= f.submit class: 'btn btn-large btn-inverse ' %>
+    </div>
+<% end %>

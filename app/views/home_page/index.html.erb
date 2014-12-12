@@ -1,0 +1,15 @@
+
+  <% if user_signed_in? %>
+    <% if current_user.is_admin? %>
+        <%= render 'aform' %>
+
+    <% elsif current_user.is_teacher? %>
+        <%= render 'tform' %>
+    <% else %>
+      <%= render 'usform' %>
+    <%end %>
+
+  <% else %>
+    <%= render 'uform' %>
+  <% end %>
+

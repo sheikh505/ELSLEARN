@@ -1,0 +1,15 @@
+
+<%=label_tag :course %>
+
+<% if @courses.nil? %>
+<% else %>
+
+    <select id="course" name="course" >
+
+      <%@courses.each do |x| %>
+
+          <option value="<%=x.id%>"><%=x.name%></option>
+      <% end %>
+    </select>
+
+<%end %>

@@ -1,0 +1,77 @@
+<%= form_for(@test) do |f| %>
+  <% if @test.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@test.errors.count, "error") %> prohibited this test from being saved:</h2>
+
+      <ul>
+      <% @test.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name,:class => "row_field" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :marks %>
+      <%= f.number_field :marks,:class => "row_field" %>
+    </div>
+
+    <div class="field">
+      <%=f.label :degree %>
+      <select id="degree" name="degree" onchange="generate_courses(this)" >
+            <option selected>Select Degree</option>
+        <% Degree.all.each do |degree| %>
+
+            <option value="<%=degree.id%>"><%=degree.name%></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div id="course_container" class="field">
+      <%=label_tag :course %>
+
+          <select id="course" name="course" >
+                <option>Select Degree First</option>
+
+          </select>
+    </div>
+
+  <div class="actions">
+    <%= f.submit class: 'btn btn-inverse' %>
+  </div>
+<% end %>
+
+
+<script>
+  $(document).ready(function() {
+//              $('#course_container').hide();
+          }
+  );
+
+ function generate_courses(degree_id)
+ {
+     //alert (degree_id.value);
+     container = document.getElementById('course_container');
+     $.ajax({
+         url:'/tests/get_courses?degree_id='+degree_id.value,
+         type:'get',
+         dataType:'html',
+         processData:false,
+         success:function (data) {
+             $("#course_container").html(data);
+             $("#course_container").show();
+         },
+         error:function (data) {
+             alert ('nae chalaa');
+         //    window.location.reload();
+         }
+     });
+
+ }
+
+</script>

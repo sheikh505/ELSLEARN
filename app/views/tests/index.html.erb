@@ -1,0 +1,36 @@
+<h1>Listing tests</h1>
+<div class="listing-holder">
+<table class="table table-condensed">
+  <tr>
+    <th>Test ID</th>
+    <th>Name</th>
+    <th>Course</th>
+    <th>Degree</th>
+    <th>Marks</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tests.each do |test| %>
+  <tr>
+    <td>Test :<%= test.id %></td>
+    <td><%= test.name %></td>
+    <td><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).course.name %></td>
+    <td><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).degree.name %></td>
+    <td><%= test.marks %></td>
+    <% if user_signed_in? && current_user.is_not_student? %>
+    <td><%= link_to 'Show', test %></td>
+    <td><%= link_to 'Edit', edit_test_path(test) %></td>
+    <td><%= link_to 'Destroy', test, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% else %>
+        <td><%= link_to 'Attempt', test_path(test),class: 'btn btn-inverse' %></td>
+    <% end %>
+        </tr>
+<% end %>
+</table>
+</div>
+
+<% if user_signed_in? && current_user.is_not_student? %>
+<%= link_to 'New Test', new_test_path, class: 'btn btn-large btn-inverse' %>
+<% end %>

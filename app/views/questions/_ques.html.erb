@@ -1,0 +1,16 @@
+
+
+  <table class="table table-condensed">
+    <% @questions.each do |question| %>
+        <tr><td><%= question.statement %> </td>
+          <td><%= link_to 'Edit', edit_question_path(question) %></td>
+          <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+
+    <% end %>
+
+  </table>
+
+
+<%= link_to 'Add Questions', add_questions_questions_path(:test_id => @id), :class => 'btn btn-large btn-inverse' %>
+

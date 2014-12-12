@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="span5">
+<%= form_for(@degree) do |f| %>
+  <% if @degree.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@degree.errors.count, "error") %> prohibited this degree from being saved:</h2>
+
+      <ul>
+      <% @degree.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+</div>
+    <div class="span5 offset1">
+     <table class="table table-condensed">
+     <th>List of Degrees</th>
+      <%Degree.all.each do |degree| %>
+      <tr><td><%=degree.name%></td></tr>
+      <% end %>
+     </table>
+    </div>
+    </div>

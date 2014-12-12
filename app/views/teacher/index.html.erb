@@ -1,0 +1,27 @@
+<div class="listing-holder">
+<table class="table table-condensed">
+  <th>Email</th>
+  <th>Name</th>
+  <th>Contact number</th>
+  <th></th>
+
+  <%User.all.select {|x| x.is_teacher? }.each do |user|  %>
+<tr>
+  <td><%= user.email %></td>
+  <td><%= user.name %></td>
+  <td><%= user.phone %></td>
+  <td><%= link_to 'Edit', edit_teacher_path(user) %></td>
+
+
+
+</tr>
+
+
+
+  <% end %>
+
+
+</table>
+</div>
+
+<%= link_to 'Add new Teacher', new_teacher_path, class: 'btn btn-large btn-inverse' %>

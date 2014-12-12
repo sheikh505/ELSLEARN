@@ -1,0 +1,12 @@
+
+<p id="notice"><%= notice %></p>
+
+<% if user_signed_in? %>
+    <% if current_user.is_teacher? || current_user.is_admin?  %>
+        <%= render 'adminform' %>
+    <% end %>
+<% else %>
+    im here are you ?
+    <%= render 'uform' %>
+
+<%end %>

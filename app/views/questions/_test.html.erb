@@ -1,0 +1,14 @@
+<%=label_tag :test %>
+<% if @tests.nil? %>
+<% else %>
+    <select id="test" name="test" onchange="generate_questions(this)" >
+      <option>Select Test</option>
+
+      <%@tests.each do |x| %>
+
+          <option value="<%=x.id%>"><%=x.name%></option>
+      <% end %>
+    </select>
+
+<%end %>
+

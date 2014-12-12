@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row">
+
+    <div class="span5">
+      <h3>Test</h3>
+      <div class="field">
+        <%= label_tag :degree %>
+        <select id="degree" name="degree" onchange="generate_courses(this)" >
+          <option selected>Select Degree</option>
+          <% Degree.all.each do |degree| %>
+
+              <option value="<%=degree.id %>"><%=degree.name%></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="field" id="course_container">
+        <%=label_tag :course %>
+
+        <select id="course" name="course" >
+          <option>Select Degree First</option>
+
+        </select>
+      </div>
+    </div>
+
+    <div class="span5 offset1">
+      <h3>Books</h3>
+      <table class="table table-condensed">
+        <th>Name</th>
+        <th>Price</th>
+        <th>description</th>
+
+        <% Book.all.each do |book| %>
+            <tr>
+              <td><%=book.name %></td>
+              <td><%=book.price %></td>
+              <td><%=book.description %></td>
+              <td><%=link_to 'View', book, :class => 'btn btn-danger' %></td>
+
+            </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<input id="degree_hidden_id" type="hidden"  value=''>
+
+<div id="test_container" class="container">
+
+</div>
+
+<script>
+    $(document).ready(function() {
+              //  $('#course_container').hide();
+            }
+    );
+
+    function generate_courses(degree_id)
+    {
+
+        document.getElementById("degree_hidden_id").value=degree_id.value;
+
+        //alert (document.getElementById("degree_hidden_id").value);
+        container = document.getElementById('course_container');
+        $.ajax({
+            url:'/home_page/get_courses?degree_id='+degree_id.value,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#course_container").html(data);
+                $("#course_container").show();
+                $("#test_container").hide();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+
+
+    function generate_test(course)
+    {
+        d_id = document.getElementById("degree_hidden_id").value;
+        //alert(d_id)
+        //alert (degree_id.value);
+        //container = document.getElementById('course_container');
+        $.ajax({
+            url:'/home_page/get_tests?course_id='+course.value+'&degree_id='+d_id,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#test_container").html(data);
+                $("#test_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+
+</script>

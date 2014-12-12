@@ -1,0 +1,29 @@
+<h2>test is test man!!</h2>
+<p>Course : <%=DegreeCourseAssignment.find_by_id(@test.degree_course_assignment_id).course.name %></p>
+<p>Degree : <%=DegreeCourseAssignment.find_by_id(@test.degree_course_assignment_id).degree.name %></p>
+<p>Marks : <%= @test.marks %></p>
+
+<div class="container">
+  <table class="table table-condensed">
+    <% @test.questions.each do |question| %>
+        <tr>
+          <td><%= question.statement %> </td>
+          <td><%= radio_button_tag("question_#{question.id}".to_sym,question.answer)%><%= question.answer %></td>
+
+          <% question.options.each do |option| %>
+              <td><%= radio_button_tag("question_#{question.id}".to_sym,option.statement)%></td>
+              <td><%= option.statement %></td>
+
+          <% end %>
+
+        </tr>
+
+    <% end %>
+
+  </table>
+
+
+</div>
+
+<%= link_to 'Edit', edit_test_path(@test), class: 'btn btn-large btn-inverse' %> |
+<%= link_to 'Back', tests_path, class: 'btn btn-large btn-info' %>

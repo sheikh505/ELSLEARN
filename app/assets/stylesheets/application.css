@@ -1,0 +1,73 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require bootstrap
+ *= require bootstrapnew
+ *= require simple-sidebar
+ *= require_self
+ *= require_tree .
+ */
+
+
+.main_holder{ margin: 50px 0 0; }
+table, td, th { vertical-align: middle; border: none; }
+th { border-bottom: 4px solid #f8f8f8; }
+table tr th{ height: 50px; line-height: 38px !important;}
+table td tr{ height: 40px;}
+.header .navbar{ background: #fff;}
+#page-content-wrapper .listing-holder{
+    background: #fff;
+    border-bottom: 2px solid #ccc;
+    border-radius: 3px;
+    margin: 0 30px 30px;
+    min-height: 160px;
+
+}
+#page-content-wrapper h1{ padding: 0 28px;}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+   padding: 8px 30px;
+}
+.table tr td{ padding-top: 15px !important;}
+
+.table tr td a { color: #4aa1db;}
+.table tr td a:hover{ background: #fff;}
+.listing-holder .new_test,
+.listing-holder .new_book,
+.listing-holder .new_user{
+    padding: 20px 40px;
+
+}
+.listing-holder .new_book .field{
+    display: inline-block;
+    width: 32%;
+    vertical-align: top;
+
+}
+.listing-holder .new_book .field select{ width: 97%;}
+.listing-holder .new_test .field label{ display: block;}
+.listing-holder .new_test .field{ display: inline-block; width: 45%;}
+.field .row_field{
+    padding: 5px;
+    width: 255px;
+    height: 40px;
+
+}
+.listing-holder  h2{ padding: 20px 40px;}
+.listing-holder .new_book .actions .btn,
+.listing-holder .new_user .actions .btn{ background: #ccc; text-shadow: none;}
+.listing-holder .new_book .actions .btn:hover,
+.listing-holder .new_user .actions .btn:hover{ background:#4aa1db; color: #fff;}
+.listing-holder  li{ list-style: none;}
+.listing-holder.questions{ padding: 20px;}
+#test_container {
+    margin: 0 10px;
+}
+#test_container  select{ margin: 0 20px;}

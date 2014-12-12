@@ -1,0 +1,47 @@
+
+<div class="row">
+  <div class="span5">
+<%= form_for(@course) do |f| %>
+  <% if @course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% @course.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <select id="degree" name="degree" onchange="foo()" >
+      <% Degree.all.each do |degree| %>
+
+          <option value="<%=degree.id%>"><%=degree.name%></option>
+      <% end %>
+    </select>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+  </div>
+
+    <div class="span5 offset">
+        <h3>Listed courses</h3>
+      <table class="table table-condensed">
+      <th>Course</th>
+        <th>Degree</th>
+        <%Course.all.each do |course| %>
+        <tr><td><%=course.name%></td>
+          <td><%=DegreeCourseAssignment.find_by_course_id(course.id).degree.name %></td>
+    </tr>
+
+      <% end %>
+      </table>
+    </div>
+</div>

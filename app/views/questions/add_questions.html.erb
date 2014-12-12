@@ -1,0 +1,57 @@
+<%= tinymce_assets %>
+
+<div class="row">
+  <div class="span5">
+<div class="container">
+  <h4>Degree : <%=@dc_hash["degree"].name %></h4>
+  <h4>Course : <%=@dc_hash["course"].name %></h4>
+  <h4>Test   : <%=@dc_hash["test"].name %></h4>
+
+  <select id="'question_type" name="question_type" onchange="render_view(this.value)">
+    <option selected value="1">MCQ</option>
+    <option value="2">Descriptive</option>
+    <option value="3">Fill In The Blanks</option>
+  </select>
+
+  <div class="row">
+    <div id="ques_form_container" class="span10 offset1">
+
+
+
+    </div>
+  </div>
+</div>
+  </div>
+
+</div>
+
+
+<script>
+  $(document).ready()
+          {
+           render_view(2);
+
+          }
+
+
+  function render_view(type){
+
+      $.ajax({
+          url:'/questions/render_view?test_id=<%=@dc_hash['test'].id%>&ques_type='+type,
+          type:'get',
+          dataType:'html',
+          processData:false,
+          success:function (data) {
+              $("#ques_form_container").html(data);
+              //$("#ques_container").show();
+          },
+          error:function (data) {
+              alert ('nae chalaa');
+              //    window.location.reload();
+          }
+      });
+
+
+  }
+
+</script>
