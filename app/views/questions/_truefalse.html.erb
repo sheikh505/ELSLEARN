@@ -1,0 +1,140 @@
+<%= form_for :question, :url => questions_path, :html => {multipart: true} do |f| %>
+
+
+    <div class="field">
+      <%= f.label :statement %><br />
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description,value: "", :required => true  ,size: '5x5' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :option %><br />
+      <%= radio_button_tag :option,'True' %>True
+      <%= radio_button_tag :option,'False' %>False
+    </div>
+
+
+
+    <div class="field">
+      <%= f.label :instruction %><br />
+      <%= f.text_area :instruction, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :source %><br />
+      <%= f.text_field :source %>
+    </div>
+
+    <div class="field">
+      <%= f.label :author %><br />
+      <%= f.text_field :author, value: current_user.email %>
+    </div>
+
+    <div class="field">
+      <%= f.label :Difficulty %><br />
+      <select id="difficulty" name="difficulty">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option  value="3" selected>3</option>
+        <option  value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+
+
+    <div class="field">
+      <%= label_tag :pastPaperFlag %><br />
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No
+    </div>
+
+    <div id="past_paper_history_div">
+      <div class="field">
+        <%= label_tag :paper %><br />
+        <%= text_field_tag :paper %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :ques_no %><br />
+        <%= text_field_tag :ques_no %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :session %><br />
+        <input type="radio" name="session" value="May/June">May/June
+        <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+      </div>
+
+
+      <div class="field">
+        <%= label_tag :year %><br />
+        <%= text_field_tag :year %>
+      </div>
+
+
+    </div>
+
+    <%=hidden_field_tag :is_answer,'1' %>
+    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
+    <%=hidden_field_tag :type_ques, 'trueFalse'  %>
+
+    <div class="actions">
+      <%= f.submit class: 'btn btn-large btn-inverse ' %>
+    </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+
+    $("document:ready", function() {
+
+        $("#past_paper_history_div").hide();
+
+        $("[rel=tinymce]").tinymce({
+            theme: "modern",
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
+            plugins: ["uploadimage"],
+            relative_urls: false,
+            remove_script_host: false,
+            document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
+        });
+
+
+    });
+
+    function show_div(){
+        //alert("show");
+        $("#past_paper_history_div").show();
+    }
+
+    function hide_div(){
+        //alert("hide");
+        $("#past_paper_history_div").hide();
+    }
+</script>
+
+
+<script>
+    function change_field(box_id, span_id,field_id)
+    {
+        // alert(box_id +"-"+ span_id)
+        box = document.getElementById(box_id)
+        if(box.checked){
+
+            $('#'+span_id).show();
+            $('#'+field_id).hide();
+        }
+        else{
+            $('#'+span_id).hide();
+            $('#'+field_id).show();
+        }
+
+    }
+
+</script>

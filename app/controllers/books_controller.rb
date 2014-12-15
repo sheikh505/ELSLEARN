@@ -30,6 +30,7 @@ class BooksController < ApplicationController
                      :degree_course_assignment_id => @id,
                      :avatar => params[:book][:avatar]
     )
+    @book.avatar_file_name =(Time.now.to_i).to_s + '_' + @book.avatar_file_name
     @book.save
     redirect_to books_path
   end

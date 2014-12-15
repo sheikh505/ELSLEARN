@@ -65,6 +65,8 @@ class QuestionsController < ApplicationController
    @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
    @questions = test.questions
+   @view = 1
+    @view = params[:view] unless params[:view].nil?
   end
 
   def render_view
@@ -85,24 +87,36 @@ class QuestionsController < ApplicationController
       render :partial => 'questions/mcq'
     elsif id == '2'
       render :partial => 'questions/descriptive'
-    else
+    elsif id == '3'
       render :partial => 'questions/blank'
+    else
+      render :partial => 'questions/truefalse'
     end
   end
 
   def create
 
-
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]
+    @question.statement = params[:tinymce4]
     if @question.save
 
+      if params[:pastPaperFlag] == '1'
+        @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
+                             :paper => params[:paper],
+                             :ques_no => params[:ques_no],
+                             :session => params[:session],
+                             :year => params[:year],
+                             :question_id => @question.id
+        )
+        @past_paper.save
+      end
 
       if params[:type_ques] == 'mcq'
         ##logic for mcqs questions
 
         i = 1
-        while(i < 5) do
+        while(i < params[:count_option].to_i) do
 
           option = Option.new(
                              :statement => params['option_'+i.to_s],
@@ -111,12 +125,19 @@ class QuestionsController < ApplicationController
                              :question_id => @question.id,
                              :is_answer =>params['is_answer_'+i.to_s]
           )
+          if option.avatar_file_name.nil?
           option.save
+          else
+            option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
+            option.save
+          end
         i = i + 1
         end
 
           option.inspect
-
+      elsif params[:type_ques] == 'trueFalse'
+        @option = Option.new(:statement => params[:option],:question_id => @question.id,:is_answer => params[:is_answer])
+        @option.save
       else
 
         @option = Option.new(:statement => params[:answer],:question_id => @question.id,:is_answer => 1)

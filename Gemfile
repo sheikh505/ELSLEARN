@@ -7,6 +7,7 @@ gem 'rails', '3.2.14'
 
 #gem 'sqlite3'
 gem 'pg'
+#gem 'mysql2'
 gem 'devise'
 gem 'cancan'
 gem 'paperclip', '~> 4.2'

@@ -1,21 +1,14 @@
 class TinymceAssetsController < ApplicationController
   respond_to :json
-
   def create
-    puts "adfasdfasdfafdasdfadf"+params.inspect
-
-   # geometry = Paperclip::Geometry.from_file (Paperclip.io_adapters.for(params[:avatar]))
-    image = Image.create params[:file]
+    geometry = Paperclip::Geometry.from_file params[:file]
+    image = Image.create params.slice(:file, :alt, :hint)
     render json: {
         image: {
-            url: image.avatar.url,
-            height: 100,
-            width: 100
-          # height: geometry.height.to_i,
-            #width: geometry.width.to_i
+            url: image.file.url,
+            height: geometry.height.to_i/10,
+            width: geometry.width.to_i/10
         }
     }, layout: false, content_type: "text/html"
   end
 end
-
-

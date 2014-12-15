@@ -16,9 +16,8 @@
     <td><%= book.price %></td>
     <td><%= book.description %></td>
     <% if user_signed_in? && current_user.is_not_student? %>
-    <td><%= link_to 'Show', book %></td>
     <td><%= link_to 'Edit', edit_book_path(book) %></td>
-    <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% else %>
         <td><%= link_to 'Buy', book_path(book), :class => 'btn btn-inverse' %></td>
     <% end %>

@@ -1,37 +1,53 @@
 
+<script>
+    var global_option_count = 5;
 
-
-
-
+</script>
 
 <%= form_for :question, :url => questions_path, :html => {multipart: true} do |f| %>
 
+
     <div class="field">
       <%= f.label :statement %><br />
-      <%= f.text_area :statement,:class => "tinymce" ,:rows => 5, :cols => 10, autofocus: true %>
-      <%= tinymce %>
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
     </div>
 
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description,size: '5x5' %>
+      <%= f.text_area :description,value: "", :required => true  ,size: '5x5' %>
     </div>
 <% i = 1 %>
-    <% 4.times{ %>
-
-        <% puts '<div class="field">' %><br />
+    <% 7.times{ %>
+        <% if i < 5 %>
+        <div class="field">
           <%= f.label ('option_' + i.to_s).to_sym %>
         <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>')">
         Image
         <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
         Is_Answer
         <br />
-        <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym %></span>
-        <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym %></span>
+        <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
+        <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym  %></span>
         <% i+=1 %>
         </div>
+            <% else %>
+            <div id="option_div_<%=i%>" class="field" style="display: none">
+            <%= f.label ('option_' + i.to_s).to_sym %>
+            <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>')">
+            Image
+            <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
+            Is_Answer
+            <br />
+            <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
+            <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym %></span>
+            <% i+=1 %>
+            </div>
+
+            <% end %>
 
     <% } %>
+
+    <input type="button" value="Add Option" class="btn btn-inverse" id="option_add" onclick="add_option()" >
 
     <div class="field">
       <%= f.label :instruction %><br />
@@ -59,14 +75,45 @@
       </select>
     </div>
 
+    <div class="field">
+      <%= label_tag :pastPaperFlag %><br />
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No
+    </div>
+
+    <div id="past_paper_history_div">
+      <div class="field">
+        <%= label_tag :paper %><br />
+        <%= text_field_tag :paper %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :ques_no %><br />
+        <%= text_field_tag :ques_no %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :session %><br />
+        <input type="radio" name="session" value="May/June">May/June
+        <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+      </div>
+
+
+      <div class="field">
+        <%= label_tag :year %><br />
+        <%= text_field_tag :year %>
+      </div>
+
+
+    </div>
+
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=hidden_field_tag :type_ques, 'mcq'  %>
-
+    <input type="hidden" id="count_option" name="count_option" value="4">
     <div class="actions">
       <%= f.submit class: 'btn btn-large btn-inverse ' %>
     </div>
 <% end %>
-
 
 <script>
   function change_field(box_id, span_id,field_id)
@@ -85,4 +132,49 @@
 
   }
 
+        //add optionssss
+        function add_option (){
+
+            //var op_id = "'#option_div_"+<%=@option_count%>+"'" ;
+            //alert (op_id);
+
+            $("#option_div_"+global_option_count).show();
+            document.getElementById("count_option").value = global_option_count;
+            global_option_count = global_option_count + 1 ;
+
+        }
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    $("document:ready", function() {
+
+        $("#past_paper_history_div").hide();
+
+        $("[rel=tinymce]").tinymce({
+            theme: "modern",
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
+            plugins: ["uploadimage"],
+            relative_urls: false,
+            remove_script_host: false,
+            document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
+        });
+
+
+    });
+
+    function show_div(){
+        //alert("show");
+        $("#past_paper_history_div").show();
+    }
+
+    function hide_div(){
+        //alert("hide");
+        $("#past_paper_history_div").hide();
+    }
 </script>

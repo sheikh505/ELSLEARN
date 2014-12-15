@@ -1,17 +1,19 @@
 <%= form_for :question, :url => questions_path do |f| %>
 
+
     <div class="field">
       <%= f.label :statement %><br />
-      <%= f.text_field :statement%>
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
     </div>
+
     <div class="field">
       <%= label_tag :answer %><br />
-      <%= text_field_tag :answer %>
+      <%= text_field_tag :answer, nil , :required => true  %>
     </div>
 
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description, :size => '4x4' %>
+      <%= f.text_area :description,value: "", :required => true  , :size => '4x4' %>
     </div>
 
     <div class="field">
@@ -40,6 +42,38 @@
       </select>
     </div>
 
+    <div class="field">
+      <%= label_tag :pastPaperFlag %><br />
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No
+    </div>
+
+    <div id="past_paper_history_div">
+      <div class="field">
+        <%= label_tag :paper %><br />
+        <%= text_field_tag :paper %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :ques_no %><br />
+        <%= text_field_tag :ques_no %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :session %><br />
+        <input type="radio" name="session" value="May/June">May/June
+        <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+      </div>
+
+
+      <div class="field">
+        <%= label_tag :year %><br />
+        <%= text_field_tag :year %>
+      </div>
+
+
+    </div>
+
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=hidden_field_tag :type_ques, 'des' %>
 
@@ -47,3 +81,37 @@
       <%= f.submit class: 'btn btn-large btn-inverse ' %>
     </div>
 <% end %>
+
+
+
+<script type="text/javascript">
+
+    $("document:ready", function() {
+
+        $("#past_paper_history_div").hide();
+        tinymce.execCommand('mceRemoveControl',true,'tinymce4');
+        tinymce.execCommand('mceAddControl',true,'tinymce4');
+
+        $("[rel=tinymce]").tinymce({
+            theme: "modern",
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
+            plugins: ["uploadimage"],
+            relative_urls: false,
+            remove_script_host: false,
+            document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
+        });
+
+
+    });
+
+    function show_div(){
+        //alert("show");
+        $("#past_paper_history_div").show();
+    }
+
+    function hide_div(){
+        //alert("hide");
+        $("#past_paper_history_div").hide();
+    }
+</script>

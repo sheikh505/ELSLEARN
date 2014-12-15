@@ -71,9 +71,7 @@
     <% if current_user.is_not_student? %>
 
     <li class="sidebar-brand">
-      <a href="#">
-        Quiz YoO !
-      </a>
+      <%= link_to "ELS Learning", home_page_index_path%>
     </li>
         <% if current_user.is_admin? %>
     <li>
@@ -84,30 +82,17 @@
       <%= link_to "Manage Degrees", degrees_path %>
     </li>
     <li>
-      <%= link_to "View Tests", tests_path %>
+      <%= link_to "Manage Tests", tests_path %>
     </li>
-    <li>
-      <%= link_to "Add Test", new_test_path %>
-    </li>
-    <li>
-      <%= link_to "Add Book", new_book_path %>
-    </li>
+
     <li>
       <%= link_to "Manage Books", books_path %>
     </li>
 
     <li>
-      <%= link_to "Add Teacher", new_teacher_path %>
-    </li>
-    <li>
       <%= link_to "Manage Teachers", teacher_index_path %>
     </li>
       <% end %>
-
-
-    <li>
-      <%= link_to "Graph", home_page_user_graph_path %>
-    </li>
 
     <li>
       <%= link_to "Manage Questions", questions_path %>
@@ -116,9 +101,7 @@
       <%= link_to "Home", home_page_index_path %>
     </li>
 
-    <li>
-      <%= link_to "sign out", destroy_user_session_path,method: :delete %>
-    </li>
+
     <% else %>
 
         <li>
