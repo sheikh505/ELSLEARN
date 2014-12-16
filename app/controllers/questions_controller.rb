@@ -96,8 +96,6 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    puts "adfasdfasdfadf"+params.inspect
-    adfadsfasdf
 
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]
