@@ -11,7 +11,7 @@ user.email = 'admin@els.com'
 user.password = 'admin123'
   user.role = 'admin'
 user.name = 'Admin'
-  user.save!
+  user.save
   #user.roles.build(description: 'admin')
 end
 create_admin
