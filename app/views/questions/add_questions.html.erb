@@ -6,7 +6,7 @@
   <h4>Degree : <%=@dc_hash["degree"].name %></h4>
   <h4>Course : <%=@dc_hash["course"].name %></h4>
   <h4>Test   : <%=@dc_hash["test"].name %></h4>
-
+    <label for="'question_type">Question Type:</label>
   <select id="'question_type" name="question_type" onchange="fresh_page(this.value)">
     <% if @view.eql?(1) %>
         <option selected value="1">MCQ</option>
@@ -30,9 +30,9 @@
 
 
     <% if @view.eql?('4') %>
-        <option selected value="4">True False</option>
+        <option selected value="4">True/False</option>
     <% else %>
-        <option  value="4">True False</option>
+        <option  value="4">True/False</option>
     <% end %>
 
 

@@ -21,19 +21,19 @@
         <% if i < 5 %>
         <div class="field">
           <%= f.label ('option_' + i.to_s).to_sym %>
-        <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>')">
+        <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
         Image
         <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
         Is_Answer
         <br />
-        <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
+        <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil,required: true %></span>
         <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym  %></span>
         <% i+=1 %>
         </div>
             <% else %>
             <div id="option_div_<%=i%>" class="field" style="display: none">
             <%= f.label ('option_' + i.to_s).to_sym %>
-            <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>')">
+            <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
             Image
             <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
             Is_Answer
@@ -60,25 +60,39 @@
     </div>
 
     <div class="field">
+    <%= f.label :board %><br />
+    <%= f.text_field :board %>
+    </div>
+
+    <div class="field">
+      <%= f.label :topic %><br />
+      <select id="topic" name="topic">
+        <% @topics.each do |topic|%>
+            <option value="<%=topic.id %>"><%=topic.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
       <%= f.label :author %><br />
-      <%= f.text_field :author, value: current_user.email %>
+      <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
     <div class="field">
       <%= f.label :Difficulty %><br />
       <select id="difficulty" name="difficulty">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option  value="3" selected>3</option>
-        <option  value="4">4</option>
-        <option value="5">5</option>
+        <option value="1">Very Easy</option>
+        <option value="2">Easy</option>
+        <option value="3" selected>Moderate</option>
+        <option value="4">Hard</option>
+        <option value="5">Very Hard</option>
       </select>
     </div>
 
     <div class="field">
       <%= label_tag :pastPaperFlag %><br />
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
-      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked>No
     </div>
 
     <div id="past_paper_history_div">
@@ -88,7 +102,7 @@
       </div>
 
       <div class="field">
-        <%= label_tag :ques_no %><br />
+        <%= label_tag "question #" %><br />
         <%= text_field_tag :ques_no %>
       </div>
 
@@ -116,18 +130,22 @@
 <% end %>
 
 <script>
-  function change_field(box_id, span_id,field_id)
+  function change_field(box_id, span_id,field_id,id)
   {
      // alert(box_id +"-"+ span_id)
     box = document.getElementById(box_id)
       if(box.checked){
 
         $('#'+span_id).show();
+          $('#option_image_'+id).prop('required',true);
+          $('#option_'+id).removeAttr('required');
           $('#'+field_id).hide();
       }
       else{
           $('#'+span_id).hide();
           $('#'+field_id).show();
+          $('#option_image_'+id).removeAttr('required');
+          $('#option_'+id).prop('required',true);
       }
 
   }
@@ -157,6 +175,8 @@
 
         $("[rel=tinymce]").tinymce({
             theme: "modern",
+            menubar: false,
+            statusbar: false,
             toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
             pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
             plugins: ["uploadimage"],

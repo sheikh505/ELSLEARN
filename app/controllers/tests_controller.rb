@@ -23,7 +23,7 @@ class TestsController < ApplicationController
 
   def create
     @id = DegreeCourseAssignment.find_by_course_id_and_degree_id(params[:course],params[:degree])
-    @id=@id.id;
+    @id=@id.id
 
     @test = Test.new(params[:test])
     @test.degree_course_assignment_id = @id

@@ -3,7 +3,7 @@
 
     <div class="field">
       <%= f.label :statement %><br />
-      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" autofocus="yes"></textarea>
     </div>
 
     <div class="field">
@@ -27,6 +27,20 @@
     </div>
 
     <div class="field">
+      <%= f.label :board %><br />
+      <%= f.text_field :board %>
+    </div>
+
+    <div class="field">
+      <%= f.label :topic %><br />
+      <select id="topic" name="topic">
+        <% @topics.each do |topic|%>
+            <option value="<%=topic.id %>"><%=topic.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
       <%= f.label :author %><br />
       <%= f.text_field :author, value: current_user.email %>
     </div>
@@ -34,18 +48,18 @@
     <div class="field">
       <%= f.label :Difficulty %><br />
       <select id="difficulty" name="difficulty">
-        <option>1</option>
-        <option>2</option>
-        <option selected>3</option>
-        <option>4</option>
-        <option>5</option>
+        <option value="1">Very Easy</option>
+        <option value="2">Easy</option>
+        <option value="3" selected>Moderate</option>
+        <option value="4">Hard</option>
+        <option value="5">Very Hard</option>
       </select>
     </div>
 
     <div class="field">
       <%= label_tag :pastPaperFlag %><br />
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
-      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked>No
     </div>
 
     <div id="past_paper_history_div">
@@ -55,7 +69,7 @@
       </div>
 
       <div class="field">
-        <%= label_tag :ques_no %><br />
+        <%= label_tag "question #" %><br />
         <%= text_field_tag :ques_no %>
       </div>
 
@@ -94,6 +108,8 @@
 
         $("[rel=tinymce]").tinymce({
             theme: "modern",
+            menubar: false,
+            statusbar: false,
             toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
             pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
             plugins: ["uploadimage"],

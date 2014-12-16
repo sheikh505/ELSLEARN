@@ -7,10 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 def create_admin
 user=User.new
-user.email = 'admin@umair.com'
-user.password = 'umair123'
+user.email = 'admin@els.com'
+user.password = 'admin123'
   user.role = 'admin'
-user.name = 'Umair'
+user.name = 'Admin'
   user.save!
   #user.roles.build(description: 'admin')
 end

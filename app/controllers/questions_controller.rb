@@ -65,6 +65,7 @@ class QuestionsController < ApplicationController
    @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
    @questions = test.questions
+   @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
    @view = 1
     @view = params[:view] unless params[:view].nil?
   end
@@ -79,7 +80,7 @@ class QuestionsController < ApplicationController
     @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
     @questions = test.questions
-
+    @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
 
     id = params[:ques_type]
 
@@ -95,6 +96,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
+    puts "adfasdfasdfadf"+params.inspect
+    adfadsfasdf
 
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]

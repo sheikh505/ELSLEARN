@@ -13,17 +13,17 @@
 
     <div class="field">
       <%= f.label :name %>
-      <%= f.text_field :name,:class => "row_field" %>
+      <%= f.text_field :name,:required => true,:class => "row_field" %>
     </div>
 
     <div class="field">
       <%= f.label :marks %>
-      <%= f.number_field :marks,:class => "row_field" %>
+      <%= f.number_field :marks,in: 1...10000,:required => true,:class => "row_field" %>
     </div>
 
     <div class="field">
       <%=f.label :degree %>
-      <select id="degree" name="degree" onchange="generate_courses(this)" >
+      <select id="degree" name="degree" onchange="generate_courses(this)">
             <option selected>Select Degree</option>
         <% Degree.all.each do |degree| %>
 

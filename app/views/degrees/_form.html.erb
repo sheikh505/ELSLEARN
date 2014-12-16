@@ -15,7 +15,7 @@
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+    <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
   </div>
   <div class="actions">
     <%= f.submit %>

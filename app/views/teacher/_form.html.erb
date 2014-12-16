@@ -16,17 +16,17 @@
 
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true ,:class=>'row_field' %>
+      <%= f.email_field :email,:required => true, autofocus: true ,:class=>'row_field' %>
     </div>
 
      <div class="field">
           <%= f.label :name %><br />
-          <%= f.text_field :name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+          <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
      </div>
 
         <div class="field">
           <%= f.label :phone %><br />
-          <%= f.phone_field :phone ,:class=>'row_field' %>
+          <%= f.phone_field :phone ,:required => true,:class=>'row_field' %>
         </div>
 
     <div class="field">
@@ -34,12 +34,12 @@
       <% if @validatable %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>
       <% end %><br />
-      <%= f.password_field :password, autocomplete: "off" ,:class=>'row_field' %>
+      <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
     </div>
 
     <div class="field">
       <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "off" ,:class=>'row_field' %>
+      <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
 
     </div>
     <div class="field">

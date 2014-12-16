@@ -4,6 +4,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.string :statement
       t.string :answer
       t.belongs_to :test
+      t.belongs_to :topic
       t.timestamps
     end
   end

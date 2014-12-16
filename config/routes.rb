@@ -1,4 +1,11 @@
 ExamsSystem::Application.routes.draw do
+  resources :topics do
+    collection do
+      get :get_courses
+    end
+  end
+
+
   resources :teacher do
     collection do
       get :get_courses
