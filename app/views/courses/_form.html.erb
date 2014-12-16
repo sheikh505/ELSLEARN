@@ -15,6 +15,7 @@
   <% end %>
 
     <select id="degree" name="degree" onchange="foo()" >
+      <option>Select Degree</option>
       <% Degree.all.each do |degree| %>
 
           <option value="<%=degree.id%>"><%=degree.name%></option>
