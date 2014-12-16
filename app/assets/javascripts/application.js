@@ -11,9 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //= require bootstrap.min
 //= require bootstrapnew.min
-//= require jquery
 //= require highcharts.js
 //= require exporting.js
+//= require jquery
 //= require tinymce
 //= require tinymce-jquery
 //= require_tree .
