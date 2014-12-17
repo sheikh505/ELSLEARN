@@ -74,7 +74,7 @@ ExamsSystem::Application.routes.draw do
     #root :to => "users/sessions#new"
     get "sign_up" => "users/registrations#new"
     get "sign_in" => "users/sessions#new"
-    get "sign_out" => "users/sessions#destroy"
+    delete "sign_out" => "users/sessions#destroy"
 
   end
 
