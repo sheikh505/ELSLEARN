@@ -41,7 +41,7 @@
 
     <div class="field">
       <%= f.label :author %><br />
-      <%= f.text_field :author, value: current_user.email %>
+      <%= f.text_field :author, value: current_user.email ,:disabled => true %>
     </div>
 
     <div class="field">
