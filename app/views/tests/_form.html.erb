@@ -23,8 +23,8 @@
 
     <div class="field">
       <%=f.label :degree %>
-      <select id="degree" name="degree" onchange="generate_courses(this)">
-            <option selected>Select Degree</option>
+      <select id="degree" name="degree" onchange="generate_courses(this)" required>
+            <option value="" selected>Select Degree</option>
         <% Degree.all.each do |degree| %>
 
             <option value="<%=degree.id%>"><%=degree.name%></option>

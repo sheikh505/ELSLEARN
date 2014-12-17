@@ -45,8 +45,8 @@
 
     </div>
 
-    <div class="span3">
-        <%="<div>#{@question.statement}</div>" unless @question.nil? %>
+    <div id="side_div" class="span3">
+
     </div>
   </div>
 </div>
@@ -55,9 +55,11 @@
 </div>
 
 
-<script>
+<script type="text/javascript">
   $(document).ready()
           {
+              $("#side_div").html('<h4>Last Question</h4>'+'<%=raw @question.statement %>');
+
            render_view(<%=@view %>);
 
           }

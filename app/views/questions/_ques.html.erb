@@ -2,7 +2,7 @@
 
   <table class="table table-condensed">
     <% @questions.each do |question| %>
-        <tr><td><%= question.statement %> </td>
+        <tr><td><%=raw question.statement %> </td>
           <td><%= link_to 'Edit', edit_question_path(question) %></td>
           <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>

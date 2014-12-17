@@ -14,8 +14,8 @@
     </div>
   <% end %>
 
-    <select id="degree" name="degree" onchange="foo()" >
-      <option>Select Degree</option>
+    <select id="degree" name="degree" onchange="foo()" required>
+      <option value="">Select Degree</option>
       <% Degree.all.each do |degree| %>
 
           <option value="<%=degree.id%>"><%=degree.name%></option>
@@ -27,7 +27,7 @@
     <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-inverse' %>
   </div>
 <% end %>
   </div>

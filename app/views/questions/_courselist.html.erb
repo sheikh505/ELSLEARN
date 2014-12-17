@@ -2,8 +2,8 @@
 <%=label_tag :course %>
 <% if @courses.nil? %>
 <% else %>
-    <select id="course" name="course" onchange="generate_test(this)" >
-      <option>Select Course</option>
+    <select id="course" name="course" onchange="generate_test(this)" required>
+      <option value="">Select Course</option>
 
       <%@courses.each do |x| %>
 

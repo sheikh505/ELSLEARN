@@ -22,10 +22,25 @@ class CoursesController < ApplicationController
   end
 
   def create
-    @course = Course.new(params[:course])
-    @course.save
-    @ass = DegreeCourseAssignment.new(:course_id => @course.id, :degree_id => params[:degree])
-    @ass.save
+
+    course_id = Course.find_by_name(params[:course][:name])
+
+    unless course_id.nil?
+      if DegreeCourseAssignment.find_by_course_id_and_degree_id(course_id.id , params[:degree]).nil?
+
+        @course = Course.new(params[:course])
+        @course.save
+        @ass = DegreeCourseAssignment.new(:course_id => @course.id, :degree_id => params[:degree])
+        @ass.save
+      end
+
+    else
+      @course = Course.new(params[:course])
+      @course.save
+      @ass = DegreeCourseAssignment.new(:course_id => @course.id, :degree_id => params[:degree])
+      @ass.save
+    end
+
     redirect_to courses_path
   end
 

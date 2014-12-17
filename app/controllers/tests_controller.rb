@@ -28,7 +28,7 @@ class TestsController < ApplicationController
     @test = Test.new(params[:test])
     @test.degree_course_assignment_id = @id
     @test.save
-    respond_with(@test)
+    redirect_to tests_path
   end
 
   def update

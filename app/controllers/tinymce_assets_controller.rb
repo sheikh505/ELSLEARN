@@ -3,7 +3,7 @@ class TinymceAssetsController < ApplicationController
   def create
     geometry = Paperclip::Geometry.from_file params[:file]
     image = Image.new params.slice(:file, :alt, :hint)
-    image.file_file_name = (Time.now.to_i).to_s +"-"+ image.file_file_name
+    image.file_file_name = (Time.now.to_i).to_s + image.file_file_name
     image.save
 
     render json: {

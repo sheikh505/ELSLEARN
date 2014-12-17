@@ -5,8 +5,8 @@
   <h3>Test</h3>
   <div class="field">
     <%=label_tag :degree %>
-    <select id="degree" name="degree" onchange="generate_courses(this)" >
-      <option selected>Select Degree</option>
+    <select id="degree" name="degree" onchange="generate_courses(this)" required>
+      <option value="" selected>Select Degree</option>
       <% if current_user.is_teacher? %>
         <% current_user.teacher_courses.all.uniq{|y| y.degree_course_assignment_id}.each do |x| %>
               <option value="<%=DegreeCourseAssignment.find_by_id(x).degree.id %>"><%=DegreeCourseAssignment.find_by_id(x).degree.name%></option>

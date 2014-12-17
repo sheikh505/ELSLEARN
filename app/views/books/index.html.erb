@@ -28,7 +28,7 @@
 
 
 <% if user_signed_in? && current_user.is_not_student? %>
-<%= link_to 'New Book', new_book_path, class: 'btn btn-large btn-inverse' %>
+<%= link_to 'New Notes', new_book_path, class: 'btn btn-large btn-inverse' %>
 
 <% else %>
     <td><%= link_to 'Place Order', books_path, :class => 'btn btn-large btn-inverse' %></td>
