@@ -58,7 +58,7 @@
 <script type="text/javascript">
   $(document).ready()
           {
-              $("#side_div").html('<h4>Last Question</h4>'+'<%=raw @question.statement %>');
+              $("#side_div").html('<h4>Last Question</h4>'+'<%=raw @question.statement unless @question.nil? %>');
 
            render_view(<%=@view %>);
 
