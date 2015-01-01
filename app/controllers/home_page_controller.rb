@@ -26,28 +26,6 @@ class HomePageController < ApplicationController
     end
 
     def user_graph
-      @user_hash = Hash.new
-      @user_hash['admin'] = 10
-      @user_hash['teacher'] = 10
-      @user_hash['student'] = 10
-      User.all.each do |user|
-        if user.is_admin?
-          @user_hash['admin'] += 1
-        elsif user.is_teacher?
-          @user_hash['teacher'] += 1
-        else
-          @user_hash['student'] += 1
-        end
-
-        @user_hash['total'] = @user_hash['teacher'] + @user_hash['admin'] + @user_hash['student']
-        @user_hash['admin'] = @user_hash['admin'].to_f / @user_hash['total'].to_f
-        @user_hash['student'] = @user_hash['student'].to_f / @user_hash['total'].to_f
-        @user_hash['teacher'] = @user_hash['teacher'].to_f / @user_hash['total'].to_f
-
-
-
-      end
-
 
     end
 
