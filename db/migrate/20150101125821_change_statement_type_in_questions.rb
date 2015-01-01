@@ -1,6 +1,6 @@
 class ChangeStatementTypeInQuestions < ActiveRecord::Migration
   def up
-    change_column :questions, :statement, :text, :limit => 4294967295
+    change_column :questions, :statement, :text
   end
 
   def down
