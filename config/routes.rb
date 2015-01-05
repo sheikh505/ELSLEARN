@@ -28,6 +28,7 @@ ExamsSystem::Application.routes.draw do
       get :add_questions
       get :get_tests
       get :render_view
+      get :render_view_edit
     end
   end
 

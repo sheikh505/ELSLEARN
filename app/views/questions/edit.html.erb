@@ -1,6 +1,68 @@
-<h1>Editing question</h1>
+<%= tinymce_assets %>
 
-<%= render 'form' %>
+<div class="row">
+  <div class="span5">
+    <div class="container">
+      <h4>Degree : <%=@dc_hash["degree"].name %></h4>
+      <h4>Course : <%=@dc_hash["course"].name %></h4>
+      <h4>Test   : <%=@dc_hash["test"].name %></h4>
+      <h4>Test   : <%=@dc_hash["ques_type"] %></h4>
 
-<%= link_to 'Show', @question, class: 'btn btn-large btn-inverse' %> |
-<%= link_to 'Back', questions_path , class: 'btn btn-large'%>
+      <div class="row">
+        <div id="ques_form_container" class="span9">
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready()
+    {
+        //
+
+        render_view(<%=@view %>);
+
+    }
+
+
+    function render_view(type){
+
+        $.ajax({
+            url:'/questions/render_view_edit?test_id=<%=@dc_hash['test'].id%>&ques_type='+type+'&ques_id='+<%=@question.id%>,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#ques_form_container").html(data);
+                //load_text();
+
+                //$("#ques_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+    function fresh_page (type){
+
+
+        var url = window.location.href;
+        var arr = url.split("&");
+        url = arr[0];
+        url = url+'&view='+type;
+        window.location.href = url;
+
+    }
+
+</script>

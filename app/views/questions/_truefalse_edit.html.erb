@@ -1,0 +1,210 @@
+<%= form_for @question, :html => {multipart: true} do |f| %>
+
+
+    <div class="field">
+      <%= f.label :statement %><br />
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ><%=raw @question.statement %></textarea>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description,value: @question.description, :required => true  ,size: '5x5' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :option %><br />
+      <%if @question.options.last.statement == 'True' %>
+      <%= radio_button_tag :option,'True', true %>True
+          <% else %>
+          <%= radio_button_tag :option,'True' %>True
+          <% end %>
+
+      <%if @question.options.last.statement == 'False' %>
+          <%= radio_button_tag :option,'False', true %>False
+      <% else %>
+          <%= radio_button_tag :option,'False' %>False
+      <% end %>
+
+
+    </div>
+
+
+
+    <div class="field">
+      <%= f.label :instruction %><br />
+      <%= f.text_area :instruction, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :source %><br />
+      <%= f.text_field :source %>
+    </div>
+
+    <div class="field">
+      <%= f.label :board %><br />
+      <%= f.text_field :board %>
+    </div>
+
+    <div class="field">
+      <%= f.label :topic %><br />
+      <select id="topic" name="topic">
+        <% @topics.each do |topic|%>
+            <option value="<%=topic.id %>"><%=topic.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
+      <%= f.label :author %><br />
+      <%= f.text_field :author, value: current_user.email  ,:disabled => true%>
+    </div>
+
+    <div class="field">
+      <%= f.label :Difficulty %><br />
+      <select id="difficulty" name="difficulty">
+        <option value="1">Very Easy</option>
+        <option value="2">Easy</option>
+        <option value="3" selected>Moderate</option>
+        <option value="4">Hard</option>
+        <option value="5">Very Hard</option>
+      </select>
+    </div>
+
+
+    <div class="field">
+      <%= label_tag :pastPaperFlag %><br />
+      <%unless @question.past_paper_history.nil? %>
+
+          <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" checked>Yes
+          <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" >No
+      <% else %>
+          <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" >Yes
+          <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked >No
+      <% end %>
+
+
+    </div>
+
+    <div style="display: inline" id="past_paper_history_div">
+      <% if @question.past_paper_history %>
+          <div class="field">
+            <%= label_tag :paper %><br />
+            <%= text_field_tag :paper, @question.past_paper_history.paper %>
+          </div>
+
+          <div class="field">
+            <%= label_tag "question #" %><br />
+            <%= text_field_tag :ques_no, @question.past_paper_history.ques_no %>
+          </div>
+
+          <div class="field">
+            <%= label_tag :session %><br />
+            <%if @question.past_paper_history.session == 'May/June' %>
+                <input type="radio" checked name="session" value="May/June" >May/June
+                <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+            <% else %>
+                <input type="radio" name="session" value="May/June" >May/June
+                <input type="radio" checked name="session" value="Nov/Dec">Nov/Dec
+            <% end %>
+          </div>
+
+
+          <div class="field">
+            <%= label_tag :year %><br />
+            <%= text_field_tag :year , @question.past_paper_history.year %>
+          </div>
+      <% else %>
+
+          <div class="field">
+            <%= label_tag :paper %><br />
+            <%= text_field_tag :paper %>
+          </div>
+
+          <div class="field">
+            <%= label_tag "question #" %><br />
+            <%= text_field_tag :ques_no  %>
+          </div>
+
+          <div class="field">
+            <%= label_tag :session %><br />
+            <input type="radio" checked name="session" value="May/June" >May/June
+            <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+
+          </div>
+
+
+          <div class="field">
+            <%= label_tag :year %><br />
+            <%= text_field_tag :year %>
+          </div>
+
+      <% end %>
+
+    </div>
+
+    <%=hidden_field_tag :is_answer,'1' %>
+    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
+    <%=hidden_field_tag :type_ques, 'trueFalse'  %>
+
+    <div class="actions">
+      <%= f.submit class: 'btn btn-large btn-inverse ' %>
+    </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+
+    $("document:ready", function() {
+
+        <% unless @question.past_paper_history.nil? %>
+        $("#past_paper_history_div").show();
+        <% else %>
+        $("#past_paper_history_div").hide();
+        <% end %>
+
+        $("[rel=tinymce]").tinymce({
+            theme: "modern",
+            menubar: false,
+            statusbar: false,
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
+            plugins: ["uploadimage"],
+            relative_urls: false,
+            remove_script_host: false,
+            document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
+        });
+
+
+    });
+
+    function show_div(){
+        //alert("show");
+        $("#past_paper_history_div").show();
+    }
+
+    function hide_div(){
+        //alert("hide");
+        $("#past_paper_history_div").hide();
+    }
+</script>
+
+
+<script>
+    function change_field(box_id, span_id,field_id)
+    {
+        // alert(box_id +"-"+ span_id)
+        box = document.getElementById(box_id)
+        if(box.checked){
+
+            $('#'+span_id).show();
+            $('#'+field_id).hide();
+        }
+        else{
+            $('#'+span_id).hide();
+            $('#'+field_id).show();
+        }
+
+    }
+
+</script>

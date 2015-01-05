@@ -88,7 +88,8 @@
     </div>
 
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
-    <%=hidden_field_tag :type_ques, 'des' %>
+    <%=f.hidden_field :question_type,value: 2  %>
+    <%= hidden_field_tag :type_ques, 'des'  %>
 
     <div class="actions">
       <%= f.submit class: 'btn btn-large btn-inverse' %>
