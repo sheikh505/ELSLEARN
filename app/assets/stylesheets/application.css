@@ -41,7 +41,7 @@ table td tr{ height: 40px;}
 #page-content-wrapper h1{ padding: 0 28px;}
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
-   padding: 8px 30px;
+   padding: 8px 20px;
 }
 .table tr td{ padding-top: 15px !important;}
 
@@ -74,8 +74,41 @@ table td tr{ height: 40px;}
 .listing-holder .new_book .actions .btn:hover,
 .listing-holder .new_user .actions .btn:hover{ background:#4aa1db; color: #fff;}
 .listing-holder  li{ list-style: none;}
-.listing-holder.questions{ padding: 20px;}
+.lidsting-holder.questions{ padding: 20px;}
 #test_container {
     margin: 0 10px;
 }
 #test_container  select{ margin: 0 20px;}
+#page-content-wrapper .field_holder {
+    background: none repeat scroll 0 0 #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 20px;
+    vertical-align: top;
+    width: 33%;
+}
+#page-content-wrapper .field_holder label,
+#page-content-wrapper .field_holder img{
+    display: block;
+    padding-bottom: 5px;
+}
+#page-content-wrapper .btn_holder{
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    margin-top: 20px;
+}
+#page-content-wrapper .stat_holder{
+    display: block;
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+}
+#page-content-wrapper .option_holder{
+    overflow: hidden;}
+
+.th_table { padding:8px 20px !important; }

@@ -12,7 +12,6 @@
 <% @courses.each do |course| %>
   <tr>
     <td><%= course.name %></td>
-    <td><%= DegreeCourseAssignment.find_by_course_id(course.id).degree.name %></td>
 
     <td><%= link_to 'Edit', edit_course_path(course) %></td>
     <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>

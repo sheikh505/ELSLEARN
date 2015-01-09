@@ -84,8 +84,10 @@ a{
     -o-transition: all 0.5;
     transition: all 0.5;
 }
-#page-content-wrapper a.btn{ margin: 0 28px; background: #4aa1db; color: #fff; text-shadow: none;}
-#page-content-wrapper a.btn:hover{ background: #ccc;}
+#page-content-wrapper .btn_holder a.btn,
+.btn_holder a.btn{ margin: 0 28px; background: #4aa1db; color: #fff; text-shadow: none;}
+#page-content-wrapper .btn_holder a.btn:hover,
+.btn_holder a.btn:hover{ background: #ccc;}
 .sidebar-nav li a:hover {
     text-decoration: none;
     color: #222;
@@ -143,3 +145,42 @@ a{
         margin-right: 0;
     }
 }
+#page-content-wrapper .field_holder,
+.field_holder{
+    background: none repeat scroll 0 0 #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 20px;
+    vertical-align: top;
+    width: 33%;
+}
+#page-content-wrapper .page-content-wrapper{ margin:0 !important; }
+.page-content-wrapper{ margin: 0 20px;}
+#page-content-wrapper .field_holder label,
+#page-content-wrapper .field_holder img,
+.field_holder label,
+.field_holder img{
+        display: block;
+        padding-bottom: 5px;
+}
+#page-content-wrapper .btn_holder,
+.btn_holder{
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    margin-top: 20px;
+}
+#page-content-wrapper .stat_holder,
+.stat_holder{
+    display: block;
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+}
+#page-content-wrapper .option_holder,
+.option_holder{
+    overflow: hidden;}

@@ -69,13 +69,19 @@
       <%= link_to "ELS Learning", home_page_index_path%>
     </li>
         <% if current_user.is_admin? %>
-    <li>
 
+      <li>
+         <%= link_to "Manage Boards", boards_path %>
+      </li>
+
+            <li>
+              <%= link_to "Manage Degrees", degrees_path %>
+            </li>
+
+      <li>
       <%= link_to "Manage Courses", courses_path%>
     </li>
-    <li>
-      <%= link_to "Manage Degrees", degrees_path %>
-    </li>
+
     <li>
       <%= link_to "Manage Tests", tests_path %>
     </li>

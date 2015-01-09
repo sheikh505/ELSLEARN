@@ -1,4 +1,7 @@
 ExamsSystem::Application.routes.draw do
+  resources :boards
+
+
   resources :topics do
     collection do
       get :get_courses
@@ -29,6 +32,7 @@ ExamsSystem::Application.routes.draw do
       get :get_tests
       get :render_view
       get :render_view_edit
+      get :delete_ques
     end
   end
 

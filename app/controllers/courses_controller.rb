@@ -15,30 +15,33 @@ class CoursesController < ApplicationController
 
   def new
     @course = Course.new
+    @boards = @course.board_degree_assignments
+    @board_hash = Hash.new
+     BoardDegreeAssignment.all.each do |bdgree|
+      @board_hash[bdgree.id] = bdgree.board.name + "  (" + bdgree.degree.name + ")"
+     end
+
+
     respond_with(@course)
   end
 
   def edit
+
+    @boards = @course.board_degree_assignments
+    @board_hash = Hash.new
+    BoardDegreeAssignment.all.each do |bdgree|
+      @board_hash[bdgree.id] = bdgree.board.name + "  (" + bdgree.degree.name + ")"
+    end
   end
 
   def create
 
-    course_id = Course.find_by_name(params[:course][:name])
-
-    unless course_id.nil?
-      if DegreeCourseAssignment.find_by_course_id_and_degree_id(course_id.id , params[:degree]).nil?
-
-        @course = Course.new(params[:course])
-        @course.save
-        @ass = DegreeCourseAssignment.new(:course_id => @course.id, :degree_id => params[:degree])
-        @ass.save
+    @course = Course.new(params[:course])
+    if @course.save
+      params[:boards].each do |bDegree|
+        ass = DegreeCourseAssignment.new(:course_id => @course.id, :board_degree_assignment_id => bDegree)
+        ass.save
       end
-
-    else
-      @course = Course.new(params[:course])
-      @course.save
-      @ass = DegreeCourseAssignment.new(:course_id => @course.id, :degree_id => params[:degree])
-      @ass.save
     end
 
     redirect_to courses_path
@@ -46,6 +49,23 @@ class CoursesController < ApplicationController
 
   def update
     @course.update_attributes(params[:course])
+
+    board = params[:boards]
+    @arr = DegreeCourseAssignment.find_all_by_course_id(@course.id)
+
+    @arr.each do |bDegree|
+      bDegree.destroy unless board.find {|x| x == bDegree.board_degree_assignment_id}
+
+    end
+
+    params[:boards].each do |board|
+      unless @arr.find {|x| x.board_degree_assignment_id == board }
+        ass = DegreeCourseAssignment.new(:course_id => @course.id, :board_degree_assignment_id => board)
+        ass.save
+      end
+
+    end
+
     respond_with(@course)
   end
 

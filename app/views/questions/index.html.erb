@@ -1,12 +1,13 @@
+
 <h1>Listing questions</h1>
 <div class="listing-holder questions">
 <div class="row">
 <div class="span5">
   <h3>Test</h3>
   <div class="field">
-    <%=label_tag :degree %>
-    <select id="degree" name="degree" onchange="generate_courses(this)" required>
-      <option value="" selected>Select Degree</option>
+    <%=label_tag :course %>
+    <select id="course" name="course" onchange="generate_courses(this)" required>
+      <option value="" selected>Select Course</option>
       <% if current_user.is_teacher? %>
         <% current_user.teacher_courses.all.uniq{|y| y.degree_course_assignment_id}.each do |x| %>
               <option value="<%=DegreeCourseAssignment.find_by_id(x).degree.id %>"><%=DegreeCourseAssignment.find_by_id(x).degree.name%></option>
@@ -14,9 +15,9 @@
 
 
       <% else %>
-          <% Degree.all.each do |degree| %>
+          <% Course.all.each do |course| %>
 
-              <option value="<%=degree.id %>"><%=degree.name%></option>
+              <option value="<%=course.id %>"><%=course.name%></option>
           <% end %>
 
       <% end %>
@@ -25,15 +26,19 @@
 
     </select>
   </div>
-  <div class="field" id="course_container">
+  <div class="field" id="board_container">
+    <h4>Boards</h4>
+        <%Board.all.each do |board| %>
+        <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+        <% end %>
 
-    <%=label_tag :course %>
-
-    <select id="course" name="course" >
-      <option>Select Degree First</option>
-
-    </select>
+    <h4>Degrees</h4>
+    <%Degree.all.each do |degree| %>
+        <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
+    <% end %>
   </div>
+
+
 </div>
 
 </div>
@@ -65,20 +70,20 @@
             }
     );
 
-    function generate_courses(degree_id)
+    function generate_courses(course_id)
     {
 
-        document.getElementById("degree_hidden_id").value=degree_id.value;
+
 
         //alert (document.getElementById("degree_hidden_id").value);
         container = document.getElementById('course_container');
         $.ajax({
-            url:'/questions/get_courses?degree_id='+degree_id.value,
+            url:'/questions/get_courses?course_id='+course_id.value,
             type:'get',
             dataType:'html',
             processData:false,
             success:function (data) {
-                $("#course_container").html(data);
+                $("#board_container").html(data);
 
             },
             error:function (data) {
@@ -126,6 +131,30 @@
             success:function (data) {
                 $("#test_container").html(data);
                // $("#test_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+
+    function delete_question(id)
+    {
+        //d_id = document.getElementById("degree_hidden_id").value;
+        //alert(d_id)
+        //alert (degree_id.value);
+        //container = document.getElementById('course_container');
+        $.ajax({
+            url:'/questions/delete_ques?ques_id='+id,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#ques_container").html(data);
+                $("#ques_container").show();
             },
             error:function (data) {
                 alert ('nae chalaa');

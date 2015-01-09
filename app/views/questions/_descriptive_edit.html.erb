@@ -13,7 +13,7 @@
 
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description,value: @question.description, :required => true ,:size => '4x4' %>
+      <%= f.text_area :description,value: @question.description, :size => '4x4' %>
     </div>
 
     <div class="field">
@@ -26,10 +26,7 @@
       <%= f.text_field :source,:value => @question.source %>
     </div>
 
-    <div class="field">
-      <%= f.label :board %><br />
-      <%= f.text_field :board ,:value => @question.board %>
-    </div>
+
 
     <div class="field">
       <%= f.label :topic %><br />
@@ -53,11 +50,10 @@
     <div class="field">
       <%= f.label :Difficulty %><br />
       <select id="difficulty" name="difficulty">
-        <option <%='selected' if @question.difficulty == 1 %> value="1">Very Easy</option>
-        <option <%='selected' if @question.difficulty == 2 %> value="2">Easy</option>
-        <option <%='selected' if @question.difficulty == 3 %> value="3">Moderate</option>
-        <option <%='selected' if @question.difficulty == 4 %> value="4">Hard</option>
-        <option <%='selected' if @question.difficulty == 5 %> value="5">Very Hard</option>
+        <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
+        <option <%='selected' if @question.difficulty == 2 %> value="2">Moderate</option>
+        <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
+
       </select>
     </div>
 
@@ -74,62 +70,7 @@
 
     </div>
 
-    <div style="display: inline" id="past_paper_history_div">
-      <% if @question.past_paper_history %>
-          <div class="field">
-            <%= label_tag :paper %><br />
-            <%= text_field_tag :paper, @question.past_paper_history.paper %>
-          </div>
-
-          <div class="field">
-            <%= label_tag "question #" %><br />
-            <%= text_field_tag :ques_no, @question.past_paper_history.ques_no %>
-          </div>
-
-          <div class="field">
-            <%= label_tag :session %><br />
-            <%if @question.past_paper_history.session == 'May/June' %>
-                <input type="radio" checked name="session" value="May/June" >May/June
-                <input type="radio" name="session" value="Nov/Dec">Nov/Dec
-            <% else %>
-                <input type="radio" name="session" value="May/June" >May/June
-                <input type="radio" checked name="session" value="Nov/Dec">Nov/Dec
-            <% end %>
-          </div>
-
-
-          <div class="field">
-            <%= label_tag :year %><br />
-            <%= text_field_tag :year , @question.past_paper_history.year %>
-          </div>
-      <% else %>
-
-          <div class="field">
-            <%= label_tag :paper %><br />
-            <%= text_field_tag :paper %>
-          </div>
-
-          <div class="field">
-            <%= label_tag "question #" %><br />
-            <%= text_field_tag :ques_no  %>
-          </div>
-
-          <div class="field">
-            <%= label_tag :session %><br />
-            <input type="radio" checked name="session" value="May/June" >May/June
-            <input type="radio" name="session" value="Nov/Dec">Nov/Dec
-
-          </div>
-
-
-          <div class="field">
-            <%= label_tag :year %><br />
-            <%= text_field_tag :year %>
-          </div>
-
-      <% end %>
-
-    </div>
+    <%= render 'pastPaperHistoryEdit' %>
 
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=hidden_field_tag :type_ques, 'des' %>

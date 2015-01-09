@@ -1,5 +1,5 @@
 class Topic < ActiveRecord::Base
   has_many :questions
-  belongs_to :degree_course_assignment
+  belongs_to :course
   attr_accessible :name
 end

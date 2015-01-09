@@ -2,7 +2,7 @@
 <div class="listing-holder">
 <table class="table table-condensed">
   <tr>
-    <th>Test ID</th>
+    <th style="padding:8px 20px">Test ID</th>
     <th>Name</th>
     <th>Course</th>
     <th>Degree</th>
@@ -14,11 +14,11 @@
 
 <% @tests.each do |test| %>
   <tr>
-    <td>Test :<%= test.id %></td>
-    <td><%= test.name %></td>
-    <td><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).course.name %></td>
-    <td><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).degree.name %></td>
-    <td><%= test.marks %></td>
+    <td width="12%">Test :<%= test.id %></td>
+    <td ><%= test.name %></td>
+    <td ><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).course.name %></td>
+    <td  ><%=DegreeCourseAssignment.find_by_id(test.degree_course_assignment_id).degree.name %></td>
+    <td ><%= test.marks %></td>
     <% if user_signed_in? && current_user.is_not_student? %>
 
     <td><%= link_to 'Edit', edit_test_path(test) %></td>

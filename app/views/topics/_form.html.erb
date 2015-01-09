@@ -1,4 +1,5 @@
-<div style="padding: 40px">
+<div class="row">
+  <div class="span6">
 <%= form_for(@topic) do |f| %>
   <% if @topic.errors.any? %>
     <div id="error_explanation">
@@ -13,24 +14,16 @@
   <% end %>
 
     <div class="field">
-      <%=f.label :degree %>
-      <select id="degree" name="degree" onchange="generate_courses(this)" required>
-        <option value="" selected>Select Degree</option>
-        <% Degree.all.each do |degree| %>
+      <%=f.label :course %>
+      <select id="course" name="course" required>
+        <option value="">Select Course</option>
+        <% Course.all.each do |course| %>
 
-            <option value="<%=degree.id%>"><%=degree.name%></option>
+            <option <%='selected=selected' if !@course.nil? && course.id = @course.id %> value="<%=course.id%>"><%=course.name%></option>
         <% end %>
       </select>
     </div>
 
-    <div id="course_container" class="field">
-      <%=label_tag :course %>
-
-      <select id="course" name="course" >
-        <option>Select Degree First</option>
-
-      </select>
-    </div>
 
 
   <div class="field">
@@ -41,8 +34,31 @@
     <%= f.submit class: 'btn btn-inverse' %>
   </div>
 <% end %>
+
+
 </div>
 
+<div class="span5 offset1">
+
+      <h4>List of courses</h4>
+      <table class="table table-condensed">
+        <th>Topic</th>
+        <th>Courses</th>
+
+
+        <% Topic.all.each do |topic| %>
+            <tr>
+              <td><%=topic.name%></td>
+              <td><%=topic.course.name %></td>
+
+            </tr>
+        <% end %>
+      </table>
+
+
+</div>
+
+</div>
 <script>
     function generate_courses(degree_id)
     {

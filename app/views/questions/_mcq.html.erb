@@ -14,7 +14,7 @@
 
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description,value: "", :required => true  ,size: '5x5' %>
+      <%= f.text_area :description,value: "", size: '5x5' %>
     </div>
 <% i = 1 %>
     <% 7.times{ %>
@@ -59,10 +59,7 @@
       <%= f.text_field :source %>
     </div>
 
-    <div class="field">
-    <%= f.label :board %><br />
-    <%= f.text_field :board %>
-    </div>
+
 
     <div class="field">
       <%= f.label :topic %><br />
@@ -79,14 +76,14 @@
     </div>
 
     <div class="field">
-      <%= f.label :Difficulty %><br />
-      <select id="difficulty" name="difficulty">
-        <option value="1">Very Easy</option>
-        <option value="2">Easy</option>
-        <option value="3" selected>Moderate</option>
-        <option value="4">Hard</option>
-        <option value="5">Very Hard</option>
-      </select>
+
+    <%= f.label :Difficulty %><br />
+    <select id="difficulty" name="difficulty">
+      <option value="1">Easy</option>
+      <option value="2" selected>Moderate</option>
+      <option value="3">Hard</option>
+
+    </select>
     </div>
 
     <div class="field">
@@ -95,31 +92,9 @@
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked>No
     </div>
 
-    <div id="past_paper_history_div">
-      <div class="field">
-        <%= label_tag :paper %><br />
-        <%= text_field_tag :paper %>
-      </div>
 
-      <div class="field">
-        <%= label_tag "question #" %><br />
-        <%= text_field_tag :ques_no %>
-      </div>
+    <%= render 'pastPaperHistory' %>
 
-      <div class="field">
-        <%= label_tag :session %><br />
-        <input type="radio" name="session" value="May/June">May/June
-        <input type="radio" name="session" value="Nov/Dec">Nov/Dec
-      </div>
-
-
-      <div class="field">
-        <%= label_tag :year %><br />
-        <%= text_field_tag :year %>
-      </div>
-
-
-    </div>
 
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=f.hidden_field :question_type,value: 1  %>

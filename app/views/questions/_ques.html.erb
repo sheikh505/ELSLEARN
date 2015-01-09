@@ -3,8 +3,9 @@
   <table class="table table-condensed">
     <% @questions.each do |question| %>
         <tr><td><%=raw question.statement %> </td>
+          <td><%= link_to 'Show', question_path(question) %></td>
           <td><%= link_to 'Edit', edit_question_path(question) %></td>
-          <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><input type="button" value="Delete" onclick="delete_question(<%=question.id %>)"> </td>
         </tr>
 
     <% end %>

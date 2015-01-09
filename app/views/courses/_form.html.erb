@@ -14,13 +14,17 @@
     </div>
   <% end %>
 
-    <select id="degree" name="degree" onchange="foo()" required>
-      <option value="">Select Degree</option>
-      <% Degree.all.each do |degree| %>
 
-          <option value="<%=degree.id%>"><%=degree.name%></option>
+
+      <% @board_hash.each do |id,value| %>
+            <% if @boards.find {|x| x.id == id} %>
+
+                <%= check_box_tag 'boards[]', id,true %><%=value %><br>
+             <% else %>
+                <%= check_box_tag 'boards[]', id,false %><%=value %><br>
+            <% end %>
       <% end %>
-    </select>
+
 
   <div class="field">
     <%= f.label :name %><br />
@@ -32,17 +36,19 @@
 <% end %>
   </div>
 
-    <div class="span5 offset">
-        <h3>Listed courses</h3>
-      <table class="table table-condensed">
-      <th>Course</th>
-        <th>Degree</th>
-        <%Course.all.each do |course| %>
-        <tr><td><%=course.name%></td>
-          <td><%=DegreeCourseAssignment.find_by_course_id(course.id).degree.name %></td>
-    </tr>
-
+  <div class="span5 offset1">
+    <h4>List of courses</h4>
+    <table class="table table-condensed">
+      <th>Courses</th>
+      <th>Degree</th>
+      <th>Board</th>
+      <%DegreeCourseAssignment.all.each do |dc| %>
+          <tr><td><%=dc.course.name%></td>
+            <td><%=dc.board_degree_assignment.degree.name %></td>
+            <td><%=dc.board_degree_assignment.board.name %></td>
+          </tr>
       <% end %>
-      </table>
-    </div>
+    </table>
+  </div>
+
 </div>

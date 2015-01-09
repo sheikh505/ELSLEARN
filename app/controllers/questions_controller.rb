@@ -5,14 +5,25 @@ class QuestionsController < ApplicationController
   respond_to :html
 
   def get_courses
-    @courses = []
-    id = params[:degree_id]
-    list_courses = DegreeCourseAssignment.find_all_by_degree_id(id)
 
-    list_courses.each do |course|
-      @courses << Course.find_by_id(course.course_id)
+    id = params[:course_id]
+
+    @board_degrees = DegreeCourseAssignment.find_all_by_course_id(id)
+    @boards = []
+    @degrees = []
+
+    @board_degrees.each do |board_degree|
+    @boards << board_degree.board_degree_assignment.board
     end
-    render :partial => 'questions/courselist'
+
+    @board_degrees.each do |board_degree|
+      @degrees << board_degree.board_degree_assignment.degree
+    end
+
+    @boards = @boards.uniq
+    @degrees = @degrees.uniq
+
+    render :partial => 'questions/board_degree'
 
   end
 
@@ -21,9 +32,18 @@ class QuestionsController < ApplicationController
     @id = params[:test_id]
     #id.tests.each {|test| @tests << test}
 
-    Question.all.select {|x| x.test_id == @id.to_i}.each do |question|
+    Question.all.select {|x| x.deleted == false && x.test_id == @id.to_i}.each do |question|
       @questions << question
     end
+    render :partial => 'questions/ques'
+  end
+
+  def delete_ques
+    @question = Question.find(params[:ques_id])
+    @question.deleted = true
+    @question.save
+    @id = @question.test_id
+    @questions = Question.all.select {|x| x.deleted == false && x.test_id == @id.to_i}
     render :partial => 'questions/ques'
   end
 
@@ -41,12 +61,21 @@ class QuestionsController < ApplicationController
 
 
   def index
-    @questions = Question.all
+    @board = Board.new
+    @board_hash = @board.board_degree_hash
+
+
+    @questions = Question.all.select{|x| x.deleted == false}
     respond_with(@questions)
   end
 
   def show
+    if @question.deleted == false
     respond_with(@question)
+    else
+    redirect_to questions_path
+    end
+
   end
 
   def new
@@ -87,7 +116,7 @@ class QuestionsController < ApplicationController
    @dc_hash['degree'] = test.degree_course_assignment.degree
    @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
-   @questions = test.questions
+   @questions = test.questions.select{|x| x.deleted == false}
    @question = Question.last
    @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
    @view = 1
@@ -103,7 +132,7 @@ class QuestionsController < ApplicationController
     @dc_hash['degree'] = test.degree_course_assignment.degree
     @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
-    @questions = test.questions
+    @questions = test.questions.select{|x| x.deleted == false}
     @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
 
     id = params[:ques_type]
@@ -152,6 +181,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.topic_id = params[:topic]
+    @question.deleted = false
    @question.author = current_user.email
     if @question.save
 
@@ -201,16 +231,19 @@ class QuestionsController < ApplicationController
 
     end
 
-    redirect_to add_questions_questions_path(:test_id => params[:question][:test_id])
+   # redirect_to add_questions_questions_path(:test_id => params[:question][:test_id])
+   respond_with(@question)
   end
 
   def update
+
+
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.topic_id = params[:topic]
     @question.author = current_user.email
-
+    @question.save
     if @question.past_paper_history.nil?
 
       if params[:pastPaperFlag] == '1'
@@ -268,12 +301,16 @@ class QuestionsController < ApplicationController
     end
 
 
-    redirect_to questions_path
+    redirect_to question_path(@question)
   end
 
   def destroy
+
+
     test_id = @question.test_id
-    @question.destroy
+    @question.deleted = true
+    @question.save
+    # @question.destroy
     redirect_to questions_path
 
     #redirect_to questions_path

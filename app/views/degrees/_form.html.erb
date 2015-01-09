@@ -13,6 +13,20 @@
     </div>
   <% end %>
 
+
+
+          <% Board.all.each do |board| %>
+                <%if @boards.find {|x| x.id == board.id} %>
+                <%= check_box_tag 'boards[]', board.id,true %><%=board.name %>
+                <%else %>
+                <%= check_box_tag 'boards[]', board.id,false %><%=board.name %>
+                 <%end %>
+
+          <% end %>
+
+
+
+
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
@@ -25,8 +39,11 @@
     <div class="span5 offset1">
      <table class="table table-condensed">
      <th>List of Degrees</th>
-      <%Degree.all.each do |degree| %>
-      <tr><td><%=degree.name%></td></tr>
+       <th>Board</th>
+      <%BoardDegreeAssignment.all.each do |bDegree| %>
+      <tr><td><%=bDegree.degree.name%></td>
+        <td><%=bDegree.board.name %></td>
+      </tr>
       <% end %>
      </table>
     </div>
