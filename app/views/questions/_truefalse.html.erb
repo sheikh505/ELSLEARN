@@ -18,7 +18,6 @@
     </div>
 
 
-
     <div class="field">
       <%= f.label :instruction %><br />
       <%= f.text_area :instruction, :size => '4x4' %>
@@ -28,6 +27,7 @@
       <%= f.label :source %><br />
       <%= f.text_field :source %>
     </div>
+
 
 
     <div class="field">
@@ -41,7 +41,7 @@
 
     <div class="field">
       <%= f.label :author %><br />
-      <%= f.text_field :author, value: current_user.email  ,:disabled => true%>
+      <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
     <div class="field">
@@ -55,7 +55,6 @@
       </select>
     </div>
 
-
     <div class="field">
       <%= label_tag :pastPaperFlag %><br />
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
@@ -66,8 +65,16 @@
     <%= render 'pastPaperHistory' %>
 
 
+
+
+    <%=hidden_field_tag :course_id, @course_id %>
+    <%= hidden_field_tag :boards,@boards %>
+    <%= hidden_field_tag :degrees,@degrees %>
+    <%= hidden_field_tag :view, @view%>
+
+
     <%=hidden_field_tag :is_answer,'1' %>
-    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
+
     <%=f.hidden_field :question_type, value: 4  %>
     <%= hidden_field_tag :type_ques, "trueFalse"  %>
 

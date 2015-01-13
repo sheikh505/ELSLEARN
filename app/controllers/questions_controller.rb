@@ -5,23 +5,30 @@ class QuestionsController < ApplicationController
   respond_to :html
 
   def get_courses
-
-    id = params[:course_id]
-
-    @board_degrees = DegreeCourseAssignment.find_all_by_course_id(id)
     @boards = []
     @degrees = []
 
-    @board_degrees.each do |board_degree|
-    @boards << board_degree.board_degree_assignment.board
+    id = params[:course_id]
+      unless id > '0'
+      @boards = Board.all
+      @degrees = Degree.all
+
+    else
+      @board_degrees = DegreeCourseAssignment.find_all_by_course_id(id)
+
+
+      @board_degrees.each do |board_degree|
+        @boards << board_degree.board_degree_assignment.board
+      end
+
+      @board_degrees.each do |board_degree|
+        @degrees << board_degree.board_degree_assignment.degree
+      end
+
+      @boards = @boards.uniq
+      @degrees = @degrees.uniq
     end
 
-    @board_degrees.each do |board_degree|
-      @degrees << board_degree.board_degree_assignment.degree
-    end
-
-    @boards = @boards.uniq
-    @degrees = @degrees.uniq
 
     render :partial => 'questions/board_degree'
 
@@ -61,6 +68,8 @@ class QuestionsController < ApplicationController
 
 
   def index
+
+    session[:question] = nil
     @board = Board.new
     @board_hash = @board.board_degree_hash
 
@@ -71,6 +80,7 @@ class QuestionsController < ApplicationController
 
   def show
     if @question.deleted == false
+
     respond_with(@question)
     else
     redirect_to questions_path
@@ -110,17 +120,34 @@ class QuestionsController < ApplicationController
   end
 
   def add_questions
-   test_id = params[:test_id]
-  @dc_hash = Hash.new
-   test = Test.find_by_id(test_id)
-   @dc_hash['degree'] = test.degree_course_assignment.degree
-   @dc_hash['course'] = test.degree_course_assignment.course
-    @dc_hash['test'] = test
-   @questions = test.questions.select{|x| x.deleted == false}
-   @question = Question.last
-   @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
-   @view = 1
-    @view = params[:view] unless params[:view].nil?
+
+    if session[:question].nil?
+      @course_id = params[:course]
+      @boards = params[:boards]
+      @degrees = params[:degree]
+      @view = params[:question_type]
+    else
+      @course_id = session[:question][:course_id]
+      @boards = session[:question][:boards]
+      @degrees = session[:question][:degrees]
+      @view = session[:question][:view]
+    end
+
+
+
+
+    @topics = Course.find_by_id(@course_id).topics
+    @boards_name = []
+    @boards.each do |board|
+      @boards_name << Board.find_by_id(board).name
+    end
+
+    @degrees_name = []
+    @degrees.each do |degree|
+      @degrees_name << Degree.find_by_id(degree).name
+    end
+
+
   end
 
   def render_view
@@ -176,18 +203,25 @@ class QuestionsController < ApplicationController
 
   def create
 
+    @boards = params[:boards]
+    @degrees = params[:degrees]
+
+    @boards = @boards.split(" ")
+    @degrees = @degrees.split(" ")
+
+
 
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.topic_id = params[:topic]
+    @question.test_id = nil
     @question.deleted = false
    @question.author = current_user.email
     if @question.save
 
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
-                             :paper => params[:paper],
                              :ques_no => params[:ques_no],
                              :session => params[:session],
                              :year => params[:year],
@@ -218,7 +252,7 @@ class QuestionsController < ApplicationController
         i = i + 1
         end
 
-          option.inspect
+
       elsif params[:type_ques] == 'trueFalse'
         @option = Option.new(:statement => params[:option],:question_id => @question.id,:is_answer => params[:is_answer])
         @option.save
@@ -229,9 +263,28 @@ class QuestionsController < ApplicationController
 
       end
 
+      ## register boards and degrees
+      @boards.each do |board_id|
+        @degrees.each do |degree_id|
+          bdegree = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
+          unless bdegree.nil?
+            qs = BoardQuestionAssignment.new(:board_degree_assignment_id => bdegree.id,
+                                              :question_id => @question.id )
+            qs.save
+          end
+        end
+      end
+
     end
 
-   # redirect_to add_questions_questions_path(:test_id => params[:question][:test_id])
+    session[:question] ||= {}
+    session[:question][:course_id] = params[:course_id]
+    session[:question][:boards] = @boards
+    session[:question][:degrees] = @degrees
+    session[:question][:view] = params[:view]
+
+
+    # redirect_to add_questions_questions_path(:test_id => params[:question][:test_id])
    respond_with(@question)
   end
 

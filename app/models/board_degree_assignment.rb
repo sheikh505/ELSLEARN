@@ -4,6 +4,10 @@ class BoardDegreeAssignment < ActiveRecord::Base
   has_many :degree_course_assignments
   has_many :courses , through: :degree_course_assignments
 
+  has_many :board_question_assignments
+  has_many :questions,through: :board_question_assignments
+
+
   attr_accessible :degree_id, :board_id
   validates :degree_id, :uniqueness => {:scope => :board_id}
   # attr_accessible :title, :body

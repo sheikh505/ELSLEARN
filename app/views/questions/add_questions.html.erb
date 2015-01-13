@@ -3,45 +3,32 @@
 <div class="row">
   <div class="span5">
 <div class="container">
-  <h4>Degree : <%=@dc_hash["degree"].name %></h4>
-  <h4>Course : <%=@dc_hash["course"].name %></h4>
-  <h4>Test   : <%=@dc_hash["test"].name %></h4>
-    <label for="'question_type">Question Type:</label>
-  <select id="'question_type" name="question_type" onchange="fresh_page(this.value)">
-    <% if @view.eql?(1) %>
-        <option selected value="1">MCQ</option>
-        <% else %>
-        <option  value="1">MCQ</option>
-        <% end %>
 
-
-    <% if @view.eql?('2') %>
-        <option selected value="2">Descriptive</option>
-    <% else %>
-        <option  value="2">Descriptive</option>
+  <h5>Boards</h5>
+  <p>
+    <% @boards_name.each do |board| %>
+      <%=board %>
     <% end %>
 
 
-    <% if @view.eql?('3') %>
-        <option selected value="3">Fill in the blanks</option>
-    <% else %>
-        <option  value="3">Fill in the blanks</option>
+  </p>
+
+
+  <h5>Degrees</h5>
+  <p>
+    <% @degrees_name.each do |degree| %>
+        <%=degree %>
     <% end %>
+  </p>
 
-
-    <% if @view.eql?('4') %>
-        <option selected value="4">True/False</option>
-    <% else %>
-        <option  value="4">True/False</option>
-    <% end %>
-
-
-  </select>
 
   <div class="row">
     <div id="ques_form_container" class="span9">
 
-
+    <%= render 'mcq' if @view == '1' %>
+      <%= render 'descriptive' if @view == '2' %>
+      <%= render 'truefalse' if @view == '4' %>
+      <%= render 'blank' if @view == '3' %>
 
     </div>
 
@@ -57,15 +44,15 @@
   $(document).ready()
           {
 
-           render_view(<%=@view %>);
+           //render_view(<%=@view %>);
 
           }
 
 
   function render_view(type){
 
-      $.ajax({
-          url:'/questions/render_view?test_id=<%=@dc_hash['test'].id%>&ques_type='+type,
+   /*   $.ajax({
+          url:'/questions/render_view?test_id=< %=@dc_hash['test'].id%>&ques_type='+type,
           type:'get',
           dataType:'html',
           processData:false,
@@ -80,7 +67,7 @@
               //    window.location.reload();
           }
       });
-
+*/
   }
 
   function fresh_page (type){
