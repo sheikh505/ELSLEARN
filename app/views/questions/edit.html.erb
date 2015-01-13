@@ -3,11 +3,37 @@
 <div class="row">
   <div class="span5">
     <div class="container">
-      <h4>Degree : <%=@dc_hash["degree"].name %></h4>
-      <h4>Course : <%=@dc_hash["course"].name %></h4>
-      <h4>Test   : <%=@dc_hash["test"].name %></h4>
-      <h4>Test   : <%=@dc_hash["ques_type"] %></h4>
 
+      <h5>Boards</h5>
+      <p>
+        <% @boards.each do |board| %>
+            <%=board.name %>
+        <% end %>
+
+
+      </p>
+
+
+      <h5>Degrees</h5>
+      <p>
+        <% @degrees.each do |degree| %>
+            <%=degree.name %>
+        <% end %>
+      </p>
+
+
+      <div class="row">
+        <div id="ques_form_container" class="span9">
+            <%= @view %>
+          <%= render 'mcq_edit' if @view == '1' %>
+          <%= render 'descriptive_edit' if @view == '2' %>
+          <%= render 'truefalse_edit' if @view == '4' %>
+          <%= render 'blank_edit' if @view == '3' %>
+
+        </div>
+
+
+      </div>
       <div class="row">
         <div id="ques_form_container" class="span9">
 
@@ -28,15 +54,15 @@
     {
         //
 
-        render_view(<%=@view %>);
+        //render_view(<%=@view %>);
 
     }
 
 
     function render_view(type){
-
+/*
         $.ajax({
-            url:'/questions/render_view_edit?test_id=<%=@dc_hash['test'].id%>&ques_type='+type+'&ques_id='+<%=@question.id%>,
+            url:'/questions/render_view_edit?test_id=< %=@dc_hash['test'].id%>&ques_type='+type+'&ques_id='+< %=@question.id%>,
             type:'get',
             dataType:'html',
             processData:false,
@@ -51,7 +77,7 @@
                 //    window.location.reload();
             }
         });
-
+*/
     }
 
     function fresh_page (type){

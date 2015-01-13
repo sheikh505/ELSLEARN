@@ -32,7 +32,7 @@
       <%= f.label :topic %><br />
       <select id="topic" name="topic">
         <% @topics.each do |topic|%>
-            <% if @question.topic_id == topic.id %>
+            <% if @topic.id == topic.id %>
                 <option selected value="<%=topic.id %>"><%=topic.name %></option>
             <% else %>
                 <option value="<%=topic.id %>"><%=topic.name %></option>
@@ -71,8 +71,10 @@
     </div>
         <%= render 'pastPaperHistoryEdit' %>
 
-    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
-    <%=hidden_field_tag :type_ques, 'des' %>
+
+
+    <%=hidden_field_tag :course_id, @course_id %>
+    <%=hidden_field_tag :type_ques, 'blank' %>
 
     <div class="actions">
       <%= f.submit class: 'btn btn-large btn-inverse ' %>

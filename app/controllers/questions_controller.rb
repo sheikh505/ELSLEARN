@@ -95,26 +95,27 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find_by_id(params[:id])
-    #test_id = params[:test_id]
-    @dc_hash = Hash.new
-    test = Test.find_by_id(@question.test.id)
-    @dc_hash['degree'] = test.degree_course_assignment.degree
-    @dc_hash['course'] = test.degree_course_assignment.course
-    @dc_hash['test'] = test
-    if @question.question_type == 1
-    @dc_hash["ques_type"] = 'MCQ'
-    elsif @question.question_type == 2
-      @dc_hash["ques_type"] = 'Descriptive'
-      elsif @question.question_type == 3
-        @dc_hash["ques_type"] = 'Fill in the blank'
-        elsif @question.question_type == 4
-          @dc_hash["ques_type"] = 'True False'
-        else
-          @dc_hash["ques_type"] = 'Undefined'
-          end
 
-    @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
+    @topic = @question.topic
+    @course_id = @topic.course_id
+    @boards = []
+    @degrees = []
+    dummy = @question.board_degree_assignments
+
+    dummy.each do |bdgree|
+      @boards << bdgree.board
+    end
+
+    dummy.each do |bdgree|
+      @degrees << bdgree.degree
+    end
+
+
     @view = @question.question_type
+    @view = @view.to_s()
+    @topics = Course.find_by_id(@course_id).topics
+
+    #test_id = params[:test_id]
 
 
   end
@@ -301,7 +302,7 @@ class QuestionsController < ApplicationController
 
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
-                                           :paper => params[:paper],
+                                          #:paper => params[:paper],
                                            :ques_no => params[:ques_no],
                                            :session => params[:session],
                                            :year => params[:year],
@@ -312,7 +313,7 @@ class QuestionsController < ApplicationController
 
     else
       @question.past_paper_history.update_attributes(:flag => params[:pastPaperFlag],
-                                                     :paper => params[:paper],
+                                                     #:paper => params[:paper],
                                                      :ques_no => params[:ques_no],
                                                      :session => params[:session],
                                                      :year => params[:year],

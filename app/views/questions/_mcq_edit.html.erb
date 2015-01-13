@@ -101,7 +101,7 @@
       <%= f.label :topic %><br />
       <select id="topic" name="topic">
         <% @topics.each do |topic|%>
-            <% if @question.topic_id == topic.id %>
+            <% if @topic.id == topic.id %>
                 <option selected value="<%=topic.id %>"><%=topic.name %></option>
             <% else %>
                 <option value="<%=topic.id %>"><%=topic.name %></option>
@@ -125,6 +125,7 @@
 
       </select>
     </div>
+
     <div class="field">
       <%= label_tag :pastPaperFlag %><br />
       <%unless @question.past_paper_history.nil? %>
@@ -137,11 +138,14 @@
 
 
     </div>
-
     <%= render 'pastPaperHistoryEdit' %>
 
-    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
-    <%=hidden_field_tag :type_ques, 'mcq'  %>
+
+
+    <%=hidden_field_tag :type_ques, 'trueFalse'  %>
+    <%=hidden_field_tag :course_id, @course_id %>
+
+
     <input type="hidden" id="count_option" name="count_option" value="4">
     <div class="actions">
       <%= f.submit class: 'btn btn-large btn-inverse ' %>
