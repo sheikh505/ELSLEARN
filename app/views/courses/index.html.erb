@@ -3,18 +3,30 @@
 <table class="table table-condensed">
   <tr>
     <th>Name</th>
-    <th>Degree</th>
-    <th></th>
+    <th>Degree  ( Board )</th>
     <th></th>
     <th></th>
   </tr>
 
-<% @courses.each do |course| %>
+  <% @degree_hash.each do |k,v| %>
   <tr>
-    <td><%= course.name %></td>
+    <td><%= k.split("-").last  %></td>
+    <td>
 
-    <td><%= link_to 'Edit', edit_course_path(course) %></td>
-    <td><%= link_to 'Delete', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <%v.each_with_index do |bdgree, index| %>
+          <% if index == v.size - 1 %>
+            <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
+          <% else %>
+               <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
+          <% end %>
+      <% end %>
+
+
+
+    </td>
+    <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i) %></td>
+    <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
   </tr>
 <% end %>
 </table>

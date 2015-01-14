@@ -6,6 +6,14 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.all
+
+    @degree_hash = {}
+
+    @courses.each do |course|
+
+      @degree_hash[course.id.to_s + "-" +course.name] = course.board_degree_assignments
+    end
+
     respond_with(@courses)
   end
 
@@ -49,24 +57,31 @@ class CoursesController < ApplicationController
 
   def update
     @course.update_attributes(params[:course])
+    if params[:boards] != nil
+      board = params[:boards]
+      @arr = DegreeCourseAssignment.find_all_by_course_id(@course.id)
 
-    board = params[:boards]
-    @arr = DegreeCourseAssignment.find_all_by_course_id(@course.id)
+      @arr.each do |bDegree|
+        bDegree.destroy unless board.find {|x| x == bDegree.board_degree_assignment_id}
 
-    @arr.each do |bDegree|
-      bDegree.destroy unless board.find {|x| x == bDegree.board_degree_assignment_id}
-
-    end
-
-    params[:boards].each do |board|
-      unless @arr.find {|x| x.board_degree_assignment_id == board }
-        ass = DegreeCourseAssignment.new(:course_id => @course.id, :board_degree_assignment_id => board)
-        ass.save
       end
 
+      params[:boards].each do |board|
+        unless @arr.find {|x| x.board_degree_assignment_id == board }
+          ass = DegreeCourseAssignment.new(:course_id => @course.id, :board_degree_assignment_id => board)
+          ass.save
+        end
+
+      end
+    else
+      @arr = DegreeCourseAssignment.find_all_by_course_id(@course.id)
+
+      @arr.each do |bDegree|
+      end
     end
 
-    respond_with(@course)
+
+    redirect_to courses_path
   end
 
   def destroy

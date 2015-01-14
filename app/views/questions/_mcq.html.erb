@@ -22,7 +22,7 @@
           <%= f.label ('option_' + i.to_s).to_sym %>
         <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
         Image
-        <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
+        <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1">
         Is_Answer
         <br />
         <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil,required: true %></span>
@@ -34,7 +34,7 @@
             <%= f.label ('option_' + i.to_s).to_sym %>
             <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
             Image
-            <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
+            <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1">
             Is_Answer
             <br />
             <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
@@ -141,7 +141,16 @@
             global_option_count = global_option_count + 1 ;
 
         }
-
+  $("input:checkbox.is_answer").on('click', function() {
+      var $box = $(this);
+      if ($box.is(":checked")) {
+          var group = "input:checkbox.is_answer";
+          $(group).prop("checked", false);
+          $box.prop("checked", true);
+      } else {
+          $box.prop("checked", false);
+      }
+  });
 
 
 </script>

@@ -43,9 +43,9 @@
       <th>Degree</th>
       <th>Board</th>
       <%DegreeCourseAssignment.all.each do |dc| %>
-          <tr><td><%=dc.course.name%></td>
-            <td><%=dc.board_degree_assignment.degree.name %></td>
-            <td><%=dc.board_degree_assignment.board.name %></td>
+          <tr><td><%=dc.course.name unless dc.course.nil? %></td>
+            <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
+            <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
           </tr>
       <% end %>
     </table>

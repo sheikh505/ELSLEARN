@@ -18,8 +18,11 @@
       <select id="course" name="course" required>
         <option value="">Select Course</option>
         <% Course.all.each do |course| %>
-
-            <option <%='selected=selected' if !@course.nil? && course.id = @course.id %> value="<%=course.id%>"><%=course.name%></option>
+            <% if !@course.nil? && course.id == @course.id %>
+                <option selected value="<%=course.id%>"><%=course.name%></option>
+                <% else %>
+                <option value="<%=course.id%>"><%=course.name%></option>
+            <% end %>
         <% end %>
       </select>
     </div>

@@ -4,7 +4,7 @@
 <table class="table table-condensed">
   <tr>
     <th>Name</th>
-    <th></th>
+    <th>Course</th>
     <th></th>
     <th></th>
   </tr>
@@ -12,7 +12,7 @@
 <% @topics.each do |topic| %>
   <tr>
     <td><%= topic.name %></td>
-
+    <td><%= topic.course.name unless topic.course.nil? %></td>
     <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
     <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>

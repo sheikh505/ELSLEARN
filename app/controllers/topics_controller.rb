@@ -35,7 +35,7 @@ class TopicsController < ApplicationController
     @topic.update_attributes(params[:topic])
     @topic.course_id = params[:course]
     @topic.save
-    respond_with(@topic)
+    redirect_to topics_path
   end
 
   def destroy

@@ -68,20 +68,36 @@ class DegreesController < ApplicationController
 
 
     @degree.update_attributes(params[:degree])
+    if params[:boards] != nil
     board = params[:boards]
+
     @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
-      @arr.each do |bDegree|
-        bDegree.destroy unless board.find {|x| x == bDegree.board_id}
+      if @arr
+        @arr.each do |bDegree|
+          bDegree.destroy unless board.find {|x| x == bDegree.board_id}
 
-    end
-
-    params[:boards].each do |board|
-      unless @arr.find {|x| x.board_id == board }
-        ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
-        ass.save
+        end
       end
 
+
+
+      params[:boards].each do |board|
+        unless @arr.find {|x| x.board_id == board }
+          ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
+          ass.save
+        end
+
+      end
+    else
+      @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
+      if @arr
+        @arr.each do |bDegree|
+          bDegree.destroy
+
+        end
+      end
     end
+
 
     redirect_to degrees_path
   end
