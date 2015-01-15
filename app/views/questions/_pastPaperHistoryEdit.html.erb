@@ -44,7 +44,13 @@
 
       <div class="field">
         <%= label_tag :year %><br />
-        <%= text_field_tag :year %>
+        <select id="year" name="year">
+          <% i = Time.new.year.inspect.to_i - 1 %>
+          <% 10.times{ %>
+              <option value="<%=i  %>"><%=i %></option>
+          <% i-=1
+             } %>
+        </select>
       </div>
 
   <% end %>
