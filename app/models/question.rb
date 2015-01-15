@@ -1,6 +1,5 @@
 class Question < ActiveRecord::Base
-  has_many :options
-  belongs_to :test
+  has_many :options, dependent: :destroy
   belongs_to :topic
   has_one :past_paper_history
 

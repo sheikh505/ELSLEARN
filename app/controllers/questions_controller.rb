@@ -80,6 +80,21 @@ class QuestionsController < ApplicationController
 
   def show
     if @question.deleted == false
+      @boards = []
+      @degrees = []
+      @question.board_degree_assignments.each do |bd|
+          @boards << bd.board_id
+          @degrees << bd.degree_id
+      end
+
+      @boards = @boards.uniq
+      @degrees = @degrees.uniq
+
+      session[:question] ||= {}
+      session[:question][:course_id] = @question.topic.course_id
+      session[:question][:boards] = @boards
+      session[:question][:degrees] = @degrees
+      session[:question][:view] = @question.question_type.to_s
 
     respond_with(@question)
     else
@@ -237,13 +252,17 @@ class QuestionsController < ApplicationController
 
         i = 1
         while(i <= params[:count_option].to_i) do
-
+          if params['is_answer_'+i.to_s] == '1'
+            is_answer = params['is_answer_'+i.to_s]
+          else
+            is_answer = '0'
+          end
           option = Option.new(
                              :statement => params['option_'+i.to_s],
                              :avatar => params['option_image_'+i.to_s],
                              :flag => params['image_change_'+i.to_s],
                              :question_id => @question.id,
-                             :is_answer =>params['is_answer_'+i.to_s]
+                             :is_answer =>  is_answer
           )
           if option.avatar_file_name.nil?
           option.save
@@ -296,6 +315,7 @@ class QuestionsController < ApplicationController
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
+    @question.description = params[:tinymce5]
     @question.topic_id = params[:topic]
     @question.author = current_user.email
     @question.save
@@ -326,19 +346,25 @@ class QuestionsController < ApplicationController
       ##logic for mcqs questions
       i = 1
       @question.options.each do |option|
+        if params['is_answer_'+i.to_s] == '1'
+            is_answer = params['is_answer_'+i.to_s]
+        else
+          is_answer = '0'
+        end
 
-        option.update_attributes(
-            :statement => params['option_'+i.to_s],
-            :avatar => params['option_image_'+i.to_s],
-            :flag => params['image_change_'+i.to_s],
-            :question_id => @question.id,
-            :is_answer =>params['is_answer_'+i.to_s]
-        )
+        option.update_attribute(:statement, params['option_'+i.to_s])
+        option.update_attribute(:avatar, params['option_image_'+i.to_s])
+        option.update_attribute(:flag, params['image_change_'+i.to_s])
+        option.update_attribute(:question_id, @question.id)
+        option.update_attribute(:is_answer, is_answer)
+
+
 
         unless option.avatar_file_name.nil?
           option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
 
         end
+        option.save
         i = i + 1
 
       end

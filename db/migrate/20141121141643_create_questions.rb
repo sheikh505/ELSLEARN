@@ -6,6 +6,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.boolean :deleted
       t.belongs_to :test
       t.belongs_to :topic
+      t.integer :approval_status, :default => 0
       t.timestamps
     end
   end

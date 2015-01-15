@@ -18,7 +18,7 @@
       <label>Option</label>
       <%=option.statement if option.flag.nil? %>
       <%=image_tag option.avatar.url(:thumb) unless option.flag.nil? %>
-      <% if option.is_answer.nil? %>
+      <% unless option.is_answer == 0 %>
         <p>Answer => 'Yes'</p>
       <% else %>
           <p>Answer => 'No'</p>
@@ -64,10 +64,6 @@
 <div class=" stat_holder">
 <h4>Past Paper History</h4>
 </div>
-<div class="field field_holder">
-  <label>Paper</label>
-  <%= @question.past_paper_history.nil? ? "N/A" :  @question.past_paper_history.paper %>
-</div>
 
 <div class="field field_holder">
   <label>Question#</label>
@@ -89,5 +85,5 @@
 
     <%= link_to 'Edit', edit_question_path(@question) , class: 'btn btn-large btn-inverse'%>
     <%= link_to 'New', questions_path , class: 'btn btn-large'%>
-    <%= link_to 'Back', add_questions_questions_path , class: 'btn btn-large'%>
+    <%= link_to 'Add Next', add_questions_questions_path , class: 'btn btn-large'%>
 </div>

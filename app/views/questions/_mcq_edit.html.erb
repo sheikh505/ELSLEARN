@@ -13,8 +13,8 @@
     </div>
 
     <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_area :description,value: @question.description, size: '5x5' %>
+      <%= f.label :detail_answer %><br />
+      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ><%=@question.description %></textarea>
     </div>
 <% i = 1 %>
 
@@ -38,11 +38,11 @@
 
 
 
-          <% if option.is_answer.nil? %>
-              <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
+          <% if option.is_answer == 0 %>
+              <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1">
               Is_Answer
             <%else %>
-              <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1" checked>
+              <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1" checked>
               Is_Answer
               <% end %>
 
@@ -73,7 +73,7 @@
           <%= f.label ('option_' + i.to_s).to_sym %>
           <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
           Image
-          <input type="checkbox" id="is_answer_<%=i%>" name="is_answer_<%=i%>" value="1">
+          <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1">
           Is_Answer
           <br />
           <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
@@ -142,7 +142,7 @@
 
 
 
-    <%=hidden_field_tag :type_ques, 'trueFalse'  %>
+    <%=hidden_field_tag :type_ques, 'mcq'  %>
     <%=hidden_field_tag :course_id, @course_id %>
 
 
@@ -224,4 +224,15 @@
         //alert("hide");
         $("#past_paper_history_div").hide();
     }
+
+    $("input:checkbox.is_answer").on('click', function() {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            var group = "input:checkbox.is_answer";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });
 </script>

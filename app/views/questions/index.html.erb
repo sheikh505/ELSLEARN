@@ -53,7 +53,10 @@
 </div>
 
 </div>
+  <%= submit_tag "Add Question" , :class => 'btn btn-large btn-inverse'%>
 
+<% end %>
+<input type="button" value="Show All" id="show_ques_button" name="show_ques_button" onclick="show_question()" >
 <div id="test_container" class=''>
 </div>
 
@@ -64,9 +67,7 @@
 
 </div>
 
-<%= submit_tag "Add Question" %>
 
-<% end %>
 
 <br />
 
@@ -80,9 +81,15 @@
 <script>
     $(document).ready(function() {
                 generate_questions(1);
+
             }
     );
 
+    function show_question(){
+
+        $("#ques_container").show();
+
+    }
     function generate_courses(course_id)
     {
 
@@ -122,7 +129,7 @@
             processData:false,
             success:function (data) {
                 $("#ques_container").html(data);
-                $("#ques_container").show();
+                $("#ques_container").hide();
             },
             error:function (data) {
                 alert ('nae chalaa');
