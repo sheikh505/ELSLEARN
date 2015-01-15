@@ -15,9 +15,9 @@
   <div class="field">
     <%= label_tag :year %><br />
     <select id="year" name="year">
-      <% i = 2014 %>
+      <% i = Time.new.year.inspect.to_i - 1 %>
       <% 10.times{ %>
-          <option value="<%=i %>"><%=i %></option>
+          <option value="<%=i  %>"><%=i %></option>
       <% i-=1
       } %>
     </select>
