@@ -36,10 +36,10 @@ class QuestionsController < ApplicationController
 
   def get_ques
     @questions = []
-    @id = params[:test_id]
+    #@id = params[:test_id]
     #id.tests.each {|test| @tests << test}
 
-    Question.all.select {|x| x.deleted == false && x.test_id == @id.to_i}.each do |question|
+    Question.all.select {|x| x.deleted == false }.each do |question|
       @questions << question
     end
     render :partial => 'questions/ques'
@@ -49,8 +49,8 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:ques_id])
     @question.deleted = true
     @question.save
-    @id = @question.test_id
-    @questions = Question.all.select {|x| x.deleted == false && x.test_id == @id.to_i}
+    #@id = @question.test_id
+    @questions = Question.all.select {|x| x.deleted == false }
     render :partial => 'questions/ques'
   end
 
@@ -215,6 +215,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
+    @question.description = params[:tinymce5]
     @question.topic_id = params[:topic]
     @question.test_id = nil
     @question.deleted = false
