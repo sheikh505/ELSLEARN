@@ -45,6 +45,7 @@ class CoursesController < ApplicationController
   def create
 
     @course = Course.new(params[:course])
+    @course.name.upcase!
     if @course.save
       params[:boards].each do |bDegree|
         ass = DegreeCourseAssignment.new(:course_id => @course.id, :board_degree_assignment_id => bDegree)
@@ -56,6 +57,8 @@ class CoursesController < ApplicationController
   end
 
   def update
+
+    params[:course][:name].upcase!
     @course.update_attributes(params[:course])
     if params[:boards] != nil
       board = params[:boards]

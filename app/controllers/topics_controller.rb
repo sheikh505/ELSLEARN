@@ -26,12 +26,14 @@ class TopicsController < ApplicationController
   def create
 
     @topic = Topic.new(params[:topic])
+    @topic.name.upcase!
     @topic.course_id = params[:course]
     @topic.save
     redirect_to topics_path
   end
 
   def update
+    params[:topic][:name].upcase!
     @topic.update_attributes(params[:topic])
     @topic.course_id = params[:course]
     @topic.save

@@ -27,14 +27,16 @@
     </div>
 
 
-    <div class="field">
-      <%= f.label :topic %><br />
-      <select id="topic" name="topic">
-        <% @topics.each do |topic|%>
-            <option value="<%=topic.id %>"><%=topic.name %></option>
-            <% end %>
-      </select>
-    </div>
+    <!--
+     <div class="field">
+       < %= f.label : topic %><br />
+       <select id="topic" name="topic">
+         < % @topics.each do |topic|%>
+             <option value="< %=topic.id %>">< %=topic.name %></option>
+         < % end %>
+       </select>
+     </div>
+ -->
 
     <div class="field">
       <%= f.label :author %><br />
@@ -59,7 +61,7 @@
     </div>
 
     <%= render 'pastPaperHistory' %>
-
+    <%=f.hidden_field :topic_id, value: @topics.first.id  %>
     <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=f.hidden_field :question_type,value: 2  %>
     <%= hidden_field_tag :type_ques, 'des'  %>

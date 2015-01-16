@@ -61,14 +61,16 @@
 
 
 
-    <div class="field">
-      <%= f.label :topic %><br />
-      <select id="topic" name="topic">
-        <% @topics.each do |topic|%>
-            <option value="<%=topic.id %>"><%=topic.name %></option>
-        <% end %>
-      </select>
-    </div>
+    <!--
+      <div class="field">
+        < %= f.label : topic %><br />
+        <select id="topic" name="topic">
+          < % @topics.each do |topic|%>
+              <option value="< %=topic.id %>">< %=topic.name %></option>
+          < % end %>
+        </select>
+      </div>
+  -->
 
     <div class="field">
       <%= f.label :author %><br />
@@ -95,7 +97,7 @@
 
     <%= render 'pastPaperHistory' %>
 
-
+    <%=f.hidden_field :topic_id, value: @topics.first.id  %>
     <%=hidden_field_tag :course_id, @course_id %>
     <%=f.hidden_field :question_type,:value => '1'  %>
     <%= hidden_field_tag :type_ques,'mcq'  %>
@@ -167,13 +169,15 @@
             theme: "modern",
             menubar: false,
             statusbar: false,
-            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,|,uploadimage,",
             pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
-            plugins: ["uploadimage"],
+            plugins: ["uploadimage,paste"],
+            paste_auto_cleanup_on_paste : true,
             relative_urls: false,
             remove_script_host: false,
             document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
         });
+
 
 
     });

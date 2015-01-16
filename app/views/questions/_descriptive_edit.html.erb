@@ -28,19 +28,22 @@
 
 
 
-    <div class="field">
-      <%= f.label :topic %><br />
-      <select id="topic" name="topic">
-        <% @topics.each do |topic|%>
-            <% if @question.topic_id == topic.id %>
-                <option selected value="<%=topic.id %>"><%=topic.name %></option>
-            <% else %>
-                <option value="<%=topic.id %>"><%=topic.name %></option>
-            <% end %>
 
-        <% end %>
-      </select>
-    </div>
+    <!--
+        <div class="field">
+          < %= f.label :topic %><br />
+          <select id="topic" name="topic">
+            < % @topics.each do |topic|%>
+                < % if @topic.id == topic.id %>
+                    <option selected value="< %=topic.id %>">< %=topic.name %></option>
+                < % else %>
+                    <option value="< %=topic.id %>">< %=topic.name %></option>
+                < % end %>
+
+            < % end %>
+          </select>
+        </div>
+    -->
 
     <div class="field">
       <%= f.label :author %><br />

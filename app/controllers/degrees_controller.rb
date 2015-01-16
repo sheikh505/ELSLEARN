@@ -30,7 +30,8 @@ class DegreesController < ApplicationController
 
 
     @degree = Degree.new(params[:degree])
-     if @degree.save
+    @degree.name.upcase!
+    if @degree.save
        params[:boards].each do |board|
          ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
          ass.save
@@ -65,7 +66,7 @@ class DegreesController < ApplicationController
   end
 
   def update
-
+    params[:degree][:name].upcase!
 
     @degree.update_attributes(params[:degree])
     if params[:boards] != nil

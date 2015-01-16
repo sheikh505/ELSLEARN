@@ -125,6 +125,8 @@ class QuestionsController < ApplicationController
       @degrees << bdgree.degree
     end
 
+    @boards = @boards.uniq
+    @degrees = @degrees.uniq
 
     @view = @question.question_type
     @view = @view.to_s()
@@ -219,6 +221,7 @@ class QuestionsController < ApplicationController
 
   def create
 
+
     @boards = params[:boards]
     @degrees = params[:degrees]
 
@@ -231,7 +234,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
-    @question.topic_id = params[:topic]
+    #@question.topic_id = params[:topic_id]
     @question.test_id = nil
     @question.deleted = false
    @question.author = current_user.email
@@ -316,7 +319,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
-    @question.topic_id = params[:topic]
+   # @question.topic_id = params[:topic_id]
     @question.author = current_user.email
     @question.save
     if @question.past_paper_history.nil?

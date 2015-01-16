@@ -22,11 +22,13 @@ class BoardsController < ApplicationController
 
   def create
     @board = Board.new(params[:board])
+    @board.name.upcase!
     @board.save
     redirect_to boards_path
   end
 
   def update
+    params[:board][:name].upcase!
     @board.update_attributes(params[:board])
     respond_with(@board)
   end
