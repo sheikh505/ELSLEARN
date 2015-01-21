@@ -1,0 +1,12 @@
+development:
+bucket: elslearning
+access_key_id: AKIAIOIDQTLD3MRW2MSQ
+secret_access_key: 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
+test:
+bucket: elslearning
+access_key_id: AKIAIOIDQTLD3MRW2MSQ
+secret_access_key: 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
+production:
+bucket: elslearning
+access_key_id: AKIAIOIDQTLD3MRW2MSQ
+secret_access_key: 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
