@@ -12,6 +12,7 @@ gem 'devise'
 gem 'cancan'
 gem 'paperclip', '~> 4.2'
 gem 'tinymce-rails'
+gem 'aws-sdk'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -26,7 +27,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'turbolinks'
+#gem 'turbolinks'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
