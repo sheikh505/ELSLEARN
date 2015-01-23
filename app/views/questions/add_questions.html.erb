@@ -1,10 +1,19 @@
 <%= tinymce_assets %>
-
+<style>
+  .labelquestions {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+  }
+</style>
 <div class="row">
   <div class="span5">
 <div class="container">
 
-  <h5>Boards</h5>
+  <h5 class="labelquestions">Boards</h5>
   <p>
     <% @boards_name.each do |board| %>
       <%=board %>
@@ -14,7 +23,7 @@
   </p>
 
 
-  <h5>Degrees</h5>
+  <h5 class="labelquestions">Degrees</h5>
   <p>
     <% @degrees_name.each do |degree| %>
         <%=degree %>

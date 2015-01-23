@@ -2,6 +2,15 @@
   <div class="span6">
     <%= form_for :user, :url => {:controller => 'teacher', :action => 'course_register'} do |f| %>
 
+        <% Board.all.each do |board| %>
+            <%if @boards.find {|x| x.id == board.id} %>
+                <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%=board.name %>
+            <%else %>
+                <%= check_box_tag 'boards[]', board.id,false %><%=board.name %>
+            <%end %>
+
+        <% end %>
+
         <div class="field">
           <%=f.label :degree %>
           <select id="degree" name="degree" onchange="generate_courses(this)">
@@ -27,7 +36,7 @@
           </select>
         </div>
 
-        <%=f.hidden_field :user_id, value: @user.id %>
+        <%=f.hidden_field :user_id, value: @user.id  unless @user.id.nil? %>
         <%=f.submit :register, class: 'btn btn-inverse' %>
         <%=link_to :done, home_page_index_path, :class => 'btn btn-inverse' %>
     <% end %>
