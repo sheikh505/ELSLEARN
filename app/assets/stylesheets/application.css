@@ -32,8 +32,6 @@ table td tr{ height: 40px;}
 .header .navbar{ background: #fff;}
 #page-content-wrapper .listing-holder{
     background: #fff;
-    border-bottom: 2px solid #ccc;
-    border-radius: 3px;
     margin: 0 30px 30px;
     min-height: 160px;
 
@@ -112,3 +110,13 @@ table td tr{ height: 40px;}
     overflow: hidden;}
 
 .th_table { padding:8px 20px !important; }
+input[type="checkbox"]#boards_ {
+    vertical-align: top;
+    margin:2px 5px 0;
+}
+
+input[type="checkbox"]#degree_ {
+    vertical-align: top;
+    margin:2px 5px 0;
+}
+

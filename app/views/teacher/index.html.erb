@@ -4,12 +4,14 @@
   <th>Name</th>
   <th>Contact number</th>
   <th></th>
+  <th></th>
 
   <%User.all.select {|x| x.is_teacher? }.each do |user|  %>
 <tr>
   <td><%= user.email %></td>
   <td><%= user.name %></td>
   <td><%= user.phone %></td>
+  <td><%= link_to 'Show', teacher_path(user) %></td>
   <td><%= link_to 'Edit', edit_teacher_path(user) %></td>
 
 
