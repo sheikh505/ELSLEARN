@@ -3,5 +3,4 @@ class Topic < ActiveRecord::Base
   belongs_to :course
   attr_accessible :name
 
-  validates :name, :uniqueness => true
 end
