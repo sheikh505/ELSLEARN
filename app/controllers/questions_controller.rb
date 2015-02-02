@@ -139,6 +139,8 @@ class QuestionsController < ApplicationController
 
   def add_questions
 
+    @question = Question.new
+    
     if session[:question].nil?
       @course_id = params[:course]
       @boards = params[:boards]
@@ -149,6 +151,12 @@ class QuestionsController < ApplicationController
       @boards = session[:question][:boards]
       @degrees = session[:question][:degrees]
       @view = session[:question][:view]
+    end
+
+    unless params[:q_id].nil?
+      @ques_id = params[:q_id]
+      @flag = 1
+      @question = Question.find_by_id(params[:q_id])
     end
 
 

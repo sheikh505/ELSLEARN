@@ -46,17 +46,17 @@
 
       <%= f.label :Difficulty %><br />
       <select id="difficulty" name="difficulty">
-        <option value="1">Easy</option>
-        <option value="2" selected>Moderate</option>
-        <option value="3">Hard</option>
+        <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
+        <option <%='selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
+        <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
 
       </select>
     </div>
 
     <div class="field">
       <%= label_tag :pastPaperFlag %><br />
-      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
-      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked>No
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" <%='checked' if @question.past_paper_history %>>Yes
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" <%='checked' unless @question.past_paper_history %>>No
     </div>
 
 
@@ -84,7 +84,12 @@
 
     $("document:ready", function() {
 
+        <% if @question.past_paper_history %>
+        $("#past_paper_history_div").show();
+        <% else %>
         $("#past_paper_history_div").hide();
+        <% end %>
+
         tinymce.execCommand('mceRemoveControl',true,'tinymce4');
         tinymce.execCommand('mceAddControl',true,'tinymce4');
 

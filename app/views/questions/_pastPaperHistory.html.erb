@@ -7,8 +7,16 @@
 
   <div class="field">
     <%= label_tag :session %><br />
-    <input type="radio" name="session" value="May/June" checked>May/June
-    <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+    <% if @question.past_paper_history && @question.past_paper_history.session == 'Nov/Dec' %>
+        <input type="radio" name="session" value="May/June">May/June
+        <input type="radio" name="session" value="Nov/Dec" checked>Nov/Dec
+
+    <%else %>
+        <input type="radio" name="session" value="May/June" checked>May/June
+        <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
+
+    <% end %>
+
   </div>
 
 
@@ -17,7 +25,11 @@
     <select id="year" name="year">
       <% i = Time.new.year.inspect.to_i - 1 %>
       <% 25.times{ %>
-          <option value="<%=i  %>"><%=i %></option>
+          <% if @question.past_paper_history && @question.past_paper_history.year == i.to_s %>
+                <option selected value="<%=i  %>"><%=i %></option>
+          <% else %>
+              <option value="<%=i  %>"><%=i %></option>
+          <% end %>
       <% i-=1
       } %>
     </select>

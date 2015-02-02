@@ -86,5 +86,5 @@
 
     <%= link_to 'Edit', edit_question_path(@question) , class: 'btn btn-large btn-inverse'%>
     <%= link_to 'New', questions_path , class: 'btn btn-large'%>
-    <%= link_to 'Add Next', add_questions_questions_path , class: 'btn btn-large'%>
+    <%= link_to 'Add Next', add_questions_questions_path(:q_id => @question.id) , class: 'btn btn-large'%>
 </div>
