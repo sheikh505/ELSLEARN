@@ -61,7 +61,7 @@
 </div>
 
 <div id="ques_container" class=''>
-
+    <%= render 'ques' %>
 
 </div>
 
@@ -79,11 +79,16 @@
 
 
 <script>
-    $(document).ready(function() {
-                generate_questions(1);
 
-            }
-    );
+    $(function() {
+        $(document).on("click",".pagination a", function(){
+            $(".pagination").html("Page is loading...");
+            $.getScript(this.href);
+            return false;
+        });
+    });
+
+
 
     function show_question(){
 

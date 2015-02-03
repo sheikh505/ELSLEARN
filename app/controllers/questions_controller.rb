@@ -42,6 +42,8 @@ class QuestionsController < ApplicationController
     Question.all.select {|x| x.deleted == false }.each do |question|
       @questions << question
     end
+
+   # @questions = Question.paginate(:page => params[:page], :per_page => 30)
     render :partial => 'questions/ques'
   end
 
@@ -74,8 +76,10 @@ class QuestionsController < ApplicationController
     @board_hash = @board.board_degree_hash
 
 
-    @questions = Question.all.select{|x| x.deleted == false}
-    respond_with(@questions)
+    @questions = Question.all.select{|x| x.deleted == false}.paginate(:page => params[:page], :per_page => 30)
+   # @questions = Question
+    #@questions = Question.paginate(:page => params[:page], :per_page => 2)
+    #respond_with(@questions)
   end
 
   def show
@@ -399,11 +403,11 @@ class QuestionsController < ApplicationController
   def destroy
 
 
-    test_id = @question.test_id
+   # test_id = @question.test_id
     @question.deleted = true
     @question.save
     # @question.destroy
-    redirect_to questions_path
+    #redirect_to questions_path
 
     #redirect_to questions_path
     #respond_with(@question)

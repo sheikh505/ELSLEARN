@@ -1,3 +1,34 @@
 // Place all the styles related to the questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.pagination{ display: block !important;}
+.pagination {
+  .previous_page { color:#777 }
+  .previous_page.disabled { background: white; color: #777 }
+  .current { background: #000; color: #fff; }
+  .next_page.disabled { background: white; color: #777 }
+}
+.pagination {
+  a  {
+  border: 1px solid #ccc;
+  margin: 0 -3px;
+  padding: 5px 10px;
+  color: #777;
+  text-align: center;
+}
+  span  {
+    border: 1px solid #ccc;
+    color: #777;
+    margin: 0 -3px;
+    padding: 5px 10px;
+    text-align: center;
+  }
+  em  {
+    border: 1px solid #ccc;
+    margin: 0 -3px;
+    color: #777;
+    padding: 5px 10px;
+    text-align: center;
+  }
+}

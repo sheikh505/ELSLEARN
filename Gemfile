@@ -13,6 +13,7 @@ gem 'cancan'
 gem 'paperclip', '~> 4.2'
 gem 'tinymce-rails'
 gem 'aws-sdk'
+gem 'will_paginate', '~> 3.0.6'
 
 # Gems used only for assets and not required
 # in production environments by default.
