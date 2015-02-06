@@ -13,7 +13,7 @@
   a  {
   border: 1px solid #ccc;
   margin: 0 -3px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   color: #777;
   text-align: center;
 }
@@ -31,4 +31,40 @@
     padding: 5px 10px;
     text-align: center;
   }
+}
+
+.ques_inner_bar_left {
+  display: inline-block;
+  float: left;
+  width: 344px;
+}
+
+.ques_inner_bar_right {
+  float: right;
+  overflow: hidden;
+  width: 455px;
+}
+
+.ques_inner_bar_right .select_div{
+  display: inline-block;
+  float: right;
+}
+
+.ques_inner_bar_right .select_div #no_rows {
+  height: 30px;
+  margin: 6px 0 0;
+  width: 88px;
+}
+#ques_container #ques_bar:after{
+  clear: both;
+  display: block;
+  content: '';
+
+}
+.ques_inner_bar_left #search_bar {
+  height: 36px;
+  padding: 8px;
+  width: 258px;
+  margin: 0;
+
 }

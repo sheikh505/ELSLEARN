@@ -8,4 +8,15 @@ class Question < ActiveRecord::Base
 
 
   attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :difficulty, :board, :topic_id, :question_type, :deleted
+
+
+
+def self.search (search , page, limit)
+  unless search.nil?
+    self.all.select{|x| x.deleted == false && x.statement.downcase.include?(search.downcase)}.paginate :per_page => limit, :page => page
+  else
+    self.all.select{|x| x.deleted == false}.paginate :per_page => limit, :page => page
+  end
+end
+
 end

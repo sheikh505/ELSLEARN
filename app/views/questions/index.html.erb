@@ -56,9 +56,8 @@
   <%= submit_tag "Add Question" , :class => 'btn btn-large btn-inverse'%>
 
 <% end %>
-<input type="button" value="Show All" class="btn btn-large btn-inverse" style="margin-left:10px" id="show_ques_button" name="show_ques_button" onclick="show_question()" >
-<div id="test_container" class=''>
-</div>
+<br /><br />
+
 
 <div id="ques_container" class=''>
     <%= render 'ques' %>
@@ -88,13 +87,27 @@
         });
     });
 
+    function fetch_rows(value)
+    {   if (value == -1)
+    {   var limit = $("#no_rows").val();
 
+        value = limit;
+    }
+         var search = encodeURIComponent($("#search_bar").val());
+        $("#search_bar").val("");
+        $.getScript('/questions?page=1&limit='+value+'&search='+search);
+
+        return false;
+
+
+    }
 
     function show_question(){
 
         $("#ques_container").show();
 
     }
+
     function generate_courses(course_id)
     {
 
@@ -119,6 +132,12 @@
 
     }
 
+    $(document).keypress(function(e) {
+        if(e.keyCode == 13 || e.which == 13) {
+            e.preventDefault();
+            fetch_rows(-1);
+        }
+    });
 
 
     function generate_questions(test)

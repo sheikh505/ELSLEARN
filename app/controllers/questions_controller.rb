@@ -75,11 +75,34 @@ class QuestionsController < ApplicationController
     @board = Board.new
     @board_hash = @board.board_degree_hash
 
+    limit = 50
+    search = ""
+    page = 1
 
-    @questions = Question.all.select{|x| x.deleted == false}.paginate(:page => params[:page], :per_page => 30)
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    @questions = Question.search(search,page,limit)
+    @row = limit
    # @questions = Question
     #@questions = Question.paginate(:page => params[:page], :per_page => 2)
     #respond_with(@questions)
+  end
+
+  def get_limit
+
+    limit = 4
+    search = ""
+    page = 1
+
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    @questions = Question.search(search,page,limit)
+    render partial: 'ques'
+
   end
 
   def show
@@ -161,6 +184,9 @@ class QuestionsController < ApplicationController
       @ques_id = params[:q_id]
       @flag = 1
       @question = Question.find_by_id(params[:q_id])
+      @question_no = @question.past_paper_history.ques_no unless @question.past_paper_history.nil?
+      @question_no = @question_no.to_i
+      @question_no += 1
     end
 
 

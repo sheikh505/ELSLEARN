@@ -33,6 +33,7 @@ ExamsSystem::Application.routes.draw do
       get :render_view
       get :render_view_edit
       get :delete_ques
+      get :get_limit
     end
   end
 
