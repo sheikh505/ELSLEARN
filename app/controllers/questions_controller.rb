@@ -58,7 +58,7 @@ class QuestionsController < ApplicationController
     search = ""
     page = 1
     @questions = Question.search(search,page,limit)
-   # @row = limit
+    @row = limit
 
 
     render :partial => 'questions/ques'
