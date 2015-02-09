@@ -28,7 +28,8 @@
     <% @questions.each do |question| %>
         <tr><td><%=raw question.statement %> </td>
           <td><%= link_to 'View', question_path(question) %></td>
-          <td><%= link_to 'Edit', edit_question_path(question) %></td>
+          <td><%= link_to 'Edit',edit_question_path(question) %></td>
+          <td><%=link_to "Delete","javascript:void(0);",:id => "delete", :onclick => "delete_question(#{question.id})" %></td>
 
         </tr>
 

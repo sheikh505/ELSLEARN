@@ -48,11 +48,19 @@ class QuestionsController < ApplicationController
   end
 
   def delete_ques
+
     @question = Question.find(params[:ques_id])
     @question.deleted = true
     @question.save
     #@id = @question.test_id
-    @questions = Question.all.select {|x| x.deleted == false }
+
+    limit = 50
+    search = ""
+    page = 1
+    @questions = Question.search(search,page,limit)
+   # @row = limit
+
+
     render :partial => 'questions/ques'
   end
 
@@ -353,6 +361,8 @@ class QuestionsController < ApplicationController
   def update
 
 
+
+
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
@@ -394,17 +404,11 @@ class QuestionsController < ApplicationController
         end
 
         option.update_attribute(:statement, params['option_'+i.to_s])
-        option.update_attribute(:avatar, params['option_image_'+i.to_s])
+        option.update_attribute(:avatar, params['option_image_'+i.to_s]) unless params['option_image_'+i.to_s].nil?
         option.update_attribute(:flag, params['image_change_'+i.to_s])
         option.update_attribute(:question_id, @question.id)
         option.update_attribute(:is_answer, is_answer)
 
-
-
-        unless option.avatar_file_name.nil?
-          option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
-
-        end
         option.save
         i = i + 1
 
