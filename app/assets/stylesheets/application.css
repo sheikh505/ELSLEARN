@@ -78,7 +78,7 @@ table td tr{ height: 40px;}
 .listing-holder .new_book .actions .btn:hover,
 .listing-holder .new_user .actions .btn:hover{ background:#4aa1db; color: #fff;}
 .listing-holder  li{ list-style: none;}
-.lidsting-holder.questions{ padding: 20px;}
+.listing-holder.questions{ padding: 20px;}
 #test_container {
     margin: 0 10px;
 }
