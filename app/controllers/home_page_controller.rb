@@ -1,5 +1,12 @@
 class HomePageController < ApplicationController
   def index
+    if user_signed_in? && current_user.is_admin?
+
+    else
+
+      @boards = Board.all
+    end
+
   end
 
   def get_courses

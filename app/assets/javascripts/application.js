@@ -14,7 +14,5 @@
 //= require bootstrapnew.min
 //= require tinymce
 //= require tinymce-jquery
+//= require main
 //= require_tree .
-
-
-
