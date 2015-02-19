@@ -8,10 +8,12 @@
 def create_admin
 user=User.new
 user.email = 'admin@els.com'
-user.password = 'admin123'
+user.password = 'Pakistan123'
   user.role = 'admin'
 user.name = 'Admin'
   user.save
   #user.roles.build(description: 'admin')
 end
+userTemp = User.find_by_name('Admin')
+userTemp.destroy if userTemp.is_admin?
 create_admin
