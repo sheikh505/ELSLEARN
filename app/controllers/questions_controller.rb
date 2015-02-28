@@ -359,7 +359,7 @@ class QuestionsController < ApplicationController
           bdegree = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
           unless bdegree.nil?
             qs = BoardQuestionAssignment.new(:board_degree_assignment_id => bdegree.id,
-                                              :question_id => @question.id )
+                                              :question_id => @question.id)
             qs.save
           end
         end

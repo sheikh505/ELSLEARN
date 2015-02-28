@@ -8,9 +8,9 @@
       <ul>
         <% @options.each_with_index do |option,index| %>
             <% if option.flag.nil? %>
-                <li ><span>(<%=@alpha[index] %>)</span><a href="#" class='<%='correct_answer' if option.is_answer.eql?(1) %>'><%=option.statement %></a></li>
+                <li ><span>(<%=@alpha[index] %>)</span><a href="javascript:void(0)" class='<%='correct_answer' if option.is_answer.eql?(1) %>'><%=option.statement %></a></li>
             <% else %>
-                <li ><span>(<%=@alpha[index] %>)</span><a href="#" class='<%='correct_answer' if option.is_answer.eql?(1) %>'><%=image_tag option.avatar.url(:medium) %></a></li>
+                <li ><span>(<%=@alpha[index] %>)</span><a href="javascript:void(0)" class='<%='correct_answer' if option.is_answer.eql?(1) %>'><%=image_tag option.avatar.url(:medium) %></a></li>
             <% end %>
         <% end %>
       </ul>

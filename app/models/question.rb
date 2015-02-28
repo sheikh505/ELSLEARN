@@ -19,4 +19,13 @@ def self.search (search , page, limit)
   end
 end
 
+  def not_deleted_question?
+
+    if self.deleted == true
+     return false
+    else
+     return true
+    end
+
+  end
 end

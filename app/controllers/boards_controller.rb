@@ -34,6 +34,7 @@ class BoardsController < ApplicationController
   end
 
   def destroy
+    BoardDegreeAssignment.all.each {|bd| bd.destroy if bd.board_id.eql?(@board.id) }
     @board.destroy
     respond_with(@board)
   end

@@ -5,19 +5,92 @@ class HomePageController < ApplicationController
     else
 
       @boards = Board.all
+      @degrees = []
+      @degrees << 'select board first'
+
+      @courses = []
+      @courses << 'select board and degree first'
+
+      @flag = true
+
+
     end
 
   end
 
   def get_courses
-    @courses = []
-    id = params[:degree_id]
-    list_courses = DegreeCourseAssignment.find_all_by_degree_id(id)
+    'asdfasdfasdfasdf' + params.inspect
 
-    list_courses.each do |course|
-      @courses << Course.find_by_id(course.course_id)
+    @courses = []
+    degree_id = params[:degree_id]
+    board_id = params[:board_id]
+
+    @courses = BoardDegreeAssignment.find_all_by_board_id_and_degree_id(board_id,degree_id)
+    @courses = @courses.last.courses
+    @flag = false
+    render :partial => 'home_page/c_list'
+
+  end
+
+  def get_degrees
+
+    'asdfasdfasdfasdf' + params.inspect
+   # asdfasdfasfasf
+
+
+    board_ids = params[:board_ids]
+    ids = board_ids.split('-')
+    @degrees = []
+    temp = Board.select{|board| ids.include? (board.id.to_s)}
+
+    temp.each do |board|
+
+      board.degrees.each do |degree|
+        @degrees << degree
+
+      end
     end
-    render :partial => 'home_page/courselist'
+
+
+    #board = Board.find_by_id(board_id)
+    #@degrees = board.degrees
+    @degrees.uniq!
+    @flag = false
+    render :partial => 'home_page/d_list'
+
+  end
+
+    def instructions
+      @board_id = params[:b_id]
+      @degree_id = params[:degree_id]
+      @course_id = params[:course_id]
+
+
+    end
+
+  def quiz
+
+    @board_id = params[:b_id]
+    @degree_id = params[:degree_id]
+    @course_id = params[:course_id]
+    #@questions = []
+
+    bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
+    temp = bd.questions
+
+    @questions = temp.reject{|q| q.deleted == true}
+
+    @index = 0
+
+
+  end
+
+  def next
+
+    @index = params[:index].to_i
+    @index = @index + 1
+
+    render :partial => 'quiz_ques'
 
   end
 

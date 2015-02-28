@@ -88,14 +88,11 @@
       </div>
 </div>
 <% else %>
-      <%= render 'shared/adminHeader' %>
-      <div style="padding: 100px">
-      <%= yield %>
-      </div>
-<% end %>
-      <!--
-    < %= render 'shared/header' %>
-        < %= yield %>
+
+
+
+    <%= render 'shared/header' %>
+        <%= yield %>
       <footer class="footer">
         <div class="footer_holder container">
           <div class="footer_box box_top">
@@ -123,7 +120,7 @@
             </ul>
           </div>
           <div class="footer_box text-right">
-            <h3 class="footer_logo"><a href="#"><img src="assets/logo.png"></a></h3>
+            <h3 class="footer_logo"><a href="#"><img src="/assets/logo.png"></a></h3>
             <p>
               Address lorem ipsum is simply dummy text of the printing and typesetting industry.
             </p>
@@ -148,9 +145,8 @@
         </div>
       </footer>
 
-< % end %>
+<% end %>
 
--->
 </div>
 
 

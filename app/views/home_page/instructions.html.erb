@@ -1,0 +1,53 @@
+<div class="modal_content container">
+  <div class="modal_left">
+    <div class="box_modal modal_intro">
+      <div class="modal_bg"><i class="m_system"></i></div>
+      <div class="modal_description">
+        <h2>System requirements</h2>
+        <p>Internet Explorer 8.0, Chrome 18.0, Firefox 11.0, or Safari 5.0 and above.</p>
+      </div>
+    </div>
+    <div class="box_modal modal_intro">
+      <div class="modal_bg"><i class="m_syllabus"></i></div>
+      <div class="modal_description">
+        <h2>Test Syllabus</h2>
+        <p>Database management techniques</p>
+        <p>Variable types and value identification</p>
+        <p>Syntax element identification and best practices</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal_right">
+    <div class="box_modal modal_intro">
+      <div class="modal_bg"><i class="m_length"></i></div>
+      <div class="modal_description">
+        <h2>Length and Duration</h2>
+        <p>Test questions are adaptive. Most include about 10-20 questions, and take less than 10 minutes to complete.</p>
+      </div>
+
+    </div>
+    <div class="box_modal modal_intro">
+      <div class="modal_bg"><i class="m_test"></i></div>
+      <div class="modal_description">
+        <h2>Length and Duration</h2>
+        <p>Test questions are adaptive. Most include about 10-20 questions, and take less than 10 minutes to complete.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div class="modal_iframe_footer">
+  <a class="modal_btn" onclick="start_quiz(<%=@board_id%>,<%=@degree_id%>,<%=@course_id%>)" href="javascript:void(0)">Take Test(its free)</a>
+</div>
+
+<script type="text/javascript">
+
+  function start_quiz(bid,did,cid){
+
+      window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+cid;
+
+  }
+
+</script>

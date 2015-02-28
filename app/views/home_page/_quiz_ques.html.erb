@@ -1,0 +1,19 @@
+
+<div class="modal_left">
+  <div class="box_modal">
+    <h2>ELS Quiz </h2>
+    <label>Statement </label><p><%=raw $arr[@index].statement %></p>
+  </div>
+  <div class="question_p_section">
+    <ul>
+      <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
+          <% if option.flag.nil? %>
+              <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="next_question(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class='option_question'><%=option.statement %></a></li>
+          <% else %>
+              <li ><a href="javascript:void(0)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+          <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+

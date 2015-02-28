@@ -13,7 +13,6 @@
  *= require bootstrapnew
  *= require simple-sidebar
  *= require font-awesome
- *= require font-awesome.min
  *= require_self
  *= require_tree .
  */
@@ -126,3 +125,6 @@ input[type="checkbox"]#degree_ {
     margin:2px 5px 0;
 }
 
+.tabs.collapsed {
+    list-style: outside none none;
+}

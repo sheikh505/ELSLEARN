@@ -1,52 +1,61 @@
-
-<!--
 <section class="viual">
   <div class="visual_holder container">
+
     <div class="pull-left viual_left">
+
       <div class="col">
         <div class="header_col">
-          <p class="tabs_holde">Student type</p>
+          <p class="tabs_holde">Boards</p>
           <i class="arrow_right fa fa-caret-right"></i>
           <i class="arrow_down fa fa-caret-down"></i>
         </div>
-        <ul class="tabs collapsed">
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-        </ul>
+
+        <div id="board_holder">
+            <%= render 'bdc_list' %>
+        </div>
       </div>
+
+
       <div class="col">
         <div class="header_col">
-          <p class="tabs_holde">Student type</p>
+          <p class="tabs_holde">Degrees</p>
           <i class="arrow_right fa fa-caret-right"></i>
           <i class="arrow_down fa fa-caret-down"></i>
         </div>
-        <ul class="tabs">
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-        </ul>
-      </div>
+
+        <div id="degree_holder">
+        <%= render 'd_list' %>
+        </div>
+
+       </div>
+
+
       <div class="col">
         <div class="header_col">
-          <p class="tabs_holde">Student type</p>
+          <p class="tabs_holde">Courses</p>
           <i class="arrow_right fa fa-caret-right"></i>
           <i class="arrow_down fa fa-caret-down"></i>
         </div>
-        <ul class="tabs">
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-          <li class="odd">Student Name A</li>
-          <li class="even">Student Name A</li>
-        </ul>
+
+        <div id="courses_holder">
+            <%= render 'c_list' %>
+        </div>
+
       </div>
+
+            <div style="display: none;" id="test_container">
+              <input type="button" value="Give Test" id="test_btn" name="test_btn" class="btn">
+            </div>
+
     </div>
+
+
+
+
     <div class="pull-right viual_right">
       <div class="col">
         <div class="header_col">
-          <p class="tabs_holde">Student type</p>
+          <p class="tabs_holde">Notes</p>
           <i class="arrow_right fa fa-caret-right"></i>
           <i class="arrow_down fa fa-caret-down"></i>
         </div>
@@ -58,7 +67,11 @@
         </ul>
       </div>
     </div>
+
+
   </div>
+
+
 </section>
 <section class="main">
   <div class="main_holder main_front container">
@@ -92,33 +105,110 @@
   </div>
 </section>
 
--->
 
-<h3>IN PROGRESS ... COMING SOON !!</h3>
+
+<!--<h3>IN PROGRESS ... COMING SOON !!</h3>-->
 
 
 <script>
     $(document).ready(function() {
-              //  $('#course_container').hide();
+             $('#test_btn').click(function(){
+
+                 course_id = $('.scourse').children('li').val();
+                 degree_id = $('.sdegree').children('li').val();
+                 board_id = $('.sboard').children('li').val();
+
+                // alert(board_id+'--'+degree_id+'--'+course_id);
+
+                 window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id;
+             });
             }
     );
 
-    function generate_courses(degree_id)
+    function selectCourse(id)
     {
+        if($('.scourse')){
 
-        document.getElementById("degree_hidden_id").value=degree_id.value;
+            $('#test_container').show();
+        }
 
-        //alert (document.getElementById("degree_hidden_id").value);
-        container = document.getElementById('course_container');
+        if ($('#'+id).hasClass('scourse')){
+
+            $('#'+id).css("color","#52CC52");
+
+
+        }
+        else {
+            $('.scourse').css("color", "#000000");
+            $('.scourse').removeClass('scourse');
+
+            $('#' + id).css("color", "#52CC52");
+            $('#' + id).addClass('scourse');
+        }
+
+        }
+
+    function selectDegreeList(id,degree_id)
+    {
+        if ($('#'+id).hasClass('sdegree')){
+
+        $('#'+id).css("color","#52CC52");
+
+
+    }
+    else {
+        $('.sdegree').css("color","#000000");
+        $('.sdegree').removeClass('sdegree');
+
+        $('#'+id).css("color","#52CC52");
+        $('#'+id).addClass('sdegree');
+
+            board_id = $('.sboard').children('li').val();
+
         $.ajax({
-            url:'/home_page/get_courses?degree_id='+degree_id.value,
+            url:'/home_page/get_courses?degree_id='+degree_id+'&board_id='+board_id,
             type:'get',
             dataType:'html',
             processData:false,
             success:function (data) {
-                $("#course_container").html(data);
-                $("#course_container").show();
+                $("#courses_holder").html(data);
+
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+     }
+   }
+
+    function selectBoardList(id,board_id){
+
+    if ($('#'+id).hasClass('sboard')){
+
+        $('#'+id).css("color","#52CC52");
+
+
+    }
+        else {
+        $('.sboard').css("color","#000000");
+        $('.sboard').removeClass('sboard');
+
+        $('#'+id).css("color","#52CC52");
+        $('#'+id).addClass('sboard');
+
+
+        $.ajax({
+            url:'/home_page/get_degrees?board_ids='+board_id,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#degree_holder").html(data);
+                $("#courses_holder").html('');
                 $("#test_container").hide();
+
             },
             error:function (data) {
                 alert ('nae chalaa');
@@ -128,6 +218,8 @@
 
     }
 
+
+    }
 
 
     function generate_test(course)
