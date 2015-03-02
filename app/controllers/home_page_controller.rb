@@ -79,6 +79,7 @@ class HomePageController < ApplicationController
     temp = bd.questions
 
     @questions = temp.select{|q| q.deleted == false}
+    @questions.shuffle!
     @size = @questions.length
     @index = 0
 
