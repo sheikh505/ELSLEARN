@@ -78,8 +78,8 @@ class HomePageController < ApplicationController
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
     temp = bd.questions
 
-    @questions = temp.reject{|q| q.deleted == true}
-
+    @questions = temp.select{|q| q.deleted == false}
+    @size = @questions.length
     @index = 0
 
 

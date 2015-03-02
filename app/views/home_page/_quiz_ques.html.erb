@@ -1,4 +1,3 @@
-
 <div class="modal_left">
   <div class="box_modal">
     <h2>ELS Quiz </h2>
@@ -17,3 +16,30 @@
   </div>
 </div>
 
+<script type="text/javascript">
+
+    function next_quiz(){
+
+        <% if @index < $size - 1 %>
+        $.ajax({
+            url:'/home_page/next_ques?index='+<%=@index%>,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#quiz_container").html(data);
+
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+//    window.location.reload();
+            }
+        });
+        <% else %>
+        alert("TEST OVER !!!!!!!!!!");
+        <% end %>
+
+
+}
+
+</script>
