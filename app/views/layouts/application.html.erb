@@ -93,6 +93,7 @@
 
     <%= render 'shared/header' %>
         <%= yield %>
+      <% unless params[:action] == "new" %>
       <footer class="footer">
         <div class="footer_holder container">
           <div class="footer_box box_top">
@@ -144,7 +145,7 @@
           </div>
         </div>
       </footer>
-
+    <%end%>
 <% end %>
 
 </div>
