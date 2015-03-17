@@ -15,17 +15,17 @@
         <% end %>
 
     <div class="field">
-      <%= f.label :email %><br />
+      <%= f.label :email %>
       <%= f.email_field :email,:required => true, autofocus: true ,:class=>'row_field' %>
     </div>
 
      <div class="field">
-          <%= f.label :name %><br />
+          <%= f.label :name %>
           <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
      </div>
 
         <div class="field">
-          <%= f.label :phone %><br />
+          <%= f.label :phone %>
           <%= f.phone_field :phone ,:required => true,:class=>'row_field' %>
         </div>
 
@@ -33,12 +33,12 @@
       <%= f.label :password %>
       <% if @validatable %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
+      <% end %>
       <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation %><br />
+      <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
 
     </div>

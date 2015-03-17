@@ -9,8 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require style
- *= require bootstrap
- *= require bootstrapnew
  *= require simple-sidebar
  *= require font-awesome
  *= require_self
@@ -34,14 +32,18 @@ table, td, th { vertical-align: middle; border: none; }
 th { border-bottom: 4px solid #f8f8f8; }
 table tr th{ height: 50px; line-height: 38px !important;}
 table td tr{ height: 40px;}
-.header .navbar{ background: #fff;}
+.header .navbar{ background: #fff; padding: 10px 22px 10px 0;}
 #page-content-wrapper .listing-holder{
     background: #fff;
-    margin: 0 30px 30px;
+    margin: 30px 0 ;
     min-height: 160px;
 
 }
-#page-content-wrapper h1{ padding: 0 28px;}
+#page-content-wrapper h1{
+    padding: 0 28px 0 0;
+    text-transform: capitalize;
+    font-size: 36px;
+}
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
    padding: 8px 20px;
@@ -60,6 +62,7 @@ table td tr{ height: 40px;}
     display: inline-block;
     width: 32%;
     vertical-align: top;
+    margin-bottom: 10px;
 
 }
 .listing-holder .new_book .field select{ width: 97%;}
@@ -128,3 +131,119 @@ input[type="checkbox"]#degree_ {
 .tabs.collapsed {
     list-style: outside none none;
 }
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+h4 {
+    font-size: 17.5px;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 10px 0;
+    text-rendering: optimizelegibility;
+}
+h4 {
+    font-size: 1.625rem;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 100;
+    line-height: 1.15538em;
+    padding-bottom: 0.273em;
+    padding-top: 0.273em;
+}
+input#degree_[type="checkbox"] {
+    margin: 2px 5px 0;
+    vertical-align: top;
+}
+input[type="file"], input[type="image"], input[type="submit"], input[type="reset"], input[type="button"], input[type="radio"], input[type="checkbox"] {
+    width: auto;
+}
+input[type="radio"], input[type="checkbox"] {
+    line-height: normal;
+    margin: 4px 0 0;
+}
+label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
+    cursor: pointer;
+}
+input, textarea, .uneditable-input {
+    margin-left: 0;
+}
+.ques_inner_bar_left #search_bar {
+    height: 36px;
+    margin: 0;
+    padding: 8px;
+    width: 258px;
+}
+.table-bordered {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #dddddd #dddddd #dddddd -moz-use-text-color;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px 0;
+}
+.table-bordered thead:last-child tr:last-child > th:first-child, .table-bordered tbody:last-child tr:last-child > td:first-child, .table-bordered tbody:last-child tr:last-child > th:first-child, .table-bordered tfoot:last-child tr:last-child > td:first-child, .table-bordered tfoot:last-child tr:last-child > th:first-child {
+    border-bottom-left-radius: 4px;
+}
+.table-bordered thead:first-child tr:first-child > th:first-child, .table-bordered tbody:first-child tr:first-child > td:first-child, .table-bordered tbody:first-child tr:first-child > th:first-child {
+    border-top-left-radius: 4px;
+}
+.table-bordered caption + thead tr:first-child th, .table-bordered caption + tbody tr:first-child th, .table-bordered caption + tbody tr:first-child td, .table-bordered colgroup + thead tr:first-child th, .table-bordered colgroup + tbody tr:first-child th, .table-bordered colgroup + tbody tr:first-child td, .table-bordered thead:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child td {
+    border-top: 0 none;
+}
+.ques_inner_bar_right {
+    float: right;
+    overflow: hidden;
+    width: 455px;
+}
+.ques_inner_bar_right .select_div {
+    display: inline-block;
+    float: right;
+}
+.ques_inner_bar_right .select_div #no_rows {
+    height: 30px;
+    margin: 6px 0 0;
+    width: 88px;
+}
+.table-bordered th, .table-bordered td {
+    border-left: 1px solid #dddddd;
+}
+.span5 {
+    width: 380px;
+}
+[class*="span"] {
+    float: left;
+    margin-left: 20px;
+    min-height: 1px;
+}
+
+.offset1 {
+    margin-left: 100px;
+}
+.row::before, .row::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.row::after {
+    clear: both;
+}
+.row::before, .row::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.row {
+    margin-left: -20px;
+}
+input#degree_[type="checkbox"],
+input#boards_[type="checkbox"]{ margin-top: 5px;}
+.listing-holder-p{ padding-top: 20px; padding-bottom: 20px;}
