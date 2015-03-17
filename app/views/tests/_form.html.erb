@@ -17,28 +17,28 @@
     </div>
 
     <div class="field">
-      <%= f.label :marks %>
-      <%= f.number_field :marks,in: 1...10000,:required => true,:class => "row_field" %>
+      <%= f.label :test_code %>
+      <%= f.text_field :test_code, value: @test_code,:required => true,:class => "row_field" %>
     </div>
 
     <div class="field">
-      <%=f.label :degree %>
-      <select id="degree" name="degree" onchange="generate_courses(this)" required>
-            <option value="" selected>Select Degree</option>
-        <% Degree.all.each do |degree| %>
-
-            <option value="<%=degree.id%>"><%=degree.name%></option>
-        <% end %>
-      </select>
+      <%=f.label :teacher %>
+      <%= f.text_field :teacher, value: current_user.email, :disabled => true %>
     </div>
 
     <div id="course_container" class="field">
       <%=label_tag :course %>
 
-          <select id="course" name="course" >
-                <option>Select Degree First</option>
-
+          <select id="course" name="course" required >
+                <option value="" selected>Select Course</option>
+                <% Course.all.each do |course| %>
+                    <option value="<%=course.id%>"><%=course.name%></option>
+                <% end %>
           </select>
+    </div>
+    <div id="ques_container" class=''>
+      <%= render 'ques' %>
+
     </div>
 
   <div class="actions">

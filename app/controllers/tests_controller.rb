@@ -15,18 +15,31 @@ class TestsController < ApplicationController
 
   def new
     @test = Test.new
-    respond_with(@test)
+    @test_code = Devise.friendly_token.first(8)
+    limit = 50
+    search = ""
+    page = 1
+
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    @questions = Question.search(search,page,limit)
+    @row = limit
+    respond_with(@test,@test_code)
   end
 
   def edit
   end
 
   def create
-    @id = DegreeCourseAssignment.find_by_course_id_and_degree_id(params[:course],params[:degree])
-    @id=@id.id
-
+    course_id = params[:course]
+    test_code = params[:test_code]
     @test = Test.new(params[:test])
-    @test.degree_course_assignment_id = @id
+    @test.course_id = course_id
+    @test.test_code = test_code
+    @test.user_id = current_user.id
+
     @test.save
     redirect_to tests_path
   end
