@@ -43,11 +43,11 @@
 
 
     <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name, :required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$', :class => "row_field" %>
   </div>
   <div class="field">
-    <%= f.label :price %><br />
+    <%= f.label :price %>
     <%= f.number_field :price,in: 1...10000, :class => "row_field" %>
   </div>
       <div class="field">
@@ -55,12 +55,12 @@
         <%= f.text_field :author, :class => "row_field" %>
       </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description %>
     <%= f.text_area :description,:required => true, :size => '20x8', :class => "row_field" %>
   </div>
 
 <div class="field">
-  <%= f.label :avatar %><br />
+  <%= f.label :avatar %>
   <%= f.file_field :avatar, :class => "" %>
 </div>
 
