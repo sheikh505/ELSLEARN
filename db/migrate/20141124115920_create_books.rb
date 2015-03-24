@@ -4,7 +4,8 @@ class CreateBooks < ActiveRecord::Migration
       t.string :name
       t.string :price
       t.string :description
-      t.belongs_to :degree_course_assignment
+      t.belongs_to :degree
+      t.belongs_to :course
 
       t.timestamps
     end
