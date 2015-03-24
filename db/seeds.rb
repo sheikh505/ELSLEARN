@@ -14,6 +14,6 @@ user.name = 'Admin'
   user.save
   #user.roles.build(description: 'admin')
 end
-userTemp = User.find_by_name('Admin')
-userTemp.destroy if userTemp.is_admin?
+#userTemp = User.find_by_name('Admin')
+#userTemp.destroy if userTemp.is_admin?
 create_admin
