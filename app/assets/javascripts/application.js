@@ -9,6 +9,7 @@
 //
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
+//
 //= require jquery
 //= require bootstrap.min
 //= require bootstrapnew.min
@@ -16,3 +17,14 @@
 //= require tinymce-jquery
 //= require main
 //= require_tree .
+
+
+
+$(document).ready(function() {
+    $(".tabs").hide();
+    $(".fa-caret-down").hide();
+    $(".header_col").click(function(){
+        $(this).next().children(".tabs").slideToggle(500);
+        $(this).find(".fa-caret-right, .fa-caret-down").toggle();
+    });
+});

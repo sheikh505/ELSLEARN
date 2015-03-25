@@ -14,7 +14,17 @@ class HomePageController < ApplicationController
       @flag = true
 
 
+
+
     end
+    @notes_degrees = []
+          #notes degreeesssssss
+        Book.all.each do |nd|
+          @notes_degrees << nd.degree
+        end
+
+    @notes_course_list = []
+    @notes_list = []
 
   end
 
@@ -64,6 +74,10 @@ class HomePageController < ApplicationController
       @board_id = params[:b_id]
       @degree_id = params[:degree_id]
       @course_id = params[:course_id]
+      @mcq = params[:mcq]
+      @fill = params[:fill]
+      @true_false = params[:true_false]
+      @descriptive = params[:descriptive]
 
 
     end
@@ -73,13 +87,42 @@ class HomePageController < ApplicationController
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
+    @mcq = params[:mcq]
+    @fill = params[:fill]
+    @true_false = params[:true_false]
+    @descriptive = params[:descriptive]
+
     #@questions = []
 
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
     temp = bd.questions
+    @questions = []
+    list = temp.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
+    list.shuffle!
+    #select number of questions according to the user requirement
 
-    @questions = temp.select{|q| q.deleted == false}
-    @questions.shuffle!
+    i = 0
+    j = 0
+    k = 0
+    l = 0
+
+    list.each do |question|
+      if question.question_type == 1 && i < @mcq.to_i
+        @questions << question
+        i += 1
+      elsif question.question_type == 4 && j < @true_false.to_i
+        @questions << question
+        j += 1
+      elsif question.question_type == 3 && k < @fill.to_i
+        @questions << question
+        k += 1
+      elsif question.question_type == 9 && l < @descriptive.to_i
+        @questions << question
+        l += 1
+      end
+
+    end
+
     @size = @questions.length
     @index = 0
 
@@ -95,7 +138,38 @@ class HomePageController < ApplicationController
 
   end
 
-    def get_tests
+  def notes_courses
+
+    degree_id = params[:degree_id]
+    @notes_course_list = []
+
+    Book.all.each do |book|
+
+      @notes_course_list << book.course if book.degree_id == degree_id.to_i
+
+    end
+    render :partial => 'notes_courses'
+
+  end
+
+  def get_notes
+
+    degree_id = params[:degree_id]
+    course_id = params[:course_id]
+    @notes_list = []
+
+    Book.all.each do |book|
+
+      @notes_list << book if book.degree_id == degree_id.to_i && book.course_id == course_id.to_i
+
+    end
+    render :partial => 'notes'
+
+
+  end
+
+
+  def get_tests
       @tests = []
       id = DegreeCourseAssignment.find_by_degree_id_and_course_id(params[:degree_id],params[:course_id])
       #id.tests.each {|test| @tests << test}

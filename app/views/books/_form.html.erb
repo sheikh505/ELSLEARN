@@ -14,15 +14,12 @@
 
     <div class="field">
       <%=f.label :degree %>
-      <select id="degree" name="degree" onchange="generate_courses(this)">
+      <select id="degree" name="degree">
         <option>Select Degree</option>
         <% Degree.all.each do |degree| %>
 
-            <% if @book.degree_course_assignment_id.nil? %>
                 <option value="<%=degree.id%>"><%=degree.name%></option>
-            <% else %>
-                <option <%= 'selected' if DegreeCourseAssignment.find_by_id(@book.degree_course_assignment_id).degree_id == degree.id %> value="<%=degree.id%>"><%=degree.name%></option>
-            <% end %>
+
         <% end %>
       </select>
     </div>
@@ -36,25 +33,34 @@
       <%=label_tag :course %>
       <select id="course" name="course" >
         <option>Select Degree First</option>
+        <% Course.all.each do |course| %>
+
+            <option value="<%=course.id%>"><%=course.name%></option>
+
+        <% end %>
       </select>
     </div>
 
 
     <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name %>
     <%= f.text_field :name, :required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$', :class => "row_field" %>
   </div>
   <div class="field">
-    <%= f.label :price %><br />
+    <%= f.label :price %>
     <%= f.number_field :price,in: 1...10000, :class => "row_field" %>
   </div>
+      <div class="field">
+        <%= f.label :author %><br />
+        <%= f.text_field :author, :class => "row_field" %>
+      </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description %>
     <%= f.text_area :description,:required => true, :size => '20x8', :class => "row_field" %>
   </div>
 
 <div class="field">
-  <%= f.label :avatar %><br />
+  <%= f.label :avatar %>
   <%= f.file_field :avatar, :class => "" %>
 </div>
 

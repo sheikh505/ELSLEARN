@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row listing-holder listing-holder-p">
   <div class="span5">
     <%= form_for(@board) do |f| %>
         <% if @board.errors.any? %>
@@ -22,7 +22,7 @@
         </div>
     <% end %>
   </div>
-  <div class="span5 offset1">
+  <div class="span5 offset1 listing-holder">
     <table class="table table-condensed">
       <th>List of Boards</th>
       <%Board.all.each do |board| %>

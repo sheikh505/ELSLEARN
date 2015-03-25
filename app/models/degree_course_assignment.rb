@@ -2,7 +2,7 @@ class DegreeCourseAssignment < ActiveRecord::Base
   belongs_to :course
     belongs_to :board_degree_assignment
 
-  has_many :books
+
   has_many :teacher_courses
   has_many :users, through: :teacher_courses
   # attr_accessible :title, :body

@@ -48,10 +48,13 @@ ExamsSystem::Application.routes.draw do
   get "home_page/quiz" => 'home_page#quiz'
   get "home_page/next_ques" => 'home_page#next'
   get "home_page/user_graph" => 'home_page#user_graph'
+  get "home_page/get_notes_courses" => 'home_page#notes_courses'
+  get "home_page/get_notes" => 'home_page#get_notes'
 
   resources :tests do
     collection do
       get :get_courses
+      get :get_questions
     end
   end
 
