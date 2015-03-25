@@ -1,0 +1,9 @@
+<ul class="tabs collapsed">
+
+  <% @notes_list.each_with_index do |note,index| %>
+
+      <li onclick="orderNotes(<%=note.id%>)" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=note.name%></li>
+
+  <% end %>
+
+</ul>
