@@ -52,6 +52,7 @@ ExamsSystem::Application.routes.draw do
   resources :tests do
     collection do
       get :get_courses
+      get :get_questions
     end
   end
 
