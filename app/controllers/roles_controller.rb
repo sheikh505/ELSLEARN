@@ -23,12 +23,12 @@ class RolesController < ApplicationController
   def create
     @role = Role.new(params[:role])
     @role.save
-    respond_with(@role)
+    redirect_to roles_path
   end
 
   def update
     @role.update_attributes(params[:role])
-    respond_with(@role)
+    redirect_to roles_path
   end
 
   def destroy

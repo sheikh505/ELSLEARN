@@ -1,0 +1,33 @@
+<h1>Listing tests</h1>
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <tr>
+      <th>Title</th>
+      <th>Course</th>
+      <th>Teacher</th>
+      <th>No. of Questions</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <% @quizzes.each do |quiz| %>
+        <tr>
+          <td ><%= quiz.name %></td>
+          <td ><%= Course.find_by_id(quiz.course_id).name%></td>
+          <td ><%= quiz.test_code%></td>
+          <% if user_signed_in? && current_user.is_not_student? %>
+
+              <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
+              <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% else %>
+              <td><%= link_to 'Attempt', quizzes_path(quiz),class: 'btn btn-inverse' %></td>
+                <% end %>
+                </tr>
+          <% end %>
+          </table>
+          </div>
+
+          <% if user_signed_in? && current_user.is_not_student? %>
+              <%= link_to 'New Quiz', new_quiz_path, class: 'btn btn-large btn-inverse' %>
+              <% end %>
