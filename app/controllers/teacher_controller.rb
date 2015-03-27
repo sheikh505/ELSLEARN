@@ -2,7 +2,6 @@ class TeacherController < ApplicationController
   respond_to :html, :xml, :json
 
   def index
-
   end
 
   def get_courses
@@ -58,12 +57,13 @@ class TeacherController < ApplicationController
 
   def new
     @user = User.new
-
+    @roles = Role.all
   end
 
   def edit
     @user = User.find_by_id(params[:id])
-
+    @roles = Role.all
+    @user_role_id = @user.roles.first.id
   end
 
   def show
@@ -71,10 +71,13 @@ class TeacherController < ApplicationController
   end
 
   def create
-    puts "----------------------->", params.inspect()
     @user = User.new(params[:user])
+    @role_id = params[:role_id];
+    assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
     if @user.save
-      redirect_to teacher_courses_teacher_index_path(:id => @user.id)
+      @assignment = Assignment.new(assignment)
+      @assignment.save
+      redirect_to teacher_index_path
     else
       redirect_to new_teacher_path(@user)
     end
@@ -82,22 +85,31 @@ class TeacherController < ApplicationController
   end
 
   def update
+
     @user = User.find_by_id(params[:id])
-    if params[:user][:password] == ''
-      @user.update_attributes(:email => params[:user][:email],
-                              :name => params[:user][:name],
-                              :phone => params[:user][:phone]
-      )
-      @user.save
-    else
-      @user.update_attributes(:email => params[:user][:email],
-                              :name => params[:user][:name],
-                              :phone => params[:user][:phone],
-                              :password => params[:user][:password]
+    if(@user.present?)
+      if params[:user][:password] == ''
+        @user.update_attributes(:email => params[:user][:email],
+                                :name => params[:user][:name],
+                                :phone => params[:user][:phone]
+        )
+        @user.save
+      else
+        @user.update_attributes(:email => params[:user][:email],
+                                :name => params[:user][:name],
+                                :phone => params[:user][:phone],
+                                :password => params[:user][:password]
 
-      )
-      @user.save
+        )
+        @user.save
+      end
+    end
+    @role_id = params[:role_id]
+    @user_role_id = params[:user_role_id]
 
+    if @user_role_id != @role_id
+      @user.assignments.first.update_attributes(:role_id => @role_id)
+      @user.assignments.first.save
     end
     redirect_to teacher_index_path
   end

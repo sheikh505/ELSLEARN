@@ -23,13 +23,7 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    course_id = params[:course]
-    test_code = params[:test_code]
-    question_ids = params[:question_ids]
     @quiz = Quiz.new(params[:quiz])
-    @quiz.course_id = course_id
-    @quiz.test_code = test_code
-    @quiz.question_ids = question_ids
     @quiz.user_id = current_user.id
 
     @quiz.save

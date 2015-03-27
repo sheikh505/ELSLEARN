@@ -12,18 +12,24 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone, :role_id
   # attr_accessible :title, :body
 
   def is_admin?
-    return true if(self.role.eql?("admin"))
+    return true if(self.roles.first.name.eql?("Admin"))
   end
 
+  def is_operator?
+    return true if(self.roles.first.name.eql?("Operator"))
+  end
   def is_teacher?
-    return true if(self.role.eql?("teacher"))
+    return true if(self.roles.first.name.eql?("Teacher"))
+  end
+  def is_proofreader?
+    return true if(self.roles.first.name.eql?("Proof Reader"))
   end
   def is_student?
-    return true if self.role == "user"
+    return true if(self.roles.first.name.eql?("Student"))
   end
 
   def is_not_student?

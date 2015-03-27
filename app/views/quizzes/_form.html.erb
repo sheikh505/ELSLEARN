@@ -29,7 +29,7 @@
     <div id="course_container" class="field">
       <%=label_tag :course %>
 
-      <select id="course" name="course" required >
+      <select id="quiz_course_id" name="quiz[course_id]" required >
         <option value="" selected>Select Course</option>
         <% Course.all.each do |course| %>
             <option value="<%=course.id%>"><%=course.name%></option>
@@ -86,7 +86,7 @@
 
           function generate_questions()
           {
-              var e = document.getElementById("course");
+              var e = document.getElementById("quiz_course_id");
               var course_id = e.options[e.selectedIndex].value;
               if (course_id == 0)
               {

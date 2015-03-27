@@ -43,8 +43,14 @@
 
     </div>
     <div class="field">
+      <%= f.label :role %>
+      <select id="role_id" name="role_id" class="row_field" >
+        <option>Please select role for User</option>
+        <%@roles.each do |x| %>
 
-      <%= f.hidden_field :role , :value => 'teacher' ,:class=>'row_field' %>
+            <option value="<%=x.id%>"><%=x.name%></option>
+        <% end %>
+      </select>
 
     </div>
 
@@ -58,7 +64,7 @@
 </div>
     <div class="span5 offset1">
         <h3>Listed Teachers</h3>
-        <% User.all.select {|x| x.is_teacher?}.each do |teacher| %>
+        <% User.all.each do |teacher| %>
         <li>
           <%=teacher.email %>
         </li>
