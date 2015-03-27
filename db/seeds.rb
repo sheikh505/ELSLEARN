@@ -15,7 +15,7 @@ user.name = 'Admin'
   #user.roles.build(description: 'admin')
 end
 
-def create_role
+def create_roles
   newrole = {"name"=>"Admin"}
   role = Role.new(newrole)
   role.save
