@@ -4,6 +4,10 @@
     <label>Statement </label><p><%=raw $arr[@index].statement %></p>
   </div>
   <div class="question_p_section">
+
+   <%if $arr[@index].question_type == 1 %>
+    <% %>
+    <% end %>
     <ul>
       <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
           <% if option.flag.nil? %>

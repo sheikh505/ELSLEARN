@@ -3,15 +3,15 @@
   <th>Email</th>
   <th>Name</th>
   <th>Contact number</th>
-  <th></th>
+  <th>Role</th>
   <th></th>
 
-  <%User.all.select {|x| x.is_teacher? }.each do |user|  %>
+  <%User.all.each do |user|  %>
 <tr>
   <td><%= user.email %></td>
   <td><%= user.name %></td>
   <td><%= user.phone %></td>
-  <td><%= link_to 'Show', teacher_path(user) %></td>
+  <td><%= user.roles.first.name unless user.roles.first.nil? %></td>
   <td><%= link_to 'Edit', edit_teacher_path(user) %></td>
 
 

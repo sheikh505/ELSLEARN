@@ -22,18 +22,20 @@ class BooksController < ApplicationController
   end
 
   def create
-    @id = DegreeCourseAssignment.find_by_course_id_and_degree_id(params[:course],params[:degree])
-    @id=@id.id;
+
     @book = Book.new(:name => params[:book][:name],
                      :price => params[:book][:price],
                      :description => params[:book][:description],
-                     :degree_course_assignment_id => @id,
-                     :avatar => params[:book][:avatar]
+                     :degree_id => params[:degree],
+                     :course_id => params[:course],
+                     :avatar => nil
     )
-    @book.avatar_file_name =(Time.now.to_i).to_s + '-' + @book.avatar_file_name
+
     @book.save
     redirect_to books_path
   end
+
+
 
   def update
     @book.update_attributes(params[:book])

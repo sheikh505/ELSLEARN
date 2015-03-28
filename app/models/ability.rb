@@ -8,6 +8,12 @@ class Ability
        if user.is_admin?
          can :manage, :all
 
+       elsif user.is_operator?
+         can :manage, Board
+         can :manage, Degree
+         can :manage, Course
+         can :manage, Question
+         can :manage, Option
        elsif user.is_teacher?
 
         can :manage, :all

@@ -48,10 +48,22 @@
           <%= password_field_tag :current_password_confirmation, autocomplete: "off", value: @user.encrypted_password %>
 
         </div>
-        <div class="field">
 
-          <%= f.hidden_field :role , :value => 'teacher' %>
-          <%= hidden_field_tag :id , :value => @user.id %>
+        <%= f.label :role %>
+        <select id="role_id" name="role_id" class="row_field" >
+          <option>Please select role for User</option>
+          <%@roles.each do |x| %>
+              <% if !@user_role_id.nil? && @user_role_id == x.id %>
+                  <option selected value="<%=x.id%>"><%=x.name%></option>
+              <% else %>
+                  <option value="<%=x.id%>"><%=x.name%></option>
+              <% end %>
+
+          <% end %>
+        </select>
+        <div class="field">
+          <%= hidden_field_tag :id , @user.id %>
+          <%= hidden_field_tag :user_role_id ,@user_role_id %>
 
         </div>
 
@@ -65,7 +77,7 @@
   </div>
   <div class="span5 offset1">
     <h3>Listed Teachers</h3>
-    <% User.all.select {|x| x.is_teacher?}.each do |teacher| %>
+    <% User.all.each do |teacher| %>
         <li>
           <%=teacher.email %>
         </li>
