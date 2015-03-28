@@ -1,4 +1,6 @@
 ExamsSystem::Application.routes.draw do
+
+
   resources :boards
 
 
@@ -52,6 +54,12 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_notes" => 'home_page#get_notes'
 
   resources :tests do
+    collection do
+      get :get_courses
+      get :get_questions
+    end
+  end
+  resources :quizzes do
     collection do
       get :get_courses
       get :get_questions
