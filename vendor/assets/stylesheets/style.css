@@ -179,17 +179,7 @@ header Start
 .header{
 	border-bottom:1px solid #ccc;
 	width:100%;
-	background: #eaeaec; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VhZWFlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZGZkZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-linear-gradient(top,  #eaeaec 0%, #fdfdff 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eaeaec), color-stop(100%,#fdfdff)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #eaeaec 0%,#fdfdff 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #eaeaec 0%,#fdfdff 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #eaeaec 0%,#fdfdff 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #eaeaec 0%,#fdfdff 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaeaec', endColorstr='#fdfdff',GradientType=0 ); /* IE6-8 */
-
+    background: #fff;
 }
  .header_holder .nav ul{ margin: 0;}
 .header_holder .nav ul li{
@@ -202,7 +192,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaeaec', end
 .header_holder h1.logo{
 	font-size:0;
     margin: 0;
-	padding:0 0 20px;
+	padding:0 0 10px;
 }
 .header_holder .nav ul li a{
 	color:#79797b;
@@ -254,7 +244,7 @@ header End
 Viual Start
 ---------------------------------------------------------*/
 .viual{
-	background:#fff;
+	background:#f6f6f6;
 	width:100%;
 }
 .visual_holder{
@@ -312,7 +302,7 @@ Viual End
 Main Start
 ---------------------------------------------------------*/
 .main{
-	background:#efeff1;
+	background:#fff;
 	width:100%;
 }
 
@@ -328,7 +318,7 @@ Main Start
 	width:30%;
 	vertical-align:top;
 	margin:0 5px 0;
-	background:#d1d2d4;
+	background:#f7f8f8;
 	text-align:center;
 }
 .main_holder .box .box_header{
@@ -1210,3 +1200,27 @@ Pop up Strat
  #ques_form_container .mce-panel{ width: 600px;}
  #ques_form_container .actions{ margin-top: 20px 0 0;}
  #ques_form_container #question_instruction{ resize: none; height: 150px; width: 100%}
+ .viual_right{
+     border: 1px solid #f7f8f8;
+     min-height: 300px;
+     background: #fff;
+     padding: 20px;
+     border-radius: 4px;
+     border-bottom: 3px solid #ccc;
+ }
+.pre_header_row .text{ width: 100%}
+.col .row_custom {
+     display: inline-block;
+     width: 49%;
+    vertical-align: top;
+ }
+ .col > #question_type_container {
+     background: none repeat scroll 0 0 #fff;
+     border-bottom: 4px solid #ccc;
+     border-radius: 5px;
+     padding: 20px 20px;
+ }
+ .col .row_custom label input[type="checkbox"]{
+     margin: 0 5px 0 0;
+ }
+ .col > #question_type_container > #test_container{ margin: 0;}
