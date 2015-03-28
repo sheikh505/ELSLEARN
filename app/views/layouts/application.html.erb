@@ -14,7 +14,7 @@
 <% if user_signed_in? && current_user.is_admin? %>
 
     <%= render 'shared/adminHeader' %>
-
+        <%= render 'shared/errors' %>
       <div class="admin_main">
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
@@ -92,6 +92,7 @@
 
 
     <%= render 'shared/header' %>
+      <%= render 'shared/errors' %>
         <%= yield %>
       <% unless params[:action] == "new" %>
       <footer class="footer">
