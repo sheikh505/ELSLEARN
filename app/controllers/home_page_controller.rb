@@ -78,6 +78,7 @@ class HomePageController < ApplicationController
       @fill = params[:fill]
       @true_false = params[:true_false]
       @descriptive = params[:descriptive]
+      @user = User.new
 
 
     end
