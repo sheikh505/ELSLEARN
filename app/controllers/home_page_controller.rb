@@ -94,6 +94,9 @@ class HomePageController < ApplicationController
 
     #@questions = []
 
+    if user_signed_in?
+      @register = false
+
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
     temp = bd.questions
     @questions = []
@@ -126,7 +129,32 @@ class HomePageController < ApplicationController
     @size = @questions.length
     @index = 0
 
+    else
+      @user = User.new
+      @register = true
+    end
 
+  end
+
+  def add_user_test
+
+    user_history = UserTestHistory.new(score: params[:score],total: params[:total],course: Course.find_by_id(params[:course]).name,user_id: current_user.id,code: nil)
+    user_history.save
+
+    redirect_to root_path
+
+  end
+
+  def create_user_registration
+    @user = User.new(params[:user])
+    @user.save
+
+    sign_in @user
+
+    assignment = Assignment.new(user_id: @user.id,role_id: Role.find_by_name('Student').id)
+    assignment.save
+
+    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
   end
 
   def next

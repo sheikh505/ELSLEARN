@@ -6,17 +6,37 @@
   <div class="question_p_section">
 
    <%if $arr[@index].question_type == 1 %>
-    <% %>
-    <% end %>
-    <ul>
-      <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
-          <% if option.flag.nil? %>
-              <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="next_question(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class='option_question'><%=option.statement %></a></li>
-          <% else %>
-              <li ><a href="javascript:void(0)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+        <ul>
+          <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
+              <% if option.flag.nil? %>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="next_question(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class='option_question'><%=option.statement %></a></li>
+              <% else %>
+                  <li ><a href="javascript:void(0)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+              <% end %>
           <% end %>
-      <% end %>
+        </ul>
+    <%elsif $arr[@index].question_type == 4 %>
+        <ul>
+         <li ><a href="javascript:void(0)" id="ref_opt_1" onclick="next_question_type_true_false('ref_opt_1','ref_opt_2',<%=$arr[@index].options.first.statement == true ? "1": "0" %>)" class='option_question'>True</a></li>
+
+         <li ><a href="javascript:void(0)" id="ref_opt_2" onclick="next_question_type_true_false('ref_opt_2','ref_opt_1',<%=$arr[@index].options.first.statement == true ? "0": "1" %>)" class='option_question'>False</a></li>
+
+
+        </ul>
+
+    <%elsif $arr[@index].question_type == 3 %>
+    <ul>
+      <li>
+        <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field" class="text" placeholder="Answer the question" >
+        <a href="#" onclick="check_blank('<%=$arr[@index].options.last.statement %>')">Submit</a>
+      </li>
+      <li>
+        <label id="answer_correction"></label>
+      </li>
     </ul>
+
+    <% end %>
+
   </div>
 </div>
 
@@ -40,7 +60,9 @@
             }
         });
         <% else %>
-        alert("TEST OVER !!!!!!!!!!");
+        score = $( "#score").val();
+        alert("you score "+score+"out of <%=$size * 5%>");
+        window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
         <% end %>
 
 

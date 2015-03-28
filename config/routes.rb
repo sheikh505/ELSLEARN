@@ -52,6 +52,9 @@ ExamsSystem::Application.routes.draw do
   get "home_page/user_graph" => 'home_page#user_graph'
   get "home_page/get_notes_courses" => 'home_page#notes_courses'
   get "home_page/get_notes" => 'home_page#get_notes'
+  post "home_page/create_user_registration" => "home_page#create_user_registration"
+  get "home_page/add_user_test" =>  "home_page#add_user_test"
+
 
   resources :tests do
     collection do
