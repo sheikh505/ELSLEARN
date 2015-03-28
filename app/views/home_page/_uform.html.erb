@@ -45,8 +45,24 @@
 
       <div class="col">
         <div id="question_type_container" style="display: none;">
-         <span><input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1">MCQ</span>
-          <span>
+         <div class="row_custom">
+           <label>
+                <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1">MCQ
+           </label>
+            <label>
+                <select id="question_type_1" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+
+            </label>
+         </div>
+          <div class="row_custom">
+            <label><input id="true_checkbox" type="checkbox" name="question_types[]" value="2">True False</label>
+            <label>
           <select id="question_type_1" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -54,9 +70,12 @@
                 <% i+=1 %>
             <% } %>
           </select>
-        </span><br>
-          <span><input id="true_checkbox" type="checkbox" name="question_types[]" value="2">True False</span>
-          <span>
+        </label>
+
+          </div>
+          <div class="row_custom">
+            <label><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3">Fill in the blanks</label>
+          <label>
           <select id="question_type_2" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -64,11 +83,11 @@
                 <% i+=1 %>
             <% } %>
           </select>
-        </span>
-
-          <br>
-          <span><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3">Fill in the blanks</span>
-          <span>
+        </label>
+          </div>
+          <div class="row_custom">
+            <label><input id="des_checkbox" type="checkbox" name="question_types[]" value="4">Descriptive</label>
+            <label>
           <select id="question_type_3" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -76,25 +95,18 @@
                 <% i+=1 %>
             <% } %>
           </select>
-        </span>
-          <br>
-          <span><input id="des_checkbox" type="checkbox" name="question_types[]" value="4">Descriptive</span>
-          <span>
-          <select id="question_type_4" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-                <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </span><br>
+        </label>
+
+
+          </div>
+          <div style="display: none;" id="test_container">
+            <input type="button" value="Give Test" id="test_btn" name="test_btn" class="btn">
+          </div>
         </div>
+
 
       </div>
 
-            <div style="display: none;" id="test_container">
-              <input type="button" value="Give Test" id="test_btn" name="test_btn" class="btn">
-            </div>
 
     </div>
 
@@ -102,42 +114,14 @@
 
 
     <div class="pull-right viual_right">
-      <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Degree</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
-        <div>
-        <ul class="tabs">
-          <%@notes_degrees.each_with_index do |nd,index| %>
-
-              <li id="notes_<%=nd.id %>" onclick="getNotesCourses(<%=nd.id %>)" class='<%= index % 2 == 0 ? "even":"odd" %>'><%=nd.name %></li>
-
-          <% end %>
-        </ul>
-        </div>
-      </div>
-      <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Course</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
-        <div id="notes_course_div">
-            <%=render 'notes_courses' %>
-        </div>
-      </div>
-      <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Notes</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
-        <div id="notes_div">
-        <%= render 'notes' %>
-        </div>
-      </div>
+        <form>
+            <fieldset>
+                <div class="pre_header_row">
+                    <input type="text" class="text" placeholder="text">
+                    <button class="btn btn-default">Submit</button>
+                </div>
+            </fieldset>
+        </form>
     </div>
 
 
