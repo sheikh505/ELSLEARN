@@ -1,6 +1,6 @@
 
   <% if user_signed_in? %>
-    <% if current_user.is_admin? || current_user.is_operator? || current_user.is_proofreader?%>
+    <% if current_user.is_admin? || current_user.is_operator? || current_user.is_proofreader? || current_user.is_teacher?%>
         <%= render 'aform' %>
 
     <% elsif current_user.is_teacher? %>

@@ -286,8 +286,6 @@ class QuestionsController < ApplicationController
   end
 
   def create
-
-
     @boards = params[:boards]
     @degrees = params[:degrees]
 

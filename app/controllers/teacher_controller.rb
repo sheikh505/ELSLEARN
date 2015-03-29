@@ -71,10 +71,12 @@ class TeacherController < ApplicationController
   end
 
   def create
+
     @user = User.new(params[:user])
-    @role_id = params[:role_id];
-    assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
+    @role_id = params[:role_id]
+
     if @user.save
+      assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
       @assignment = Assignment.new(assignment)
       @assignment.save
       redirect_to teacher_index_path

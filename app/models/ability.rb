@@ -12,12 +12,15 @@ class Ability
          can :manage, Board
          can :manage, Degree
          can :manage, Course
-         can :manage, Question
+         can :read, Question
+         can :manage, Question do |item|
+           item.author == user.email
+         end
          can :manage, Option
        elsif user.is_teacher?
 
         can :manage, :all
-         cannot :destroy,[Book,Course,Degree,Test,User]
+        cannot :destroy,[Book,Course,Degree,Test,User]
 
 
        elsif user.is_student?

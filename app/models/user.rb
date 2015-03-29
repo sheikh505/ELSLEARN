@@ -1,4 +1,11 @@
 class User < ActiveRecord::Base
+  def self.current_user
+    Thread.current[:current_user]
+  end
+
+  def self.current_user=(usr)
+    Thread.current[:current_user] = usr
+  end
   has_one :user_address
   has_many :bookrequests
   has_many :assignments, :dependent => :destroy
@@ -16,23 +23,27 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   def is_admin?
-    return true if(self.roles.first.name.eql?("Admin"))
+    return true if(self.roles.first.name.eql?("Admin") unless self.roles.nil?)
   end
 
   def is_operator?
-    return true if(self.roles.first.name.eql?("Operator"))
+    return true if(self.roles.first.name.eql?("Operator") unless self.roles.nil?)
   end
   def is_teacher?
-    return true if(self.roles.first.name.eql?("Teacher"))
+    return true if(self.roles.first.name.eql?("Teacher") unless self.roles.nil?)
   end
   def is_proofreader?
-    return true if(self.roles.first.name.eql?("Proof Reader"))
+    return true if(self.roles.first.name.eql?("Proof Reader") unless self.roles.nil?)
   end
   def is_student?
-    return true if(self.roles.first.name.eql?("Student"))
+    return true if(self.roles.first.name.eql?("Student") unless self.roles.nil?)
   end
 
   def is_not_student?
-    return true if(self.role.eql?("admin") || self.role.eql?("teacher"))
+    return true if(self.roles.first.name.eql?("Admin") ||
+                   self.roles.first.name.eql?("Operator") ||
+                   self.roles.first.name.eql?("Teacher") ) ||
+                   self.roles.first.name.eql?("Proof Reader")
   end
+
 end
