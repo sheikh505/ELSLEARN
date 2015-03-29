@@ -46,10 +46,10 @@
       <div class="col">
         <div id="question_type_container" style="display: none;">
          <div class="row_custom">
-           <label>
-                <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1">MCQ
+           <label class="lablel_check_box_left">
+                <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
            </label>
-            <label>
+            <label class="lablel_check_box_right">
                 <select id="question_type_1" class="select">
                 <% i = 1 %>
                 <%25.times{ %>
@@ -61,8 +61,8 @@
             </label>
          </div>
           <div class="row_custom">
-            <label><input id="true_checkbox" type="checkbox" name="question_types[]" value="2">True False</label>
-            <label>
+            <label class="lablel_check_box_left"><input id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
+            <label class="lablel_check_box_right">
           <select id="question_type_1" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -74,8 +74,8 @@
 
           </div>
           <div class="row_custom">
-            <label><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3">Fill in the blanks</label>
-          <label>
+            <label class="lablel_check_box_left"><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3"><span>Fill in the blanks</span></label>
+          <label class="lablel_check_box_right">
           <select id="question_type_2" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -86,8 +86,8 @@
         </label>
           </div>
           <div class="row_custom">
-            <label><input id="des_checkbox" type="checkbox" name="question_types[]" value="4">Descriptive</label>
-            <label>
+            <label class="lablel_check_box_left"><input id="des_checkbox" type="checkbox" name="question_types[]" value="4"><span>Descriptive</span></label>
+            <label class="lablel_check_box_right">
           <select id="question_type_3" class="select">
             <% i = 1 %>
             <%25.times{ %>
@@ -114,14 +114,19 @@
 
 
     <div class="pull-right viual_right">
+      <div class="visual_right_holder">
+        <h2>Enter Code</h2>
         <form>
-            <fieldset>
-                <div class="pre_header_row">
-                    <input type="text" class="text" placeholder="text">
-                    <button class="btn btn-default">Submit</button>
-                </div>
-            </fieldset>
+          <fieldset>
+            <div class="pre_header_row">
+              <input type="text" class="text" placeholder="text">
+              <button class="btn btn-default">Submit</button>
+            </div>
+
+          </fieldset>
         </form>
+      </div>
+
     </div>
 
 
@@ -198,7 +203,7 @@
 
 
 
-                alert(mcq +"-" + true_false +"-" + fill +"-" + descriptive);
+
                 // alert(board_id+'--'+degree_id+'--'+course_id);
 
                  window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;

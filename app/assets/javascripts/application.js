@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require bootstrap.min
-//= require bootstrapnew.min
 //= require tinymce
 //= require tinymce-jquery
 //= require main

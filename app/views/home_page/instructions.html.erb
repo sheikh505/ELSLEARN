@@ -39,15 +39,84 @@
 
 </div>
 <div class="modal_iframe_footer">
-  <a class="modal_btn" onclick="start_quiz(<%=@board_id%>,<%=@degree_id%>,<%=@course_id%>,<%=@mcq%>,<%=@true_false%>,<%=@fill%>,<%=@descriptive%>)" href="javascript:void(0)">Take Test(its free)</a>
+  <a class="modal_btn" data-toggle="modal" href="#myModal"  >Take Test(its free)</a>
 </div>
 
-<script type="text/javascript">
+<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Please register yourself
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="span9">
+            <%= form_for @user, :url => {:controller => 'home_page', :action => 'create_user_registration'} do |f| %>
+                <% if @user.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-  function start_quiz(bid,did,cid,mcq,true_false,fill,descriptive){
+                      <ul>
+                        <% @user.errors.full_messages.each do |msg| %>
+                            <li><%= msg %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                <% end %>
 
-      window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+cid+'&mcq='+mcq+'&true_false='+true_false+'&fill='+fill+'&descriptive='+descriptive;
+                <div class="field">
+                  <%= f.label :email %>
+                  <%= f.email_field :email,:required => true, autofocus: true ,:class=>'row_field' %>
+                </div>
 
-  }
+                <div class="field">
+                  <%= f.label :name %>
+                  <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+                </div>
 
-</script>
+                <div class="field">
+                  <%= f.label :phone %>
+                  <%= f.phone_field :phone ,:required => true,:class=>'row_field' %>
+                </div>
+
+                <div class="field">
+                  <%= f.label :password %>
+                  <% if @validatable %>
+                      <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <% end %>
+                  <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                </div>
+
+                <div class="field">
+                  <%= f.label :password_confirmation %>
+                  <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+
+                </div>
+
+                <input type="hidden" id="role" name="role" value="2" >
+                <input type="hidden" id="b_id" name="b_id" value="<%=@board_id%>" >
+                <input type="hidden" id="degree_id" name="degree_id" value="<%=@degree_id%>" >
+                <input type="hidden" id="course_id" name="course_id" value="<%=@course_id%>" >
+                <input type="hidden" id="mcq" name="mcq" value="<%=@mcq%>" >
+                <input type="hidden" id="fill" name="fill" value="<%=@fill%>" >
+                <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
+                <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
+
+
+
+
+                <div class="actions">
+                  <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
