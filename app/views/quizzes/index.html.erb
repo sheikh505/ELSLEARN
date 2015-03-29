@@ -4,7 +4,7 @@
     <tr>
       <th>Title</th>
       <th>Course</th>
-      <th>Teacher</th>
+      <th>Test Code</th>
       <th>No. of Questions</th>
       <th></th>
       <th></th>
@@ -16,6 +16,7 @@
           <td ><%= quiz.name %></td>
           <td ><%= Course.find_by_id(quiz.course_id).name%></td>
           <td ><%= quiz.test_code%></td>
+          <td ><%= quiz.question_ids.split(',').length %></td>
           <% if user_signed_in? && current_user.is_not_student? %>
 
               <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>

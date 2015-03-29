@@ -11,7 +11,7 @@
 
 <div class="wrapper">
 
-<% if user_signed_in?  %>
+<% if user_signed_in? && current_user.is_not_student?  %>
 
     <%= render 'shared/adminHeader' %>
         <%= render 'shared/errors' %>
@@ -33,20 +33,6 @@
               <% elsif current_user.is_teacher? %>
                   <%= render 'layouts/teacher' %>
               <% end %>
-          <% else %>
-
-              <li>
-                <%= link_to "View Books", books_path %>
-              </li>
-
-              <li>
-                <%= link_to "View Tests", tests_path %>
-              </li>
-
-              <li>
-                <%= link_to "sign out", sign_out_path,method: :delete %>
-              </li>
-
           <% end %>
 
 
