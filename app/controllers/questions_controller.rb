@@ -448,6 +448,67 @@ class QuestionsController < ApplicationController
     redirect_to question_path(@question)
   end
 
+  def proofreader_questions
+    limit = 50
+    search = ""
+    page = 1
+
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    @questions = Question.search(search,page,limit)
+    @row = limit
+  end
+
+  @@flag = 0
+
+  def approve_question
+
+    @question = Question.find(params[:ques_id])
+    @question.update_attribute(:approval_status, 1)
+
+    limit = 50
+    search = ""
+    page = 1
+
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    if @@flag == 0
+      @questions = Question.search(search,page,limit)
+    else
+      @questions = Question.where(:approval_status => 0).search(search,page,limit)
+    end
+    @row = limit
+
+
+    render :partial => 'questions/proofreader_ques'
+  end
+  def get_questions_by_status
+    limit = 50
+    search = ""
+    page = 1
+
+    limit = params[:limit].to_i unless params[:limit].nil?
+    search = params[:search] unless params[:search].nil?
+    page = params[:page] unless params[:page].nil?
+
+    if params[:flag].to_i == 1
+      @questions = Question.where(:approval_status => 1).search(search,page,limit)
+    elsif params[:flag].to_i == 0
+      @questions = Question.where(:approval_status => 0).search(search,page,limit)
+      @@flag = 1
+    else
+      @questions = Question.search(search,page,limit)
+    end
+    @row = limit
+
+    @@flag = 1
+    render :partial => 'questions/proofreader_ques'
+  end
+
   def destroy
 
 

@@ -19,8 +19,18 @@
           <td ><%= quiz.question_ids.split(',').length unless quiz.question_ids.nil? %></td>
           <% if user_signed_in? && current_user.is_not_student? %>
 
-              <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
-              <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+
+              <% if can? :update, quiz %>
+                  <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
+              <% else %>
+                  <td></td>
+              <% end %>
+              <% if can? :update, quiz %>
+                  <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <% else %>
+                  <td></td>
+              <% end %>
           <% else %>
               <td><%= link_to 'Attempt', quizzes_path(quiz),class: 'btn btn-inverse' %></td>
                 <% end %>

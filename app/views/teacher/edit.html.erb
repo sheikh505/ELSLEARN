@@ -76,11 +76,20 @@
     <% end %>
   </div>
   <div class="span5 offset1">
-    <h3>Listed Teachers</h3>
-    <% User.all.each do |teacher| %>
-        <li>
-          <%=teacher.email %>
-        </li>
+    <% if current_user.is_proofreader? %>
+        <h3>Listed Operators</h3>
+        <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
+            <li>
+              <%=opertaor.email %>
+            </li>
+        <% end %>
+    <% else %>
+        <h3>Listed Teachers</h3>
+        <% User.all.each do |teacher| %>
+            <li>
+              <%=teacher.email %>
+            </li>
+        <% end %>
     <% end %>
   </div>
 </div>

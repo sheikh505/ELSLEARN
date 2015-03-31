@@ -8,26 +8,35 @@ class Ability
        if user.is_admin?
          can :manage, :all
 
-       elsif user.is_operator?
-         can :manage, Board
-         can :manage, Degree
-         can :manage, Course
-         can :read, Question
-         can :manage, Question do |item|
-           item.author == user.email
-         end
-         can :manage, Option
        elsif user.is_teacher?
-
-        can :manage, :all
-        cannot :destroy,[Book,Course,Degree,Test,User]
-
-
-       elsif user.is_student?
-         can :read, Test
-         can :read, Book
-         can :manage, UserAddress
-         can :manage, Bookrequest
+         can :read, Board
+         can :read, Degree
+         can :read, Course
+         can :manage, Quiz do |quiz|
+           quiz.user.email == user.email
+         end
+         can :manage, Question do |question|
+           question.author == user.email
+         end
+       elsif user.is_operator?
+         can :read, Board
+         can :read, Degree
+         can :manage, Course
+         can :read, Quiz
+         can :read, Topic
+         can :manage, Question do |question|
+           question.author == user.email
+         end
+       elsif user.is_proofreader?
+         can :read, Board
+         can :read, Degree
+         can :read, Course
+         can :read, Quiz
+         can :read, Topic
+         can :manage, Question
+       #   do |question|
+       #       User.find_by_email(question.author.to_s).id == user.role
+       # end
        else
           cannot :manage,Teacher
        end

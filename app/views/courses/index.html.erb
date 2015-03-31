@@ -24,8 +24,17 @@
 
 
     </td>
-    <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i) %></td>
-    <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if can? :update, Course %>
+        <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i) %></td>
+    <% else %>
+        <td></td>
+    <% end %>
+    <% if can? :update, Course %>
+        <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% else %>
+        <td></td>
+    <% end %>
+
 
   </tr>
 <% end %>

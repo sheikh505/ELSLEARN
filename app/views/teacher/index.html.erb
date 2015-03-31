@@ -6,7 +6,7 @@
   <th>Role</th>
   <th></th>
 
-  <%User.all.each do |user|  %>
+  <%@users.each do |user|  %>
 <tr>
   <td><%= user.email %></td>
   <td><%= user.name %></td>
@@ -25,5 +25,8 @@
 
 </table>
 </div>
-
-<%= link_to 'Add new Teacher', new_teacher_path, class: 'btn btn-large btn-inverse' %>
+<% if current_user.is_proofreader? %>
+    <%= link_to 'Add new Operator', new_teacher_path, class: 'btn btn-large btn-inverse' %>
+<% else %>
+    <%= link_to 'Add new Teacher', new_teacher_path, class: 'btn btn-large btn-inverse' %>
+<% end %>

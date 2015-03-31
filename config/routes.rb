@@ -37,6 +37,9 @@ ExamsSystem::Application.routes.draw do
       get :delete_ques
       get :get_limit
       get :demo
+      get :proofreader_questions
+      get :approve_question
+      get :get_questions_by_status
     end
   end
 

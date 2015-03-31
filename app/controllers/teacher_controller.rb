@@ -2,6 +2,13 @@ class TeacherController < ApplicationController
   respond_to :html, :xml, :json
 
   def index
+    @user = current_user
+    if @user.is_proofreader?
+      @users = User.where(:role => @user.id.to_s)
+    else
+      @users = User.all
+    end
+
   end
 
   def get_courses
@@ -71,7 +78,6 @@ class TeacherController < ApplicationController
   end
 
   def create
-
     @user = User.new(params[:user])
     @role_id = params[:role_id]
 

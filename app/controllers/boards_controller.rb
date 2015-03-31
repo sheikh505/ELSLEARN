@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+  load_and_authorize_resource
   before_filter :set_board, only: [:show, :edit, :update, :destroy]
 
   respond_to :html

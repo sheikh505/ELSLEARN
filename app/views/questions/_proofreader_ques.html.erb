@@ -6,7 +6,11 @@
 
 
     </div>
-
+  <div class="ques_search_bar_left">
+    <%=link_to "All(" + Question.where(:deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(2)" %>
+    <%=link_to "Pending Approval(" + Question.where(:approval_status => 0, :deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(0)" %>
+    <%=link_to "Approved(" + Question.where(:approval_status => 1, :deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(1)" %>
+  </div>
   <div class="ques_inner_bar_right">
     <div class="select_div">
         <select id="no_rows" name="no_rows" onchange="fetch_rows(this.value)">
@@ -22,25 +26,22 @@
     <tr>
       <th><h3 style="margin-top: 0 !important;">Question Statement</h3></th>
       <th></th>
-      <th></th>
+      <th>Status</th>
       <th></th>
     </tr>
-    <% @questions.each do |question| %>
-        <tr><td><%=raw question.statement %> </td>
+    <% @questions.each do |question,i| %>
+        <tr>
+          <td><%=raw question.statement %> </td>
           <td><%= link_to 'View', question_path(question) %></td>
-          <% if question.author == current_user.email %>
-              <td><%= link_to 'Edit',edit_question_path(question) %></td>
-          <% elsif current_user.is_admin? %>
-              <td><%= link_to 'Edit',edit_question_path(question) %></td>
+          <% if question.approval_status == 0 %>
+              <td>Pending Approval</td>
           <% else %>
-                <td></td>
+                <td>Approved</td>
           <% end %>
-          <% if question.author == current_user.email %>
-              <td><%=link_to "Delete","javascript:void(0);",:id => "delete", :onclick => "delete_question(#{question.id})" %></td>
-          <% elsif current_user.is_admin? %>
-              <td><%= link_to 'Edit',edit_question_path(question) %></td>
+          <% if question.approval_status == 0 %>
+              <td><%=link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(#{question.id})" %></td>
           <% else %>
-              <td></td>
+              <td>Approved</td>
           <% end %>
         </tr>
 
