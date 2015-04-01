@@ -1,5 +1,6 @@
  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+ @import url(http://fonts.googleapis.com/css?family=Pacifico);
+ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -700,7 +701,11 @@ Pop up Strat
  .modal_iframe_footer{ text-align: center; margin: 20px 0 0; }
  .modal_iframe_footer{ margin-bottom: 40px;}
  .modal_iframe_footer .modal_btn{
-     background: -moz-linear-gradient(center top , #59b147 0%, #498636 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+     background:#59b147 ;
+     background-image: -webkit-linear-gradient(center top , #59b147 0%, #498636 100%) repeat;
+     background: -moz-linear-gradient(center top , #59b147 0%, #498636 100%) repeat;
+     background: -ms-linear-gradient(center top , #59b147 0%, #498636 100%) repeat ;
+     background: -o-linear-gradient(center top , #59b147 0%, #498636 100%) repeat ;
      color: #fff;
      text-decoration: none;
      cursor: pointer;
@@ -1270,8 +1275,80 @@ Pop up Strat
      height: 30px;
      width: 60px;
  }
- .modal_custom .modal-header { background: #F5F7F9; padding-top: 0; margin-top: 0; text-align: center;}
- .modal_custom .modal-header h4{ padding: 0; margin: 0;}
+ .modal-body .new_user{
+     position: relative;
+     overflow: hidden;
+ }
+ .modal-body .new_user:after{
+     clear: both;
+     display: block;
+     content: '';
+     position: absolute;
+     height: 295px;
+     left: 50%;
+     top: 15px;
+     border: 1px solid #f7f7f7;
+ }
+ .modal-body .new_user::before {
+     background: none repeat scroll 0 0 #3DA7D9;
+     border: 1px solid #3DA7D9;
+     border-radius: 50%;
+     color: #fff;
+     content: "or";
+     font-family: "Pacifico",cursive;
+     font-size: 31px;
+     font-weight: 400;
+     height: 35px;
+     left: 46.5%;
+     line-height: 25px;
+     padding: 4px;
+     position: absolute;
+     text-align: center;
+     top: 133px;
+     width: 35px;
+     z-index: 9999;
+ }
+
+ .modal_custom .modal-header { background: #F5F7F9; padding-top: 20px; margin-top: 0; text-align: center;}
+ .modal_custom .modal-header h4{ padding: 0; margin: 0; }
  .modal_custom  .modal-body{ background: #fff; max-width: 600px; margin: 0 auto;}
  .modal_custom .modal-content{ padding-top: 0;}
- .modal_custom .modal-content .field{width: 45%; display: inline-block; margin:0 23px 0 0;}
+ .modal_custom .modal-content .pre_modal_left{ display: inline-block; width: 45%;}
+ .modal_custom .modal-content .pre_modal_left .field,
+ .modal_custom .modal-content .pre_model_right .field{width: 100%; display: block; margin:0  0 2px;}
+ .modal_custom .modal-content .pre_modal_left > h2,
+ .modal_custom .modal-content .pre_model_right > h2{
+     font-size: 18px;
+     padding-bottom: 10px;
+     font-weight: 700;
+ }
+ .modal_custom .modal-content .pre_modal_left .actions,
+ .modal_custom .modal-content .pre_model_right .actions{
+     margin-top: 10px;
+ }
+ .modal_custom .modal-content .pre_model_right .field .row_field,
+ .modal_custom .modal-content .pre_modal_left .field .row_field {
+     font-weight: 600;
+     height: 40px;
+     padding: 5px 10px;
+     text-transform: capitalize;
+     width: 255px;
+ }
+ .modal_custom .modal-content .pre_model_right {
+     overflow: hidden;
+     float: right;
+ }
+ .modal-footer.m_footer_container{
+     text-align: right;
+     max-width: 600px;
+     margin: 0 auto 30px;
+ }
+ .modal-footer.m_footer_container .btn{
+     background: #3DA7D9;
+     color: #fff;
+ }
+ .modal_content.pre_modal_content{
+     text-align: center;
+     margin-top:45px;
+ }
+ .modal_content.pre_modal_content .modal_description{ text-align: left}

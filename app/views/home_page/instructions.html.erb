@@ -1,4 +1,4 @@
-<div class="modal_content container">
+<div class="modal_content pre_modal_content container">
   <div class="modal_left">
     <div class="box_modal modal_intro">
       <div class="modal_bg"><i class="m_system"></i></div>
@@ -46,13 +46,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Please register yourself <b>-Or-</b> Sign in
+        <h4 class="modal-title" id="myModalLabel">Elearning System
         </h4>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="span9">
             <%= form_for @user, :url => {:controller => 'home_page', :action => 'create_user_registration'} do |f| %>
                 <% if @user.errors.any? %>
                     <div id="error_explanation">
@@ -65,31 +63,35 @@
                       </ul>
                     </div>
                 <% end %>
+                <div class="pre_modal_left pull-left">
+                    <h2>Create An Account</h2>
+                    <div class="field">
+                      <%= f.email_field :email,:required => true, :placeholder=>:email, :autofocus => true ,:class=>'row_field' %>
+                    </div>
 
-                <div class="field">
-                  <%= f.email_field :email,:required => true, :placeholder=>:email, :autofocus => true ,:class=>'row_field' %>
+                    <div class="field">
+                      <%= f.text_field :name,:required => true, :placeholder=>:name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+                    </div>
+
+                    <div class="field">
+                      <%= f.phone_field :phone, :placeholder=>:phone, :required => true,:class=>'row_field' %>
+                    </div>
+
+                    <div class="field">
+                      <% if @validatable %>
+                          <em>(<%= @minimum_password_length %> characters minimum)</em>
+                      <% end %>
+                      <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                    </div>
+
+                    <div class="field">
+                      <%= f.password_field :password_confirmation, :placeholder=>:password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+
+                    </div>
+                  <div class="actions">
+                    <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
+                  </div>
                 </div>
-
-                <div class="field">
-                  <%= f.text_field :name,:required => true, :placeholder=>:name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
-                </div>
-
-                <div class="field">
-                  <%= f.phone_field :phone, :placeholder=>:phone, :required => true,:class=>'row_field' %>
-                </div>
-
-                <div class="field">
-                  <% if @validatable %>
-                      <em>(<%= @minimum_password_length %> characters minimum)</em>
-                  <% end %>
-                  <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
-                </div>
-
-                <div class="field">
-                  <%= f.password_field :password_confirmation, :placeholder=>:password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
-
-                </div>
-
                 <input type="hidden" id="role" name="role" value="2" >
                 <input type="hidden" id="b_id" name="b_id" value="<%=@board_id%>" >
                 <input type="hidden" id="degree_id" name="degree_id" value="<%=@degree_id%>" >
@@ -101,28 +103,32 @@
 
 
 
+                <div class="pre_model_right">
+                  <h2>Log in</h2>
+                  <div class="field">
+                    <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
+                  </div>
 
-                <div class="actions">
-                  <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
+                  <div class="field">
+                    <% if @validatable %>
+                        <em>(<%= @minimum_password_length %> characters minimum)</em>
+                    <% end %>
+                    <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                  </div>
+                  <div class="actions">
+                  <%= f.submit "login", :class => 'btn btn-large btn-inverse' %>
                 </div>
             <% end %>
-            <h2>Log in</h2>
-
-           
-            <div class="field">
-
-            </div>
-
-            <div class="field">
-            </div>
-
-
-
 
           </div>
+           
+
+
+
+
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer m_footer_container">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
