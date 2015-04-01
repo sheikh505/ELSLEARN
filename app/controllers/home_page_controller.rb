@@ -70,18 +70,18 @@ class HomePageController < ApplicationController
 
   end
 
-    def instructions
-      @board_id = params[:b_id]
-      @degree_id = params[:degree_id]
-      @course_id = params[:course_id]
-      @mcq = params[:mcq]
-      @fill = params[:fill]
-      @true_false = params[:true_false]
-      @descriptive = params[:descriptive]
-      @user = User.new
+  def instructions
+    @board_id = params[:b_id]
+    @degree_id = params[:degree_id]
+    @course_id = params[:course_id]
+    @mcq = params[:mcq]
+    @fill = params[:fill]
+    @true_false = params[:true_false]
+    @descriptive = params[:descriptive]
+    @user = User.new
 
 
-    end
+  end
 
   def quiz
 
@@ -159,12 +159,10 @@ class HomePageController < ApplicationController
   end
 
   def next
-
     @index = params[:index].to_i
     @index = @index + 1
 
     render :partial => 'quiz_ques'
-
   end
 
   def notes_courses

@@ -2,6 +2,7 @@
   <div class="visual_holder container">
 
     <div class="pull-left viual_left">
+      <%= form_tag("/home_page/instructions", :method => "post") do |f| %>
 
       <div class="col">
         <div class="header_col">
@@ -100,13 +101,21 @@
 
           </div>
           <div style="display: none;" id="test_container">
-            <input type="button" value="Give Test" id="test_btn" name="test_btn" class="btn">
+            <input type="submit" act value="Proceed" id="test_btn" name="test_btn" class="btn">
           </div>
         </div>
 
 
       </div>
-
+          <input type="hidden" id="role" name="role" value="2" >
+          <input type="hidden" id="b_id" name="b_id" value="" >
+          <input type="hidden" id="degree_id" name="degree_id" value="" >
+          <input type="hidden" id="course_id" name="course_id" value="" >
+          <input type="hidden" id="mcq" name="mcq" value="" >
+          <input type="hidden" id="fill" name="fill" value="" >
+          <input type="hidden" id="true_false" name="true_false" value="" >
+          <input type="hidden" id="descriptive" name="descriptive" value="" >
+      <% end%>
 
     </div>
 
@@ -176,23 +185,23 @@
 <script>
     $(document).ready(function() {
              $('#test_btn').click(function(){
-
-                 course_id = $('.scourse').children('li').val();
-                 degree_id = $('.sdegree').children('li').val();
-                 board_id = $('.sboard').children('li').val();
+                alert("here");
+                 $('#course_id').val($('.scourse').children('li').val());
+                 $('#degree_id').val($('.sdegree').children('li').val());
+                 $('#b_id').val($('.sboard').children('li').val());
 
                  mcq = 0;
                  true_false = 0;
                  fill = 0;
                  descriptive = 0;
                  if ($("#mcq_checkbox").is(":checked")){
-                     mcq = $('#question_type_1').val();
+                     $('#mcq').val($('#question_type_1').val());
                  }
                  if ($("#true_checkbox").is(":checked")){
-                     true_false = $('#question_type_2').val();
+                     $('#true_false').val($('#question_type_2').val());
                  }
                  if ($("#fill_checkbox").is(":checked")){
-                     fill = $('#question_type_3').val();
+                     $('#fill').val($('#question_type_3').val());
                  }
                  if ($("#des_checkbox").is(":checked")){
                      //descriptive = $('#question_type_4').val();
@@ -206,7 +215,7 @@
 
                 // alert(board_id+'--'+degree_id+'--'+course_id);
 
-                 window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;
+                 //window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;
              });
             }
     );

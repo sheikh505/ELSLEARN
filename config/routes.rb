@@ -49,7 +49,7 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_courses" => 'home_page#get_courses'
   get "home_page/get_degrees" => 'home_page#get_degrees'
   get "home_page/get_tests" => 'home_page#get_tests'
-  get "home_page/instructions" => 'home_page#instructions'
+  post "home_page/instructions" => 'home_page#instructions'
   get "home_page/quiz" => 'home_page#quiz'
   get "home_page/next_ques" => 'home_page#next'
   get "home_page/user_graph" => 'home_page#user_graph'

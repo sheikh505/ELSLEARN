@@ -9,9 +9,9 @@
         <ul>
           <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="next_question(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class='option_question'><%=option.statement %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
               <% else %>
-                  <li ><a href="javascript:void(0)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>')" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
               <% end %>
           <% end %>
         </ul>
@@ -38,12 +38,20 @@
     <% end %>
 
   </div>
+  <input type="hidden" id="answer_selected" name="answer_selected" value="" >
+  <input type="hidden" id="is_answer_correct" name="is_answer_correct" value="" >
+  <a class="modal_btn" onclick="next_quiz()">Next</a>
 </div>
 
 <script type="text/javascript">
+  function answer(answer_id,option_index)
+  {
+      $(".question_p_section ul li a").removeClass('correct_answer');
+      $("#"+option_index).addClass('correct_answer');
+      $("#answer_selected").val(answer_id);
+  }
 
     function next_quiz(){
-
         <% if @index < $size - 1 %>
         $.ajax({
             url:'/home_page/next_ques?index='+<%=@index%>,
