@@ -158,6 +158,14 @@ class HomePageController < ApplicationController
     redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
   end
 
+  def user_sign_in
+    @user = User.new(params[:user])
+
+    sign_in @user
+
+    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
+  end
+
   def next
     @index = params[:index].to_i
     @index = @index + 1

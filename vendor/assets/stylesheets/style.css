@@ -707,6 +707,11 @@ Pop up Strat
      background: -ms-linear-gradient(center top , #59b147 0%, #498636 100%) repeat ;
      background: -o-linear-gradient(center top , #59b147 0%, #498636 100%) repeat ;
      color: #fff;
+     -webkit-transition: none;
+     -moz-transition: none;
+     -ms-transition: none;
+     -o-transition: none;
+     transition:none;
      text-decoration: none;
      cursor: pointer;
      text-decoration: none;
@@ -1275,11 +1280,11 @@ Pop up Strat
      height: 30px;
      width: 60px;
  }
- .modal-body .new_user{
+ .modal-body .user_form_holder{
      position: relative;
      overflow: hidden;
  }
- .modal-body .new_user:after{
+ .modal-body .user_form_holder:after{
      clear: both;
      display: block;
      content: '';
@@ -1289,7 +1294,7 @@ Pop up Strat
      top: 15px;
      border: 1px solid #f7f7f7;
  }
- .modal-body .new_user::before {
+ .modal-body .user_form_holder::before {
      background: none repeat scroll 0 0 #3DA7D9;
      border: 1px solid #3DA7D9;
      border-radius: 50%;
@@ -1316,8 +1321,8 @@ Pop up Strat
  .modal_custom .modal-content .pre_modal_left{ display: inline-block; width: 45%;}
  .modal_custom .modal-content .pre_modal_left .field,
  .modal_custom .modal-content .pre_model_right .field{width: 100%; display: block; margin:0  0 2px;}
- .modal_custom .modal-content .pre_modal_left > h2,
- .modal_custom .modal-content .pre_model_right > h2{
+ .modal_custom .modal-content .pre_modal_left .new_user > h2,
+ .modal_custom .modal-content .pre_model_right .new_user > h2{
      font-size: 18px;
      padding-bottom: 10px;
      font-weight: 700;
@@ -1326,6 +1331,8 @@ Pop up Strat
  .modal_custom .modal-content .pre_model_right .actions{
      margin-top: 10px;
  }
+ .modal_custom .modal-content .pre_modal_left .actions .btn-large,
+ .modal_custom .modal-content .pre_model_right .actions .btn-large{ padding: 5px 15px;}
  .modal_custom .modal-content .pre_model_right .field .row_field,
  .modal_custom .modal-content .pre_modal_left .field .row_field {
      font-weight: 600;

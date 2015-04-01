@@ -51,7 +51,9 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <%= form_for @user, :url => {:controller => 'home_page', :action => 'create_user_registration'} do |f| %>
+            <div class="user_form_holder">
+              <div class="pre_modal_left pull-left">
+          <%= form_for @user, :url => {:controller => 'home_page', :action => 'create_user_registration'} do |f| %>
                 <% if @user.errors.any? %>
                     <div id="error_explanation">
                       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -63,7 +65,8 @@
                       </ul>
                     </div>
                 <% end %>
-                <div class="pre_modal_left pull-left">
+
+
                     <h2>Create An Account</h2>
                     <div class="field">
                       <%= f.email_field :email,:required => true, :placeholder=>:email, :autofocus => true ,:class=>'row_field' %>
@@ -101,9 +104,11 @@
                 <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
                 <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
 
+          <% end %>
 
+              <div class="pre_model_right">
+                  <%= form_for @user, :url => {:controller => 'home_page', :action => 'user_sign_in'} do |f| %>
 
-                <div class="pre_model_right">
                   <h2>Log in</h2>
                   <div class="field">
                     <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
@@ -118,9 +123,10 @@
                   <div class="actions">
                   <%= f.submit "login", :class => 'btn btn-large btn-inverse' %>
                 </div>
-            <% end %>
 
+                  <% end %>
           </div>
+         </div>
            
 
 
