@@ -42,12 +42,12 @@
   <a class="modal_btn" data-toggle="modal" href="#myModal"  >Take Test(its free)</a>
 </div>
 
-<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Please register yourself
+        <h4 class="modal-title" id="myModalLabel">Please register yourself <b>-Or-</b> Sign in
         </h4>
       </div>
       <div class="modal-body">
@@ -67,31 +67,26 @@
                 <% end %>
 
                 <div class="field">
-                  <%= f.label :email %>
-                  <%= f.email_field :email,:required => true, autofocus: true ,:class=>'row_field' %>
+                  <%= f.email_field :email,:required => true, :placeholder=>:email, :autofocus => true ,:class=>'row_field' %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :name %>
-                  <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+                  <%= f.text_field :name,:required => true, :placeholder=>:name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :phone %>
-                  <%= f.phone_field :phone ,:required => true,:class=>'row_field' %>
+                  <%= f.phone_field :phone, :placeholder=>:phone, :required => true,:class=>'row_field' %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :password %>
                   <% if @validatable %>
                       <em>(<%= @minimum_password_length %> characters minimum)</em>
                   <% end %>
-                  <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                  <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :password_confirmation %>
-                  <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                  <%= f.password_field :password_confirmation, :placeholder=>:password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
 
                 </div>
 
@@ -111,6 +106,19 @@
                   <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
                 </div>
             <% end %>
+            <h2>Log in</h2>
+
+           
+            <div class="field">
+
+            </div>
+
+            <div class="field">
+            </div>
+
+
+
+
           </div>
         </div>
       </div>
