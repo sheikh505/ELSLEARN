@@ -40,39 +40,57 @@
   </div>
   <input type="hidden" id="answer_selected" name="answer_selected" value="" >
   <input type="hidden" id="is_answer_correct" name="is_answer_correct" value="" >
-  <a class="modal_btn" onclick="next_quiz()">Next</a>
+  <div class="modal_iframe_footer">
+    <a class="modal_btn" class="modal_btn" onclick="previous_quiz()">Previos</a>
+    <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
+  </div>
 </div>
 
 <script type="text/javascript">
   function answer(answer_id,option_index)
   {
       $(".question_p_section ul li a").removeClass('correct_answer');
+
+
       $("#"+option_index).addClass('correct_answer');
       $("#answer_selected").val(answer_id);
   }
 
     function next_quiz(){
-        <% if @index < $size - 1 %>
-        $.ajax({
-            url:'/home_page/next_ques?index='+<%=@index%>,
-            type:'get',
-            dataType:'html',
-            processData:false,
-            success:function (data) {
-                $("#quiz_container").html(data);
-
-            },
-            error:function (data) {
-                alert ('nae chalaa');
-//    window.location.reload();
+        flag = 0;
+        $(".question_p_section ul li a").each(function(){
+            if (this.className.indexOf("correct_answer")>0)
+            {
+                flag = 1;
             }
         });
-        <% else %>
-        score = $( "#score").val();
-        alert("you score "+score+"out of <%=$size * 5%>");
-        window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
-        <% end %>
+        if (flag == 0)
+        {
+            <% if @index < $size - 1 %>
+            $.ajax({
+                url:'/home_page/next_ques?index='+<%=@index%>,
+                type:'get',
+                dataType:'html',
+                processData:false,
+                success:function (data) {
+                    $("#quiz_container").html(data);
 
+                },
+                error:function (data) {
+                    alert ('nae chalaa');
+    //    window.location.reload();
+                }
+            });
+            <% else %>
+            score = $( "#score").val();
+            alert("you score "+score+"out of <%=$size * 5%>");
+            window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
+            <% end %>
+        }
+        else
+        {
+            alert("please select any option")
+        }
 
 }
 

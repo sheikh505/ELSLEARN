@@ -45,7 +45,10 @@
       </div>
 
       <div class="col">
-        <div id="question_type_container" style="display: none;">
+        <div id="past_paper_container" style="display: block">
+
+        </div>
+        <div id="question_type_container" style="display: block;">
          <div class="row_custom">
            <label class="lablel_check_box_left">
                 <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
@@ -64,7 +67,7 @@
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
             <label class="lablel_check_box_right">
-          <select id="question_type_1" class="select">
+          <select id="question_type_4" class="select">
             <% i = 1 %>
             <%25.times{ %>
               <option><%= i %></option>
@@ -184,8 +187,12 @@
 
 <script>
     $(document).ready(function() {
+                $('#question_type_1').val(10);
+                $('#question_type_2').val(10);
+                $('#question_type_3').val(10);
+                $('#question_type_4').val(10);
+
              $('#test_btn').click(function(){
-                alert("here");
                  $('#course_id').val($('.scourse').children('li').val());
                  $('#degree_id').val($('.sdegree').children('li').val());
                  $('#b_id').val($('.sboard').children('li').val());

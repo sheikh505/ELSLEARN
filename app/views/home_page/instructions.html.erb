@@ -39,7 +39,7 @@
 
 </div>
 <div class="modal_iframe_footer">
-  <a class="modal_btn" data-toggle="modal" href="#myModal"  >Take Test(its free)</a>
+  <a class="modal_btn"  onclick="check_sign_in(<%=@board_id%>,<%=@degree_id%>,<%=@course_id%>,<%=@mcq%>,<%=@fill%>,<%=@true_false%>,<%=@descriptive%>)" href="#myModal"  >Take Test(its free)</a>
 </div>
 
 <div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -69,26 +69,26 @@
 
                     <h2>Create An Account</h2>
                     <div class="field">
-                      <%= f.email_field :email,:required => true, :placeholder=>:email, :autofocus => true ,:class=>'row_field' %>
+                      <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
                     </div>
 
                     <div class="field">
-                      <%= f.text_field :name,:required => true, :placeholder=>:name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+                      <%= f.text_field :name,:required => true, :placeholder=>:Name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
                     </div>
 
                     <div class="field">
-                      <%= f.phone_field :phone, :placeholder=>:phone, :required => true,:class=>'row_field' %>
+                      <%= f.phone_field :phone, :placeholder=>:Phone, :required => true,:class=>'row_field' %>
                     </div>
 
                     <div class="field">
                       <% if @validatable %>
                           <em>(<%= @minimum_password_length %> characters minimum)</em>
                       <% end %>
-                      <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                      <%= f.password_field :password, :placeholder=>:Password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
                     </div>
 
                     <div class="field">
-                      <%= f.password_field :password_confirmation, :placeholder=>:password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                      <%= f.password_field :password_confirmation, :placeholder=>:Password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
 
                     </div>
                   <div class="actions">
@@ -107,8 +107,9 @@
           <% end %>
 
               <div class="pre_model_right">
-                  <%= form_for @user, :url => {:controller => 'home_page', :action => 'user_sign_in'} do |f| %>
-
+                  <%= form_for :new_user, :url => {:controller => 'home_page',
+                                           :action => 'sign_in_user'},
+                               :html => {:id => "login_form",:onsubmit => "return false;"}     do |f| %>
                   <h2>Log in</h2>
                   <div class="field">
                     <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
@@ -118,12 +119,20 @@
                     <% if @validatable %>
                         <em>(<%= @minimum_password_length %> characters minimum)</em>
                     <% end %>
-                    <%= f.password_field :password, :placeholder=>:password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+                    <%= f.password_field :password, :placeholder=>:Password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
                   </div>
-                  <div class="actions">
-                  <%= f.submit "login", :class => 'btn btn-large btn-inverse' %>
+                    <div style="float: left; width: 73.3%"><label id="flash_message" style="margin:0"></label></div>
+                  <div class="actions" style="float:left">
+                  <%= f.submit "Login", :onclick=>"sign_in()", :class => 'btn btn-large btn-inverse' %>
                 </div>
-
+                    <input type="hidden" id="role" name="role" value="2" >
+                    <input type="hidden" id="b_id" name="b_id" value="<%=@board_id%>" >
+                    <input type="hidden" id="degree_id" name="degree_id" value="<%=@degree_id%>" >
+                    <input type="hidden" id="course_id" name="course_id" value="<%=@course_id%>" >
+                    <input type="hidden" id="mcq" name="mcq" value="<%=@mcq%>" >
+                    <input type="hidden" id="fill" name="fill" value="<%=@fill%>" >
+                    <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
+                    <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
                   <% end %>
           </div>
          </div>
@@ -140,3 +149,43 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    function sign_in()
+    {
+        $.post($("form#login_form").attr("action"), $("form#login_form").serialize(), function (response) {
+            if (response.success) {
+                $('#flash_message').html("success");
+                document.forms["login_form"].submit();
+            }
+            else {
+                $('#flash_message').html("Invalid email or password");
+                return false;
+            }
+
+        }, "json")
+
+    }
+    function check_sign_in(bid,did,cid,mcq,true_false,fill,descriptive)
+    {
+
+        $.ajax({
+            url:'/home_page/is_user_signed_in',
+            type:'get',
+            dataType:'json',
+            processData:false,
+            success:function (response) {
+                if (response.success) {
+                    window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+cid+'&mcq='+mcq+'&true_false='+true_false+'&fill='+fill+'&descriptive='+descriptive;
+                }
+                else {
+                    $('#myModal').modal('toggle');
+                }
+
+            },
+            error:function (data) {
+            }
+        });
+    }
+</script>

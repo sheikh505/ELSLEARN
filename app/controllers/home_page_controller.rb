@@ -71,19 +71,37 @@ class HomePageController < ApplicationController
   end
 
   def instructions
+    puts "--------------->", params.inspect
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
     @mcq = params[:mcq]
-    @fill = params[:fill]
-    @true_false = params[:true_false]
-    @descriptive = params[:descriptive]
-    @user = User.new
+    if params[:fill].blank?
+      @fill = 0
+    else
+      @fill = params[:fill]
+    end
+    if params[:true_false].blank?
+      @true_false = 0
+    else
+      @true_false = params[:true_false]
+    end
+    if params[:descriptive].blank?
+      @descriptive = 0
+    else
+      @descriptive = params[:descriptive]
+    end
+    if user_signed_in?
+      @user = current_user
+    else
+      @user = User.new
+    end
 
 
   end
 
   def quiz
+
 
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
@@ -134,6 +152,7 @@ class HomePageController < ApplicationController
       @user = User.new
       @register = true
     end
+    render layout: "quiz_layout"
 
   end
 
@@ -147,23 +166,40 @@ class HomePageController < ApplicationController
   end
 
   def create_user_registration
-    @user = User.new(params[:user])
-    @user.save
+    unless user_signed_in?
+      @user = User.new(params[:user])
+      @user.save
 
-    sign_in @user
+      sign_in @user
 
-    assignment = Assignment.new(user_id: @user.id,role_id: Role.find_by_name('Student').id)
-    assignment.save
+      assignment = Assignment.new(user_id: @user.id,role_id: Role.find_by_name('Student').id)
+      assignment.save
+    end
+
 
     redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
   end
 
-  def user_sign_in
-    @user = User.new(params[:user])
+  def sign_in_user
+    if user_signed_in?
+      redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
+    else
+      user = User.find_by_email(params[:new_user][:email])
+      if user.present? && user.valid_password?(params[:new_user][:password])
+        sign_in user
+        render :json => {:success => true}
+      else
+        render :json => {:success => false}
+      end
+    end
+  end
 
-    sign_in @user
-
-    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
+  def is_user_signed_in
+    if user_signed_in?
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
   end
 
   def next
@@ -220,6 +256,9 @@ class HomePageController < ApplicationController
     end
 
 
+  private
+  def check_session
 
+  end
 
 end

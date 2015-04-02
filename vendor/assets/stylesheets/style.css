@@ -1250,11 +1250,21 @@ Pop up Strat
     margin: 0 25px 0 0;
     vertical-align: top;
  }
+ .col > #past_paper_container {
+     background: none repeat scroll 0 0 #fff;
+     border-bottom: 4px solid #ccc;
+     border-radius: 5px;
+     padding: 25px 0 25px 23px;
+     width: 400px;
+     float:left;
+ }
  .col > #question_type_container {
      background: none repeat scroll 0 0 #fff;
      border-bottom: 4px solid #ccc;
      border-radius: 5px;
      padding: 25px 0 25px 23px;
+     width: 400px;
+     float:left;
  }
  .col .row_custom label input[type="checkbox"]{
      margin: 0 5px 0 0;
@@ -1338,7 +1348,6 @@ Pop up Strat
      font-weight: 600;
      height: 40px;
      padding: 5px 10px;
-     text-transform: capitalize;
      width: 255px;
  }
  .modal_custom .modal-content .pre_model_right {

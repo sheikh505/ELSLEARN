@@ -56,8 +56,9 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_notes_courses" => 'home_page#notes_courses'
   get "home_page/get_notes" => 'home_page#get_notes'
   post "home_page/create_user_registration" => "home_page#create_user_registration"
-  post "home_page/user_sign_in" => "home_page#user_sign_in"
+  post "home_page/sign_in_user" => "home_page#sign_in_user"
   get "home_page/add_user_test" =>  "home_page#add_user_test"
+  get "home_page/is_user_signed_in" => "home_page#is_user_signed_in"
 
 
   resources :tests do
