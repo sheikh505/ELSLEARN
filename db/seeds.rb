@@ -14,6 +14,19 @@ user.name = 'Admin'
   user.save
   #user.roles.build(description: 'admin')
 end
+
+def create_roles
+  newrole = {"name"=>"Admin"}
+  role = Role.new(newrole)
+  role.save
+  users = User.all
+  users.each do |user|
+    newassignment = {"user_id"=>user.id, "role_id"=>role.id}
+    assignment = Assignment.new(newassignment)
+    assignment.save
+  end
+end
 #userTemp = User.find_by_name('Admin')
 #userTemp.destroy if userTemp.is_admin?
 create_admin
+create_roles
