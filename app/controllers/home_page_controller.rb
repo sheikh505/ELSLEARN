@@ -43,11 +43,6 @@ class HomePageController < ApplicationController
   end
 
   def get_degrees
-
-    'asdfasdfasdfasdf' + params.inspect
-   # asdfasdfasfasf
-
-
     board_ids = params[:board_ids]
     ids = board_ids.split('-')
     @degrees = []
