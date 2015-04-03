@@ -1,12 +1,13 @@
 <div class="modal_left">
   <div class="box_modal">
     <h2>ELS Quiz </h2>
-    <label>Statement </label><p><%=raw $arr[@index].statement %></p>
+    <label><strong>Question <%=@index + 1%> of <%=$size%></strong></label>
+    <p><%=raw $arr[@index].statement %></p>
   </div>
   <div class="question_p_section">
 
    <%if $arr[@index].question_type == 1 %>
-        <ul>
+        <ul style="list-style-type: upper-alpha;">
           <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
                   <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
@@ -41,8 +42,12 @@
   <input type="hidden" id="answer_selected" name="answer_selected" value="" >
   <input type="hidden" id="is_answer_correct" name="is_answer_correct" value="" >
   <div class="modal_iframe_footer">
-    <a class="modal_btn" class="modal_btn" onclick="previous_quiz()">Previos</a>
-    <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
+    <%if @index > 0%>
+        <a class="modal_btn" class="modal_btn" onclick="previous_question()">Previos</a>
+    <% end %>
+    <%if @index < $size%>
+        <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
+    <% end %>
   </div>
 </div>
 
@@ -56,14 +61,34 @@
       $("#answer_selected").val(answer_id);
   }
 
+  function previous_question(){
+      flag = 0;
+      if (flag == 0)
+      {
+          <% if @index > 0 %>
+          $.ajax({
+              url:'/home_page/next_ques?index='+<%=@index-2%>,
+              type:'get',
+              dataType:'html',
+              processData:false,
+              success:function (data) {
+                  $("#quiz_container").html(data);
+
+              },
+              error:function (data) {
+                  alert ('nae chalaa');
+                  //    window.location.reload();
+              }
+          });
+          <% else %>
+          score = $( "#score").val();
+          alert("you score "+score+"out of <%=$size * 5%>");
+          window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
+          <% end %>
+      }
+  }
     function next_quiz(){
         flag = 0;
-        $(".question_p_section ul li a").each(function(){
-            if (this.className.indexOf("correct_answer")>0)
-            {
-                flag = 1;
-            }
-        });
         if (flag == 0)
         {
             <% if @index < $size - 1 %>
@@ -87,11 +112,6 @@
             window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
             <% end %>
         }
-        else
-        {
-            alert("please select any option")
-        }
-
 }
 
 </script>

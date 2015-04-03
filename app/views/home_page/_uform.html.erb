@@ -44,17 +44,41 @@
 
       </div>
 
-      <div class="col">
-        <div id="past_paper_container" style="display: block">
-
+      <div id="past_paper" class="col col_last_holder" style="display: none;">
+        <div id="past_paper_container" >
+          <input type="radio" name="pre_Past" value="1"><span>Past Paper</span>
+          <input type="radio" name="pre_Past" value="2"><span> Create your own test </span>
         </div>
-        <div id="question_type_container" style="display: block;">
-         <div class="row_custom">
-           <label class="lablel_check_box_left">
-                <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
-           </label>
+        <div id="past_paper_question_container" class="pre_question_holder" style="display: none;">
+          <div class="row_custom">
+            <%= label_tag :year %>
+            <select id="year" name="year">
+              <% i = Time.new.year.inspect.to_i - 1 %>
+              <% 25.times{ %>
+                      <option value="<%=i  %>"><%=i %></option>
+              <% i-=1
+                 } %>
+            </select>
+          </div>
+
+          <div class="row_custom">
+            <%= label_tag :session %>
+                <input type="radio" name="session" value="May/June" checked>May/June
+                <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
+
+          </div>
+
+          <div style="display: block;" id="test_container_1">
+            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" class="btn">
+          </div>
+        </div>
+        <div id="question_type_container" class="pre_question_holder" style="display: none;">
+          <div class="row_custom">
+            <label class="lablel_check_box_left">
+              <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
+            </label>
             <label class="lablel_check_box_right">
-                <select id="question_type_1" class="select">
+              <select id="question_type_1" class="select">
                 <% i = 1 %>
                 <%25.times{ %>
                     <option><%= i %></option>
@@ -63,52 +87,50 @@
               </select>
 
             </label>
-         </div>
+          </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
             <label class="lablel_check_box_right">
-          <select id="question_type_4" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-              <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+              <select id="question_type_4" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
 
           </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3"><span>Fill in the blanks</span></label>
-          <label class="lablel_check_box_right">
-          <select id="question_type_2" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-                <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+            <label class="lablel_check_box_right">
+              <select id="question_type_2" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
           </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="des_checkbox" type="checkbox" name="question_types[]" value="4"><span>Descriptive</span></label>
             <label class="lablel_check_box_right">
-          <select id="question_type_3" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-                <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+              <select id="question_type_3" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
 
 
           </div>
-          <div style="display: none;" id="test_container">
+          <div style="display: block;" id="test_containerr">
             <input type="submit" act value="Proceed" id="test_btn" name="test_btn" class="btn">
           </div>
         </div>
-
-
       </div>
           <input type="hidden" id="role" name="role" value="2" >
           <input type="hidden" id="b_id" name="b_id" value="" >
@@ -125,7 +147,7 @@
 
 
 
-    <div class="pull-right viual_right">
+    <div class="pull-right viual_right col">
       <div class="visual_right_holder">
         <h2>Enter Code</h2>
         <form>
@@ -138,6 +160,7 @@
           </fieldset>
         </form>
       </div>
+
 
     </div>
 
@@ -186,6 +209,7 @@
 
 
 <script>
+
     $(document).ready(function() {
                 $('#question_type_1').val(10);
                 $('#question_type_2').val(10);
@@ -224,16 +248,31 @@
 
                  //window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;
              });
+
+                $("input[name$='pre_Past']").click(function() {
+                    var test = $(this).val();
+                    if (test == "1") {
+                        if (!$("div#past_paper_question_container").is(":visible")) {
+                            $("div#question_type_container").hide();
+                            $("div#past_paper_question_container").toggle("slide");
+                        }
+                    }
+                    else
+                    {
+                        $("div#past_paper_question_container").hide();
+                        $("div#question_type_container").toggle("slide");
+                    }
+                });
+
             }
     );
 
-    function selectCourse(id)
+   function selectCourse(id)
     {
 
         if($('.scourse')){
 
-            $('#test_container').show();
-            $("#question_type_container").show();
+            $('#past_paper').show();
         }
 
         if ($('#'+id).hasClass('scourse')){

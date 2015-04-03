@@ -39,7 +39,9 @@
 
 </div>
 <div class="modal_iframe_footer">
-  <a class="modal_btn"  onclick="check_sign_in(<%=@board_id%>,<%=@degree_id%>,<%=@course_id%>,<%=@mcq%>,<%=@fill%>,<%=@true_false%>,<%=@descriptive%>)" href="#myModal"  >Take Test(its free)</a>
+  <a class="modal_btn"  onclick="check_sign_in(<%=@board_id%>,<%=@degree_id%>,
+                                <%=@course_id%>,<%=@mcq%>,<%=@fill%>,<%=@true_false%>,
+                                <%=@descriptive%>, <%=@past_paper_flag%>, <%=@year%>, '<%=@session%>')" href="#myModal"  >Take Test(its free)</a>
 </div>
 
 <div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -103,7 +105,9 @@
                 <input type="hidden" id="fill" name="fill" value="<%=@fill%>" >
                 <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
                 <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
-
+                <input type="hidden" id="past_paper_flag" name="past_paper_flag" value="<%=@past_paper_flag%>" >
+                <input type="hidden" id="year" name="year" value="<%=@year%>" >
+                <input type="hidden" id="session" name="session" value="<%=@session%>" >
           <% end %>
 
               <div class="pre_model_right">
@@ -133,6 +137,9 @@
                     <input type="hidden" id="fill" name="fill" value="<%=@fill%>" >
                     <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
                     <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
+                    <input type="hidden" id="past_paper_flag" name="past_paper_flag" value="<%=@past_paper_flag%>" >
+                    <input type="hidden" id="year" name="year" value="<%=@year%>" >
+                    <input type="hidden" id="session" name="session" value="<%=@session%>" >
                   <% end %>
           </div>
          </div>
@@ -167,7 +174,7 @@
         }, "json")
 
     }
-    function check_sign_in(bid,did,cid,mcq,true_false,fill,descriptive)
+    function check_sign_in(bid,did,cid,mcq,true_false,fill,descriptive, ppflag, year, session)
     {
 
         $.ajax({
@@ -177,7 +184,10 @@
             processData:false,
             success:function (response) {
                 if (response.success) {
-                    window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+cid+'&mcq='+mcq+'&true_false='+true_false+'&fill='+fill+'&descriptive='+descriptive;
+                    window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+
+                                        cid+'&mcq='+mcq+'&true_false='+true_false+'&fill='+fill+
+                                        '&descriptive='+descriptive+'&pre_Past='+ppflag+'&year='+year+
+                                        '&session='+session;
                 }
                 else {
                     $('#myModal').modal('toggle');

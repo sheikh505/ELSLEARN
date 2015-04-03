@@ -71,6 +71,9 @@ class HomePageController < ApplicationController
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
     @mcq = params[:mcq]
+    @past_paper_flag = params[:pre_Past]
+    @year = params[:year]
+    @session = params[:session]
     if params[:fill].blank?
       @fill = 0
     else
@@ -96,8 +99,6 @@ class HomePageController < ApplicationController
   end
 
   def quiz
-
-
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
@@ -105,48 +106,49 @@ class HomePageController < ApplicationController
     @fill = params[:fill]
     @true_false = params[:true_false]
     @descriptive = params[:descriptive]
-
-    #@questions = []
-
-    if user_signed_in?
-      @register = false
+    @past_paper_flag = params[:pre_Past]
+    @year = params[:year]
+    @session = params[:session]
 
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
-    temp = bd.questions
     @questions = []
-    list = temp.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
-    list.shuffle!
-    #select number of questions according to the user requirement
+    if @past_paper_flag.to_i == 2
+      temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
+      list = temp
+      list.shuffle!
+      #select number of questions according to the user requirement
 
-    i = 0
-    j = 0
-    k = 0
-    l = 0
+      i = 0
+      j = 0
+      k = 0
+      l = 0
 
-    list.each do |question|
-      if question.question_type == 1 && i < @mcq.to_i
-        @questions << question
-        i += 1
-      elsif question.question_type == 4 && j < @true_false.to_i
-        @questions << question
-        j += 1
-      elsif question.question_type == 3 && k < @fill.to_i
-        @questions << question
-        k += 1
-      elsif question.question_type == 9 && l < @descriptive.to_i
-        @questions << question
-        l += 1
+      list.each do |question|
+        if question.question_type == 1 && i < @mcq.to_i
+          @questions << question
+          i += 1
+        elsif question.question_type == 4 && j < @true_false.to_i
+          @questions << question
+          j += 1
+        elsif question.question_type == 3 && k < @fill.to_i
+          @questions << question
+          k += 1
+        elsif question.question_type == 9 && l < @descriptive.to_i
+          @questions << question
+          l += 1
+        end
+
       end
-
+    elsif @past_paper_flag.to_i == 1
+      list = bd.questions.select{|q| q.deleted == false &&
+                                     q.topic.course_id == @course_id.to_i &&
+                                     q.past_paper_history.present? &&
+                                     q.past_paper_history.year == @year.to_s &&
+                                     q.past_paper_history.session == @session.to_s }
+      @questions = list.shuffle
     end
-
     @size = @questions.length
     @index = 0
-
-    else
-      @user = User.new
-      @register = true
-    end
     render layout: "quiz_layout"
 
   end
@@ -171,13 +173,20 @@ class HomePageController < ApplicationController
       assignment.save
     end
 
-
-    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
+    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],
+        course_id: params[:course_id],mcq: params[:mcq],
+        true_false: params[:true_false],fill: params[:fill],
+        descriptive: params[:descriptive], pre_Past: params[:pre_Past],
+        year: params[:year], session: params[:session]
   end
 
   def sign_in_user
     if user_signed_in?
-      redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],course_id: params[:course_id],mcq: params[:mcq],true_false: params[:true_false],fill: params[:fill],descriptive: params[:descriptive]
+      redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],
+                                  course_id: params[:course_id],mcq: params[:mcq],
+                                  true_false: params[:true_false],fill: params[:fill],
+                                  descriptive: params[:descriptive], pre_Past: params[:pre_Past],
+                                  year: params[:year], session: params[:session]
     else
       user = User.find_by_email(params[:new_user][:email])
       if user.present? && user.valid_password?(params[:new_user][:password])
