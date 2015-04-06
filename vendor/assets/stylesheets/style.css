@@ -1419,7 +1419,7 @@ Pop up Strat
  }
  .user_profile_holder .user_profile_left{
      display: inline-block;
-     width: 25%;
+     width: 21%;
  }
  .user_profile_holder h1{
      font-size: 24px;
@@ -1469,7 +1469,7 @@ Pop up Strat
      width: 70%;
      vertical-align: top;
      background: #fff;
-     float: right;
+     margin: 0 0 0 50px;
      border-bottom: 2px solid #ccc;
      border-radius: 5px;
  }
@@ -1480,7 +1480,7 @@ Pop up Strat
  }
  .user_profile_holder .user_profile_right li {
      border-bottom: 1px solid #ccc;
-     padding: 10px 20px;
+     padding: 8px 20px;
  }
  .user_profile_holder .user_profile_right li h3{
      font-size: 12px;
@@ -1514,7 +1514,7 @@ Pop up Strat
  .user_profile_holder .user_profile_nav li  a{ color: #fff; float: left; position: relative;}
  .user_profile_holder .user_profile_nav li  a .menu_active{
      position: absolute;
-     bottom: -20px;
+     bottom: -17px;
      left: 10px;
      font-size: 20px;
      color: #fff;
@@ -1534,7 +1534,7 @@ Pop up Strat
      box-shadow: 0 4px 10px 0 #f1f1f1;
      display: none;
      left: -10px;
-     min-width: 230px;
+     min-width: 160px;
      padding: 3px 0 0;
      position: absolute;
      text-align: left;
