@@ -1411,3 +1411,154 @@ Pop up Strat
      margin-top:45px;
  }
  .modal_content.pre_modal_content .modal_description{ text-align: left}
+ /*==================================================*/
+ /* User_profile start */
+ /*==================================================*/
+ .user_profile_holder{
+     margin: 20px 0;
+ }
+ .user_profile_holder .user_profile_left{
+     display: inline-block;
+     width: 25%;
+ }
+ .user_profile_holder h1{
+     font-size: 24px;
+     padding-bottom: 20px;
+     font-weight: 700;
+     margin: 0;
+ }
+ .user_profile_holder p{
+     margin-bottom: 15px;
+ }
+ .user_profile_holder .user_profile_left ul {
+     background: none repeat scroll 0 0 #fff;
+     border-top: 2px solid #0095D9;
+     padding: 10px;
+ }
+ .user_profile_holder .user_profile_left ul li a {
+     color:#9197a3;
+     border-bottom: 1px solid #ccc;
+     display: block;
+     font-size: 13px;
+     padding: 8px 20px;
+     transition: all 0.5;
+ }
+ .user_profile_holder .user_profile_left .u_left_holder > li {
+     background: none repeat scroll 0 0 #f7f7f7;
+     margin-bottom: 6px;
+ }
+ .user_profile_holder .user_profile_left ul li a.avtar{
+     padding: 0;
+     width: 100%;
+ }
+ .user_profile_holder .user_profile_left ul li a.avtar img{
+     width: 100%;
+     height: auto;
+     display: block;
+ }
+ .user_profile_holder .user_profile_left .u_left_holder > li:hover {
+     background: rgba(204,204, 204, 0.6);
+ }
+ .user_profile_holder .user_profile_left .u_left_holder > li:hover a{
+     color: #333;
+ }
+ .user_profile_holder .user_profile_left .u_left_holder > li:hover a .fa.fa_icon.fa-tachometer,
+ .user_profile_holder .user_profile_left .u_left_holder > li:hover a .fa.fa_icon.fa-users{ color: #333}
+ .user_profile_holder .user_profile_right{
+     display: inline-block;
+     width: 70%;
+     vertical-align: top;
+     background: #fff;
+     float: right;
+     border-bottom: 2px solid #ccc;
+     border-radius: 5px;
+ }
+ .user_profile_holder .user_profile_right li:after{
+     clear: both;
+     display: block;
+     content: '';
+ }
+ .user_profile_holder .user_profile_right li {
+     border-bottom: 1px solid #ccc;
+     padding: 10px 20px;
+ }
+ .user_profile_holder .user_profile_right li h3{
+     font-size: 12px;
+     font-weight: 600;
+     color: #333;
+     width: 200px;
+     padding: 0;
+     margin: 0;
+     text-align: left;
+     display: inline-block;
+ }
+ .user_profile_holder .user_profile_right li span{
+     width: 400px;
+     color: #9197a3;
+     font-size: 13px;
+     text-transform: capitalize;
+     font-weight: 600;
+     display: inline-block;
+ }
+ .user_profile_holder .user_profile_right li  a{
+     float: right;
+     color: #0095d9;
+     font-size: 14px;
+ }
+ .user_profile_holder .user_profile_nav{ background: #0095d9}
+ .user_profile_holder .user_profile_nav li:after{
+     clear: both;
+     display: block;
+     content: '';
+ }
+ .user_profile_holder .user_profile_nav li  a{ color: #fff; float: left; position: relative;}
+ .user_profile_holder .user_profile_nav li  a .menu_active{
+     position: absolute;
+     bottom: -20px;
+     left: 10px;
+     font-size: 20px;
+     color: #fff;
+ }
+ .fa.fa_icon.fa-tachometer,
+ .fa.fa_icon.fa-users{
+     font-size: 17px;
+     padding: 0 5px 0 0;
+     color: #9197a3;
+ }
+ .user_profile_holder .user_profile_right .u_right_holder li:hover{
+     background: #f7f7f7;
+ }
+ .sub_menu{
+     background: none repeat scroll 0 0 #fff;
+     border: 1px solid #eee;
+     box-shadow: 0 4px 10px 0 #f1f1f1;
+     display: none;
+     left: -10px;
+     min-width: 230px;
+     padding: 3px 0 0;
+     position: absolute;
+     text-align: left;
+     top: 100%;
+     width: auto;
+     z-index: 9999;
+ }
+ .header_holder .nav ul li.dropdown{
+     position: relative;
+ }
+ .header_holder .nav ul li.dropdown:hover .sub_menu{
+     display: block;
+ }
+ .header_holder .nav ul li  .sub_menu li{
+     display: block;
+     padding: 0;
+     margin: 0;
+ }
+ .header_holder .nav ul li  .sub_menu li a{
+     color: #333;
+     display: block;
+     padding: 6px 10px 10px;
+ }
+ .header_holder .nav ul li  .sub_menu li a:hover{
+     background: #0095D9;
+     color: #fff;
+ }
