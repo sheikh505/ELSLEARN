@@ -5,7 +5,7 @@
     <% else %>
         <% @courses.each_with_index do |course,index| %>
 
-            <a id="course_<%=index%>" href="#" onclick="selectCourse('course_<%=index %>')"><li value="<%=course.id %>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=course.name%></li></a>
+            <a id="course_<%=index%>" href="javascript:void(0)" onclick="selectCourse('course_<%=index %>')"><li value="<%=course.id %>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=course.name%></li></a>
 
          <% end %>
     <% end %>

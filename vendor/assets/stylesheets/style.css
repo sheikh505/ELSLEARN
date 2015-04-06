@@ -19,8 +19,9 @@ html {
 	line-height: 1;
 }
 ol, ul {
-	/*list-style: none;*/
+	list-style: none;
 }
+ ul.d {list-style-type: upper-alpha;}
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -211,6 +212,7 @@ header Start
 }
 .header_holder .header_right{
 	margin:10px 0 0;
+    text-align: right;
 }
 .header_holder .header_right ul.social_media{
 	text-align:right;
@@ -253,23 +255,26 @@ Viual Start
 	padding:40px 0;
 }
 
-.visual_holder .viual_left,
+.visual_holder .viual0_left,
 .visual_holder .viual_right{
-	width:46%;
 	margin:0 20px 0 7px;
 }
- .visual_holder .col {
+.visual_holder .col {
     margin: 0 0 20px 0;
 	width:90%;
     vertical-align: top;
 }
+ .visual_holder .viual_right{
+     width: 39%;
+ }
+ .visual_holder .viual_left{width: 46%;}
 .visual_holder .col .header_col{
 	background:#f7f7f7;
 	cursor:pointer;
 	overflow:hidden;
 }
  .visual_holder .col  ul{ margin: 0;}
-.visual_holder .col .header_col p{ 
+.visual_holder .col .header_col p{
 	padding:0 20px;
 	float:left;
     margin: 0;
@@ -1221,10 +1226,10 @@ Pop up Strat
  .visual_right_holder{
      border: 1px solid #f7f8f8;
      background: #fff;
-     width: 49%;
+     width: 100%;
      padding: 10px 20px;
      float: right;
-     margin: 0 3px 0 0;
+     margin: 0 0 10px 0;
      border-radius: 4px;
      border-bottom: 3px solid #ccc;
  }
@@ -1255,23 +1260,45 @@ Pop up Strat
      border-bottom: 4px solid #ccc;
      border-radius: 5px;
      padding: 25px 0 25px 23px;
-     width: 400px;
-     float:left;
  }
- .col > #question_type_container {
+ .col > #past_paper_container input[type="radio"]{
+     margin: 0;
+ }
+ .col > #question_type_container:after{
+     clear: both;
+     display: block;
+     content: '';
+ }
+ .col > #question_type_container,
+ .col > .pre_question_holder{
      background: none repeat scroll 0 0 #fff;
      border-bottom: 4px solid #ccc;
      border-radius: 5px;
-     padding: 25px 0 25px 23px;
-     width: 400px;
-     float:left;
+     padding: 11px 0 8px 23px;
+     overflow: hidden;
+ }
+ #test_containerr .btn{
+     background: #0095d9;
+     color: #fff;
+     text-shadow: none;
+ }
+ .col > .pre_question_holder{
+     padding: 9px 0 15px 23px;
+ }
+ .col .pre_question_holder{
+     position: absolute;
+     right: -715px;
+     top:-9px;
+     width: 94.5%;
  }
  .col .row_custom label input[type="checkbox"]{
      margin: 0 5px 0 0;
  }
  .col > #question_type_container > #test_container{ margin: 0;}
- .col #question_type_container .row_custom .lablel_check_box_left{ float: left;}
- .col #question_type_container .row_custom .lablel_check_box_left  span{
+ .col #question_type_container .row_custom .lablel_check_box_left,
+ .col #past_paper_question_container .row_custom .lablel_check_box_left{ float: left;}
+ .col #question_type_container .row_custom .lablel_check_box_left  span,
+ .col #past_paper_question_container .row_custom .lablel_check_box_left{
      margin: 1px 0 0;
      vertical-align: middle;
  }
@@ -1280,10 +1307,26 @@ Pop up Strat
      color: #fff;
      text-shadow: none;
  }
+ .col > #past_paper_question_container > #test_container .btn{
+     background: #0095D9;
+     color: #fff;
+     text-shadow: none;
+ }
+ .col.col_last_holder{
+     position: relative;
+ }
  .col .row_custom:after{
      clear: both;
      display: block;
      content: '';
+ }
+ .col .row_custom input[type="radio"] { margin:0 ;}
+ #past_paper_question_container .btn{ background: #0095d9; text-shadow: none; color: #fff;}
+ #past_paper_container input[type="submit"].pre_btn{
+     background: #0095d9;
+     color: #fff;
+     display: block;
+     margin-top: 10px;
  }
  .col #question_type_container .row_custom .lablel_check_box_right{ float: right;}
  .col #question_type_container .row_custom .lablel_check_box_right select{

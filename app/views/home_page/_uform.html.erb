@@ -2,7 +2,7 @@
   <div class="visual_holder container">
 
     <div class="pull-left viual_left">
-      <%= form_tag("/home_page/instructions", :method => "post") do |f| %>
+      <form method="post" enctype="multipart/form-data" action="/home_page/instructions" onsubmit="return validate_past_paper();">
 
       <div class="col">
         <div class="header_col">
@@ -44,17 +44,54 @@
 
       </div>
 
+<<<<<<< HEAD
       <div class="col">
         <div id="past_paper_container" style="display: none">
-
+=======
+      <div id="past_paper" class="col col_last_holder" style="display: none;">
+        <div id="past_paper_container" >
+          <input type="radio" name="pre_Past" value="1"><span>Past Paper</span>
+          <input type="radio" name="pre_Past" value="2"><span> Create your own test </span>
         </div>
+        <div id="past_paper_question_container" class="pre_question_holder" style="display: none;">
+          <div class="row_custom">
+            <%= label_tag :year %>
+            <select id="year" name="year">
+              <% i = Time.new.year.inspect.to_i - 1 %>
+              <% 25.times{ %>
+                      <option value="<%=i  %>"><%=i %></option>
+              <% i-=1
+                 } %>
+            </select>
+          </div>
+
+          <div class="row_custom">
+            <%= label_tag :session %>
+                <input type="radio" name="session" value="May/June" checked>May/June
+                <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
+
+          </div>
+>>>>>>> e4bf4d73b6921606f6b5ea81b534abb9af12c859
+
+          <div style="display: block;" id="test_container_1">
+            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn"  class="btn">
+          </div>
+        </div>
+<<<<<<< HEAD
         <div id="question_type_container" style="display: none;">
          <div class="row_custom">
            <label class="lablel_check_box_left">
                 <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
            </label>
+=======
+        <div id="question_type_container" class="pre_question_holder" style="display: none;">
+          <div class="row_custom">
+            <label class="lablel_check_box_left">
+              <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
+            </label>
+>>>>>>> e4bf4d73b6921606f6b5ea81b534abb9af12c859
             <label class="lablel_check_box_right">
-                <select id="question_type_1" class="select">
+              <select id="question_type_1" class="select">
                 <% i = 1 %>
                 <%25.times{ %>
                     <option><%= i %></option>
@@ -63,52 +100,50 @@
               </select>
 
             </label>
-         </div>
+          </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
             <label class="lablel_check_box_right">
-          <select id="question_type_4" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-              <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+              <select id="question_type_4" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
 
           </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="fill_checkbox" type="checkbox" name="question_types[]" value="3"><span>Fill in the blanks</span></label>
-          <label class="lablel_check_box_right">
-          <select id="question_type_2" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-                <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+            <label class="lablel_check_box_right">
+              <select id="question_type_2" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
           </div>
           <div class="row_custom">
             <label class="lablel_check_box_left"><input id="des_checkbox" type="checkbox" name="question_types[]" value="4"><span>Descriptive</span></label>
             <label class="lablel_check_box_right">
-          <select id="question_type_3" class="select">
-            <% i = 1 %>
-            <%25.times{ %>
-                <option><%= i %></option>
-                <% i+=1 %>
-            <% } %>
-          </select>
-        </label>
+              <select id="question_type_3" class="select">
+                <% i = 1 %>
+                <%25.times{ %>
+                    <option><%= i %></option>
+                    <% i+=1 %>
+                <% } %>
+              </select>
+            </label>
 
 
           </div>
-          <div style="display: none;" id="test_container">
-            <input type="submit" act value="Proceed" id="test_btn" name="test_btn" class="btn">
+          <div style="display: block;" id="test_containerr">
+            <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" class="btn">
           </div>
         </div>
-
-
       </div>
           <input type="hidden" id="role" name="role" value="2" >
           <input type="hidden" id="b_id" name="b_id" value="" >
@@ -118,14 +153,14 @@
           <input type="hidden" id="fill" name="fill" value="" >
           <input type="hidden" id="true_false" name="true_false" value="" >
           <input type="hidden" id="descriptive" name="descriptive" value="" >
-      <% end%>
+      </form>
 
     </div>
 
 
 
 
-    <div class="pull-right viual_right">
+    <div class="pull-right viual_right col">
       <div class="visual_right_holder">
         <h2>Enter Code</h2>
         <form>
@@ -138,6 +173,7 @@
           </fieldset>
         </form>
       </div>
+
 
     </div>
 
@@ -186,54 +222,149 @@
 
 
 <script>
+
     $(document).ready(function() {
                 $('#question_type_1').val(10);
                 $('#question_type_2').val(10);
                 $('#question_type_3').val(10);
                 $('#question_type_4').val(10);
 
-             $('#test_btn').click(function(){
-                 $('#course_id').val($('.scourse').children('li').val());
-                 $('#degree_id').val($('.sdegree').children('li').val());
-                 $('#b_id').val($('.sboard').children('li').val());
+//             $("input[name$='test_btn']").click(function(){
+//                 $('#course_id').val($('.scourse').children('li').val());
+//                 $('#degree_id').val($('.sdegree').children('li').val());
+//                 $('#b_id').val($('.sboard').children('li').val());
+//
+//                 mcq = 0;
+//                 true_false = 0;
+//                 fill = 0;
+//                 descriptive = 0;
+//                 if ($("#mcq_checkbox").is(":checked")){
+//                     $('#mcq').val($('#question_type_1').val());
+//                 }
+//                 if ($("#true_checkbox").is(":checked")){
+//                     $('#true_false').val($('#question_type_2').val());
+//                 }
+//                 if ($("#fill_checkbox").is(":checked")){
+//                     $('#fill').val($('#question_type_3').val());
+//                 }
+//                 if ($("#des_checkbox").is(":checked")){
+//                     //descriptive = $('#question_type_4').val();
+//                     descriptive = 0;
+//                 }
+//                 //window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;
+//             });
 
-                 mcq = 0;
-                 true_false = 0;
-                 fill = 0;
-                 descriptive = 0;
-                 if ($("#mcq_checkbox").is(":checked")){
-                     $('#mcq').val($('#question_type_1').val());
-                 }
-                 if ($("#true_checkbox").is(":checked")){
-                     $('#true_false').val($('#question_type_2').val());
-                 }
-                 if ($("#fill_checkbox").is(":checked")){
-                     $('#fill').val($('#question_type_3').val());
-                 }
-                 if ($("#des_checkbox").is(":checked")){
-                     //descriptive = $('#question_type_4').val();
-                     descriptive = 0;
-                 }
+                $("input[name$='pre_Past']").click(function() {
+                    var test = $(this).val();
+                    if (test == "1") {
+                        if (!$("div#past_paper_question_container").is(":visible")) {
+                            $("div#question_type_container").hide();
+                            $("div#past_paper_question_container").toggle("slide");
+                        }
+                    }
+                    else
+                    {
+                        $("div#past_paper_question_container").hide();
+                        $("div#question_type_container").toggle("slide");
+                    }
+                });
 
-
-
-
-
-
-                // alert(board_id+'--'+degree_id+'--'+course_id);
-
-                 //window.location = '/home_page/instructions?b_id='+board_id+'&degree_id='+degree_id+'&course_id='+course_id + "&mcq="+mcq + "&true_false="+true_false +"&fill="+fill +"&descriptive="+descriptive;
-             });
             }
     );
 
-    function selectCourse(id)
+    function validate_past_paper()
+    {
+        course_id = $('#course_id').val($('.scourse').children('li').val()).val();
+        degree_id = $('#degree_id').val($('.sdegree').children('li').val()).val();
+        board_id = $('#b_id').val($('.sboard').children('li').val()).val();
+        past_paper_flag = $("input[name$='pre_Past']:checked").val();
+        returnValue = 0;
+        if (past_paper_flag == "1")
+        {
+            year = $("#year").val();
+            session = $("input[name$='session']").val();
+
+            $.ajax({
+                url:'/questions/questions_exits?year='+ year +
+                                            "&session="+session + "&course_id="+course_id+
+                                            "&degree_id="+degree_id+ "&board_id="+board_id+
+                                            "&pre_Past="+ past_paper_flag,
+                type:'get',
+                dataType:'json',
+                async: false,
+                success:function (response) {
+                    if (response.success) {
+                        returnValue = 1;
+                    }
+                    else {
+                        alert("Currently, there are no questions in it");
+                        returnValue = 0;
+                    }
+
+                },
+                error:function (response) {
+                    returnValue = 0;
+                }
+            });
+
+        }
+        else
+        {
+            mcq = 0;
+            true_false = 0;
+            fill = 0;
+            descriptive = 0;
+            if ($("#mcq_checkbox").is(":checked")){
+             mcq = $('#mcq').val($('#question_type_1').val()).val();
+            }
+            if ($("#true_checkbox").is(":checked")){
+             true_false = $('#true_false').val($('#question_type_2').val()).val();
+            }
+            if ($("#fill_checkbox").is(":checked")){
+             fill = $('#fill').val($('#question_type_3').val()).val();
+            }
+            if ($("#des_checkbox").is(":checked")){
+             //descriptive = $('#question_type_4').val();
+             descriptive = 0;
+            }
+            $.ajax({
+                url:'/questions/questions_exits?&mcq='+mcq + "&true_false="+true_false +
+                        "&fill="+fill +"&descriptive="+descriptive +
+                        "&course_id="+course_id+
+                        "&degree_id="+degree_id+ "&board_id="+board_id+
+                        "&pre_Past="+ past_paper_flag,
+                type:'get',
+                dataType:'json',
+                async: false,
+                success:function (response) {
+                    if (response.success) {
+                        returnValue = 1;
+                    }
+                    else {
+                        alert("Currently, there are no questions in it");
+                        returnValue = 0;
+                    }
+
+                },
+                error:function (response) {
+                    returnValue = 0;
+                }
+            });
+        }
+        if (returnValue == 1){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+   function selectCourse(id)
     {
 
         if($('.scourse')){
 
-            $('#test_container').show();
-            $("#question_type_container").show();
+            $('#past_paper').show();
         }
 
         if ($('#'+id).hasClass('scourse')){

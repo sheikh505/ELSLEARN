@@ -16,7 +16,6 @@
                 <% else %>
 
                     Logged in as: <%= current_user.email %>
-                    <%= link_to "Home", home_page_index_path, :class => 'navbar-link' %>
                     <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %>
                 <% end %>
             <% else %>

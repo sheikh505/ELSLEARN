@@ -5,41 +5,45 @@ class Ability
     # Define abilities for the passed in user here. For example:
     #
        user ||= User.new # guest user (not logged in)
-       if user.is_admin?
-         can :manage, :all
 
-       elsif user.is_teacher?
-         can :read, Board
-         can :read, Degree
-         can :read, Course
-         can :manage, Quiz do |quiz|
-           quiz.user.email == user.email
+       unless user.id.nil?
+         if user.is_admin?
+           can :manage, :all
+
+         elsif user.is_teacher?
+           can :read, Board
+           can :read, Degree
+           can :read, Course
+           can :manage, Quiz do |quiz|
+             quiz.user.email == user.email
+           end
+           can :manage, Question do |question|
+             question.author == user.email
+           end
+         elsif user.is_operator?
+           can :read, Board
+           can :read, Degree
+           can :manage, Course
+           can :read, Quiz
+           can :read, Topic
+           can :manage, Question do |question|
+             question.author == user.email
+           end
+         elsif user.is_proofreader?
+           can :read, Board
+           can :read, Degree
+           can :read, Course
+           can :read, Quiz
+           can :read, Topic
+           can :manage, Question
+         #   do |question|
+         #       User.find_by_email(question.author.to_s).id == user.role
+         # end
+         else
+            cannot :manage,Teacher
          end
-         can :manage, Question do |question|
-           question.author == user.email
-         end
-       elsif user.is_operator?
-         can :read, Board
-         can :read, Degree
-         can :manage, Course
-         can :read, Quiz
-         can :read, Topic
-         can :manage, Question do |question|
-           question.author == user.email
-         end
-       elsif user.is_proofreader?
-         can :read, Board
-         can :read, Degree
-         can :read, Course
-         can :read, Quiz
-         can :read, Topic
-         can :manage, Question
-       #   do |question|
-       #       User.find_by_email(question.author.to_s).id == user.role
-       # end
-       else
-          cannot :manage,Teacher
        end
+
     #
     # The first argument to `can` is the action you are giving the user 
     # permission to do.

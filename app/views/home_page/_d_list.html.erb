@@ -5,7 +5,7 @@
 
         <% @degrees.each_with_index do |degree,index| %>
 
-            <a href="#" id="degree_<%=index%>" onclick="selectDegreeList('degree_<%=index %>',<%=degree.id %>)" ><li value="<%=degree.id%>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=degree.name%></li></a>
+            <a href="javascript:void(0)" id="degree_<%=index%>" onclick="selectDegreeList('degree_<%=index %>',<%=degree.id %>)" ><li value="<%=degree.id%>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=degree.name%></li></a>
 
         <% end %>
 
