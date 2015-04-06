@@ -9,10 +9,12 @@
         <ul>
           <li><a  class="active" href="#">Home</a></li>
           <li><a href="#">Online Tesing</a></li>
-          <li><a href="#">Portal</a></li>
           <li><a href="#">Test Center</a></li>
           <li><a href="#">Condidate Portal</a></li>
           <li><a href="#">Contact</a></li>
+          <% if user_signed_in? %>
+              <li><a href="user/my_profile">My Account</a></li>
+          <% end %>
         </ul>
       </nav>
     </div>

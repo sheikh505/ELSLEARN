@@ -1,6 +1,12 @@
 ExamsSystem::Application.routes.draw do
 
 
+  get "user/new"
+
+  get "user/create"
+
+  get "user/my_profile"
+
   resources :boards
 
 
