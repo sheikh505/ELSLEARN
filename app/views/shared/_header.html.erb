@@ -3,11 +3,11 @@
   <div class="header_holder container">
     <div class="header_left pull_left">
       <h1 class="logo">
-        <a href="#"><%= image_tag 'logo.png'%></a>
+        <a href="/"><%= image_tag 'logo.png'%></a>
       </h1>
       <nav class="nav">
         <ul>
-          <li><a  class="active" href="#">Home</a></li>
+          <li><a  class="active" href="/">Home</a></li>
           <li><a href="#">Online Tesing</a></li>
           <li><a href="#">Test Center</a></li>
           <li><a href="#">Condidate Portal</a></li>
@@ -22,6 +22,8 @@
                 <% end %>
               </li></ul>
               </li>
+              <% else %>
+              <li><a href="users/sign_in">Login</a></li>
           <% end %>
         </ul>
       </nav>
