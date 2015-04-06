@@ -1,8 +1,7 @@
 class QuestionsController < ApplicationController
-  load_and_authorize_resource
+  skip_before_filter :authenticate_user!
   before_filter :set_question, only: [:show, :edit, :update, :destroy]
-
-  respond_to :html
+  respond_to :html, :json
 
   def get_courses
     @boards = []
@@ -522,6 +521,62 @@ class QuestionsController < ApplicationController
     #respond_with(@question)
   end
 
+  #get methods
+  def questions_exits
+    year = params["year"]
+    session = params[:session]
+    board_id = params[:board_id]
+    degree_id = params[:degree_id]
+    course_id = params[:course_id]
+    past_paper_flag = params[:pre_Past]
+    puts "------------------>", params.inspect
+
+    bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id,degree_id)
+    @questions = []
+    if past_paper_flag.to_i == 2
+      mcq = params[:mcq]
+      fill = params[:fill]
+      true_false = params[:true_false]
+      descriptive = params[:descriptive]
+      temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == course_id.to_i}
+      list = temp
+      list.shuffle!
+      #select number of questions according to the user requirement
+
+      i = 0
+      j = 0
+      k = 0
+      l = 0
+
+      list.each do |question|
+        if question.question_type == 1 && i < mcq.to_i
+          @questions << question
+          i += 1
+        elsif question.question_type == 4 && j < true_false.to_i
+          @questions << question
+          j += 1
+        elsif question.question_type == 3 && k < fill.to_i
+          @questions << question
+          k += 1
+        elsif question.question_type == 9 && l < descriptive.to_i
+          @questions << question
+          l += 1
+        end
+
+      end
+    elsif past_paper_flag.to_i == 1
+      @questions = bd.questions.select{|q| q.deleted == false &&
+          q.topic.course_id == course_id.to_i &&
+          q.past_paper_history.present? &&
+          q.past_paper_history.year == year.to_s &&
+          q.past_paper_history.session == session.to_s }
+    end
+    if (@questions.length > 0)
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
+  end
   private
     def set_question
       @question = Question.find(params[:id])

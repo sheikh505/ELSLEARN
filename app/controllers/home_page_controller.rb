@@ -70,10 +70,14 @@ class HomePageController < ApplicationController
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
-    @mcq = params[:mcq]
     @past_paper_flag = params[:pre_Past]
     @year = params[:year]
     @session = params[:session]
+    if params[:mcq].blank?
+      @mcq = 0
+    else
+      @mcq = params[:mcq]
+    end
     if params[:fill].blank?
       @fill = 0
     else
@@ -109,6 +113,7 @@ class HomePageController < ApplicationController
     @past_paper_flag = params[:pre_Past]
     @year = params[:year]
     @session = params[:session]
+    puts "------------------>", params.inspect
 
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
     @questions = []
@@ -207,6 +212,7 @@ class HomePageController < ApplicationController
   end
 
   def next
+    puts "----------------->", params.inspect
     @index = params[:index].to_i
     @index = @index + 1
 
@@ -259,6 +265,9 @@ class HomePageController < ApplicationController
 
     end
 
+  def demo
+
+  end
 
   private
   def check_session

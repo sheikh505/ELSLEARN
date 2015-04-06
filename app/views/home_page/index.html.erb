@@ -1,5 +1,5 @@
 
-  <% if user_signed_in? %>
+  <% if user_signed_in? && current_user.is_not_student? %>
     <% if current_user.is_admin? || current_user.is_operator? || current_user.is_proofreader? || current_user.is_teacher?%>
         <%= render 'aform' %>
 

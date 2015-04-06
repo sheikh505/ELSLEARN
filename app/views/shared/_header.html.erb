@@ -17,6 +17,12 @@
       </nav>
     </div>
     <div class="pull_right header_right">
+      <% if user_signed_in? %>
+        Welcome: <%= current_user.email %>
+        <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %>
+      <% else %>
+          <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
+       <% end %>
       <ul class="social_media">
         <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
         <li><a class="twitter"  href="#"><i class="fa fa-tumblr"></i></a></li>

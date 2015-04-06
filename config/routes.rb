@@ -40,6 +40,7 @@ ExamsSystem::Application.routes.draw do
       get :proofreader_questions
       get :approve_question
       get :get_questions_by_status
+      get :questions_exits
     end
   end
 
@@ -59,6 +60,7 @@ ExamsSystem::Application.routes.draw do
   post "home_page/sign_in_user" => "home_page#sign_in_user"
   get "home_page/add_user_test" =>  "home_page#add_user_test"
   get "home_page/is_user_signed_in" => "home_page#is_user_signed_in"
+  get "home_page/demo" => "home_page#demo"
 
 
   resources :tests do

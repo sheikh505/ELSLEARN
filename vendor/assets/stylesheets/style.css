@@ -212,6 +212,7 @@ header Start
 }
 .header_holder .header_right{
 	margin:10px 0 0;
+    text-align: right;
 }
 .header_holder .header_right ul.social_media{
 	text-align:right;
