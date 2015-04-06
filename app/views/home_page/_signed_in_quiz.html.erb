@@ -86,8 +86,7 @@
     </script>
     <span id="countdown">00:30</span>
 <% end %>
-<%= form_for (:user_test_history), :url => {:controller => 'user',
-                                 :action => 'save_result'} do |f| %>
+<%=form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
     <input type="hidden" id="score" name="user_test_history[score]" value="0" >
     <input type="hidden" id="board_id" name="user_test_history[board_id]" value="<%=@board_id%>" >
     <input type="hidden" id="degree_id" name="user_test_history[degree_id]" value="<%=@degree_id%>" >
