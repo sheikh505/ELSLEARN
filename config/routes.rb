@@ -3,7 +3,7 @@ ExamsSystem::Application.routes.draw do
 
   get "user/new"
 
-  get "user/create"
+  post "user/save_result"
 
   get "user/my_profile"
 

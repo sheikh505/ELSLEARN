@@ -113,7 +113,7 @@ class HomePageController < ApplicationController
     @past_paper_flag = params[:pre_Past]
     @year = params[:year]
     @session = params[:session]
-    puts "------------------>", params.inspect
+    @user_test_history = UserTestHistory.new
 
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
     @questions = []

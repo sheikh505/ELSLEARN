@@ -1,20 +1,89 @@
 <div class="modal_left">
   <div class="box_modal">
     <h2>ELS Quiz </h2>
-    <style>
-        #countdown {
-            display: inline-block;
-            background: rgb(135, 185, 120);
-            padding: 5px;
-            margin: 0 1px;
-            border-radius: 5px;
-            color: #FFF;
-            font-size: 25px;
-            float: right;
-        }
-    </style>
 
-    <span id="countdown">00:30</span>
+    <% if @past_paper_flag.to_i == 2 %>
+        <style>
+            #countdown {
+                display: inline-block;
+                background: rgb(135, 185, 120);
+                padding: 5px;
+                margin: 0 1px;
+                border-radius: 5px;
+                color: #FFF;
+                font-size: 25px;
+                float: right;
+            }
+        </style>
+        <span id="countdown">00:30</span>
+        <script>
+            /**
+             * Example 2 is similar to Example 1. Two things that are
+             * different are counting down instead of up and allowing
+             * user input for start time. Also, when the timer counts
+             * down to zero, an alert is triggered.
+             */
+                // Common functions
+            function pad(number, length) {
+                var str = '' + number;
+                while (str.length < length) {str = '0' + str;}
+                return str;
+            }
+            function formatTime(time) {
+                time = time / 10;
+                var min = parseInt(time / 6000),
+                        sec = parseInt(time / 100) - (min * 60),
+                        hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+                return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2);
+            }
+            var Example2 = new (function() {
+
+                var $countdown;
+                var $form;
+                var incrementTime = 70;
+                var currentTime = 30000; // 5 minutes (in milliseconds)
+
+                $(function() {
+
+                    // Setup the timer
+                    $countdown = $('#countdown');
+                    Example2.Timer = $.timer(updateTimer, incrementTime, true);
+                });
+
+                function updateTimer() {
+
+                    // Output timer position
+                    var timeString = formatTime(currentTime);
+                    $countdown.html(timeString);
+
+                    // If timer is complete, trigger alert
+                    if (currentTime == 0) {
+                        Example2.Timer.stop();
+                        alert('Question time is completed');
+                        $(".question_p_section ul li a").addClass('disabled');
+                        return;
+                    }
+
+                    // Increment timer position
+                    currentTime -= incrementTime;
+                    if (currentTime < 0) currentTime = 0;
+
+                }
+
+                this.resetCountdown = function() {
+
+                    // Get time from form
+                    var newTime = parseInt($form.find('input[type=text]').val()) * 1000;
+                    if (newTime > 0) {currentTime = newTime;}
+
+                    // Stop and reset timer
+                    Example2.Timer.stop().once();
+
+                };
+
+            });
+        </script>
+    <% end %>
 
     <label><strong>Question <%=@index + 1%> of <%=$size%></strong></label>
     <p><%=raw $arr[@index].statement %></p>
@@ -25,7 +94,7 @@
         <ul style="list-style-type: upper-alpha;">
           <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
               <% else %>
                   <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>')" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
               <% end %>
@@ -54,8 +123,8 @@
     <% end %>
 
   </div>
-  <input type="hidden" id="answer_selected" name="answer_selected" value="" >
-  <input type="hidden" id="is_answer_correct" name="is_answer_correct" value="" >
+  <label type="hidden" id="answer_selected" name="answer_selected" value="1" >
+
   <div class="modal_iframe_footer">
     <%if @index > 0%>
         <a class="modal_btn" class="modal_btn" onclick="previous_question()">Previos</a>
@@ -63,85 +132,41 @@
     <%if @index+1 < $size%>
         <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
     <% else %>
-        <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Finish</a>
+        <input type="submit" class="modal_btn" value="Finish">
     <% end %>
   </div>
 </div>
+<style>
+    a.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
 
 <script type="text/javascript">
 
-    /**
-     * Example 2 is similar to Example 1. Two things that are
-     * different are counting down instead of up and allowing
-     * user input for start time. Also, when the timer counts
-     * down to zero, an alert is triggered.
-     */
-        // Common functions
-    function pad(number, length) {
-        var str = '' + number;
-        while (str.length < length) {str = '0' + str;}
-        return str;
-    }
-    function formatTime(time) {
-        time = time / 10;
-        var min = parseInt(time / 6000),
-                sec = parseInt(time / 100) - (min * 60),
-                hundredths = pad(time - (sec * 100) - (min * 6000), 2);
-        return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2);
-    }
-    var Example2 = new (function() {
 
-        var $countdown;
-        var $form;
-        var incrementTime = 70;
-        var currentTime = 30000; // 5 minutes (in milliseconds)
-
-        $(function() {
-
-            // Setup the timer
-            $countdown = $('#countdown');
-            Example2.Timer = $.timer(updateTimer, incrementTime, true);
-        });
-
-        function updateTimer() {
-
-            // Output timer position
-            var timeString = formatTime(currentTime);
-            $countdown.html(timeString);
-
-            // If timer is complete, trigger alert
-            if (currentTime == 0) {
-                Example2.Timer.stop();
-                alert('Example 2: Countdown timer complete!');
-                Example2.resetCountdown();
-                return;
-            }
-
-            // Increment timer position
-            currentTime -= incrementTime;
-            if (currentTime < 0) currentTime = 0;
-
-        }
-
-        this.resetCountdown = function() {
-
-            // Get time from form
-            var newTime = parseInt($form.find('input[type=text]').val()) * 1000;
-            if (newTime > 0) {currentTime = newTime;}
-
-            // Stop and reset timer
-            Example2.Timer.stop().once();
-
-        };
-
-    });
-  function answer(answer_id,option_index)
+  function answer(answer_id,is_answer,option_index)
   {
       $(".question_p_section ul li a").removeClass('correct_answer');
 
 
       $("#"+option_index).addClass('correct_answer');
-      $("#answer_selected").val(answer_id);
+      flag = parseInt($("#answer_selected").val());
+      if(is_answer && flag) {
+          $("#answer_selected").val("0");
+          score = $( "#score").val();
+          score = parseInt(score,10) + 5;
+          $( "#score").val(score);
+      }
+      else if (!is_answer && !flag)
+      {
+          $("#answer_selected").val("1");
+          score = $( "#score").val();
+          score = parseInt(score,10) - 5;
+          $( "#score").val(score);
+      }
   }
 
   function previous_question(){
@@ -159,14 +184,10 @@
 
               },
               error:function (data) {
-                  alert ('nae chalaa');
+                  alert ('Error Occurred!!!!');
                   //    window.location.reload();
               }
           });
-          <% else %>
-          score = $( "#score").val();
-          alert("you score "+score+"out of <%=$size * 5%>");
-          window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
           <% end %>
       }
   }
