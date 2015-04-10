@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExamsSystem</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+      <%= render 'shared/errors' %>
+
+
+          <%= yield %>
+
+</div>
+
+</body>
+</html>
+

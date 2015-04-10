@@ -3,11 +3,16 @@
       <h1>User Profile Page</h1>
       <div class="user_profile_left">
         <ul class="u_left_holder">
-          <li><a class="avtar" href="#"><img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
-          <li><a  href="#">
+          <li><a class="avtar" href="#">
+            <% if @user.avatar.present?%>
+                <%= image_tag @user.avatar.url %>
+            <% else %>
+                <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+            <% end %>
+          <li><a  href="/user/dashboard">
             <i class="fa fa_icon fa-tachometer"></i>
             Dashboard </a> </li>
-          <li><a  href="#">
+          <li><a  href="/user/my_profile">
             <i class="fa fa_icon fa-users"></i>
 
             Profile</a> </li>
@@ -18,7 +23,7 @@
 
             <ul class="user_profile_nav">
               <li>
-                <a href="#">Profile
+                <a href="javascript:void(0)">Profile
                   <span class="menu_active">
                     <i class="fa fa-caret-up"></i>
                 </span>
@@ -27,31 +32,52 @@
             </ul>
           <ul class="u_right_holder">
             <li>
-              <h3>Name</h3>
-              <span>farhat baig</span>
-              <a href="#">Edit</a>
-            </li>
-            <li>
-              <h3>User Name</h3>
-              <span>farhat baig</span>
-              <a href="#">Edit</a>
+              <h3>Email</h3>
+              <span><%= @user.email%></span>
             </li>
             <li>
               <h3>Name</h3>
-              <span>farhat baig</span>
-              <a href="#">Edit</a>
+              <span><%= best_in_place @user, :name, :url => user_update_path, :as => :input %></span>
             </li>
             <li>
-              <h3>Name</h3>
-              <span>farhat baig</span>
-              <a href="#">Edit</a>
+              <h3>Phone Number</h3>
+              <span><%= best_in_place @user, :phone, :url => user_update_path, :as => :input %></span>
             </li>
             <li>
-              <h3>Name</h3>
-              <span>farhat baig</span>
-              <a href="#">Edit</a>
+              <h3>Last Test Attempted On</h3>
+              <span><%=@last_user_history.updated_at.to_date unless @last_user_history.nil?%></span>
+              <%=link_to "Attempt", "/"%>
+            </li>
+            <%= form_for @user, :url => user_update_path, :html => { :multipart => true } do |form| %>
+            <li>
+                <h3>Picture</h3>
+                <%= form.file_field :avatar %>
+                <%= form.submit "Update Picture" %>
+            <% end %>
             </li>
           </ul>
+
+
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        /* Activating Best In Place */
+        jQuery(".best_in_place").best_in_place();
+    });
+//    function update_image() {
+//
+//        $.post($("form.edit_user").attr("action"), $("form.edit_user").serialize(), function (response) {
+//
+//            if (response.success) {
+//                alert("Image Updated successfully");
+//            }
+//            else {
+//                return false;
+//            }
+//
+//        }, "json")
+//    }
+</script>

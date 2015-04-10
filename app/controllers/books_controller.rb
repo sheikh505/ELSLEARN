@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   load_and_authorize_resource
-  before_filter :set_book, only: [:show, :edit, :update, :destroy]
+  before_filter :set_book, :only => [:show, :edit, :update, :destroy]
 
   respond_to :html
 

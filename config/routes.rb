@@ -1,11 +1,13 @@
 ExamsSystem::Application.routes.draw do
+  get "user" => "teacher#index"
 
 
   get "user/new"
-
   post "user/save_result"
-
   get "user/my_profile"
+  get "user/dashboard"
+  get "home_page/user/my_profile" => "user#my_profile"
+  put "user/update"
 
   resources :boards
 
@@ -24,6 +26,8 @@ ExamsSystem::Application.routes.draw do
       post :course_register
     end
   end
+
+
 
   resources :books do
     collection do
@@ -51,7 +55,6 @@ ExamsSystem::Application.routes.draw do
   end
 
 
-
   get "home_page/index"
   get "home_page/get_courses" => 'home_page#get_courses'
   get "home_page/get_degrees" => 'home_page#get_degrees'
@@ -67,6 +70,7 @@ ExamsSystem::Application.routes.draw do
   get "home_page/add_user_test" =>  "home_page#add_user_test"
   get "home_page/is_user_signed_in" => "home_page#is_user_signed_in"
   get "home_page/demo" => "home_page#demo"
+  get "admin_panel" => "home_page#admin_panel"
 
 
   resources :tests do
@@ -103,6 +107,7 @@ ExamsSystem::Application.routes.draw do
                                    :registrations => "users/registrations"
 
   }
+
 
 # devise_for :user do
 #   get 'users/sign_out' => 'users/sessions#destroy'

@@ -1,8 +1,6 @@
 class HomePageController < ApplicationController
   def index
-    if user_signed_in? && current_user.is_admin?
 
-    else
 
       @boards = Board.all
       @degrees = []
@@ -16,7 +14,6 @@ class HomePageController < ApplicationController
 
 
 
-    end
     @notes_degrees = []
           #notes degreeesssssss
         Book.all.each do |nd|
@@ -28,9 +25,11 @@ class HomePageController < ApplicationController
 
   end
 
-  def get_courses
-    'asdfasdfasdfasdf' + params.inspect
+  def admin_panel
+    render :layout => "admin_panel_layout"
+  end
 
+  def get_courses
     @courses = []
     degree_id = params[:degree_id]
     board_id = params[:board_id]
@@ -154,13 +153,13 @@ class HomePageController < ApplicationController
     end
     @size = @questions.length
     @index = 0
-    render layout: "quiz_layout"
+    render :layout=> "quiz_layout"
 
   end
 
   def add_user_test
 
-    user_history = UserTestHistory.new(score: params[:score],total: params[:total],course: Course.find_by_id(params[:course]).name,user_id: current_user.id,code: nil)
+      user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)
     user_history.save
 
     redirect_to root_path
@@ -174,24 +173,24 @@ class HomePageController < ApplicationController
 
       sign_in @user
 
-      assignment = Assignment.new(user_id: @user.id,role_id: Role.find_by_name('Student').id)
+      assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
       assignment.save
     end
 
-    redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],
-        course_id: params[:course_id],mcq: params[:mcq],
-        true_false: params[:true_false],fill: params[:fill],
-        descriptive: params[:descriptive], pre_Past: params[:pre_Past],
-        year: params[:year], session: params[:session]
+    redirect_to :action => 'quiz',:b_id=> params[:b_id],:degree_id=> params[:degree_id],
+        :course_id=> params[:course_id],:mcq=> params[:mcq],
+        :true_false=> params[:true_false],:fill=> params[:fill],
+        :descriptive=> params[:descriptive], :pre_Past=> params[:pre_Past],
+        :year=> params[:year], :session=> params[:session]
   end
 
   def sign_in_user
     if user_signed_in?
-      redirect_to :action => 'quiz',b_id: params[:b_id],degree_id: params[:degree_id],
-                                  course_id: params[:course_id],mcq: params[:mcq],
-                                  true_false: params[:true_false],fill: params[:fill],
-                                  descriptive: params[:descriptive], pre_Past: params[:pre_Past],
-                                  year: params[:year], session: params[:session]
+      redirect_to :action => 'quiz',:b_id=> params[:b_id],:degree_id=> params[:degree_id],
+                  :course_id=> params[:course_id],:mcq=> params[:mcq],
+                  :true_false=> params[:true_false],:fill=> params[:fill],
+                  :descriptive=> params[:descriptive], :pre_Past=> params[:pre_Past],
+                  :year=> params[:year], :session=> params[:session]
     else
       user = User.find_by_email(params[:new_user][:email])
       if user.present? && user.valid_password?(params[:new_user][:password])

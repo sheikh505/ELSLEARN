@@ -25,7 +25,6 @@
 
     $(function() {
         $(document).on("click",".pagination a", function(){
-            alert(this.href);
             $.getScript(this.href);
             return false;
         });

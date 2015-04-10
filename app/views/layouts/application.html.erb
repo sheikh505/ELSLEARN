@@ -11,47 +11,11 @@
 
 <div class="wrapper">
 
-<% if user_signed_in? && current_user.is_not_student?  %>
 
-    <%= render 'shared/adminHeader' %>
-        <%= render 'shared/errors' %>
-      <div class="admin_main">
-      <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-
-          <% if current_user.is_not_student? %>
-
-              <li class="sidebar-brand">
-                <%= link_to "ELS Learning", home_page_index_path%>
-              </li>
-              <% if current_user.is_admin? %>
-                  <%= render 'layouts/admin' %>
-              <% elsif current_user.is_operator? %>
-                  <%= render 'layouts/operator' %>
-              <% elsif current_user.is_proofreader? %>
-                  <%= render 'layouts/proofreader' %>
-              <% elsif current_user.is_teacher? %>
-                  <%= render 'layouts/teacher' %>
-              <% end %>
-          <% end %>
-
-
-        </ul>
-      </div>
-      <div id="page-content-wrapper">
-
-      <%= yield %>
-
-      </div>
-</div>
-<% else %>
-
-
-
-    <%= render 'shared/header' %>
+      <%= render 'shared/header' %>
       <%= render 'shared/errors' %>
         <%= yield %>
-      <% unless params[:action] == "new" %>
+
       <footer class="footer">
         <div class="footer_holder container">
           <div class="footer_box box_top">
@@ -103,8 +67,6 @@
           </div>
         </div>
       </footer>
-    <%end%>
-<% end %>
 
 </div>
 

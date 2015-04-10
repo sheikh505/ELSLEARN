@@ -91,7 +91,7 @@
   <div class="question_p_section">
 
    <%if $arr[@index].question_type == 1 %>
-        <ul style="list-style-type: upper-alpha;">
+        <ul class="pre_question_options" style="list-style-type: upper-alpha;">
           <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
                   <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>

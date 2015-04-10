@@ -1,4 +1,3 @@
-<% unless params[:action] == "new" %>
 <header class="header">
   <div class="header_holder container">
     <div class="header_left pull_left">
@@ -20,7 +19,11 @@
                 <% else %>
                     <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
                 <% end %>
-              </li></ul>
+              </li>
+               <% if user_signed_in? && current_user.is_not_student? %>
+              <li><%= link_to "Admin Panel", "/admin_panel", :class => 'navbar-link' %></li>
+                    <% end %>
+              </ul>
               </li>
               <% else %>
               <li><a href="users/sign_in">Login</a></li>
@@ -45,4 +48,3 @@
     </div>
   </div>
 </header>
-<% end %>

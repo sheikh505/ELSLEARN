@@ -11,10 +11,12 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require best_in_place
 //= require bootstrap.min
 //= require tinymce
 //= require tinymce-jquery
 //= require jquery.timer
+//= require best_in_place.jquery-ui
 //= require main
 //= require_tree .
 

@@ -35,6 +35,9 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.9)
+    best_in_place (3.0.3)
+      actionpack (>= 3.2)
+      railties (>= 3.2)
     builder (3.0.4)
     cancan (1.6.10)
     climate_control (0.0.3)
@@ -135,12 +138,14 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     will_paginate (3.0.7)
+    workflow (1.2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   aws-sdk
+  best_in_place (~> 3.0.1)
   cancan
   coffee-rails (~> 3.2.1)
   devise
@@ -153,3 +158,4 @@ DEPENDENCIES
   tinymce-rails-imageupload (~> 4.0.0.beta)
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0.6)
+  workflow (~> 1.2.0)

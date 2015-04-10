@@ -54,7 +54,7 @@
             <%= label_tag :year %>
             <select id="year" name="year">
               <% i = Time.new.year.inspect.to_i - 1 %>
-              <% 25.times{ %>
+              <% 15.times{ %>
                       <option value="<%=i  %>"><%=i %></option>
               <% i-=1
                  } %>
@@ -67,8 +67,14 @@
                 <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
 
           </div>
+          <div class="row_custom">
+            <select id="paper" name="paper">
+              <option value="">[PLEASE SELECT PAPER]</option>
+              <option value="mcq">Paper P1</option>
+            </select>
+          </div>
 
-          <div style="display: block;" id="test_container_1">
+          <div class="row_custom" id="test_container_1">
             <input type="submit" value="Proceed" id="past_paper_container" name="test_btn"  class="btn">
           </div>
         </div>

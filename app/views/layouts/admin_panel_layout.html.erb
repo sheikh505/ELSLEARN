@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExamsSystem</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+  <% if user_signed_in?  %>
+
+      <%= render 'shared/adminHeader' %>
+      <%= render 'shared/errors' %>
+      <div class="admin_main">
+        <div id="sidebar-wrapper">
+          <ul class="sidebar-nav">
+
+            <% if current_user.is_not_student? %>
+
+                <li class="sidebar-brand">
+                  <%= link_to "ELS Learning", home_page_index_path%>
+                </li>
+                <% if current_user.is_admin? %>
+                    <%= render 'layouts/admin' %>
+                <% elsif current_user.is_operator? %>
+                    <%= render 'layouts/operator' %>
+                <% elsif current_user.is_proofreader? %>
+                    <%= render 'layouts/proofreader' %>
+                <% elsif current_user.is_teacher? %>
+                    <%= render 'layouts/teacher' %>
+                <% end %>
+            <% end %>
+
+
+          </ul>
+        </div>
+        <div id="page-content-wrapper">
+
+          <%= yield %>
+
+        </div>
+      </div>
+
+  <% end %>
+
+</div>
+
+</body>
+</html>
+

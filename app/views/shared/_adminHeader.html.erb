@@ -7,7 +7,7 @@
             <% if user_signed_in? %>
                 <% if current_user.is_admin? %>
                     <li><span class="text-danger">Logged in as: <%= current_user.email %></span> |</li>
-                     <li> <%= link_to "HOME", home_page_index_path, :class => 'navbar-link' %> | </li>
+                     <li> <%= link_to "HOME", "/", :class => 'navbar-link' %> | </li>
                    <li> <%= link_to "SIGN OUT","/sign_out",method: :delete, :class => 'navbar-link' %></li>
 
 

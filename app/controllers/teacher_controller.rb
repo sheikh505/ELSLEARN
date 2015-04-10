@@ -1,6 +1,6 @@
 class TeacherController < ApplicationController
   respond_to :html, :xml, :json
-
+  layout "admin_panel_layout"
   def index
     @user = current_user
     if @user.is_proofreader?
@@ -51,7 +51,7 @@ class TeacherController < ApplicationController
 
         @bdaId = BoardDegreeAssignment.find_by_board_id_and_degree_id(board,params[:degree])
         @dcaId = DegreeCourseAssignment.find_by_course_id_and_board_degree_assignment_id(params[:course],@bdaId.id)
-        @teacher_course = TeacherCourse.new(degree_course_assignment_id: @dcaId.id, :user_id => params[:user][:user_id])
+        @teacher_course = TeacherCourse.new(:degree_course_assignment_id=> @dcaId.id, :user_id => params[:user][:user_id])
         @teacher_course.save
       end
     else

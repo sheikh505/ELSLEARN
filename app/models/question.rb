@@ -1,4 +1,23 @@
 class Question < ActiveRecord::Base
+  include Workflow
+  workflow do
+    state :new do
+      event :submit, :transitions_to => :reviewed_by_proofreader
+    end
+    state :reviewed_by_proofreader do
+      event :review, :transitions_to => :awaiting_review
+    end
+    state :awaiting_review do
+      event :review, :transitions_to => :being_reviewed
+    end
+    state :being_reviewed do
+      event :accept, :transitions_to => :accepted
+      event :reject, :transitions_to => :rejected
+    end
+    state :accepted
+    state :rejected
+  end
+
   default_scope order('created_at DESC')
   has_many :options, dependent: :destroy
   belongs_to :topic

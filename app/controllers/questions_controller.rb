@@ -1,7 +1,8 @@
 class QuestionsController < ApplicationController
   skip_before_filter :authenticate_user!
-  before_filter :set_question, only: [:show, :edit, :update, :destroy]
+  before_filter :set_question, :only=> [:show, :edit, :update, :destroy]
   respond_to :html, :json
+  layout "admin_panel_layout"
 
   def get_courses
     @boards = []
@@ -128,7 +129,7 @@ class QuestionsController < ApplicationController
     page = params[:page] unless params[:page].nil?
 
     @questions = Question.search(search,page,limit)
-    render partial: 'ques'
+    render :partial=> 'ques'
 
   end
 
@@ -465,7 +466,7 @@ class QuestionsController < ApplicationController
   def approve_question
 
     @question = Question.find(params[:ques_id])
-    @question.update_attribute(:approval_status, 1)
+    @question.submit!
 
     limit = 50
     search = ""
@@ -478,7 +479,7 @@ class QuestionsController < ApplicationController
     if @@flag == 0
       @questions = Question.search(search,page,limit)
     else
-      @questions = Question.where(:approval_status => 0).search(search,page,limit)
+      @questions =  Question.where(:workflow_state => nil, :deleted =>false).search(search,page,limit)
     end
     @row = limit
 
@@ -497,7 +498,7 @@ class QuestionsController < ApplicationController
     if params[:flag].to_i == 1
       @questions = Question.where(:approval_status => 1).search(search,page,limit)
     elsif params[:flag].to_i == 0
-      @questions = Question.where(:approval_status => 0).search(search,page,limit)
+      @questions = Question.where(:workflow_state => nil, :deleted =>false).search(search,page,limit)
       @@flag = 1
     else
       @questions = Question.search(search,page,limit)

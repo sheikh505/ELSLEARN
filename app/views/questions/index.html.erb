@@ -1,74 +1,80 @@
+<% if user_signed_in? && !current_user.is_proofreader?%>
+
+    <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'), :method => 'get' do %>
+
+    <h1>Listing questions</h1>
+    <div class="listing-holder questions">
+    <div class="row">
+    <div class="span5">
+      <div class="field">
+        <%=label_tag :course %>
+
+        <select id="course" name="course" required>
+
+          <option value="" selected>Select Course</option>
+          <% if current_user.is_teacher? %>
+            <% current_user.teacher_courses.all.uniq{|y| y.degree_course_assignment_id}.each do |x| %>
+                  <option value="<%=DegreeCourseAssignment.find_by_id(x).degree.id %>"><%=DegreeCourseAssignment.find_by_id(x).degree.name%></option>
+            <% end %>
 
 
-<%=form_tag url_for(:controller => 'questions', :action => 'add_questions'), :method => 'get' do %>
+          <% else %>
+              <% Course.all.each do |course| %>
 
-<h1>Listing questions</h1>
-<div class="listing-holder questions">
-<div class="row">
-<div class="span5">
-  <div class="field">
-    <%=label_tag :course %>
+                  <option value="<%=course.id %>"><%=course.name%></option>
+              <% end %>
 
-    <select id="course" name="course" required>
-
-      <option value="" selected>Select Course</option>
-      <% if current_user.is_teacher? %>
-        <% current_user.teacher_courses.all.uniq{|y| y.degree_course_assignment_id}.each do |x| %>
-              <option value="<%=DegreeCourseAssignment.find_by_id(x).degree.id %>"><%=DegreeCourseAssignment.find_by_id(x).degree.name%></option>
-        <% end %>
-
-
-      <% else %>
-          <% Course.all.each do |course| %>
-
-              <option value="<%=course.id %>"><%=course.name%></option>
           <% end %>
 
-      <% end %>
 
 
+        </select>
+      </div>
+      <div class="field" id="board_container">
+        <h4>Boards</h4>
+            <%Board.all.each do |board| %>
+            <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+            <% end %>
 
-    </select>
-  </div>
-  <div class="field" id="board_container">
-    <h4>Boards</h4>
-        <%Board.all.each do |board| %>
-        <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+        <h4>Degrees</h4>
+        <%Degree.all.each do |degree| %>
+            <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
         <% end %>
+      </div>
 
-    <h4>Degrees</h4>
-    <%Degree.all.each do |degree| %>
-        <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
+      <div class="field" id="type_container">
+        <h4>Question_type</h4>
+        <select id="'question_type" name="question_type">
+
+              <option  value="1">MCQ</option>
+              <option  value="2">Descriptive</option>
+              <option  value="3">Fill in the blanks</option>
+              <option  value="4">True/False</option>
+
+        </select>
+      </div>
+
+    </div>
+
+    </div>
+      <%= submit_tag "Add Question" , :class => 'btn btn-large btn-inverse'%>
+
     <% end %>
-  </div>
+    <br /><br />
+    <div id="ques_container" class=''>
+      <%= render 'ques' %>
 
-  <div class="field" id="type_container">
-    <h4>Question_type</h4>
-    <select id="'question_type" name="question_type">
+    </div>
 
-          <option  value="1">MCQ</option>
-          <option  value="2">Descriptive</option>
-          <option  value="3">Fill in the blanks</option>
-          <option  value="4">True/False</option>
+    </div>
+<% else %>
+    <div id="ques_container" class=''>
+      <%= render 'proofreader_ques' %>
 
-    </select>
-  </div>
-
-</div>
-
-</div>
-  <%= submit_tag "Add Question" , :class => 'btn btn-large btn-inverse'%>
-
+    </div>
 <% end %>
-<br /><br />
 
 
-<div id="ques_container" class=''>
-    <%= render 'ques' %>
-
-</div>
-
-</div>
 
 
 

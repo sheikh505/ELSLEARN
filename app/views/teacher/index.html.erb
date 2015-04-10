@@ -26,7 +26,7 @@
 </table>
 </div>
 <% if current_user.is_proofreader? %>
-    <%= link_to 'Add new Operator', new_teacher_path, class: 'btn btn-large btn-inverse' %>
+    <%= link_to 'Add new operator', new_teacher_path, class: 'btn btn-large btn-inverse' %>
 <% else %>
-    <%= link_to 'Add new Teacher', new_teacher_path, class: 'btn btn-large btn-inverse' %>
+    <%= link_to 'Add new user', new_teacher_path, class: 'btn btn-large btn-inverse' %>
 <% end %>

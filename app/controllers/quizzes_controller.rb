@@ -1,7 +1,7 @@
 class QuizzesController < ApplicationController
   load_and_authorize_resource
-  before_filter :set_quiz, only: [:show, :edit, :update, :destroy]
-
+  before_filter :set_quiz, :only=> [:show, :edit, :update, :destroy]
+  layout "admin_panel_layout"
   respond_to :html
 
   def index
@@ -32,7 +32,7 @@ class QuizzesController < ApplicationController
 
   def generate_token
     self.token = SecureRandom.urlsafe_base64
-    generate_token if ModelName.exists?(token: self.token)
+    generate_token if ModelName.exists?(:token=> self.token)
   end
 
   def get_courses

@@ -5,6 +5,9 @@
     <h2>Log in</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
+        <p style="color: red"><%= flash[type] %></p>
+    <% end %>
       <div class="field">
         <%= f.email_field :email, :placeholder => "Email", autofocus: true %>
       </div>

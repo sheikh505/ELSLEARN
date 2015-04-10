@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
-  before_filter :set_role, only: [:show, :edit, :update, :destroy]
-
+  before_filter :set_role, :only=> [:show, :edit, :update, :destroy]
+  layout "admin_panel_layout"
   respond_to :html
 
   def index

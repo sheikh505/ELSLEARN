@@ -1176,6 +1176,7 @@ Pop up Strat
  .table tr td a.btn:hover{ background: #222;}
  .ques_inner_bar_left #search_bar{ vertical-align: top;}
  .ques_inner_bar_left .searchBtn{ margin: 3px 0 0;}
+ .ques_search_bar_left {float:left; width: 260px;}
  /*==================================================*/
  /* Login page start */
  /*==================================================*/
@@ -1288,7 +1289,7 @@ Pop up Strat
  .col .pre_question_holder{
      position: absolute;
      right: -715px;
-     top:-9px;
+     top:-20px;
      width: 94.5%;
  }
  .col .row_custom label input[type="checkbox"]{
@@ -1562,3 +1563,5 @@ Pop up Strat
      background: #0095D9;
      color: #fff;
  }
+ .modal_content .modal_left .question_p_section ul.pre_question_options li a{ width: 100%}
+ .pre_question_options > li{max-width:370px;}

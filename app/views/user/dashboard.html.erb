@@ -1,0 +1,52 @@
+<div class="user_profile_holder">
+    <div class="container">
+      <h1>User Profile Page</h1>
+      <div class="user_profile_left">
+        <ul class="u_left_holder">
+          <li><a class="avtar" href="#">
+            <% if @user.avatar.present?%>
+                <%= image_tag @user.avatar.url %>
+            <% else %>
+                <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+            <% end %>
+          <li><a  href="/user/dashboard">
+            <i class="fa fa_icon fa-tachometer"></i>
+            Dashboard </a> </li>
+          <li><a  href="/user/my_profile">
+            <i class="fa fa_icon fa-users"></i>
+
+            Profile</a> </li>
+
+        </ul>
+      </div>
+        <div class="user_profile_right">
+
+            <ul class="user_profile_nav">
+              <li>
+                <a href="javascript:void(0)">
+                  <h3>Date</h3>
+                  <span class="menu_active">
+                    <i class="fa fa-caret-up"></i>
+                </span>
+                </a>
+              </li>
+            </ul>
+          <ul class="u_right_holder">
+            <% if @user_test_histories.present? %>
+                <% @user_test_histories.each do |user_test_history| %>
+                    <li>
+                      <span><%=user_test_history.updated_at.to_date%></span>
+                    </li>
+                <% end %>
+            <% else %>
+                <li>
+                  <h3>No Test Yet!!!!</h3>
+                  <%=link_to "Attempt", "/"%>
+                </li>
+            <% end %>
+          </ul>
+
+
+        </div>
+    </div>
+</div>
