@@ -1565,3 +1565,22 @@ Pop up Strat
  }
  .modal_content .modal_left .question_p_section ul.pre_question_options li a{ width: 100%}
  .pre_question_options > li{max-width:370px;}
+ .user_profile_right .pre_table_dashboard h3 {
+     padding-bottom: 4px;
+     color: #fff;
+     padding-top: 4px;
+     font-size: 14px;
+     font-weight: 500;
+     margin: 0;
+ }
+ .user_profile_right .pre_table_dashboard tr th{
+     height: auto;
+     line-height: 15px !important;
+ }
+ .user_profile_right .pre_table_dashboard tr th,
+ .user_profile_right .pre_table_dashboard tr td{
+     padding:5px 20px;
+ }
+ .user_profile_right .pre_table_dashboard tbody tr:nth-child(2n+1){
+     background: #f7f7f7;
+ }

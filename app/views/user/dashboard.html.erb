@@ -19,34 +19,52 @@
 
         </ul>
       </div>
-        <div class="user_profile_right">
+      <div class="user_profile_right">
+        <table class=" pre_table_dashboard" width="100%">
 
-            <ul class="user_profile_nav">
-              <li>
-                <a href="javascript:void(0)">
-                  <h3>Date</h3>
-                  <span class="menu_active">
-                    <i class="fa fa-caret-up"></i>
-                </span>
-                </a>
-              </li>
-            </ul>
-          <ul class="u_right_holder">
+
+              <thead>
+              <tr class="user_profile_nav">
+              <th><h3>Date</h3>
+
+              </th>
+                <th><h3>Marks Obtained</h3></th>
+                <th><h3>Total</h3></th>
+                <th></th>
+            </tr>
+              </thead>
+          <tbody>
+
             <% if @user_test_histories.present? %>
                 <% @user_test_histories.each do |user_test_history| %>
-                    <li>
+                  <tr class="u_right_holder">
+                    <td>
                       <span><%=user_test_history.updated_at.to_date%></span>
-                    </li>
+                    </td>
+
+                    <td><%=user_test_history.score%></td>
+                    <td><%=user_test_history.total%></td>
+                    <td><%=link_to "Re-Take", "/user/ReTakeTest?user_test_history_id="+ user_test_history.id.to_s%></td>
+                  </tr>
+
+
+
+
                 <% end %>
             <% else %>
-                <li>
-                  <h3>No Test Yet!!!!</h3>
+              <tr class="u_right_holder">
+                <td><h4>No Test Yet!!!!</h4></td>
+                <td></td>
+                <td></td>
+                <td>
                   <%=link_to "Attempt", "/"%>
-                </li>
+                </td>
+                </tr>
             <% end %>
-          </ul>
 
+            </tbody>
 
-        </div>
+        </table>
+      </div>
     </div>
 </div>

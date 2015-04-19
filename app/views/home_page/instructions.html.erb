@@ -39,9 +39,12 @@
 
 </div>
 <div class="modal_iframe_footer">
-  <a class="modal_btn"  onclick="check_sign_in(<%=@board_id%>,<%=@degree_id%>,
-                                <%=@course_id%>,<%=@mcq%>,<%=@fill%>,<%=@true_false%>,
-                                <%=@descriptive%>, <%=@past_paper_flag%>, <%=@year%>, '<%=@session%>')" href="#myModal"  >Take Test(its free)</a>
+  <%= form_for "quiz", :url => {:controller => 'home_page', :action => 'quiz'},
+               :html => {:id => "test_code_form",:onsubmit => "return check_sign_in();"} do |f| %>
+  <input type="hidden" id="user_test_history_id" name="user_test_history_id" value="<%=@user_test_history_id%>" >
+  <button type="submit" class="modal_btn" href="#myModal">Take Test(its free)</button>
+
+  <% end %>
 </div>
 
 <div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -55,7 +58,8 @@
         <div class="row">
             <div class="user_form_holder">
               <div class="pre_modal_left pull-left">
-          <%= form_for @user, :url => {:controller => 'home_page', :action => 'create_user_registration'} do |f| %>
+          <%= form_for @user, :url => {:controller => 'home_page', :action => 'quiz'},
+                              :html => {:id => "registration_form",:onsubmit => "return create_user();"} do |f| %>
                 <% if @user.errors.any? %>
                     <div id="error_explanation">
                       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -112,8 +116,8 @@
 
               <div class="pre_model_right">
                   <%= form_for :new_user, :url => {:controller => 'home_page',
-                                           :action => 'sign_in_user'},
-                               :html => {:id => "login_form",:onsubmit => "return false;"}     do |f| %>
+                                           :action => 'quiz'},
+                               :html => {:id => "login_form",:onsubmit => "return sign_in();"}     do |f| %>
                   <h2>Log in</h2>
                   <div class="field">
                     <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
@@ -125,7 +129,7 @@
                     <% end %>
                     <%= f.password_field :password, :placeholder=>:Password, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>
                   </div>
-                    <div style="float: left; width: 73.3%"><label id="flash_message" style="margin:0"></label></div>
+                    <div style="float: left; width: 73.3%"><label id="flash_message" style="color:red; margin:0"></label></div>
                   <div class="actions" style="float:left">
                   <%= f.submit "Login", :onclick=>"sign_in()", :class => 'btn btn-large btn-inverse' %>
                 </div>
@@ -137,9 +141,11 @@
                     <input type="hidden" id="fill" name="fill" value="<%=@fill%>" >
                     <input type="hidden" id="true_false" name="true_false" value="<%=@true_false%>" >
                     <input type="hidden" id="descriptive" name="descriptive" value="<%=@descriptive%>" >
-                    <input type="hidden" id="pre_Past" name="pre_Past" value="<%=@past_paper_flag%>" >
+                    <input type="hidden" id="past_paper_flag" name="past_paper_flag" value="<%=@past_paper_flag%>" >
                     <input type="hidden" id="year" name="year" value="<%=@year%>" >
                     <input type="hidden" id="session" name="session" value="<%=@session%>" >
+                    <input type="hidden" id="flag" name="flag" value="1" >
+
                   <% end %>
           </div>
          </div>
@@ -159,43 +165,61 @@
 
 
 <script>
-    function sign_in()
+
+    function create_user()
     {
-        $.post($("form#login_form").attr("action"), $("form#login_form").serialize(), function (response) {
+        var flag = true;
+        $.get("home_page/create_user_registration", $("form#registration_form").serialize(), function (response) {
             if (response.success) {
-                $('#flash_message').html("success");
-                document.forms["login_form"].submit();
+                return true;
             }
             else {
-                $('#flash_message').html("Invalid email or password");
-                return false;
+                $('#flash_message').html("fail");
+                flag = false;
             }
 
         }, "json")
-
+        return flag;
     }
-    function check_sign_in(bid,did,cid,mcq,true_false,fill,descriptive, ppflag, year, session)
+    function sign_in()
     {
+        var flag = true;
+        $.post("sign_in_user", $("form#login_form").serialize(), function (response) {
+            if (response.success) {
+                flag = true;
+            }
+            else {
+                $('#flash_message').html("Invalid email or password");
+                flag = false;
+            }
 
+        }, "json")
+        return flag;
+    }
+    function check_sign_in()
+    {
+        var flag = false;
         $.ajax({
             url:'/home_page/is_user_signed_in',
             type:'get',
             dataType:'json',
             processData:false,
+            async: false,
             success:function (response) {
                 if (response.success) {
-                    window.location = '/home_page/quiz?b_id='+bid+'&degree_id='+did+'&course_id='+
-                                        cid+'&mcq='+mcq+'&true_false='+true_false+'&fill='+fill+
-                                        '&descriptive='+descriptive+'&pre_Past='+ppflag+'&year='+year+
-                                        '&session='+session;
+                    flag = true;
                 }
                 else {
+                    flag = false;
                     $('#myModal').modal('toggle');
+
                 }
 
             },
             error:function (data) {
+                flag = false;
             }
         });
+        return flag;
     }
 </script>

@@ -40,7 +40,7 @@ class Ability
          #       User.find_by_email(question.author.to_s).id == user.role
          # end
          else
-            cannot :manage,Teacher
+           can :manage, :all
          end
        end
 

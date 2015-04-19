@@ -1,6 +1,11 @@
 class HomePageController < ApplicationController
-  def index
 
+  def index
+    if user_signed_in?
+      @user = current_user
+    else
+      @user = User.new
+    end
 
       @boards = Board.all
       @degrees = []
@@ -65,7 +70,6 @@ class HomePageController < ApplicationController
   end
 
   def instructions
-    puts "--------------->", params.inspect
     @board_id = params[:b_id]
     @degree_id = params[:degree_id]
     @course_id = params[:course_id]
@@ -98,63 +102,108 @@ class HomePageController < ApplicationController
       @user = User.new
     end
 
-
+    if user_signed_in?
+      user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
+                           :course=> @course_id,:mcq=> @mcq,
+                           :truefalse=> @true_false,:fill=> @fill,
+                           :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
+                           :year=> @year, :session=> @session}
+      user_history = UserTestHistory.new(user_test_history)
+      user_history.save
+      @user_test_history_id = user_history.id
+    end
   end
 
   def quiz
-    @board_id = params[:b_id]
-    @degree_id = params[:degree_id]
-    @course_id = params[:course_id]
-    @mcq = params[:mcq]
-    @fill = params[:fill]
-    @true_false = params[:true_false]
-    @descriptive = params[:descriptive]
-    @past_paper_flag = params[:pre_Past]
-    @year = params[:year]
-    @session = params[:session]
-    @user_test_history = UserTestHistory.new
 
-    bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
-    @questions = []
-    if @past_paper_flag.to_i == 2
-      temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
-      list = temp
-      list.shuffle!
-      #select number of questions according to the user requirement
 
-      i = 0
-      j = 0
-      k = 0
-      l = 0
-
-      list.each do |question|
-        if question.question_type == 1 && i < @mcq.to_i
-          @questions << question
-          i += 1
-        elsif question.question_type == 4 && j < @true_false.to_i
-          @questions << question
-          j += 1
-        elsif question.question_type == 3 && k < @fill.to_i
-          @questions << question
-          k += 1
-        elsif question.question_type == 9 && l < @descriptive.to_i
-          @questions << question
-          l += 1
-        end
-
-      end
-    elsif @past_paper_flag.to_i == 1
-      list = bd.questions.select{|q| q.deleted == false &&
-                                     q.topic.course_id == @course_id.to_i &&
-                                     q.past_paper_history.present? &&
-                                     q.past_paper_history.year == @year.to_s &&
-                                     q.past_paper_history.session == @session.to_s }
-      @questions = list.shuffle
+    if params[:flag].present? && params[:flag].to_i == 1
+      user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
+                          :course=> params[:course_id],:mcq=> params[:mcq],
+                          :truefalse=> params[:true_false],:fill=> params[:fill],
+                          :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
+                          :year=> params[:year], :session=> params[:session]}
+      user_history = UserTestHistory.new(user_test_history)
+      user_history.save
+      @user_test_history_id = user_history.id
     end
-    @size = @questions.length
-    @index = 0
-    render :layout=> "quiz_layout"
+    if params[:user_test_history_id].present? || @user_test_history_id.present?
+      if params[:user_test_history_id].present?
+        @user_test_history_id = params[:user_test_history_id]
+      end
+      user_test_history = UserTestHistory.find(@user_test_history_id)
+      @board_id = user_test_history[:board_id]
+      @degree_id = user_test_history[:degree_id]
+      @course_id = user_test_history[:course]
+      @mcq = user_test_history[:mcq]
+      @fill = user_test_history[:fill]
+      @true_false = user_test_history[:truefalse]
+      @descriptive = user_test_history[:descriptive]
+      @past_paper_flag = user_test_history[:pastpaperflag]
+      @year = user_test_history[:year]
+      @session = user_test_history[:session]
 
+      bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
+      @questions = []
+      if @past_paper_flag.to_i == 2
+        temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
+        list = temp
+        list.shuffle!
+        #select number of questions according to the user requirement
+
+        i = 0
+        j = 0
+        k = 0
+        l = 0
+
+        list.each do |question|
+          if question.question_type == 1 && i < @mcq.to_i
+            @questions << question
+            i += 1
+          elsif question.question_type == 4 && j < @true_false.to_i
+            @questions << question
+            j += 1
+          elsif question.question_type == 3 && k < @fill.to_i
+            @questions << question
+            k += 1
+          elsif question.question_type == 9 && l < @descriptive.to_i
+            @questions << question
+            l += 1
+          end
+
+        end
+      elsif @past_paper_flag.to_i == 1
+        list = bd.questions.select{|q| q.deleted == false &&
+            q.topic.course_id == @course_id.to_i &&
+            q.past_paper_history.present? &&
+            q.past_paper_history.year == @year.to_s &&
+            q.past_paper_history.session == @session.to_s }
+        @questions = list.shuffle
+      end
+    elsif params[:test_code].present? || params[:test_code_login].present? || params[:test_code_registration].present?
+      if params[:test_code].present?
+        test_code =  params[:test_code]
+      elsif params[:test_code_login].present?
+        test_code = params[:test_code_login]
+      elsif params[:test_code_registration].present?
+        test_code =  params[:test_code_registration]
+      end
+      quiz = Quiz.find_by_test_code(test_code)
+      if quiz.present?
+        question_ids = quiz.question_ids
+        @questions = Question.find(question_ids.split(','))
+      else
+        render :nothing=>true
+      end
+    end
+
+    @user = current_user
+
+    if @questions.present?
+      @size = @questions.length
+      @index = 0
+      render :layout=> "quiz_layout"
+    end
   end
 
   def add_user_test
@@ -169,28 +218,29 @@ class HomePageController < ApplicationController
   def create_user_registration
     unless user_signed_in?
       @user = User.new(params[:user])
-      @user.save
 
-      sign_in @user
+      if @user.save
+        sign_in @user
+        assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
+        assignment.save
+        render :json => {:success => true}
+      else
+        render :json => {:success => false}
+      end
 
-      assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
-      assignment.save
     end
-
-    redirect_to :action => 'quiz',:b_id=> params[:b_id],:degree_id=> params[:degree_id],
-        :course_id=> params[:course_id],:mcq=> params[:mcq],
-        :true_false=> params[:true_false],:fill=> params[:fill],
-        :descriptive=> params[:descriptive], :pre_Past=> params[:pre_Past],
-        :year=> params[:year], :session=> params[:session]
   end
 
   def sign_in_user
     if user_signed_in?
-      redirect_to :action => 'quiz',:b_id=> params[:b_id],:degree_id=> params[:degree_id],
-                  :course_id=> params[:course_id],:mcq=> params[:mcq],
-                  :true_false=> params[:true_false],:fill=> params[:fill],
-                  :descriptive=> params[:descriptive], :pre_Past=> params[:pre_Past],
-                  :year=> params[:year], :session=> params[:session]
+      user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
+                           :course=> params[:course_id],:mcq=> params[:mcq],
+                           :truefalse=> params[:true_false],:fill=> params[:fill],
+                           :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
+                           :year=> params[:year], :session=> params[:session]}
+      user_history = UserTestHistory.new(user_test_history)
+      user_history.save
+      redirect_to :action => 'quiz',:user_test_history_id=> user_history.id
     else
       user = User.find_by_email(params[:new_user][:email])
       if user.present? && user.valid_password?(params[:new_user][:password])
@@ -204,14 +254,25 @@ class HomePageController < ApplicationController
 
   def is_user_signed_in
     if user_signed_in?
-      render :json => {:success => true}
+      if params[:b_id].present?
+        user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
+                             :course=> params[:course_id],:mcq=> params[:mcq],
+                             :truefalse=> params[:true_false],:fill=> params[:fill],
+                             :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
+                             :year=> params[:year], :session=> params[:session]}
+        user_history = UserTestHistory.new(user_test_history)
+        user_history.save
+        render :json => {:success => true, :user_test_history_id => user_history.id}
+      else
+        render :json => {:success => true}
+      end
+
     else
       render :json => {:success => false}
     end
   end
 
   def next
-    puts "----------------->", params.inspect
     @index = params[:index].to_i
     @index = @index + 1
 

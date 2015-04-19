@@ -6,6 +6,7 @@ ExamsSystem::Application.routes.draw do
   post "user/save_result"
   get "user/my_profile"
   get "user/dashboard"
+  get "user/ReTakeTest"
   get "home_page/user/my_profile" => "user#my_profile"
   put "user/update"
 
@@ -60,12 +61,12 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_degrees" => 'home_page#get_degrees'
   get "home_page/get_tests" => 'home_page#get_tests'
   post "home_page/instructions" => 'home_page#instructions'
-  get "home_page/quiz" => 'home_page#quiz'
+  post "home_page/quiz" => 'home_page#quiz'
   get "home_page/next_ques" => 'home_page#next'
   get "home_page/user_graph" => 'home_page#user_graph'
   get "home_page/get_notes_courses" => 'home_page#notes_courses'
   get "home_page/get_notes" => 'home_page#get_notes'
-  post "home_page/create_user_registration" => "home_page#create_user_registration"
+  get "home_page/create_user_registration" => "home_page#create_user_registration"
   post "home_page/sign_in_user" => "home_page#sign_in_user"
   get "home_page/add_user_test" =>  "home_page#add_user_test"
   get "home_page/is_user_signed_in" => "home_page#is_user_signed_in"
@@ -83,6 +84,7 @@ ExamsSystem::Application.routes.draw do
     collection do
       get :get_courses
       get :get_questions
+      get :test_exists
     end
   end
 
@@ -100,7 +102,7 @@ ExamsSystem::Application.routes.draw do
 
   root :to => "home_page#index"
 
-  devise_for :users, controllers: {sessions: "users/sessions",
+  devise_for :users, :controllers=> {:sessions=> "users/sessions",
                                    :confirmations => "users/confirmations",
                                    :passwords => "users/passwords",
                                    :unlocks => "users/unlocks",

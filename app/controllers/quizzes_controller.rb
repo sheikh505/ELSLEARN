@@ -1,6 +1,7 @@
 class QuizzesController < ApplicationController
-  load_and_authorize_resource
   before_filter :set_quiz, :only=> [:show, :edit, :update, :destroy]
+  before_filter :check_session, :except => [:test_exists]
+
   layout "admin_panel_layout"
   respond_to :html
 
@@ -68,6 +69,15 @@ class QuizzesController < ApplicationController
 
   end
 
+  def test_exists
+    test_code = params["test_code"]
+    if (Quiz.find_by_test_code(test_code).present?)
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
+  end
+
   def update
     @quiz.update_attributes(params[:quiz])
     respond_with(@quiz)
@@ -82,4 +92,12 @@ class QuizzesController < ApplicationController
     def set_quiz
       @quiz = Quiz.find(params[:id])
     end
+  def check_session
+    if params[:auth_token].present?
+      @user = User.find_by_auth_token(params[:auth_token])
+      render :json => {:success => "false", :errors => "authentication failed"} unless @user.present?
+    else
+      render :json => {:success => "false", :errors => "authentication failed"}
+    end
+  end
 end

@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  skip_before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except=>[:questions_exits]
   before_filter :set_question, :only=> [:show, :edit, :update, :destroy]
   respond_to :html, :json
   layout "admin_panel_layout"
@@ -531,7 +531,6 @@ class QuestionsController < ApplicationController
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
     puts "------------------>", params.inspect
-
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id,degree_id)
     @questions = []
     if past_paper_flag.to_i == 2
