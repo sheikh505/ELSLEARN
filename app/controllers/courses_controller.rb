@@ -92,6 +92,17 @@ class CoursesController < ApplicationController
     respond_with(@course)
   end
 
+  def get_courses_by_degree_id
+    degree_id = params[:degree_id].to_i
+    sql = "Select distinct c.id, name
+          From courses c
+          Inner join degree_course_assignments dca on c.id = dca.course_id
+          Inner join board_degree_assignments bda on dca.board_degree_assignment_id = bda.id
+          where degree_id = ?", degree_id
+    @courses = Course.find_by_sql(sql)
+    render :partial => 'courselist'
+  end
+
   private
     def set_course
       @course = Course.find(params[:id])

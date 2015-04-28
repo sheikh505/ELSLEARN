@@ -24,10 +24,11 @@
 <script>
 
     $(function() {
-        $(document).on("click",".pagination a", function(){
-            $.getScript(this.href);
-            return false;
-        });
+//        $(document).on("click",".pagination a", function(){
+//            $(".pagination").html("Page is loading...");
+//            $.getScript(this.href);
+//            return false;
+//        });
     });
 
     function fetch_rows(value)
@@ -38,7 +39,7 @@
     }
          var search = encodeURIComponent($("#search_bar").val());
         $("#search_bar").val("");
-        $.getScript('/questions/proofreader_questions?page=1&limit='+value+'&search='+search);
+        $.getScript('/questions/questions_approval?page=1&limit='+value+'&search='+search);
 
         return false;
 

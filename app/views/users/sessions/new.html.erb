@@ -30,6 +30,9 @@
           </div>
 <% end %>
 
+<br/>
+<a href="<%=user_omniauth_authorize_path(:facebook)%>?from=login"><%= image_tag 'facebook.png', height: '35'%></a>
+<br/>
 <%= render "users/shared/links" %>
     </div>
 </div>

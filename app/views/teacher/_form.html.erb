@@ -16,7 +16,7 @@
 
     <div class="field">
       <%= f.label :email %>
-      <%= f.email_field :email,:required => true, autofocus: true ,:class=>'row_field' %>
+      <%= f.email_field :email,:required => true, :autofocus=> true ,:class=>'row_field' %>
     </div>
 
      <div class="field">
@@ -44,15 +44,30 @@
     </div>
     <div class="field">
       <%= f.label :role %>
-      <select id="role_id" name="role_id" class="row_field" >
+      <select id="role_id" name="role_id" class="row_field"  onchange="show_degrees();">
         <option>Please select role for User</option>
         <%@roles.each do |x| %>
 
-            <option value="<%=x.id%>"><%=x.name%></option>
+            <option value="<%=x.id%>""><%=x.name%></option>
         <% end %>
       </select>
 
     </div>
+    <div id="degreeList" style="display: none;" class="field">
+      <%=label_tag :degree %>
+        <%@degrees.each do |degree| %>
+          <%= check_box_tag 'degree[]', degree.id,false %><%=degree.name %>
+        <% end %>
+    </div>
+    <div id="courseList" style="display: none;" class="field">
+      <%=label_tag :course %>
+      <select id="course" class="row_field" name="course" required="true" >
+        <option value="">Please select a course</option>
+        <%@courses.each do |x| %>
+            <option value="<%=x.id%>"><%=x.name%></option>
+        <% end %>
+      </select>
+      </div>
         <div class="field">
             <%= f.hidden_field :role , :value => current_user.id.to_s %>
         </div>
@@ -64,20 +79,25 @@
     <div class="span5 offset1">
       <% if current_user.is_proofreader? %>
         <h3>Listed Operators</h3>
+
         <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
         <li>
           <%=opertaor.email %>
         </li>
         <% end %>
       <% else %>
-          <h3>Listed Teachers</h3>
+          <h3>Listed Users</h3>
+          <div class="usersList">
           <% User.all.each do |teacher| %>
               <li>
                 <%=teacher.email %>
               </li>
           <% end %>
+            </div>
+          </div>
       <% end %>
     </div>
+
 </div>
 
 
@@ -86,10 +106,17 @@
 
 
 <script>
-    checkPass(pass)
-    {
-        alert (pass);
 
-
+    function show_degrees() {
+        if ($("#role_id").val() == "5")
+        {
+            $("#degreeList").show();
+            $("#courseList").show();
+        }
+        else
+        {
+            $("#courseList").hide();
+            $("#degreeList").hide();
+        }
     }
 </script>

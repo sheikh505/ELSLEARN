@@ -17,10 +17,12 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:facebook]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone, :role_id
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone,
+                  :role_id, :provider, :uid
   # attr_accessible :title, :body
 
   attr_accessible :avatar
@@ -56,5 +58,27 @@ class User < ActiveRecord::Base
                    self.roles.first.name.eql?("Teacher") ) ||
                    self.roles.first.name.eql?("Proof Reader")
   end
-
+  def self.from_omniauth(auth)
+    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+    if user
+      return user
+    else
+      registered_user = User.where(:email => auth.info.email).first
+      if registered_user
+        return registered_user
+      else
+        user = User.create(:name=> auth.extra.raw_info.name,
+                               :provider => auth.provider,
+                               :uid => auth.uid,
+                               :email => auth.info.email,
+                               :password => Devise.friendly_token[0,20],
+                               :avatar => auth.info.image.split("=")[0].gsub('http://','https://')+"?type=large"
+        )
+        assignment = {'user_id'=>user.id,'role_id'=>4}
+        @assignment = Assignment.new(assignment)
+        @assignment.save
+        return user
+      end
+    end
+  end
 end

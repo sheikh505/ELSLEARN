@@ -4,7 +4,7 @@
     <div class="pull-left viual_left">
         <%= form_for :@user, :url => {:controller => 'home_page',
                                          :action => 'instructions'},
-                     :html => {:onsubmit => "return validate_past_paper();"}     do |f| %>
+                     :html => {:id =>"create_test"}    do |f| %>
       <div class="col">
         <div class="header_col">
           <p class="tabs_holde">Boards</p>
@@ -135,7 +135,7 @@
 
           </div>
           <div style="display: block;" id="test_containerr">
-            <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" class="btn">
+            <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" onclick="return check_sign_in(1);" class="btn">
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@
           <input type="hidden" id="fill" name="fill" value="" >
           <input type="hidden" id="true_false" name="true_false" value="" >
           <input type="hidden" id="descriptive" name="descriptive" value="" >
-      <% end %>
+
 
     </div>
 
@@ -157,21 +157,23 @@
     <div class="pull-right viual_right col">
       <div class="visual_right_holder">
         <h2>Enter Code</h2>
-        <%= form_for "test_code", :url => {:controller => 'home_page', :action => 'quiz'},
-                     :html => {:id => "test_code_form",:onsubmit => "return check_sign_in();"} do |f| %>
+
           <fieldset>
             <div class="pre_header_row">
-              <input type="text" name="test_code" class="text" placeholder="Test Code" required="true">
-              <button type="submit" class="btn btn-default modal_btn" href="#myModal">Submit</button>
+              <input type="text" name="test_code" class="text" placeholder="Test Code">
+              <button type="submit" class="btn btn-default modal_btn" href="#myModal" onclick="return check_sign_in(2);">Submit</button>
             </div>
 
           </fieldset>
-        <% end %>
+
 
       </div>
 
 
     </div>
+          <input type="hidden" name="test_flag" class="text">
+
+    <% end %>
     <div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -222,11 +224,15 @@
                         <%= f.password_field :password_confirmation, :placeholder=>:Password_confirmation, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>
 
                       </div>
+                      <div style="float: left;"><label id="register_message" style="color:red; margin:0"></label></div>
                       <div class="actions">
                         <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
                       </div>
+
                   </div>
                       <input type="hidden" name="test_code_registration" class="text" placeholder="Test Code">
+
+
 
                   <% end %>
 
@@ -250,7 +256,11 @@
                           <%= f.submit "Login", :onclick=>"sign_in()", :class => 'btn btn-large btn-inverse' %>
                         </div>
                         <input type="hidden" name="test_code_login" class="text" placeholder="Test Code">
+                        <br/><br/><br/>
+                        <a href="javascript:void(0)" id="facebook-connect"><%= image_tag 'facebook.png', height: '35'%></a>
+
                   <% end %>
+
                   </div>
                   </div>
 
@@ -272,38 +282,35 @@
 
 
 </section>
-<section class="main">
-  <div class="main_holder main_front container">
-    <div class="box">
-      <div class="box_header">
-        <img src="assets/img1.jpg" alt="">
-        <h2>Students</h2>
-      </div>
-      <div class="description">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box_header">
-        <img src="assets/img2.jpg" alt="">
-        <h2>Educators</h2>
-      </div>
-      <div class="description">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box_header">
-        <img src="assets/img3.jpg" alt="">
-        <h2>Adminstrator</h2>
-      </div>
-      <div class="description">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
+
+<!-- Facebook connect script -->
+<div id="fb-root"></div>
+<script type="text/javascript">
+    window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+            appId      : '442015692624512', // App ID from the App Dashboard
+            status     : true, // check the login status upon init?
+            cookie     : true, // set sessions cookies to allow your server to access the session?
+            xfbml      : true  // parse XFBML tags on this page?
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+
+    };
+
+    (function(d, debug){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document, /*debug*/ false));
+
+
+</script>
+<!-- end Facebook connect script -->
 
 
 
@@ -333,50 +340,96 @@
                         $("div#question_type_container").toggle("slide");
                     }
                 });
+                $('#facebook-connect').click(function(e) {
+                    e.preventDefault();
+
+                    FB.login(function(response) {
+                        if (response.authResponse) {
+                            $.getJSON('<%=user_omniauth_callback_path(:facebook)%>', function(data) {
+
+                                if ($("input[name$='test_flag']").val() == 1) {
+                                    $.get("home_page/save_data", $("form#create_test").serialize(), function (saveResponse) {
+                                        if (saveResponse.success) {
+                                            window.location = 'home_page/instructions?uthid=' + saveResponse.user_test_history_id;
+                                        }
+                                        else {
+                                                $('#register_message').html(response.message);
+                                                flag = false;
+                                            }
+
+                                        }, "json")
+                                }
+                                else {
+                                    var test_code = $("input[name$='test_code']").val();
+                                    window.location = 'home_page/instructions?test_code=' + test_code
+                                }
+                                flag = true;
+                            });
+                        }
+                    });
+                });
 
             }
     );
 
     function create_user()
     {
-        var flag = true;
-        $.get("home_page/create_user_registration", $("form#registration_form").serialize(), function (response) {
+        var flag = false;
+        $.get("home_page/create_user_registration", $("form#registration_form").serialize()+ $("form#create_test").serialize(), function (response) {
             if (response.success) {
-                return true;
+                if ($("input[name$='test_flag']").val() == 1)
+                    window.location = 'home_page/instructions?uthid='+response.user_test_history_id
+                else {
+                    var test_code = $("input[name$='test_code']").val();
+                    window.location = 'home_page/instructions?test_code=' + test_code
+                }
+                flag = true;
             }
             else {
-                $('#flash_message').html("fail");
+                $('#register_message').html(response.message);
                 flag = false;
             }
 
         }, "json")
         return flag;
     }
+
+
+
     function sign_in()
     {
-        var flag = true;
-        $.post("home_page/sign_in_user", $("form#login_form").serialize(), function (response) {
-            if (response.success) {
-                return true;
-            }
+        var flag = false;
+        $.post("home_page/sign_in_user", $("form#login_form").serialize()+ $("form#create_test").serialize(), function (response) {
+            if ($("input[name$='test_flag']").val() == 1)
+                window.location = 'home_page/instructions?uthid='+response.user_test_history_id
             else {
-                $('#flash_message').html("Invalid email or password");
-                flag = false;
+                var test_code = $("input[name$='test_code']").val();
+                window.location = 'home_page/instructions?test_code=' + test_code
             }
-
         }, "json")
         return flag;
     }
-    function check_sign_in()
+
+    function check_sign_in(flag)
     {
-        if (!test_exists())
+        $("input[name$='test_flag']").val(flag);
+        if (flag == 1 && !validate_past_paper()) //for "create your own test"
         {
             return false;
         }
-        var flag = false;
+        else if (flag == 2 && !test_exists()) //for "test with test code"
+        {
+            return false;
+        }
+        var returnValue = false;
         var test_code = $("input[name$='test_code']").val();
         $("input[name$='test_code_login']").val(test_code);
+        link = $("input[name$='test_code_login']").next();
+        link.prop('href', function(){
+            this.href = this.href+test_code;
+        });
         $("input[name$='test_code_registration']").val(test_code);
+        this.href = this.protocol + '//' + this.hostname + '/' + encodeURIComponent(self.value);
         $.ajax({
             url:'/home_page/is_user_signed_in',
             type:'get',
@@ -385,20 +438,20 @@
             async:false,
             success:function (response) {
                 if (response.success) {
-                    flag = true;
+                    returnValue = true;
                 }
                 else {
-                    flag = false;
+                    returnValue = false;
                     $('#myModal').modal('toggle');
 
                 }
 
             },
             error:function (data) {
-                flag = false;
+                returnValue = false;
             }
         });
-        return flag;
+        return returnValue;
     }
     function test_exists()
     {

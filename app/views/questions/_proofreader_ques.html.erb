@@ -32,7 +32,7 @@
     </tr>
     <% @questions.each_with_index  do |question,index| %>
         <tr>
-          <td><%= index+1 %> </td>
+          <td><%= index + 1 + (((params[:page].to_i)-1)*50) unless params[:page].nil?  %> </td>
           <td><%=raw question.statement %> </td>
           <td><%= link_to 'View', question_path(question) %></td>
           <% if question.reviewed_by_proofreader? %>

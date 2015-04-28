@@ -65,12 +65,17 @@ class TeacherController < ApplicationController
   def new
     @user = User.new
     @roles = Role.all
+    @degrees = Degree.all
+    @courses = Course.all
   end
 
   def edit
     @user = User.find_by_id(params[:id])
     @roles = Role.all
     @user_role_id = @user.roles.first.id
+    @degrees = Degree.all
+    @courses = Course.all
+    @teacher_courses = @user.teacher_courses.select("course_id, degree_id")
   end
 
   def show
@@ -85,6 +90,15 @@ class TeacherController < ApplicationController
       assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
       @assignment = Assignment.new(assignment)
       @assignment.save
+      degrees = params[:degree]
+      course_id = params[:course]
+      if degrees.present?
+        degrees.each do |degree|
+          teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
+          @teacher_course = TeacherCourse.new(teacher_course)
+          @teacher_course.save
+        end
+      end
       redirect_to teacher_index_path
     else
       redirect_to new_teacher_path(@user)
@@ -118,6 +132,25 @@ class TeacherController < ApplicationController
     if @user_role_id != @role_id
       @user.assignments.first.update_attributes(:role_id => @role_id)
       @user.assignments.first.save
+    end
+    degrees = params[:degree]
+    course_id = params[:course]
+    if degrees.present?
+      @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
+      @teacher_courses.each do |teacher_course|
+        unless degrees.include? teacher_course.degree_id.to_s
+          TeacherCourse.find(teacher_course.id).delete
+        end
+      end
+      degrees.each do |degree|
+        teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
+        unless TeacherCourse.where(teacher_course).present?
+          @teacher_course = TeacherCourse.new(teacher_course)
+          @teacher_course.save
+        end
+      end
+    else
+      TeacherCourse.where(:user_id=>@user.id).delete_all
     end
     redirect_to teacher_index_path
   end

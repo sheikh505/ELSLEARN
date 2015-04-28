@@ -1,4 +1,4 @@
-<h2>Register Teacher</h2>
+<h2>Edit User</h2>
 <div class="row">
   <div class="span5">
     <%= form_for @user, :url => {:controller => 'teacher', :action => 'update'} do |f| %>
@@ -16,12 +16,12 @@
 
         <div class="field">
           <%= f.label :email %><br />
-          <%= f.email_field :email, autofocus: true, :value => @user.email %>
+          <%= f.email_field :email, :disabled => true, :value => @user.email %>
         </div>
 
         <div class="field">
           <%= f.label :name %><br />
-          <%= f.text_field :name, :value => @user.name %>
+          <%= f.text_field :name, :autofocus => true, :value => @user.name %>
         </div>
 
         <div class="field">
@@ -50,7 +50,7 @@
         </div>
 
         <%= f.label :role %>
-        <select id="role_id" name="role_id" class="row_field" >
+        <select id="role_id" name="role_id" class="row_field" onchange="show_degrees();" >
           <option>Please select role for User</option>
           <%@roles.each do |x| %>
               <% if !@user_role_id.nil? && @user_role_id == x.id %>
@@ -61,9 +61,33 @@
 
           <% end %>
         </select>
+        <div id="degreeList" style="display: none;" class="field">
+          <%=label_tag :degree %>
+          <%@degrees.each do |degree| %>
+              <% if !@teacher_courses.nil? && @teacher_courses.any? { |b| b[:degree_id] == degree.id     } %>
+                <%= check_box_tag 'degree[]', degree.id,true %><%=degree.name %>
+              <% else %>
+                  <%= check_box_tag 'degree[]', degree.id,false %><%=degree.name %>
+              <% end %>
+          <% end %>
+        </div>
+        <div id="courseList" style="display: none;" class="field">
+          <%=label_tag :course %>
+          <select id="course" class="row_field" name="course" >
+            <option value="">Please select a course</option>
+            <%@courses.each do |x| %>
+                <% if !@teacher_courses.nil? && @teacher_courses.any? { |b| b[:course_id] == x.id } %>
+                    <option selected value="<%=x.id%>"><%=x.name%></option>
+                <% else %>
+                    <option value="<%=x.id%>"><%=x.name%></option>
+                <% end %>
+            <% end %>
+          </select>
+        </div>
         <div class="field">
           <%= hidden_field_tag :id , @user.id %>
           <%= hidden_field_tag :user_role_id ,@user_role_id %>
+          <%= hidden_field_tag :teacher_courses , @teacher_course %>
 
         </div>
 
@@ -84,7 +108,8 @@
             </li>
         <% end %>
     <% else %>
-        <h3>Listed Teachers</h3>
+        <h3>Listed Users</h3>
+        <div class="usersList">
         <% User.all.each do |teacher| %>
             <li>
               <%=teacher.email %>
@@ -93,3 +118,25 @@
     <% end %>
   </div>
 </div>
+<script>
+    $( document ).ready(function() {
+        if($("#role_id").val() == "5")
+        {
+            $("#degreeList").show();
+            $("#courseList").show();
+        }
+    });
+
+  function show_degrees() {
+      if ($("#role_id").val() == "5")
+      {
+          $("#degreeList").show();
+          $("#courseList").show();
+      }
+      else
+      {
+          $("#courseList").hide();
+          $("#degreeList").hide();
+      }
+  }
+</script>

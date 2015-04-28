@@ -448,7 +448,7 @@ class QuestionsController < ApplicationController
     redirect_to question_path(@question)
   end
 
-  def proofreader_questions
+  def questions_approval
     limit = 50
     search = ""
     page = 1
@@ -457,7 +457,12 @@ class QuestionsController < ApplicationController
     search = params[:search] unless params[:search].nil?
     page = params[:page] unless params[:page].nil?
 
-    @questions = Question.search(search,page,limit)
+    if current_user.is_proofreader?
+      @questions = Question.search(search,page,limit)
+    elsif current_user.is_teacher?
+      @questions = Question.select{|q| q.is_deleted==false &&
+                                       q.topic.course_id == @course_id.to_i}
+    end
     @row = limit
   end
 
@@ -530,7 +535,6 @@ class QuestionsController < ApplicationController
     degree_id = params[:degree_id]
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
-    puts "------------------>", params.inspect
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id,degree_id)
     @questions = []
     if past_paper_flag.to_i == 2

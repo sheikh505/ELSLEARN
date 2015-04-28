@@ -1,5 +1,6 @@
 <% $arr = @questions %>
 <% $size = @size %>
+<% $answer = @answer %>
 <% $past_paper_flag = @past_paper_flag %>
 
     <style>
@@ -88,16 +89,7 @@
 <%=form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
     <input type="hidden" id="id" name="user_test_history[id]" value="<%=@user_test_history_id%>" >
     <input type="hidden" id="score" name="user_test_history[score]" value="0" >
-    <input type="hidden" id="board_id" name="user_test_history[board_id]" value="<%=@board_id%>" >
-    <input type="hidden" id="degree_id" name="user_test_history[degree_id]" value="<%=@degree_id%>" >
-    <input type="hidden" id="course" name="user_test_history[course]" value="<%=@course_id%>" >
-    <input type="hidden" id="pastpaperflag" name="user_test_history[pastpaperflag]" value="<%=@past_paper_flag%>" >
-    <input type="hidden" id="mcq" name="user_test_history[mcq]" value="<%=@mcq%>" >
-    <input type="hidden" id="fill" name="user_test_history[fill]" value="<%=@fill%>" >
-    <input type="hidden" id="truefalse" name="user_test_history[truefalse]" value="<%=@true_false%>" >
-    <input type="hidden" id="descriptive" name="user_test_history[descriptive]" value="<%=@descriptive%>" >
-    <input type="hidden" id="year" name="user_test_history[year]" value="<%=@year%>" >
-    <input type="hidden" id="session" name="user_test_history[session]" value="<%=@session%>" >
+    <input type="hidden" id="course" name="course" value="<%=@course%>" >
     <input type="hidden" id="total" name="user_test_history[total]" value="<%=$size * 5%>" >
 
     <div id="quiz_container" class="modal_content question_section_modal">

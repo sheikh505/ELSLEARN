@@ -30,6 +30,10 @@ class HomePageController < ApplicationController
 
   end
 
+  def about_us
+
+  end
+
   def admin_panel
     render :layout => "admin_panel_layout"
   end
@@ -70,62 +74,71 @@ class HomePageController < ApplicationController
   end
 
   def instructions
-    @board_id = params[:b_id]
-    @degree_id = params[:degree_id]
-    @course_id = params[:course_id]
-    @past_paper_flag = params[:pre_Past]
-    @year = params[:year]
-    @session = params[:session]
-    if params[:mcq].blank?
-      @mcq = 0
+    if params[:test_code].present?
+      @test_code = params[:test_code]
+    elsif params[:uthid].present?
+      @user_test_history_id = params[:uthid]
     else
-      @mcq = params[:mcq]
-    end
-    if params[:fill].blank?
-      @fill = 0
-    else
-      @fill = params[:fill]
-    end
-    if params[:true_false].blank?
-      @true_false = 0
-    else
-      @true_false = params[:true_false]
-    end
-    if params[:descriptive].blank?
-      @descriptive = 0
-    else
-      @descriptive = params[:descriptive]
-    end
-    if user_signed_in?
-      @user = current_user
-    else
-      @user = User.new
+      @board_id = params[:b_id]
+      session[:board_id] = @board_id
+      @degree_id = params[:degree_id]
+      session[:degree_id] = @degree_id
+      @course_id = params[:course_id]
+      session[:course_id] = @course_id
+      @past_paper_flag = params[:pre_Past]
+      session[:past_paper_flag] = @past_paper_flag
+      @year = params[:year]
+      session[:year] = @year
+      @session = params[:session]
+      session[:session] = @session
+      if params[:mcq].blank?
+        @mcq = 0
+      else
+        @mcq = params[:mcq]
+      end
+      session[:mcq] = @mcq
+      if params[:fill].blank?
+        @fill = 0
+      else
+        @fill = params[:fill]
+      end
+      session[:mcq] = @mcq
+      if params[:true_false].blank?
+        @true_false = 0
+      else
+        @true_false = params[:true_false]
+      end
+      session[:true_false] = @true_false
+      if params[:descriptive].blank?
+        @descriptive = 0
+      else
+        @descriptive = params[:descriptive]
+      end
+      session[:descriptive] = @descriptive
+      if user_signed_in?
+        @user = current_user
+      else
+        @user = User.new
+      end
+
+      if user_signed_in?
+        user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
+                             :course=> @course_id,:mcq=> @mcq,
+                             :truefalse=> @true_false,:fill=> @fill,
+                             :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
+                             :year=> @year, :session=> @session, :user_id=>current_user.id}
+        user_history = UserTestHistory.new(user_test_history)
+        user_history.save
+        @user_test_history_id = user_history.id
+      end
     end
 
-    if user_signed_in?
-      user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
-                           :course=> @course_id,:mcq=> @mcq,
-                           :truefalse=> @true_false,:fill=> @fill,
-                           :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
-                           :year=> @year, :session=> @session}
-      user_history = UserTestHistory.new(user_test_history)
-      user_history.save
-      @user_test_history_id = user_history.id
-    end
   end
 
   def quiz
 
+    if session[params[:index]].present?
 
-    if params[:flag].present? && params[:flag].to_i == 1
-      user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                          :course=> params[:course_id],:mcq=> params[:mcq],
-                          :truefalse=> params[:true_false],:fill=> params[:fill],
-                          :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
-                          :year=> params[:year], :session=> params[:session]}
-      user_history = UserTestHistory.new(user_test_history)
-      user_history.save
-      @user_test_history_id = user_history.id
     end
     if params[:user_test_history_id].present? || @user_test_history_id.present?
       if params[:user_test_history_id].present?
@@ -145,6 +158,7 @@ class HomePageController < ApplicationController
 
       bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
       @questions = []
+      @course = Course.find(@course_id).name
       if @past_paper_flag.to_i == 2
         temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
         list = temp
@@ -202,6 +216,14 @@ class HomePageController < ApplicationController
     if @questions.present?
       @size = @questions.length
       @index = 0
+      @answer = Hash.new
+      i = 0
+      10.times{
+        if session[i].present?
+          session.delete(i)
+        end
+        i+=1
+      }
       render :layout=> "quiz_layout"
     end
   end
@@ -223,32 +245,64 @@ class HomePageController < ApplicationController
         sign_in @user
         assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
         assignment.save
-        render :json => {:success => true}
+        user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
+                             :course=> params[:course_id],:mcq=> params[:mcq],
+                             :truefalse=> params[:true_false],:fill=> params[:fill],
+                             :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
+                             :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+        user_history = UserTestHistory.new(user_test_history)
+        user_history.save
+        render :json => {:success => true, :user_test_history_id => user_history.id}
       else
-        render :json => {:success => false}
+        render :json => {:success => false, :message => "Email address has already taken."  }
       end
 
     end
   end
 
   def sign_in_user
-    if user_signed_in?
+    user = User.find_by_email(params[:new_user][:email])
+    if user.present? && user.valid_password?(params[:new_user][:password])
+      sign_in user
       user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
                            :course=> params[:course_id],:mcq=> params[:mcq],
                            :truefalse=> params[:true_false],:fill=> params[:fill],
-                           :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
-                           :year=> params[:year], :session=> params[:session]}
+                           :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
+                           :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
       user_history = UserTestHistory.new(user_test_history)
       user_history.save
-      redirect_to :action => 'quiz',:user_test_history_id=> user_history.id
+
+      render :json => {:success => true, :user_test_history_id => user_history.id}
     else
-      user = User.find_by_email(params[:new_user][:email])
-      if user.present? && user.valid_password?(params[:new_user][:password])
-        sign_in user
-        render :json => {:success => true}
-      else
-        render :json => {:success => false}
-      end
+      render :json => {:success => false}
+    end
+  end
+
+  def save_data
+    user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
+                         :course=> params[:course_id],:mcq=> params[:mcq],
+                         :truefalse=> params[:true_false],:fill=> params[:fill],
+                         :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
+                         :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+    user_history = UserTestHistory.new(user_test_history)
+    if user_history.save
+      render :json => {:success => true, :user_test_history_id => user_history.id}
+    else
+      render :json => {:success => false}
+    end
+  end
+  def save_answer_to_session
+    puts "------------------>", session.inspect
+    session[params[:index]] = params[:option_index]
+    render :json => {:success => true}
+    end
+  def get_answer_from_session
+    puts "------------------>", session.inspect
+    if session[params[:index]].present?
+      option_index = session[params[:index]]
+      render :json => {:success => true, :option_index =>option_index}
+    else
+      render :json => {:success => false}
     end
   end
 
@@ -259,7 +313,7 @@ class HomePageController < ApplicationController
                              :course=> params[:course_id],:mcq=> params[:mcq],
                              :truefalse=> params[:true_false],:fill=> params[:fill],
                              :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
-                             :year=> params[:year], :session=> params[:session]}
+                             :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
         user_history = UserTestHistory.new(user_test_history)
         user_history.save
         render :json => {:success => true, :user_test_history_id => user_history.id}

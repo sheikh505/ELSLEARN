@@ -45,4 +45,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+gem 'omniauth-facebook'
 gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'

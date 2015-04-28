@@ -9,7 +9,7 @@
 
    <%if $arr[@index].question_type == 1 %>
         <ul class="pre_question_options" style="list-style-type: upper-alpha;">
-          <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
+          <% $arr[@index].options.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
                   <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
               <% else %>
@@ -49,8 +49,35 @@
     <%if @index+1 < $size%>
         <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
     <% else %>
-        <input type="submit" class="modal_btn" value="Finish">
+        <a class="modal_btn" href="#myModal" class="modal_btn" data-confirm="Are you sure?" onclick="finish_quiz()">Finish</a>
     <% end %>
+  </div>
+</div>
+
+<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Elearning System
+        </h4>
+      </div>
+      <div class="modal-body test_results">
+        <div class="result_holder">
+          <h2>Here is your test result!</h2>
+          <div class="result_content">
+            <h4 id="course_name">Physics</h4>
+            <p class="bold_text">Beginner <span> (<300)</span></p>
+            <p>You're just starting to explore this skill.</p>
+            <h5>Whoops!</h5>
+            <p>You haven't scored high enough to display this test result on your profile. You must score Proficient level (450) or higher. Continue answering questions correctly to improve your score.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer m_footer_container">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 <style>
@@ -63,13 +90,40 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function() {
+        $.ajax({
+            url:'/home_page/get_answer?index='+<%=@index%>,
+            type:'get',
+            dataType:'json',
+            processData:false,
+            success:function (data) {
+                $("#"+data.option_index).addClass('correct_answer');
+
+            },
+            error:function (data) {
+                alert ('Error Occurred!!!!');
+            }
+        });
+    });
 
   function answer(answer_id,is_answer,option_index)
   {
       $(".question_p_section ul li a").removeClass('correct_answer');
-
-
       $("#"+option_index).addClass('correct_answer');
+      $.ajax({
+          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option_index,
+          type:'get',
+          dataType:'json',
+          processData:false,
+          success:function (data) {
+
+          },
+          error:function (data) {
+              alert ('Error Occurred!!!!');
+          }
+      });
+
+
       flag = parseInt($("#answer_selected").val());
       if(is_answer && flag) {
           $("#answer_selected").val("0");
@@ -133,5 +187,11 @@
             <% end %>
         }
 }
+
+    function finish_quiz()
+    {
+        $("#course_name").text($("input[name$='course']").val());
+        $('#myModal').modal('toggle');
+    }
 
 </script>

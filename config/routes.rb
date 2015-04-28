@@ -1,6 +1,8 @@
 ExamsSystem::Application.routes.draw do
   get "user" => "teacher#index"
 
+  get 'auth/:provider/callback' => 'sessions#create'
+  get 'logout' => 'sessions#destroy'
 
   get "user/new"
   post "user/save_result"
@@ -9,6 +11,7 @@ ExamsSystem::Application.routes.draw do
   get "user/ReTakeTest"
   get "home_page/user/my_profile" => "user#my_profile"
   put "user/update"
+  get "/courses/get_courses_by_degree_id"
 
   resources :boards
 
@@ -48,7 +51,7 @@ ExamsSystem::Application.routes.draw do
       get :delete_ques
       get :get_limit
       get :demo
-      get :proofreader_questions
+      get :questions_approval
       get :approve_question
       get :get_questions_by_status
       get :questions_exits
@@ -60,8 +63,10 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_courses" => 'home_page#get_courses'
   get "home_page/get_degrees" => 'home_page#get_degrees'
   get "home_page/get_tests" => 'home_page#get_tests'
+  get "home_page/instructions" => 'home_page#instructions'
   post "home_page/instructions" => 'home_page#instructions'
   post "home_page/quiz" => 'home_page#quiz'
+  get "home_page/quiz" => 'home_page#quiz'
   get "home_page/next_ques" => 'home_page#next'
   get "home_page/user_graph" => 'home_page#user_graph'
   get "home_page/get_notes_courses" => 'home_page#notes_courses'
@@ -72,6 +77,10 @@ ExamsSystem::Application.routes.draw do
   get "home_page/is_user_signed_in" => "home_page#is_user_signed_in"
   get "home_page/demo" => "home_page#demo"
   get "admin_panel" => "home_page#admin_panel"
+  get "home_page/save_data" => 'home_page#save_data'
+  get "home_page/save_answer" => 'home_page#save_answer_to_session'
+  get "home_page/get_answer" => 'home_page#get_answer_from_session'
+  get "about_us" => 'home_page#about_us'
 
 
   resources :tests do
@@ -106,7 +115,9 @@ ExamsSystem::Application.routes.draw do
                                    :confirmations => "users/confirmations",
                                    :passwords => "users/passwords",
                                    :unlocks => "users/unlocks",
-                                   :registrations => "users/registrations"
+                                   :registrations => "users/registrations",
+                                   :omniauth_callbacks => "users/omniauth_callbacks"
+
 
   }
 

@@ -30,7 +30,13 @@ select{
 
 table, td, th { vertical-align: middle; border: none; }
 th { border-bottom: 4px solid #f8f8f8; }
-table tr th{ height: 50px; line-height: 38px !important;}
+table tr th{
+    color: #a0a8af;
+    font-size: 14px;
+    font-weight: 600;
+    height: 50px;
+    line-height: 38px !important;
+}
 table td tr{ height: 40px;}
 .header .navbar{ background: #fff; padding: 4px 22px 4px 0;}
 #page-content-wrapper .listing-holder{
@@ -48,7 +54,11 @@ table td tr{ height: 40px;}
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
     padding: 8px 20px;
 }
-.table tr td{ padding-top: 15px !important;}
+.table tr td{
+    padding-top: 15px !important;
+    color: #555f68;
+    font-size: 13px;
+}
 
 .table tr td a { color: #4aa1db;}
 .table tr td a:hover{ background: #fff;}
@@ -76,7 +86,6 @@ table td tr{ height: 40px;}
 }
 .listing-holder  h2{ padding: 20px 40px;}
 .listing-holder .new_book .actions .btn,
-.listing-holder .new_user .actions .btn{ background: #ccc; text-shadow: none;}
 .listing-holder .new_book .actions .btn:hover,
 .listing-holder .new_user .actions .btn:hover{ background:#4aa1db; color: #fff;}
 .listing-holder  li{ list-style: none;}
@@ -92,7 +101,8 @@ table td tr{ height: 40px;}
     display: inline-block;
     padding: 20px;
     vertical-align: top;
-    width: 33%;
+    width: 31%;
+    margin: 0 15px 15px 0;
 }
 #page-content-wrapper .field_holder label,
 #page-content-wrapper .field_holder img{
