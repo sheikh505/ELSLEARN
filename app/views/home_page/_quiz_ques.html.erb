@@ -49,7 +49,7 @@
     <%if @index+1 < $size%>
         <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
     <% else %>
-        <a class="modal_btn" href="#myModal" class="modal_btn" data-confirm="Are you sure?" onclick="finish_quiz()">Finish</a>
+        <a class="modal_btn" href="#myModal" class="modal_btn" onclick="finish_quiz()">Finish</a>
     <% end %>
   </div>
 </div>
@@ -66,7 +66,7 @@
           <h2>Here is your test result!</h2>
           <div class="result_content">
             <h4 id="course_name">Physics</h4>
-            <p class="bold_text">Beginner <span> (<300)</span></p>
+            <p class="bold_text">Beginner <span> (<300)</span><span id="test_score"></span></p>
             <p>You're just starting to explore this skill.</p>
             <h5>Whoops!</h5>
             <p>You haven't scored high enough to display this test result on your profile. You must score Proficient level (450) or higher. Continue answering questions correctly to improve your score.</p>
@@ -75,7 +75,7 @@
 
       </div>
       <div class="modal-footer m_footer_container">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-default" >Close</button>
       </div>
     </div>
   </div>
@@ -190,8 +190,12 @@
 
     function finish_quiz()
     {
-        $("#course_name").text($("input[name$='course']").val());
-        $('#myModal').modal('toggle');
+        var confirmText = "Are you sure you want to finish this test?";
+        if(confirm(confirmText)) {
+            $("#course_name").text($("input[name$='course']").val());
+            $("#test_score").text($( "#score").val());
+            $('#myModal').modal('toggle');
+        }
     }
 
 </script>

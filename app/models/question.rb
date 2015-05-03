@@ -5,7 +5,12 @@ class Question < ActiveRecord::Base
       event :submit, :transitions_to => :reviewed_by_proofreader
     end
     state :reviewed_by_proofreader do
-      event :review, :transitions_to => :awaiting_review
+      event :submit, :transitions_to => :reviewed_by_teacher
+      event :reject, :transitions_to => :new
+    end
+
+    state :reviewed_by_teacher do
+      event :submit, :transitions_to => :awaiting_review
     end
     state :awaiting_review do
       event :review, :transitions_to => :being_reviewed

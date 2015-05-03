@@ -458,13 +458,30 @@ class QuestionsController < ApplicationController
     page = params[:page] unless params[:page].nil?
 
     if current_user.is_proofreader?
-      @questions = Question.search(search,page,limit)
+      sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state is null
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 Order by id "
+      @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
     elsif current_user.is_teacher?
-      @questions = Question.select{|q| q.is_deleted==false &&
-                                       q.topic.course_id == @course_id.to_i}
+      if @course_id = current_user.teacher_courses.present?
+        @course_id = current_user.teacher_courses.first.course_id
+        sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state = 'reviewed_by_teacher'
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
+        @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+      end
+
     end
     @row = limit
+
   end
+
 
   @@flag = 0
 
@@ -473,23 +490,73 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:ques_id])
     @question.submit!
 
-    limit = 50
-    search = ""
-    page = 1
-
-    limit = params[:limit].to_i unless params[:limit].nil?
-    search = params[:search] unless params[:search].nil?
-    page = params[:page] unless params[:page].nil?
-
-    if @@flag == 0
-      @questions = Question.search(search,page,limit)
+    if params[:from].present? && params[:from] == "view"
+      redirect_to questions_approval_questions_path
     else
-      @questions =  Question.where(:workflow_state => nil, :deleted =>false).search(search,page,limit)
+      limit = 50
+      search = ""
+      page = 1
+
+      limit = params[:limit].to_i unless params[:limit].nil?
+      search = params[:search] unless params[:search].nil?
+      page = params[:page] unless params[:page].nil?
+
+      if @@flag == 0
+        if params[:role] == "teacher"
+          if @course_id = current_user.teacher_courses.present?
+            @course_id = current_user.teacher_courses.first.course_id
+            sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state = 'reviewed_by_teacher'
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
+            @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+          end
+        elsif params[:role] == "proofreader"
+          sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state is null
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 Order by id "
+          @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+        end
+      else
+        if params[:role] == "teacher"
+          if @course_id = current_user.teacher_courses.present?
+            @course_id = current_user.teacher_courses.first.course_id
+            sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state = 'reviewed_by_teacher'
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
+            @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+          end
+        elsif params[:role] == "proofreader"
+          sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND workflow_state is null
+                 Order by id "
+          @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+        end
+      end
+      @row = limit
+
+
+      render :partial => 'questions/proofreader_ques'
     end
-    @row = limit
 
+  end
 
-    render :partial => 'questions/proofreader_ques'
+  def reject_question
+
+    @question = Question.find(params[:ques_id])
+    @question.reject!
+
+    redirect_to questions_approval_questions
   end
   def get_questions_by_status
     limit = 50
@@ -501,12 +568,36 @@ class QuestionsController < ApplicationController
     page = params[:page] unless params[:page].nil?
 
     if params[:flag].to_i == 1
-      @questions = Question.where(:approval_status => 1).search(search,page,limit)
+      @questions = Question.where(:workflow_state => "reviewed_by_proofreader").search(search,page,limit)
     elsif params[:flag].to_i == 0
-      @questions = Question.where(:workflow_state => nil, :deleted =>false).search(search,page,limit)
+      if params[:role] == "teacher"
+        if @course_id = current_user.teacher_courses.present?
+          @course_id = current_user.teacher_courses.first.course_id
+          sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state = 'reviewed_by_teacher'
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
+          @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+        end
+      elsif params[:role] == "proofreader"
+        sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state is null)
+                 Order by id "
+        @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+      end
       @@flag = 1
     else
-      @questions = Question.search(search,page,limit)
+      sql = "Select *
+                 From questions q
+                 where deleted = false
+                 AND (workflow_state is null
+                 OR workflow_state = 'reviewed_by_proofreader')
+                 Order by id "
+      @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
     end
     @row = limit
 

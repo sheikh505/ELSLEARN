@@ -76,7 +76,7 @@
           </div>
 
           <div class="row_custom" id="test_container_1">
-            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn"  class="btn">
+            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" onclick="return check_sign_in(1);"  class="btn">
           </div>
         </div>
         <div id="question_type_container" class="pre_question_holder" style="display: none;">
@@ -421,6 +421,7 @@
         {
             return false;
         }
+
         var returnValue = false;
         var test_code = $("input[name$='test_code']").val();
         $("input[name$='test_code_login']").val(test_code);
@@ -493,6 +494,7 @@
         course_id = $('#course_id').val($('.scourse').children('li').val()).val();
         degree_id = $('#degree_id').val($('.sdegree').children('li').val()).val();
         board_id = $('#b_id').val($('.sboard').children('li').val()).val();
+
         past_paper_flag = $("input[name$='pre_Past']:checked").val();
         returnValue = 0;
         if (past_paper_flag == "1")

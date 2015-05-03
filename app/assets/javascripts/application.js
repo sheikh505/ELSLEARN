@@ -17,6 +17,8 @@
 //= require tinymce-jquery
 //= require jquery.timer
 //= require best_in_place.jquery-ui
+//= require masonry
+//= require jquery.flexslider-min
 //= require main
 //= require_tree .
 
@@ -28,5 +30,25 @@ $(document).ready(function() {
     $(".header_col").click(function(){
         $(this).next().children(".tabs").slideToggle(500);
         $(this).find(".fa-caret-right, .fa-caret-down").toggle();
+    });
+    var $container = $('#container');
+// initialize
+    $container.masonry({
+        columnWidth: 200,
+        itemSelector: '.box'
+    });
+    $(function(){
+        SyntaxHighlighter.all();
+    });
+    $(window).load(function(){
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function(slider){
+                $('body').removeClass('loading');
+            }
+        });
+    });
+    $('.flexslider .slides li').hover(function(){
+        $('.slider_content').slideToggle('slow');
     });
 });

@@ -53,6 +53,7 @@ ExamsSystem::Application.routes.draw do
       get :demo
       get :questions_approval
       get :approve_question
+      get :reject_question
       get :get_questions_by_status
       get :questions_exits
     end

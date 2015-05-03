@@ -7,7 +7,7 @@
 
     </div>
   <div class="ques_search_bar_left">
-    <%=link_to "All(" + Question.where(:deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(2)" %>
+    <%=link_to "All(" + @questions.count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(2)" %>
     <%=link_to "Pending Approval(" + Question.where(:workflow_state => nil, :deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(0)" %>
     <%=link_to "Approved(" + Question.find_all_by_workflow_state("reviewed_by_proofreader").count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(1)" %>
   </div>
@@ -33,11 +33,12 @@
     <% if @questions.present? %>
     <% @questions.each_with_index  do |question,index| %>
         <tr>
-          <td><%= index + 1 + (params[:page].nil?? 0:(((params[:page].to_i)-1)*50))  %> </td>
+          <td><%= index + 1 + (((params[:page].to_i)-1)*50) unless params[:page].nil?  %> </td>
           <td><%=raw question.statement %> </td>
-          <td><%= link_to 'View', question_path(question,:from => "proofreader") %></td>
-              <td><%= question.current_state %></td>
-          <% if question.new? %>
+          <td><%= link_to 'View', question_path(question) %></td>
+
+              <td><%= question.workflow_state %></td>
+          <% if question.reviewed_by_proofreader? %>
               <td><%=link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(#{question.id})" %></td>
           <% else %>
               <td>Approved</td>

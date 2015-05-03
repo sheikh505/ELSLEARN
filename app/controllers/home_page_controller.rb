@@ -74,7 +74,7 @@ class HomePageController < ApplicationController
   end
 
   def instructions
-    if params[:test_code].present?
+    if params[:test_flag] == "2"
       @test_code = params[:test_code]
     elsif params[:uthid].present?
       @user_test_history_id = params[:uthid]
@@ -136,10 +136,6 @@ class HomePageController < ApplicationController
   end
 
   def quiz
-
-    if session[params[:index]].present?
-
-    end
     if params[:user_test_history_id].present? || @user_test_history_id.present?
       if params[:user_test_history_id].present?
         @user_test_history_id = params[:user_test_history_id]

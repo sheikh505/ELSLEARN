@@ -1,9 +1,9 @@
 class UserController < ApplicationController
-  load_and_authorize_resource
   def new
   end
 
   def save_result
+    puts "--------------->", params.inspect
     if params[:user_test_history][:id].to_i == 0
       user_history = UserTestHistory.new(params[:user_test_history])
       user_history.save
@@ -37,12 +37,12 @@ class UserController < ApplicationController
   def ReTakeTest
     user_test_history_id = params[:user_test_history_id]
     @user_test_histories = UserTestHistory.find(user_test_history_id)
-    redirect_to :action => 'quiz', :controller => "home_page", :user_test_history_id=>user_test_history_id,
-                :b_id=> @user_test_histories[:board_id],
-                :degree_id=> @user_test_histories[:degree_id],
-                :course_id=> @user_test_histories[:course],:mcq=> @user_test_histories[:mcq],
-                :true_false=> @user_test_histories[:truefalse],:fill=> @user_test_histories[:fill],
-                :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
-                :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
+    redirect_to :action => 'quiz', :controller => "home_page", :user_test_history_id=>user_test_history_id
+                # :b_id=> @user_test_histories[:board_id],
+                # :degree_id=> @user_test_histories[:degree_id],
+                # :course_id=> @user_test_histories[:course],:mcq=> @user_test_histories[:mcq],
+                # :true_false=> @user_test_histories[:truefalse],:fill=> @user_test_histories[:fill],
+                # :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
+                # :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
   end
 end

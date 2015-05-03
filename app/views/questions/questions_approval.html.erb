@@ -4,8 +4,11 @@
 
 
 <div id="ques_container" class=''>
+  <% if current_user.is_proofreader? %>
     <%= render 'proofreader_ques' %>
-
+  <% elsif current_user.is_teacher? %>
+      <%= render 'teacher_ques' %>
+  <% end %>
 </div>
 
 </div>
@@ -24,11 +27,12 @@
 <script>
 
     $(function() {
-//        $(document).on("click",".pagination a", function(){
-//            $(".pagination").html("Page is loading...");
-//            $.getScript(this.href);
-//            return false;
-//        });
+        $(document).on("click",".pagination a", function(){
+            page = this.href.substring(this.href.indexOf("page"), this.href.indexOf("page")+6);
+            $(".pagination").html("Page is loading...");
+            $.getScript(this.href);
+            return false;
+        });
     });
 
     function fetch_rows(value)
@@ -56,12 +60,14 @@
 
     function approve_question(id)
     {
-        //d_id = document.getElementById("degree_hidden_id").value;
-        //alert(d_id)
-        //alert (degree_id.value);
-        //container = document.getElementById('course_container');
+        var role = "";
+        <% if current_user.is_proofreader? %>
+            role = "proofreader";
+        <% elsif current_user.is_teacher? %>
+            role = "teacher";
+        <% end %>
         $.ajax({
-            url:'/questions/approve_question?ques_id='+id,
+            url:'/questions/approve_question?ques_id='+id+"&role="+role,
             type:'get',
             dataType:'html',
             processData:false,
@@ -78,13 +84,20 @@
     }
     function get_questions_by_status(flag)
     {
+        var role = "";
+        <% if current_user.is_proofreader? %>
+        role = "proofreader";
+        <% elsif current_user.is_teacher? %>
+        role = "teacher";
+        <% end %>
         $.ajax({
-            url:'/questions/get_questions_by_status?flag='+ flag,
+            url:'/questions/get_questions_by_status?flag='+flag+'&role='+ role,
             type:'get',
             dataType:'html',
             processData:false,
             success:function (data) {
-                $("#ques_container").html(data);
+                data = data + '<%= will_paginate @questions %>';
+                $("#ques_container").html(data );
 
             },
             error:function (data) {

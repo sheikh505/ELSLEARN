@@ -1,6 +1,7 @@
 class TeacherController < ApplicationController
   respond_to :html, :xml, :json
   layout "admin_panel_layout"
+
   def index
     @user = current_user
     if @user.is_proofreader?

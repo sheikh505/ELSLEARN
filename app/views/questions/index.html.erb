@@ -1,4 +1,4 @@
-<% if user_signed_in? && !current_user.is_proofreader?%>
+
 
     <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'), :method => 'get' do %>
 
@@ -67,12 +67,7 @@
     </div>
 
     </div>
-<% else %>
-    <div id="ques_container" class=''>
-      <%= render 'proofreader_ques' %>
 
-    </div>
-<% end %>
 
 
 
