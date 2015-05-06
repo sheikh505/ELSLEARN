@@ -4,7 +4,7 @@ ExamsSystem::Application.routes.draw do
   get 'auth/:provider/callback' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
 
-  get "user/new"
+  get "user/new" => "teacher#new"
   post "user/save_result"
   get "user/my_profile"
   get "user/dashboard"

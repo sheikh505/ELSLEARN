@@ -1,4 +1,8 @@
-<h2>Register Teacher</h2>
+<% if current_user.is_proofreader? %>
+ <h2>Register Operator</h2>
+<% else %>
+    <h2>Register User</h2>
+    <% end %>
 <div class="row">
   <div class="span5">
 <%= form_for @user, :url => {:controller => 'teacher', :action => 'create'} do |f| %>
@@ -108,7 +112,7 @@
 <script>
 
     function show_degrees() {
-        if ($("#role_id").val() == "5")
+        if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
             $("#courseList").show();
