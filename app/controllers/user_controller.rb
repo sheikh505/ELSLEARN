@@ -3,7 +3,6 @@ class UserController < ApplicationController
   end
 
   def save_result
-    puts "--------------->", params.inspect
     if params[:user_test_history][:id].to_i == 0
       user_history = UserTestHistory.new(params[:user_test_history])
       user_history.save

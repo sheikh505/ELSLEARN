@@ -28,10 +28,10 @@
 
     $(function() {
         $(document).on("click",".pagination a", function(){
-            page = this.href.substring(this.href.indexOf("page"), this.href.indexOf("page")+6);
-            $(".pagination").html("Page is loading...");
-            $.getScript(this.href);
-            return false;
+//            page = this.href.substring(this.href.indexOf("page"), this.href.indexOf("page")+6);
+//            $(".pagination").html("Page is loading...");
+//            $.getScript(this.href);
+//            return false;
         });
     });
 
@@ -73,7 +73,7 @@
             processData:false,
             success:function (data) {
                 $("#ques_container").html(data);
-
+                location.reload();
             },
             error:function (data) {
                 alert ("Error Occurred");

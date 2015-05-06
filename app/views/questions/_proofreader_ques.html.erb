@@ -6,11 +6,7 @@
 
 
     </div>
-  <div class="ques_search_bar_left">
-    <%=link_to "All(" + Question.where(:deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(2)" %>
-    <%=link_to "Pending Approval(" + Question.where(:workflow_state => nil, :deleted =>false).count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(0)" %>
-    <%=link_to "Approved(" + Question.find_all_by_workflow_state("reviewed_by_proofreader").count.to_s + ")","javascript:void(0);", :onclick => "get_questions_by_status(1)" %>
-  </div>
+
   <div class="ques_inner_bar_right">
     <div class="select_div">
         <select id="no_rows" name="no_rows" onchange="fetch_rows(this.value)">

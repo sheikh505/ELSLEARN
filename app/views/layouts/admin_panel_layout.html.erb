@@ -22,7 +22,7 @@
             <% if current_user.is_not_student? %>
 
                 <li class="sidebar-brand">
-                  <%= link_to "ELS Learning", home_page_index_path%>
+                  <%= link_to "ELS Learning", "/admin_panel" %>
                 </li>
                 <% if current_user.is_admin? %>
                     <%= render 'layouts/admin' %>

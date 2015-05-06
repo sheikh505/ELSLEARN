@@ -99,7 +99,9 @@
 
   <% else %>
       <%= link_to 'Demo', demo_questions_path(:ques_id=> @question.id) , :class=> 'btn btn-large btn-inverse'%>
-      <%= link_to 'Edit', edit_question_path(@question) , :class=> 'btn btn-large btn-inverse'%>
+      <% if current_user.is_operator? && @question.author ==  current_user.email %>
+            <%= link_to 'Edit', edit_question_path(@question) , :class=> 'btn btn-large btn-inverse'%>
+      <% end %>
       <%= link_to 'New', questions_path , :class=> 'btn btn-large'%>
       <%= link_to 'Add Next', add_questions_questions_path(:q_id => @question.id) , :class=> 'btn btn-large'%>
   <% end %>

@@ -1,6 +1,7 @@
 
 
-    <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'), :method => 'get' do %>
+    <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'),
+                :onsubmit => "return checkForm(this)", :method => 'get' do %>
 
     <h1>Listing questions</h1>
     <div class="listing-holder questions">
@@ -84,6 +85,7 @@
 
 <script>
 
+
     $(function() {
         $(document).on("click",".pagination a", function(){
             $(".pagination").html("Page is loading...");
@@ -91,6 +93,23 @@
             return false;
         });
     });
+
+    function checkForm(form)
+    {
+        box = $("input:checkbox#boards_:checked");
+        if (!box.length) {
+            alert('You must check at least one board!');
+            $("input:checkbox#boards_").focus();
+            return false; // The form will *not* submit
+        }
+        box = $("input:checkbox#degree_:checked");
+        if (!box.length) {
+            alert('You must check at least one degree!');
+            $("input:checkbox#degree_").focus();
+            return false; // The form will *not* submit
+        }
+        return true;
+    }
 
     function fetch_rows(value)
     {   if (value == -1)
