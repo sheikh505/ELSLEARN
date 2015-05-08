@@ -65,7 +65,11 @@ class TeacherController < ApplicationController
 
   def new
     @user = User.new
-    @roles = Role.all
+    if current_user.is_admin?
+      @roles = Role.all
+    else
+      @roles = Role.where(:name => "Operator")
+    end
     @degrees = Degree.all
     @courses = Course.all
   end

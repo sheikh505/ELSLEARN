@@ -51,8 +51,11 @@
       <select id="role_id" name="role_id" class="row_field"  onchange="show_degrees();">
         <option>Please select role for User</option>
         <%@roles.each do |x| %>
-
-            <option value="<%=x.id%>""><%=x.name%></option>
+            <% if current_user.is_proofreader? %>
+                <option value="<%=x.id%>" selected><%=x.name%></option>
+            <% else %>
+                <option value="<%=x.id%>"><%=x.name%></option>
+            <% end %>
         <% end %>
       </select>
 
