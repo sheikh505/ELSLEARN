@@ -1,4 +1,5 @@
 
+
 <br /><br />
 
 
@@ -25,11 +26,12 @@
 
 <script>
 
-
     $(function() {
         $(document).on("click",".pagination a", function(){
-            $.getScript(this.href);
-            return false;
+//            page = this.href.substring(this.href.indexOf("page"), this.href.indexOf("page")+6);
+//            $(".pagination").html("Page is loading...");
+//            $.getScript(this.href);
+//            return false;
         });
     });
 
@@ -56,7 +58,7 @@
 
     });
 
-    function approve_question(object, id)
+    function approve_question(id)
     {
         var role = "";
         <% if current_user.is_proofreader? %>
@@ -70,10 +72,8 @@
             dataType:'html',
             processData:false,
             success:function (data) {
-                $(object).text("Approved");
-                $(object).contents().unwrap();
-
-//                location.reload();
+                $("#ques_container").html(data);
+                location.reload();
             },
             error:function (data) {
                 alert ("Error Occurred");
@@ -96,9 +96,7 @@
             dataType:'html',
             processData:false,
             success:function (data) {
-                <% if @questions.present? %>
-                    data = data;
-                <% end %>
+                data = data + '<%= will_paginate @questions %>';
                 $("#ques_container").html(data );
 
             },

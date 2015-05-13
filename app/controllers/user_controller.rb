@@ -29,6 +29,29 @@ class UserController < ApplicationController
       end
     end
   end
+
+  def update_password
+    @user = User.find(current_user.id)
+    puts "---------------->", params.inspect
+    respond_to do |format|
+      if @user.update_with_password(params[:user])
+        # Sign in the user by passing validation in case their password changed
+        sign_in @user, :bypass => true
+        format.html { redirect_to(:controller =>"user", :action=>"my_profile", :notice => 'User was successfully updated.') }
+        format.json { respond_with_bip(@user) }
+      else
+        format.html { redirect_to(:controller =>"user", :action=>"my_profile", :notice => @user.errors.full_messages) }
+        format.json { respond_with_bip(@user) }
+      end
+    end
+  end
+
+  private
+
+  def user_params
+    # NOTE: Using `strong_parameters` gem
+    params.required(:user).permit(:password, :password_confirmation)
+  end
   def dashboard
     @user = User.find(current_user.id)
     @user_test_histories = UserTestHistory.find_all_by_user_id(@user.id)

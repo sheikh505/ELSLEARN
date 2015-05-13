@@ -1,11 +1,15 @@
-<div class="listing-holder">
+
+
+<div class="listing-holder listing_data_table">
 <table class="table table-condensed">
-  <th>Email</th>
+  <thead>
+  <th>Emails</th>
   <th>Name</th>
   <th>Contact number</th>
   <th>Role</th>
-  <th></th>
-
+  <th>Status</th>
+  </thead>
+<tbody>
   <%@users.each do |user|  %>
 <tr>
   <td><%= user.email %></td>
@@ -21,12 +25,18 @@
 
 
   <% end %>
+</tbody>
 
 
 </table>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.table').dataTable();
+    } );
+</script>
 <% if current_user.is_proofreader? %>
-    <%= link_to 'Add new operator', user_new_path, class: 'btn btn-large btn-inverse' %>
+    <%= link_to 'Add new operator', user_new_path, :class=> 'btn btn-large btn-inverse' %>
 <% else %>
-    <%= link_to 'Add new user', user_new_path, class: 'btn btn-large btn-inverse' %>
+    <%= link_to 'Add new user', user_new_path, :class=> 'btn btn-large btn-inverse' %>
 <% end %>

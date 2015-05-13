@@ -27,7 +27,7 @@
         <td></td>
     <% end %>
     <% if can? :update, degree %>
-        <td><%= link_to 'Destroy', degree, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', degree, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
     <% else %>
         <td></td>
     <% end %>
@@ -37,5 +37,6 @@
 </table>
 </div>
 
-
-<%= link_to 'New Degree', new_degree_path , class: 'btn btn-large btn-inverse'%>
+<% if can? :manage, Degree %>
+    <%= link_to 'New Degree', new_degree_path , :class=> 'btn btn-large btn-inverse'%>
+<% end %>

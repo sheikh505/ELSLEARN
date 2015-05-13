@@ -1618,3 +1618,59 @@ select, input[type="file"] {
     height: 400px;
     overflow: auto;
 }
+.edit_user li input{
+    margin: 0 10px 0 0 !important;
+    min-height: 25px;
+}
+.u_right_holder li span span.best_in_place{
+    min-width: 90px;
+    width: auto;
+    margin-right: 10px;
+}
+.u_right_holder li span span.best_in_place,
+.u_right_holder li span.fa.fa-pencil-square-o{
+    display: inline-block;
+    vertical-align: top;
+}
+.u_right_holder li span input{
+    margin-bottom: 0 !important;
+    height: 25px;
+
+}
+.dataTables_wrapper{
+    overflow: hidden;
+}
+.dataTables_wrapper .dataTables_length{
+    float: left;
+    margin-bottom: 15px;
+}
+.dataTables_wrapper .dataTables_length select{
+    margin-bottom: 0 !important;
+    height: 35px;
+    width: 80px;
+}
+.dataTables_wrapper .dataTables_filter{
+    float: right;
+}
+.dataTables_wrapper .dataTables_filter input[type="search"]{
+    height: 35px;
+    margin-left: 10px;
+    margin-bottom:0 !important;
+}
+#page-content-wrapper .listing-holder.listing_data_table{
+    background: transparent;
+}
+#page-content-wrapper .listing-holder.listing_data_table table{
+    background: #fff;
+}
+.dataTables_paginate.paging_simple_numbers a{
+    border: 1px solid #f1f3f3;
+    background: #fff;
+    padding: 8px 10px ;
+    margin:0 -2px;
+    color: #555f68;
+}
+.dataTables_paginate.paging_simple_numbers{
+    overflow: hidden;
+    color: #555f68;
+}

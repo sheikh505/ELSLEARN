@@ -37,24 +37,46 @@
             </li>
             <li>
               <h3>Name</h3>
-              <span><%= best_in_place @user, :name, :url => user_update_path, :as => :input %></span>
+              <span><%= best_in_place @user, :name, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
             </li>
             <li>
               <h3>Phone Number</h3>
-              <span><%= best_in_place @user, :phone, :url => user_update_path, :as => :input %></span>
+              <span><%= best_in_place @user, :phone, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
             </li>
             <li>
               <h3>Last Test Attempted On</h3>
               <span><%=@last_user_history.updated_at.to_date unless @last_user_history.nil?%></span>
-              <%=link_to "Attempt", "/"%>
+              <%=link_to "Re-Take", "/"%>
             </li>
-            <%= form_for @user, :url => user_update_path, :html => { :multipart => true } do |form| %>
+            <%= form_for @user, :url => user_update_path, :html => { :multipart => true } do |f| %>
             <li>
                 <h3>Picture</h3>
-                <%= form.file_field :avatar %>
-                <%= form.submit "Update Picture" %>
-            <% end %>
+                <%= f.file_field :avatar %>
+                <%= f.submit "Update Picture" %>
+
             </li>
+            <% end %>
+            <%= form_for(@user, :url => { :action => "update_password" } ) do |f| %>
+            <li>
+              <h3><%= f.label :password %> </h3>
+              <%= f.password_field :password, autocomplete: "off" %><i>(leave blank if you don't want to change it)</i>
+            </li>
+
+            <li>
+              <h3><%= f.label :password_confirmation %></h3>
+              <%= f.password_field :password_confirmation, autocomplete: "off" %>
+            </li>
+
+            <li>
+              <h3><%= f.label :current_password %> </h3>
+              <%= f.password_field :current_password, autocomplete: "off" %><i>(we need your current password to confirm your changes)</i>
+              <%= params[:notice] unless params[:notice].nil? %>
+            </li>
+                <li>
+                  <h3></h3>
+                  <%= f.submit "Change Password" %>
+                </li>
+            <% end %>
           </ul>
 
 

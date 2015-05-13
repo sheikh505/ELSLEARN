@@ -28,4 +28,6 @@
   </table>
 </div>
 
-<%= link_to 'New Board', new_board_path, class: 'btn btn-large btn-inverse' %>
+<% if can? :manage, Board %>
+    <%= link_to 'New Board', new_board_path, :class=> 'btn btn-large btn-inverse' %>
+<% end %>

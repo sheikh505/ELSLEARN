@@ -3,6 +3,7 @@ class Question < ActiveRecord::Base
   workflow do
     state :new do
       event :submit, :transitions_to => :reviewed_by_proofreader
+      event :reject, :transitions_to => :new
     end
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :reviewed_by_teacher

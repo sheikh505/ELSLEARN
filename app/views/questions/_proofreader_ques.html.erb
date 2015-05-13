@@ -1,51 +1,33 @@
 
-<div id="ques_bar">
-  <div class="ques_inner_bar_left">
-    <input type="text" id="search_bar" name="search_bar"  placeholder="SEARCH" />
-    <input type="button" value="search" class="searchBtn btn btn-inverse" onclick="fetch_rows(-1)" />
 
 
-    </div>
 
-  <div class="ques_inner_bar_right">
-    <div class="select_div">
-        <select id="no_rows" name="no_rows" onchange="fetch_rows(this.value)">
-          <option <%='selected' if @row.to_i == 50 %> value="50">50</option>
-          <option <%='selected' if @row.to_i == 100 %> value="100">100</option>
-        </select>
-    </div>
-
-    </div>
-
-</div>
-  <table style="margin-top: 10px !important;" class="table table-bordered">
-    <tr>
-      <th>No.</th>
-      <th><h3 style="margin-top: 0 !important;">Question Statement</h3></th>
-      <th></th>
+  <table id="questions" style="margin-top: 10px !important;" class="table table-bordered" data-source="<%= questions_approval_questions_path(format: "json") %>">
+    <thead>
+      <th>Question Statement</th>
       <th>Status</th>
       <th></th>
-    </tr>
-    <% if @questions.present? %>
-    <% @questions.each_with_index  do |question,index| %>
-        <tr>
-          <td><%= index + 1 + (params[:page].nil?? 0:(((params[:page].to_i)-1)*50))  %> </td>
-          <td><%=raw question.statement %> </td>
-          <td><%= link_to 'View', question_path(question,:from => "proofreader") %></td>
-              <td><%= question.current_state %></td>
-          <% if question.new? %>
-              <td><%=link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(#{question.id})" %></td>
-          <% else %>
-              <td>Approved</td>
-          <% end %>
-        </tr>
+      <th></th>
+    </thead>
+<tbody>
 
-    <% end %>
-
-
-
-<%= will_paginate @questions %>
-    <% end %>
+</tbody>
 
 
   </table>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#questions').dataTable( {
+            sPaginationType: "full_numbers",
+            "ordering": false,
+            "processing": true,
+            "serverSide": true,
+            "displayLength": 25,
+            aaSorting : [[0, 'desc']],
+            sAjaxSource: $('#questions').data('source')
+        } );
+    } );
+</script>

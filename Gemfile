@@ -48,3 +48,5 @@ gem 'jquery-rails'
 
 gem 'omniauth-facebook'
 gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
+
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'

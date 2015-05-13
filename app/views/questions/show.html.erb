@@ -87,7 +87,7 @@
       <% if params["from"] == "proofreader" && @question.workflow_state.nil? %>
 
           <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
-          <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+          <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
           <script>
               document.write("<a class='btn btn-large btn-inverse' href='javascript:history.back()'>Go Back</a>");
           </script>
