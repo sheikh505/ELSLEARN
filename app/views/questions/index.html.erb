@@ -62,10 +62,13 @@
 
     <% end %>
     <br /><br />
+    <% if current_user.is_admin? %>
+
     <div id="ques_container" class=''>
       <%= render 'ques' %>
 
     </div>
+    <% end %>
 
     </div>
 

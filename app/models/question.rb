@@ -3,13 +3,15 @@ class Question < ActiveRecord::Base
   workflow do
     state :new do
       event :submit, :transitions_to => :reviewed_by_proofreader
-      event :reject, :transitions_to => :new
+      event :reject, :transitions_to => :rejected
     end
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :reviewed_by_teacher
-      event :reject, :transitions_to => :new
+      event :reject, :transitions_to => :rejected
     end
-
+    state :rejected do
+      event :submit, :transitions_to => :new
+    end
     state :reviewed_by_teacher do
       event :submit, :transitions_to => :awaiting_review
     end
@@ -21,7 +23,6 @@ class Question < ActiveRecord::Base
       event :reject, :transitions_to => :rejected
     end
     state :accepted
-    state :rejected
   end
 
   default_scope order('created_at DESC')

@@ -8,7 +8,7 @@ class QuestionsDatatable
   def as_json(options = {})
     {
         :sEcho=> params[:sEcho].to_i,
-        :iTotalRecords=> Question.count,
+        :iTotalRecords=> questions.count,
         :iTotalDisplayRecords=> questions.total_entries,
         :aaData=> data
     }
@@ -16,24 +16,60 @@ class QuestionsDatatable
 
   private
   def data
-    questions.each_with_index.map do |question,index|
-      [
-          question.statement.html_safe,
-          link_to("View", ("/questions/#{question.id}?from=proofreader")),
-          h(question.current_state),
-          if question.workflow_state.blank? || h(question.workflow_state) == "new"
-            link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-          else
-            h("Approved")
-          end
+    if @view.current_user.is_operator?
+      questions.each_with_index.map do |question,index|
+        [
+            question.statement.html_safe,
+            link_to("View", ("/questions/#{question.id}?from=operator")),
+            h(question.current_state),
+            if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
+              link_to 'Edit',("/questions/#{question.id}/edit")
+            else
+              h("Approved")
+            end
 
-          #number_to_currency(product.price)
-      ]
+        #number_to_currency(product.price)
+        ]
+      end
+    elsif @view.current_user.is_proofreader?
+      questions.each_with_index.map do |question,index|
+        [
+            question.statement.html_safe,
+            link_to("View", ("/questions/#{question.id}?from=proofreader")),
+            h(question.current_state),
+            if question.workflow_state.blank? || h(question.workflow_state) == "new"
+              link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+            else
+              h("Approved")
+            end
+        ]
+      end
+    elsif @view.current_user.is_teacher?
+      questions.each_with_index.map do |question,index|
+        [
+            question.statement.html_safe,
+            question.topic.name,
+            link_to("View", ("/questions/#{question.id}?from=teacher")),
+            h(question.current_state),
+            if question.workflow_state.blank? || h(question.workflow_state) == "reviewed_by_proofreader"
+              link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+            else
+              h("Approved")
+            end
+        ]
+      end
     end
+
   end
 
   def questions
-    @questions ||= fetch_questions
+    if @view.current_user.is_operator?
+      @questions ||= fetch_questions_by_operator
+    elsif @view.current_user.is_proofreader?
+      @questions ||= fetch_questions_by_proofreader
+    elsif @view.current_user.is_teacher?
+      @questions ||= fetch_questions_by_teacher
+    end
   end
 
   def sort_helper
@@ -45,9 +81,37 @@ class QuestionsDatatable
     sort
   end
 
-  def fetch_questions
-    questions = Question.where("workflow_state = 'new' or workflow_state is null or workflow_state = ?", "reviewed_by_proofreader").order("#{sort_helper}")
+  def fetch_questions_by_proofreader
+    if @view.current_user.email == "proofreader1@els.com"
+      questions = Question.where("workflow_state = 'new' or workflow_state is null or workflow_state = ?", "reviewed_by_proofreader").order("#{sort_helper}")
+    else
+      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s) ).order("#{sort_helper}")
+    end
 
+    questions = questions.page(page).per_page(per_page)
+    if params[:sSearch].present?
+      questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")
+    end
+    questions
+    end
+
+  def fetch_questions_by_teacher
+    if @view.current_user.teacher_courses.present?
+      course_id = @view.current_user.teacher_courses.first.course_id
+      questions = Question.where(:topic_id => Topic.select("id").where(:course_id=>course_id), :workflow_state=>"reviewed_by_proofreader").order("#{sort_helper}")
+    else
+      questions = Question.new
+    end
+
+    questions = questions.page(page).per_page(per_page)
+    if params[:sSearch].present?
+      questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")
+    end
+    questions
+  end
+
+  def fetch_questions_by_operator
+    questions = Question.where("author = ?", @view.current_user.email).order("#{sort_helper}")
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")

@@ -111,8 +111,10 @@ class QuestionsController < ApplicationController
     search = params[:search] unless params[:search].nil?
     page = params[:page] unless params[:page].nil?
 
-    @questions = Question.search(search,page,limit)
-    @questions = @questions
+    if current_user.is_admin?
+      @questions = Question.search(search,page,limit)
+    end
+
     @row = limit
    # @questions = Question
     #@questions = Question.paginate(:page => params[:page], :per_page => 2)
@@ -380,8 +382,6 @@ class QuestionsController < ApplicationController
   def update
 
 
-
-
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
@@ -389,6 +389,9 @@ class QuestionsController < ApplicationController
    # @question.topic_id = params[:topic_id]
     @question.author = current_user.email
     @question.save
+    if @question.current_state == "rejected"
+      @question.submit!
+    end
     if @question.past_paper_history.nil?
 
       if params[:pastPaperFlag] == '1'
@@ -450,54 +453,31 @@ class QuestionsController < ApplicationController
   end
 
   def questions_approval
-    limit = 50
-    search = ""
-    page = 1
+    # limit = 50
+    # search = ""
+    # page = 1
+    #
+    # limit = params[:limit].to_i unless params[:limit].nil?
+    # search = params[:search] unless params[:search].nil?
+    # page = params[:page] unless params[:page].nil?
 
-    limit = params[:limit].to_i unless params[:limit].nil?
-    search = params[:search] unless params[:search].nil?
-    page = params[:page] unless params[:page].nil?
 
-    if current_user.is_proofreader? && current_user.email == "proofreader1@els.com"
       respond_to do |format|
         format.html
         format.json {render :json=> QuestionsDatatable.new(view_context)}
       end
-      # sql = "Select *
-      #        From questions q
-      #        where deleted = false
-      #        AND (workflow_state is null
-      #        OR workflow_state = 'reviewed_by_proofreader')
-      #        Order by id "
-      # @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
-    elsif current_user.is_proofreader?
-      sql = "Select *
-            From questions q
-            where deleted = false
-            AND (workflow_state is null
-            OR workflow_state = 'reviewed_by_proofreader')
-            AND author IN
-            (
-              SELECT email from users
-              WHERE role = ?
-            )
-            Order by id ", current_user.id.to_s
-      @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
-    elsif current_user.is_teacher?
-      if current_user.teacher_courses.present?
-        @course_id = current_user.teacher_courses.first.course_id
-        sql = "Select *
-                 From questions q
-                 where deleted = false
-                 AND (workflow_state = 'reviewed_by_teacher'
-                 OR workflow_state = 'reviewed_by_proofreader')
-                 AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
-        @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
-
-      end
-
-    end
-    @row = limit
+      # if current_user.teacher_courses.present?
+      #   @course_id = current_user.teacher_courses.first.course_id
+      #   sql = "Select *
+      #            From questions q
+      #            where deleted = false
+      #            AND (workflow_state = 'reviewed_by_teacher'
+      #            OR workflow_state = 'reviewed_by_proofreader')
+      #            AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
+      #   @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
+      #
+      # end
+#    @row = limit
 
   end
 

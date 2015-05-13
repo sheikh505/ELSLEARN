@@ -84,7 +84,7 @@
 
 <div class="btn_holder">
   <% if params["from"].present? %>
-      <% if params["from"] == "proofreader" && @question.workflow_state.nil? %>
+      <% if params["from"] == "proofreader" && (@question.workflow_state.nil? || @question.current_state == "new") %>
 
           <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
           <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>

@@ -7,18 +7,19 @@
 <%= form_for :question, :url => questions_path, :html => {:multipart=> true, :onsubmit => "return checkForm(this)"} do |f| %>
 
     <div class="field">
-      <%= f.label :statement %><br />
+      <br /><%= f.label :statement %>
       <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
     </div>
 
     <div class="field">
-      <%= f.label :detail_answer %><br />
+      <br /><%= f.label :detail_answer %>
       <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
       <!--%= f.text_area :description,value: "", size: '5x5' %-->
     </div>
 <% i = 1 %>
     <% 7.times{ %>
         <% if i < 5 %>
+            <br />
         <div class="field">
           <%= f.label ('option_' + i.to_s).to_sym %>
         <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
@@ -50,12 +51,12 @@
     <input type="button" value="Add Option" class="btn btn-inverse" id="option_add" onclick="add_option()" >
 
     <div class="field">
-      <%= f.label :instruction %><br />
+      <br /><%= f.label :instruction %>
       <%= f.text_area :instruction, :size => '4x4' %>
     </div>
 
     <div class="field">
-      <%= f.label :source %><br />
+      <br /><%= f.label :source %>
       <%= f.text_field :source %>
     </div>
 
@@ -73,13 +74,13 @@
   -->
 
     <div class="field">
-      <%= f.label :author %><br />
+      <br /><%= f.label :author %>
       <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
     <div class="field">
-
-    <%= f.label :Difficulty %><br />
+      <br />
+    <%= f.label :Difficulty %>
     <select id="difficulty" name="difficulty">
       <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
       <option <%='selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
@@ -90,7 +91,7 @@
     </div>
 
     <div class="field">
-      <%= label_tag :pastPaperFlag %><br />
+      <%= label_tag :pastPaperFlag %>
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" <%='checked' if @question.past_paper_history %>>Yes
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" <%='checked' unless @question.past_paper_history %>>No
     </div>

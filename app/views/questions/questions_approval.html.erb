@@ -1,12 +1,10 @@
-
-<br /><br />
-
-
 <div id="ques_container" class=''>
   <% if current_user.is_proofreader? %>
     <%= render 'proofreader_ques' %>
   <% elsif current_user.is_teacher? %>
       <%= render 'teacher_ques' %>
+  <% elsif current_user.is_operator? %>
+      <%= render 'operator_questions' %>
   <% end %>
 </div>
 
@@ -24,38 +22,6 @@
 
 
 <script>
-
-
-    $(function() {
-        $(document).on("click",".pagination a", function(){
-            $.getScript(this.href);
-            return false;
-        });
-    });
-
-    function fetch_rows(value)
-    {   if (value == -1)
-    {   var limit = $("#no_rows").val();
-
-        value = limit;
-    }
-         var search = encodeURIComponent($("#search_bar").val());
-        $("#search_bar").val("");
-        $.getScript('/questions/questions_approval?page=1&limit='+value+'&search='+search);
-
-        return false;
-
-
-    }
-
-    $(document).keypress(function(e) {
-        if(e.keyCode == 13 || e.which == 13) {
-            e.preventDefault();
-            fetch_rows(-1);
-        }
-
-    });
-
     function approve_question(object, id)
     {
         var role = "";
@@ -89,30 +55,6 @@
         });
 
     }
-    function get_questions_by_status(flag)
-    {
-        var role = "";
-        <% if current_user.is_proofreader? %>
-        role = "proofreader";
-        <% elsif current_user.is_teacher? %>
-        role = "teacher";
-        <% end %>
-        $.ajax({
-            url:'/questions/get_questions_by_status?flag='+flag+'&role='+ role,
-            type:'get',
-            dataType:'html',
-            processData:false,
-            success:function (data) {
-                <% if @questions.present? %>
-                    data = data;
-                <% end %>
-                $("#ques_container").html(data );
 
-            },
-            error:function (data) {
-                alert ("Error Occurred");
-            }
-        });
-    }
 
 </script>
