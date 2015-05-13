@@ -73,7 +73,13 @@
                 $(object).text("Approved");
                 $(object).contents().unwrap();
 
-//                location.reload();
+                objectSiblings = $(object).parent().siblings();
+                for (i = 0 ; i < objectSiblings.length; i++){
+                    if (objectSiblings[i].innerHTML == "new")
+                    {
+                        objectSiblings[i].innerHTML  = "reviewed_by_proofreader";
+                    }
+                }
             },
             error:function (data) {
                 alert ("Error Occurred");

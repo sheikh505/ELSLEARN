@@ -7,6 +7,8 @@ ExamsSystem::Application.routes.draw do
   get "user/new" => "teacher#new"
   post "user/save_result"
   get "user/my_profile"
+  put 'user/update_password'
+
   get "user/dashboard"
   get "user/ReTakeTest"
   get "home_page/user/my_profile" => "user#my_profile"
