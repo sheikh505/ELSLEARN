@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require data_table
 //= require best_in_place
 //= require bootstrap.min
 //= require tinymce
@@ -19,6 +20,8 @@
 //= require best_in_place.jquery-ui
 //= require masonry
 //= require jquery.flexslider-min
+//= require dataTables/jquery.dataTables
+
 //= require main
 //= require_tree .
 
@@ -38,7 +41,7 @@ $(document).ready(function() {
         itemSelector: '.box'
     });
     $(function(){
-        SyntaxHighlighter.all();
+        //SyntaxHighlighter.all();
     });
     $(window).load(function(){
         $('.flexslider').flexslider({
@@ -51,4 +54,5 @@ $(document).ready(function() {
     $('.flexslider .slides li').hover(function(){
         $('.slider_content').slideToggle('slow');
     });
+
 });
