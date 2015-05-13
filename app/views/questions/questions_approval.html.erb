@@ -70,9 +70,6 @@
             dataType:'html',
             processData:false,
             success:function (data) {
-                $(object).text("Approved");
-                $(object).contents().unwrap();
-
                 objectSiblings = $(object).parent().siblings();
                 for (i = 0 ; i < objectSiblings.length; i++){
                     if (objectSiblings[i].innerHTML == "new")
@@ -80,6 +77,10 @@
                         objectSiblings[i].innerHTML  = "reviewed_by_proofreader";
                     }
                 }
+                $(object).text("Approved");
+                $(object).contents().unwrap();
+
+
             },
             error:function (data) {
                 alert ("Error Occurred");
