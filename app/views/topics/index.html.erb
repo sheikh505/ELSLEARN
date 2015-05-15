@@ -15,12 +15,22 @@
   <tr>
     <td><%= topic.name %></td>
     <td><%= topic.course.name unless topic.course.nil? %></td>
-    <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
-    <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if can? :update, Topic %>
+        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+    <% else %>
+        <td></td>
+    <% end %>
+    <% if can? :update, Topic %>
+        <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% else %>
+        <td></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 
 </div>
-<%= link_to 'New Topic', new_topic_path ,class: 'btn btn-inverse'%>
+<% if can? :manage, Topic %>
+    <%= link_to 'New Topic', new_topic_path ,:class=> 'btn btn-inverse'%>
+<% end %>

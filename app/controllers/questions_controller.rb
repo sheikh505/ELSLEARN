@@ -507,6 +507,19 @@ class QuestionsController < ApplicationController
       render :json => {:success => true}
     end
   end
+
+  def add_comment_to_question
+    @question = Question.find(params[:question_id])
+    @question.update_attributes(:comments => params[:comments].to_s)
+    if @question.save
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
+
+
+  end
+
   def get_questions_by_status
     limit = 50
     search = ""

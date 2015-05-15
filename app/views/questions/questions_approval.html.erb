@@ -9,10 +9,35 @@
 </div>
 
 </div>
-
-
-
 <br />
+
+<div class="modal fade modal_custom" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Elearning System - Add Comments
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="row comments_holder">
+          <div class="field">
+            <%= text_area_tag :comments %>
+            <input type="hidden" id="question_id" name="question_id" value=""/>
+          </div>
+          <div>
+              <div class="actions pull-left">
+                <button type="button" class="btn btn-default modal_btn" onclick="add_comment()">Add comment</button>
+              </div>
+              <div class="modal-footer m_footer_container">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 
@@ -43,10 +68,68 @@
                         objectSiblings[i].innerHTML  = "reviewed_by_proofreader";
                     }
                 }
-                $(object).text("Approved");
-                $(object).contents().unwrap();
+                $(object).parent().text("Approved");
+                //$(object).contents().unwrap();
 
 
+            },
+            error:function (data) {
+                alert ("Error Occurred");
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+    function add_comment()
+    {
+        question_id = $("#question_id").val();
+        comments = $("#comments").val();
+        var role = "";
+        <% if current_user.is_proofreader? %>
+        role = "proofreader";
+        <% elsif current_user.is_teacher? %>
+        role = "teacher";
+        <% end %>
+        $.ajax({
+            url:'/questions/add_comment_to_question?question_id='+question_id+"&comments="+ comments +"&role="+role,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $('#commentsModal').modal('hide');
+            },
+            error:function (data) {
+                alert ("Error Occurred");
+                //    window.location.reload();
+            }
+        });
+    }
+
+    function reject_question(object, id)
+    {
+        var role = "";
+        <% if current_user.is_proofreader? %>
+        role = "proofreader";
+        <% elsif current_user.is_teacher? %>
+        role = "teacher";
+        <% end %>
+        $.ajax({
+            url:'/questions/reject_question?ques_id='+id+"&role="+role,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                objectSiblings = $(object).parent().siblings();
+                for (i = 0 ; i < objectSiblings.length; i++){
+                    if (objectSiblings[i].innerHTML == "new")
+                    {
+                        objectSiblings[i].innerHTML  = "rejected";
+                    }
+                }
+                $(object).parent().text("Rejected");
+                $("#question_id").val(id);
+                $('#commentsModal').modal('toggle');
             },
             error:function (data) {
                 alert ("Error Occurred");

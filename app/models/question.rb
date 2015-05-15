@@ -7,13 +7,14 @@ class Question < ActiveRecord::Base
     end
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :reviewed_by_teacher
-      event :reject, :transitions_to => :rejected
+      event :reject, :transitions_to => :reviewed_by_proofreader
     end
     state :rejected do
       event :submit, :transitions_to => :new
     end
     state :reviewed_by_teacher do
       event :submit, :transitions_to => :awaiting_review
+      event :reject, :transitions_to => :new
     end
     state :awaiting_review do
       event :review, :transitions_to => :being_reviewed
@@ -34,7 +35,7 @@ class Question < ActiveRecord::Base
   has_many :board_degree_assignments,through: :board_question_assignments
 
 
-  attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author,
+  attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments,
                   :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status
 
 

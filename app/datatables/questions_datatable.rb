@@ -21,7 +21,7 @@ class QuestionsDatatable
         [
             question.statement.html_safe,
             link_to("View", ("/questions/#{question.id}?from=operator")),
-            h(question.current_state),
+            "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}",
             if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
               link_to 'Edit',("/questions/#{question.id}/edit")
             else
@@ -38,7 +38,9 @@ class QuestionsDatatable
             link_to("View", ("/questions/#{question.id}?from=proofreader")),
             h(question.current_state),
             if question.workflow_state.blank? || h(question.workflow_state) == "new"
-              link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+              #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+              #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
+              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
             else
               h("Approved")
             end
@@ -53,6 +55,7 @@ class QuestionsDatatable
             h(question.current_state),
             if question.workflow_state.blank? || h(question.workflow_state) == "reviewed_by_proofreader"
               link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+              link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
             else
               h("Approved")
             end
@@ -85,7 +88,7 @@ class QuestionsDatatable
     if @view.current_user.email == "proofreader1@els.com"
       questions = Question.where("workflow_state = 'new' or workflow_state is null or workflow_state = ?", "reviewed_by_proofreader").order("#{sort_helper}")
     else
-      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s) ).order("#{sort_helper}")
+      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s)).order("#{sort_helper}")
     end
 
     questions = questions.page(page).per_page(per_page)

@@ -41,5 +41,6 @@
 </table>
 </div>
 
-
-<%= link_to 'New Course', new_course_path, class: 'btn btn-large btn-inverse' %>
+<% if can? :manage, Course %>
+    <%= link_to 'New Course', new_course_path, :class=> 'btn btn-large btn-inverse' %>
+<% end %>

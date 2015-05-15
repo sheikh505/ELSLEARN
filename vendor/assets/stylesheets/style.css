@@ -1674,3 +1674,36 @@ select, input[type="file"] {
     overflow: hidden;
     color: #555f68;
 }
+.modal-body .comments_holder{
+    margin: 0;
+}
+.modal-body .comments_holder textarea{
+    height: 120px;
+    width: 100%;
+    resize: none;
+}
+.modal-body .comments_holder .m_footer_container{
+    padding-top: 0;
+    margin: 0;
+}
+.modal-body .comments_holder .btn{
+    background: #3da7d9;
+    color: #fff;
+    text-shadow: none;
+}
+
+#commentsModal .modal-dialog{
+    width: 400px;
+}
+
+#commentsModal .modal-header {
+    padding: 5px;
+}
+
+#commentsModal .modal-body{
+    padding: 10px;
+}
+
+.question_status{
+    font-size: 100%;
+}

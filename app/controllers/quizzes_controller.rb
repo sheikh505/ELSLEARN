@@ -6,7 +6,7 @@ class QuizzesController < ApplicationController
   respond_to :html
 
   def index
-    @quizzes = Quiz.all
+    @quizzes = Quiz.where(:user_id => current_user.id)
     respond_with(@quizzes)
   end
 
