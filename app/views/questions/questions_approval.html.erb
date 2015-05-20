@@ -47,6 +47,7 @@
 
 
 <script>
+
     function approve_question(object, id)
     {
         var role = "";
@@ -66,6 +67,10 @@
                     if (objectSiblings[i].innerHTML == "new")
                     {
                         objectSiblings[i].innerHTML  = "reviewed_by_proofreader";
+                    }
+                    else if (objectSiblings[i].innerHTML == "reviewed_by_proofreader")
+                    {
+                        objectSiblings[i].innerHTML  = "reviewed_by_teacher";
                     }
                 }
                 $(object).parent().text("Approved");

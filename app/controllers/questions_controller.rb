@@ -634,6 +634,21 @@ class QuestionsController < ApplicationController
       render :json => {:success => false}
     end
   end
+
+  def update_topic
+    @question = Question.find(params["format"].to_i)
+
+
+      if @question.update_attributes(params[:question])
+       # redirect_to(:controller =>"questions", :action=>"questions_approval", :notice => 'User was successfully updated.')
+
+        render :json => {:success => true}
+      else
+        #format.html { render :action => "edit" }
+        render :json => {:success => false}
+      end
+
+  end
   private
     def set_question
       @question = Question.find(params[:id])

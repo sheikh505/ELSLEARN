@@ -1707,3 +1707,26 @@ select, input[type="file"] {
 .question_status{
     font-size: 100%;
 }
+#questions tbody tr td span.best_in_place{
+    padding: 0 2px !important;
+    position: relative;
+    overflow: hidden;
+}
+
+#questions tbody tr td:nth-child(2) {
+    padding: 10px !important;
+}
+
+#questions tbody tr td  select{
+    height: 25px !important;
+    width:85px;
+    margin:0 !important;
+    margin: 0 auto;
+    padding: 0px !important;
+
+   -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    position: absolute;
+}

@@ -52,7 +52,17 @@ $(document).ready(function() {
         });
     });
     $('.flexslider .slides li').hover(function(){
-        $('.slider_content').slideToggle('slow');
+        $(".slider_content").animate({
+            opacity: "1"
+        }, {
+            queue: false
+        });
+    }, function () {
+        $(".slider_content").animate({
+            opacity: "0"
+        }, {
+            queue: false
+        });
     });
 
 });

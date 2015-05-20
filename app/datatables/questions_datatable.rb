@@ -1,5 +1,5 @@
 class QuestionsDatatable
-  delegate :params, :h, :link_to, :number_to_currency, to: :@view
+  delegate :raw, :label_tag, :params, :h, :link_to, :best_in_place, to: :@view
 
   def initialize(view)
     @view = view
@@ -47,15 +47,19 @@ class QuestionsDatatable
         ]
       end
     elsif @view.current_user.is_teacher?
+      course_id = @view.current_user.teacher_courses.first.course_id
       questions.each_with_index.map do |question,index|
         [
             question.statement.html_safe,
-            question.topic.name,
+            #best_in_place (question, "topic_name", "as" => "input")
+            (best_in_place question, :topic_id, :url => @view.update_topic_questions_path(question.id), :type => :select, :collection => Topic.where(:course_id => course_id).each_with_object({}){ |o,h| h[o.id] = o.name }) +
+                " " + raw("<i class='fa fa-pencil-square-o'></i>"),
             link_to("View", ("/questions/#{question.id}?from=teacher")),
             h(question.current_state),
             if question.workflow_state.blank? || h(question.workflow_state) == "reviewed_by_proofreader"
-              link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-              link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
+              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
+              # link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+              # link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
             else
               h("Approved")
             end
@@ -93,22 +97,25 @@ class QuestionsDatatable
 
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
-      questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
     end
     questions
-    end
+  end
 
   def fetch_questions_by_teacher
     if @view.current_user.teacher_courses.present?
       course_id = @view.current_user.teacher_courses.first.course_id
-      questions = Question.where(:topic_id => Topic.select("id").where(:course_id=>course_id), :workflow_state=>"reviewed_by_proofreader").order("#{sort_helper}")
+      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+                  joins(:topic => :course).
+                  where("course_id = ? and workflow_state IN ('reviewed_by_proofreader', 'reviewed_by_teacher')", course_id).
+                  order("#{sort_helper}")
     else
       questions = Question.new
     end
 
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
-      questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
     end
     questions
   end
@@ -117,7 +124,7 @@ class QuestionsDatatable
     questions = Question.where("author = ?", @view.current_user.email).order("#{sort_helper}")
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
-      questions = questions.where("statement like :search", :search=> "%#{params[:sSearch]}%")
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
     end
     questions
   end
@@ -137,5 +144,9 @@ class QuestionsDatatable
 
   def sort_direction
     params[:sSortDir_0] == "desc" ? "desc" : "asc"
+  end
+
+  def self.test_values
+    ['Asian', 'Latin-Hispanic', 'Caucasian']
   end
 end

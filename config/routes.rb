@@ -59,6 +59,7 @@ ExamsSystem::Application.routes.draw do
       get :add_comment_to_question
       get :get_questions_by_status
       get :questions_exits
+      put :update_topic
     end
   end
 

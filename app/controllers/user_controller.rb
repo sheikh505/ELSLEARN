@@ -32,7 +32,6 @@ class UserController < ApplicationController
 
   def update_password
     @user = User.find(current_user.id)
-    puts "---------------->", params.inspect
     respond_to do |format|
       if @user.update_with_password(params[:user])
         # Sign in the user by passing validation in case their password changed
@@ -46,25 +45,28 @@ class UserController < ApplicationController
     end
   end
 
+  def dashboard
+    @user = User.find(current_user.id)
+    @user_test_histories = UserTestHistory.find_all_by_user_id(@user.id)
+  end
+
+  def ReTakeTest
+    user_test_history_id = params[:user_test_history_id]
+    @user_test_histories = UserTestHistory.find(user_test_history_id)
+    redirect_to :action => 'quiz', :controller => "home_page", :user_test_history_id=>user_test_history_id
+    # :b_id=> @user_test_histories[:board_id],
+    # :degree_id=> @user_test_histories[:degree_id],
+    # :course_id=> @user_test_histories[:course],:mcq=> @user_test_histories[:mcq],
+    # :true_false=> @user_test_histories[:truefalse],:fill=> @user_test_histories[:fill],
+    # :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
+    # :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
+  end
   private
 
   def user_params
     # NOTE: Using `strong_parameters` gem
     params.required(:user).permit(:password, :password_confirmation)
   end
-  def dashboard
-    @user = User.find(current_user.id)
-    @user_test_histories = UserTestHistory.find_all_by_user_id(@user.id)
-  end
-  def ReTakeTest
-    user_test_history_id = params[:user_test_history_id]
-    @user_test_histories = UserTestHistory.find(user_test_history_id)
-    redirect_to :action => 'quiz', :controller => "home_page", :user_test_history_id=>user_test_history_id
-                # :b_id=> @user_test_histories[:board_id],
-                # :degree_id=> @user_test_histories[:degree_id],
-                # :course_id=> @user_test_histories[:course],:mcq=> @user_test_histories[:mcq],
-                # :true_false=> @user_test_histories[:truefalse],:fill=> @user_test_histories[:fill],
-                # :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
-                # :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
-  end
+
+
 end

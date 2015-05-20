@@ -454,8 +454,8 @@ a{
     position: relative;
 }
 .flexslider .slides img{
-    width: 414px;
-    height: 318px;
+    width: 326px;
+    height: auto;
 }
 .flex-control-nav.flex-control-paging{
     display: none;
@@ -511,13 +511,13 @@ a{
 }
 .flexslider .slides li .slider_content {
     bottom: 10px;
-    display: none;
     -webkit-animation-fill-mode: forwards;
     -moz-animation-fill-mode: forwards;
     -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
     position: absolute;
     width: 100%;
+    opacity: 0;
 }
 .flexslider .slides li .slider_content > span {
     background: none repeat scroll 0 0 #fff;

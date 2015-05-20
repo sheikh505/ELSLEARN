@@ -15,18 +15,53 @@ class HomePageController < ApplicationController
       @courses << 'select board and degree first'
 
       @flag = true
+      sql = "SELECT (float4(score)/float4(total))*100 as percentage, u.id as user_id, u.name, c.name as course_name
+            FROM user_test_histories uth
+            INNER JOIN users u ON u.id = uth.user_id
+            INNER JOIN courses c ON c.id = uth.course_id
+            where score = total
+            limit 5"
+
+      # @top_scorer_users = UserTestHistory.joins(:user, :course).where("score is not null and total is not null and score < total")
+      @top_scorer_users = UserTestHistory.find_by_sql(sql)
+    # sql = "DROP TABLE temp;
+    #
+    #       CREATE TEMP TABLE temp (
+    #         course   text
+    #       , degree    text
+    #       , ct        integer  -- don't use "count" as column name.
+    #       );
+    #
+    #       INSERT INTO temp (course, degree, ct )
+    #       (Select  c.name course,  d.name degree, Count(DISTINCT q.id) ct
+    #       from questions q
+    #       INNER JOIN topics t ON t.id = q.topic_id
+    #       INNER JOIN courses c ON t.course_id = c.id
+    #       INNER JOIN board_question_assignments bqa ON bqa.question_id = q.id
+    #       INNER JOIN board_degree_assignments bda ON bda.id = bqa.board_degree_assignment_id
+    #       INNER JOIN degrees d ON d.id = bda.degree_id
+    #       --WHERE c.name = 'BIOLOGY' AND d.name = 'A LEVEL'
+    #       GROUP BY c.name, d.name
+    #       ORDER BY d.name)
+    #
+    #       SELECT *
+    #       FROM   crosstab(
+    #             'SELECT course, degree, ct
+    #              FROM   temp
+    #              ORDER  BY degree desc')
+    #       AS ct ('course' text, 'O LEVEL' integer, 'A LEVEL' integer);"
+    #
+    # @questionsCount = Question.find_by_sql(sql)
 
 
-
-
-    @notes_degrees = []
-          #notes degreeesssssss
-        Book.all.each do |nd|
-          @notes_degrees << nd.degree
-        end
-
-    @notes_course_list = []
-    @notes_list = []
+    # @notes_degrees = []
+    #       #notes degreeesssssss
+    #     Book.all.each do |nd|
+    #       @notes_degrees << nd.degree
+    #     end
+    #
+    # @notes_course_list = []
+    # @notes_list = []
 
   end
 
@@ -123,7 +158,7 @@ class HomePageController < ApplicationController
 
       if user_signed_in?
         user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
-                             :course=> @course_id,:mcq=> @mcq,
+                             :course_id=> @course_id,:mcq=> @mcq,
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
                              :year=> @year, :session=> @session, :user_id=>current_user.id}
@@ -143,7 +178,7 @@ class HomePageController < ApplicationController
       user_test_history = UserTestHistory.find(@user_test_history_id)
       @board_id = user_test_history[:board_id]
       @degree_id = user_test_history[:degree_id]
-      @course_id = user_test_history[:course]
+      @course_id = user_test_history[:course_id]
       @mcq = user_test_history[:mcq]
       @fill = user_test_history[:fill]
       @true_false = user_test_history[:truefalse]
@@ -226,7 +261,7 @@ class HomePageController < ApplicationController
 
   def add_user_test
 
-      user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)
+      user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course_id=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)
     user_history.save
 
     redirect_to root_path
@@ -242,7 +277,7 @@ class HomePageController < ApplicationController
         assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
         assignment.save
         user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                             :course=> params[:course_id],:mcq=> params[:mcq],
+                             :course_id=> params[:course_id],:mcq=> params[:mcq],
                              :truefalse=> params[:true_false],:fill=> params[:fill],
                              :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                              :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
@@ -261,7 +296,7 @@ class HomePageController < ApplicationController
     if user.present? && user.valid_password?(params[:new_user][:password])
       sign_in user
       user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                           :course=> params[:course_id],:mcq=> params[:mcq],
+                           :course_id=> params[:course_id],:mcq=> params[:mcq],
                            :truefalse=> params[:true_false],:fill=> params[:fill],
                            :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                            :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
@@ -276,7 +311,7 @@ class HomePageController < ApplicationController
 
   def save_data
     user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                         :course=> params[:course_id],:mcq=> params[:mcq],
+                         :course_id=> params[:course_id],:mcq=> params[:mcq],
                          :truefalse=> params[:true_false],:fill=> params[:fill],
                          :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                          :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
@@ -306,7 +341,7 @@ class HomePageController < ApplicationController
     if user_signed_in?
       if params[:b_id].present?
         user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                             :course=> params[:course_id],:mcq=> params[:mcq],
+                             :course_id=> params[:course_id],:mcq=> params[:mcq],
                              :truefalse=> params[:true_false],:fill=> params[:fill],
                              :descriptive=> params[:descriptive], :pastpaperflag=> params[:past_paper_flag],
                              :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}

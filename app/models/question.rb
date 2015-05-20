@@ -26,7 +26,7 @@ class Question < ActiveRecord::Base
     state :accepted
   end
 
-  default_scope order('created_at DESC')
+  default_scope order('questions.created_at DESC')
   has_many :options, dependent: :destroy
   belongs_to :topic
   has_one :past_paper_history
