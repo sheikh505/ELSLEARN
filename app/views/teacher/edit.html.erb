@@ -120,7 +120,7 @@
 </div>
 <script>
     $( document ).ready(function() {
-        if($("#role_id").val() == "5")
+        if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
             $("#courseList").show();
