@@ -1,0 +1,186 @@
+@media only screen and (max-width:1250px){
+    .container{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .col .row_custom{
+        margin: 0 12px 0 0;
+        width: 45%;
+    }
+    .col > #question_type_container, .col > .pre_question_holder{
+        padding: 14px 0 8px 12px;
+    }
+    .col .row_custom select{
+        width: 100%;
+    }
+    .col .pre_question_holder{
+        right: -143%;
+        top: -25%;
+        width: 100%;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_left span{
+        font-size: 12px;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_right select{
+        width: 43px;
+        padding: 0;
+    }
+    #question_type_container .row_custom{
+        margin: 0 2px 0 0;
+        width: 48%;
+    }
+
+}
+@media only screen and (max-width: 850px){
+    .header_holder .nav ul li{
+        margin: 0 5px 0 5px;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_right select{
+        width: 43px;
+        padding: 0;
+    }
+    .col > #question_type_container{
+        padding: 14px 0 8px 4px;
+    }
+    .col > #question_type_container .row_custom label input[type="checkbox"]{
+        margin: 0 2px 0 0;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_left span{
+        width: 60px;
+        display: inline-block;
+    }
+}
+@media only screen and (min-width: 780px){
+    .mobil_btn{
+        display: none;
+    }
+    .header_left .nav.nav_mobile{
+        display: block !important;
+    }
+}
+@media only screen and (max-width: 768px){
+    .header_left .nav{
+        display: none;
+        top: 100%;
+        background: #fff;
+        width: 100%;
+        left: 0;
+        position: absolute;
+    }
+    .header_left .nav ul li{
+        display: block;
+        margin: 0;
+    }
+    .header_left .nav ul li a{
+        display: block;
+        border-bottom: 1px solid #f1f1f3;
+        padding: 10px 30px;
+    }
+    .header_left .nav ul li a:hover{
+        color: #fff;
+        background: #0CA9E2;
+    }
+    .mobil_btn {
+        background: none repeat scroll 0 0 #fff;
+        cursor: pointer;
+        display: block !important;
+        float: left;
+        margin: 3px 10px 0;
+        padding: 9px 6px 11px;
+        width: 32px;
+    }
+    .mobil_btn span {
+        background: none repeat scroll 0 0 #354251;
+        border-radius: 1px;
+        display: block;
+        margin-bottom: 4px;
+        padding: 1px 9px;
+    }
+    .header,
+    .sub_menu{
+        position: relative;
+    }
+    .sub_menu{
+        width: 100%;
+        border: none;
+        left: 0;
+        box-shadow: none;
+        border: none;
+    }
+    .header_holder .nav ul li .sub_menu li a{
+        padding: 6px 50px;
+    }
+    .visual_holder{
+        overflow: hidden;
+    }
+    .viual{
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .col .row_custom{
+        margin: 0 8px 0 0;
+    }
+    .main_holder .box{
+        width: 46%;
+    }
+
+}
+@media only screen and (max-width: 730px){
+    .col .pre_question_holder{
+        width: 300px;
+    }
+}
+@media only screen and (max-width: 640px){
+    .col .row_custom{
+        width: 43%;
+    }
+    .col > #question_type_container, .col > .pre_question_holder{
+        padding: 14px 0 8px 7px;
+    }
+    .col .pre_question_holder{
+        position: relative;
+        left: 0;
+        top: 10px;
+    }
+    .footer_holder .footer_box{
+        width: 45%;
+    }
+    .footer_holder .footer_box .text{
+        width: 120px;
+    }
+}
+@media only screen and (max-width: 480px){
+    .header_right input[type="text"], .header_right input[type="password"]{
+        width: 115px;
+        padding: 2px 5px;
+    }
+    .visual_holder .viual_left,
+    .visual_holder .viual_right,
+    .col .pre_question_holder{
+        width: 100%;
+        margin: 0 auto 20px;
+        float: none;
+    }
+    .visual_holder .col{
+        width: 96%;
+        margin: 0 auto 20px;
+    }
+    .main_holder .box{
+        width: 90%;
+    }
+    .footer_holder .footer_box{
+        width: 90%;
+        text-align: left;
+    }
+}
+@media only screen and (max-width: 360px){
+    .header_right input[type="text"], .header_right input[type="password"]{
+        width: 95px;
+    }
+    .main_holder .box{
+        width: 100%;
+    }
+}
