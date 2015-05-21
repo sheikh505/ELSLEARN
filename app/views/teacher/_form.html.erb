@@ -68,12 +68,9 @@
     </div>
     <div id="courseList" style="display: none;" class="field">
       <%=label_tag :course %>
-      <select id="course" class="row_field" name="course" >
-        <option value="">Please select a course</option>
         <%@courses.each do |x| %>
-            <option value="<%=x.id%>"><%=x.name%></option>
+            <%= check_box_tag 'course[]', x.id,false %><%=x.name %>
         <% end %>
-      </select>
       </div>
         <div class="field">
             <%= f.hidden_field :role , :value => current_user.id.to_s %>
