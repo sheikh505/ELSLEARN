@@ -506,7 +506,6 @@ a{
     position: relative;
 }
 .main_holder.main_front{
-    height: 1300px !important;
     overflow: hidden;
 }
 .flexslider .slides li .slider_content {
