@@ -29,6 +29,9 @@
         margin: 0 2px 0 0;
         width: 48%;
     }
+    .user_profile_holder .container{
+        overflow: hidden;
+    }
 
 }
 @media only screen and (max-width: 850px){
@@ -126,7 +129,12 @@
     .main_holder .box{
         width: 46%;
     }
-
+    .user_profile_holder .user_profile_left ul li a{
+        padding: 8px 5px;
+    }
+    .user_profile_holder .user_profile_right{
+        margin: 0 0 0 40px;
+    }
 }
 @media only screen and (max-width: 730px){
     .col .pre_question_holder{
@@ -175,6 +183,15 @@
         width: 90%;
         text-align: left;
     }
+    .user_profile_holder .user_profile_left{
+        display: block;
+        width: 80%;
+        margin-bottom: 20px;
+    }
+    .user_profile_holder .user_profile_right{
+        margin: 0 auto;
+        width: 100%;
+    }
 }
 @media only screen and (max-width: 360px){
     .header_right input[type="text"], .header_right input[type="password"]{
@@ -182,5 +199,9 @@
     }
     .main_holder .box{
         width: 100%;
+    }
+    .user_profile_holder .user_profile_left{
+        width: 100%;
+        margin: 0 auto 20px;
     }
 }
