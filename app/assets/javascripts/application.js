@@ -18,7 +18,6 @@
 //= require tinymce-jquery
 //= require jquery.timer
 //= require best_in_place.jquery-ui
-//= require masonry
 //= require jquery.flexslider-min
 //= require dataTables/jquery.dataTables
 //= require jquery.inview.min
@@ -38,6 +37,12 @@ $(document).ready(function() {
     $('.mobil_btn').click( function(){
         $('.nav').slideToggle('fast')
     })
+//    var $container = $('#container');
+//// initialize
+//    $container.masonry({
+//        columnWidth: 200,
+//        itemSelector: '.box'
+//    });
     $(function(){
         //SyntaxHighlighter.all();
     });
@@ -63,6 +68,9 @@ $(document).ready(function() {
         //});
     //});
 
+    $('.mobil_btn').click( function(){
+        $('.nav').slideToggle('fast')
+    })
 });
 
 $(document).ready(function() {
