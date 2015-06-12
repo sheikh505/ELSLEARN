@@ -14,6 +14,7 @@ class Ability
            can :read, Board
            can :read, Degree
            can :read, Course
+           can :manage, Topic
            can :manage, Quiz do |quiz|
              quiz.user.email == user.email
            end
@@ -23,8 +24,7 @@ class Ability
          elsif user.is_operator?
            can :read, Board
            can :read, Degree
-           can :manage, Course
-           can :read, Quiz
+           can :read, Course
            can :read, Topic
            can :manage, Question do |question|
              question.author == user.email
@@ -40,7 +40,7 @@ class Ability
          #       User.find_by_email(question.author.to_s).id == user.role
          # end
          else
-           can :manage, :all
+           #can :manage, :all
          end
        end
 

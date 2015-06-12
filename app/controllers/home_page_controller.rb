@@ -414,6 +414,10 @@ class HomePageController < ApplicationController
 
   end
 
+  def pricing
+
+  end
+
   private
   def check_session
 

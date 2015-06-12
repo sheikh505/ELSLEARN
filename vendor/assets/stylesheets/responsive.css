@@ -183,4 +183,10 @@
     .main_holder .box{
         width: 100%;
     }
+    .flexslider{
+        width: 100%;
+    }
+    .flexslider .slides img{
+        width: 280px;
+    }
 }

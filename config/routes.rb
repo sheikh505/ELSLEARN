@@ -86,6 +86,7 @@ ExamsSystem::Application.routes.draw do
   get "home_page/save_answer" => 'home_page#save_answer_to_session'
   get "home_page/get_answer" => 'home_page#get_answer_from_session'
   get "about_us" => 'home_page#about_us'
+  get "pricing" => 'home_page#pricing'
 
 
   resources :tests do
