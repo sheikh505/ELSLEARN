@@ -567,6 +567,28 @@ class QuestionsController < ApplicationController
     render :partial => 'questions/proofreader_ques'
   end
 
+  def get_question_details_for_approval
+    question_id = params[:ques_id]
+    @question = Question.find(question_id)
+
+
+    @boards_name = []
+    @degrees_name = []
+    @course_id = @question.topic.course_id
+
+    BoardQuestionAssignment.find_all_by_question_id(question_id).each do |bqa|
+      unless @boards_name.include? bqa.board_degree_assignment.board.name
+        @boards_name << bqa.board_degree_assignment.board.name
+      end
+      unless @degrees_name.include? bqa.board_degree_assignment.degree.name
+        @degrees_name << bqa.board_degree_assignment.degree.name
+      end
+    end
+
+
+    render :partial => 'questions/question_details_for_approval'
+  end
+
   def destroy
 
 

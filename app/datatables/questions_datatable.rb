@@ -1,5 +1,5 @@
 class QuestionsDatatable
-  delegate :raw, :label_tag, :params, :h, :link_to, :best_in_place, to: :@view
+  delegate :raw, :label_tag, :params, :h, :link_to, :best_in_place, :to=> :@view
 
   def initialize(view)
     @view = view
@@ -57,7 +57,7 @@ class QuestionsDatatable
             link_to("View", ("/questions/#{question.id}?from=teacher")),
             h(question.current_state),
             if question.workflow_state.blank? || h(question.workflow_state) == "reviewed_by_proofreader"
-              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
+              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question_by_teacher(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
               # link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
               # link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
             else

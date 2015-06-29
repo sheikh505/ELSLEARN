@@ -12,6 +12,11 @@ class TeacherController < ApplicationController
 
   end
 
+  def destroy
+    @user.destroy
+    respond_with(@user)
+  end
+
   def get_courses
     @courses = []
     @list_courses = []
