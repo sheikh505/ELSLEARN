@@ -67,10 +67,22 @@ $(document).ready(function() {
           //  queue: false
         //});
     //});
+    //
+    //$('.mobil_btn').click( function(){
+    //    $('.nav_mobile').slideToggle('fast')
+    //})
 
-    $('.mobil_btn').click( function(){
-        $('.nav').slideToggle('fast')
-    })
+    $('.mobil_btn').click(
+        function () {
+            //show its submenu
+            $('.nav_mobile', this).stop().fadeIn(200);
+
+        },
+        function () {
+            //hide its submenu
+            $('.nav_mobile', this).stop().fadeOut(250);
+        }
+    );
 });
 
 $(document).ready(function() {
