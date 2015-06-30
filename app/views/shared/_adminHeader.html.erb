@@ -10,9 +10,6 @@
                      <li> <%= link_to "HOME", "/", :class => 'navbar-link' %> | </li>
                    <li> <%= link_to "SIGN OUT","/sign_out",method: :delete, :class => 'navbar-link' %></li>
 
-
-
-
                 <% else %>
 
                     Logged in as: <%= current_user.email %>
@@ -24,6 +21,30 @@
                 <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link' %>
 
             <% end %>
+          </ul>
+        </div>
+      <div class="mobil_btn"> <span></span> <span></span> <span></span> </div>
+
+      <div id="sidebar-wrapper">
+          <ul class="sidebar-nav">
+
+            <% if current_user.is_not_student? %>
+
+                <li class="sidebar-brand">
+                  <%= link_to "ELS Learning", "/admin_panel" %>
+                </li>
+                <% if current_user.is_admin? %>
+                    <%= render 'layouts/admin' %>
+                <% elsif current_user.is_operator? %>
+                    <%= render 'layouts/operator' %>
+                <% elsif current_user.is_proofreader? %>
+                    <%= render 'layouts/proofreader' %>
+                <% elsif current_user.is_teacher? %>
+                    <%= render 'layouts/teacher' %>
+                <% end %>
+            <% end %>
+
+
           </ul>
         </div>
     </nav>

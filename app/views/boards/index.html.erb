@@ -2,13 +2,15 @@
 
 <div class="listing-holder">
   <table class="table table-condensed">
+    <thead>
     <tr>
       <th>Name</th>
       <th></th>
       <th></th>
       <th></th>
     </tr>
-
+    </thead>
+    <tbody>
     <% @boards.each do |board| %>
         <tr>
           <td><%= board.name %></td>
@@ -25,6 +27,7 @@
 
         </tr>
     <% end %>
+    </tbody>
   </table>
 </div>
 

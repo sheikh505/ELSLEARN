@@ -36,6 +36,7 @@ $(document).ready(function() {
     });
     $('.mobil_btn').click( function(){
         $('.nav').slideToggle('fast')
+        $('#sidebar-wrapper').slideToggle('fast')
     })
 //    var $container = $('#container');
 //// initialize

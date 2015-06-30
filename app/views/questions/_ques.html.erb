@@ -19,12 +19,15 @@
 
 </div>
   <table style="margin-top: 10px !important;" class="table table-bordered">
+    <thead>
     <tr>
       <th><h3 style="margin-top: 0 !important;">Question Statement</h3></th>
       <th></th>
       <th></th>
       <th></th>
     </tr>
+    </thead>
+    <tbody>
     <% @questions.each do |question| %>
         <tr><td><%=raw question.statement %> </td>
           <td><%= link_to 'View', question_path(question) %></td>
@@ -45,7 +48,7 @@
         </tr>
 
     <% end %>
-
+    </tbody>
   </table>
 <%= will_paginate @questions %>
 
