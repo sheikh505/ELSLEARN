@@ -160,8 +160,8 @@ a{
 #page-content-wrapper .field_holder img,
 .field_holder label,
 .field_holder img{
-        display: block;
-        padding-bottom: 5px;
+    display: block;
+    padding-bottom: 5px;
 }
 #page-content-wrapper .btn_holder,
 .btn_holder{
@@ -357,8 +357,8 @@ a{
     margin-bottom: 20px;
 }
 .main_holder .box .box_header img{
-    width: 65px;
-    height: auto;
+    display: block;
+    width: 100%;
 }
 .aboutus_holder{
     padding: 30px 0;
@@ -453,9 +453,12 @@ a{
 .flexslider{
     position: relative;
 }
-.flexslider .slides img{
-    width: 326px;
+.flexslider .slides img{ /* change*/
+    max-width: 150px;
     height: auto;
+    margin: 10px 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.08);
 }
 .flex-control-nav.flex-control-paging{
     display: none;
@@ -490,12 +493,10 @@ a{
     display: block;
 }
 .flexslider .slides p {
-    background: rgba(0,0,0,0.5);
-    bottom: 9px;
-    color: #fff;
+    color: #999;
     display: block;
-    font-size: 20px !important;
-    left: 0;
+    font-size: 20px;
+    font-weight: 400;
     opacity: 0.9;
     padding: 5px 10px;
     font-weight: 700;
@@ -509,26 +510,23 @@ a{
     overflow: hidden;
 }
 .flexslider .slides li .slider_content {
-    bottom: 10px;
     -webkit-animation-fill-mode: forwards;
     -moz-animation-fill-mode: forwards;
     -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
-    position: absolute;
-    width: 100%;
-    opacity: 0;
 }
 .flexslider .slides li .slider_content > span {
-    background: none repeat scroll 0 0 #fff;
     color: #222;
+    font-family: "Open Sans",sans-serif;
     display: block;
     font-size: 20px;
     font-weight: 600;
     padding: 7px 10px;
 }
 .flexslider .slides li .slider_content > span.pre_subject{
-    background: #F8981D;
-    color: #fff;
+    color: #999;
+    text-transform: uppercase;
+    font-size: 18px;
 }
 .box .box_header .fa.fa-question,
 .box .box_header .fa.fa-rss,
