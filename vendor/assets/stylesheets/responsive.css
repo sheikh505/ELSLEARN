@@ -373,7 +373,8 @@ Admin  Strat
         padding-left: 20px;
     }
     .table.table-bordered img{
-        max-width: 200px !important;
+        max-width: 250px !important;
+        width: auto;
     }
     .pagination a{
         margin: 0 -2px !important;
@@ -386,8 +387,15 @@ Admin  Strat
         padding: 5px 6px !important;
     }
     .stat_holder img{
-        width: 200px;
+        width: auto;
         height: auto;
+        max-width: 200px;
+    }
+    #ques_container p{
+        font-size: 14px;
+    }
+    #ques_container .table-bordered{
+        margin-bottom: 20px;
     }
  }
 @media only screen and (max-width: 360px) {
