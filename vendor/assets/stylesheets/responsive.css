@@ -222,17 +222,15 @@
     .main_holder .box{
         width: 100%;
     }
-<<<<<<< HEAD
     .flexslider{
         width: 100%;
     }
-    .flexslider .slides img{
+    .flexslider .slides img {
         width: 280px;
-=======
+    }
     .user_profile_holder .user_profile_left{
         width: 100%;
         margin: 0 auto 20px;
->>>>>>> 4cbfc4e0de88269304dc42cda719c256ecc227fb
     }
 }
 /*-------------------------------------------------------
