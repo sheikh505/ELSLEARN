@@ -369,7 +369,9 @@ Admin  Strat
         height: 33px !important;
         line-height: 19px !important;
     }
-
+    .listing-holder-p h4{
+        padding-left: 20px;
+    }
 }
 @media only screen and (max-width: 360px) {
     .header .admin-header-right{
