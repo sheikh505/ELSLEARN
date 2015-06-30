@@ -706,3 +706,15 @@ a{
 .col .pre_question_holder{
     top: -16px !important;
 }
+.question_details {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: left;
+}
+.btn_holder_post{
+    display: block;
+    margin: 20px 0;
+}

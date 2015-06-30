@@ -37,8 +37,10 @@
     <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
     <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
     <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
-    </div>
 
+  <div class="btn_holder_post">
     <%= f.submit 'Approve', :class=> 'btn btn-large btn-inverse' %>
     <%= f.submit 'Reject', :class=> 'btn btn-large btn-inverse' %>
+    </div>
+    </div>
 <% end %>
