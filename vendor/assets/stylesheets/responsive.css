@@ -397,6 +397,12 @@ Admin  Strat
     #ques_container .table-bordered{
         margin-bottom: 20px;
     }
+    .ques_inner_bar_right{
+        float: left !important;
+    }
+    .ques_inner_bar_right .select_div{
+        float: none !important;
+    }
  }
 @media only screen and (max-width: 360px) {
     .header .admin-header-right{
