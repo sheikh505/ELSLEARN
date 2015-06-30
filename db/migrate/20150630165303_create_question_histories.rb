@@ -5,7 +5,7 @@ class CreateQuestionHistories < ActiveRecord::Migration
       t.integer :question_id
       t.integer :board_id
       t.integer :degree_id
-      t.integer :difficulty_id
+      t.integer :difficulty
       t.integer :topic_id
       t.boolean :is_approved
 
