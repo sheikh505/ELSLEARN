@@ -33,7 +33,7 @@ class Question < ActiveRecord::Base
 
   has_many :board_question_assignments
   has_many :board_degree_assignments,through: :board_question_assignments
-
+  has_many :question_histories
 
   attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments,
                   :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status

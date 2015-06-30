@@ -82,14 +82,19 @@
 </div>
 </div>
 
+<div class="question_history">
+  <% if current_user.is_teacher? %>
+
+  <% end %>
+</div>
+
 <div class="btn_holder">
   <% if params["from"].present? %>
       <% if params["from"] == "proofreader" && (@question.workflow_state.nil? || @question.current_state == "new") %>
           <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
           <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
-      <% elsif params["from"] == "teacher" && (@question.current_state == "reviewed_by_proofreader") %>
-          <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
-          <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+      <% elsif params["from"] == "teacher" %>
+          <%= render 'question_details_for_approval' %>
       <% end %>
       <script>
           document.write("<a class='btn btn-large btn-inverse' href='javascript:history.back()'>Go Back</a>");
@@ -103,3 +108,10 @@
       <%= link_to 'Add Next', add_questions_questions_path(:q_id => @question.id) , :class=> 'btn btn-large'%>
   <% end %>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        jQuery(".best_in_place").best_in_place();
+
+    } );
+</script>

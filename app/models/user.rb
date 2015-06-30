@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :degree_course_assignments, through: :teacher_courses
   has_many :test
   has_many :user_test_histories
+  has_many :question_histories
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

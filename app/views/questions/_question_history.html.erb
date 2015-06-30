@@ -1,0 +1,61 @@
+<table id="questions" style="margin-top: 10px !important;" class="table table-bordered" data-source="<%= questions_approval_questions_path(format: "json") %>">
+  <thead>
+  <th>Teacher Name</th>
+  <th>Action</th>
+  <th>Status</th>
+  <th></th>
+  </thead>
+  <tbody>
+
+  </tbody>
+
+
+</table>
+  <h5 class="labelquestions">Boards</h5>
+  <p>
+    <%Board.all.each do |board| %>
+        <% if @boards_name.include? board.name %>
+            <%=check_box_tag "boards[]",board.id,true %><%=board.name %>
+        <% else %>
+            <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+        <% end %>
+    <% end %>
+
+
+  </p>
+
+
+  <h5 class="labelquestions">Degrees</h5>
+  <p>
+    <%Degree.all.each do |degree| %>
+        <% if @degrees_name.include? degree.name %>
+            <%=check_box_tag "degree[]",degree.id, true %><%=degree.name %>
+        <% else %>
+            <%=check_box_tag "degree[]",degree.id, false %><%=degree.name %>
+        <% end %>
+    <% end %>
+  </p>
+
+  <%= best_in_place @question, :topic_id, :url => update_topic_questions_path(@question.id), :type => :select, :collection => Topic.where(:course_id => @course_id).each_with_object({}){ |o,h| h[o.id] = o.name } %>
+  <i class='fa fa-pencil-square-o'></i>
+
+
+  <%= f.label :Difficulty %>
+  <select id="difficulty" name="difficulty">
+    <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
+    <option <%='selected' if @question.difficulty == 2 %> value="2">Moderate</option>
+    <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
+
+
+  </select>
+  <div>
+    <div class="actions pull-left">
+      <button type="button" class="btn btn-default modal_btn" onclick="update_question()">Update & Approve</button>
+    </div>
+    <div class="modal-footer m_footer_container">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+
+

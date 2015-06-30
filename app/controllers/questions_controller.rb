@@ -148,6 +148,19 @@ class QuestionsController < ApplicationController
       @boards = @boards.uniq
       @degrees = @degrees.uniq
 
+      @boards_name = []
+      @degrees_name = []
+      @course_id = @question.topic.course_id
+
+      BoardQuestionAssignment.find_all_by_question_id(@question.id).each do |bqa|
+        unless @boards_name.include? bqa.board_degree_assignment.board.name
+          @boards_name << bqa.board_degree_assignment.board.name
+        end
+        unless @degrees_name.include? bqa.board_degree_assignment.degree.name
+          @degrees_name << bqa.board_degree_assignment.degree.name
+        end
+      end
+
       session[:question] ||= {}
       session[:question][:course_id] = @question.topic.course_id
       session[:question][:boards] = @boards

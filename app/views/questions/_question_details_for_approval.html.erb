@@ -1,64 +1,44 @@
+<%= form_for @question, :url => "approve_by_teacher", :html => {:multipart=> true} do |f| %>
+    <div class="question_details">
+    <h5 class="labelquestions">Boards</h5>
+    <p>
+      <%Board.all.each do |board| %>
+          <% if @boards_name.include? board.name %>
+              <%=check_box_tag "boards[]",board.id,true %><%=board.name %>
+          <% else %>
+              <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+          <% end %>
+      <% end %>
 
 
-<%= form_for @question, :html => {:multipart=> true} do |f| %>
-<div class="question_details">
-  <h5 class="labelquestions">Boards</h5>
-  <p>
-    <%Board.all.each do |board| %>
-        <% if @boards_name.include? board.name %>
-            <%=check_box_tag "boards[]",board.id,true %><%=board.name %>
-        <% else %>
-            <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+    </p>
+
+
+    <h5 class="labelquestions">Degrees</h5>
+    <p>
+      <%Degree.all.each do |degree| %>
+          <% if @degrees_name.include? degree.name %>
+              <%=check_box_tag "degree[]",degree.id, true %><%=degree.name %>
+          <% else %>
+              <%=check_box_tag "degree[]",degree.id, false %><%=degree.name %>
+          <% end %>
+      <% end %>
+    </p>
+
+      <select name="topic">
+        <% Topic.where(:course_id => @course_id).each do |topic|  %>
+            <option <%='selected' if @question.topic_id == topic.id %> value="<%=topic.id %>"><%=topic.name %></option>
         <% end %>
-    <% end %>
+      </select>
+    <i class='fa fa-pencil-square-o'></i>
 
 
-  </p>
-
-
-  <h5 class="labelquestions">Degrees</h5>
-  <p>
-    <%Degree.all.each do |degree| %>
-        <% if @degrees_name.include? degree.name %>
-            <%=check_box_tag "degree[]",degree.id, true %><%=degree.name %>
-        <% else %>
-            <%=check_box_tag "degree[]",degree.id, false %><%=degree.name %>
-        <% end %>
-    <% end %>
-  </p>
-
-  <h5 class="labelquestions">Topics</h5>
-  <p>
-    <select id="topic_id" name="topic_id">
-        <% Topic.where(:course_id => @course_id).each do |topic| %>
-             <option <%='selected' if @question.topic_id == topic.id %> value=<% topic.id %> ><%= topic.name %></option>
-        <% end %>
-    </select>
-  </p>
-
-  <%= best_in_place @question, :topic_id, :url => update_topic_questions_path(@question.id), :type => :select, :collection => Topic.where(:course_id => @course_id).each_with_object({}){ |o,h| h[o.id] = o.name } %>
-  <i class='fa fa-pencil-square-o'></i>
-
-
-  <%= f.label :Difficulty %>
-  <select id="difficulty" name="difficulty">
-    <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
-    <option <%='selected' if @question.difficulty == 2 %> value="2">Moderate</option>
-    <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
-
-
-  </select>
-  <div>
-    <div class="actions pull-left">
-      <button type="button" class="btn btn-default modal_btn" onclick="update_question()">Update & Approve</button>
+    <h5 class="labelquestions">Difficulty</h5>
+    <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
+    <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
+    <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
     </div>
-    <div class="modal-footer m_footer_container">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-  </div>
-</div>
 
+    <%= f.submit 'Approve', :class=> 'btn btn-large btn-inverse' %>
+    <%= f.submit 'Reject', :class=> 'btn btn-large btn-inverse' %>
 <% end %>
-
-
-
