@@ -372,7 +372,14 @@ Admin  Strat
     .listing-holder-p h4{
         padding-left: 20px;
     }
-}
+    .table.table-bordered img{
+        max-width: 200px;
+    }
+    .stat_holder img{
+        width: 200px;
+        height: auto;
+    }
+ }
 @media only screen and (max-width: 360px) {
     .header .admin-header-right{
         font-size: 11px;
