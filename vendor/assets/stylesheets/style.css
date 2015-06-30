@@ -425,7 +425,6 @@ Main End
     max-width: 1050px;
     background: #f8f8f8;
     padding: 15px;
-    margin-left: 250px;
 
 }
 
@@ -1115,6 +1114,8 @@ input[type="button"].btn-block {
 .admin-header{
     position: fixed;
     top:0;
+    left: 0;
+    right: 0;
     width: 100%;
     z-index: 999;
 }
@@ -1729,4 +1730,35 @@ select, input[type="file"] {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
     position: absolute;
+}
+.sidebar_holder:after{
+    clear: both;
+    display: table;
+    content: '';
+}
+*::after, *::before {
+    box-sizing: border-box;
+}
+#sidebar-wrapper:after,
+#sidebar-wrapper:before,
+#page-content-wrapper:after,
+#page-content-wrapper:before{
+    clear: both;
+    display: table;
+    content: '';
+}
+#sidebar-wrapper{
+    top: 65px;
+}
+.header.admin-header:after,
+.header.admin-header:before{
+    clear: both;
+    display: table;
+    content: '';
+}
+.header .navbar:after,
+.header .navbar:before{
+    clear: both;
+    display: table;
+    content: '';
 }

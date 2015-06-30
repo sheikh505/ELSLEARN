@@ -1,13 +1,15 @@
 <h1>Listing courses</h1>
 <div class="listing-holder">
 <table class="table table-condensed">
+  <thead>
   <tr>
     <th>Name</th>
     <th>Degree  ( Board )</th>
     <th></th>
     <th></th>
   </tr>
-
+  </thead>
+  <tbody>
   <% @degree_hash.each do |k,v| %>
   <tr>
     <td><%= k.split("-").last  %></td>
@@ -38,6 +40,7 @@
 
   </tr>
 <% end %>
+  </tbody>
 </table>
 </div>
 

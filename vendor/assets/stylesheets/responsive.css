@@ -235,3 +235,188 @@
 >>>>>>> 4cbfc4e0de88269304dc42cda719c256ecc227fb
     }
 }
+/*-------------------------------------------------------
+Admin  Strat
+---------------------------------------------------------*/
+@media only screen and (min-width:801px ) {
+    #sidebar-wrapper{
+        display: block !important;
+    }
+}
+@media only screen and (max-width:1110px){
+    .offset1{
+        margin-left: 20px !important;
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width:800px){
+    #page-content-wrapper h1{
+        font-size: 25px;
+    }
+    #wrapper{
+        padding-left: 0;
+    }
+    #sidebar-wrapper{
+        display: none;
+    }
+    .admin_main{
+        margin: 0;
+    }
+    .span5.offset1.listing-holder{
+        width: 100%;
+    }
+    .header .admin-header-right{
+        float: none;
+        margin: 0 0 0 17px  ;
+    }
+    .admin-header{
+        position: relative;
+    }
+    .admin-header .collapse.navbar-collapse{
+        float: left;
+    }
+    .admin-header .mobil_btn{
+        float: right;
+        margin: 33px 4px 20px 7px;
+    }
+    .btn-large {
+        border-radius: 6px;
+        font-size: 12.5px;
+        padding: 11px 13px;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+        padding: 8px 5px !important;
+    }
+    .admin-header #sidebar-wrapper{
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        overflow-y: auto;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        z-index: 999999999;
+    }
+    .admin-header .sidebar-nav{
+        width: 100%;
+    }
+    .sidebar-nav li a{
+        color: #222;
+        display: block;
+    }
+    .sidebar-nav li a:hover,
+    .sidebar-nav > .sidebar-brand a:hover{
+        background: #6AB4D1;
+        color: #fff;
+    }
+    .header .navbar{
+        padding: 4px !important;
+    }
+    .header .admin-header-right{
+        margin: 0 0 0 6px !important;
+    }
+    .header.admin-header .collapse.navbar-collapse img{
+        margin: 0 !important;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .header .admin-header-right{
+        margin: 0 0 0 6px !important;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+        display: block;
+        width: 100%;
+    }
+    table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled{
+        background-position: 90% center;
+    }
+    table tbody tr:nth-child(2n+1){
+        background-color: #f7f8fa;
+    }
+    table thead th, table thead td{
+        border-bottom: 1px solid #f7f8fa;
+        height: 33px;
+        line-height: 19px !important;
+    }
+    table{
+        width: 100%;
+        border: 1px solid #eee;
+    }
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter{
+        float: left;
+    }
+    #ques_container h3{
+        line-height: 12px;
+        margin: 0;
+        font-size: 20px;
+        padding: 0;
+    }
+    .ques_inner_bar_left #search_bar{
+        width: 180px !important;
+    }
+    #page-content-wrapper .field_holder{
+        margin: 0 5px 15px 0 !important;
+        width: 100% !important;
+    }
+    #page-content-wrapper .btn_holder a.btn, .btn_holder a.btn{
+        margin: 0 10px 0 !important;
+    }
+    .table tr td a.btn{
+        width: 100%;
+        text-align: left;
+    }
+    .listing-holder-p .offset1{
+        margin-left: 0 !important;
+    }
+    table.dataTable thead th, table.dataTable thead td{
+        border-bottom:1px solid #f7f8fa;
+    }
+    .dataTables_wrapper .dataTables_length{
+        margin-bottom: 5px;
+    }
+    table.table tr th{
+        height: 33px !important;
+        line-height: 19px !important;
+    }
+    .listing-holder-p h4{
+        padding-left: 20px;
+    }
+    .table.table-bordered img{
+        max-width: 250px !important;
+        width: auto;
+    }
+    .pagination a{
+        margin: 0 -2px !important;
+        padding: 4px !important;
+    }
+    .pagination span{
+        padding: 5px 2px !important;
+    }
+    .pagination em{
+        padding: 5px 6px !important;
+    }
+    .stat_holder img{
+        width: auto;
+        height: auto;
+        max-width: 200px;
+    }
+    #ques_container p{
+        font-size: 14px;
+    }
+    #ques_container .table-bordered{
+        margin-bottom: 20px;
+    }
+    .ques_inner_bar_right{
+        float: left !important;
+    }
+    .ques_inner_bar_right .select_div{
+        float: none !important;
+    }
+    #page-content-wrapper h1{
+        font-size: 22px !important;
+    }
+ }
+@media only screen and (max-width: 360px) {
+    .header .admin-header-right{
+        font-size: 11px;
+    }
+}
