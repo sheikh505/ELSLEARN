@@ -1,6 +1,6 @@
 class FixColumnName < ActiveRecord::Migration
   def self.up
-    rename_column :question_histories, :difficulty_id, :difficulty
+   # rename_column :question_histories, :difficulty_id, :difficulty
   end
 
   def self.down
