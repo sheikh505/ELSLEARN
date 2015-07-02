@@ -1214,7 +1214,10 @@ select, input[type="file"] {
     line-height: 30px;
 }
 .table tr td a.btn{ color: #fff;}
-.table tr td a.btn:hover{ background: #222;}
+.table tr td a.btn:hover{
+    background-color: #5cbcf6;
+    box-shadow: 0 3px #49a7df;
+}
 .ques_inner_bar_left #search_bar{ vertical-align: top;}
 .ques_inner_bar_left .searchBtn{ margin: 3px 0 0;}
 /*==================================================*/
