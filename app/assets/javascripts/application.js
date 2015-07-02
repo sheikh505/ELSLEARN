@@ -21,6 +21,7 @@
 //= require jquery.flexslider-min
 //= require dataTables/jquery.dataTables
 //= require jquery.inview.min
+//= require select
 
 //= require main
 //= require_tree .
@@ -28,6 +29,8 @@
 
 
 $(document).ready(function() {
+    $("select").select2();
+
     $(".tabs").hide();
     $(".fa-caret-down").hide();
     $(".header_col").click(function(){
