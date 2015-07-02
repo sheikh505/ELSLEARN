@@ -907,9 +907,9 @@ Pop up Strat
 .btn-large {
     padding: 11px 19px;
     font-size: 17.5px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 
 .btn-large [class^="icon-"],
@@ -918,22 +918,18 @@ Pop up Strat
 }
 
 .btn-inverse {
-    color: #ffffff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #363636;
-    *background-color: #222222;
-    background-image: -moz-linear-gradient(top, #444444, #222222);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
-    background-image: -webkit-linear-gradient(top, #444444, #222222);
-    background-image: -o-linear-gradient(top, #444444, #222222);
-    background-image: linear-gradient(to bottom, #444444, #222222);
-    background-repeat: repeat-x;
-    border-color: #222222 #222222 #000000;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
 
+
+    background: #5cbcf6 none repeat scroll 0 0;
+    border: none;
+    box-shadow: 0 4px #49a7df;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
+}
+.btn-2c:hover {
+    box-shadow: 0 4px #ab3c3c;
+}
 .btn-inverse:hover,
 .btn-inverse:focus,
 .btn-inverse:active,
@@ -941,8 +937,9 @@ Pop up Strat
 .btn-inverse.disabled,
 .btn-inverse[disabled] {
     color: #ffffff;
-    background-color: #222222;
-    *background-color: #151515;
+    background-color: #5cbcf6;
+    *background-color: #5cbcf6;
+    box-shadow: 0 3px #49a7df;
 }
 .btn-mini [class^="icon-"],
 .btn-mini [class*=" icon-"] {
@@ -1217,7 +1214,10 @@ select, input[type="file"] {
     line-height: 30px;
 }
 .table tr td a.btn{ color: #fff;}
-.table tr td a.btn:hover{ background: #222;}
+.table tr td a.btn:hover{
+    background-color: #5cbcf6;
+    box-shadow: 0 3px #49a7df;
+}
 .ques_inner_bar_left #search_bar{ vertical-align: top;}
 .ques_inner_bar_left .searchBtn{ margin: 3px 0 0;}
 /*==================================================*/
@@ -1804,4 +1804,64 @@ select, input[type="file"] {
     clear: both;
     display: table;
     content: '';
+}
+/*===========================================================*/
+/* Select  Start*/
+/*===========================================================*/
+.select2{
+    margin-bottom: 10px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{
+    border-color: #555f68 transparent transparent !important;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b{
+    border-color: transparent transparent #555f68 !important
+}
+.select2-container--default .select2-selection--single{
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    height: 40px !important;
+    min-height: 40px !important;
+}
+.select2-dropdown{
+    border: 1px solid #c3cbcf !important;
+    border-top: none !important;
+    z-index: 1 !important;
+}
+.select2-results__option{
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 11.5px !important;
+    right: 15px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 38px !important;
+    padding-left: 6px !important;
+}
+.select2-search--dropdown{
+    display: none !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: #555f68;
+    font-size: 13px;
+}
+.select2-container--default .select2-results__option[aria-selected="true"],
+.select2-container--default .select2-results__option--highlighted[aria-selected]{
+    background: #fbfcfd !important;
+    color: #555f68 !important;
+}
+.select2-container--default .select2-results__option{
+    font-size: 14px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 17px !important;
+}
+.select2-container:focus,
+.select2-container .select2-selection--single:focus{
+    border: 1px solid #c3cbcf;
+    outline: none;
 }
