@@ -51,18 +51,23 @@ class QuestionsDatatable
       questions.each_with_index.map do |question,index|
         [
             question.statement.html_safe,
-            #best_in_place (question, "topic_name", "as" => "input")
-            (best_in_place question, :topic_id, :url => @view.update_topic_questions_path(question.id), :type => :select, :collection => Topic.where(:course_id => course_id).each_with_object({}){ |o,h| h[o.id] = o.name }) +
-                " " + raw("<i class='fa fa-pencil-square-o'></i>"),
             link_to("View", ("/questions/#{question.id}?from=teacher")),
-            h(question.current_state),
-            if question.workflow_state.blank? || h(question.workflow_state) == "reviewed_by_proofreader"
-              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question_by_teacher(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
-              # link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-              # link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
-            else
-              h("Approved")
-            end
+              h("Pending Approval")
+        ]
+      end
+    elsif @view.current_user.is_hod?
+      questions.each_with_index.map do |question,index|
+        [
+            question.statement.html_safe,
+            link_to("View", ("/questions/#{question.id}?from=hod")),
+            h(question.current_state)
+            # if question.workflow_state.blank? || h(question.workflow_state) == "new"
+            #   #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+            #   #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
+            #   "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
+            # else
+            #   h("Approved")
+            # end
         ]
       end
     end
@@ -76,6 +81,8 @@ class QuestionsDatatable
       @questions ||= fetch_questions_by_proofreader
     elsif @view.current_user.is_teacher?
       @questions ||= fetch_questions_by_teacher
+    elsif @view.current_user.is_hod?
+      @questions ||= fetch_questions_by_hod
     end
   end
 
@@ -104,11 +111,38 @@ class QuestionsDatatable
 
   def fetch_questions_by_teacher
     if @view.current_user.teacher_courses.present?
-      course_id = @view.current_user.teacher_courses.first.course_id
+      course_list = @view.current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
       questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
                   joins(:topic => :course).
-                  where("course_id = ? and workflow_state IN ('reviewed_by_proofreader', 'reviewed_by_teacher')", course_id).
+                  where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, @view.current_user.id).
                   order("#{sort_helper}")
+    else
+      questions = Question.new
+    end
+
+    questions = questions.page(page).per_page(per_page)
+    if params[:sSearch].present?
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
+    end
+    questions
+  end
+
+  def fetch_questions_by_hod
+    if @view.current_user.teacher_courses.present?
+      course_list = @view.current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).
+          order("#{sort_helper}")
     else
       questions = Question.new
     end

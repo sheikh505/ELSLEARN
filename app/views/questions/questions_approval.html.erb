@@ -3,6 +3,8 @@
     <%= render 'proofreader_ques' %>
   <% elsif current_user.is_teacher? %>
       <%= render 'teacher_ques' %>
+  <% elsif current_user.is_hod? %>
+      <%= render 'hod_questions' %>
   <% elsif current_user.is_operator? %>
       <%= render 'operator_questions' %>
   <% end %>

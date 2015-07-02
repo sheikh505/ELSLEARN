@@ -167,6 +167,19 @@ class QuestionsController < ApplicationController
       session[:question][:degrees] = @degrees
       session[:question][:view] = @question.question_type.to_s
 
+      @question_histories = @question.question_histories
+      @question_histories.each do |qh|
+        array = ""
+        qh.board_ids.split(",").each do |board_id|
+          array << Board.find(board_id.to_i).name << ","
+        end
+        qh.board_ids = array[0...-1]
+        array = ""
+        qh.degree_ids.split(",").each do |degree_id|
+          array << Degree.find(degree_id.to_i).name << ","
+        end
+        qh.degree_ids = array[0...-1]
+      end
     respond_with(@question)
     else
     redirect_to questions_path
@@ -684,6 +697,62 @@ class QuestionsController < ApplicationController
       end
 
   end
+
+  def approve_by_teacher
+    @question = Question.find(params[:question_id])
+    if current_user.is_hod?
+      @question.accept!
+    else
+      if @question.current_state == "being_reviewed" && @question.question_histories.count == 2
+        @question.accept!
+      elsif @question.current_state == "reviewed_by_proofreader"
+        @question.submit!
+      end
+
+    end
+    board_ids = params[:boards]
+    degree_ids = params[:degree]
+    topic_id = params[:topic]
+    difficulty = params[:difficulty]
+    board_id_array = ""
+    degree_id_array = ""
+    board_ids.each do |board_id|
+      board_id_array << board_id.to_s << ","
+    end
+    degree_ids.each do |degree_id|
+      degree_id_array << degree_id.to_s << ","
+    end
+    question_history = {"board_ids"=>board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
+                        "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
+                        "is_approved" => 1}
+
+    @question_history = QuestionHistory.new(question_history)
+    @question_history.save
+    render :json => {:success => true}
+
+    # redirect_to questions_approval_questions_path
+    # if params[:from].present? && params[:from] == "view"
+    # else
+    #
+    # end
+  end
+
+  def reject_by_teacher
+    @question = Question.find(params[:question_id])
+    if current_user.is_hod?
+      @question.rejected_by_hod!
+    elsif @question.current_state == "being_reviewed"
+        @question.reject!
+    end
+    render :json => {:success => true}
+
+    # redirect_to questions_approval_questions_path
+    # if params[:from].present? && params[:from] == "view"
+    # else
+    #
+    # end
+  end
+
   private
     def set_question
       @question = Question.find(params[:id])

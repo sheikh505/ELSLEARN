@@ -6,24 +6,25 @@ class Question < ActiveRecord::Base
       event :reject, :transitions_to => :rejected
     end
     state :reviewed_by_proofreader do
-      event :submit, :transitions_to => :reviewed_by_teacher
+      event :submit, :transitions_to => :being_reviewed
+      event :accept, :transitions_to => :accepted
       event :reject, :transitions_to => :reviewed_by_proofreader
     end
     state :rejected do
       event :submit, :transitions_to => :new
+      event :accept, :transitions_to => :accepted
     end
-    state :reviewed_by_teacher do
-      event :submit, :transitions_to => :awaiting_review
-      event :reject, :transitions_to => :new
-    end
-    state :awaiting_review do
-      event :review, :transitions_to => :being_reviewed
+    state :rejected_by_teacher do
+      event :submit, :transitions_to => :being_reviewed
+      event :accept, :transitions_to => :accepted
     end
     state :being_reviewed do
       event :accept, :transitions_to => :accepted
-      event :reject, :transitions_to => :rejected
+      event :reject, :transitions_to => :rejected_by_teacher
     end
-    state :accepted
+    state :accepted do
+      event :reject, :transitions_to => :being_reviewed
+    end
   end
 
   default_scope order('questions.created_at DESC')

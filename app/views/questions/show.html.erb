@@ -83,9 +83,14 @@
 </div>
 
 <div class="question_history">
-  <% if current_user.is_teacher? %>
-
+  <% if current_user.is_hod? || current_user.is_admin? %>
+      <%= render 'question_history' %>
   <% end %>
+  <% if (current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&  @question.question_histories.count < 3 %>
+      <%= render 'question_details_for_approval' %>
+  <% end %>
+
+
 </div>
 
 <div class="btn_holder">
@@ -93,11 +98,9 @@
       <% if params["from"] == "proofreader" && (@question.workflow_state.nil? || @question.current_state == "new") %>
           <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
           <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
-      <% elsif params["from"] == "teacher" %>
-          <%= render 'question_details_for_approval' %>
       <% end %>
       <script>
-          document.write("<a class='btn btn-large btn-inverse' href='javascript:history.back()'>Go Back</a>");
+          document.write("<a class='btn btn-large btn-inverse pull_right' href='javascript:history.back()'>Go Back</a>");
       </script>
   <% else %>
       <%= link_to 'Demo', demo_questions_path(:ques_id=> @question.id) , :class=> 'btn btn-large btn-inverse'%>
@@ -112,6 +115,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         jQuery(".best_in_place").best_in_place();
-
     } );
+
+
 </script>

@@ -100,13 +100,16 @@ class TeacherController < ApplicationController
       assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
       @assignment = Assignment.new(assignment)
       @assignment.save
-      degrees = params[:degree]
-      course_id = params[:course]
-      if degrees.present?
-        degrees.each do |degree|
-          teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
-          @teacher_course = TeacherCourse.new(teacher_course)
-          @teacher_course.save
+
+      @degrees = Degree.all
+      if @degrees.present?
+        @degrees.each do |degree|
+          course_id = params["course_#{degree.id}"]
+          course_id.each do |course|
+            teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+            @teacher_course = TeacherCourse.new(teacher_course)
+            @teacher_course.save
+          end
         end
       end
       redirect_to teacher_index_path
@@ -117,7 +120,6 @@ class TeacherController < ApplicationController
   end
 
   def update
-
     @user = User.find_by_id(params[:id])
     if(@user.present?)
       if params[:user][:password] == ''
@@ -143,25 +145,66 @@ class TeacherController < ApplicationController
       @user.assignments.first.update_attributes(:role_id => @role_id)
       @user.assignments.first.save
     end
-    degrees = params[:degree]
-    course_id = params[:course]
-    if degrees.present?
-      @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
-      @teacher_courses.each do |teacher_course|
-        unless degrees.include? teacher_course.degree_id.to_s
-          TeacherCourse.find(teacher_course.id).delete
+    if @user.is_teacher?
+      degrees = params[:degree]
+      course_id = params[:course]
+      if degrees.present?
+        degrees = params[:degree].first
+        @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
+        @teacher_courses.each do |teacher_course|
+          unless degrees.include? teacher_course.degree_id.to_s
+            teacher_course.delete
+          else
+            degrees.each do |key,degree|
+              course_list = params["course_#{degree}"]
+              if course_list.present?
+                unless course_list.include? teacher_course.course_id.to_s && teacher_course.degree_id == degree
+                  teacher_course.delete
+                end
+              elsif teacher_course.degree_id == degree
+                teacher_course.delete
+              end
+            end
+
+
+          end
         end
-      end
-      degrees.each do |degree|
-        teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
-        unless TeacherCourse.where(teacher_course).present?
-          @teacher_course = TeacherCourse.new(teacher_course)
-          @teacher_course.save
+        degrees.each do |key,degree|
+          course_id = params["course_#{degree}"]
+          if course_id.present?
+            course_id.each do |course|
+              teacher_course = {'user_id'=>@user.id, 'degree_id'=>key, 'course_id'=>course}
+              unless TeacherCourse.where(teacher_course).present?
+                @teacher_course = TeacherCourse.new(teacher_course)
+                @teacher_course.save
+              end
+            end
+          end
         end
+      else
+        TeacherCourse.where(:user_id=>@user.id).delete_all
       end
-    else
-      TeacherCourse.where(:user_id=>@user.id).delete_all
+    elsif @user.is_hod?
+      course_list = params[:course]
+      if course_list.present?
+        @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
+        @teacher_courses.each do |teacher_course|
+          unless course_list.include? teacher_course.course_id.to_s
+            teacher_course.delete
+          end
+        end
+        course_list.each do |course|
+          teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
+          unless TeacherCourse.where(teacher_course).present?
+            @teacher_course = TeacherCourse.new(teacher_course)
+            @teacher_course.save
+          end
+        end
+      else
+        TeacherCourse.where(:user_id=>@user.id).delete_all
+      end
     end
-    redirect_to teacher_index_path
+
+    redirect_to edit_teacher_path(@user)
   end
 end

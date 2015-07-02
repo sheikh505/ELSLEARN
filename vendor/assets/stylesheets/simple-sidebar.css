@@ -716,3 +716,45 @@ a{
     display: block;
     margin: 20px 0;
 }
+#degreeList{
+    margin-bottom: 20px;
+}
+#degreeList .col_deg{
+    display: inline-block;
+    vertical-align: top;
+    width: 33%;
+    margin: 0 -2px;
+}
+.courseList_post{
+    margin-top: 2px;
+    border-top: 2px solid #f2f2f2;
+}
+.courseList_post input[type='checkbox']{
+    width: 25px;
+    margin-top: 0;
+}
+.courseList_post label{
+    margin-bottom: 0;
+}
+.col_deg input[type='checkbox']{
+    margin-top: 0;
+}
+.cousreList_post_edit.courseList_post input[type='checkbox']{
+    width: 38px;
+}
+.question_history #questions {
+    background: #fff;
+    margin-bottom: 20px;
+}
+.question_history table#questions tr th{
+    height: 40px;
+    line-height: 15px !IMPORTANT;
+}
+.question_details .btn-large{
+    padding: 8px 19px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+.question_details a.btn-large{
+    padding: 9px 19px;
+}

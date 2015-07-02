@@ -53,11 +53,16 @@ class User < ActiveRecord::Base
     return true if(self.roles.first.name.eql?("Student") unless self.roles.nil?)
   end
 
+  def is_hod?
+    return true if(self.roles.first.name.eql?("Hod") unless self.roles.nil?)
+  end
+
   def is_not_student?
     return true if(self.roles.first.name.eql?("Admin") ||
                    self.roles.first.name.eql?("Operator") ||
                    self.roles.first.name.eql?("Teacher") ) ||
-                   self.roles.first.name.eql?("Proof Reader")
+                   self.roles.first.name.eql?("Proof Reader") ||
+                   self.roles.first.name.eql?("Hod")
   end
   def self.from_omniauth(auth)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

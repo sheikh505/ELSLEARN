@@ -55,6 +55,8 @@ ExamsSystem::Application.routes.draw do
       get :demo
       get :questions_approval
       get :approve_question
+      post :approve_by_teacher
+      post :reject_by_teacher
       get :reject_question
       get :add_comment_to_question
       get :get_questions_by_status

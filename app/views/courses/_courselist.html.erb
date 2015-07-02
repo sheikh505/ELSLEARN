@@ -1,7 +1,8 @@
-<%=label_tag :course %>
-<select id="course" class="row_field" name="course" required="true" >
-  <option value="">Please select a course</option>
-  <%@courses.each do |x| %>
-      <option value="<%=x.id%>"><%=x.name%></option>
-  <% end %>
-</select>
+<%@courses.each do |x| %>
+    <% unless @user.present? %>
+        <%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,false %><span><%=x.name %></span>
+    <% else %>
+        <%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:course_id] == x.id && b[:degree_id] == @degree_id } %><span><%=x.name %></span>
+    <% end %>
+
+<% end %>
