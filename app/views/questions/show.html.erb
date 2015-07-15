@@ -93,18 +93,15 @@
   <% if current_user.is_hod? || current_user.is_admin? %>
       <%= render 'question_history' %>
   <% end %>
+</div>
+
+<div class="btn_holder">
   <% if ( current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&
           @question.question_histories.count < 3 &&
           !QuestionHistory.find_by_question_id_and_user_id(@question.id, current_user.id).present?  %>
       <%= render 'question_details_for_approval' %>
 
-  <% end %>
-
-
-</div>
-
-<div class="btn_holder">
-  <% if current_user.is_proofreader? %>
+  <% elsif current_user.is_proofreader? %>
       <% if (@question.workflow_state.nil? || @question.current_state.to_s == "new") %>
           <%= link_to 'Approve & Move to next', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
           <%= link_to 'Reject & Move to next', '#', :onclick=>"reject_question("+@question.id.to_s+")", :class=> 'btn btn-large btn-inverse'%>
