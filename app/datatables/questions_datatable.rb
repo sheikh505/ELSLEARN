@@ -20,7 +20,7 @@ class QuestionsDatatable
       questions.each_with_index.map do |question,index|
         [
             question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}?from=operator")),
+            link_to("View", ("/questions/#{question.id}")),
             "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
             # if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
             #   link_to 'Edit',("/questions/#{question.id}/edit")
@@ -155,7 +155,7 @@ class QuestionsDatatable
   end
 
   def fetch_questions_by_operator
-    questions = Question.where("author = ? and (workflow_state IN ('', 'new', 'rejected') ", @view.current_user.email).order("#{sort_helper}")
+    questions = Question.where("author = ? and (workflow_state IN ('', 'new', 'rejected'))", @view.current_user.email).order("#{sort_helper}")
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
