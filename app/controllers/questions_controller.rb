@@ -799,10 +799,10 @@ class QuestionsController < ApplicationController
             where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
                         questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, current_user.id).first
       elsif current_user.is_proofreader?
-        if @view.current_user.email == "proofreader1@els.com"
+        if current_user.email == "proofreader1@els.com"
           @question = Question.where("workflow_state = 'new' or workflow_state is null").first
         else
-          @question = Question.where(:author => User.select("email").where(:role=>current_user.id.to_s)).first
+          @question = Question.where(:author => current_user.email).first
         end
       end
       if @question.present?
