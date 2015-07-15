@@ -155,7 +155,7 @@ class QuestionsDatatable
   end
 
   def fetch_questions_by_operator
-    questions = Question.where("author = ?", @view.current_user.email).order("#{sort_helper}")
+    questions = Question.where("author = ? and (workflow_state IN ('', 'new', 'rejected') ", @view.current_user.email).order("#{sort_helper}")
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
