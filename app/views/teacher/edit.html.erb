@@ -80,6 +80,21 @@
           <% end %>
         </div>
 
+        <div id="proofreader_all" class="field" style="display: none;">
+          <%= f.label "Proof Reader" %>
+          <select id="user_role" name="user[role]" class="row_field">
+            <option value="0">Please select Proof Reader</option>
+            <%@proofreaders.each do |proofreader| %>
+                <% if @user.role == proofreader.id.to_s %>
+                    <option value="<%=proofreader.id%>" selected><%=proofreader.email%></option>
+                <% else %>
+                    <option value="<%=proofreader.id%>"><%=proofreader.email%></option>
+                <% end %>
+            <% end %>
+          </select>
+
+        </div>
+
         <div class="field">
           <%= hidden_field_tag :id , @user.id %>
           <%= hidden_field_tag :user_role_id ,@user_role_id %>
@@ -146,24 +161,37 @@
             $("#degreeList").hide();
             $("#courseList_all").show();
         }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
+        }
     });
 
     function show_degrees() {
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
-            $("#courseList").show();
+            $(".courseList_post").hide();
             $("#courseList_all").hide();
+            $("#proofreader_all").hide();
+
         }
         else if ($("#role_id option:selected").text() == "Hod")
         {
-            $("#degreeList").hide();
             $("#courseList_all").show();
+            $("#degreeList").hide();
+            $("#proofreader_all").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
         }
         else
         {
+            $("#courseList_all").hide();
             $("#courseList").hide();
             $("#degreeList").hide();
+            $("#proofreader_all").hide();
         }
     }
     function show_courses(object)

@@ -21,12 +21,12 @@ class QuestionsDatatable
         [
             question.statement.html_safe,
             link_to("View", ("/questions/#{question.id}?from=operator")),
-            "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}",
-            if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
-              link_to 'Edit',("/questions/#{question.id}/edit")
-            else
-              h("Approved")
-            end
+            "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
+            # if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
+            #   link_to 'Edit',("/questions/#{question.id}/edit")
+            # else
+            #   h("Approved")
+            # end
 
         #number_to_currency(product.price)
         ]
@@ -35,31 +35,32 @@ class QuestionsDatatable
       questions.each_with_index.map do |question,index|
         [
             question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}?from=proofreader")),
-            h(question.current_state),
-            if question.workflow_state.blank? || h(question.workflow_state) == "new"
-              #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-              #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
-              "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
-            else
-              h("Approved")
-            end
+            link_to("View", ("/questions/#{question.id}")),
+            h(question.current_state)
+            # if question.workflow_state.blank? || h(question.workflow_state) == "new"
+            #   #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
+            #   #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
+            #   "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
+            # else
+            #   h("Approved")
+            # end
         ]
       end
     elsif @view.current_user.is_teacher?
       course_id = @view.current_user.teacher_courses.first.course_id
       questions.each_with_index.map do |question,index|
         [
-            question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}?from=teacher")),
-              h("Pending Approval")
+              question.statement.html_safe,
+            link_to("View", ("/questions/#{question.id}")),
+              # h("Pending Approval")
+        h(question.current_state)
         ]
       end
     elsif @view.current_user.is_hod?
       questions.each_with_index.map do |question,index|
         [
             question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}?from=hod")),
+            link_to("View", ("/questions/#{question.id}")),
             h(question.current_state)
             # if question.workflow_state.blank? || h(question.workflow_state) == "new"
             #   #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
@@ -97,7 +98,7 @@ class QuestionsDatatable
 
   def fetch_questions_by_proofreader
     if @view.current_user.email == "proofreader1@els.com"
-      questions = Question.where("workflow_state = 'new' or workflow_state is null or workflow_state = ?", "reviewed_by_proofreader").order("#{sort_helper}")
+      questions = Question.where("workflow_state = 'new' or workflow_state is null").order("#{sort_helper}")
     else
       questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s)).order("#{sort_helper}")
     end
@@ -122,9 +123,8 @@ class QuestionsDatatable
                         questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, @view.current_user.id).
                   order("#{sort_helper}")
     else
-      questions = Question.new
+      questions = Question.where(:id => 0)
     end
-
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
@@ -144,7 +144,7 @@ class QuestionsDatatable
           where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).
           order("#{sort_helper}")
     else
-      questions = Question.new
+      questions = Question.where(:id => 0)
     end
 
     questions = questions.page(page).per_page(per_page)

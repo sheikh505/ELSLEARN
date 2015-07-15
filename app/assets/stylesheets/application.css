@@ -115,7 +115,6 @@ table td tr{ height: 40px;}
 #page-content-wrapper .btn_holder{
     display: block;
     text-align: center;
-    overflow: hidden;
     margin-top: 20px;
 }
 #page-content-wrapper .stat_holder{

@@ -8,7 +8,7 @@ class Question < ActiveRecord::Base
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :being_reviewed
       event :accept, :transitions_to => :accepted
-      event :reject, :transitions_to => :reviewed_by_proofreader
+      event :reject, :transitions_to => :rejected_by_teacher
     end
     state :rejected do
       event :submit, :transitions_to => :new
@@ -37,7 +37,7 @@ class Question < ActiveRecord::Base
   has_many :question_histories
 
   attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments,
-                  :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status
+                  :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status, :workflow_state
 
 
 

@@ -224,8 +224,21 @@ class QuestionsController < ApplicationController
   def add_questions
 
     @question = Question.new
-    
-    if session[:question].nil?
+
+    if params[:q_id]
+      @current_question = Question.find(params[:q_id])
+
+      @course_id = @current_question.topic.course_id
+      @boards = []
+      @degrees = []
+      @current_question.board_degree_assignments.each do |bd|
+        @boards << bd.board_id
+        @degrees << bd.degree_id
+      end
+      @boards = @boards.uniq
+      @degrees = @degrees.uniq
+      @view = @current_question.question_type.to_s
+    elsif session[:question].nil?
       @course_id = params[:course]
       @boards = params[:boards]
       @degrees = params[:degree]
@@ -246,19 +259,21 @@ class QuestionsController < ApplicationController
       @question_no += 1
     end
 
+    if @course_id.nil?
+      redirect_to questions_path
+    else
+      @topics = Course.find_by_id(@course_id).topics
+      @boards_name = []
+      @boards.each do |board|
+        @boards_name << Board.find_by_id(board).name
+      end
 
-
-
-    @topics = Course.find_by_id(@course_id).topics
-    @boards_name = []
-    @boards.each do |board|
-      @boards_name << Board.find_by_id(board).name
+      @degrees_name = []
+      @degrees.each do |degree|
+        @degrees_name << Degree.find_by_id(degree).name
+      end
     end
 
-    @degrees_name = []
-    @degrees.each do |degree|
-      @degrees_name << Degree.find_by_id(degree).name
-    end
 
 
   end
@@ -508,31 +523,7 @@ class QuestionsController < ApplicationController
   end
 
 
-  @@flag = 0
 
-  def approve_question
-
-    @question = Question.find(params[:ques_id])
-    @question.submit!
-
-    if params[:from].present? && params[:from] == "view"
-      redirect_to questions_approval_questions_path
-    else
-      render :json => {:success => true}
-    end
-  end
-
-  def reject_question
-
-    @question = Question.find(params[:ques_id])
-    @question.reject!
-
-    if params[:from].present? && params[:from] == "view"
-      redirect_to questions_approval_questions_path
-    else
-      render :json => {:success => true}
-    end
-  end
 
   def add_comment_to_question
     @question = Question.find(params[:question_id])
@@ -700,16 +691,6 @@ class QuestionsController < ApplicationController
 
   def approve_by_teacher
     @question = Question.find(params[:question_id])
-    if current_user.is_hod?
-      @question.accept!
-    else
-      if @question.current_state == "being_reviewed" && @question.question_histories.count == 2
-        @question.accept!
-      elsif @question.current_state == "reviewed_by_proofreader"
-        @question.submit!
-      end
-
-    end
     board_ids = params[:boards]
     degree_ids = params[:degree]
     topic_id = params[:topic]
@@ -728,21 +709,120 @@ class QuestionsController < ApplicationController
 
     @question_history = QuestionHistory.new(question_history)
     @question_history.save
-    render :json => {:success => true}
 
-    # redirect_to questions_approval_questions_path
-    # if params[:from].present? && params[:from] == "view"
-    # else
-    #
-    # end
+    course_list = current_user.teacher_courses
+    course_ids = []
+    course_list.each do |course|
+      course_ids << course.course_id
+    end
+    course_ids.uniq!
+
+    if current_user.is_hod?
+      @question.accept!
+      @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).first
+    else
+      if @question.current_state == "being_reviewed" && @question.question_histories.count == 2
+        @question.accept!
+      elsif @question.current_state == "reviewed_by_proofreader"
+        @question.submit!
+      end
+      @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, current_user.id).first
+    end
+    if @question
+      render :json => {:success => true, :question_id => @question.id}
+    else
+      render :json => {:success => true, :question_id => ""}
+    end
+  end
+
+  def approve_question
+
+    @question = Question.find(params[:ques_id])
+    if @question && (@question.current_state.to_s == "new")
+      @question.submit!
+
+      if params[:from].present? && params[:from] == "view"
+        if current_user.email == "proofreader1@els.com"
+          @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+        else
+          @question = Question.where("(workflow_state = 'new' or workflow_state is null) and author = ?", current_user.email).first
+        end
+        # @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+        if @question
+          redirect_to question_path(@question)
+        else
+          redirect_to questions_approval_questions_path
+        end
+      else
+        render :json => {:success => true}
+      end
+    end
+  end
+
+  def reject_question
+    @question = Question.find(params[:question][:id])
+    unless @question && (@question.current_state.to_s.include? "rejected_by_teacher")
+      @question.update_attributes(:comments => params[:comments].to_s)
+      @question.reject!
+
+      if current_user.is_teacher?
+        course_list = current_user.teacher_courses
+        course_ids = []
+        course_list.each do |course|
+          course_ids << course.course_id
+        end
+        board_ids = params[:boards]
+        degree_ids = params[:degree]
+        topic_id = params[:topic]
+        difficulty = params[:difficulty]
+        board_id_array = ""
+        degree_id_array = ""
+        board_ids.each do |board_id|
+          board_id_array << board_id.to_s << ","
+        end
+        degree_ids.each do |degree_id|
+          degree_id_array << degree_id.to_s << ","
+        end
+        question_history = {"board_ids"=>board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
+                            "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
+                            "is_approved" => 0}
+
+        @question_history = QuestionHistory.new(question_history)
+        @question_history.save
+        @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+            joins(:topic => :course).
+            where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, current_user.id).first
+      elsif current_user.is_proofreader?
+        if @view.current_user.email == "proofreader1@els.com"
+          @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+        else
+          @question = Question.where(:author => User.select("email").where(:role=>current_user.id.to_s)).first
+        end
+      end
+      if @question.present?
+        render :json => {:success => true, :question_id => @question.id}
+      else
+        render :json => {:success => true, :question_id => ""}
+      end
+    else
+      render :json => {:success => false, :messeage => "Question already rejected!"}
+    end
+
   end
 
   def reject_by_teacher
     @question = Question.find(params[:question_id])
     if current_user.is_hod?
       @question.rejected_by_hod!
-    elsif @question.current_state == "being_reviewed"
-        @question.reject!
+    else
+      @question.update_attributes(:comments => params[:comments].to_s)
+      @question.reject!
     end
     render :json => {:success => true}
 

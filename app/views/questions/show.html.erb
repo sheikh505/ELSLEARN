@@ -14,15 +14,15 @@
 
     <div class="option_holder">
     <% @question.options.each do |option| %>
-    <div class="field field_holder">
+        <% unless option.is_answer == 0 %>
+          <div class="field field_holder correct_answer">
+        <% else %>
+          <div class="field field_holder">
+        <% end %>
+
       <label>Option</label>
       <%=option.statement if option.flag.nil? %>
       <%=image_tag option.avatar.url(:thumb) unless option.flag.nil? %>
-      <% unless option.is_answer == 0 %>
-        <p>Answer => 'Yes'</p>
-      <% else %>
-          <p>Answer => 'No'</p>
-      <% end %>
 
     </div>
         <% end %>
@@ -80,29 +80,39 @@
   <label>Year</label>
   <%= @question.past_paper_history.nil? ? "N/A" : @question.past_paper_history.year %>
 </div>
+<% if @question.current_state == "rejected" && current_user.is_operator? %>
+<div class="field field_holder">
+    <label>Comment Box</label>
+    <span style="color: #ff0000"><%= @question.comments.nil? ? "N/A" : @question.comments %></span>
 </div>
+</div>
+<% end %>
+
 
 <div class="question_history">
   <% if current_user.is_hod? || current_user.is_admin? %>
       <%= render 'question_history' %>
   <% end %>
-  <% if (current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&  @question.question_histories.count < 3 %>
+  <% if ( current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&
+          @question.question_histories.count < 3 &&
+          !QuestionHistory.find_by_question_id_and_user_id(@question.id, current_user.id).present?  %>
       <%= render 'question_details_for_approval' %>
+  <% else %>
+      <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
   <% end %>
 
 
 </div>
 
 <div class="btn_holder">
-  <% if params["from"].present? %>
-      <% if params["from"] == "proofreader" && (@question.workflow_state.nil? || @question.current_state == "new") %>
-          <%= link_to 'Approve', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
-          <%= link_to 'Reject', reject_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+  <% if current_user.is_proofreader? %>
+      <% if (@question.workflow_state.nil? || @question.current_state == "new") %>
+          <%= link_to 'Approve & Move to next', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+          <%= link_to 'Reject & Move to next', '#', :onclick=>"reject_question("+@question.id.to_s+")", :class=> 'btn btn-large btn-inverse'%>
+          <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
       <% end %>
-      <script>
-          document.write("<a class='btn btn-large btn-inverse pull_right' href='javascript:history.back()'>Go Back</a>");
-      </script>
-  <% else %>
+
+  <% elsif current_user.is_operator? %>
       <%= link_to 'Demo', demo_questions_path(:ques_id=> @question.id) , :class=> 'btn btn-large btn-inverse'%>
       <% if current_user.is_operator? && @question.author ==  current_user.email %>
             <%= link_to 'Edit', edit_question_path(@question) , :class=> 'btn btn-large btn-inverse'%>
@@ -112,10 +122,81 @@
   <% end %>
 </div>
 
-<script type="text/javascript">
+<div class="modal fade modal_custom" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Elearning System - Add Comments
+        </h5>
+      </div>
+      <div class="modal-body">
+        <%= form_for :question , :url => {:controller => 'questions', :action => 'reject_question'},
+            :html => {:id => "add_comments", :onsubmit => "return false;"} do |f| %>
+        <div class="row comments_holder">
+          <div class="field">
+            <%= text_area_tag :comments %>
+            <%=f.hidden_field :id, :value=>@question.id %>
+          </div>
+          <div>
+            <div class="actions pull-left">
+              <button type="submit" id = "add_comment" class="btn btn-default modal_btn" >Add comment</button>
+            </div>
+            <div class="modal-footer m_footer_container">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+            <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+  </div>
+
+  <script type="text/javascript">
     $(document).ready(function() {
         jQuery(".best_in_place").best_in_place();
     } );
 
+    function reject_question(id)
+    {
+        $("#question_id").val(id);
+        $('#commentsModal').modal('toggle');
+    }
+    $('#add_comment').click(function() {
+        var $form = $('#add_comments');
+        var serializedData = $form.serialize();
+        <% if current_user.is_teacher? %>
+            var $question_details_form = $('#question_details');
+            serializedData += $question_details_form.serialize();
+        <% end %>
+        $.ajax({
+            url:'/questions/reject_question',
+            type:'get',
+            dataType:'json',
+            data: serializedData,
+            async:false,
+            processData:false,
+            success:function (response) {
+                if(response.success) {
+                    if (response.question_id == "") {
+                        window.location = '/questions/questions_approval';
+                    }
+                    else {
+                        window.location = '/questions/' + response.question_id;
+                    }
+                }
+                else
+                {
+                    alert(response.message);
+                    window.location = '/questions/questions_approval';
+                }
+            },
+            error:function (data) {
+                alert ("Error Occurred");
+            }
+        });
+    });
 
 </script>

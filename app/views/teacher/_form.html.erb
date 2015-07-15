@@ -48,7 +48,7 @@
     </div>
     <div class="field">
       <%= f.label :role %>
-      <select id="role_id" name="role_id" class="row_field"  onchange="show_degrees();">
+      <select id="role_id" name="role_id" class="row_field"  onchange="on_roll_change();">
         <option>Please select role for User</option>
         <%@roles.each do |x| %>
             <% if current_user.is_proofreader? %>
@@ -72,10 +72,25 @@
           </div>
         <% end %>
     </div>
+    <div id="courseList_all" style="display: none;" class="field">
+      <%@courses.each do |x| %>
+          <%= check_box_tag "course[]", x.id,false %><span><%=x.name %></span>
+      <% end %>
+    </div>
+    <div id="proofreader_all" class="field" style="display: none;">
+      <%= f.label "Proof Reader" %>
+      <select id="user_role" name="user[role]" class="row_field">
+        <option value="0">Please select Proof Reader</option>
+        <%@proofreaders.each do |proofreader| %>
+            <% if current_user.is_proofreader? %>
+                <option value="<%=proofreader.id%>" selected><%=proofreader.email%></option>
+            <% else %>
+                <option value="<%=proofreader.id%>"><%=proofreader.email%></option>
+            <% end %>
+        <% end %>
+      </select>
 
-        <div class="field">
-            <%= f.hidden_field :role , :value => current_user.id.to_s %>
-        </div>
+    </div>
     <div class="actions">
       <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
     </div>
@@ -125,20 +140,31 @@
             $("#courseList").show();
         }
     });
-    function show_degrees() {
+    function on_roll_change() {
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
             $(".courseList_post").hide();
+            $("#courseList_all").hide();
+            $("#proofreader_all").hide();
+
         }
         else if ($("#role_id option:selected").text() == "Hod")
         {
-            $("#courseList").show();
+            $("#courseList_all").show();
+            $("#degreeList").hide();
+            $("#proofreader_all").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
         }
         else
         {
+            $("#courseList_all").hide();
             $("#courseList").hide();
             $("#degreeList").hide();
+            $("#proofreader_all").hide();
         }
     }
 

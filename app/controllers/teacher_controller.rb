@@ -1,6 +1,7 @@
 class TeacherController < ApplicationController
   respond_to :html, :xml, :json
   layout "admin_panel_layout"
+  before_filter :set_user, :only=> [:show, :edit, :update, :destroy]
 
   def index
     @user = current_user
@@ -9,12 +10,11 @@ class TeacherController < ApplicationController
     else
       @users = User.all
     end
-
   end
 
   def destroy
     @user.destroy
-    respond_with(@user)
+    redirect_to "/user"
   end
 
   def get_courses
@@ -69,7 +69,9 @@ class TeacherController < ApplicationController
 
 
   def new
-    @user = User.new
+    unless @user.present?
+      @user = User.new
+    end
     if current_user.is_admin?
       @roles = Role.all
     else
@@ -77,15 +79,21 @@ class TeacherController < ApplicationController
     end
     @degrees = Degree.all
     @courses = Course.all
+
+
+    @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
   end
 
   def edit
     @user = User.find_by_id(params[:id])
     @roles = Role.all
-    @user_role_id = @user.roles.first.id
+    if @user.roles.present?
+      @user_role_id = @user.roles.first.id
+    end
     @degrees = Degree.all
     @courses = Course.all
     @teacher_courses = @user.teacher_courses.select("course_id, degree_id")
+    @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
   end
 
   def show
@@ -101,20 +109,38 @@ class TeacherController < ApplicationController
       @assignment = Assignment.new(assignment)
       @assignment.save
 
-      @degrees = Degree.all
-      if @degrees.present?
-        @degrees.each do |degree|
-          course_id = params["course_#{degree.id}"]
-          course_id.each do |course|
-            teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+      unless @user.is_operator?
+        @user.update_attributes(:role => 0)
+      end
+
+      if @user.is_teacher?
+        @degrees = Degree.all
+        if @degrees.present?
+          @degrees.each do |degree|
+            course_id = params["course_#{degree.id}"]
+            course_id.each do |course|
+              teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+              @teacher_course = TeacherCourse.new(teacher_course)
+              @teacher_course.save
+            end
+          end
+        end
+      elsif @user.is_hod?
+        course_list = params[:course]
+        if course_list.present?
+          course_list.each do |course|
+            teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
             @teacher_course = TeacherCourse.new(teacher_course)
             @teacher_course.save
           end
+        else
+          TeacherCourse.where(:user_id=>@user.id).delete_all
         end
       end
-      redirect_to teacher_index_path
+
+      redirect_to "/user"
     else
-      redirect_to new_teacher_path(@user)
+      redirect_to "/user"
     end
 
   end
@@ -122,28 +148,26 @@ class TeacherController < ApplicationController
   def update
     @user = User.find_by_id(params[:id])
     if(@user.present?)
-      if params[:user][:password] == ''
-        @user.update_attributes(:email => params[:user][:email],
-                                :name => params[:user][:name],
-                                :phone => params[:user][:phone]
-        )
-        @user.save
-      else
-        @user.update_attributes(:email => params[:user][:email],
-                                :name => params[:user][:name],
-                                :phone => params[:user][:phone],
-                                :password => params[:user][:password]
-
-        )
-        @user.save
+      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+        params[:user].delete(:password)
+        params[:user].delete(:password_confirmation)
       end
+      @user.update_attributes(params[:user])
     end
     @role_id = params[:role_id]
     @user_role_id = params[:user_role_id]
 
     if @user_role_id != @role_id
-      @user.assignments.first.update_attributes(:role_id => @role_id)
-      @user.assignments.first.save
+      if @user.assignments.present?
+        @user.assignments.first.update_attributes(:role_id => @role_id)
+      else
+        assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
+        @assignment = Assignment.new(assignment)
+        @assignment.save
+      end
+    end
+    unless @user.is_operator?
+      @user.update_attributes(:role => 0)
     end
     if @user.is_teacher?
       degrees = params[:degree]
@@ -165,8 +189,6 @@ class TeacherController < ApplicationController
                 teacher_course.delete
               end
             end
-
-
           end
         end
         degrees.each do |key,degree|
@@ -205,6 +227,10 @@ class TeacherController < ApplicationController
       end
     end
 
-    redirect_to edit_teacher_path(@user)
+    redirect_to "/user"
+  end
+  private
+  def set_user
+    @user = User.find(params[:id])
   end
 end

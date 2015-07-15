@@ -39,34 +39,52 @@
     <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
       <%= hidden_field_tag :question_id,@question.id %>
 
-  <div class="btn_holder_post">
-    <%= f.submit 'Approve', :id => "approve", :class=> 'btn btn-large btn-inverse' %>
-    <%= f.submit 'Reject', :id => "reject", :class=> 'btn btn-large btn-inverse' %>
 
     </div>
+    <div class="btn_holder_post">
+      <%= f.submit 'Approve & Move to next', :id => "approve", :class=> 'btn btn-large btn-inverse' %>
+      <%= f.submit 'Reject & Move to next', :id => "reject", :class=> 'btn btn-large btn-inverse' %>
+      <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
+
     </div>
 <% end %>
 
 <script type="text/javascript">
     $('#approve').click(function() {
-        $.post("approve_by_teacher", $("form#question_details").serialize(), function (response) {
-            if (response.success) {
-                window.location = 'questions_approval';
+//        $.post("approve_by_teacher", $("form#question_details").serialize(), function (response) {
+//            if (response.success) {
+//                window.location = '/questions/'+ response.question_id;
+//            }
+//        }, "json")
+
+        var $form = $('#question_details');
+        var serializedData = $form.serialize();
+        $.ajax({
+            url:'/questions/approve_by_teacher',
+            type:'post',
+            dataType:'json',
+            data: serializedData,
+            async:false,
+            processData:false,
+            success:function (response) {
+                if (response.question_id == "")
+                {
+                    window.location = '/questions/questions_approval';
+                }
+                else
+                {
+                    window.location = '/questions/'+ response.question_id;
+                }
+            },
+            error:function (data) {
+                alert ("Error Occurred");
             }
-        }, "json")
+        });
     });
 
     $('#reject').click(function() {
-        $.post("reject_by_teacher", $("form#question_details").serialize(), function (response) {
-            if (response.success) {
-                window.location = 'questions_approval';
-                flag = true;
-            }
-            else {
-                $('#register_message').html(response.message);
-                flag = false;
-            }
-        }, "json")
+        $('#commentsModal').modal('toggle');
+
     });
 
 </script>

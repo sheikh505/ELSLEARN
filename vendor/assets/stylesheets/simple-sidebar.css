@@ -84,7 +84,7 @@ a{
     transition: all 0.5s;
 }
 #page-content-wrapper .btn_holder a.btn,
-.btn_holder a.btn{ margin: 0 28px; background: #4aa1db; color: #fff; text-shadow: none;}
+.btn_holder a.btn{ margin: 0 28px;  color: #fff; text-shadow: none;}
 #page-content-wrapper .btn_holder a.btn:hover,
 .btn_holder a.btn:hover{ background: #ccc;}
 .sidebar-nav li a:hover {
@@ -163,11 +163,17 @@ a{
     display: block;
     padding-bottom: 5px;
 }
+#page-content-wrapper .btn_holder:after,
+.btn_holder:after{
+    clear: both;
+    display: block;
+    content: '';
+
+}
 #page-content-wrapper .btn_holder,
 .btn_holder{
     display: block;
     text-align: center;
-    overflow: hidden;
     margin-top: 20px;
 }
 #page-content-wrapper .stat_holder,
@@ -715,6 +721,7 @@ a{
 .btn_holder_post{
     display: block;
     margin: 20px 0;
+    text-align: center;
 }
 #degreeList{
     margin-bottom: 20px;
@@ -750,11 +757,14 @@ a{
     height: 40px;
     line-height: 15px !IMPORTANT;
 }
-.question_details .btn-large{
+.btn-large{
     padding: 8px 19px;
     border-radius: 4px;
     font-size: 13px;
 }
-.question_details a.btn-large{
+a.btn-large{
     padding: 9px 19px;
+}
+.btn_holder_post .btn{
+    margin-right: 15px;
 }
