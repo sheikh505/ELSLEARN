@@ -67,6 +67,10 @@
             async:false,
             processData:false,
             success:function (response) {
+                if (response.message != "")
+                {
+                    alert(response.message);
+                }
                 if (response.question_id == "")
                 {
                     window.location = '/questions/questions_approval';
