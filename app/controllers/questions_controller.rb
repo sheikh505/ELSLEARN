@@ -116,6 +116,11 @@ class QuestionsController < ApplicationController
     end
 
     @row = limit
+
+    respond_to do |format|
+      format.html
+      format.json {render :json=> QuestionsDatatable.new(view_context)}
+    end
    # @questions = Question
     #@questions = Question.paginate(:page => params[:page], :per_page => 2)
     #respond_with(@questions)
@@ -702,17 +707,23 @@ class QuestionsController < ApplicationController
     course_ids.uniq!
 
     if current_user.is_hod?
-      @question.accept!
-      @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-          joins(:topic => :course).
-          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).first
+      if @question.current_state.to_s == "accepted"
+        message = "Question already approved!"
+        insert_to_question_history_flag = false
+      else
+        @question.accept!
+        @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+            joins(:topic => :course).
+            where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).first
+      end
+
     else
       if @question.current_state.to_s == "being_reviewed" && @question.question_histories.count == 2
         @question.accept!
       elsif @question.current_state.to_s == "reviewed_by_proofreader"
         @question.submit!
       elsif @question.current_state.to_s == "accepted" || @question.question_histories.count == 3
-        message = "Question already updated!"
+        message = "Question already approved!"
         insert_to_question_history_flag = false
       end
     end

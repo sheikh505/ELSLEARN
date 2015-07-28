@@ -98,7 +98,7 @@
 <div class="btn_holder">
   <% if (((current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&
           !QuestionHistory.find_by_question_id_and_user_id(@question.id, current_user.id).present?)) &&
-          @question.current_state.to_s != "accepted"  %>
+          @question.current_state.to_s != "accepted" && !(@question.current_state == "new")  %>
       <%= render 'question_details_for_approval' %>
 
   <% elsif current_user.is_proofreader? %>

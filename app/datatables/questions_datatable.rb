@@ -16,67 +16,19 @@ class QuestionsDatatable
 
   private
   def data
-    if @view.current_user.is_operator?
-      questions.each_with_index.map do |question,index|
-        [
-            question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}")),
-            "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
-            # if question.workflow_state.blank? || h(question.workflow_state) == "new" || h(question.workflow_state) == "rejected"
-            #   link_to 'Edit',("/questions/#{question.id}/edit")
-            # else
-            #   h("Approved")
-            # end
-
-        #number_to_currency(product.price)
-        ]
-      end
-    elsif @view.current_user.is_proofreader?
-      questions.each_with_index.map do |question,index|
-        [
-            question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}")),
-            h(question.current_state)
-            # if question.workflow_state.blank? || h(question.workflow_state) == "new"
-            #   #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-            #   #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
-            #   "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
-            # else
-            #   h("Approved")
-            # end
-        ]
-      end
-    elsif @view.current_user.is_teacher?
-      course_id = @view.current_user.teacher_courses.first.course_id
-      questions.each_with_index.map do |question,index|
-        [
-              question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}")),
-              # h("Pending Approval")
-        h(question.current_state)
-        ]
-      end
-    elsif @view.current_user.is_hod?
-      questions.each_with_index.map do |question,index|
-        [
-            question.statement.html_safe,
-            link_to("View", ("/questions/#{question.id}")),
-            h(question.current_state)
-            # if question.workflow_state.blank? || h(question.workflow_state) == "new"
-            #   #link_to "Approve","javascript:void(0);",:id => "approve", :onclick => "approve_question(this,#{question.id})"
-            #   #link_to "Reject","javascript:void(0);",:id => "reject", :onclick => "reject_question(this,#{question.id})"
-            #   "#{link_to 'Approve','javascript:void(0);',:id => 'approve', :onclick => "approve_question(this,#{question.id})"}/#{link_to 'Reject','javascript:void(0);',:id => 'reject', :onclick => "reject_question(this,#{question.id})"}"
-            # else
-            #   h("Approved")
-            # end
-        ]
-      end
+    questions.each_with_index.map do |question,index|
+      [
+          question.statement.html_safe,
+          link_to("View", ("/questions/#{question.id}")),
+          "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
+      ]
     end
-
   end
 
   def questions
-    if @view.current_user.is_operator?
+    if @view.current_user.is_admin?
+      @questions ||= fetch_questions
+    elsif @view.current_user.is_operator?
       @questions ||= fetch_questions_by_operator
     elsif @view.current_user.is_proofreader?
       @questions ||= fetch_questions_by_proofreader
@@ -88,12 +40,22 @@ class QuestionsDatatable
   end
 
   def sort_helper
-    columns = %w[statement workflow_state]
+    columns = %w[statement]
     sort = "#{sort_column} #{sort_direction}"
     (params[:iSortingCols].to_i-1).times do |i|
       sort << ", #{columns[params["iSortCol_#{i+1}"].to_i]} #{params["sSortDir_#{i+1}"] == "desc" ? "desc" : "asc"}"
     end
     sort
+  end
+
+  def fetch_questions
+      questions = Question.select("questions.statement,workflow_state as status, comments").where("id > 0").order("#{sort_helper}")
+
+    questions = questions.page(page).per_page(per_page)
+    if params[:sSearch].present?
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
+    end
+    questions
   end
 
   def fetch_questions_by_proofreader
