@@ -18,4 +18,11 @@ module ApplicationHelper
         "Rejected"
     end
   end
+
+  def get_avatar(user_id)
+    url = User.find(user_id).avatar.url(:thumb)
+
+    url = '/assets/FB-profile-avatar.jpg' if url.include? 'missing'
+    return url
+  end
 end

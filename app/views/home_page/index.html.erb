@@ -41,42 +41,14 @@
     </div>
 
     <div class="row text_center">
+      <% @question_stats.each do |stat| %>
       <div class="pre_animated_content">
         <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
-          <div class="animated-number" data-digit="74180" data-duration="1000"></div>
-          <strong> Physics </strong>
+          <div class="animated-number" data-digit="<%=stat['q_count'] %>" data-duration="1000"></div>
+          <strong> <%=stat['course'] %> </strong>
         </div>
       </div>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
-          <div class="animated-number" data-digit="7459" data-duration="1000"></div>
-          <strong>Chemistry</strong>
-        </div>
-      </div>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
-          <div class="animated-number" data-digit="26117" data-duration="1000"></div>
-          <strong>Mathematics</strong>
-        </div>
-      </div>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="300ms">
-          <div class="animated-number" data-digit="19721" data-duration="1000"></div>
-          <strong> Business Stds </strong>
-        </div>
-      </div>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
-          <div class="animated-number" data-digit="26117" data-duration="1000"></div>
-          <strong>Economics</strong>
-        </div>
-      </div>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="200ms">
-          <div class="animated-number" data-digit="26117" data-duration="1000"></div>
-          <strong>Computers</strong>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </section>
@@ -87,28 +59,18 @@
     <h2>High Achievers</h2>
     <div class="flexslider">
       <ul class="slides">
+        <% @top_scorer_users.each do |user| %>
         <li>
           <p class="pre_bg_none">“At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.”</p>
-          <img src="/assets/FB-profile-avatar.jpg" alt=""> </a>
+          <img src="<%=get_avatar(user['user_id'])%>" alt=""> </a>
           <div class="slider_content">
 
-            <p>Student -</p>
-            <span class="pre_subject">Subject - </span>
-            <span>Score - 90/100</span>
+            <p><%=user['name']%></p>
+            <span class="pre_subject"><%=user['course']%> </span>
+            <span>Score - <%=user['user_score']%> %</span>
           </div>
         </li>
-        <li>
-          <p class="pre_bg_none">“At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.”</p>
-          <img src="/assets/FB-profile-avatar.jpg" alt=""> </a>
-          <div class="slider_content">
-
-            <p>Student -</p>
-            <span class="pre_subject">Subject - </span>
-            <span>Score - 90/100</span>
-
-          </div>
-
-        </li>
+        <% end %>
 
       </ul>
     </div>
