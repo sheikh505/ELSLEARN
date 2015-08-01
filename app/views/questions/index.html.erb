@@ -36,7 +36,8 @@
             <%Board.all.each do |board| %>
             <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
             <% end %>
-
+      </div>
+      <div id="degree_container">
         <h4>Degrees</h4>
         <%Degree.all.each do |degree| %>
             <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
@@ -65,7 +66,7 @@
     <% if current_user.is_admin? %>
 
     <div id="ques_container" class=''>
-      <%= render 'ques' %>
+      <%= render 'question_list' %>
 
     </div>
     <% end %>
@@ -99,17 +100,18 @@
 
     function checkForm(form)
     {
-        box = $("input:checkbox#boards_:checked");
-        if (!box.length) {
-            alert('You must check at least one board!');
+        if($('#board_container').find('input[type=checkbox]:checked').length == 0)
+        {
             $("input:checkbox#boards_").focus();
-            return false; // The form will *not* submit
+            alert('You must check at least one board!');
+            return false;
         }
-        box = $("input:checkbox#degree_:checked");
-        if (!box.length) {
+
+        if($('#degree_container').find('input[type=checkbox]:checked').length == 0)
+        {
             alert('You must check at least one degree!');
             $("input:checkbox#degree_").focus();
-            return false; // The form will *not* submit
+            return false;
         }
         return true;
     }

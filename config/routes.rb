@@ -1,4 +1,7 @@
 ExamsSystem::Application.routes.draw do
+  resources :membership_plans
+
+
   get "user" => "teacher#index"
 
   get 'auth/:provider/callback' => 'sessions#create'
@@ -107,6 +110,7 @@ ExamsSystem::Application.routes.draw do
       get :get_courses
       get :get_questions
       get :test_exists
+      get :get_questions_by_course
     end
   end
 

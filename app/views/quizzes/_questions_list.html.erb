@@ -1,0 +1,59 @@
+<div class="ques_inner_bar_left">
+  <input type="button" value="Add to Test" class="searchBtn btn btn-inverse" onclick="add_question_to_test()" />
+</div>
+<table id="questions" style="margin-top: 10px !important;" class="table table-bordered" >
+  <thead>
+  <th></th>
+  <th>Question Statement</th>
+  <th>Topic</th>
+  <th>Action</th>
+  <th>Status</th>
+  </thead>
+  <tbody>
+  <%@questions.each do |question|  %>
+      <tr>
+        <td><%= check_box_tag(:add_to_test, question.id, false, :class => 'add_to_test') %></td>
+        <td><%= question.statement.html_safe %></td>
+        <td><%= question.topic.name %></td>
+        <td><%= link_to("View", ("/questions/#{question.id}")) %></td>
+        <td><%= question.current_state %></td>
+
+
+      </tr>
+
+
+
+  <% end %>
+  </tbody>
+
+
+</table>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#questions').dataTable( {
+            "displayLength": 50,
+        } );
+    } );
+</script>
+
+<script>
+
+    $("input:checkbox.questions").on('click', function() {
+
+        var $box = $(this);
+        if ($box.is(":checked")) {
+
+            var group = "input:checkbox.add_to_test";
+            $(group).prop("checked", true);
+            $box.prop("checked", true);
+        }
+        else {
+            var group = "input:checkbox.add_to_test";
+            $(group).prop("checked", false);
+            $box.prop("checked", false);
+        }
+    });
+</script>

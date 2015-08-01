@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_filter :authenticate_user!, :except=>[:questions_exits]
-  before_filter :set_question, :only=> [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, :except => [:questions_exits]
+  before_filter :set_question, :only => [:show, :edit, :update, :destroy]
   respond_to :html, :json
   layout "admin_panel_layout"
 
@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
     @degrees = []
 
     id = params[:course_id]
-      unless id > '0'
+    unless id > '0'
       @boards = Board.all
       @degrees = Degree.all
 
@@ -39,11 +39,11 @@ class QuestionsController < ApplicationController
     #@id = params[:test_id]
     #id.tests.each {|test| @tests << test}
 
-    Question.all.select {|x| x.deleted == false }.each do |question|
+    Question.all.select { |x| x.deleted == false }.each do |question|
       @questions << question
     end
 
-   # @questions = Question.paginate(:page => params[:page], :per_page => 30)
+    # @questions = Question.paginate(:page => params[:page], :per_page => 30)
     render :partial => 'questions/ques'
   end
 
@@ -58,7 +58,7 @@ class QuestionsController < ApplicationController
     search = ""
     page = 1
 
-    @questions = Question.search(search,page,limit)
+    @questions = Question.search(search, page, limit)
     @row = limit
 
 
@@ -67,10 +67,10 @@ class QuestionsController < ApplicationController
 
   def get_tests
     @tests = []
-    id = DegreeCourseAssignment.find_by_degree_id_and_course_id(params[:degree_id],params[:course_id])
+    id = DegreeCourseAssignment.find_by_degree_id_and_course_id(params[:degree_id], params[:course_id])
     #id.tests.each {|test| @tests << test}
 
-    Test.all.select {|x| x.degree_course_assignment_id == id.id}.each do |test|
+    Test.all.select { |x| x.degree_course_assignment_id == id.id }.each do |test|
       @tests << test
     end
     render :partial => 'questions/test'
@@ -83,12 +83,13 @@ class QuestionsController < ApplicationController
       type = 'MCQ'
     elsif @question.question_type == 3
       type = 'Fill In The Blank'
-    else @question.question_type == 4
+    else
+      @question.question_type == 4
       type = 'True False'
     end
     @options = @question.options
     @options = @options.shuffle
-    @question_heading =  type + ' - ' + @question.topic.course.name.to_s
+    @question_heading = type + ' - ' + @question.topic.course.name.to_s
     @alpha = []
     @alpha << 'a'
     @alpha << 'b'
@@ -98,32 +99,16 @@ class QuestionsController < ApplicationController
   end
 
   def index
-
     session[:question] = nil
     @board = Board.new
     @board_hash = @board.board_degree_hash
 
-    limit = 50
-    search = ""
-    page = 1
-
-    limit = params[:limit].to_i unless params[:limit].nil?
-    search = params[:search] unless params[:search].nil?
-    page = params[:page] unless params[:page].nil?
-
     if current_user.is_admin?
-      @questions = Question.search(search,page,limit)
+      respond_to do |format|
+        format.html
+        format.json { render :json => QuestionsDatatable.new(view_context) }
+      end
     end
-
-    @row = limit
-
-    respond_to do |format|
-      format.html
-      format.json {render :json=> QuestionsDatatable.new(view_context)}
-    end
-   # @questions = Question
-    #@questions = Question.paginate(:page => params[:page], :per_page => 2)
-    #respond_with(@questions)
   end
 
   def get_limit
@@ -136,8 +121,8 @@ class QuestionsController < ApplicationController
     search = params[:search] unless params[:search].nil?
     page = params[:page] unless params[:page].nil?
 
-    @questions = Question.search(search,page,limit)
-    render :partial=> 'ques'
+    @questions = Question.search(search, page, limit)
+    render :partial => 'ques'
 
   end
 
@@ -146,8 +131,8 @@ class QuestionsController < ApplicationController
       @boards = []
       @degrees = []
       @question.board_degree_assignments.each do |bd|
-          @boards << bd.board_id
-          @degrees << bd.degree_id
+        @boards << bd.board_id
+        @degrees << bd.degree_id
       end
 
       @boards = @boards.uniq
@@ -185,9 +170,9 @@ class QuestionsController < ApplicationController
         end
         qh.degree_ids = array[0...-1]
       end
-    respond_with(@question)
+      respond_with(@question)
     else
-    redirect_to questions_path
+      redirect_to questions_path
     end
 
   end
@@ -280,7 +265,6 @@ class QuestionsController < ApplicationController
     end
 
 
-
   end
 
   def render_view
@@ -292,8 +276,8 @@ class QuestionsController < ApplicationController
     @dc_hash['degree'] = test.degree_course_assignment.degree
     @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
-    @questions = test.questions.select{|x| x.deleted == false}
-    @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
+    @questions = test.questions.select { |x| x.deleted == false }
+    @topics = Topic.all.select { |x| x.degree_course_assignment_id == test.degree_course_assignment_id }
 
     id = params[:ques_type]
 
@@ -319,7 +303,7 @@ class QuestionsController < ApplicationController
     @dc_hash['course'] = test.degree_course_assignment.course
     @dc_hash['test'] = test
     @question = Question.find_by_id(params[:ques_id])
-    @topics = Topic.all.select {|x| x.degree_course_assignment_id == test.degree_course_assignment_id}
+    @topics = Topic.all.select { |x| x.degree_course_assignment_id == test.degree_course_assignment_id }
 
     id = params[:ques_type]
 
@@ -342,7 +326,6 @@ class QuestionsController < ApplicationController
     @degrees = @degrees.split(" ")
 
 
-
     @question = Question.new(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
@@ -350,15 +333,15 @@ class QuestionsController < ApplicationController
     #@question.topic_id = params[:topic_id]
     @question.test_id = nil
     @question.deleted = false
-   @question.author = current_user.email
+    @question.author = current_user.email
     if @question.save
 
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
-                             :ques_no => params[:ques_no],
-                             :session => params[:session],
-                             :year => params[:year],
-                             :question_id => @question.id
+                                           :ques_no => params[:ques_no],
+                                           :session => params[:session],
+                                           :year => params[:year],
+                                           :question_id => @question.id
         )
         @past_paper.save
       end
@@ -367,35 +350,35 @@ class QuestionsController < ApplicationController
         ##logic for mcqs questions
 
         i = 1
-        while(i <= params[:count_option].to_i) do
+        while (i <= params[:count_option].to_i) do
           if params['is_answer_'+i.to_s] == '1'
             is_answer = params['is_answer_'+i.to_s]
           else
             is_answer = '0'
           end
           option = Option.new(
-                             :statement => params['option_'+i.to_s],
-                             :avatar => params['option_image_'+i.to_s],
-                             :flag => params['image_change_'+i.to_s],
-                             :question_id => @question.id,
-                             :is_answer =>  is_answer
+              :statement => params['option_'+i.to_s],
+              :avatar => params['option_image_'+i.to_s],
+              :flag => params['image_change_'+i.to_s],
+              :question_id => @question.id,
+              :is_answer => is_answer
           )
           if option.avatar_file_name.nil?
-          option.save
+            option.save
           else
             option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
             option.save
           end
-        i = i + 1
+          i = i + 1
         end
 
 
       elsif params[:type_ques] == 'trueFalse'
-        @option = Option.new(:statement => params[:option],:question_id => @question.id,:is_answer => params[:is_answer])
+        @option = Option.new(:statement => params[:option], :question_id => @question.id, :is_answer => params[:is_answer])
         @option.save
       else
 
-        @option = Option.new(:statement => params[:answer],:question_id => @question.id,:is_answer => 1)
+        @option = Option.new(:statement => params[:answer], :question_id => @question.id, :is_answer => 1)
         @option.save
 
       end
@@ -406,7 +389,7 @@ class QuestionsController < ApplicationController
           bdegree = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
           unless bdegree.nil?
             qs = BoardQuestionAssignment.new(:board_degree_assignment_id => bdegree.id,
-                                              :question_id => @question.id)
+                                             :question_id => @question.id)
             qs.save
           end
         end
@@ -422,7 +405,7 @@ class QuestionsController < ApplicationController
 
 
     # redirect_to add_questions_questions_path(:test_id => params[:question][:test_id])
-   respond_with(@question)
+    respond_with(@question)
   end
 
   def update
@@ -432,7 +415,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
-   # @question.topic_id = params[:topic_id]
+    # @question.topic_id = params[:topic_id]
     @question.author = current_user.email
     @question.save
     if @question.current_state == "rejected"
@@ -442,7 +425,7 @@ class QuestionsController < ApplicationController
 
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
-                                          #:paper => params[:paper],
+                                           #:paper => params[:paper],
                                            :ques_no => params[:ques_no],
                                            :session => params[:session],
                                            :year => params[:year],
@@ -466,7 +449,7 @@ class QuestionsController < ApplicationController
       i = 1
       @question.options.each do |option|
         if params['is_answer_'+i.to_s] == '1'
-            is_answer = params['is_answer_'+i.to_s]
+          is_answer = params['is_answer_'+i.to_s]
         else
           is_answer = '0'
         end
@@ -481,54 +464,20 @@ class QuestionsController < ApplicationController
         i = i + 1
 
       end
-
-
-
     elsif params[:type_ques] == 'trueFalse'
-      @question.options.last.update_attributes(:statement => params[:option],:question_id => @question.id,:is_answer => params[:is_answer])
-
+      @question.options.last.update_attributes(:statement => params[:option], :question_id => @question.id, :is_answer => params[:is_answer])
     else
-
-      @question.options.last.update_attributes(:statement => params[:answer],:question_id => @question.id,:is_answer => 1)
-
-
+      @question.options.last.update_attributes(:statement => params[:answer], :question_id => @question.id, :is_answer => 1)
     end
-
-
     redirect_to question_path(@question)
   end
 
   def questions_approval
-    # limit = 50
-    # search = ""
-    # page = 1
-    #
-    # limit = params[:limit].to_i unless params[:limit].nil?
-    # search = params[:search] unless params[:search].nil?
-    # page = params[:page] unless params[:page].nil?
-
-
-      respond_to do |format|
-        format.html
-        format.json {render :json=> QuestionsDatatable.new(view_context)}
-      end
-      # if current_user.teacher_courses.present?
-      #   @course_id = current_user.teacher_courses.first.course_id
-      #   sql = "Select *
-      #            From questions q
-      #            where deleted = false
-      #            AND (workflow_state = 'reviewed_by_teacher'
-      #            OR workflow_state = 'reviewed_by_proofreader')
-      #            AND topic_id in (Select id from topics where course_id = ?)", @course_id.to_i
-      #   @questions = Question.find_by_sql(sql).paginate(:page => page, :per_page => limit)
-      #
-      # end
-#    @row = limit
-
+    respond_to do |format|
+      format.html
+      format.json { render :json => QuestionsDatatable.new(view_context) }
+    end
   end
-
-
-
 
   def add_comment_to_question
     @question = Question.find(params[:question_id])
@@ -538,8 +487,6 @@ class QuestionsController < ApplicationController
     else
       render :json => {:success => false}
     end
-
-
   end
 
   def get_questions_by_status
@@ -552,7 +499,7 @@ class QuestionsController < ApplicationController
     page = params[:page] unless params[:page].nil?
 
     if params[:flag].to_i == 1
-      @questions = Question.where(:workflow_state => "reviewed_by_proofreader").search(search,page,limit)
+      @questions = Question.where(:workflow_state => "reviewed_by_proofreader").search(search, page, limit)
     elsif params[:flag].to_i == 0
       if params[:role] == "teacher"
         if @course_id = current_user.teacher_courses.present?
@@ -612,16 +559,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-
-
-   # test_id = @question.test_id
     @question.deleted = true
     @question.save
-    # @question.destroy
-    #redirect_to questions_path
-
-    #redirect_to questions_path
-    #respond_with(@question)
   end
 
   #get methods
@@ -632,14 +571,14 @@ class QuestionsController < ApplicationController
     degree_id = params[:degree_id]
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
-    bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id,degree_id)
+    bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
     @questions = []
     if past_paper_flag.to_i == 2
       mcq = params[:mcq]
       fill = params[:fill]
       true_false = params[:true_false]
       descriptive = params[:descriptive]
-      temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == course_id.to_i}
+      temp = bd.questions.select { |q| q.deleted == false && q.topic.course_id == course_id.to_i }
       list = temp
       list.shuffle!
       #select number of questions according to the user requirement
@@ -666,7 +605,7 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-      @questions = bd.questions.select{|q| q.deleted == false &&
+      @questions = bd.questions.select { |q| q.deleted == false &&
           q.topic.course_id == course_id.to_i &&
           q.past_paper_history.present? &&
           q.past_paper_history.year == year.to_s &&
@@ -683,14 +622,11 @@ class QuestionsController < ApplicationController
     @question = Question.find(params["format"].to_i)
 
 
-      if @question.update_attributes(params[:question])
-       # redirect_to(:controller =>"questions", :action=>"questions_approval", :notice => 'User was successfully updated.')
-
-        render :json => {:success => true}
-      else
-        #format.html { render :action => "edit" }
-        render :json => {:success => false}
-      end
+    if @question.update_attributes(params[:question])
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
 
   end
 
@@ -728,6 +664,7 @@ class QuestionsController < ApplicationController
       end
     end
 
+
     if insert_to_question_history_flag
       board_ids = params[:boards]
       degree_ids = params[:degree]
@@ -741,13 +678,17 @@ class QuestionsController < ApplicationController
       degree_ids.each do |degree_id|
         degree_id_array << degree_id.to_s << ","
       end
-      question_history = {"board_ids"=>board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
+      question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
                           "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
                           "is_approved" => 1}
 
       @question_history = QuestionHistory.new(question_history)
       @question_history.save
+      if @question.current_state == "accepted"
+        publish_question(@question)
+      end
     end
+
 
     if current_user.is_teacher?
       @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
@@ -792,7 +733,7 @@ class QuestionsController < ApplicationController
     message = ""
     if current_user.is_teacher?
       insert_to_question_history_flag = true
-      if @question.current_state.to_s ==  "rejected_by_teacher" || @question.current_state.to_s == "accepted"
+      if @question.current_state.to_s == "rejected_by_teacher" || @question.current_state.to_s == "accepted"
         insert_to_question_history_flag = false
         message = "Question already updated!"
       end
@@ -809,7 +750,7 @@ class QuestionsController < ApplicationController
         degree_ids.each do |degree_id|
           degree_id_array << degree_id.to_s << ","
         end
-        question_history = {"board_ids"=>board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
+        question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
                             "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
                             "is_approved" => 0}
 
@@ -850,16 +791,22 @@ class QuestionsController < ApplicationController
       @question.reject!
     end
     render :json => {:success => true}
-
-    # redirect_to questions_approval_questions_path
-    # if params[:from].present? && params[:from] == "view"
-    # else
-    #
-    # end
   end
 
   private
-    def set_question
-      @question = Question.find(params[:id])
+  def publish_question(question)
+    if current_user.is_hod?
+
+    elsif current_user.is_teacher?
+
     end
+    if
+      question
+    end
+
+  end
+
+  def set_question
+    @question = Question.find(params[:id])
+  end
 end

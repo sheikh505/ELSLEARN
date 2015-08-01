@@ -8,9 +8,7 @@
 <%= form_for @user, :url => {:controller => 'teacher', :action => 'create'} do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
-              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-              <ul>
+              <ul style="color:red">
                 <% @user.errors.full_messages.each do |msg| %>
                     <li><%= msg %></li>
                 <% end %>
@@ -49,9 +47,14 @@
     <div class="field">
       <%= f.label :role %>
       <select id="role_id" name="role_id" class="row_field"  onchange="on_roll_change();">
-        <option>Please select role for User</option>
+        <option value="0">Please select role for User</option>
         <%@roles.each do |x| %>
             <% if current_user.is_proofreader? %>
+                <script type="application/javascript" >
+                    $( document ).ready(function() {
+                        $("#role_id").prop("disabled", true);
+                    });
+                </script>
                 <option value="<%=x.id%>" selected><%=x.name%></option>
             <% else %>
                 <option value="<%=x.id%>"><%=x.name%></option>
@@ -82,7 +85,7 @@
       <select id="user_role" name="user[role]" class="row_field">
         <option value="0">Please select Proof Reader</option>
         <%@proofreaders.each do |proofreader| %>
-            <% if current_user.is_proofreader? %>
+            <% if current_user.is_proofreader? && current_user.id == proofreader.id %>
                 <option value="<%=proofreader.id%>" selected><%=proofreader.email%></option>
             <% else %>
                 <option value="<%=proofreader.id%>"><%=proofreader.email%></option>
@@ -139,6 +142,7 @@
         {
             $("#courseList").show();
         }
+
     });
     function on_roll_change() {
         if ($("#role_id option:selected").text() == "Teacher")

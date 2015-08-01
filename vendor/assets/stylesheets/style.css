@@ -1877,3 +1877,15 @@ select, input[type="file"] {
 .even{
     background: #fff !important;
 }
+.ques_container{
+    margin-top: 10px;
+}
+.ques_container .ques_inner_bar_left{
+    margin-bottom: 20px;
+}
+#course_container .select2-container{
+    vertical-align: top;
+}
+#course_container .searchBtn.btn.btn-inverse{
+    margin-top: 5px;
+}

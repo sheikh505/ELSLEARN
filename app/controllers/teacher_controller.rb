@@ -105,42 +105,56 @@ class TeacherController < ApplicationController
     @role_id = params[:role_id]
 
     if @user.save
+      if current_user.is_proofreader?
+        role_id = Role.find_by_name("Operator").id
+        @role_id = role_id
+      end
       assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
       @assignment = Assignment.new(assignment)
       @assignment.save
+      if @role_id != 0
+        if @user.is_operator?
+          @user.update_attributes(:role => 0)
+        end
 
-      unless @user.is_operator?
-        @user.update_attributes(:role => 0)
-      end
-
-      if @user.is_teacher?
-        @degrees = Degree.all
-        if @degrees.present?
-          @degrees.each do |degree|
-            course_id = params["course_#{degree.id}"]
-            course_id.each do |course|
-              teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+        if @user.is_teacher?
+          @degrees = Degree.all
+          if @degrees.present?
+            @degrees.each do |degree|
+              course_id = params["course_#{degree.id}"]
+              course_id.each do |course|
+                teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+                @teacher_course = TeacherCourse.new(teacher_course)
+                @teacher_course.save
+              end
+            end
+          end
+        elsif @user.is_hod?
+          course_list = params[:course]
+          if course_list.present?
+            course_list.each do |course|
+              teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
               @teacher_course = TeacherCourse.new(teacher_course)
               @teacher_course.save
             end
+          else
+            TeacherCourse.where(:user_id=>@user.id).delete_all
           end
-        end
-      elsif @user.is_hod?
-        course_list = params[:course]
-        if course_list.present?
-          course_list.each do |course|
-            teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
-            @teacher_course = TeacherCourse.new(teacher_course)
-            @teacher_course.save
-          end
-        else
-          TeacherCourse.where(:user_id=>@user.id).delete_all
         end
       end
-
       redirect_to "/user"
     else
-      redirect_to "/user"
+      if current_user.is_admin?
+        @roles = Role.all
+      else
+        @roles = Role.where(:name => "Operator")
+      end
+      @degrees = Degree.all
+      @courses = Course.all
+
+
+      @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
+      respond_with(@user)
     end
 
   end

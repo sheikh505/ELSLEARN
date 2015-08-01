@@ -53,6 +53,13 @@
         <select id="role_id" name="role_id" class="row_field" onchange="show_degrees();" >
           <option>Please select role for User</option>
           <%@roles.each do |x| %>
+              <% if current_user.is_proofreader? %>
+                  <script type="application/javascript" >
+                      $( document ).ready(function() {
+                          $("#role_id").prop("disabled", true);
+                      });
+                  </script>
+              <% end %>
               <% if !@user_role_id.nil? && @user_role_id == x.id %>
                   <option selected value="<%=x.id%>"><%=x.name%></option>
               <% else %>
