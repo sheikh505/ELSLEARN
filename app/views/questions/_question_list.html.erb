@@ -1,10 +1,8 @@
 <table id="questions" style="margin-top: 10px !important;" class="table table-bordered" data-source="<%= questions_approval_questions_path(:format=> "json") %>">
   <thead>
   <th>Question Statement</th>
-  <th>Topic</th>
   <th>Action</th>
   <th>Status</th>
-  <th></th>
   </thead>
   <tbody>
 
@@ -15,23 +13,19 @@
 
 
 
-
-
 <script type="text/javascript">
     $(document).ready(function() {
-        jQuery(".best_in_place").best_in_place();
-
         $('#questions').dataTable( {
             sPaginationType: "full_numbers",
             "ordering": false,
             "processing": true,
             "serverSide": true,
             "displayLength": 25,
-            aaSorting : [[0, 'desc']],
             sAjaxSource: $('#questions').data('source')
-
         } );
-
-
     } );
 </script>
+
+
+
+

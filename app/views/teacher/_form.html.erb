@@ -8,9 +8,7 @@
 <%= form_for @user, :url => {:controller => 'teacher', :action => 'create'} do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
-              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-              <ul>
+              <ul style="color:red">
                 <% @user.errors.full_messages.each do |msg| %>
                     <li><%= msg %></li>
                 <% end %>
@@ -48,10 +46,15 @@
     </div>
     <div class="field">
       <%= f.label :role %>
-      <select id="role_id" name="role_id" class="row_field"  onchange="show_degrees();">
-        <option>Please select role for User</option>
+      <select id="role_id" name="role_id" class="row_field"  onchange="on_roll_change();">
+        <option value="0">Please select role for User</option>
         <%@roles.each do |x| %>
             <% if current_user.is_proofreader? %>
+                <script type="application/javascript" >
+                    $( document ).ready(function() {
+                        $("#role_id").prop("disabled", true);
+                    });
+                </script>
                 <option value="<%=x.id%>" selected><%=x.name%></option>
             <% else %>
                 <option value="<%=x.id%>"><%=x.name%></option>
@@ -62,19 +65,35 @@
     </div>
     <div id="degreeList" style="display: none;" class="field">
       <%=label_tag :degree %>
-        <%@degrees.each do |degree| %>
-          <%= check_box_tag 'degree[]', degree.id,false %><%=degree.name %>
+
+        <%@degrees.each_with_index do |degree,index| %>
+          <div class="col_deg">
+          <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
+            <div id="courseList_<%= degree.id %>" class="field courseList_post">
+
+            </div>
+          </div>
         <% end %>
     </div>
-    <div id="courseList" style="display: none;" class="field">
-      <%=label_tag :course %>
-        <%@courses.each do |x| %>
-            <%= check_box_tag 'course[]', x.id,false %><%=x.name %>
+    <div id="courseList_all" style="display: none;" class="field">
+      <%@courses.each do |x| %>
+          <%= check_box_tag "course[]", x.id,false %><span><%=x.name %></span>
+      <% end %>
+    </div>
+    <div id="proofreader_all" class="field" style="display: none;">
+      <%= f.label "Proof Reader" %>
+      <select id="user_role" name="user[role]" class="row_field">
+        <option value="0">Please select Proof Reader</option>
+        <%@proofreaders.each do |proofreader| %>
+            <% if current_user.is_proofreader? && current_user.id == proofreader.id %>
+                <option value="<%=proofreader.id%>" selected><%=proofreader.email%></option>
+            <% else %>
+                <option value="<%=proofreader.id%>"><%=proofreader.email%></option>
+            <% end %>
         <% end %>
-      </div>
-        <div class="field">
-            <%= f.hidden_field :role , :value => current_user.id.to_s %>
-        </div>
+      </select>
+
+    </div>
     <div class="actions">
       <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
     </div>
@@ -111,16 +130,67 @@
 
 <script>
 
-    function show_degrees() {
+    $( document ).ready(function() {
+        if ($("#role_id option:selected").text() == "Teacher")
+        {
+            var $checkBoxes = $('input[type="checkbox"]');
+            $checkBoxes.prop('checked',false);
+            $("#degreeList").show();
+            $(".courseList_post").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Hod")
+        {
+            $("#courseList").show();
+        }
+
+    });
+    function on_roll_change() {
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
-            $("#courseList").show();
+            $(".courseList_post").hide();
+            $("#courseList_all").hide();
+            $("#proofreader_all").hide();
+
+        }
+        else if ($("#role_id option:selected").text() == "Hod")
+        {
+            $("#courseList_all").show();
+            $("#degreeList").hide();
+            $("#proofreader_all").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
         }
         else
         {
+            $("#courseList_all").hide();
             $("#courseList").hide();
             $("#degreeList").hide();
+            $("#proofreader_all").hide();
         }
     }
+
+    function show_courses(object)
+    {
+        if (object.checked) {
+            $.ajax({
+                url: '/courses/get_courses_by_degree_id?degree_id=' + object.value,
+                type: 'get',
+                dataType: 'html',
+                processData: false,
+                success: function (data) {
+                    $("#"+"courseList_"+object.value).show();
+                    $("#"+"courseList_"+object.value).html(data);
+                },
+                error: function (data) {
+                    alert("Error Occurred");
+                }
+            });
+        }
+        else
+            $("#"+"courseList_"+object.value).hide();
+    }
+
 </script>

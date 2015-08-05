@@ -39,7 +39,7 @@
                     <%= render 'layouts/operator' %>
                 <% elsif current_user.is_proofreader? %>
                     <%= render 'layouts/proofreader' %>
-                <% elsif current_user.is_teacher? %>
+                <% elsif current_user.is_teacher? || current_user.is_hod? %>
                     <%= render 'layouts/teacher' %>
                 <% end %>
             <% end %>

@@ -1,4 +1,4 @@
-<%= form_for @question, :url => "approve_by_teacher", :html => {:multipart=> true} do |f| %>
+<%= form_for "question", :html => {:id => "question_details", :onsubmit => "return false;"} do |f| %>
     <div class="question_details">
     <h5 class="labelquestions">Boards</h5>
     <p>
@@ -37,10 +37,58 @@
     <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
     <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
     <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
+      <%= hidden_field_tag :question_id,@question.id %>
 
-  <div class="btn_holder_post">
-    <%= f.submit 'Approve', :class=> 'btn btn-large btn-inverse' %>
-    <%= f.submit 'Reject', :class=> 'btn btn-large btn-inverse' %>
+
     </div>
+    <div class="btn_holder_post">
+      <%= f.submit 'Approve & Move to next', :id => "approve", :class=> 'btn btn-large btn-inverse' %>
+      <%= f.submit 'Reject & Move to next', :id => "reject", :class=> 'btn btn-large btn-inverse' %>
+      <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
+
     </div>
 <% end %>
+
+<script type="text/javascript">
+    $('#approve').click(function() {
+//        $.post("approve_by_teacher", $("form#question_details").serialize(), function (response) {
+//            if (response.success) {
+//                window.location = '/questions/'+ response.question_id;
+//            }
+//        }, "json")
+
+        var $form = $('#question_details');
+        var serializedData = $form.serialize();
+        $.ajax({
+            url:'/questions/approve_by_teacher',
+            type:'post',
+            dataType:'json',
+            data: serializedData,
+            async:false,
+            processData:false,
+            success:function (response) {
+                if (response.message != "")
+                {
+                    alert(response.message);
+                }
+                if (response.question_id == "")
+                {
+                    window.location = '/questions/questions_approval';
+                }
+                else
+                {
+                    window.location = '/questions/'+ response.question_id;
+                }
+            },
+            error:function (data) {
+                alert ("Error Occurred");
+            }
+        });
+    });
+
+    $('#reject').click(function() {
+        $('#commentsModal').modal('toggle');
+
+    });
+
+</script>
