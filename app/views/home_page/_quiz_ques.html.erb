@@ -1,0 +1,201 @@
+<div class="modal_left">
+  <div class="box_modal">
+    <h2>ELS Quiz </h2>
+
+    <label><strong>Question <%=@index + 1%> of <%=$size%></strong></label>
+    <p><%=raw $arr[@index].statement %></p>
+  </div>
+  <div class="question_p_section">
+
+   <%if $arr[@index].question_type == 1 %>
+        <ul class="pre_question_options" style="list-style-type: upper-alpha;">
+          <% $arr[@index].options.each_with_index do |option,index| %>
+              <% if option.flag.nil? %>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
+              <% else %>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+              <% end %>
+          <% end %>
+        </ul>
+    <%elsif $arr[@index].question_type == 4 %>
+        <ul>
+         <li ><a href="javascript:void(0)" id="ref_opt_1" onclick="next_question_type_true_false('ref_opt_1','ref_opt_2',<%=$arr[@index].options.first.statement == true ? "1": "0" %>)" class='option_question'>True</a></li>
+
+         <li ><a href="javascript:void(0)" id="ref_opt_2" onclick="next_question_type_true_false('ref_opt_2','ref_opt_1',<%=$arr[@index].options.first.statement == true ? "0": "1" %>)" class='option_question'>False</a></li>
+
+
+        </ul>
+
+    <%elsif $arr[@index].question_type == 3 %>
+    <ul>
+      <li>
+        <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field" class="text" placeholder="Answer the question" >
+        <a href="#" onclick="check_blank('<%=$arr[@index].options.last.statement %>')">Submit</a>
+      </li>
+      <li>
+        <label id="answer_correction"></label>
+      </li>
+    </ul>
+
+    <% end %>
+
+  </div>
+    <input type="hidden" id="answer_selected" name="answer_selected" value="1" >
+
+  <div class="modal_iframe_footer">
+    <%if @index > 0%>
+        <a class="modal_btn" class="modal_btn" onclick="previous_question()">Previos</a>
+    <% end %>
+    <%if @index+1 < $size%>
+        <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
+    <% else %>
+        <a class="modal_btn" href="#myModal" class="modal_btn" onclick="finish_quiz()">Finish</a>
+    <% end %>
+  </div>
+</div>
+
+<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Elearning System
+        </h4>
+      </div>
+      <div class="modal-body test_results">
+        <div class="result_holder">
+          <h2>Here is your test result!</h2>
+          <div class="result_content">
+            <h4 id="course_name">Physics</h4>
+            <p class="bold_text">Beginner <span> (<300)</span><span id="test_score"></span></p>
+            <p>You're just starting to explore this skill.</p>
+            <h5>Whoops!</h5>
+            <p>You haven't scored high enough to display this test result on your profile. You must score Proficient level (450) or higher. Continue answering questions correctly to improve your score.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer m_footer_container">
+        <button type="submit" class="btn btn-default" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    a.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: default;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $.ajax({
+            url:'/home_page/get_answer?index='+<%=@index%>,
+            type:'get',
+            dataType:'json',
+            processData:false,
+            success:function (data) {
+                $("#"+data.option_index).addClass('correct_answer');
+
+            },
+            error:function (data) {
+                alert ('Error Occurred!!!!');
+            }
+        });
+    });
+
+  function answer(answer_id,is_answer,option_index)
+  {
+      $(".question_p_section ul li a").removeClass('correct_answer');
+      $("#"+option_index).addClass('correct_answer');
+      $.ajax({
+          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option_index,
+          type:'get',
+          dataType:'json',
+          processData:false,
+          success:function (data) {
+
+          },
+          error:function (data) {
+              alert ('Error Occurred!!!!');
+          }
+      });
+
+
+      flag = parseInt($("#answer_selected").val());
+      if(is_answer && flag) {
+          $("#answer_selected").val("0");
+          score = $( "#score").val();
+          score = parseInt(score,10) + 5;
+          $( "#score").val(score);
+      }
+      else if (!is_answer && !flag)
+      {
+          $("#answer_selected").val("1");
+          score = $( "#score").val();
+          score = parseInt(score,10) - 5;
+          $( "#score").val(score);
+      }
+  }
+
+  function previous_question(){
+      flag = 0;
+      if (flag == 0)
+      {
+          <% if @index > 0 %>
+          $.ajax({
+              url:'/home_page/next_ques?index='+<%=@index-2%>,
+              type:'get',
+              dataType:'html',
+              processData:false,
+              success:function (data) {
+                  $("#quiz_container").html(data);
+
+              },
+              error:function (data) {
+                  alert ('Error Occurred!!!!');
+                  //    window.location.reload();
+              }
+          });
+          <% end %>
+      }
+  }
+    function next_quiz(){
+        flag = 0;
+        if (flag == 0)
+        {
+            <% if @index < $size - 1 %>
+            $.ajax({
+                url:'/home_page/next_ques?index='+<%=@index%>,
+                type:'get',
+                dataType:'html',
+                processData:false,
+                success:function (data) {
+                    $("#quiz_container").html(data);
+
+                },
+                error:function (data) {
+                    alert ("Error Occurred");
+                }
+            });
+            <% else %>
+                score = $( "#score").val();
+                alert("you score "+score+"out of <%=$size * 5%>");
+                window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.topic.course_id%>'
+            <% end %>
+        }
+}
+
+    function finish_quiz()
+    {
+        var confirmText = "Are you sure you want to finish this test?";
+        if(confirm(confirmText)) {
+            $("#course_name").text($("input[name$='course']").val());
+            $("#test_score").text($( "#score").val());
+            $('#myModal').modal('toggle');
+        }
+    }
+
+</script>

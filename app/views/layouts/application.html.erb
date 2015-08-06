@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExamsSystem</title>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+
+      <%= render 'shared/header' %>
+      <%= render 'shared/errors' %>
+        <%= yield %>
+
+  <footer class="footer">
+    <div class="footer_holder container">
+      <div class="footer_box box_top">
+        <h3>About Us</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <a href-"">Learn more</a>
+      </div>
+      <div class="footer_box box_top">
+        <h3> Links</h3>
+        <ul class="footer_links">
+          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
+          <li><i class="fa fa-angle-right"></i>Lorem Ipsum lorem</li>
+          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
+          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
+          <li><i class="fa fa-angle-right"></i>Lorem Ipsum lorem</li>
+
+        </ul>
+      </div>
+      <div class="footer_box ">
+        <h3>Get in Touch</h3>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>
+        <ul class="footer_social_media">
+          <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+          <li><a class="twitter"  href="#"><i class="fa fa-tumblr"></i></a></li>
+          <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+          <li><a class="youtube"  href="#"><i class="fa fa-youtube"></i></a></li>
+        </ul>
+      </div>
+      <div class="footer_box">
+        <h3 class="footer_logo">Latest Tweets</h3>
+        <ul class="latest_tweet">
+          <li><i class="fa fa-twitter"></i> How to Work Both Creatively And Productively http://t.co/OkIWb1VZlf http://t.co/qROP4wUSSn </li>
+          <li><i class="fa fa-twitter"></i>What You Can Learn From Some of the Web's Most Creative People http://t.co/8VabHc2Rvg #MadeBySeries</li>
+        </ul>
+
+      </div>
+
+    </div>
+    <div class="footer_bottom container">
+      <p class="pull_left">© All rights reserved, elslearn.com, 2014</p>
+      <ul class="pull_right">
+        <li><a href="">home</a></li>
+        <li><a href="">Test Center</a></li>
+        <li><a href="">about</a></li>
+        <li><a href="">contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
+

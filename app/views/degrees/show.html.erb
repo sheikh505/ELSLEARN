@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @degree.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_degree_path(@degree) , class: 'btn btn-large btn-info'%> |
+<%= link_to 'Back', degrees_path , class: 'btn btn-large btn-inverse'%>

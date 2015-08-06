@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta type="author" content="Jason Chavannes" />
+	<title>jQuery Timer Demo</title>
+	
+	<style type='text/css'>
+	body {
+		font-family: Arial;
+		font-size: 12px;
+	}
+	label {
+	 	display: inline-block;
+	 	*display:inline;
+	 	zoom:1;
+		width: 30px;
+	}
+	input[type=button] {
+		padding: 4px 10px;
+		margin: 5px 0px 0px;
+		font-size: 14px;
+		width: 200px;
+		color: #3a3a3a;
+	}
+	input[type=button]:hover {
+		cursor: pointer;
+		color: #000;
+	}
+	input[type=button].break {
+		margin-top: 15px;
+	}
+	a {
+		color: #444;
+		text-decoration: underline;
+	}
+	a:hover {
+		color: #000;
+		cursor: pointer;
+	}
+	p {
+		margin: 0px;
+	}
+	pre {
+		background-color: #eee;
+		border: 1px solid #ccc;
+		width: 490px;
+		padding: 5px;
+	}
+	div {
+	 	display: inline-block;
+	 	*display:inline;
+	 	zoom:1;
+		width: 300px; 
+	} 
+	.count {
+		font-weight: bold;
+		font-size: 20px;
+		padding: 0px 2px;
+	}
+
+    #countdown {
+        display: inline-block;
+        background: rgb(135, 185, 120);
+        padding: 5px;
+        margin: 0 1px;
+        border-radius: 5px;
+        color: #FFF;
+        font-size: 25px;
+    }
+    </style>
+	
+</head>
+<body>
+    <span id="countdown">00:30</span>
+    <form id="example2form">
+      <input type='button' value='Play/Pause' onclick='Example2.Timer.toggle();' />
+      <input type='button' value='Stop/Reset' onclick='Example2.resetCountdown();' />
+      <input type='text' name='startTime' value='30' style='width:30px;' />
+    </form>
+
+	<script type="text/javascript">
+        /**
+         * Example 2 is similar to Example 1. Two things that are
+         * different are counting down instead of up and allowing
+         * user input for start time. Also, when the timer counts
+         * down to zero, an alert is triggered.
+         */
+            // Common functions
+        function pad(number, length) {
+            var str = '' + number;
+            while (str.length < length) {str = '0' + str;}
+            return str;
+        }
+        function formatTime(time) {
+            time = time / 10;
+            var min = parseInt(time / 6000),
+                    sec = parseInt(time / 100) - (min * 60),
+                    hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+            return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2);
+        }
+        var Example2 = new (function() {
+
+            var $countdown;
+            var $form;
+            var incrementTime = 70;
+            var currentTime = 30000; // 5 minutes (in milliseconds)
+
+            $(function() {
+
+                // Setup the timer
+                $countdown = $('#countdown');
+                Example2.Timer = $.timer(updateTimer, incrementTime, true);
+
+                // Setup form
+                $form = $('#example2form');
+                $form.bind('submit', function() {
+                    Example2.resetCountdown();
+                    return false;
+                });
+
+            });
+
+            function updateTimer() {
+
+                // Output timer position
+                var timeString = formatTime(currentTime);
+                $countdown.html(timeString);
+
+                // If timer is complete, trigger alert
+                if (currentTime == 0) {
+                    Example2.Timer.stop();
+                    alert('Example 2: Countdown timer complete!');
+                    Example2.resetCountdown();
+                    return;
+                }
+
+                // Increment timer position
+                currentTime -= incrementTime;
+                if (currentTime < 0) currentTime = 0;
+
+            }
+
+            this.resetCountdown = function() {
+
+                // Get time from form
+                var newTime = parseInt($form.find('input[type=text]').val()) * 1000;
+                if (newTime > 0) {currentTime = newTime;}
+
+                // Stop and reset timer
+                Example2.Timer.stop().once();
+
+            };
+
+        });
+	</script>
+	
+</body>
+</html>

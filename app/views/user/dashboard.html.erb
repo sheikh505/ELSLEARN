@@ -1,0 +1,70 @@
+<div class="user_profile_holder">
+    <div class="container">
+      <h1>User Profile Page</h1>
+      <div class="user_profile_left">
+        <ul class="u_left_holder">
+          <li><a class="avtar" href="#">
+            <% if @user.avatar.present?%>
+                <%= image_tag @user.avatar.url %>
+            <% else %>
+                <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+            <% end %>
+          <li><a  href="/user/dashboard">
+            <i class="fa fa_icon fa-tachometer"></i>
+            Dashboard </a> </li>
+          <li><a  href="/user/my_profile">
+            <i class="fa fa_icon fa-users"></i>
+
+            Profile</a> </li>
+
+        </ul>
+      </div>
+      <div class="user_profile_right">
+        <table class=" pre_table_dashboard" width="100%">
+
+
+              <thead>
+              <tr class="user_profile_nav">
+              <th><h3>Date</h3>
+
+              </th>
+                <th><h3>Marks Obtained</h3></th>
+                <th><h3>Total</h3></th>
+                <th></th>
+            </tr>
+              </thead>
+          <tbody>
+
+            <% if @user_test_histories.present? %>
+                <% @user_test_histories.each do |user_test_history| %>
+                  <tr class="u_right_holder">
+                    <td>
+                      <span><%=user_test_history.updated_at.to_date%></span>
+                    </td>
+
+                    <td><%=user_test_history.score%></td>
+                    <td><%=user_test_history.total%></td>
+                    <td><%=link_to "Re-Take", "/user/ReTakeTest?user_test_history_id="+ user_test_history.id.to_s%></td>
+                  </tr>
+
+
+
+
+                <% end %>
+            <% else %>
+              <tr class="u_right_holder">
+                <td><h4>No Test Yet!!!!</h4></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <%=link_to "Attempt", "/"%>
+                </td>
+                </tr>
+            <% end %>
+
+            </tbody>
+
+        </table>
+      </div>
+    </div>
+</div>

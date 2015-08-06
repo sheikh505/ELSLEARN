@@ -1,0 +1,99 @@
+<div class="container-fluid">
+<%= form_for(@book, :html => { :multipart => true}) do |f| %>
+  <% if @book.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@book.errors.count, "error") %> prohibited this book from being saved:</h2>
+
+      <ul>
+      <% @book.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%=f.label :degree %>
+      <select id="degree" name="degree">
+        <option>Select Degree</option>
+        <% Degree.all.each do |degree| %>
+
+                <option value="<%=degree.id%>"><%=degree.name%></option>
+
+        <% end %>
+      </select>
+    </div>
+
+
+
+
+
+
+    <div id="course_container" class="field">
+      <%=label_tag :course %>
+      <select id="course" name="course" >
+        <option>Select Degree First</option>
+        <% Course.all.each do |course| %>
+
+            <option value="<%=course.id%>"><%=course.name%></option>
+
+        <% end %>
+      </select>
+    </div>
+
+
+    <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, :required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$', :class => "row_field" %>
+  </div>
+  <div class="field">
+    <%= f.label :price %>
+    <%= f.number_field :price,in: 1...10000, :class => "row_field" %>
+  </div>
+      <div class="field">
+        <%= f.label :author %><br />
+        <%= f.text_field :author, :class => "row_field" %>
+      </div>
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description,:required => true, :size => '20x8', :class => "row_field" %>
+  </div>
+
+<div class="field">
+  <%= f.label :avatar %>
+  <%= f.file_field :avatar, :class => "" %>
+</div>
+
+  <div class="actions">
+    <%= f.submit "Create Notes", :class => 'btn btn-large btn-inverse' %>
+  </div>
+<% end %>
+</div>
+<script>
+    $(document).ready(function() {
+                //$('#course_container').hide();
+            }
+    );
+
+    function generate_courses(degree_id)
+    {
+        //alert (degree_id.value);
+        container = document.getElementById('course_container');
+        $.ajax({
+            url:'/books/get_courses?degree_id='+degree_id.value,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#course_container").html(data);
+                $("#course_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+</script>

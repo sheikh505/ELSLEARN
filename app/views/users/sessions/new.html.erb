@@ -1,0 +1,38 @@
+<div class="login-page">
+  <a class="login-logo" href="#"><%= image_tag 'logo.png'%></a>
+
+  <div class="login-page-holder">
+    <h2>Log in</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
+        <p style="color: red"><%= flash[type] %></p>
+    <% end %>
+      <div class="field">
+        <%= f.email_field :email, :placeholder => "Email", autofocus: true %>
+      </div>
+
+      <div class="field">
+        <%= f.password_field :password, :placeholder=>"Password", autocomplete: "off" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+       <div class="login-field">
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
+            </div>
+          <% end -%>
+
+          <div class="actions">
+            <%= f.submit "Log in" , class: 'btn btn-inverse'%>
+          </div>
+          </div>
+<% end %>
+
+<br/>
+<a href="<%=user_omniauth_authorize_path(:facebook)%>?from=login"><%= image_tag 'facebook.png', height: '35'%></a>
+<br/>
+<%= render "users/shared/links" %>
+    </div>
+</div>

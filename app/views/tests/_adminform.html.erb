@@ -1,0 +1,8 @@
+<p>Course : <%=DegreeCourseAssignment.find_by_id(@test.degree_course_assignment_id).course.name %></p>
+<p>Degree : <%=DegreeCourseAssignment.find_by_id(@test.degree_course_assignment_id).degree.name %></p>
+<p>Name : <%= @test.name %></p>
+<p>Marks : <%= @test.marks %></p>
+
+
+<%= link_to 'Edit', edit_test_path(@test) , class: 'btn btn-large btn-inverse'%> |
+<%= link_to 'Back', tests_path , class: 'btn btn-large'%>

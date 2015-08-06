@@ -1,0 +1,55 @@
+<h1>Please select questions to add in a test</h1>
+<div id="ques_bar">
+  <div class="ques_inner_bar_left">
+    <input type="button" value="Add to Test" class="searchBtn btn btn-inverse" onclick="add_question_to_test()" />
+  </div>
+
+  <div class="ques_inner_bar_right">
+    <div class="select_div">
+      <select id="no_rows" name="no_rows" onchange="fetch_rows(this.value)">
+        <option <%='selected' if @row.to_i == 50 %> value="50">50</option>
+        <option <%='selected' if @row.to_i == 100 %> value="100">100</option>
+      </select>
+    </div>
+
+  </div>
+
+</div>
+
+<table style="margin-top: 10px !important;" class="table table-bordered">
+  <tr>
+    <th><%= check_box("select", "all", :class=> 'questions') %></th>
+    <th><h3>Question Statement</h3></th>
+    <th></th>
+  </tr>
+  <% @questions.each do |question| %>
+      <tr>
+        <td><%= check_box_tag(:add_to_test, question.id, false, :class => 'add_to_test') %></td>
+        <td><%=raw question.statement %> </td>
+        <td><%= link_to 'View', question_path(question), :remote => true %></td>
+
+      </tr>
+
+  <% end %>
+
+</table>
+
+<%= will_paginate @questions %>
+<script>
+
+    $("input:checkbox.questions").on('click', function() {
+
+        var $box = $(this);
+        if ($box.is(":checked")) {
+
+            var group = "input:checkbox.add_to_test";
+            $(group).prop("checked", true);
+            $box.prop("checked", true);
+        }
+        else {
+            var group = "input:checkbox.add_to_test";
+            $(group).prop("checked", false);
+            $box.prop("checked", false);
+        }
+    });
+</script>

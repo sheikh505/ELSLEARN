@@ -1,0 +1,60 @@
+
+<div class="row listing-holder listing-holder-p">
+  <div class="span5">
+<%= form_for(@course) do |f| %>
+  <% if @course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% @course.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+
+      <% @board_hash.each do |id,value| %>
+            <% if @boards.find {|x| x.id == id} %>
+
+                <%= check_box_tag 'boards[]', id,true %><%=value %><br>
+             <% else %>
+                <%= check_box_tag 'boards[]', id,false %><%=value %><br>
+            <% end %>
+      <% end %>
+
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'btn btn-inverse' %>
+  </div>
+<% end %>
+  </div>
+
+  <div class="span5 offset1">
+    <h4>List of courses</h4>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Courses</th>
+          <th>Degree</th>
+          <th>Board</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%DegreeCourseAssignment.all.each do |dc| %>
+          <tr><td><%=dc.course.name unless dc.course.nil? %></td>
+            <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
+            <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

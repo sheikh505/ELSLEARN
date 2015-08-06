@@ -1,0 +1,106 @@
+<%= form_for :question, :url => questions_path do |f| %>
+
+
+
+    <div class="field">
+      <%= f.label :statement %><br/>
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20"></textarea>
+    </div>
+    <div class="field">
+      <%= label_tag :answer %><br/>
+      <%= text_area_tag :answer, nil, :required => true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :detail_answer %><br/>
+      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20"></textarea>
+    </div>
+
+    <div class="field">
+      <%= f.label :instruction %><br/>
+      <%= f.text_area :instruction, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :source %><br/>
+      <%= f.text_field :source %>
+    </div>
+
+
+    <!--
+     <div class="field">
+       < %= f.label : topic %><br />
+       <select id="topic" name="topic">
+         < % @topics.each do |topic|%>
+             <option value="< %=topic.id %>">< %=topic.name %></option>
+         < % end %>
+       </select>
+     </div>
+ -->
+
+    <div class="field">
+      <%= f.label :author %><br/>
+      <%= f.text_field :author, :value => current_user.email, :disabled => true %>
+    </div>
+
+    <div class="field">
+
+      <%= f.label :Difficulty %><br/>
+      <select id="difficulty" name="difficulty">
+        <option <%= 'selected' if @question.difficulty == 1 %> value="1">Easy</option>
+        <option <%= 'selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
+        <option <%= 'selected' if @question.difficulty == 3 %> value="3">Hard</option>
+
+
+      </select>
+    </div>
+
+    <div class="field">
+      <%= label_tag :pastPaperFlag %><br/>
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()">Yes
+      <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" checked>No
+    </div>
+
+    <%= render 'pastPaperHistory' %>
+    <%= f.hidden_field :topic_id, :value => @topics.first.id %>
+    <%= f.hidden_field :question_type, :value => 2 %>
+    <%= hidden_field_tag :type_ques, 'des' %>
+
+    <div class="actions">
+      <%= f.submit :class => 'btn btn-large btn-inverse' %>
+
+
+    </div>
+<% end %>
+
+<!-- Button trigger modal -->
+
+
+<script type="text/javascript">
+
+    $("document:ready", function () {
+        $("#past_paper_history_div").hide();
+        $("[rel=tinymce]").tinymce({
+            theme: "modern",
+            menubar: false,
+            statusbar: false,
+            toolbar: "bold,italic,underline,|,bullist,numlist,outdent,indent,|,undo,redo,|,pastetext,pasteword,selectall,|,uploadimage",
+            pagebreak_separator: "<p class='page-separator'>&nbsp;</p>",
+            plugins: ["uploadimage"],
+            relative_urls: false,
+            remove_script_host: false,
+            document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
+        });
+    });
+
+    function show_div() {
+        //alert("show");
+        $("#past_paper_history_div").show();
+    }
+
+    function hide_div() {
+        //alert("hide");
+        $("#past_paper_history_div").hide();
+    }
+
+</script>

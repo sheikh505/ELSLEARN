@@ -1,0 +1,12 @@
+development:
+bucket: elslearning
+access_key_id: AKIAIIFEKC27VTIBGJNA
+secret_access_key: 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
+test:
+bucket: elslearning
+access_key_id: AKIAIIFEKC27VTIBGJNA
+secret_access_key: 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
+production:
+bucket: elslearning
+access_key_id: AKIAIIFEKC27VTIBGJNA
+secret_access_key: 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

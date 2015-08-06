@@ -1,0 +1,94 @@
+<%= tinymce_assets %>
+
+<div class="row">
+  <div class="span5">
+    <div class="container">
+
+      <h5>Boards</h5>
+      <p>
+        <% @boards.each do |board| %>
+            <%=board.name %>
+        <% end %>
+
+
+      </p>
+
+
+      <h5>Degrees</h5>
+      <p>
+        <% @degrees.each do |degree| %>
+            <%=degree.name %>
+        <% end %>
+      </p>
+
+
+      <div class="row">
+        <div id="ques_form_container" class="span9">
+            <%= @view %>
+          <%= render 'mcq_edit' if @view == '1' %>
+          <%= render 'descriptive_edit' if @view == '2' %>
+          <%= render 'truefalse_edit' if @view == '4' %>
+          <%= render 'blank_edit' if @view == '3' %>
+
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div id="ques_form_container" class="span9">
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready()
+    {
+        //
+
+        //render_view(<%=@view %>);
+
+    }
+
+
+    function render_view(type){
+/*
+        $.ajax({
+            url:'/questions/render_view_edit?test_id=< %=@dc_hash['test'].id%>&ques_type='+type+'&ques_id='+< %=@question.id%>,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#ques_form_container").html(data);
+                //load_text();
+
+                //$("#ques_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+*/
+    }
+
+    function fresh_page (type){
+
+
+        var url = window.location.href;
+        var arr = url.split("&");
+        url = arr[0];
+        url = url+'&view='+type;
+        window.location.href = url;
+
+    }
+
+</script>

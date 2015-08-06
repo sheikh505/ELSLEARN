@@ -1,0 +1,225 @@
+<h2>Edit User</h2>
+<div class="row">
+  <div class="span5">
+    <%= form_for @user, :url => {:controller => 'teacher', :action => 'update'} do |f| %>
+        <% if @user.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+              <ul>
+                <% @user.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, :disabled => true, :value => @user.email %>
+        </div>
+
+        <div class="field">
+          <%= f.label :name %><br />
+          <%= f.text_field :name, :autofocus => true, :value => @user.name %>
+        </div>
+
+        <div class="field">
+          <%= f.label :phone %><br />
+          <%= f.text_field :phone , :value => @user.phone %>
+        </div>
+
+        <div class="field">
+          <%= f.label :new_password %>
+          <% if @validatable %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "off" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :new_password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "off" %>
+
+        </div>
+
+        <div class="field">
+          <%= label_tag :current_password_confirmation %><br />
+          <%= password_field_tag :current_password_confirmation, autocomplete: "off", value: @user.encrypted_password %>
+
+        </div>
+
+        <%= f.label :role %>
+        <select id="role_id" name="role_id" class="row_field" onchange="show_degrees();" >
+          <option>Please select role for User</option>
+          <%@roles.each do |x| %>
+              <% if current_user.is_proofreader? %>
+                  <script type="application/javascript" >
+                      $( document ).ready(function() {
+                          $("#role_id").prop("disabled", true);
+                      });
+                  </script>
+              <% end %>
+              <% if !@user_role_id.nil? && @user_role_id == x.id %>
+                  <option selected value="<%=x.id%>"><%=x.name%></option>
+              <% else %>
+                  <option value="<%=x.id%>"><%=x.name%></option>
+              <% end %>
+
+          <% end %>
+        </select>
+        <div id="degreeList" style="display: none;" class="field">
+          <%=label_tag :degree %>
+
+          <%@degrees.each_with_index do |degree,index| %>
+              <div class="col_deg">
+                <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:degree_id] == degree.id } ? true:false, :onclick => "show_courses(this);", :class => "degree" %><%=degree.name %>
+                <div id="courseList_<%= degree.id %>" class="field courseList_post cousreList_post_edit">
+
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+        <div id="courseList_all" style="display: none;" class="field">
+          <%@courses.each do |x| %>
+              <%= check_box_tag "course[]", x.id,!@user.teacher_courses.nil? && @user.teacher_courses.any? { |b| b[:course_id] == x.id} %><span><%=x.name %></span>
+          <% end %>
+        </div>
+
+        <div id="proofreader_all" class="field" style="display: none;">
+          <%= f.label "Proof Reader" %>
+          <select id="user_role" name="user[role]" class="row_field">
+            <option value="0">Please select Proof Reader</option>
+            <%@proofreaders.each do |proofreader| %>
+                <% if @user.role == proofreader.id.to_s %>
+                    <option value="<%=proofreader.id%>" selected><%=proofreader.email%></option>
+                <% else %>
+                    <option value="<%=proofreader.id%>"><%=proofreader.email%></option>
+                <% end %>
+            <% end %>
+          </select>
+
+        </div>
+
+        <div class="field">
+          <%= hidden_field_tag :id , @user.id %>
+          <%= hidden_field_tag :user_role_id ,@user_role_id %>
+          <%= hidden_field_tag :teacher_courses , @teacher_course %>
+
+        </div>
+
+
+
+
+        <div class="actions">
+          <%= f.submit "Register" , class: 'btn btn-large btn-inverse' %>
+        </div>
+    <% end %>
+  </div>
+  <div class="span5 offset1">
+    <% if current_user.is_proofreader? %>
+        <h3>Listed Operators</h3>
+        <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
+            <li>
+              <%=opertaor.email %>
+            </li>
+        <% end %>
+    <% else %>
+        <h3>Listed Users</h3>
+        <div class="usersList">
+        <% User.all.each do |teacher| %>
+            <li>
+              <%=teacher.email %>
+            </li>
+        <% end %>
+    <% end %>
+  </div>
+</div>
+          </div>
+<script>
+    $( document ).ready(function() {
+        if ($("#role_id option:selected").text() == "Teacher")
+        {
+            $("#degreeList").show();
+            $('.degree').each(function( index ) {
+                var object = this;
+                var user_id = $("#id").val();
+                if (object.checked) {
+                    $.ajax({
+                        url: '/courses/get_courses_by_degree_id?degree_id=' + object.value + '&user_id='+ user_id,
+                        type: 'get',
+                        dataType: 'html',
+                        processData: false,
+                        success: function (data) {
+                            $("#"+"courseList_"+object.value).show();
+                            $("#"+"courseList_"+object.value).html(data);
+                        },
+                        error: function (data) {
+                            alert("Error Occurred");
+                        }
+                    });
+                }
+            });
+            $("#courseList").show();
+        }
+        else if ($("#role_id option:selected").text() == "Hod")
+        {
+            $("#degreeList").hide();
+            $("#courseList_all").show();
+        }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
+        }
+    });
+
+    function show_degrees() {
+        if ($("#role_id option:selected").text() == "Teacher")
+        {
+            $("#degreeList").show();
+            $(".courseList_post").hide();
+            $("#courseList_all").hide();
+            $("#proofreader_all").hide();
+
+        }
+        else if ($("#role_id option:selected").text() == "Hod")
+        {
+            $("#courseList_all").show();
+            $("#degreeList").hide();
+            $("#proofreader_all").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Operator")
+        {
+            $("#proofreader_all").show();
+        }
+        else
+        {
+            $("#courseList_all").hide();
+            $("#courseList").hide();
+            $("#degreeList").hide();
+            $("#proofreader_all").hide();
+        }
+    }
+    function show_courses(object)
+    {
+        var user_id = $("#id").val();
+        if (object.checked) {
+            $.ajax({
+                url: '/courses/get_courses_by_degree_id?degree_id=' + object.value + '&user_id='+ user_id,
+                type: 'get',
+                dataType: 'html',
+                processData: false,
+                success: function (data) {
+                    $("#"+"courseList_"+object.value).show();
+                    $("#"+"courseList_"+object.value).html(data);
+                },
+                error: function (data) {
+                    alert("Error Occurred");
+                }
+            });
+        }
+        else
+            $("#"+"courseList_"+object.value).hide();
+    }
+</script>

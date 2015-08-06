@@ -1,0 +1,37 @@
+<% if @question.question_histories.present? %>
+    <div class=" stat_holder">
+      <h4>Question History</h4>
+    </div>
+<table id="questions" style="margin-top: 10px !important;" class="table table-bordered" data-source="<%= questions_approval_questions_path(:format=> "json") %>">
+  <thead>
+      <th>Teacher Name</th>
+      <th>Board</th>
+      <th>Degree</th>
+      <th>Topic</th>
+      <th>Difficulty</th>
+      <th>Status</th>
+  </thead>
+    <tbody>
+
+        <% @question.question_histories.each do |qh| %>
+            <tr>
+              <td><%= qh.user.email %></td>
+              <td><%= qh.board_ids %></td>
+              <td><%= qh.degree_ids %></td>
+              <td><%= qh.topic.name %></td>
+              <td><%= show_difficulty qh.difficulty %></td>
+              <td><%= show_status qh.is_approved %></td>
+
+
+
+            </tr>
+        <% end %>
+    </tbody>
+
+
+</table>
+<% end %>
+
+
+
+

@@ -1,0 +1,59 @@
+<header class="header">
+  <div class="header_top header_holder ">
+    <div class="header_right container">
+      <p class="pull_left">
+        Phone: 1800-455-455 | contact@elslearn.com
+      </p>
+      <ul class="social_media pull_right  ">
+        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a class="twitter"  href="#"><i class="fa fa-tumblr"></i></a></li>
+        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+        <li><a class="youtube"  href="#"><i class="fa fa-youtube"></i></a></li>
+      </ul>
+
+    </div>
+  </div>
+  <div class="header_holder header_fix container">
+
+    <div class="header_left clr">
+      <h1 class="logo pull_left">
+        <a href="/"><%= image_tag 'logo.png'%></a>
+      </h1>
+      <div class="mobil_btn"> <span></span> <span></span> <span></span> </div>
+      <nav class="nav nav_mobile pull_right">
+        <ul>
+          <li><a  class="active" href="/">Home</a></li>
+          <li><a href="/home_page/about_us">About Us</a></li>
+          <li><a href="#">Test Center</a></li>
+          <li><a href="#">Condidate Portal</a></li>
+          <li><a href="#">Contact</a></li>
+          <form>
+            <fieldset>
+              <input type="text" class="text" placeholder="search" style="display:none ">
+              <button type="submit" class="btn_s"><i class="fa fa-search"></i></button>
+            </fieldset>
+          </form>
+          <% if user_signed_in? %>
+              <li class="dropdown"><a href="/user/my_profile">My Account</a>
+                <ul class="sub_menu"><li>
+                  <% if user_signed_in? %>
+                      <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %>
+                  <% else %>
+                      <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
+                  <% end %>
+                </li>
+                  <% if user_signed_in? && current_user.is_not_student? %>
+                      <li><%= link_to "Admin Panel", "/admin_panel", :class => 'navbar-link' %></li>
+                  <% end %>
+                </ul>
+              </li>
+          <% else %>
+              <li><a href="users/sign_in">Log in</a></li>
+              <li><a class="register" href="users/sign_in">Register</a></li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</header>

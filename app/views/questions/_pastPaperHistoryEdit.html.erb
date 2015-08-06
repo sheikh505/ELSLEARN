@@ -1,0 +1,54 @@
+<div style="display: inline" id="past_paper_history_div">
+  <% if @question.past_paper_history %>
+
+      <div class="field">
+        <%= label_tag "question #" %><br />
+        <%= text_field_tag :ques_no, @question.past_paper_history.ques_no %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :session %><br />
+        <%if @question.past_paper_history.session == 'May/June' %>
+            <input type="radio" checked name="session" value="May/June" >May/June
+            <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+        <% else %>
+            <input type="radio" name="session" value="May/June" >May/June
+            <input type="radio" checked name="session" value="Nov/Dec">Nov/Dec
+        <% end %>
+      </div>
+
+
+      <div class="field">
+        <%= label_tag :year %><br />
+        <%= text_field_tag :year , @question.past_paper_history.year %>
+      </div>
+  <% else %>
+
+
+      <div class="field">
+        <%= label_tag "question #" %><br />
+        <%= text_field_tag :ques_no  %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :session %><br />
+        <input type="radio" checked name="session" value="May/June" >May/June
+        <input type="radio" name="session" value="Nov/Dec">Nov/Dec
+
+      </div>
+
+
+      <div class="field">
+        <%= label_tag :year %><br />
+        <select id="year" name="year">
+          <% i = Time.new.year.inspect.to_i - 1 %>
+          <% 25.times{ %>
+              <option value="<%=i  %>"><%=i %></option>
+          <% i-=1
+             } %>
+        </select>
+      </div>
+
+  <% end %>
+
+</div>

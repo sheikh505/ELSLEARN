@@ -1,0 +1,174 @@
+<% $arr = @questions %>
+<% $size = @size %>
+<% $answer = @answer %>
+<% $past_paper_flag = @past_paper_flag %>
+
+    <style>
+        #countdown {
+            display: inline-block;
+            background: rgb(135, 185, 120);
+            padding: 5px;
+            margin: 0 1px;
+            border-radius: 5px;
+            color: #FFF;
+            font-size: 25px;
+            float: right;
+            position: fixed;
+            right: 20px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * Example 2 is similar to Example 1. Two things that are
+         * different are counting down instead of up and allowing
+         * user input for start time. Also, when the timer counts
+         * down to zero, an alert is triggered.
+         */
+            // Common functions
+        function pad(number, length) {
+            var str = '' + number;
+            while (str.length < length) {str = '0' + str;}
+            return str;
+        }
+        function formatTime(time) {
+            time = time / 10;
+            var min = parseInt(time / 6000),
+                    sec = parseInt(time / 100) - (min * 60),
+                    hundredths = pad(time - (sec * 100) - (min * 6000), 2);
+            return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2);
+        }
+        var Example2 = new (function() {
+
+            var $countdown;
+            var $form;
+            var incrementTime = 70;
+            var currentTime = 3600000; // 5 minutes (in milliseconds)
+
+            $(function() {
+
+                // Setup the timer
+                $countdown = $('#countdown');
+                Example2.Timer = $.timer(updateTimer, incrementTime, true);
+            });
+
+            function updateTimer() {
+
+                // Output timer position
+                var timeString = formatTime(currentTime);
+                $countdown.html(timeString);
+
+                // If timer is complete, trigger alert
+                if (currentTime == 0) {
+                    Example2.Timer.stop();
+                    alert('Oops... Times up!!!');
+                    $(".question_p_section ul li a").addClass('disabled');
+                    return;
+                }
+
+                // Increment timer position
+                currentTime -= incrementTime;
+                if (currentTime < 0) currentTime = 0;
+
+            }
+
+            this.resetCountdown = function() {
+
+                // Get time from form
+                var newTime = parseInt($form.find('input[type=text]').val()) * 1000;
+                if (newTime > 0) {currentTime = newTime;}
+
+                // Stop and reset timer
+                Example2.Timer.stop().once();
+
+            };
+
+        });
+    </script>
+    <span id="countdown">60:00</span>
+
+<%=form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
+    <input type="hidden" id="id" name="user_test_history[id]" value="<%=@user_test_history_id%>" >
+    <input type="hidden" id="score" name="user_test_history[score]" value="0" >
+    <input type="hidden" id="course" name="course" value="<%=@course%>" >
+    <input type="hidden" id="total" name="user_test_history[total]" value="<%=$size * 5%>" >
+
+    <div id="quiz_container" class="modal_content question_section_modal">
+  <%= render 'quiz_ques' %>
+
+</div>
+<% end %>
+
+<script>
+
+    function next_question(foo1,foo2,foo3){
+
+        if(foo2 == 1) {
+            score = $( "#score").val();
+            score = parseInt(score,10) + 5;
+            $( "#score").val(score);
+
+            str = '.option_question:not(#' + foo3 + ')';
+            $(str).addClass('wrong_answer selected');
+            $("#"+foo3).addClass('correct_answer');
+
+            $( ".option_question" ).click(function() {
+                alert( "Error !!!!!" );
+            });
+        }
+        else{
+            $("#"+foo3).addClass('wrong_answer selected');
+            $( ".option_question" ).click(function() {
+                alert( "Error !!!!!" );
+            });
+
+        }
+
+        setTimeout(function() {
+
+            next_quiz();
+        }, 1000);
+
+
+
+
+    }
+
+    function next_question_type_true_false(id,id_2,option){
+
+        if (option == 1){
+            $("#"+id_2).addClass('wrong_answer selected');
+            $("#"+id).addClass('correct_answer');
+            score = $( "#score").val();
+            score = parseInt(score,10) + 5;
+            $( "#score").val(score);
+
+        }else{
+            $("#"+id).addClass('wrong_answer selected');
+            $("#"+id_2).addClass('correct_answer');
+        }
+        setTimeout(function() {
+            next_quiz();
+        }, 1000);
+    }
+
+    function check_blank(str){
+        alert(str);
+        var str_comp = $("#fill_in_the_blank_field").val();
+
+        if(str == str_comp){
+            $("#answer_correction").html("Correct answer");
+            score = $( "#score").val();
+            score = parseInt(score,10) + 5;
+            $( "#score").val(score);
+        }
+        else{
+            $("#answer_correction").html("wrong answer");
+        }
+        setTimeout(function() {
+
+            next_quiz();
+        }, 1000);
+    }
+
+
+</script>

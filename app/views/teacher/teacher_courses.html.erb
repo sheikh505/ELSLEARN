@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="span6">
+    <%= form_for :user, :url => {:controller => 'teacher', :action => 'course_register'} do |f| %>
+
+        <% Board.all.each do |board| %>
+            <%if @boards.find {|x| x.id == board.id} %>
+                <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%=board.name %>
+            <%else %>
+                <%= check_box_tag 'boards[]', board.id,false %><%=board.name %>
+            <%end %>
+
+        <% end %>
+
+        <div class="field">
+          <%=f.label :degree %>
+          <select id="degree" name="degree" onchange="generate_courses(this)">
+            <option>Select Degree</option>
+            <% Degree.all.each do |degree| %>
+
+
+                <option value="<%=degree.id%>"><%=degree.name%></option>
+
+            <% end %>
+          </select>
+        </div>
+
+
+
+
+
+
+        <div id="course_container" class="field">
+          <%=label_tag :course %>
+          <select id="course" name="course" >
+            <option>Select Degree First</option>
+          </select>
+        </div>
+
+        <%=f.hidden_field :user_id, value: @user.id  unless @user.id.nil? %>
+        <%=f.submit :register, class: 'btn btn-inverse' %>
+        <%=link_to :done, home_page_index_path, :class => 'btn btn-inverse' %>
+    <% end %>
+
+
+  </div>
+  <div class="span4">
+    <table class="table table-condensed">
+      <th>Teacher</th>
+      <th>Degree</th>
+      <th>Course</th>
+      <%@user.teacher_courses.all.each do |t_course| %>
+      <tr>
+
+        <td><%= @user.name %></td>
+        <td><%=DegreeCourseAssignment.find_by_id(t_course).degree.name %></td>
+        <td><%=DegreeCourseAssignment.find_by_id(t_course).course.name %></td>
+      </tr>
+      <%end %>
+    </table>
+
+  </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+                //$('#course_container').hide();
+            }
+    );
+
+    function generate_courses(degree_id)
+    {
+        //alert (degree_id.value);
+        container = document.getElementById('course_container');
+        $.ajax({
+            url:'/teacher/get_courses?degree_id='+degree_id.value,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#course_container").html(data);
+                $("#course_container").show();
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    }
+
+</script>

@@ -1,0 +1,115 @@
+<%= form_for(@test) do |f| %>
+    <% if @test.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@test.errors.count, "error") %> prohibited this test from being saved:</h2>
+
+          <ul>
+            <% @test.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name, :required => true, :class => "row_field" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :test_code %>
+      <%= f.text_field :test_code, :value => @test_code, :required => true, :class => "row_field" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :teacher %>
+      <%= f.text_field :teacher, :value => current_user.email, :disabled => true %>
+    </div>
+
+    <div id="course_container" class="field">
+      <%= label_tag :course %>
+
+      <select id="course" name="course" required>
+        <option value="" selected>Select Course</option>
+        <% Course.all.each do |course| %>
+            <option value="<%= course.id %>"><%= course.name %></option>
+        <% end %>
+      </select>
+
+
+    </div>
+    <div class="field">
+      <input type="button" value="Show Questions" class="searchBtn btn btn-inverse" onclick="generate_questions()">
+    </div>
+    <div class="field">
+      <label id="Total_Number_Of_Questions" for="Total_Number_Of_Questions">Total number of questions : 0</label>
+    </div>
+    <%= f.hidden_field :question_ids, :value => "" %>
+    <div class="actions">
+      <%= f.submit :class => 'btn btn-inverse' %>
+    </div>
+    <div id="ques_container" class=''>
+
+
+    </div>
+
+
+<% end %>
+
+
+<script>
+
+    function fetch_rows(value) {
+        if (value == -1) {
+            var limit = $("#no_rows").val();
+
+            value = limit;
+        }
+        var search = encodeURIComponent($("#search_bar").val());
+        $("#search_bar").val("");
+        $.getScript('/questions?page=1&limit=' + value + '&search=' + search);
+
+        return false;
+
+
+    }
+
+    function add_question_to_test() {
+        var group = "input:checkbox.add_to_test";
+        var question_ids = ""
+        $(group).each(function (i) {
+            if (this.checked) {
+                question_ids = question_ids + this.value + ","
+            }
+        });
+        var count = question_ids.split(",").length - 1;
+        $('#Total_Number_Of_Questions').html("Total number of questions : " + count);
+        document.getElementById("test_question_ids").value = question_ids;
+    }
+
+    function generate_questions() {
+        var e = document.getElementById("course");
+        var course_id = e.options[e.selectedIndex].value;
+        if (course_id == 0) {
+            alert("Please select a course first!");
+            return;
+        }
+        //alert (degree_id.value);
+        //container = document.getElementById('course_container');
+        $.ajax({
+            url: '/tests/get_questions?course_id=' + course_id,
+            type: 'get',
+            dataType: 'html',
+            processData: false,
+            success: function (data) {
+                $("#ques_container").html(data);
+                $("#ques_container").show();
+            },
+            error: function (data) {
+                alert('Error Occurred');
+                //    window.location.reload();
+            }
+        });
+    }
+
+</script>
