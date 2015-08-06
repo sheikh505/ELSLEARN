@@ -93,19 +93,13 @@ class CoursesController < ApplicationController
   end
 
   def get_courses_by_degree_id
-    @degree_id = params[:degree_id].to_i
+    degree_id = params[:degree_id].to_i
     sql = "Select distinct c.id, name
           From courses c
           Inner join degree_course_assignments dca on c.id = dca.course_id
           Inner join board_degree_assignments bda on dca.board_degree_assignment_id = bda.id
-          where degree_id = ?", @degree_id
+          where degree_id = ?", degree_id
     @courses = Course.find_by_sql(sql)
-    @user = User.find(current_user.id)
-    if params[:user_id].present?
-      @user = User.find(params[:user_id])
-      @teacher_courses = @user.teacher_courses.select("course_id, degree_id")
-
-    end
     render :partial => 'courselist'
   end
 

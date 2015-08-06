@@ -1,2 +1,0 @@
-module MembershipPlansHelper
-end

@@ -1,4 +1,5 @@
 module ApplicationHelper
+<<<<<<< HEAD
   def show_difficulty difficulty
     case difficulty
       when 1
@@ -38,4 +39,6 @@ module ApplicationHelper
         "Instant Results for MCQs. Written Comments plus Video Reviewsby an expert tutor through email or skype."
     end
   end
+=======
+>>>>>>> ef4a4c6b4d3def50e66ed05a76b1c0e3147d32f2
 end

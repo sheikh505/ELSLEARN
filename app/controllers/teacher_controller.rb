@@ -1,7 +1,6 @@
 class TeacherController < ApplicationController
   respond_to :html, :xml, :json
   layout "admin_panel_layout"
-  before_filter :set_user, :only=> [:show, :edit, :update, :destroy]
 
   def index
     @user = current_user
@@ -10,11 +9,12 @@ class TeacherController < ApplicationController
     else
       @users = User.all
     end
+
   end
 
   def destroy
     @user.destroy
-    redirect_to "/user"
+    respond_with(@user)
   end
 
   def get_courses
@@ -69,9 +69,7 @@ class TeacherController < ApplicationController
 
 
   def new
-    unless @user.present?
-      @user = User.new
-    end
+    @user = User.new
     if current_user.is_admin?
       @roles = Role.all
     else
@@ -79,21 +77,15 @@ class TeacherController < ApplicationController
     end
     @degrees = Degree.all
     @courses = Course.all
-
-
-    @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
   end
 
   def edit
     @user = User.find_by_id(params[:id])
     @roles = Role.all
-    if @user.roles.present?
-      @user_role_id = @user.roles.first.id
-    end
+    @user_role_id = @user.roles.first.id
     @degrees = Degree.all
     @courses = Course.all
     @teacher_courses = @user.teacher_courses.select("course_id, degree_id")
-    @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
   end
 
   def show
@@ -105,146 +97,71 @@ class TeacherController < ApplicationController
     @role_id = params[:role_id]
 
     if @user.save
-      if current_user.is_proofreader?
-        role_id = Role.find_by_name("Operator").id
-        @role_id = role_id
-      end
       assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
       @assignment = Assignment.new(assignment)
       @assignment.save
-      if @role_id != 0
-        if @user.is_operator?
-          @user.update_attributes(:role => 0)
-        end
-
-        if @user.is_teacher?
-          @degrees = Degree.all
-          if @degrees.present?
-            @degrees.each do |degree|
-              course_id = params["course_#{degree.id}"]
-              course_id.each do |course|
-                teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
-                @teacher_course = TeacherCourse.new(teacher_course)
-                @teacher_course.save
-              end
-            end
-          end
-        elsif @user.is_hod?
-          course_list = params[:course]
-          if course_list.present?
-            course_list.each do |course|
-              teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
-              @teacher_course = TeacherCourse.new(teacher_course)
-              @teacher_course.save
-            end
-          else
-            TeacherCourse.where(:user_id=>@user.id).delete_all
-          end
+      degrees = params[:degree]
+      course_id = params[:course]
+      if degrees.present?
+        degrees.each do |degree|
+          teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
+          @teacher_course = TeacherCourse.new(teacher_course)
+          @teacher_course.save
         end
       end
-      redirect_to "/user"
+      redirect_to teacher_index_path
     else
-      if current_user.is_admin?
-        @roles = Role.all
-      else
-        @roles = Role.where(:name => "Operator")
-      end
-      @degrees = Degree.all
-      @courses = Course.all
-
-
-      @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
-      respond_with(@user)
+      redirect_to new_teacher_path(@user)
     end
 
   end
 
   def update
+
     @user = User.find_by_id(params[:id])
     if(@user.present?)
-      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-        params[:user].delete(:password)
-        params[:user].delete(:password_confirmation)
+      if params[:user][:password] == ''
+        @user.update_attributes(:email => params[:user][:email],
+                                :name => params[:user][:name],
+                                :phone => params[:user][:phone]
+        )
+        @user.save
+      else
+        @user.update_attributes(:email => params[:user][:email],
+                                :name => params[:user][:name],
+                                :phone => params[:user][:phone],
+                                :password => params[:user][:password]
+
+        )
+        @user.save
       end
-      @user.update_attributes(params[:user])
     end
     @role_id = params[:role_id]
     @user_role_id = params[:user_role_id]
 
     if @user_role_id != @role_id
-      if @user.assignments.present?
-        @user.assignments.first.update_attributes(:role_id => @role_id)
-      else
-        assignment = {'user_id'=>@user.id,'role_id'=>@role_id}
-        @assignment = Assignment.new(assignment)
-        @assignment.save
-      end
+      @user.assignments.first.update_attributes(:role_id => @role_id)
+      @user.assignments.first.save
     end
-    unless @user.is_operator?
-      @user.update_attributes(:role => 0)
-    end
-    if @user.is_teacher?
-      degrees = params[:degree]
-      course_id = params[:course]
-      if degrees.present?
-        degrees = params[:degree].first
-        @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
-        @teacher_courses.each do |teacher_course|
-          unless degrees.include? teacher_course.degree_id.to_s
-            teacher_course.delete
-          else
-            degrees.each do |key,degree|
-              course_list = params["course_#{degree}"]
-              if course_list.present?
-                unless course_list.include? teacher_course.course_id.to_s && teacher_course.degree_id == degree
-                  teacher_course.delete
-                end
-              elsif teacher_course.degree_id == degree
-                teacher_course.delete
-              end
-            end
-          end
+    degrees = params[:degree]
+    course_id = params[:course]
+    if degrees.present?
+      @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
+      @teacher_courses.each do |teacher_course|
+        unless degrees.include? teacher_course.degree_id.to_s
+          TeacherCourse.find(teacher_course.id).delete
         end
-        degrees.each do |key,degree|
-          course_id = params["course_#{degree}"]
-          if course_id.present?
-            course_id.each do |course|
-              teacher_course = {'user_id'=>@user.id, 'degree_id'=>key, 'course_id'=>course}
-              unless TeacherCourse.where(teacher_course).present?
-                @teacher_course = TeacherCourse.new(teacher_course)
-                @teacher_course.save
-              end
-            end
-          end
-        end
-      else
-        TeacherCourse.where(:user_id=>@user.id).delete_all
       end
-    elsif @user.is_hod?
-      course_list = params[:course]
-      if course_list.present?
-        @teacher_courses = @user.teacher_courses.select("id,user_id, course_id, degree_id")
-        @teacher_courses.each do |teacher_course|
-          unless course_list.include? teacher_course.course_id.to_s
-            teacher_course.delete
-          end
+      degrees.each do |degree|
+        teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree, 'course_id'=>course_id}
+        unless TeacherCourse.where(teacher_course).present?
+          @teacher_course = TeacherCourse.new(teacher_course)
+          @teacher_course.save
         end
-        course_list.each do |course|
-          teacher_course = {'user_id'=>@user.id, 'degree_id'=>0, 'course_id'=>course}
-          unless TeacherCourse.where(teacher_course).present?
-            @teacher_course = TeacherCourse.new(teacher_course)
-            @teacher_course.save
-          end
-        end
-      else
-        TeacherCourse.where(:user_id=>@user.id).delete_all
       end
+    else
+      TeacherCourse.where(:user_id=>@user.id).delete_all
     end
-
-    redirect_to "/user"
-  end
-  private
-  def set_user
-    @user = User.find(params[:id])
+    redirect_to teacher_index_path
   end
 end

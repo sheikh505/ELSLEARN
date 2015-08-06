@@ -2,6 +2,8 @@
 <div id="ques_bar">
   <div class="ques_inner_bar_left">
     <input type="button" value="Add to Test" class="searchBtn btn btn-inverse" onclick="add_question_to_test()" />
+
+
   </div>
 
   <div class="ques_inner_bar_right">
@@ -19,37 +21,37 @@
 <table style="margin-top: 10px !important;" class="table table-bordered">
   <tr>
     <th><%= check_box("select", "all", :class=> 'questions') %></th>
-    <th><h3>Question Statement</h3></th>
-    <th></th>
-  </tr>
-  <% @questions.each do |question| %>
-      <tr>
-        <td><%= check_box_tag(:add_to_test, question.id, false, :class => 'add_to_test') %></td>
-        <td><%=raw question.statement %> </td>
-        <td><%= link_to 'View', question_path(question), :remote => true %></td>
+          <th><h3>Question Statement</h3></th>
+          <th></th>
+          </tr>
+          <% @questions.each do |question| %>
+              <tr>
+                <td><%= check_box_tag(:add_to_test, question.id, false, :class => 'add_to_test') %></td>
+                      <td><%=raw question.statement %> </td>
+                      <td><%= link_to 'View', question_path(question), :remote => true %></td>
 
-      </tr>
+                      </tr>
 
-  <% end %>
+                  <% end %>
 
-</table>
+                  </table>
 
-<%= will_paginate @questions %>
-<script>
+                  <%= will_paginate @questions %>
+                  <script>
 
-    $("input:checkbox.questions").on('click', function() {
+                      $("input:checkbox.questions").on('click', function() {
 
-        var $box = $(this);
-        if ($box.is(":checked")) {
+                          var $box = $(this);
+                          if ($box.is(":checked")) {
 
-            var group = "input:checkbox.add_to_test";
-            $(group).prop("checked", true);
-            $box.prop("checked", true);
-        }
-        else {
-            var group = "input:checkbox.add_to_test";
-            $(group).prop("checked", false);
-            $box.prop("checked", false);
-        }
-    });
-</script>
+                              var group = "input:checkbox.add_to_test";
+                              $(group).prop("checked", true);
+                              $box.prop("checked", true);
+                          }
+                          else {
+                              var group = "input:checkbox.add_to_test";
+                              $(group).prop("checked", false);
+                              $box.prop("checked", false);
+                          }
+                      });
+                  </script>

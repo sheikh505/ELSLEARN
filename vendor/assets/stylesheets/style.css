@@ -781,12 +781,6 @@ Pop up Strat
 
     font-weight: normal;
 }
-
-.correct_answer {
-    background: none repeat scroll 0 0 #f5fdf5;
-    border: 2px solid #689548 !important;
-    color: #50852c;
-}
 .modal_left .box_modal.modal_custom {
     background: none repeat scroll 0 0 #fff;
     border-bottom: 2px solid #ccc;
@@ -1870,22 +1864,4 @@ select, input[type="file"] {
 .select2-container .select2-selection--single:focus{
     border: 1px solid #c3cbcf;
     outline: none;
-}
-.odd{
-    background: #f1f1f3 !important;
-}
-.even{
-    background: #fff !important;
-}
-.ques_container{
-    margin-top: 10px;
-}
-.ques_container .ques_inner_bar_left{
-    margin-bottom: 20px;
-}
-#course_container .select2-container{
-    vertical-align: top;
-}
-#course_container .searchBtn.btn.btn-inverse{
-    margin-top: 5px;
 }

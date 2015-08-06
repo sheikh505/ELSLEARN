@@ -10,7 +10,7 @@ class Ability
          if user.is_admin?
            can :manage, :all
 
-         elsif user.is_teacher? || user.is_hod?
+         elsif user.is_teacher?
            can :read, Board
            can :read, Degree
            can :read, Course

@@ -721,6 +721,165 @@ a{
 .btn_holder_post{
     display: block;
     margin: 20px 0;
+
+}
+/*-------------------------------------------------------
+/*   NEW PRICING  START
+---------------------------------------------------------*/
+.container_holder_post a{
+    font-size: 18px;
+    font-family:'Open Sans';
+    color: white;
+    text-decoration: none;
+
+}
+
+.container_holder_post input:focus,
+.container_holder_post textarea:focus,
+.container_holder_post select:focus{
+    border:1px solid #fafafa;
+    -webkit-box-shadow:0 0 6px #007eff;
+    -moz-box-shadow:0 0 5px #007eff;
+    box-shadow:0 0 5px #007eff;
+    outline: none;
+}
+
+.container_holder_post sup{
+
+    font-size: 40px;
+}
+
+.container_holder_post ul{
+    list-style: none;
+    font-size: 15px;
+    font-family:'Open Sans';
+    color: #9095aa;
+    padding: 0px;
+    margin: 0px;
+}
+.container_holder_post li{
+    border-bottom: 1px solid #494a5a;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    height: 52px;
+    line-height: 52px;
+}
+.container_holder_post{
+    width: 100%;
+    text-align:center;
+}
+
+.container_holder_post .whole{
+    display: inline-block;
+
+}
+.container_holder_post .type{
+    width: 300px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: #eac80d;
+    height: 62px;
+    border-bottom: 3px solid #bfa30c;
+
+}
+.container_holder_post .type p{
+    font-family:'Open Sans';
+    font-weight: 800;
+    font-size: 29px;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+
+
+
+}
+.container_holder_post .plan{
+    width: 300px;
+    background-color: #2b2937;
+    border-radius: 0px 0px 5px 5px;
+    font-family:'Open Sans';
+    font-style:condensed;
+    font-size: 90px;
+    color: white;
+    text-align: center;
+
+
+}
+.container_holder_post .standard{
+    background-color: #1abc9c;
+    border-bottom: 3px solid #18937b;
+}
+
+.container_holder_post .ultimate{
+    background-color: #5d6a9a;
+    border-bottom: 3px solid #474f6f;
+}
+.container_holder_post .header-post{
+    border-bottom: 1px solid #494a5a;
+    padding: 39px;
+}
+
+.container_holder_post .header-post span{
+    font-size: 32px;
+}
+.container_holder_post .month{
+    font-size: 14px;
+    color: #575757;
+    padding: 0px;
+    margin: -10px;
+}
+.container_holder_post .price{
+    height:80px;
+}
+.container_holder_post .cart{
+    color:white;
+    position: relative;
+    top: 16px;
+
+}
+.container_holder_post .login_c{
+    width:500px;
+    background-color:#2b2937;
+    height:300px;
+    margin: 0 auto;
+    margin-top:40px;
+    border-radius:5px;
+
+}
+.container_holder_post .login_c input {
+    width: 350px;
+    height: 40px;
+    border: 1px solid #494a5a;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    padding-left: 10px;
+
+}
+.container_holder_post .login{
+    background-color: #BC4B1A;
+    border-bottom: 3px solid #7C3618;
+    width:100%;
+
+}
+.container_holder_post .top{
+    margin-top:35px;
+}
+.container_holder_post .nodisplay{
+    opacity: 0.1;
+}
+
+.container_holder_post .selected{
+    background-color:#1F1B36;
+    margin:0px;
+    padding:0px;
+}
+.container_holder_post .whole.custom-whole{
+    vertical-align:top;
+    margin: 152px -6px;
+}
+.pricing_holder{
+    margin-top: 50px;
     text-align: center;
 }
 #degreeList{
@@ -767,4 +926,5 @@ a.btn-large{
 }
 .btn_holder_post .btn{
     margin-right: 15px;
+
 }

@@ -14,34 +14,16 @@ class HomePageController < ApplicationController
       @courses = []
       @courses << 'select board and degree first'
 
-    sql2 = 'SELECT COUNT(q.id) as q_count,c.name as course FROM
-           questions as q JOIN topics as t ON q.topic_id = t.id
-           JOIN courses as c ON t.course_id = c.id
-            GROUP BY c.id
-            ORDER BY c.name'
-    connection = ActiveRecord::Base.connection
-    @question_stats = connection.execute(sql2)
-
-    sql_top_user = 'SELECT SUM(score) as user_score,SUM(total) as total,c.name as course,u.name as name,u.id as user_id FROM
-                user_test_histories as h JOIN users as u
-                ON h.user_id = u.id
-                JOIN courses as c
-                ON c.id = h.course_id
-                GROUP BY u.id,c.name
-                ORDER BY user_score DESC
-                LIMIT 5'
-    @top_scorer_users = connection.execute(sql_top_user)
-
       @flag = true
-      # sql = "SELECT (float4(score)/float4(total))*100 as percentage, u.id as user_id, u.name, c.name as course_name
-      #       FROM user_test_histories uth
-      #       INNER JOIN users u ON u.id = uth.user_id
-      #       INNER JOIN courses c ON c.id = uth.course_id
-      #       where score = total
-      #       limit 5"
-      #
-      # # @top_scorer_users = UserTestHistory.joins(:user, :course).where("score is not null and total is not null and score < total")
-      # @top_scorer_users = UserTestHistory.find_by_sql(sql)
+      sql = "SELECT (float4(score)/float4(total))*100 as percentage, u.id as user_id, u.name, c.name as course_name
+            FROM user_test_histories uth
+            INNER JOIN users u ON u.id = uth.user_id
+            INNER JOIN courses c ON c.id = uth.course_id
+            where score = total
+            limit 5"
+
+      # @top_scorer_users = UserTestHistory.joins(:user, :course).where("score is not null and total is not null and score < total")
+      @top_scorer_users = UserTestHistory.find_by_sql(sql)
     # sql = "DROP TABLE temp;
     #
     #       CREATE TEMP TABLE temp (

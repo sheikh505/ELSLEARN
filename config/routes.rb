@@ -1,7 +1,4 @@
 ExamsSystem::Application.routes.draw do
-  resources :membership_plans
-
-
   get "user" => "teacher#index"
 
   get 'auth/:provider/callback' => 'sessions#create'
@@ -14,9 +11,6 @@ ExamsSystem::Application.routes.draw do
 
   get "user/dashboard"
   get "user/ReTakeTest"
-
-  delete "user.:id" => "teacher#destroy"
-
   get "home_page/user/my_profile" => "user#my_profile"
   put "user/update"
   get "/courses/get_courses_by_degree_id"
@@ -61,10 +55,7 @@ ExamsSystem::Application.routes.draw do
       get :demo
       get :questions_approval
       get :approve_question
-      post :approve_by_teacher
-      post :reject_by_teacher
       get :reject_question
-      post :reject_question
       get :add_comment_to_question
       get :get_questions_by_status
       get :get_question_details_for_approval
@@ -110,7 +101,6 @@ ExamsSystem::Application.routes.draw do
       get :get_courses
       get :get_questions
       get :test_exists
-      get :get_questions_by_course
     end
   end
 

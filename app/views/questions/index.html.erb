@@ -10,7 +10,7 @@
       <div class="field">
         <%=label_tag :course %>
 
-        <select id="course" name="course" required>
+        <select id="course" class="select select_custom" name="course" required>
 
           <option value="" selected>Select Course</option>
           <% if current_user.is_teacher? %>
