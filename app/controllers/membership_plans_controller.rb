@@ -37,6 +37,7 @@ class MembershipPlansController < ApplicationController
   end
 
   private
+
     def set_membership_plan
       @membership_plan = MembershipPlan.find(params[:id])
     end

@@ -806,6 +806,7 @@ class QuestionsController < ApplicationController
 
   end
 
+
   def set_question
     @question = Question.find(params[:id])
   end
