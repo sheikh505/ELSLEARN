@@ -1,9 +1,0 @@
-<ul class="tabs collapsed">
-
-  <% @notes_course_list.each_with_index do |course,index| %>
-
-      <li onclick="getNotes(<%=course.id%>)" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=course.name%></li>
-
-  <% end %>
-
-</ul>
