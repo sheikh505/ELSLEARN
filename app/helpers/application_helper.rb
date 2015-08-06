@@ -25,4 +25,17 @@ module ApplicationHelper
     url = '/assets/FB-profile-avatar.jpg' if url.include? 'missing'
     return url
   end
+
+  def show_results_in_membership result_type
+    case result_type
+      when 0
+        "N/A"
+      when 1
+        "Instant Result after Test"
+      when 2
+        "Instant Results for MCQs. Detailed Solutions for Structured Questions with reviews and comments from an expert tutor through email."
+      when 3
+        "Instant Results for MCQs. Written Comments plus Video Reviewsby an expert tutor through email or skype."
+    end
+  end
 end
