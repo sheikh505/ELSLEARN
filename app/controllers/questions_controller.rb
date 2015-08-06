@@ -688,4 +688,10 @@ class QuestionsController < ApplicationController
     def set_question
       @question = Question.find(params[:id])
     end
+
+
+
+  def set_question
+    @question = Question.find(params[:id])
+  end
 end

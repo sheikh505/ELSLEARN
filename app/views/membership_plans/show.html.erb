@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Price:</b>
+  <%= @membership_plan.price %>
+</p>
+
+<p>
+  <b>Paper:</b>
+  <%= @membership_plan.paper %>
+</p>
+
+<p>
+  <b>Max questions allowed:</b>
+  <%= @membership_plan.max_questions_allowed %>
+</p>
+
+<p>
+  <b>Result type:</b>
+  <%= @membership_plan.result_type %>
+</p>
+
+<p>
+  <b>Validity:</b>
+  <%= @membership_plan.validity %>
+</p>
+
+<p>
+  <b>Other course amount:</b>
+  <%= @membership_plan.other_course_amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_membership_plan_path(@membership_plan) %> |
+<%= link_to 'Back', membership_plans_path %>
+
+

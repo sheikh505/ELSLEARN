@@ -1,0 +1,42 @@
+<%= form_for(@membership_plan) do |f| %>
+  <% if @membership_plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@membership_plan.errors.count, "error") %> prohibited this membership_plan from being saved:</h2>
+
+      <ul>
+      <% @membership_plan.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :price %>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :paper %>
+    <%= f.text_field :paper %>
+  </div>
+  <div class="field">
+    <%= f.label :max_questions_allowed %>
+    <%= f.text_field :max_questions_allowed %>
+  </div>
+  <div class="field">
+    <%= f.label :result_type %>
+    <%= f.text_field :result_type %>
+  </div>
+  <div class="field">
+    <%= f.label :validity %>
+    <%= f.text_field :validity %>
+  </div>
+  <div class="field">
+    <%= f.label :other_course_amount %>
+    <%= f.text_field :other_course_amount %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
