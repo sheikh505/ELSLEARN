@@ -2,7 +2,7 @@ class CreateMembershipPlans < ActiveRecord::Migration
   def change
     create_table :membership_plans do |t|
       t.integer :price
-      t.integer :paper
+      t.string :paper
       t.integer :max_questions_allowed
       t.integer :result_type
       t.integer :validity

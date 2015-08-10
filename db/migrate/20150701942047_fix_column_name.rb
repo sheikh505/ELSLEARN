@@ -1,6 +1,6 @@
 class FixColumnName < ActiveRecord::Migration
   def self.up
-    change_column :membership_plans, :paper,  :string
+    
   end
 
   def self.down
