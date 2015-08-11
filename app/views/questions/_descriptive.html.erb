@@ -8,7 +8,7 @@
     </div>
     <div class="field">
       <%= label_tag :answer %><br/>
-      <%= text_area_tag :answer, nil, :required => true %>
+      <textarea id="answer" name="answer"  rel="tinymce" rows="9" cols="20"></textarea>
     </div>
 
     <div class="field">
@@ -65,6 +65,10 @@
     <%= f.hidden_field :topic_id, :value => @topics.first.id %>
     <%= f.hidden_field :question_type, :value => 2 %>
     <%= hidden_field_tag :type_ques, 'des' %>
+    <%=hidden_field_tag :course_id, @course_id %>
+    <%= hidden_field_tag :boards,@boards %>
+    <%= hidden_field_tag :degrees,@degrees %>
+    <%= hidden_field_tag :view, @view%>
 
     <div class="actions">
       <%= f.submit :class => 'btn btn-large btn-inverse' %>

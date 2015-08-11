@@ -363,11 +363,16 @@ class QuestionsController < ApplicationController
               :question_id => @question.id,
               :is_answer => is_answer
           )
-          if option.avatar_file_name.nil?
-            option.save
-          else
-            option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
-            option.save
+          case option.flag
+            when 1
+              if option.avatar_file_name.present?
+                option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
+                option.save
+              end
+            else
+              if option.statement.present?
+                option.save
+              end
           end
           i = i + 1
         end
@@ -409,8 +414,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-
-
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
@@ -422,7 +425,6 @@ class QuestionsController < ApplicationController
       @question.submit!
     end
     if @question.past_paper_history.nil?
-
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
                                            #:paper => params[:paper],
@@ -433,7 +435,6 @@ class QuestionsController < ApplicationController
         )
         @past_paper.save
       end
-
     else
       @question.past_paper_history.update_attributes(:flag => params[:pastPaperFlag],
                                                      #:paper => params[:paper],
@@ -443,7 +444,6 @@ class QuestionsController < ApplicationController
                                                      :question_id => @question.id
       )
     end
-
     if params[:type_ques] == 'mcq'
       ##logic for mcqs questions
       i = 1
@@ -463,6 +463,32 @@ class QuestionsController < ApplicationController
         option.save
         i = i + 1
 
+      end
+      while (i <= params[:count_option].to_i) do
+        if params['is_answer_'+i.to_s] == '1'
+          is_answer = params['is_answer_'+i.to_s]
+        else
+          is_answer = '0'
+        end
+        option = Option.new(
+            :statement => params['option_'+i.to_s],
+            :avatar => params['option_image_'+i.to_s],
+            :flag => params['image_change_'+i.to_s],
+            :question_id => @question.id,
+            :is_answer => is_answer
+        )
+        case option.flag
+          when 1
+            if option.avatar_file_name.present?
+              option.avatar_file_name = (Time.now.to_i).to_s + '_' + option.avatar_file_name
+              option.save
+            end
+          else
+            if option.statement.present?
+              option.save
+            end
+        end
+        i = i + 1
       end
     elsif params[:type_ques] == 'trueFalse'
       @question.options.last.update_attributes(:statement => params[:option], :question_id => @question.id, :is_answer => params[:is_answer])
@@ -789,6 +815,14 @@ class QuestionsController < ApplicationController
     else
       @question.update_attributes(:comments => params[:comments].to_s)
       @question.reject!
+    end
+    render :json => {:success => true}
+  end
+
+  def remove_option
+    question = Question.find(params[:question_id])
+    if question.options.count == params[:count].to_i && question.options.count > 4
+      question.options[question.options.count-1].delete
     end
     render :json => {:success => true}
   end

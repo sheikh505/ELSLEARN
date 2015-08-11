@@ -19,7 +19,6 @@
 <% i = 1 %>
     <% 7.times{ %>
         <% if i < 5 %>
-            <br />
         <div class="field">
           <%= f.label ('option_' + i.to_s).to_sym %>
         <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
@@ -49,6 +48,7 @@
     <% } %>
 
     <input type="button" value="Add Option" class="btn btn-inverse" id="option_add" onclick="add_option()" >
+    <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick="remove_option()" >
 
     <div class="field">
       <br /><%= f.label :instruction %>
@@ -135,17 +135,43 @@
 
   }
 
-        //add optionssss
-        function add_option (){
-
-            //var op_id = "'#option_div_"+<%=@option_count%>+"'" ;
-            //alert (op_id);
-
+    //add optionssss
+    function add_option (){
+        if (global_option_count == 7)
+        {
+            $('#option_add').hide();
+        }
+        if (global_option_count == 5)
+        {
+            $('#option_remove').show();
+        }
+        if (global_option_count < 8)
+        {
             $("#option_div_"+global_option_count).show();
+            document.getElementById("option_"+global_option_count).required = true;
             document.getElementById("count_option").value = global_option_count;
             global_option_count = global_option_count + 1 ;
-
         }
+
+    }
+
+  function remove_option()
+  {
+      global_option_count = global_option_count - 1 ;
+      $("#option_div_"+global_option_count).hide();
+      document.getElementById("option_"+global_option_count).required = false;
+      $('#option_'+global_option_count).required = false;
+      document.getElementById("count_option").value = global_option_count;
+      if (global_option_count == 5) {
+          $('#option_add').show();
+          $('#option_remove').hide();
+      }
+      else
+      {
+          $('#option_add').show();
+      }
+  }
+
   $("input:checkbox.is_answer").on('click', function() {
       var $box = $(this);
       if ($box.is(":checked")) {
@@ -164,6 +190,10 @@
           alert('You must check at least one box!');
           $("input:checkbox.is_answer").focus();
           return false; // The form will *not* submit
+      }
+      else
+      {
+
       }
     return true;
   }
@@ -194,9 +224,6 @@
             remove_script_host: false,
             document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
         });
-
-
-
     });
 
     function show_div(){

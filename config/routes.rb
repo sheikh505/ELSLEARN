@@ -70,6 +70,7 @@ ExamsSystem::Application.routes.draw do
       get :get_question_details_for_approval
       get :questions_exits
       put :update_topic
+      get :remove_option
     end
   end
 

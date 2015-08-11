@@ -2,7 +2,7 @@
     var global_option_count = <%=@question.options.size %>;
 </script>
 
-<%= form_for @question, :html => {:multipart=> true} do |f| %>
+<%= form_for @question, :html => {:multipart=> true, :onsubmit => "return checkForm(this)"} do |f| %>
 
 <div class="field">
   <%= f.label :statement %><br/>
@@ -18,8 +18,7 @@
 
 <% i =1 %>
 <% @question.options.each do |option| %>
-
-    <div class="field">
+    <div id="option_div_<%= i %>" class="field">
       <% if option.flag.nil? %>
           <%= f.label ('option_' + i.to_s).to_sym %>
           <input type="checkbox" id="image_change_<%= i %>" name="image_change_<%= i %>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
@@ -53,7 +52,7 @@
 
 <% end %>
 
-<% (7-i).times { %>
+<% (8-i).times { %>
     <div id="option_div_<%= i %>" class="field" style="display: none">
       <%= f.label ('option_' + i.to_s).to_sym %>
       <input type="checkbox" id="image_change_<%= i %>" name="image_change_<%= i %>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
@@ -69,6 +68,7 @@
 <% } %>
 
 <input type="button" value="Add Option" class="btn btn-inverse" id="option_add" onclick="add_option()">
+<input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick='remove_option(<%= @question.id %>)' >
 
 <div class="field">
   <%= f.label :instruction %><br/>
@@ -141,7 +141,6 @@
 
 <script>
     function change_field(box_id, span_id, field_id, id) {
-        // alert(box_id +"-"+ span_id)
         box = document.getElementById(box_id)
         if (box.checked) {
 
@@ -156,18 +155,62 @@
             $('#option_image_' + id).removeAttr('required');
             $('#option_' + id).prop('required', true);
         }
-
     }
 
     //add optionssss
-    function add_option() {
+    function add_option (){
+        if (global_option_count == 6)
+        {
+            $('#option_add').hide();
+        }
+        if (global_option_count == 4)
+        {
+            $('#option_remove').show();
+        }
+        if (global_option_count < 7)
+        {
+            global_option_count = global_option_count + 1 ;
+            $("#option_div_"+global_option_count).show();
+            document.getElementById("option_"+global_option_count).required = true;
+            document.getElementById("count_option").value = global_option_count;
+        }
 
-        //var op_id = "'#option_div_"+<%=@option_count%>+"'" ;
-        //alert (op_id);
+    }
 
-        $("#option_div_" + global_option_count).show();
-        document.getElementById("count_option").value = global_option_count;
-        global_option_count = global_option_count + 1;
+    function remove_option(question_id)
+    {
+        $.ajax({
+            url:'/questions/remove_option?question_id=' + question_id + '&count=' + global_option_count ,
+            type:'get',
+            dataType:'json',
+            processData:false,
+            async:false,
+            success:function (response) {
+                if (response.success) {
+                    $("#option_div_"+global_option_count).hide();
+                    document.getElementById("option_"+global_option_count).required = false;
+                    $('#option_'+global_option_count).required = false;
+                    $('#option_'+global_option_count).val("");
+                    $('#option_image_'+global_option_count).val("");
+                    $('#is_answer_' + global_option_count).prop("checked", false);
+                    document.getElementById("count_option").value = global_option_count;
+                    if (global_option_count == 5) {
+                        $('#option_add').show();
+                        $('#option_remove').hide();
+                    }
+                    else
+                    {
+                        $('#option_add').show();
+                    }
+                    global_option_count = global_option_count - 1 ;
+                }
+                else {
+                }
+
+            },
+            error:function (data) {
+            }
+        });
 
     }
 
@@ -197,7 +240,10 @@
             remove_script_host: false,
             document_base_url: (!window.location.origin ? window.location.protocol + "//" + window.location.host : window.location.origin) + "/"
         });
-
+        if (global_option_count > 4)
+        {
+            $('#option_remove').show();
+        }
 
     });
 
@@ -211,6 +257,21 @@
         $("#past_paper_history_div").hide();
     }
 
+    function checkForm(form)
+    {
+        box = $("input:checkbox.is_answer:checked");
+        if (!box.length) {
+            alert('You must check at least one box!');
+            $("input:checkbox.is_answer").focus();
+            return false; // The form will *not* submit
+        }
+        else
+        {
+
+        }
+        return true;
+    }
+
     $("input:checkbox.is_answer").on('click', function () {
         var $box = $(this);
         if ($box.is(":checked")) {
@@ -221,4 +282,6 @@
             $box.prop("checked", false);
         }
     });
+
+
 </script>
