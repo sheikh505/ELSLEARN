@@ -151,24 +151,7 @@
         }, 1000);
     }
 
-    function check_blank(str){
-        alert(str);
-        var str_comp = $("#fill_in_the_blank_field").val();
 
-        if(str == str_comp){
-            $("#answer_correction").html("Correct answer");
-            score = $( "#score").val();
-            score = parseInt(score,10) + 5;
-            $( "#score").val(score);
-        }
-        else{
-            $("#answer_correction").html("wrong answer");
-        }
-        setTimeout(function() {
-
-            next_quiz();
-        }, 1000);
-    }
 
 
 </script>

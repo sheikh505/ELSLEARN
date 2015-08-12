@@ -29,8 +29,9 @@
     <%elsif $arr[@index].question_type == 3 %>
     <ul>
       <li>
-        <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field" class="text" placeholder="Answer the question" >
-        <a href="#" onclick="check_blank('<%=$arr[@index].options.last.statement %>')">Submit</a>
+        <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field"
+               onchange="check_blank('<%=$arr[@index].options.last.statement %>')"
+               class="text" autocomplete="off" placeholder="Answer the question" >
       </li>
       <li>
         <label id="answer_correction"></label>
@@ -97,14 +98,47 @@
             dataType:'json',
             processData:false,
             success:function (data) {
-                $("#"+data.option_index).addClass('correct_answer');
-
+                <% if $arr[@index].question_type == 3 %>
+                    var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
+                <% else %>
+                    $("#"+data.option_index).addClass('correct_answer');
+                <% end %>
             },
             error:function (data) {
                 alert ('Error Occurred!!!!');
             }
         });
     });
+
+    function check_blank(str){
+        var str_comp = $("#fill_in_the_blank_field").val();
+
+        flag = parseInt($("#answer_selected").val());
+        score = $( "#score").val();
+        if(str.toLowerCase() == str_comp.toLowerCase() && flag){
+            $("#answer_selected").val("0");
+            score = parseInt(score,10) + 5;
+        }
+        else if ((str != str_comp) && !flag){
+            $("#answer_selected").val("1");
+            score = parseInt(score,10) - 5;
+
+        }
+        $( "#score").val(score);
+        $.ajax({
+            url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + str_comp,
+            type:'get',
+            dataType:'json',
+            processData:false,
+            success:function (data) {
+
+            },
+            error:function (data) {
+                alert ('Error Occurred!!!!');
+            }
+        });
+
+    }
 
   function answer(answer_id,is_answer,option_index)
   {

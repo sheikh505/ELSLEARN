@@ -4,16 +4,16 @@
 
       <div class="field">
         <%= f.label :statement %><br />
-        <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ><%=raw @question.statement %></textarea>
+        <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ><%=@question.statement %></textarea>
       </div>
     <div class="field">
       <%= label_tag :answer %><br />
-      <%= text_area_tag :answer ,@question.options.last.statement, :required => true %>
+      <textarea id="answer" name="answer"  rel="tinymce" rows="9" cols="20"><%= raw @question.options.last.statement %></textarea>
     </div>
 
     <div class="field">
       <%= f.label :detail_answer %><br />
-      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ><%=@question.description %></textarea>
+      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ><%= @question.description %></textarea>
     </div>
 
     <div class="field">
@@ -75,7 +75,6 @@
 
     <%= render 'pastPaperHistoryEdit' %>
 
-    <%=f.hidden_field :test_id, :value => @dc_hash['test'].id %>
     <%=hidden_field_tag :type_ques, 'des' %>
 
     <div class="actions">

@@ -78,23 +78,27 @@ class QuestionsController < ApplicationController
 
   def demo
     @question = Question.find_by_id(params[:ques_id])
-
+    @alpha = []
     if @question.question_type == 1
       type = 'MCQ'
+      @alpha << 'a'
+      @alpha << 'b'
+      @alpha << 'c'
+      @alpha << 'd'
     elsif @question.question_type == 3
       type = 'Fill In The Blank'
-    else
-      @question.question_type == 4
+      @alpha = 'Answer'
+    elsif @question.question_type == 4
       type = 'True False'
+      @alpha << 'Answer'
+    else
+      type = 'Descriptive'
+      @alpha << 'Answer'
     end
     @options = @question.options
     @options = @options.shuffle
     @question_heading = type + ' - ' + @question.topic.course.name.to_s
-    @alpha = []
-    @alpha << 'a'
-    @alpha << 'b'
-    @alpha << 'c'
-    @alpha << 'd'
+
 
   end
 
