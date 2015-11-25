@@ -1,0 +1,39 @@
+<h1>Enable Question Assesment</h1>
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <tr>
+      <th>Degree</th>
+      <th>Subject</th>
+      <th>Enable</th>
+    </tr>
+
+    <% @course_degre_hash.each do |degree,course| %>
+        <% degree_id,degree_name = degree.split("_") %>
+        <tr>
+              <td><%= degree_name %></td>
+              <td><%= course.name %></td>
+              <td><input type="checkbox" id="checkbox" value="1" onclick="toggle_workflow_path(<%=degree_id%>,<%=course.id%>)"></td>
+            </tr>
+        <% end %>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+  function toggle_workflow_path(degree_id,course_id){
+      $.ajax({
+          url:'/questions/get_courses?degree_id='+degree_id.value,
+          type:'get',
+          dataType:'html',
+          processData:false,
+          success:function (data) {
+              $("#course_container").html(data);
+              $("#course_container").show();
+          },
+          error:function (data) {
+              alert ('nae chalaa');
+              //    window.location.reload();
+          }
+      });
+  }
+</script>

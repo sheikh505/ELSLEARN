@@ -61,6 +61,27 @@ class UserController < ApplicationController
     # :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
     # :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
   end
+
+  def request_teacher
+    respond_to do |format|
+      # check if already exist
+      arr = TeacherRequest.where(student_id: params[:teacher_request][:student_id],teacher_code: params[:teacher_request][:teacher_token],status: 'Pending')
+      if arr.blank?
+        @teacher_request = TeacherRequest.new(params[:teacher_request])
+        if @teacher_request.save
+          @flag = true
+          @message = "REQUEST SENT SUCCESSFULLY"
+        else
+          @flag = false
+          @message = @teacher_request.errors.full_messages.first
+        end
+      else
+        @message = "REQUEST ALREADY EXIST"
+      end
+
+      format.js
+    end
+  end
   private
 
   def user_params

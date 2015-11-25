@@ -33,11 +33,11 @@
 
 
       <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Courses</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
+        <!--<div class="header_col">-->
+          <!--<p class="tabs_holde">Courses</p>-->
+          <!--<i class="arrow_right fa fa-caret-right"></i>-->
+          <!--<i class="arrow_down fa fa-caret-down"></i>-->
+        <!--</div>-->
 
         <div id="courses_holder">
             <%= render 'c_list' %>
@@ -580,25 +580,24 @@
    function selectCourse(id)
     {
 
-        if($('.scourse')){
+//        if($('.scourse')){
 
             $('#past_paper').show();
-        }
+//        }
 
-        if ($('#'+id).hasClass('scourse')){
-
-            $('#'+id).css("color","#52CC52");
-
-
-        }
-        else {
-            $('.scourse').css("color", "#000000");
-            $('.scourse').removeClass('scourse');
-
-            $('#' + id).css("color", "#52CC52");
-            $('#' + id).addClass('scourse');
-        }
-
+//        if ($('#'+id).hasClass('scourse')){
+//
+//            $('#'+id).css("color","#52CC52");
+//
+//
+//        }
+//        else {
+//            $('.scourse').css("color", "#000000");
+//            $('.scourse').removeClass('scourse');
+//
+//            $('#' + id).css("color", "#52CC52");
+//            $('#' + id).addClass('scourse');
+//        }
         }
 
     function selectDegreeList(id,degree_id)
@@ -625,7 +624,7 @@
             processData:false,
             success:function (data) {
                 $("#courses_holder").html(data);
-
+                $("#courses_holder").show();
             },
             error:function (data) {
                 alert ('nae chalaa');
@@ -659,8 +658,9 @@
             processData:false,
             success:function (data) {
                 $("#degree_holder").html(data);
-                $("#courses_holder").html('');
+                $("#courses_holder").hide();
                 $("#test_container").hide();
+                $('#past_paper').hide();
 
             },
             error:function (data) {

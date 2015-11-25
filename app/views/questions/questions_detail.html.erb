@@ -1,0 +1,49 @@
+<h1>Questions Detail</h1>
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <tr>
+      <th>Degree</th>
+      <th>Subject</th>
+      <th>Question Type</th>
+      <th>Action</th>
+    </tr>
+
+    <% @ques_detail_hash.each do |k,course_id| %>
+        <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
+            <tr>
+              <% degree,course = k.split("_") %>
+              <td><%= degree %></td>
+              <td><%= course %></td>
+              <td><%= ques_type %></td>
+              <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
+            </tr>
+        <% end %>
+    <% end %>
+  </table>
+</div>
+<!-------------------------------------modal pop up-->
+
+<div id="modal_ques" class="modal fade">
+<%#= render 'ques_detail' %>
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+  function show_pop_up(id,type){
+
+      $.ajax({
+          url:'/questions/get_question_detail?course_id='+id+'&question_type='+type,
+          type:'get',
+          dataType:'html',
+          processData:false,
+          success:function (response) {
+              $("#modal_ques").html(response);
+              $("#modal_ques").modal("show");
+          },
+          error:function (data) {
+
+          }
+      });
+
+  }
+</script>

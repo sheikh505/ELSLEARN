@@ -1,0 +1,27 @@
+<h1>New Students</h1>
+
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Reject</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @students.each do |student| %>
+        <tr id="row_<%= student.id %>">
+          <td><%= student.student_name %></td>
+          <td><%= student.student_email %></td>
+          <td><%= link_to "Remove","teacher/reject_student?id=#{student.id}",remote: true %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if can? :manage, Board %>
+    <%= link_to 'New Board', new_board_path, :class=> 'btn btn-large btn-inverse' %>
+<% end %>

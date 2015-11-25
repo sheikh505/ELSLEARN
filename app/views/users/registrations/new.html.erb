@@ -3,51 +3,120 @@
   <div class="login-page-holder">
     <h2>Sign up</h2>
 
-    <%= form_for(resource, :as=> resource_name, :url=> registration_path(resource_name)) do |f| %>
-    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
-        <p style="color: red"><%= flash[type] %></p>
-    <% end %>
+    <div id="select_role_div">
+      <%= radio_button("user", "role", "student",{class: 'radio_btns'}) %> Student
+      <%= radio_button("user", "role", "visiting",{class: 'radio_btns'}) %> Teacher
+      <%= radio_button("user", "role", "institute",{class: 'radio_btns'}) %> Institute
+    </div>
+    <div class="main_container_steps" id="example-basic" style="display: none">
+      <h3>STEP 1</h3>
+      <section>
+        <%= form_for(resource, :as=> resource_name,remote: true, :url=> registration_path(resource_name),html: {id: 'sign_up_form'}) do |f| %>
+            <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
+                <p style="color: red"><%= flash[type] %></p>
+            <% end %>
 
-      <div class="field">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, :autofocus=> true %>
-      </div>
+            <div class="field">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, :autofocus=> true %>
+            </div>
 
-        <div class="field">
-          <%= f.label :name %><br />
-          <%= f.text_field :name  %>
-        </div>
-    <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone  %>
+            <div class="field">
+              <%= f.label :name %><br />
+              <%= f.text_field :name  %>
+            </div>
+
+            <div class="field">
+              <%= f.label :password %>
+              <% if @validatable %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %><br />
+              <%= f.password_field :password, :autocomplete=> "off" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, :autocomplete=> "off" %>
+
+            </div>
+            <div class="field">
+              <%= hidden_field_tag :role %>
+
+            </div>
+
+
+
+            <div class="actions">
+              <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
+            </div>
+        <% end %>
+      </section>
+      <h3>STEP 2</h3>
+      <section>
+
+      </section>
+
+      <h3>STEP 3</h3>
+      <section>
+                <p>You have been registered with ELSLEARN</p>
+      </section>
     </div>
 
-
-        <div class="field">
-        <%= f.label :password %>
-        <% if @validatable %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, :autocomplete=> "off" %>
-      </div>
-
-      <div class="field">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, :autocomplete=> "off" %>
-
-      </div>
-        <div class="field">
-          <%= f.hidden_field :role , :value => 'user' %>
-
-        </div>
-
-
-
-      <div class="actions">
-        <%= f.submit "Sign up", class: 'btn btn-inverse' %>
-      </div>
-    <% end %>
-
-    <%= render "devise/shared/links" %>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $("#example-basic").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true,
+        onStepChanging: function (event, currentIndex, newIndex)
+        {
+            if(currentIndex == 0){   ///// step 1 to 2 ////
+                //// check role first ////
+                if($("#role").val() == ""){
+                   alert("no role found for institute");
+                return false;
+                }
+                else{
+                    $("#select_role_div").hide();
+                    $("#sign_up_form").submit();
+                    return true;
+                }
+            }
+            else if(currentIndex == 1){ ///// step 2 to 3 ////
+
+                $("#sign_up_form_2").submit();
+                return true;
+            }
+            else{
+                return true;
+            }
+        },
+        onFinishing: function (event, currentIndex)
+        {
+
+        },
+        onFinished: function (event, currentIndex)
+        {
+
+        }
+    });
+
+
+        $(".radio_btns").click(function(){
+           $(".main_container_steps").show();
+            $this = $(this);
+            if($this.val() == 'student'){
+                $("#role").val("<%=get_student_role%>");
+            }
+            else if($this.val() == 'visiting'){
+                $("#role").val("<%=get_visiting_teacher_role%>");
+            }
+            else{
+                $("#role").val("<%=get_institute_role%>");
+            }
+        });
+</script>

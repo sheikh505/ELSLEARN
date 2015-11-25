@@ -2,6 +2,7 @@
 <div class="listing-holder listing_data_table">
 <table class="table table-condensed">
   <tr>
+    <th>Name</th>
     <th>Price</th>
     <th>Paper</th>
     <th>Max questions allowed</th>
@@ -15,6 +16,7 @@
 
 <% @membership_plans.each do |membership_plan| %>
   <tr>
+    <td><%= membership_plan.name %></td>
     <td><%= membership_plan.price %></td>
     <td><%= membership_plan.paper %></td>
     <td><%= membership_plan.max_questions_allowed %></td>

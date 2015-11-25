@@ -4,6 +4,18 @@
       <p class="pull_left">
         Phone: 1800-455-455 | contact@elslearn.com
       </p>
+
+      <% if user_signed_in? && current_user.is_student? %>
+          <% stats = get_student_stats(current_user) %>
+          <% if stats['flag'] == true %>
+          <ul class="">
+            <li><h3>REMAINING : <%=stats["total_ques"] %></h3></li>
+            /
+            <li><h3>TOTAL: <%=stats["total_ques"].to_i - stats["ques_attempt"] %></h3></li>
+          </ul>
+          <% end %>
+      <% end %>
+
       <ul class="social_media pull_right  ">
         <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
         <li><a class="twitter"  href="#"><i class="fa fa-tumblr"></i></a></li>
@@ -49,7 +61,7 @@
               </li>
           <% else %>
               <li><a href="users/sign_in">Log in</a></li>
-              <li><a class="register" href="users/sign_in">Register</a></li>
+              <li><a class="register" href="users/sign_up">Register</a></li>
           <% end %>
         </ul>
       </nav>

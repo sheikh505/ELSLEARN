@@ -118,6 +118,8 @@ class TeacherController < ApplicationController
         end
 
         if @user.is_teacher?
+          @user.teacher_token = "#{@user.email.split("@").first}_#{(0...5).map { (65 + rand(26)).chr }.join}"
+          @user.save
           @degrees = Degree.all
           if @degrees.present?
             @degrees.each do |degree|
@@ -242,6 +244,63 @@ class TeacherController < ApplicationController
     end
 
     redirect_to "/user"
+  end
+
+  def new_students
+    if current_user.is_teacher?
+      @new_students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'PENDING')
+    else
+      redirect_to root_path
+    end
+  end
+
+  def manage_students
+    if current_user.is_teacher?
+      @students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')
+    else
+      redirect_to root_path
+    end
+  end
+
+  def accept_student
+    @flag = false
+    respond_to do |format|
+      if params[:id].nil?
+      @message = "NO RECORD FOUND"
+      else
+        @teacher_request = TeacherRequest.find(params[:id])
+        if @teacher_request.nil?
+          @message = "NO RECORD FOUND"
+        else
+          @teacher_request.update_attribute(:status,"SUCCESSFUL")
+          @flag = true
+          @row_id = "#row_#{@teacher_request.id}"
+          @message = "ACCEPTED SUCCESSFULLY"
+        end
+      end
+
+      format.js
+    end
+  end
+
+  def reject_student
+    @flag = false
+    respond_to do |format|
+      if params[:id].nil?
+        @message = "NO RECORD FOUND"
+      else
+        @teacher_request = TeacherRequest.find(params[:id])
+        if @teacher_request.nil?
+          @message = "NO RECORD FOUND"
+        else
+          @teacher_request.update_attribute(:status,"FAILED")
+          @flag = true
+          @row_id = "#row_#{@teacher_request.id}"
+          @message = "REJECTED SUCCESSFULLY"
+        end
+      end
+      format.js
+    end
   end
   private
   def set_user

@@ -22,7 +22,7 @@
 //= require dataTables/jquery.dataTables
 //= require jquery.inview.min
 //= require select
-
+//= require jquery.steps.min
 //= require main
 //= require_tree .
 

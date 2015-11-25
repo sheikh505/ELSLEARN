@@ -41,6 +41,8 @@
                     <%= render 'layouts/proofreader' %>
                 <% elsif current_user.is_teacher? || current_user.is_hod? %>
                     <%= render 'layouts/teacher' %>
+                <% elsif current_user.is_visiting? %>
+                    <%= render 'layouts/visiting' %>
                 <% end %>
             <% end %>
 

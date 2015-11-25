@@ -29,13 +29,19 @@
     <div id="course_container" class="field">
       <%= label_tag :course %>
 
-      <select id="quiz_course_id" name="quiz[course_id]" required>
+      <select id="quiz_course_id" name="quiz[course_id]" onchange="fetch_topics(this.value)" required>
         <option value="" selected>Select Course</option>
         <% Course.all.each do |course| %>
             <option value="<%= course.id %>"><%= course.name %></option>
         <% end %>
       </select>
-      <input type="button" value="Show Questions" class="searchBtn btn btn-inverse" onclick="generate_questions()">
+
+      <div id="topic_container">
+        <%#=render 'topic_list' %>
+      </div>
+
+      <input type="button" value="Show My Questions" class="searchBtn btn btn-inverse" onclick="generate_questions()">
+      <input type="button" value="Show ELS Questions" class="searchBtn btn btn-inverse" onclick="show_question_types()">
     </div>
     <div class="field">
       <label id="Total_Number_Of_Questions" for="Total_Number_Of_Questions">Total number of questions : 0</label>
@@ -44,6 +50,36 @@
     <div class="actions">
       <%= f.submit :class => 'btn btn-inverse' %>
     </div>
+
+    <div id="question_type_container" class="pre_question_holder" style="display: none;">
+      <div class="row_custom">
+        <label class="lablel_check_box_left">
+          <input class="ques_type_checkbox" id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
+        </label>
+      </div>
+
+      <div class="row_custom">
+        <label class="lablel_check_box_left">
+          <input class="ques_type_checkbox" id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
+
+
+      </div>
+
+      <div class="row_custom">
+        <label class="lablel_check_box_left">
+          <input class="ques_type_checkbox" id="fill_checkbox" type="checkbox" name="question_types[]" value="3"><span>Fill in the blanks</span>
+        </label>
+      </div>
+
+      <div class="row_custom">
+        <label class="lablel_check_box_left">
+          <input class="ques_type_checkbox" id="des_checkbox" type="checkbox" name="question_types[]" value="4"><span>Descriptive</span></label>
+      </div>
+      <div style="display: block;" id="test_containerr">
+        <a href="javascript:void(0)" onclick="get_els_questions()" class="btn">Proceed</a>
+      </div>
+    </div>
+
     <div id="ques_container" class='ques_container'>
 
     </div>
@@ -52,6 +88,12 @@
 <% end %>
 
 
+<%=hidden_field_tag "question_ids_els","" %>
+<!--modal pop up for question add to test-->
+
+<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <%#= render partial: 'pop_up' %>
+</div>
 <script>
 
     function fetch_rows(value) {
@@ -71,7 +113,7 @@
 
     function add_question_to_test() {
         var group = "input:checkbox.add_to_test";
-        var question_ids = ""
+        var question_ids =  $("#quiz_question_ids").val();
         $(group).each(function (i) {
             if (this.checked) {
                 question_ids = question_ids + this.value + ","
@@ -105,6 +147,73 @@
                 //    window.location.reload();
             }
         });
+    }
+
+
+    function show_question_types() {
+        var course_id = $("#quiz_course_id").val();
+        if (course_id == "") {
+            alert("Please select a course first!");
+            return;
+        }
+        $("#ques_container").html("");
+        $("#question_type_container").show();
+
+    }
+
+    function get_els_questions(){
+
+        var course_id = $("#quiz_course_id").val();
+        if (course_id == "") {
+            alert("Please select a course first!");
+            return;
+        }
+        else{
+            var arr = "";
+            ques_types = $(".ques_type_checkbox:checked").each(function(){
+                arr += $(this).val();
+                arr += ",";
+            });
+            arr = arr.slice(0,-1);
+            topic_id = $("#topic_id").val();
+            $.ajax({
+                url: '/quizzes/get_els_questions?course_id=' + course_id + "&ques_types="+arr + "&topic_id="+topic_id,
+                type: 'get',
+                dataType: 'json',
+                processData: false,
+                success: function (data) {
+                    $("#question_ids_els").val(data.question_ids);
+                    $("#myModal").html(data.html);
+                    $("#myModal").modal("show");
+                    //$("#ques_container").html(data);
+                    //$("#ques_container").show();
+                },
+                error: function (data) {
+                    alert('Error Occurred');
+                    //    window.location.reload();
+                }
+            });
+        }
+    }
+
+    function fetch_topics(value){
+
+        if(value != ""){
+            $.ajax({
+                url: '/quizzes/get_topics?course_id=' + value,
+                type: 'get',
+                dataType: 'html',
+                processData: false,
+                success: function (data) {
+                    $("#topic_container").html(data);
+                    //$("#topic_container").show();
+                },
+                error: function (data) {
+                    alert('Error Occurred');
+                    //    window.location.reload();
+                }
+            });
+        }
     }
 
 </script>

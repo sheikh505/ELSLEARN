@@ -4,6 +4,7 @@ class Question < ActiveRecord::Base
     state :new do
       event :submit, :transitions_to => :reviewed_by_proofreader
       event :reject, :transitions_to => :rejected
+      event :accept, :transitions_to => :accepted
     end
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :being_reviewed

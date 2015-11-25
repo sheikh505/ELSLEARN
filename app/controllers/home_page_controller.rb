@@ -7,12 +7,12 @@ class HomePageController < ApplicationController
       @user = User.new
     end
 
-      @boards = Board.all
-      @degrees = []
-      @degrees << 'select board first'
+    @boards = Board.all
+    @degrees = []
+    @degrees << 'select board first'
 
-      @courses = []
-      @courses << 'select board and degree first'
+    @courses = []
+    #@courses << 'select board and degree first'
 
     sql2 = 'SELECT COUNT(q.id) as q_count,c.name as course FROM
            questions as q JOIN topics as t ON q.topic_id = t.id
@@ -32,16 +32,16 @@ class HomePageController < ApplicationController
                 LIMIT 5'
     @top_scorer_users = connection.execute(sql_top_user)
 
-      @flag = true
-      # sql = "SELECT (float4(score)/float4(total))*100 as percentage, u.id as user_id, u.name, c.name as course_name
-      #       FROM user_test_histories uth
-      #       INNER JOIN users u ON u.id = uth.user_id
-      #       INNER JOIN courses c ON c.id = uth.course_id
-      #       where score = total
-      #       limit 5"
-      #
-      # # @top_scorer_users = UserTestHistory.joins(:user, :course).where("score is not null and total is not null and score < total")
-      # @top_scorer_users = UserTestHistory.find_by_sql(sql)
+    @flag = true
+    # sql = "SELECT (float4(score)/float4(total))*100 as percentage, u.id as user_id, u.name, c.name as course_name
+    #       FROM user_test_histories uth
+    #       INNER JOIN users u ON u.id = uth.user_id
+    #       INNER JOIN courses c ON c.id = uth.course_id
+    #       where score = total
+    #       limit 5"
+    #
+    # # @top_scorer_users = UserTestHistory.joins(:user, :course).where("score is not null and total is not null and score < total")
+    # @top_scorer_users = UserTestHistory.find_by_sql(sql)
     # sql = "DROP TABLE temp;
     #
     #       CREATE TEMP TABLE temp (
@@ -279,7 +279,7 @@ class HomePageController < ApplicationController
 
   def add_user_test
 
-      user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course_id=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)
+    user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course_id=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)
     user_history.save
 
     redirect_to root_path
@@ -344,7 +344,7 @@ class HomePageController < ApplicationController
     puts "------------------>", session.inspect
     session[params[:index]] = params[:option_index]
     render :json => {:success => true}
-    end
+  end
   def get_answer_from_session
     puts "------------------>", session.inspect
     if session[params[:index]].present?
@@ -414,26 +414,52 @@ class HomePageController < ApplicationController
 
 
   def get_tests
-      @tests = []
-      id = DegreeCourseAssignment.find_by_degree_id_and_course_id(params[:degree_id],params[:course_id])
-      #id.tests.each {|test| @tests << test}
+    @tests = []
+    id = DegreeCourseAssignment.find_by_degree_id_and_course_id(params[:degree_id],params[:course_id])
+    #id.tests.each {|test| @tests << test}
 
-      Test.all.select {|x| x.degree_course_assignment_id == id.id}.each do |test|
-         @tests << test
-       end
-      render :partial => 'home_page/test'
+    Test.all.select {|x| x.degree_course_assignment_id == id.id}.each do |test|
+      @tests << test
     end
+    render :partial => 'home_page/test'
+  end
 
-    def user_graph
+  def user_graph
 
-    end
+  end
 
   def demo
 
   end
 
   def pricing
+    @membership_plans = MembershipPlan.order(:price)
+  end
 
+  def assign_member_ship_plan
+    ###### find current user
+    respond_to do |format|
+      @flag = true
+      if user_signed_in?
+        #### updating the membership plan id
+        if !params[:id].nil? && MembershipPlan.find(params[:id]).name == 'Free'
+          if current_user.update_attribute(:membership_plan_id,params[:id])
+            current_user.update_attribute(:free_plan_flag,true)
+            @message = "YOUR MEMBERSHIP PLAN HAS BEEN UPDATED"
+          else
+            @flag = false
+            @message = current_user.errors.full_messages.first
+          end
+        else
+          @flag = false
+          @message = "PAY YOUR BILL MATE"
+        end
+      else
+        @flag = false
+        @message = "Please sign in first"
+      end
+      format.js
+    end
   end
 
   private

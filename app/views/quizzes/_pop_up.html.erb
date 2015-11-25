@@ -1,0 +1,76 @@
+  <div class="modal_content question_section_modal els_ques">
+    <div class="modal_left">
+      <div class="box_modal modal_custom">
+        <h2><%#= @question_heading %></h2>
+        <label>Statement </label>
+        <%=hidden_field_tag :modal_question_id,@question.id %>
+        <p><%= raw @question.statement %></p>
+      </div>
+      <div class="question_p_section question_custom">
+        <ul>
+          <% @question.options.each_with_index do |option, index| %>
+              <% if option.flag.nil? %>
+                  <li><span>(<%= index + 1 %>).</span>
+                    <a href="javascript:void(0)" class='<%= 'correct_answer' if option.is_answer.eql?(1) %>'><%= raw option.statement %></a>
+                  </li>
+              <% else %>
+                  <li><span>(<%= index + 1 %>).</span>
+                    <a href="javascript:void(0)" class='<%= 'correct_answer' if option.is_answer.eql?(1) %>'><%= image_tag option.avatar.url(:medium) %></a>
+                  </li>
+              <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal_iframe_footer">
+    <%= link_to 'ADD', 'javascript:void(0)',id: 'add_question_btn', :class => 'modal_btn' %>
+    <%= link_to 'NEXT','javascript:void(0)' ,id: 'next_question_btn', :class => 'modal_btn' %>
+    <%= link_to 'FINISH', 'javascript:void(0)',id: 'finish_btn', :class => 'modal_btn' %>
+  </div>
+
+
+
+<script type="text/javascript">
+
+    $("#add_question_btn").click(function(){
+
+        $("#quiz_question_ids").val($("#quiz_question_ids").val() + $("#modal_question_id").val() + ",");
+        var count = $("#quiz_question_ids").val().split(",").length - 1;
+        $('#Total_Number_Of_Questions').html("Total number of questions : " + count);
+        $("#next_question_btn").click();
+
+    });
+
+    $("#next_question_btn").click(function(){
+
+        ids = $("#question_ids_els").val();
+
+        id = ids.substr(0,ids.indexOf(',')); // "72"
+        ids = ids.substr(ids.indexOf(',')+1); // "tocirah sneab"
+
+        $("#question_ids_els").val(ids);
+        $.ajax({
+            url:'/quizzes/get_next_question?question_id='+id,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#myModal").html(data);
+            },
+            error:function (data) {
+                alert ('nae chalaa');
+                //    window.location.reload();
+            }
+        });
+
+    });
+
+    $("#finish_btn").click(function(){
+        $("#myModal").modal("hide");
+    });
+
+
+</script>

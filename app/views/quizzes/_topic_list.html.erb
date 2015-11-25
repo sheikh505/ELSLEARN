@@ -1,0 +1,7 @@
+<select id="topic_id" name="topic_id" required>
+  <option value="" selected>Select Topic</option>
+  <option value="ALL" selected>ALL</option>
+  <% @topics.each do |topic| %>
+      <option value="<%= topic.id %>"><%= topic.name %></option>
+  <% end %>
+</select>

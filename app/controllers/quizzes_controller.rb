@@ -61,6 +61,24 @@ class QuizzesController < ApplicationController
     render :partial => 'quizzes/questions_list'
   end
 
+  def get_els_questions
+    @course_id = params[:course_id]
+    if params[:topic_id] == "" || params[:topic_id] == 'ALL'
+      @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("course_id = ? and workflow_state = 'accepted' and author != ? and question_type in (?)", @course_id,current_user.email,params[:ques_types].split(","))
+    else
+      @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("course_id = ? and topic_id = ? and workflow_state = 'accepted' and author != ? and question_type in (?)", @course_id,params[:topic_id],current_user.email,params[:ques_types].split(","))
+    end
+    @questions.shuffle!
+    @question = @questions.pop
+    ids = @questions.pluck(:id).shuffle.join(",")
+
+    render :json => {:success => true,html: render_to_string(partial: 'quizzes/pop_up'),:question_ids => ids}.to_json
+  end
+
   def test_exists
     test_code = params["test_code"]
     if (Quiz.find_by_test_code(test_code).present?)
@@ -80,10 +98,20 @@ class QuizzesController < ApplicationController
     respond_with(@quiz)
   end
 
+  def get_topics
+    @topics = Topic.where(course_id: params[:course_id])
+    render :partial => 'topic_list'
+  end
+
+  def get_next_question
+    @question = Question.find(params[:question_id])
+    render :partial => 'pop_up'
+  end
+
   private
-    def set_quiz
-      @quiz = Quiz.find(params[:id])
-    end
+  def set_quiz
+    @quiz = Quiz.find(params[:id])
+  end
   def check_session
 
   end

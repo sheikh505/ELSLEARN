@@ -98,8 +98,16 @@
 <div class="btn_holder">
   <% if (((current_user.is_teacher? || current_user.is_hod? || current_user.is_admin?) &&
           !QuestionHistory.find_by_question_id_and_user_id(@question.id, current_user.id).present?)) &&
-          @question.current_state.to_s != "accepted" && !(@question.current_state == "new")  %>
-      <%= render 'question_details_for_approval' %>
+          @question.current_state.to_s != "accepted" && !(@question.current_state == "new")
+  %>
+     <% if current_user.is_teacher? && @question.author == current_user.email %>
+          <%= link_to 'Edit', edit_question_path(@question), :class=> 'btn btn-large btn-inverse'%>
+          <%= link_to 'Go Back', questions_path , :class=> 'btn btn-large btn-inverse'%>
+      <% else %>
+          <%= render 'question_details_for_approval' %>
+      <% end %>
+
+
 
   <% elsif current_user.is_proofreader? %>
       <% if (@question.workflow_state.nil? || @question.current_state.to_s == "new") %>

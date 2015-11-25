@@ -1,23 +1,20 @@
 <li>
-  <%= link_to "Manage Boards", boards_path %>
+  <%= current_user.teacher_token || "No TOken" %>
+</li>
+<li>
+  <%= link_to "New Students", "/new_students" %>
 </li>
 
 <li>
-  <%= link_to "Manage Degrees", degrees_path %>
-</li>
-
-<li>
-  <%= link_to "Manage Courses", courses_path%>
+  <%= link_to "Manage Students", "/manage_students" %>
 </li>
 
 <li>
   <%= link_to "Manage Tests", quizzes_path %>
 </li>
-
 <li>
-  <%= link_to "Manage Topics", topics_path %>
+  <%= link_to "Manage Questions", questions_path %>
 </li>
-
 <li>
-  <%= link_to "Manage Questions", questions_approval_questions_path %>
+  <%= link_to "Approve Questions", questions_approval_questions_path %>
 </li>

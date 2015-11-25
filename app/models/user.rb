@@ -15,6 +15,9 @@ class User < ActiveRecord::Base
   has_many :test
   has_many :user_test_histories
   has_many :question_histories
+  belongs_to :membership_plan
+  has_many :teacher_requests,foreign_key: 'student_id'
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -23,7 +26,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone,
-                  :role_id, :provider, :uid
+                  :role_id, :provider, :uid,:institute,:degree_id,:student_amount,:courses,:degrees,:teacher_token
   # attr_accessible :title, :body
 
   attr_accessible :avatar
@@ -44,26 +47,26 @@ class User < ActiveRecord::Base
     return true if(self.roles.first.name.eql?("Operator") unless self.roles.nil?)
   end
   def is_teacher?
-    return true if(self.roles.first.name.eql?("Teacher") unless self.roles.nil?)
+    return self.roles.first.name == 'Teacher' ? true : false
   end
   def is_proofreader?
-    return true if(self.roles.first.name.eql?("Proof Reader") unless self.roles.nil?)
+    return self.roles.first.name == 'Proofreader' ? true : false
   end
   def is_student?
-    return true if(self.roles.first.name.eql?("Student") unless self.roles.nil?)
+    return self.roles.first.name.downcase == "student" ? true : false
   end
 
   def is_hod?
     return true if(self.roles.first.name.eql?("Hod") unless self.roles.nil?)
   end
+  def is_visiting?
+    return self.roles.first.name == "visiting" ? true : false
+  end
 
   def is_not_student?
-    return true if(self.roles.first.name.eql?("Admin") ||
-                   self.roles.first.name.eql?("Operator") ||
-                   self.roles.first.name.eql?("Teacher") ) ||
-                   self.roles.first.name.eql?("Proof Reader") ||
-                   self.roles.first.name.eql?("Hod")
+    return self.roles.first.name.downcase != 'student' ? true : false
   end
+
   def self.from_omniauth(auth)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user

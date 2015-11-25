@@ -1,8 +1,10 @@
 class QuestionsDatatable
   delegate :raw, :label_tag, :params, :h, :link_to, :best_in_place, :to=> :@view
 
-  def initialize(view)
+
+  def initialize(view,teacher_self_flag = false)
     @view = view
+    @teacher_self_flag = teacher_self_flag
   end
 
   def as_json(options = {})
@@ -33,6 +35,11 @@ class QuestionsDatatable
     elsif @view.current_user.is_proofreader?
       @questions ||= fetch_questions_by_proofreader
     elsif @view.current_user.is_teacher?
+      if @teacher_self_flag == '1' # teacher's questions only
+        @questions ||= fetch_questions_by_teacher_self
+      else                      # all un approved questions only
+        @questions ||= fetch_questions_by_teacher
+      end
       @questions ||= fetch_questions_by_teacher
     elsif @view.current_user.is_hod?
       @questions ||= fetch_questions_by_hod
@@ -81,8 +88,8 @@ class QuestionsDatatable
       end
       questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
                   joins(:topic => :course).
-                  where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, @view.current_user.id).
+                  where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", @view.current_user.email,course_ids, @view.current_user.id).
                   order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
@@ -94,6 +101,26 @@ class QuestionsDatatable
     questions
   end
 
+  def fetch_questions_by_teacher_self
+    if @view.current_user.teacher_courses.present?
+      course_list = @view.current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("author = ? AND course_id IN (?)", @view.current_user.email,course_ids).
+          order("#{sort_helper}")
+    else
+      questions = Question.where(:id => 0)
+    end
+    questions = questions.page(page).per_page(per_page)
+    if params[:sSearch].present?
+      questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
+    end
+    questions
+  end
   def fetch_questions_by_hod
     if @view.current_user.teacher_courses.present?
       course_list = @view.current_user.teacher_courses

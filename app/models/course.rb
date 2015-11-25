@@ -4,6 +4,7 @@ class Course < ActiveRecord::Base
   has_many :topics
   has_many :books
   has_many :quizzes
+  has_many :workflow_paths
 
   attr_accessible :name
 end

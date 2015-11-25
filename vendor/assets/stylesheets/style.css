@@ -1889,3 +1889,12 @@ select, input[type="file"] {
 #course_container .searchBtn.btn.btn-inverse{
     margin-top: 5px;
 }
+.modal_content.question_section_modal.els_ques {
+    background-color: white;
+    display: block;
+    width: 87%;
+}
+.modal_iframe_footer {
+    background-color: white;
+    margin-top: 0;
+}

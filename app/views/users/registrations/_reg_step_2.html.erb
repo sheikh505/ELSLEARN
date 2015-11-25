@@ -1,0 +1,55 @@
+
+
+<%= form_for @user, remote: true, :url=> '/users/update_user',html: {id: 'sign_up_form_2'} do |f| %>
+    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
+        <p style="color: red"><%= flash[type] %></p>
+    <% end %>
+    <%=hidden_field_tag :id,@user.id %>
+    <div class="field">
+      <%= f.label :institute %><br />
+      <%= f.email_field :institute, :autofocus=> true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :phone %><br />
+      <%= f.text_field :phone  %>
+    </div>
+    <% if @user.roles.first.name.downcase == 'student' %>
+        <div class="field">
+          <%= label_tag :degree %><br />
+          <%=select_tag "user[degree_id]",options_for_select(get_degrees.map{|x| [x.name,x.id]}),id: 'select_degree' %>
+        </div>
+    <% else %>
+        <div class="field">
+          <% get_degrees.each do |degree| %>
+              <%= check_box_tag 'degrees[]', degree.id -%><%=degree.name %>
+          <% end %>
+        </div>
+        <div class="field">
+          <%= f.label :student_amount %><br />
+          <%= f.text_field :student_amount %>
+        </div>
+    <% end %>
+
+    <div id="courses_container" class="field">
+      <%= label_tag :courses %><br />
+      <% get_courses.each do |course| %>
+          <%= check_box_tag 'courses[]', course.id -%><%=course.name %>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
+    </div>
+<% end %>
+
+
+<script type="text/javascript">
+
+    $("#select_degree").change(function(){
+        $this = $(this);
+        $("#courses_container").show();
+        $(".course_all").show();
+//      $(".course_"+$this.attr("id")).show();
+    });
+</script>

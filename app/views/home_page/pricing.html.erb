@@ -15,77 +15,80 @@
             </ul>
           </div>
         </div>
-      </div>	<div class="whole">
-      <div class="type">
-        <p>Simple</p>
       </div>
-      <div class="plan">
+      <% @membership_plans.each do |plan| %>
+          <div class="whole">
+            <div class="type">
+              <p><%=plan.name || " "%></p>
+            </div>
+            <div class="plan">
 
-        <div class="header-post">
-          <span>$</span>29<sup>99</sup>
-          <p class="month">per month</p>
-        </div>
-        <div class="content">
-          <ul>
-            <li>15 Email Accounts</li>
-            <li>100GB Space</li>
-            <li>1 Domain Name</li>
-            <li>500GB Bandwidth</li>
-          </ul>
-        </div>
-        <div class="price">
-          <a href="#" class="bottom"><p class="cart">Add to cart</p></a>
-        </div>
-      </div>
-    </div>
-      <div class="whole">
-        <div class="type standard">
-          <p>Standard</p>
-        </div>
-        <div class="plan">
+              <div class="header-post">
+                <span>$</span><%=plan.price %>
+                <p class="month">per month</p>
+              </div>
+              <div class="content">
+                <ul>
+                  <li><%=plan.paper%></li>
+                  <li><%=plan.max_questions_allowed%></li>
+                  <li><%=plan.result_type%></li>
+                  <li><%=plan.validity %></li>
+                </ul>
+              </div>
+              <div class="price">
+                <%=link_to "BUY","home_page/assign_member_ship_plan?id=#{plan.id}",remote: true,class: 'bottom' %>
+                <!--<a href="home_page/assign_member_ship_plan?id=<%#=plan.id%>" class="bottom"><p class="cart">BUY</p></a>-->
+              </div>
+            </div>
+          </div>
+          <!--<div class="whole">-->
+            <!--<div class="type standard">-->
+              <!--<p>Standard</p>-->
+            <!--</div>-->
+            <!--<div class="plan">-->
 
-          <div class="header-post">
-            <span>$</span>49<sup>99</sup>
-            <p class="month">per month</p>
-          </div>
-          <div class="content">
-            <ul>
-              <li>15 Email Accounts</li>
-              <li>100GB Space</li>
-              <li>1 Domain Name</li>
-              <li>500GB Bandwidth</li>
-            </ul>
-          </div>
-          <div class="price">
-            <a href="#" class="bottom"><p class="cart">Add to cart</p></a>
-          </div>
-        </div>
-      </div>
+              <!--<div class="header-post">-->
+                <!--<span>$</span>49<sup>99</sup>-->
+                <!--<p class="month">per month</p>-->
+              <!--</div>-->
+              <!--<div class="content">-->
+                <!--<ul>-->
+                  <!--<li>15 Email Accounts</li>-->
+                  <!--<li>100GB Space</li>-->
+                  <!--<li>1 Domain Name</li>-->
+                  <!--<li>500GB Bandwidth</li>-->
+                <!--</ul>-->
+              <!--</div>-->
+              <!--<div class="price">-->
+                <!--<a href="#" class="bottom"><p class="cart">Add to cart</p></a>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-      <div class="whole ">
-        <div class="type ultimate">
-          <p>Ultimate</p>
-        </div>
-        <div class="plan">
+          <!--<div class="whole ">-->
+            <!--<div class="type ultimate">-->
+              <!--<p>Ultimate</p>-->
+            <!--</div>-->
+            <!--<div class="plan">-->
 
-          <div class="header-post">
-            <span>$</span>79<sup>99</sup>
-            <p class="month">per month</p>
-          </div>
-          <div class="content">
-            <ul>
-              <li>15 Email Accounts</li>
-              <li>100GB Space</li>
-              <li>1 Domain Name</li>
-              <li>500GB Bandwidth</li>
-            </ul>
-          </div>
-          <div class="price">
-            <a href="#" class="bottom"><p class="cart">Add to cart</p></a>
-          </div>
-        </div>
-      </div>
-
+              <!--<div class="header-post">-->
+                <!--<span>$</span>79<sup>99</sup>-->
+                <!--<p class="month">per month</p>-->
+              <!--</div>-->
+              <!--<div class="content">-->
+                <!--<ul>-->
+                  <!--<li>15 Email Accounts</li>-->
+                  <!--<li>100GB Space</li>-->
+                  <!--<li>1 Domain Name</li>-->
+                  <!--<li>500GB Bandwidth</li>-->
+                <!--</ul>-->
+              <!--</div>-->
+              <!--<div class="price">-->
+                <!--<a href="#" class="bottom"><p class="cart">Add to cart</p></a>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+      <% end %>
     </div>
 
   </div>

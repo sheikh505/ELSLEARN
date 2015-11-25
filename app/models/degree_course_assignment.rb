@@ -1,6 +1,6 @@
 class DegreeCourseAssignment < ActiveRecord::Base
   belongs_to :course
-    belongs_to :board_degree_assignment
+  belongs_to :board_degree_assignment
 
 
   has_many :teacher_courses

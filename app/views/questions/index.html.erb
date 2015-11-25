@@ -14,8 +14,8 @@
 
           <option value="" selected>Select Course</option>
           <% if current_user.is_teacher? %>
-            <% current_user.teacher_courses.all.uniq{|y| y.degree_course_assignment_id}.each do |x| %>
-                  <option value="<%=DegreeCourseAssignment.find_by_id(x).degree.id %>"><%=DegreeCourseAssignment.find_by_id(x).degree.name%></option>
+            <% current_user.teacher_courses.each do |x| %>
+                  <option value="<%=x.course.id %>"><%=x.course.name %></option>
             <% end %>
 
 
@@ -63,10 +63,10 @@
 
     <% end %>
     <br /><br />
-    <% if current_user.is_admin? %>
+    <% if current_user.is_admin? || current_user.is_teacher? %>
 
     <div id="ques_container" class=''>
-      <%= render 'question_list' %>
+      <%= render 'question_list',teacher_self_flag: '1' %>
 
     </div>
     <% end %>

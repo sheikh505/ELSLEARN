@@ -112,7 +112,13 @@ class QuestionsController < ApplicationController
         format.html
         format.json { render :json => QuestionsDatatable.new(view_context) }
       end
-    end
+
+      elsif current_user.is_teacher?
+        respond_to do |format|
+          format.html
+          format.json { render :json => QuestionsDatatable.new(view_context) }
+        end
+      end
   end
 
   def get_limit
@@ -340,6 +346,10 @@ class QuestionsController < ApplicationController
     @question.author = current_user.email
     if @question.save
 
+      if current_user.is_teacher?
+        @question.update_attribute(:workflow_state,'reviewed_by_proofreader')
+      end
+
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
                                            :ques_no => params[:ques_no],
@@ -505,7 +515,7 @@ class QuestionsController < ApplicationController
   def questions_approval
     respond_to do |format|
       format.html
-      format.json { render :json => QuestionsDatatable.new(view_context) }
+      format.json { render :json => QuestionsDatatable.new(view_context,params[:teacher_self_flag]) }
     end
   end
 
@@ -723,8 +733,8 @@ class QuestionsController < ApplicationController
     if current_user.is_teacher?
       @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
-          where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, current_user.id).first
+          where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, current_user.id).first
     end
 
     if @question
@@ -738,7 +748,29 @@ class QuestionsController < ApplicationController
 
     @question = Question.find(params[:ques_id])
     if @question && (@question.current_state.to_s == "new")
-      @question.submit!
+      ##### check if workflow path is enable or disable
+        ### fetch all degrees of this course
+        @degrees = []
+        @question.board_degree_assignments.each do |bd|
+          @degrees << bd.degree.id
+        end
+        @degrees.uniq!
+
+        ##### fetch the course
+        @course = @question.topic.course.id
+        ####### check if any entry is present in workflow with a false
+        flag_path = true
+        @degrees.each do |degree_id|
+          WorkflowPath.where(degree_id: degree_id,course_id: @course).each do |workflow_path|
+           flag_path = false if workflow_path.is_complete == false
+          end
+        end
+      if flag_path == true
+        @question.submit!
+      else
+        @question.accept!
+      end
+
 
       if params[:from].present? && params[:from] == "view"
         if current_user.email == "proofreader1@els.com"
@@ -796,8 +828,8 @@ class QuestionsController < ApplicationController
       end
       @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
-          where("course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", course_ids, current_user.id).first
+          where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, current_user.id).first
     elsif current_user.is_proofreader?
       if current_user.email == "proofreader1@els.com"
         @question = Question.where("workflow_state = 'new' or workflow_state is null").first
@@ -831,6 +863,33 @@ class QuestionsController < ApplicationController
     render :json => {:success => true}
   end
 
+  def questions_detail
+    @ques_detail_hash = {}
+    Degree.all.each do |degree|
+      ####  fetch all board_degrees of this degree ####
+      degree.board_degree_assignments.each do |bd|
+        #### fetch all courses
+        bd.courses.each do |course|
+          @ques_detail_hash["#{degree.name}_#{course.name}"] = course.id
+        end
+      end
+    end
+  end
+
+  def get_question_detail
+    @hash_detail = {}
+    @hash_detail["Total"] = 0
+
+    topics = Course.find(params[:course_id]).topics
+    topics.each do |topic|
+      count = Question.where("topic_id = ? AND question_type = ?",topic.id,params[:question_type]).count
+      @hash_detail["Total"] += count
+      @hash_detail["#{topic.name}"] = count
+    end
+    render partial: 'ques_detail'
+  end
+
+
   private
   def publish_question(question)
     if current_user.is_hod?
@@ -839,7 +898,7 @@ class QuestionsController < ApplicationController
 
     end
     if
-      question
+    question
     end
 
   end

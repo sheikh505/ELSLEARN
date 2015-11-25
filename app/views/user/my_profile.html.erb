@@ -1,14 +1,14 @@
 <div class="user_profile_holder">
-    <div class="container">
-      <h1>User Profile Page</h1>
-      <div class="user_profile_left">
-        <ul class="u_left_holder">
-          <li><a class="avtar" href="#">
-            <% if @user.avatar.present?%>
-                <%= image_tag @user.avatar.url %>
-            <% else %>
-                <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
-            <% end %>
+  <div class="container">
+    <h1>User Profile Page</h1>
+    <div class="user_profile_left">
+      <ul class="u_left_holder">
+        <li><a class="avtar" href="#">
+          <% if @user.avatar.present?%>
+              <%= image_tag @user.avatar.url %>
+          <% else %>
+              <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+          <% end %>
           <li><a  href="/user/dashboard">
             <i class="fa fa_icon fa-tachometer"></i>
             Dashboard </a> </li>
@@ -17,46 +17,46 @@
 
             Profile</a> </li>
 
-        </ul>
-      </div>
-        <div class="user_profile_right">
+          </ul>
+    </div>
+    <div class="user_profile_right">
 
-            <ul class="user_profile_nav">
-              <li>
-                <a href="javascript:void(0)">Profile
+      <ul class="user_profile_nav">
+        <li>
+          <a href="javascript:void(0)">Profile
                   <span class="menu_active">
                     <i class="fa fa-caret-up"></i>
                 </span>
-                </a>
-              </li>
-            </ul>
-          <ul class="u_right_holder">
+          </a>
+        </li>
+      </ul>
+      <ul class="u_right_holder">
+        <li>
+          <h3>Email</h3>
+          <span><%= @user.email%></span>
+        </li>
+        <li>
+          <h3>Name</h3>
+          <span><%= best_in_place @user, :name, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
+        </li>
+        <li>
+          <h3>Phone Number</h3>
+          <span><%= best_in_place @user, :phone, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
+        </li>
+        <li>
+          <h3>Last Test Attempted On</h3>
+          <span><%=@last_user_history.updated_at.to_date unless @last_user_history.nil?%></span>
+          <%=link_to "Re-Take", "/"%>
+        </li>
+        <%= form_for @user, :url => user_update_path, :html => { :multipart => true } do |f| %>
             <li>
-              <h3>Email</h3>
-              <span><%= @user.email%></span>
-            </li>
-            <li>
-              <h3>Name</h3>
-              <span><%= best_in_place @user, :name, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
-            </li>
-            <li>
-              <h3>Phone Number</h3>
-              <span><%= best_in_place @user, :phone, :url => user_update_path, :as => :input %><i class="fa fa-pencil-square-o"></i></span>
-            </li>
-            <li>
-              <h3>Last Test Attempted On</h3>
-              <span><%=@last_user_history.updated_at.to_date unless @last_user_history.nil?%></span>
-              <%=link_to "Re-Take", "/"%>
-            </li>
-            <%= form_for @user, :url => user_update_path, :html => { :multipart => true } do |f| %>
-            <li>
-                <h3>Picture</h3>
-                <%= f.file_field :avatar %>
-                <%= f.submit "Update Picture" %>
+              <h3>Picture</h3>
+              <%= f.file_field :avatar %>
+              <%= f.submit "Update Picture" %>
 
             </li>
-            <% end %>
-            <%= form_for(@user, :url => { :action => "update_password" } ) do |f| %>
+        <% end %>
+        <%= form_for(@user, :url => { :action => "update_password" } ) do |f| %>
             <li>
               <h3><%= f.label :password %> </h3>
               <%= f.password_field :password, autocomplete: "off" %><i>(leave blank if you don't want to change it)</i>
@@ -72,16 +72,54 @@
               <%= f.password_field :current_password, autocomplete: "off" %><i>(we need your current password to confirm your changes)</i>
               <%= params[:notice] unless params[:notice].nil? %>
             </li>
-                <li>
-                  <h3></h3>
-                  <%= f.submit "Change Password" %>
-                </li>
-            <% end %>
-          </ul>
+            <li>
+              <h3></h3>
+              <%= f.submit "Change Password" %>
+            </li>
+        <% end %>
+      </ul>
 
 
-        </div>
+
+      <!--############### teachers followed #############-->
+      <ul class="user_profile_nav">
+        <li>
+          <a href="javascript:void(0)">Teachers Panel
+                  <span class="menu_active">
+                    <i class="fa fa-caret-up"></i>
+                </span>
+          </a>
+        </li>
+      </ul>
+      <ul class="u_right_holder">
+        <%@user.teacher_requests.each do |request| %>
+
+            <li>
+              <h3><%=request.teacher_token %></h3>
+              <span><%=request.status %></span>
+            </li>
+
+        <% end %>
+
+        <%= form_for :teacher_request,url: '/user/request_teacher',remote: true,id: 'request_teacher_form' do |f| %>
+            <li>
+              <h3><%= f.label :teacher_token %> </h3>
+              <%= f.text_field :teacher_token %>
+            </li>
+            <%=f.hidden_field :student_id,value: @user.id %>
+            <%=f.hidden_field :student_email,value: @user.email %>
+            <%=f.hidden_field :student_name,value: @user.name %>
+            <%=f.hidden_field :status,value: "PENDING" %>
+            <li>
+              <h3></h3>
+              <%= f.submit "Request" %>
+            </li>
+        <% end %>
+      </ul>
+
+
     </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -89,17 +127,17 @@
         /* Activating Best In Place */
         jQuery(".best_in_place").best_in_place();
     });
-//    function update_image() {
-//
-//        $.post($("form.edit_user").attr("action"), $("form.edit_user").serialize(), function (response) {
-//
-//            if (response.success) {
-//                alert("Image Updated successfully");
-//            }
-//            else {
-//                return false;
-//            }
-//
-//        }, "json")
-//    }
+    //    function update_image() {
+    //
+    //        $.post($("form.edit_user").attr("action"), $("form.edit_user").serialize(), function (response) {
+    //
+    //            if (response.success) {
+    //                alert("Image Updated successfully");
+    //            }
+    //            else {
+    //                return false;
+    //            }
+    //
+    //        }, "json")
+    //    }
 </script>

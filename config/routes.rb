@@ -1,7 +1,8 @@
 ExamsSystem::Application.routes.draw do
   resources :membership_plans
 
-
+  get "workflow_paths" => "workflow_paths#index"
+  get "workflow_paths/toggle_workflow" => "workflow_paths#toggle_workflow"
   get "user" => "teacher#index"
 
   get 'auth/:provider/callback' => 'sessions#create'
@@ -11,6 +12,7 @@ ExamsSystem::Application.routes.draw do
   post "user/save_result"
   get "user/my_profile"
   put 'user/update_password'
+  post "user/request_teacher"
 
   get "user/dashboard"
   get "user/ReTakeTest"
@@ -36,9 +38,13 @@ ExamsSystem::Application.routes.draw do
       get :get_courses
       get :teacher_courses
       post :course_register
+      get :accept_student
+      get :reject_student
     end
   end
 
+  get "new_students" => "teacher#new_students"
+  get "manage_students" => "teacher#manage_students"
 
 
   resources :books do
@@ -71,6 +77,9 @@ ExamsSystem::Application.routes.draw do
       get :questions_exits
       put :update_topic
       get :remove_option
+      get :questions_detail
+      get :get_question_detail
+      get :enable_question_review
     end
   end
 
@@ -98,6 +107,7 @@ ExamsSystem::Application.routes.draw do
   get "home_page/get_answer" => 'home_page#get_answer_from_session'
   get "about_us" => 'home_page#about_us'
   get "pricing" => 'home_page#pricing'
+  get "home_page/assign_member_ship_plan" => "home_page#assign_member_ship_plan"
 
 
   resources :tests do
@@ -110,8 +120,11 @@ ExamsSystem::Application.routes.draw do
     collection do
       get :get_courses
       get :get_questions
+      get :get_els_questions
       get :test_exists
       get :get_questions_by_course
+      get :get_topics
+      get :get_next_question
     end
   end
 
@@ -149,7 +162,7 @@ ExamsSystem::Application.routes.draw do
     get "sign_up" => "users/registrations#new"
     get "sign_in" => "users/sessions#new"
     delete "sign_out" => "users/sessions#destroy"
-
+    put "users/update_user" => "users/registrations#update_user"
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'
