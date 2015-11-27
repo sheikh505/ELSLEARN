@@ -1,0 +1,48 @@
+<div id="container" style="height: 400px"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ' '
+            },
+
+            xAxis: {
+                categories: [
+                    'Physics',
+                    'Chemistry',
+                    'Biology',
+                    'Berlin'
+                ]
+            },
+
+
+            plotOptions: {
+                column: {
+                    grouping: false,
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Jan',
+                data: [20, null,null,null]
+
+            }, {
+                name: 'Feb',
+                data: [null, 24,null,null]
+
+            }, {
+                name: 'Mar',
+                data: [null, null,35,null]
+            }, {
+                name: 'Apr',
+                data:[null, null, null, 45]
+            }]
+        });
+    });
+
+</script>

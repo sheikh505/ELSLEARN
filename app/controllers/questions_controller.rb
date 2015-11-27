@@ -113,12 +113,12 @@ class QuestionsController < ApplicationController
         format.json { render :json => QuestionsDatatable.new(view_context) }
       end
 
-      elsif current_user.is_teacher?
-        respond_to do |format|
-          format.html
-          format.json { render :json => QuestionsDatatable.new(view_context) }
-        end
+    elsif current_user.is_teacher?
+      respond_to do |format|
+        format.html
+        format.json { render :json => QuestionsDatatable.new(view_context) }
       end
+    end
   end
 
   def get_limit
@@ -749,22 +749,22 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:ques_id])
     if @question && (@question.current_state.to_s == "new")
       ##### check if workflow path is enable or disable
-        ### fetch all degrees of this course
-        @degrees = []
-        @question.board_degree_assignments.each do |bd|
-          @degrees << bd.degree.id
-        end
-        @degrees.uniq!
+      ### fetch all degrees of this course
+      @degrees = []
+      @question.board_degree_assignments.each do |bd|
+        @degrees << bd.degree.id
+      end
+      @degrees.uniq!
 
-        ##### fetch the course
-        @course = @question.topic.course.id
-        ####### check if any entry is present in workflow with a false
-        flag_path = true
-        @degrees.each do |degree_id|
-          WorkflowPath.where(degree_id: degree_id,course_id: @course).each do |workflow_path|
-           flag_path = false if workflow_path.is_complete == false
-          end
+      ##### fetch the course
+      @course = @question.topic.course.id
+      ####### check if any entry is present in workflow with a false
+      flag_path = true
+      @degrees.each do |degree_id|
+        WorkflowPath.where(degree_id: degree_id,course_id: @course).each do |workflow_path|
+          flag_path = false if workflow_path.is_complete == false
         end
+      end
       if flag_path == true
         @question.submit!
       else
@@ -870,7 +870,20 @@ class QuestionsController < ApplicationController
       degree.board_degree_assignments.each do |bd|
         #### fetch all courses
         bd.courses.each do |course|
-          @ques_detail_hash["#{degree.name}_#{course.name}"] = course.id
+          type_size = {
+              1 => 0,
+              2 => 0,
+              3 => 0,
+              4 => 0,
+          }
+          course.topics.each do |x|
+            type_size[1] += x.questions.select{|question| question.question_type == 1}.size
+            type_size[2] += x.questions.select{|question| question.question_type == 2}.size
+            type_size[3] += x.questions.select{|question| question.question_type == 3}.size
+            type_size[4] += x.questions.select{|question| question.question_type == 4}.size
+          end
+
+          @ques_detail_hash["#{degree.name}_#{course.name}_#{course.id}"] = type_size
         end
       end
     end

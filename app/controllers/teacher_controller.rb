@@ -118,7 +118,8 @@ class TeacherController < ApplicationController
         end
 
         if @user.is_teacher?
-          @user.teacher_token = "#{@user.email.split("@").first}_#{(0...5).map { (65 + rand(26)).chr }.join}"
+
+          @user.teacher_token = "#{@user.name.split(" ").map{|x| x[0]}.join("")}_#{(10_000 + Random.rand(100_000 - 10_000)).to_s}"
           @user.save
           @degrees = Degree.all
           if @degrees.present?

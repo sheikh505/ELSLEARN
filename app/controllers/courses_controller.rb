@@ -11,7 +11,7 @@ class CoursesController < ApplicationController
 
     @courses.each do |course|
 
-      @degree_hash[course.id.to_s + "-" +course.name] = course.board_degree_assignments
+      @degree_hash["#{course.id}::#{course.name}"] = course.board_degree_assignments
     end
 
     respond_with(@courses)

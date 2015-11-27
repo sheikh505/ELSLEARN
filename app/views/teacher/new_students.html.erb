@@ -17,7 +17,7 @@
           <td><%= student.student_name %></td>
           <td><%= student.student_email %></td>
           <td><%= link_to "Accept","teacher/accept_student?id=#{student.id}",remote: true %></td>
-          <td><%= link_to "Accept","teacher/reject_student?id=#{student.id}",remote: true %></td>
+          <td><%= link_to "Reject","teacher/reject_student?id=#{student.id}",remote: true %></td>
         </tr>
     <% end %>
     </tbody>

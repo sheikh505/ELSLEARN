@@ -12,7 +12,7 @@
   <tbody>
   <% @degree_hash.each do |k,v| %>
   <tr>
-    <td><%= k.split("-").last  %></td>
+    <td><%= k.split("::").last  %></td>
     <td>
 
       <%v.each_with_index do |bdgree, index| %>

@@ -18,6 +18,7 @@ class QuestionsDatatable
 
   private
   def data
+    puts "===================================================+>",questions.inspect
     questions.each_with_index.map do |question,index|
       [
           question.statement.html_safe,
@@ -56,9 +57,8 @@ class QuestionsDatatable
   end
 
   def fetch_questions
-      questions = Question.select("questions.statement,workflow_state as status, comments").where("id > 0").order("#{sort_helper}")
-
-    questions = questions.page(page).per_page(per_page)
+      questions = Question.where("id > 0").order("#{sort_helper}")
+      questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
     end

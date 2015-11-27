@@ -23,6 +23,7 @@
 //= require jquery.inview.min
 //= require select
 //= require jquery.steps.min
+//= require highstock
 //= require main
 //= require_tree .
 

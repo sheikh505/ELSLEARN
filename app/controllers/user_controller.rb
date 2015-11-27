@@ -16,6 +16,7 @@ class UserController < ApplicationController
     @user = User.find(current_user.id)
     @last_user_history = UserTestHistory.find_all_by_user_id(@user.id).last
   end
+
   def update
     @user = User.find current_user.id
 
@@ -65,7 +66,7 @@ class UserController < ApplicationController
   def request_teacher
     respond_to do |format|
       # check if already exist
-      arr = TeacherRequest.where(student_id: params[:teacher_request][:student_id],teacher_code: params[:teacher_request][:teacher_token],status: 'Pending')
+      arr = TeacherRequest.where(student_id: params[:teacher_request][:student_id],teacher_token: params[:teacher_request][:teacher_token],status: 'PENDING')
       if arr.blank?
         @teacher_request = TeacherRequest.new(params[:teacher_request])
         if @teacher_request.save
@@ -82,6 +83,11 @@ class UserController < ApplicationController
       format.js
     end
   end
+
+  def progress
+
+  end
+
   private
 
   def user_params

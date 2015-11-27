@@ -11,6 +11,7 @@ ExamsSystem::Application.routes.draw do
   get "user/new" => "teacher#new"
   post "user/save_result"
   get "user/my_profile"
+  get "user/progress"
   put 'user/update_password'
   post "user/request_teacher"
 

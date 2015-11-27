@@ -8,13 +8,13 @@
       <th>Action</th>
     </tr>
 
-    <% @ques_detail_hash.each do |k,course_id| %>
+    <% @ques_detail_hash.each do |k,v| %>
         <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
             <tr>
-              <% degree,course = k.split("_") %>
+              <% degree,course,course_id = k.split("_") %>
               <td><%= degree %></td>
               <td><%= course %></td>
-              <td><%= ques_type %></td>
+              <td><%= "#{ques_type}(#{v[index+1]})" %></td>
               <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
             </tr>
         <% end %>
