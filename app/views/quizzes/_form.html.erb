@@ -182,9 +182,15 @@
                 dataType: 'json',
                 processData: false,
                 success: function (data) {
-                    $("#question_ids_els").val(data.question_ids);
-                    $("#myModal").html(data.html);
-                    $("#myModal").modal("show");
+                    if(data.success == true){
+                        $("#question_ids_els").val(data.question_ids);
+                        $("#myModal").html(data.html);
+                        $("#myModal").modal("show");
+                    }
+                    else{
+                        alert("No Question found");
+                    }
+
                     //$("#ques_container").html(data);
                     //$("#ques_container").show();
                 },
