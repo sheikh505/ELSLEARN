@@ -16,12 +16,14 @@ class TopicsController < ApplicationController
 
   def new
     @topic = Topic.new
+    @topics = []
 
     respond_with(@topic)
   end
 
   def edit
     @course = @topic.course
+    @topics = Topic.where("course_id = ? AND parent_topic_id is NULL",@course.id).order(:name)
   end
 
   def create
@@ -44,6 +46,11 @@ class TopicsController < ApplicationController
   def destroy
     @topic.destroy
     respond_with(@topic)
+  end
+
+  def get_topics
+    @topics = Topic.where("course_id = ? AND parent_topic_id is NULL",params[:course_id]).order(:name)
+    render partial: "parent_topic_select"
   end
 
   private

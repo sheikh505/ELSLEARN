@@ -1898,3 +1898,26 @@ select, input[type="file"] {
     background-color: white;
     margin-top: 0;
 }
+.field.inline_form_fields {
+    display: inline-block;
+    width: 22%;
+}
+.course_link_cont.span12{
+    width: 100%;
+}
+.course_link_container.listing-holder{
+    width: 98%;
+}
+.table.table-condensed.topic_table{
+    table-layout: fixed;
+}
+.topic_select{
+    width: 184px;
+}
+.btm_lnks {
+    display: block;
+    padding: 10px;
+}
+.btm_lnks a{
+    margin: 6px 0 0 75px;
+}

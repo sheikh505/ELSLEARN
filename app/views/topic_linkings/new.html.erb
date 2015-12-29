@@ -1,0 +1,26 @@
+<div class="row listing-holder listing-holder-p">
+  <div class="span12 course_link_cont">
+    <h3>Select Course</h3>
+      <%=form_tag "/topic_linkings/get_course_link",remote: true,id: "course_form" do %>
+          <%=select_tag :course_id,options_for_select(@courses.map{|x| [x.name,x.id]}),prompt: "SELECT COURSE" %>
+      <% end %>
+
+    <div id="topic_table_container" class="course_link_container listing-holder">
+
+    </div>
+
+
+  </div>
+</div>
+<%= link_to 'Back', topic_linkings_path %>
+
+
+
+
+<script type="text/javascript">
+
+    $("#course_id").change(function(){
+        $("#course_form").submit();
+    });
+
+</script>

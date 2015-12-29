@@ -1,0 +1,74 @@
+<%= form_for @topic_linking,remote: true,html: {id: "edit_topic_form"} do |f| %>
+  <% if @topic_linking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@topic_linking.errors.count, "error") %> prohibited this topic_linking from being saved:</h2>
+
+      <ul>
+      <% @topic_linking.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <table class="table table-condensed topic_table">
+      <thead>
+      <tr>
+        <th><%=get_course_name_tab(@course_linking.course_1) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_2) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_3) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_4) %></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td>
+          <% unless @course_linking.course_1.nil? %>
+              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]},@topic_linking.topic_1),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_2.nil? %>
+              <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]},@topic_linking.topic_2),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_3.nil? %>
+              <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]},@topic_linking.topic_3),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_4.nil? %>
+              <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]},@topic_linking.topic_4),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <%=f.hidden_field :course_linking_id,value: @course_linking.id  %>
+    <%=hidden_field_tag :direction,"save_exit" %>
+
+<% end %>
+<div class="btm_lnks">
+  <%= link_to "ADD AND EXIT","javascript:void(0)",id: "add_exit", class: "btn btn-inverse btm_lnks_a" %>
+  <%= link_to "CANCEL","javascript:void(0)",id: "exit", class: "btn btn-inverse btm_lnks_a" %>
+</div>
+
+
+<script type="text/javascript">
+  $(".btm_lnks_a").click(function(){
+     $this = $(this);
+      if ($this.attr("id") == "add_exit"){
+          $("#edit_topic_form").submit();
+      }
+      else if ($this.attr("id") == "exit"){
+          location = "/topic_linkings";
+      }
+      else
+      {
+          alert("SOMETHING WENT WRONG");
+      }
+
+  });
+</script>

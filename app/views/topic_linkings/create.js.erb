@@ -1,0 +1,10 @@
+<% if @flag == true %>
+    <% if @stop_flag == true %>
+        location = "/topic_linkings";
+    <% else %>
+        $("#topic_table_container").html("<%=escape_javascript render "topic_table" %>");
+        $("select").select2();
+    <% end %>
+<% else %>
+
+<% end %>

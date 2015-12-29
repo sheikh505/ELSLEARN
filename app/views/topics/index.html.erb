@@ -5,6 +5,7 @@
   <thead>
   <tr>
     <th>Name</th>
+    <th>Parent Topic</th>
     <th>Course</th>
     <th></th>
     <th></th>
@@ -14,6 +15,7 @@
 <% @topics.each do |topic| %>
   <tr>
     <td><%= topic.name %></td>
+    <td><%= get_parent_topic_name(topic.parent_topic_id) %></td>
     <td><%= topic.course.name unless topic.course.nil? %></td>
     <% if can? :update, Topic %>
         <td><%= link_to 'Edit', edit_topic_path(topic) %></td>

@@ -1,0 +1,30 @@
+<h1>Listing course_linkings</h1>
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Course 1</th>
+      <th>Course 2</th>
+      <th>Course 3</th>
+      <th>Course 4</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @course_linkings.each do |course_linking| %>
+        <tr>
+          <td><%= get_course_name(course_linking.course_1) %></td>
+          <td><%= get_course_name(course_linking.course_2) %></td>
+          <td><%= get_course_name(course_linking.course_3) %></td>
+          <td><%= get_course_name(course_linking.course_4) %></td>
+          <td><%= link_to 'Edit', edit_course_linking_path(course_linking) %></td>
+          <td><%= link_to 'Destroy', course_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+
+<%= link_to 'New Course linking', new_course_linking_path %>

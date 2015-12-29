@@ -1,0 +1,46 @@
+<div class="row listing-holder listing-holder-p">
+  <div class="span12 course_link_cont">
+    <%= form_for @course_linking,onsubmit: "return check_form()" do |f| %>
+        <% if @course_linking.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@course_linking.errors.count, "error") %> prohibited this course_linking from being saved:</h2>
+
+              <ul>
+                <% @course_linking.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div class="field inline_form_fields">
+          <%= f.label :course_1 %><br />
+          <%= select_tag "course_linking[course_1]",options_for_select(@courses.map{|x| [x.name,x.id]},@course_linking.course_1),prompt: "COURSE" %>
+        </div>
+        <div class="field inline_form_fields">
+          <%= f.label :course_2 %><br />
+          <%= select_tag "course_linking[course_2]",options_for_select(@courses.map{|x| [x.name,x.id]},@course_linking.course_2),prompt: "COURSE" %>
+        </div>
+        <div class="field inline_form_fields">
+          <%= f.label :course_3 %><br />
+          <%= select_tag "course_linking[course_3]",options_for_select(@courses.map{|x| [x.name,x.id]},@course_linking.course_3),prompt: "COURSE" %>
+        </div>
+        <div class="field inline_form_fields">
+          <%= f.label :course_4 %><br />
+          <%= select_tag "course_linking[course_4]",options_for_select(@courses.map{|x| [x.name,x.id]},@course_linking.course_4),prompt: "COURSE" %>
+        </div>
+        <div class="actions">
+          <%= f.submit "SAVE", class: 'btn btn-inverse'%>
+        </div>
+    <% end %>
+  </div>
+
+
+</div>
+
+<script type="text/javascript">
+
+    function check_form(){
+        return true
+    }
+</script>

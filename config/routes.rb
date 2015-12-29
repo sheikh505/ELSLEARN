@@ -1,4 +1,14 @@
 ExamsSystem::Application.routes.draw do
+  resources :topic_linkings do
+    collection do
+      post :get_course_link
+    end
+  end
+
+
+  resources :course_linkings
+
+
   resources :membership_plans
 
   get "workflow_paths" => "workflow_paths#index"
@@ -30,6 +40,7 @@ ExamsSystem::Application.routes.draw do
   resources :topics do
     collection do
       get :get_courses
+      get :get_topics
     end
   end
 

@@ -1,65 +1,70 @@
 <div class="row listing-holder listing-holder-p">
   <div class="span5">
-<%= form_for(@topic) do |f| %>
-  <% if @topic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+    <%= form_for(@topic) do |f| %>
+        <% if @topic.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
 
-      <ul>
-      <% @topic.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+              <ul>
+                <% @topic.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
 
-    <div class="field">
-      <%=f.label :course %>
-      <select id="course" name="course" required>
-        <option value="">Select Course</option>
-        <% Course.all.each do |course| %>
-            <% if !@course.nil? && course.id == @course.id %>
-                <option selected value="<%=course.id%>"><%=course.name%></option>
+        <div class="field">
+          <%=f.label :course %>
+          <select id="course" name="course" required>
+            <option value="">Select Course</option>
+            <% Course.all.each do |course| %>
+                <% if !@course.nil? && course.id == @course.id %>
+                    <option selected value="<%=course.id%>"><%=course.name%></option>
                 <% else %>
-                <option value="<%=course.id%>"><%=course.name%></option>
+                    <option value="<%=course.id%>"><%=course.name%></option>
+                <% end %>
             <% end %>
-        <% end %>
-      </select>
-    </div>
+          </select>
+        </div>
 
 
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name,required: true %>
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name,required: true %>
+        </div>
+
+        <div id="parent_topic_container" class="field">
+            <%= render 'parent_topic_select' %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit class: 'btn btn-inverse' %>
+        </div>
+    <% end %>
+
+
   </div>
-  <div class="actions">
-    <%= f.submit class: 'btn btn-inverse' %>
+
+  <div class="span5 offset1">
+
+    <h4>List of courses</h4>
+    <table class="table table-condensed">
+      <th>Topic</th>
+      <th>Courses</th>
+
+
+      <% Topic.all.each do |topic| %>
+          <tr>
+            <td><%=topic.name%></td>
+            <td><%=topic.course.name %></td>
+
+          </tr>
+      <% end %>
+    </table>
+
+
   </div>
-<% end %>
-
-
-</div>
-
-<div class="span5 offset1">
-
-      <h4>List of courses</h4>
-      <table class="table table-condensed">
-        <th>Topic</th>
-        <th>Courses</th>
-
-
-        <% Topic.all.each do |topic| %>
-            <tr>
-              <td><%=topic.name%></td>
-              <td><%=topic.course.name %></td>
-
-            </tr>
-        <% end %>
-      </table>
-
-
-</div>
 
 </div>
 <script>
@@ -77,12 +82,31 @@
                 $("#course_container").show();
             },
             error:function (data) {
-                alert ('nae chalaa');
+                alert ('ERROR');
                 //    window.location.reload();
             }
         });
 
     }
+
+        $("#course").change(function(){
+           $this = $(this);
+            course_id = $this.val();
+            $.ajax({
+                url:'/topics/get_topics?course_id='+course_id,
+                type:'get',
+                dataType:'html',
+                processData:false,
+                success:function (data) {
+                    $("#parent_topic_container").html(data);
+//                    $("#course_container").show();
+                },
+                error:function (data) {
+                    alert ('ERROR');
+                    //    window.location.reload();
+                }
+            });
+        });
 
 
 </script>
