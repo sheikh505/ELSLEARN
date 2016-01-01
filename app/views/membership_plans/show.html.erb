@@ -1,34 +1,59 @@
 <p id="notice"><%= notice %></p>
+<div class="listing-holder">
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Price</th>
+            <th>Paper</th>
+            <th>Max questions allowed</th>
+            <th>Result type</th>
+            <th>Validity</th>
+            <th>Other course amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <%= @membership_plan.price %>
+            </td>
+            <td>  <%= @membership_plan.paper %></td>
+            <td>  <%= @membership_plan.max_questions_allowed %></td>
+            <td>  <%= @membership_plan.result_type %></td>
+            <td>  <%= @membership_plan.validity %></td>
+            <td>  <%= @membership_plan.other_course_amount %></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+<!--<p>-->
+  <!--<b>Price:</b>-->
+  <!--<%#= @membership_plan.price %>-->
+<!--</p>-->
 
-<p>
-  <b>Price:</b>
-  <%= @membership_plan.price %>
-</p>
+<!--<p>-->
+  <!--<b>Paper:</b>-->
+  <!--<%#= @membership_plan.paper %>-->
+<!--</p>-->
 
-<p>
-  <b>Paper:</b>
-  <%= @membership_plan.paper %>
-</p>
+<!--<p>-->
+  <!--<b>Max questions allowed:</b>-->
+  <!--<%#= @membership_plan.max_questions_allowed %>-->
+<!--</p>-->
 
-<p>
-  <b>Max questions allowed:</b>
-  <%= @membership_plan.max_questions_allowed %>
-</p>
+<!--<p>-->
+  <!--<b>Result type:</b>-->
+  <!--<%#= @membership_plan.result_type %>-->
+<!--</p>-->
 
-<p>
-  <b>Result type:</b>
-  <%= @membership_plan.result_type %>
-</p>
+<!--<p>-->
+  <!--<b>Validity:</b>-->
+  <!--<%#= @membership_plan.validity %>-->
+<!--</p>-->
 
-<p>
-  <b>Validity:</b>
-  <%= @membership_plan.validity %>
-</p>
-
-<p>
-  <b>Other course amount:</b>
-  <%= @membership_plan.other_course_amount %>
-</p>
+<!--<p>-->
+  <!--<b>Other course amount:</b>-->
+  <!--<%#= @membership_plan.other_course_amount %>-->
+<!--</p>-->
 
 
 <%= link_to 'Edit', edit_membership_plan_path(@membership_plan) %> |

@@ -52,7 +52,7 @@
             <li>
               <h3>Picture</h3>
               <%= f.file_field :avatar %>
-              <%= f.submit "Update Picture" %>
+              <%= f.submit "Update Picture", :class=>'btn btn-inverse'%>
 
             </li>
         <% end %>
@@ -74,7 +74,7 @@
             </li>
             <li>
               <h3></h3>
-              <%= f.submit "Change Password" %>
+              <%= f.submit "Change Password", :class=>'btn btn-inverse' %>
             </li>
         <% end %>
       </ul>
@@ -112,7 +112,7 @@
             <%=f.hidden_field :status,value: "PENDING" %>
             <li>
               <h3></h3>
-              <%= f.submit "Request" %>
+              <%= f.submit "Request", :class=>'btn btn-inverse' %>
             </li>
         <% end %>
       </ul>

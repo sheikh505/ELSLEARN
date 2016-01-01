@@ -20,7 +20,9 @@
 
 
 
-input[type=text]{
+input[type=text],
+input[type=email],
+input[type=password]{
     height: 40px;
 
 }
@@ -32,7 +34,7 @@ select{
 .main_holder{ margin: 50px 0 0; }
 
 table, td, th { vertical-align: middle; border: none; }
-th { border-bottom: 4px solid #f8f8f8; }
+th { border-bottom: 2px solid #f8f8f8; }
 table tr th{
     color: #a0a8af;
     font-size: 14px;
@@ -44,7 +46,9 @@ table td tr{ height: 40px;}
 .header .navbar{ background: #fff; padding: 4px 22px 4px 0;}
 #page-content-wrapper .listing-holder{
     background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
     margin: 30px 0 ;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     min-height: 160px;
 
 }
@@ -63,7 +67,7 @@ table td tr{ height: 40px;}
     font-size: 13px;
 }
 
-.table tr td a { color: #4aa1db;}
+.table tr td a { color: #2bc5da;}
 .table tr td a:hover{ background: #fff;}
 .listing-holder .new_test,
 .listing-holder .new_book,

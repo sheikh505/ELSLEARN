@@ -1,3 +1,4 @@
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 @import url(http://fonts.googleapis.com/css?family=Pacifico);
 @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700,300);
@@ -465,7 +466,7 @@ Main End
     position: relative;
 }
 #page-content-wrapper {
-    max-width: 1050px;
+    width: 100%;
     background: #f8f8f8;
     padding: 15px;
 
@@ -823,7 +824,7 @@ Pop up Strat
     margin-bottom: 0;
     *margin-left: .3em;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 15px;
     color: #333333;
     text-align: center;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
@@ -913,24 +914,24 @@ Pop up Strat
 .btn-large {
     padding: 11px 19px;
     font-size: 17.5px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
 }
-
 .btn-large [class^="icon-"],
 .btn-large [class*=" icon-"] {
     margin-top: 4px;
 }
 
 .btn-inverse {
-
-
-    background: #5cbcf6 none repeat scroll 0 0;
+    background: #03a9f4 none repeat scroll 0 0;
     border: none;
-    box-shadow: 0 4px #49a7df;
+    border-radius: 1px;
     color: #fff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    padding: 8px 17px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: "Open Sans", sans-serif;
+    text-shadow: none;
 
 }
 .btn-2c:hover {
@@ -1172,12 +1173,12 @@ input[type="button"].btn-block {
 }
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
     background-color: #ffffff;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    border: 1px solid #e3e3e3;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset;
     transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
 }
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-    border-radius: 4px;
+    border-radius: 1px;
     color: #555555;
     display: inline-block;
     font-size: 14px;
@@ -1708,7 +1709,9 @@ select, input[type="file"] {
     margin-bottom:0 !important;
 }
 #page-content-wrapper .listing-holder.listing_data_table{
-    background: transparent;
+    background: #fff;
+    padding: 20px;
+
 }
 #page-content-wrapper .listing-holder.listing_data_table table{
     background: #fff;
@@ -1920,4 +1923,505 @@ select, input[type="file"] {
 }
 .btm_lnks a{
     margin: 6px 0 0 75px;
+}
+/*
+    Common
+*/
+
+.wizard,
+.tabcontrol
+{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.wizard a,
+.tabcontrol a
+{
+    outline: 0;
+}
+
+.wizard ul,
+.tabcontrol ul
+{
+    list-style: none !important;
+    padding: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.wizard ul > li,
+.tabcontrol ul > li
+{
+    display: block;
+    padding: 0;
+}
+
+/* Accessibility */
+.wizard > .steps .current-info,
+.tabcontrol > .steps .current-info
+{
+    position: absolute;
+    left: -999em;
+}
+
+.wizard > .content > .title,
+.tabcontrol > .content > .title
+{
+    position: absolute;
+    left: -999em;
+}
+
+
+
+/*
+    Wizard
+*/
+
+.wizard > .steps
+{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.wizard.vertical > .steps
+{
+    display: inline;
+    float: left;
+    width: 30%;
+}
+
+.wizard > .steps .number
+{
+    font-size: 1.429em;
+}
+
+.wizard > .steps > ul > li
+{
+    width: 33%;
+}
+
+.wizard > .steps > ul > li,
+.wizard > .actions > ul > li
+{
+    float: left;
+}
+
+.wizard.vertical > .steps > ul > li
+{
+    float: none;
+    width: 100%;
+}
+
+.wizard > .steps a,
+.wizard > .steps a:hover,
+.wizard > .steps a:active
+{
+    display: block;
+    width: auto;
+    margin: 0 0.5em 0.5em;
+    padding: 1em 1em;
+    text-decoration: none;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.wizard > .steps .disabled a,
+.wizard > .steps .disabled a:hover,
+.wizard > .steps .disabled a:active
+{
+    background: #eee;
+    color: #aaa;
+    cursor: default;
+}
+
+.wizard > .steps .current a,
+.wizard > .steps .current a:hover,
+.wizard > .steps .current a:active
+{
+    background: #2184be;
+    color: #fff;
+    cursor: default;
+}
+
+.wizard > .steps .done a,
+.wizard > .steps .done a:hover,
+.wizard > .steps .done a:active
+{
+    background: #9dc8e2;
+    color: #fff;
+}
+
+.wizard > .steps .error a,
+.wizard > .steps .error a:hover,
+.wizard > .steps .error a:active
+{
+    background: #ff3111;
+    color: #fff;
+}
+
+.wizard > .content
+{
+    background: #fff;
+    display: block;
+    margin: 0.5em;
+    min-height: 35em;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.wizard.vertical > .content
+{
+    display: inline;
+    float: left;
+    margin: 0 2.5% 0.5em 2.5%;
+    width: 65%;
+}
+
+.wizard > .content > .body
+{
+    float: left;
+    position: absolute;
+    width: 100%;
+    height: 95%;
+    padding: 2.5%;
+}
+
+.wizard > .content > .body ul
+{
+    list-style: disc !important;
+}
+
+.wizard > .content > .body ul > li
+{
+    display: list-item;
+}
+
+.wizard > .content > .body > iframe
+{
+    border: 0 none;
+    width: 100%;
+    height: 100%;
+}
+
+.wizard > .content > .body input
+{
+    display: block;
+    border: 1px solid #ccc;
+}
+
+.wizard > .content > .body input[type="checkbox"]
+{
+    display: inline-block;
+}
+
+.wizard > .content > .body input.error
+{
+    background: rgb(251, 227, 228);
+    border: 1px solid #fbc2c4;
+    color: #8a1f11;
+}
+
+.wizard > .content > .body label
+{
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+.wizard > .content > .body label.error
+{
+    color: #8a1f11;
+    display: inline-block;
+    margin-left: 1.5em;
+}
+
+.wizard > .actions
+{
+    position: relative;
+    display: block;
+    text-align: right;
+    width: 100%;
+}
+
+.wizard.vertical > .actions
+{
+    display: inline;
+    float: right;
+    margin: 0 2.5%;
+    width: 95%;
+}
+
+.wizard > .actions > ul
+{
+    display: inline-block;
+    text-align: right;
+}
+
+.wizard > .actions > ul > li
+{
+    margin: 0 0.5em;
+}
+
+.wizard.vertical > .actions > ul > li
+{
+    margin: 0 0 0 1em;
+}
+
+.wizard > .actions a,
+.wizard > .actions a:hover,
+.wizard > .actions a:active
+{
+    background: #2184be;
+    color: #fff;
+    display: block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.wizard > .actions .disabled a,
+.wizard > .actions .disabled a:hover,
+.wizard > .actions .disabled a:active
+{
+    background: #eee;
+    color: #aaa;
+}
+
+.wizard > .loading
+{
+}
+
+.wizard > .loading .spinner
+{
+}
+
+
+
+/*
+    Tabcontrol
+*/
+
+.tabcontrol > .steps
+{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.tabcontrol > .steps > ul
+{
+    position: relative;
+    margin: 6px 0 0 0;
+    top: 1px;
+    z-index: 1;
+}
+
+.tabcontrol > .steps > ul > li
+{
+    float: left;
+    margin: 5px 2px 0 0;
+    padding: 1px;
+
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tabcontrol > .steps > ul > li:hover
+{
+    background: #edecec;
+    border: 1px solid #bbb;
+    padding: 0;
+}
+
+.tabcontrol > .steps > ul > li.current
+{
+    background: #fff;
+    border: 1px solid #bbb;
+    border-bottom: 0 none;
+    padding: 0 0 1px 0;
+    margin-top: 0;
+}
+
+.tabcontrol > .steps > ul > li > a
+{
+    color: #5f5f5f;
+    display: inline-block;
+    border: 0 none;
+    margin: 0;
+    padding: 10px 30px;
+    text-decoration: none;
+}
+
+.tabcontrol > .steps > ul > li > a:hover
+{
+    text-decoration: none;
+}
+
+.tabcontrol > .steps > ul > li.current > a
+{
+    padding: 15px 30px 10px 30px;
+}
+
+.tabcontrol > .content
+{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 35em;
+    overflow: hidden;
+    border-top: 1px solid #bbb;
+    padding-top: 20px;
+}
+
+.tabcontrol > .content > .body
+{
+    float: left;
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    padding: 2.5%;
+}
+
+.tabcontrol > .content > .body ul
+{
+    list-style: disc !important;
+}
+
+.tabcontrol > .content > .body ul > li
+{
+    display: list-item;
+}
+.select2-container--open .select2-dropdown--below {
+    border-top: medium none !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.select2-dropdown {
+    -moz-border-bottom-colors: none !important;
+    -moz-border-left-colors: none !important;
+    -moz-border-right-colors: none !important;
+    -moz-border-top-colors: none !important;
+    background-color: white;
+    border-bottom: 1px solid #999999 !important;
+    border-image: none !important;
+    border-left: 1px solid #999999 !important;
+    border-radius: 0 !important;
+    border-right: 1px solid #999999 !important;
+    border-top: medium none;
+    box-sizing: border-box;
+    display: block;
+    top: -1px;
+    left: -100000px;
+    position: absolute;
+    width: 100%;
+    z-index: 1051;
+}
+.select2-container--default .select2-selection--single {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #fff;
+    border-color: #999999 #999999 -moz-use-text-color;
+    border-image: none;
+    border-radius: 0;
+    border-style: solid solid none;
+    border-width: 1px 1px 0;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #999999 !important;
+    border-radius: 0 !important;
+}
+.nomgtop{
+    margin-top: 0 !important;
+}
+table.dataTable.no-footer{
+    border-bottom: 1px solid #ddd !important;
+}
+.listing-holder .select2-container{
+    width: 230px !important;
+}
+table.dataTable thead th, table.dataTable thead td{
+    border-bottom: 1px solid #ddd !important;
+}
+.dataTables_wrapper .dataTables_paginate span .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate span .paginate_button.current:hover {
+    background: #03a9f4 !important;
+    border: 1px solid #03a9f4 !important;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+    color: #fff !important;
+    font-size: 16px;
+    line-height: 15px;
+    margin: 4px 0 0;
+    padding: 6px 10px;
+}
+#modal_ques .modal-content {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1px;
+    box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
+    outline: 0 none;
+    padding: 0;
+    position: relative;
+}
+#modal_ques .modal-header {
+    border-bottom: none;
+    padding: 15px 22px;
+}
+#modal_ques .modal-header h4{
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}
+#modal_ques .modal-header .close{
+    float: right;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    -ms-transition: -ms-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+    margin: 0;
+    text-indent: 0;
+    line-height: 13px;
+    height: auto;
+    font-size: 17px;
+}
+#modal_ques .modal-body{
+    padding: 0 20px;
+    background: #fff;
+}
+#modal_ques .modal-footer{
+    background: #f8f8f8;
+    text-align: left;
+    padding: 15px 20px;
+}
+#modal_ques .modal-header .close:hover{
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+}
+.listing-holder.listing-holder-edit-user{
+    padding: 20px;
+}
+.title-edit-user{
+    margin: 0;
+    padding: 0;
+    font-size: 25px
 }
