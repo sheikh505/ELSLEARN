@@ -1,2 +1,2 @@
 <%= label_tag :parent_topic %>
-<%= select_tag "topic[parent_topic_id]", options_for_select(@topics.map{|x| [x.name,x.id]},@topic.nil? ? "" : @topic.parent_topic_id) %>
+<%= select_tag "topic[parent_topic_id]", options_for_select(@topics.map{|x| [x.name,x.id]},@topic.nil? ? "" : @topic.parent_topic_id), :prompt => "Select Parent"%>
