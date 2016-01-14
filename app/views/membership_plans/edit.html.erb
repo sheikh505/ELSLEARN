@@ -1,6 +1,6 @@
-<h1>Editing membership plan</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @membership_plan %> |
-<%= link_to 'Back', membership_plans_path %>
+<h1 class="title-edit-user">Editing membership plan</h1>
+<div class="listing-holder listing-holder-edit-user">
+    <%= render 'form' %>
+</div>
+<%= link_to 'Show', @membership_plan, :class=>'btn btn-inverse' %> |
+<%= link_to 'Back', membership_plans_path, :class=>'btn btn-inverse' %>

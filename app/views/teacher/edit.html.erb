@@ -1,5 +1,5 @@
-<h2>Edit User</h2>
-<div class="row">
+<h2 class="title-edit-user">Edit User</h2>
+<div class="row listing-holder listing-holder-edit-user">
   <div class="span5">
     <%= form_for @user, :url => {:controller => 'teacher', :action => 'update'} do |f| %>
         <% if @user.errors.any? %>
@@ -15,17 +15,17 @@
         <% end %>
 
         <div class="field">
-          <%= f.label :email %><br />
+          <%= f.label :email %>
           <%= f.email_field :email, :disabled => true, :value => @user.email %>
         </div>
 
         <div class="field">
-          <%= f.label :name %><br />
+          <%= f.label :name %>
           <%= f.text_field :name, :autofocus => true, :value => @user.name %>
         </div>
 
         <div class="field">
-          <%= f.label :phone %><br />
+          <%= f.label :phone %>
           <%= f.text_field :phone , :value => @user.phone %>
         </div>
 
@@ -33,19 +33,19 @@
           <%= f.label :new_password %>
           <% if @validatable %>
               <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
+          <% end %>
           <%= f.password_field :password, autocomplete: "off" %>
         </div>
 
         <div class="field">
-          <%= f.label :new_password_confirmation %><br />
+          <%= f.label :new_password_confirmation %>
           <%= f.password_field :password_confirmation, autocomplete: "off" %>
 
         </div>
 
         <div class="field">
-          <%= label_tag :current_password_confirmation %><br />
-          <%= password_field_tag :current_password_confirmation, autocomplete: "off", value: @user.encrypted_password %>
+          <%= label_tag :current_password_confirmation %>
+          <%= password_field_tag :current_password_confirmation,@user.encrypted_password, autocomplete: "off",size: 30 %>
 
         </div>
 
