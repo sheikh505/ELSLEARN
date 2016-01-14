@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151223123019) do
+ActiveRecord::Schema.define(:version => 20160107135545) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
     t.string   "name"
     t.string   "price"
     t.string   "description"
+    t.integer  "degree_id"
+    t.integer  "course_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "avatar_file_name"
@@ -62,8 +64,6 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "author"
-    t.integer  "course_id"
-    t.integer  "degree_id"
   end
 
   create_table "course_linkings", :force => true do |t|
@@ -148,8 +148,8 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
   create_table "question_histories", :force => true do |t|
     t.integer  "user_id"
     t.integer  "question_id"
-    t.string   "board_ids"
-    t.string   "degree_ids"
+    t.integer  "board_id"
+    t.integer  "degree_id"
     t.integer  "difficulty"
     t.integer  "topic_id"
     t.boolean  "is_approved"
@@ -162,9 +162,9 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
     t.boolean  "deleted"
     t.integer  "test_id"
     t.integer  "topic_id"
-    t.integer  "approval_status", :default => 0
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "approval_status",   :default => 0
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.string   "description"
     t.integer  "question_type"
     t.string   "instruction"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
     t.integer  "difficulty"
     t.string   "workflow_state"
     t.string   "comments"
+    t.integer  "course_linking_id"
   end
 
   create_table "quizzes", :force => true do |t|
@@ -214,11 +215,11 @@ ActiveRecord::Schema.define(:version => 20151223123019) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "name"
-    t.string   "questionids"
-    t.string   "question_ids"
     t.integer  "user_id"
     t.string   "test_code"
     t.integer  "course_id"
+    t.string   "question_ids"
+    t.string   "questionids"
   end
 
   create_table "topic_linkings", :force => true do |t|

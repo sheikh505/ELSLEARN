@@ -18,7 +18,7 @@ development:
   host: localhost
   database: elslearn
   pool: 5
-  username: postgres
+  username: mac
   password: Elslearn001
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -45,7 +45,7 @@ test:
   host: localhost
   database: elslearn
   pool: 5
-  username: postgres
+  username: mac
   password: Elslearn001
 
 production:
@@ -53,5 +53,5 @@ production:
   encoding: unicode
   database: elslearn
   pool: 5
-  username: postgres
+  username: mac
   password: Elslearn001
