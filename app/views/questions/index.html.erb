@@ -1,77 +1,72 @@
 
 
-    <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'),
-                :onsubmit => "return checkForm(this)", :method => 'get' do %>
+<%=form_tag url_for(:controller => 'questions', :action => 'add_questions'),
+            :onsubmit => "return checkForm(this)", :method => 'get' do %>
 
     <h1>Listing questions</h1>
     <div class="listing-holder questions">
-    <div class="row">
-    <div class="span5">
-      <div class="field">
-        <%=label_tag :course %>
+      <div class="row">
+        <div class="span5">
+          <div class="field">
+            <%=label_tag :course %>
 
-        <select id="course" name="course" required>
+            <select id="course" name="course" onchange = "fetch_course_associations(this.value)" required>
 
-          <option value="" selected>Select Course</option>
-          <% if current_user.is_teacher? %>
-            <% current_user.teacher_courses.each do |x| %>
-                  <option value="<%=x.course.id %>"><%=x.course.name %></option>
-            <% end %>
+              <option value="" selected>Select Course</option>
+              <% if current_user.is_teacher? %>
+                  <% current_user.teacher_courses.each do |x| %>
+                      <option value="<%=x.course.id %>"><%=x.course.name %></option>
+                  <% end %>
 
 
-          <% else %>
-              <% Course.all.each do |course| %>
+              <% else %>
+                  <% Course.all.each do |course| %>
 
-                  <option value="<%=course.id %>"><%=course.name%></option>
+                      <option value="<%=course.id %>"><%=course.name%></option>
+                  <% end %>
+
               <% end %>
 
-          <% end %>
 
 
+            </select>
+          </div>
 
-        </select>
-      </div>
-      <div class="field" id="board_container">
-        <h4>Boards</h4>
-            <%Board.all.each do |board| %>
-            <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
-            <% end %>
-      </div>
-      <div id="degree_container">
-        <h4>Degrees</h4>
-        <%Degree.all.each do |degree| %>
-            <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
-        <% end %>
-      </div>
+          <div class="field" id="course_board_container">
+            <!--show table for the course linked   -->
+                <%#= render 'course_linking_tbl' %>
 
-      <div class="field" id="type_container">
-        <h4>Question_type</h4>
-        <select id="'question_type" name="question_type">
+          </div>
+
+
+          <div class="field" id="type_container">
+            <h4>Question_type</h4>
+            <select id="'question_type" name="question_type">
 
               <option  value="1">MCQ</option>
               <option  value="2">Descriptive</option>
               <option  value="3">Fill in the blanks</option>
               <option  value="4">True/False</option>
 
-        </select>
+            </select>
+          </div>
+
+        </div>
+
       </div>
-
-    </div>
-
-    </div>
       <%= submit_tag "Add Question" , :class => 'btn btn-large btn-inverse'%>
 
-    <% end %>
-    <br /><br />
-    <% if current_user.is_admin? || current_user.is_teacher? %>
+<% end %>
+<br /><br />
+<% if current_user.is_admin? || current_user.is_teacher? %>
 
     <div id="ques_container" class=''>
       <%= render 'question_list',teacher_self_flag: '1' %>
 
     </div>
-    <% end %>
+<% end %>
 
-    </div>
+</div>
 
 
 
@@ -100,19 +95,19 @@
 
     function checkForm(form)
     {
-        if($('#board_container').find('input[type=checkbox]:checked').length == 0)
-        {
-            $("input:checkbox#boards_").focus();
-            alert('You must check at least one board!');
-            return false;
-        }
-
-        if($('#degree_container').find('input[type=checkbox]:checked').length == 0)
-        {
-            alert('You must check at least one degree!');
-            $("input:checkbox#degree_").focus();
-            return false;
-        }
+//        if($('#board_container').find('input[type=checkbox]:checked').length == 0)
+//        {
+//            $("input:checkbox#boards_").focus();
+//            alert('You must check at least one board!');
+//            return false;
+//        }
+//
+//        if($('#degree_container').find('input[type=checkbox]:checked').length == 0)
+//        {
+//            alert('You must check at least one degree!');
+//            $("input:checkbox#degree_").focus();
+//            return false;
+//        }
         return true;
     }
 
@@ -122,7 +117,7 @@
 
         value = limit;
     }
-         var search = encodeURIComponent($("#search_bar").val());
+        var search = encodeURIComponent($("#search_bar").val());
         $("#search_bar").val("");
         $.getScript('/questions?page=1&limit='+value+'&search='+search);
 
@@ -133,7 +128,7 @@
 
     function show_question(){
 
-       // $("#ques_container").show();
+        // $("#ques_container").show();
 
     }
 
@@ -143,21 +138,21 @@
 
 
         //alert (document.getElementById("degree_hidden_id").value);
-       /* container = document.getElementById('course_container');
-        $.ajax({
-            url:'/questions/get_courses?course_id='+course_id.value,
-            type:'get',
-            dataType:'html',
-            processData:false,
-            success:function (data) {
-                $("#board_container").html(data);
+        /* container = document.getElementById('course_container');
+         $.ajax({
+         url:'/questions/get_courses?course_id='+course_id.value,
+         type:'get',
+         dataType:'html',
+         processData:false,
+         success:function (data) {
+         $("#board_container").html(data);
 
-            },
-            error:function (data) {
-                alert ('Error');
-                //    window.location.reload();
-            }
-        });    */
+         },
+         error:function (data) {
+         alert ('Error');
+         //    window.location.reload();
+         }
+         });    */
 
     }
 
@@ -176,20 +171,20 @@
         //alert(d_id)
         //alert (degree_id.value);
         //container = document.getElementById('course_container');
-       /* $.ajax({
-            url:'/questions/get_ques?test_id='+test.value,
-            type:'get',
-            dataType:'html',
-            processData:false,
-            success:function (data) {
-                $("#ques_container").html(data);
-                $("#ques_container").hide();
-            },
-            error:function (data) {
-                alert ('Error');
-                //    window.location.reload();
-            }
-        });    */
+        /* $.ajax({
+         url:'/questions/get_ques?test_id='+test.value,
+         type:'get',
+         dataType:'html',
+         processData:false,
+         success:function (data) {
+         $("#ques_container").html(data);
+         $("#ques_container").hide();
+         },
+         error:function (data) {
+         alert ('Error');
+         //    window.location.reload();
+         }
+         });    */
 
     }
 
@@ -220,6 +215,24 @@
             }
         });
 
+    }
+
+
+    function fetch_course_associations(value){
+        $.ajax({
+            url:'/questions/get_course_linking?course_id='+value,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#course_board_container").html(data);
+
+            },
+            error:function (data) {
+                alert ('Error');
+                //    window.location.reload();
+            }
+        });
     }
 
 </script>

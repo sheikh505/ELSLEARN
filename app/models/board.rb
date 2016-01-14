@@ -1,6 +1,6 @@
 class Board < ActiveRecord::Base
   has_many :board_degree_assignment,:dependent => :destroy
-  has_many :question_histories,:dependent => :destroy
+  has_many :question_histories
   has_many :degrees, through: :board_degree_assignment
   attr_accessible :name
   validates :name, :uniqueness => true

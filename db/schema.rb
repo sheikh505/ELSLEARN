@@ -11,11 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141216111816) do
+ActiveRecord::Schema.define(:version => 20151223123019) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "board_degree_assignments", :force => true do |t|
+    t.integer  "degree_id"
+    t.integer  "board_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "board_question_assignments", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "board_degree_assignment_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "boards", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -35,13 +55,24 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
     t.string   "name"
     t.string   "price"
     t.string   "description"
-    t.integer  "degree_course_assignment_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "author"
+    t.integer  "course_id"
+    t.integer  "degree_id"
+  end
+
+  create_table "course_linkings", :force => true do |t|
+    t.integer  "course_1"
+    t.integer  "course_2"
+    t.integer  "course_3"
+    t.integer  "course_4"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "courses", :force => true do |t|
@@ -51,10 +82,10 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
   end
 
   create_table "degree_course_assignments", :force => true do |t|
-    t.integer  "degree_id"
+    t.integer  "board_degree_assignment_id"
     t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "degrees", :force => true do |t|
@@ -76,6 +107,18 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+  end
+
+  create_table "membership_plans", :force => true do |t|
+    t.integer  "price"
+    t.string   "paper"
+    t.integer  "max_questions_allowed"
+    t.text     "result_type"
+    t.integer  "validity"
+    t.integer  "other_course_amount"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "name"
   end
 
   create_table "options", :force => true do |t|
@@ -102,47 +145,98 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "question_histories", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.string   "board_ids"
+    t.string   "degree_ids"
+    t.integer  "difficulty"
+    t.integer  "topic_id"
+    t.boolean  "is_approved"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "questions", :force => true do |t|
-    t.string   "statement"
+    t.text     "statement"
+    t.boolean  "deleted"
     t.integer  "test_id"
     t.integer  "topic_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "approval_status", :default => 0
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "description"
     t.integer  "question_type"
     t.string   "instruction"
     t.string   "source"
     t.string   "author"
     t.integer  "difficulty"
-    t.string   "board"
+    t.string   "workflow_state"
+    t.string   "comments"
+  end
+
+  create_table "quizzes", :force => true do |t|
+    t.string   "name"
+    t.string   "test_code"
+    t.string   "question_ids"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "course_id"
   end
 
   create_table "roles", :force => true do |t|
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "teacher_courses", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "degree_course_assignment_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "course_id"
+    t.integer  "degree_id"
+  end
+
+  create_table "teacher_requests", :force => true do |t|
+    t.integer  "teacher_code"
+    t.integer  "student_id"
+    t.string   "student_name"
+    t.string   "student_email"
+    t.string   "status"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "teacher_token"
   end
 
   create_table "tests", :force => true do |t|
-    t.integer  "degree_course_assignment_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-    t.string   "marks"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "name"
+    t.string   "questionids"
+    t.string   "question_ids"
+    t.integer  "user_id"
+    t.string   "test_code"
+    t.integer  "course_id"
+  end
+
+  create_table "topic_linkings", :force => true do |t|
+    t.integer  "topic_1"
+    t.integer  "topic_2"
+    t.integer  "topic_3"
+    t.integer  "topic_4"
+    t.integer  "course_linking_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "topics", :force => true do |t|
     t.string   "name"
-    t.integer  "degree_course_assignment_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.integer  "course_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "parent_topic_id"
   end
 
   create_table "user_addresses", :force => true do |t|
@@ -154,6 +248,26 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_test_histories", :force => true do |t|
+    t.string   "course"
+    t.integer  "score"
+    t.integer  "total"
+    t.string   "code"
+    t.integer  "user_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "board_id"
+    t.integer  "degree_id"
+    t.integer  "pastpaperflag"
+    t.integer  "mcq"
+    t.integer  "fill"
+    t.integer  "truefalse"
+    t.integer  "descriptive"
+    t.integer  "year"
+    t.string   "session"
+    t.integer  "course_id"
   end
 
   create_table "users", :force => true do |t|
@@ -172,9 +286,31 @@ ActiveRecord::Schema.define(:version => 20141216111816) do
     t.string   "role"
     t.string   "phone"
     t.string   "name"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "institute"
+    t.integer  "degree_id"
+    t.string   "student_amount"
+    t.string   "degrees"
+    t.string   "courses"
+    t.integer  "membership_plan_id"
+    t.string   "teacher_token"
+    t.boolean  "free_plan_flag"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "workflow_paths", :force => true do |t|
+    t.integer  "course_id"
+    t.integer  "degree_id"
+    t.boolean  "is_complete", :default => true
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
 
 end

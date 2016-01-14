@@ -26,10 +26,35 @@ class CourseLinkingsController < ApplicationController
     end
     arr.uniq!
 
-    if arr.blank?
-      @courses = Course.order(:name)
-    else
-      @courses = Course.where("id NOT IN (#{arr.join(",")})").order(:name)
+
+    ##################### GCE IGCSE ###################################
+    @courses_gce_igcse = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("IGCSE").id)
+    @courses_gce_igcse = @courses_gce_igcse.first
+    @courses_gce_igcse = @courses_gce_igcse.courses.blank? ? [] : @courses_gce_igcse.courses
+
+    ##################### GCE O Levels ###################################
+
+    @courses_gce_o_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("O LEVEL").id)
+    @courses_gce_o_level = @courses_gce_o_level.first
+    @courses_gce_o_level = @courses_gce_o_level.courses.blank? ? [] : @courses_gce_o_level.courses
+
+    ##################### GCE A Levels ###################################
+
+    @courses_gce_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("A & AS LEVEL").id)
+    @courses_gce_a_level = @courses_gce_a_level.first
+    @courses_gce_a_level = @courses_gce_a_level.courses.blank? ? [] : @courses_gce_a_level.courses
+    ##################### GCE A Levels ###################################
+
+    @courses_edexcel_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("EDEXCEL").id,Degree.find_by_name("A & AS LEVEL").id)
+    @courses_edexcel_a_level = @courses_edexcel_a_level.first
+    @courses_edexcel_a_level = @courses_edexcel_a_level.courses.blank? ? [] : @courses_edexcel_a_level.courses
+
+    unless arr.blank?
+      @courses_gce_igcse = @courses_gce_igcse.reject{|x| arr.include? x.id}
+      @courses_gce_o_level = @courses_gce_o_level.reject{|x| arr.include? x.id}
+      @courses_gce_a_level = @courses_gce_a_level.reject{|x| arr.include? x.id}
+      @courses_edexcel_a_level = @courses_edexcel_a_level.reject{|x| arr.include? x.id}
+
     end
 
     respond_with(@course_linking)
@@ -47,10 +72,34 @@ class CourseLinkingsController < ApplicationController
     end
     arr.uniq!
 
-    if arr.blank?
-      @courses = Course.order(:name)
-    else
-      @courses = Course.where("id NOT IN (#{arr.join(",")})").order(:name)
+    ##################### GCE IGCSE ###################################
+    @courses_gce_igcse = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("IGCSE").id)
+    @courses_gce_igcse = @courses_gce_igcse.first
+    @courses_gce_igcse = @courses_gce_igcse.courses.blank? ? [] : @courses_gce_igcse.courses
+
+    ##################### GCE O Levels ###################################
+
+    @courses_gce_o_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("O LEVEL").id)
+    @courses_gce_o_level = @courses_gce_o_level.first
+    @courses_gce_o_level = @courses_gce_o_level.courses.blank? ? [] : @courses_gce_o_level.courses
+
+    ##################### GCE A Levels ###################################
+
+    @courses_gce_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("A & AS LEVEL").id)
+    @courses_gce_a_level = @courses_gce_a_level.first
+    @courses_gce_a_level = @courses_gce_a_level.courses.blank? ? [] : @courses_gce_a_level.courses
+    ##################### GCE A Levels ###################################
+
+    @courses_edexcel_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("EDEXCEL").id,Degree.find_by_name("A & AS LEVEL").id)
+    @courses_edexcel_a_level = @courses_edexcel_a_level.first
+    @courses_edexcel_a_level = @courses_edexcel_a_level.courses.blank? ? [] : @courses_edexcel_a_level.courses
+
+    unless arr.blank?
+      @courses_gce_igcse = @courses_gce_igcse.reject{|x| arr.include? x.id}
+      @courses_gce_o_level = @courses_gce_o_level.reject{|x| arr.include? x.id}
+      @courses_gce_a_level = @courses_gce_a_level.reject{|x| arr.include? x.id}
+      @courses_edexcel_a_level = @courses_edexcel_a_level.reject{|x| arr.include? x.id}
+
     end
   end
 

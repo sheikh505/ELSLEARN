@@ -462,6 +462,21 @@ class HomePageController < ApplicationController
     end
   end
 
+  def checkout_form
+    if user_signed_in? && current_user.is_student?
+
+    else
+      redirect_to "/home_page/pricing",alert: "Sign up to buy the package"
+      return
+    end
+    @membership_plan = MembershipPlan.find(params[:mm_plan_id])
+
+  end
+
+  def receipt
+  puts "============================================================+>",params.inspect
+  end
+
   private
   def check_session
 

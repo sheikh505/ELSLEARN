@@ -31,6 +31,9 @@ ExamsSystem::Application.routes.draw do
   delete "user.:id" => "teacher#destroy"
 
   get "home_page/user/my_profile" => "user#my_profile"
+  get "home_page/checkout_form" => "home_page#checkout_form"
+  get "/home_page/receipt" => "home_page#receipt"
+
   put "user/update"
   get "/courses/get_courses_by_degree_id"
 
@@ -92,6 +95,7 @@ ExamsSystem::Application.routes.draw do
       get :questions_detail
       get :get_question_detail
       get :enable_question_review
+      get :get_course_linking
     end
   end
 

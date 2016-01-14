@@ -1,0 +1,26 @@
+<form action='https://sandbox.2checkout.com/checkout/purchase' method='post'>
+  <input type='hidden' name='sid' value='901302957' >
+  <input type='hidden' name='mode' value='2CO' >
+  <input type='hidden' name='li_0_type' value='product' >
+  <input type='text' name='li_0_name' value='<%=@membership_plan.name %>' >
+  <input type='text' name='li_0_product_id' value='<%=@membership_plan.id %>' >
+  <input type='text' name='li_0__description' value='<%=@membership_plan.name %>' >
+  <input type='text' name='li_0_price' value='<%=@membership_plan.price %>' >
+  <input type='text' name='li_0_quantity' value='1' >
+  <input type='hidden' name='li_0_tangible' value='N' >
+  <input type='text' name='card_holder_name' value='<%=current_user.name %>' >
+  <input type='hidden' name='street_address' value='lahore' >
+  <input type='hidden' name='street_address2' value='lahore' >
+  <input type='hidden' name='city' value='Lahore' >
+  <input type='hidden' name='state' value='PUNJAB' >
+  <input type='hidden' name='zip' value='53400' >
+  <input type='hidden' name='country' value='PAKISTAN' >
+  <input type='hidden' name='currency_code' value='USD' >
+  <input type='hidden' name='x_receipt_link_url' value='home_page/receipt' >
+  <input type='text' name='email' value='<%=current_user.email %>' >
+  <input type='text' name='phone' value='<%=current_user.phone %>' >
+  <input type='hidden' name='phone_extension' value='+92' >
+  <input type='hidden' name='purchase_step' value='payment-method' >
+  <input name='submit' type='submit' value='Checkout' >
+
+</form>

@@ -36,7 +36,8 @@
                 </ul>
               </div>
               <div class="price">
-                <%=link_to "BUY","home_page/assign_member_ship_plan?id=#{plan.id}",remote: true,class: 'bottom' %>
+                <%=link_to "BUY","home_page/checkout_form?mm_plan_id=#{plan.id}",class: 'bottom' %>
+                <%#=link_to "BUY","home_page/assign_member_ship_plan?id=#{plan.id}",remote: true,class: 'bottom' %>
                 <!--<a href="home_page/assign_member_ship_plan?id=<%#=plan.id%>" class="bottom"><p class="cart">BUY</p></a>-->
               </div>
             </div>

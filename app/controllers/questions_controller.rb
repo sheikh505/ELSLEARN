@@ -902,6 +902,10 @@ class QuestionsController < ApplicationController
     render partial: 'ques_detail'
   end
 
+  def get_course_linking
+    @course_linking = CourseLinking.search_on_course_column(params[:course_id])
+    render :partial => 'course_linking_tbl'
+  end
 
   private
   def publish_question(question)
