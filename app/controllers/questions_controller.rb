@@ -264,14 +264,23 @@ class QuestionsController < ApplicationController
     else
       @topics = Course.find_by_id(@course_id).topics
       @boards_name = []
-      @boards.each do |board|
-        @boards_name << Board.find_by_id(board).name
-      end
+
+      # unless @boards.nil?
+      #   @boards.each do |board|
+      #     @boards_name << Board.find_by_id(board).name
+      #   end
+      # end
 
       @degrees_name = []
-      @degrees.each do |degree|
-        @degrees_name << Degree.find_by_id(degree).name
-      end
+      @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
+
+      puts "---------------------------->>>>>>",@course_linking_id
+
+      # unless @degrees.nill?
+      #   @degrees.each do |degree|
+      #     @degrees_name << Degree.find_by_id(degree).name
+      #   end
+      # end
     end
 
 
@@ -340,6 +349,9 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
+
+    @question.course_linking_id = params[:course_linking_id]
+
     #@question.topic_id = params[:topic_id]
     @question.test_id = nil
     @question.deleted = false
