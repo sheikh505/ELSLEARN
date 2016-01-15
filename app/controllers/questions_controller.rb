@@ -150,7 +150,7 @@ class QuestionsController < ApplicationController
 
       @boards_name = []
       @degrees_name = []
-      @course_id = @question.topic.course_id
+      # @course_id = @question.topic.course_id
 
       BoardQuestionAssignment.find_all_by_question_id(@question.id).each do |bqa|
         unless @boards_name.include? bqa.board_degree_assignment.board.name
@@ -162,7 +162,8 @@ class QuestionsController < ApplicationController
       end
 
       session[:question] ||= {}
-      session[:question][:course_id] = @question.topic.course_id
+      # session[:question][:course_id] = @question.topic.course_id
+      session[:question][:course_id] = @question.course_linking_id
       session[:question][:boards] = @boards
       session[:question][:degrees] = @degrees
       session[:question][:view] = @question.question_type.to_s
@@ -196,7 +197,8 @@ class QuestionsController < ApplicationController
     @question = Question.find_by_id(params[:id])
 
     @topic = @question.topic
-    @course_id = @topic.course_id
+    # @course_id = @topic.course_id
+    @course_id = @question.course_linking_id
     @boards = []
     @degrees = []
     dummy = @question.board_degree_assignments
@@ -228,7 +230,7 @@ class QuestionsController < ApplicationController
     if params[:q_id]
       @current_question = Question.find(params[:q_id])
 
-      @course_id = @current_question.topic.course_id
+      # @course_id = @current_question.topic.course_id
       @boards = []
       @degrees = []
       @current_question.board_degree_assignments.each do |bd|
@@ -266,9 +268,9 @@ class QuestionsController < ApplicationController
       @boards_name = []
 
       # unless @boards.nil?
-      #   @boards.each do |board|
-      #     @boards_name << Board.find_by_id(board).name
-      #   end
+        @boards.each do |board|
+          @boards_name << Board.find_by_id(board).name
+        end
       # end
 
       @degrees_name = []
@@ -277,9 +279,9 @@ class QuestionsController < ApplicationController
       puts "---------------------------->>>>>>",@course_linking_id
 
       # unless @degrees.nill?
-      #   @degrees.each do |degree|
-      #     @degrees_name << Degree.find_by_id(degree).name
-      #   end
+        @degrees.each do |degree|
+          @degrees_name << Degree.find_by_id(degree).name
+        end
       # end
     end
 
@@ -338,6 +340,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
+
+
     @boards = params[:boards]
     @degrees = params[:degrees]
 

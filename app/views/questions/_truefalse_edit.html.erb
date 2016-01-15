@@ -90,6 +90,14 @@
 
     <%=hidden_field_tag :type_ques, 'trueFalse'  %>
     <%=hidden_field_tag :course_id, @course_id %>
+    <%= hidden_field_tag :boards,@boards %>
+    <%= hidden_field_tag :degrees,@degrees %>
+    <%= hidden_field_tag :view, @view%>
+
+
+    <%= hidden_field_tag :course_linking_id, @course_linking_id%>
+
+
 
     <div class="actions">
       <%= f.submit class: 'btn btn-large btn-inverse ' %>

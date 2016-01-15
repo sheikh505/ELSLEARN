@@ -118,7 +118,7 @@
 
   <% elsif current_user.is_operator? && (@question.current_state.to_s == "new" || @question.current_state.to_s == "rejected") %>
       <%= link_to 'Demo', demo_questions_path(:ques_id=> @question.id) , :class=> 'btn btn-large btn-inverse'%>
-      <% if current_user.is_operator? && @question.author ==  current_user.email %>
+      <% if ((current_user.is_operator? && @question.author ==  current_user.email) || (current_user.is_admin?)) %>
             <%= link_to 'Edit', edit_question_path(@question) , :class=> 'btn btn-large btn-inverse'%>
       <% end %>
       <%= link_to 'New', questions_path , :class=> 'btn btn-large  btn-inverse'%>

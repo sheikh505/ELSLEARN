@@ -13,11 +13,21 @@ class TopicLinkingsController < ApplicationController
     respond_with(@topic_linking)
   end
 
+
   def new
     @topic_linking = TopicLinking.new
     @courses = Course.order(:name)
+
+    # @courses.each do |course|
+    #   @courses = course unless CourseLinking.search_on_course_column(course.id).nil?
+    #   end
+    # # CourseLinking.
+    # puts "-----------------<<><><><><><><><>",@courses
+
+
     respond_with(@topic_linking)
   end
+
 
   def edit
     @course_linking = @topic_linking.course_linking
