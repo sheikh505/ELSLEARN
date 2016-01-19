@@ -1,10 +1,10 @@
 module CourseLinkingsHelper
 
   def get_course_name id
-    if id.nil?
+    if (id.nil? || Course.find_by_id(id).nil?)
       return "NIL"
     else
-      Course.find(id).name
+      Course.find_by_id(id).name
     end
   end
 

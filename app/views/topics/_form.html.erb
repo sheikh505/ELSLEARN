@@ -13,13 +13,20 @@
             </div>
         <% end %>
 
+
+
         <div class="field">
           <%=f.label :course %>
           <select id="course" name="course" required>
             <option value="">Select Course</option>
+
             <% Course.all.each do |course| %>
                 <% if !@course.nil? && course.id == @course.id %>
                     <option selected value="<%=course.id%>"><%=course.name%></option>
+                <% elsif params[:course_id].present? %>
+                    <% if course.id.to_s == params[:course_id] %>
+                        <option value="<%=course.id %>" selected><%=course.name%></option>
+                    <% end %>
                 <% else %>
                     <option value="<%=course.id%>"><%=course.name%></option>
                 <% end %>
@@ -34,12 +41,14 @@
           <%= f.text_field :name,required: true %>
         </div>
 
+        <%= hidden_field_tag :status, '1' %>
+
         <div id="parent_topic_container" class="field">
-            <%= render 'parent_topic_select' %>
+          <%= render 'parent_topic_select' %>
         </div>
 
         <div class="actions">
-          <%= f.submit class: 'btn btn-inverse' %>
+          <%= f.submit @topic.new_record? ? "Save and exit": "Update and exit", class: 'btn btn-inverse' %> | <%= f.submit "Save and move next", class: 'btn btn-inverse', onclick:"set_status()"%>
         </div>
     <% end %>
 
@@ -68,6 +77,14 @@
 
 </div>
 <script>
+
+  $("document").ready(function(){
+      <% if params[:course_id].present? %>
+      $("#course").change();
+      <% end %>
+  });
+
+
     function generate_courses(degree_id)
     {
         //alert (degree_id.value);
@@ -89,24 +106,30 @@
 
     }
 
-        $("#course").change(function(){
-           $this = $(this);
-            course_id = $this.val();
-            $.ajax({
-                url:'/topics/get_topics?course_id='+course_id,
-                type:'get',
-                dataType:'html',
-                processData:false,
-                success:function (data) {
-                    $("#parent_topic_container").html(data);
+    function set_status(){
+        $("#status").val('0');
+    }
+
+    $("#course").change(function(){
+        $this = $(this);
+        course_id = $this.val();
+        $.ajax({
+            url:'/topics/get_topics?course_id='+course_id,
+            type:'get',
+            dataType:'html',
+            processData:false,
+            success:function (data) {
+                $("#parent_topic_container").html(data);
+                $('#topic_parent_topic_id [value="<%= params[:parent_topic_id] %>"]').attr('selected',true);
+//                $("#topic_parent_topic_id").val(hgvfgh);
 //                    $("#course_container").show();
-                },
-                error:function (data) {
-                    alert ('ERROR');
-                    //    window.location.reload();
-                }
-            });
+            },
+            error:function (data) {
+                alert ('ERROR');
+                //    window.location.reload();
+            }
         });
+    });
 
 
 </script>

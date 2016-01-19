@@ -2,8 +2,7 @@
   <div class="span12 course_link_cont">
     <h3>Select Course</h3>
       <%=form_tag "/topic_linkings/get_course_link",remote: true,id: "course_form" do %>
-          <%#=select_tag :course_id,options_for_select(@courses.map{|x| [x.name,x.id] }),prompt: "SELECT COURSE" %>
-          <%=select_tag :course_id,options_for_select(@courses.map{|x| [x.name,x.id]  unless CourseLinking.search_on_course_column(x).nil? }),prompt: "SELECT COURSE" %>
+          <%=select_tag :course_id,options_for_select(@course_arr.map{|x| [x.name,x.id]} ),prompt: "SELECT COURSE" %>
       <% end %>
 
     <div id="topic_table_container" class="course_link_container listing-holder">

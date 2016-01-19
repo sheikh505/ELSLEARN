@@ -17,7 +17,6 @@ class TopicsController < ApplicationController
   def new
     @topic = Topic.new
     @topics = []
-
     respond_with(@topic)
   end
 
@@ -32,7 +31,16 @@ class TopicsController < ApplicationController
     @topic.name.upcase!
     @topic.course_id = params[:course]
     @topic.save
-    redirect_to topics_path
+    status = params[:status]
+     if (status == '1')
+
+       url =  topics_path
+     elsif (status == '0')
+       @course_id = params[:course]
+       @parent_topic_id = params[:topic][:parent_topic_id]
+       url =  new_topic_path+"?parent_topic_id="+@parent_topic_id+"&course_id="+@course_id
+     end
+     redirect_to url
   end
 
   def update
@@ -44,8 +52,14 @@ class TopicsController < ApplicationController
   end
 
   def destroy
-    @topic.destroy
-    respond_with(@topic)
+      check = Topic.where(parent_topic_id: @topic.id)
+      if (check.empty?)
+        @topic.destroy
+        respond_with(@topic)
+      else
+        redirect_to topics_path
+        flash[:notice] = "Can not delete"
+      end
   end
 
   def get_topics
@@ -54,7 +68,7 @@ class TopicsController < ApplicationController
   end
 
   private
-    def set_topic
-      @topic = Topic.find(params[:id])
-    end
+  def set_topic
+    @topic = Topic.find(params[:id])
+  end
 end

@@ -33,6 +33,11 @@
 
 
 </div>
+
+<% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
 <% if can? :manage, Topic %>
     <%= link_to 'New Topic', new_topic_path ,:class=> 'btn btn-inverse'%>
 <% end %>

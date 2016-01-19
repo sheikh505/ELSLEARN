@@ -17,14 +17,12 @@ class TopicLinkingsController < ApplicationController
   def new
     @topic_linking = TopicLinking.new
     @courses = Course.order(:name)
-
-    # @courses.each do |course|
-    #   @courses = course unless CourseLinking.search_on_course_column(course.id).nil?
-    #   end
-    # # CourseLinking.
-    # puts "-----------------<<><><><><><><><>",@courses
-
-
+    @course_arr = []
+    @courses.all.each do |course|
+      unless CourseLinking.search_on_course_column(course.id).nil?
+        @course_arr << course
+      end
+    end
     respond_with(@topic_linking)
   end
 
@@ -91,6 +89,8 @@ class TopicLinkingsController < ApplicationController
     @topic_linking.destroy
     respond_with(@topic_linking)
   end
+
+
 
   def get_course_link
     respond_to do |format|
