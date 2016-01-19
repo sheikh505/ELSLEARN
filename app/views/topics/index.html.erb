@@ -41,3 +41,9 @@
 <% if can? :manage, Topic %>
     <%= link_to 'New Topic', new_topic_path ,:class=> 'btn btn-inverse'%>
 <% end %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.table').dataTable();
+    } );
+</script>
