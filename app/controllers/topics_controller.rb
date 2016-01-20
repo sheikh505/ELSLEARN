@@ -27,7 +27,9 @@ class TopicsController < ApplicationController
 
   def create
 
+
     @topic = Topic.new(params[:topic])
+
     @topic.name.upcase!
     @topic.course_id = params[:course]
     @topic.save
@@ -38,6 +40,9 @@ class TopicsController < ApplicationController
      elsif (status == '0')
        @course_id = params[:course]
        @parent_topic_id = params[:topic][:parent_topic_id]
+       if @parent_topic_id.eql?("")
+         @parent_topic_id = Topic.last.id.to_s
+       end
        url =  new_topic_path+"?parent_topic_id="+@parent_topic_id+"&course_id="+@course_id
      end
      redirect_to url

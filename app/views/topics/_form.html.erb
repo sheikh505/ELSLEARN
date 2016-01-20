@@ -48,7 +48,7 @@
         </div>
 
         <div class="actions">
-          <%= f.submit @topic.new_record? ? "Save and exit": "Update and exit", class: 'btn btn-inverse' %> | <%= f.submit "Save and move next", class: 'btn btn-inverse', onclick:"set_status()"%>
+          <%= f.submit "Save and move next", class: 'btn btn-inverse', onclick:"set_status()"%> | <%= f.submit @topic.new_record? ? "Save and exit": "Update and exit", class: 'btn btn-inverse' %>
         </div>
     <% end %>
 
@@ -59,9 +59,13 @@
 
     <h4>List of courses</h4>
     <table class="table table-condensed">
+
+      <thead>
       <th>Topic</th>
       <th>Courses</th>
+      </thead>
 
+      <tbody>
 
       <% Topic.all.each do |topic| %>
           <tr>
@@ -70,6 +74,9 @@
 
           </tr>
       <% end %>
+
+      </tbody>
+
     </table>
 
 
@@ -79,6 +86,7 @@
 <script>
 
   $("document").ready(function(){
+      $('.table').dataTable({bFilter: false, "bLengthChange": false});
       <% if params[:course_id].present? %>
       $("#course").change();
       <% end %>
@@ -120,9 +128,8 @@
             processData:false,
             success:function (data) {
                 $("#parent_topic_container").html(data);
+                $("#topic_name").focus();
                 $('#topic_parent_topic_id [value="<%= params[:parent_topic_id] %>"]').attr('selected',true);
-//                $("#topic_parent_topic_id").val(hgvfgh);
-//                    $("#course_container").show();
             },
             error:function (data) {
                 alert ('ERROR');
@@ -133,3 +140,4 @@
 
 
 </script>
+

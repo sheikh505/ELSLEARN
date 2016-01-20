@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     return self.roles.first.name == 'Teacher' ? true : false
   end
   def is_proofreader?
-    return self.roles.first.name == 'Proofreader' ? true : false
+    return (self.roles.first.name == 'Proofreader' || self.roles.first.name == 'Proof Reader') ? true : false
   end
   def is_student?
     return self.roles.first.name.downcase == "student" ? true : false
