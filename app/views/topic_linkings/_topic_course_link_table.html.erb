@@ -1,0 +1,72 @@
+<%=form_for :topic_linking,url: topic_linkings_path,remote: true,html: {id: "topic_linking_form"} do |f| %>
+    <table class="table table-condensed topic_table">
+      <thead>
+      <tr>
+        <th><%=get_course_name_tab(@course_linking.course_1) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_2) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_3) %></th>
+        <th><%=get_course_name_tab(@course_linking.course_4) %></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr>
+        <td>
+          <% unless @course_linking.course_1.nil? %>
+              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_2.nil? %>
+              <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_3.nil? %>
+              <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+        <td>
+          <% unless @course_linking.course_4.nil? %>
+              <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <% end %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <%=f.hidden_field :course_linking_id,value: @course_linking.id  %>
+    <%=hidden_field_tag :direction,"save_next" %>
+<% end %>
+<div class="btm_lnks">
+  <%= link_to "ADD AND MOVE NEXT","javascript:void(0)",id: "add_next", class: "btn btn-inverse btm_lnks_a" %>
+  <%= link_to "ADD AND EXIT","javascript:void(0)",id: "add_exit", class: "btn btn-inverse btm_lnks_a" %>
+  <%= link_to "EXIT","javascript:void(0)",id: "exit", class: "btn btn-inverse btm_lnks_a" %>
+</div>
+
+
+<script type="text/javascript">
+
+    $(".btm_lnks_a").click(function(e){
+        var id = e.target.id;
+        var str = "";
+
+        if (id == 'add_next'){
+            str = "save_next"
+        }
+        else if (id == 'add_exit'){
+            str = "save_exit"
+        }
+        else if (id == 'exit'){
+            location = "/topic_linkings";
+            return;
+        }
+        else{
+            alert("something went wrong");
+            return false;
+        }
+        $("#direction").val(str);
+        $("#topic_linking_form").submit();
+
+    });
+
+</script>

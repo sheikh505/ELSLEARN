@@ -1,0 +1,6 @@
+<% if @flag == true %>
+    $("#topic_table_container").html("<%=escape_javascript render "topic_course_link_table" %>");
+    $("select").select2();
+<% else %>
+
+<% end %>
