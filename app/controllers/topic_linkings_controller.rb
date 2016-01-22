@@ -124,6 +124,44 @@ class TopicLinkingsController < ApplicationController
     end
   end
 
+
+  def get_topic_course_link
+    respond_to do |format|
+      puts "-------------------->>>>get_topic_course_link",params.inspect
+      # @course_linking = CourseLinking.search_on_course_column(params[:course_id])
+      @course_linking = CourseLinking.find(params[:course_linking_id])
+      if @course_linking.nil?
+        @flag = false
+      else
+        arr = []
+        TopicLinking.all.each do |topic|
+          arr << topic.topic_1 unless topic.topic_1.nil?
+          arr << topic.topic_2 unless topic.topic_2.nil?
+          arr << topic.topic_3 unless topic.topic_3.nil?
+          arr << topic.topic_4 unless topic.topic_4.nil?
+        end
+        arr.uniq!
+        if arr.blank?
+          @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
+          @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
+          @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+          @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
+        else
+          @topics_1 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_1)
+          @topics_2 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_2)
+          @topics_3 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_3)
+          @topics_4 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_4)
+        end
+
+        @flag = true
+      end
+      format.js
+    end
+  end
+
+
+
+
   private
   def set_topic_linking
     @topic_linking = TopicLinking.find(params[:id])

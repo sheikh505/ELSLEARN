@@ -1,42 +1,46 @@
 <%= form_for "question", :html => {:id => "question_details", :onsubmit => "return false;"} do |f| %>
     <div class="question_details">
-    <h5 class="labelquestions">Boards</h5>
-    <p>
-      <%Board.all.each do |board| %>
-          <% if @boards_name.include? board.name %>
-              <%=check_box_tag "boards[]",board.id,true %><%=board.name %>
-          <% else %>
-              <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
-          <% end %>
-      <% end %>
-
-
-    </p>
-
-
-    <h5 class="labelquestions">Degrees</h5>
-    <p>
-      <%Degree.all.each do |degree| %>
-          <% if @degrees_name.include? degree.name %>
-              <%=check_box_tag "degree[]",degree.id, true %><%=degree.name %>
-          <% else %>
-              <%=check_box_tag "degree[]",degree.id, false %><%=degree.name %>
-          <% end %>
-      <% end %>
-    </p>
-
-      <select name="topic">
-        <% Topic.where(:course_id => @course_id).each do |topic|  %>
-            <option <%='selected' if @question.topic_id == topic.id %> value="<%=topic.id %>"><%=topic.name %></option>
+      <h5 class="labelquestions">Boards</h5>
+      <p>
+        <%Board.all.each do |board| %>
+            <% if @boards_name.include? board.name %>
+                <%=check_box_tag "boards[]",board.id,true %><%=board.name %>
+            <% else %>
+                <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
+            <% end %>
         <% end %>
-      </select>
-    <i class='fa fa-pencil-square-o'></i>
+      </p>
+
+      <h5 class="labelquestions">Degrees</h5>
+      <p>
+        <%Degree.all.each do |degree| %>
+            <% if @degrees_name.include? degree.name %>
+                <%=check_box_tag "degree[]",degree.id, true %><%=degree.name %>
+            <% else %>
+                <%=check_box_tag "degree[]",degree.id, false %><%=degree.name %>
+            <% end %>
+        <% end %>
+      </p>
+
+      <!--<select name="topic">-->
+      <!--<%# Topic.where(:course_id => @course_id).each do |topic|  %>-->
+      <!--<option <%#='selected' if @question.topic_id == topic.id %> value="<%#=topic.id %>"><%#=topic.name %></option>-->
+      <!--<%# end %>-->
+      <!--</select>-->
+
+      <div class="span12 course_link_cont">
+        <h3>Topic Linking</h3>
+        <div id="topic_table_container" class="course_link_container listing-holder">
+        </div>
+      </div>
+      <i class='fa fa-pencil-square-o'></i>
 
 
-    <h5 class="labelquestions">Difficulty</h5>
-    <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
-    <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
-    <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
+
+      <h5 class="labelquestions">Difficulty</h5>
+      <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
+      <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
+      <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
       <%= hidden_field_tag :question_id,@question.id %>
 
 
@@ -49,7 +53,130 @@
     </div>
 <% end %>
 
+
 <script type="text/javascript">
+
+    $(document).ready(function(){
+        $.ajax({
+            url: '/questions/get_topic_course_link',
+            type: 'get',
+            data: "course_linking_id="+<%= @question.course_linking_id %>,
+            async: false,
+            success:function(data){
+                $("#topic_table_container").html(data);
+            },
+            error:function(){
+            }
+        });
+    });
+
+
+    $(document).ready(function(){
+
+        $("#topic_linking_topic_1").on("change", function(){
+            topic_id = this.value;
+//            alert(topic_id);
+
+            if (topic_id == "")
+                return false;
+            else{
+                $.ajax({
+                    url: '/questions/get_all_topics_from_topic_linking',
+                    type: 'get',
+                    data: "topic_id="+topic_id+"&course_linking_id="+<%= @question.course_linking_id %>,
+                    async: false,
+                    success:function(data){
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                        $("#topic_table_container").html(data);
+                    },
+                    error:function(){
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                    }
+                });
+            }
+
+        });
+
+        $("#topic_linking_topic_2").on("change", function(){
+            topic_id = this.value;
+//            alert(topic_id);
+
+            if (topic_id == "")
+                return false;
+            else{
+                $.ajax({
+                    url: '/questions/get_all_topics_from_topic_linking',
+                    type: 'get',
+                    data: "topic_id="+topic_id+"&course_linking_id="+<%= @question.course_linking_id %>,
+                    async: false,
+                    success:function(data){
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                        $("#topic_table_container").html(data);
+                    },
+                    error:function(){
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                    }
+                });
+            }
+
+        });
+
+        $("#topic_linking_topic_3").on("change", function(){
+            topic_id = this.value;
+//            alert(topic_id);
+
+            if (topic_id == "")
+                return false;
+            else{
+                $.ajax({
+                    url: '/questions/get_all_topics_from_topic_linking',
+                    type: 'get',
+                    data: "topic_id="+topic_id+"&course_linking_id="+<%= @question.course_linking_id %>,
+                    async: false,
+                    success:function(data){
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                        $("#topic_table_container").html(data);
+                    },
+                    error:function(){
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                    }
+                });
+            }
+
+        });
+
+        $("#topic_linking_topic_4").on("change", function(){
+            topic_id = this.value;
+//            alert(topic_id);
+
+            if (topic_id == "")
+                return false;
+            else{
+                $.ajax({
+                    url: '/questions/get_all_topics_from_topic_linking',
+                    type: 'get',
+                    data: "topic_id="+topic_id+"&course_linking_id="+<%= @question.course_linking_id %>,
+                    async: false,
+                    success:function(data){
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                        $("#topic_table_container").html(data);
+                    },
+                    error:function(){
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                    }
+                });
+            }
+
+        });
+
+    });
+</script>
+
+
+
+<script type="text/javascript">
+
+
     $('#approve').click(function() {
 //        $.post("approve_by_teacher", $("form#question_details").serialize(), function (response) {
 //            if (response.success) {

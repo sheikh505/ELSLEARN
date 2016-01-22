@@ -2,6 +2,7 @@ ExamsSystem::Application.routes.draw do
   resources :topic_linkings do
     collection do
       post :get_course_link
+      get :get_topic_course_link
     end
   end
 
@@ -96,6 +97,8 @@ ExamsSystem::Application.routes.draw do
       get :get_question_detail
       get :enable_question_review
       get :get_course_linking
+      get :get_topic_course_link
+      get :get_all_topics_from_topic_linking
     end
   end
 
