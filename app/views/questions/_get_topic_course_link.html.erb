@@ -1,39 +1,117 @@
-    <table class="table table-condensed topic_table">
-      <thead>
-      <tr>
-        <th><%=get_course_name_tab(@course_linking.course_1) %></th>
-        <th><%=get_course_name_tab(@course_linking.course_2) %></th>
-        <th><%=get_course_name_tab(@course_linking.course_3) %></th>
-        <th><%=get_course_name_tab(@course_linking.course_4) %></th>
-      </tr>
-      </thead>
+<table class="table table-condensed topic_table">
+  <thead>
+  <tr>
+    <th><%=get_course_name_tab(@course_linking.course_1) %></th>
+    <th><%=get_course_name_tab(@course_linking.course_2) %></th>
+    <th><%=get_course_name_tab(@course_linking.course_3) %></th>
+    <th><%=get_course_name_tab(@course_linking.course_4) %></th>
+  </tr>
+  </thead>
 
-      <tbody>
-      <tr>
-        <td>
-          <% unless @course_linking.course_1.nil? %>
-              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+  <tbody>
+  <tr>
+    <td>
+      <% unless @course_linking.course_1.nil? %>
+          <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% end %>
+    </td>
+    <td>
+      <% unless @course_linking.course_2.nil? %>
+          <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% end %>
+    </td>
+    <td>
+      <% unless @course_linking.course_3.nil? %>
+          <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% end %>
+    </td>
+    <td>
+      <% unless @course_linking.course_4.nil? %>
+          <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% end %>
+    </td>
+  </tr>
+
+
+<!--###################################################################################################################-->
+
+
+
+  <tr>
+    <td>
+      <% unless @course_linking.course_1.nil? %>
+          <b>Degrees:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
           <% end %>
-        </td>
-        <td>
-          <% unless @course_linking.course_2.nil? %>
-              <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+
+          <br /><b>Boards:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
           <% end %>
-        </td>
-        <td>
-          <% unless @course_linking.course_3.nil? %>
-              <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+
+      <% end %>
+    </td>
+
+
+    <td>
+      <% unless @course_linking.course_2.nil? %>
+          <b>Degrees:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
           <% end %>
-        </td>
-        <td>
-          <% unless @course_linking.course_4.nil? %>
-              <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+
+          <br /><b>Boards:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
           <% end %>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <%=hidden_field_tag :course_linking_id,value: @course_linking.id  %>
+
+      <% end %>
+    </td>
+
+    <td>
+      <% unless @course_linking.course_3.nil? %>
+          <b>Degrees:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+          <% end %>
+
+          <br /><b>Boards:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+          <% end %>
+
+      <% end %>
+    </td>
+
+    <td>
+      <% unless @course_linking.course_4.nil? %>
+          <b>Degrees:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+          <% end %>
+
+          <br /><b>Boards:</b>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
+              <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+          <% end %>
+
+      <% end %>
+    </td>
+
+
+
+  </tr>
+
+  <!--###################################################################################################################-->
+
+
+
+
+
+  </tbody>
+</table>
+<%=hidden_field_tag :course_linking_id,value: @course_linking.id  %>
 
 
 <script type="text/javascript">
@@ -60,12 +138,5 @@
         $("#topic_linking_form").submit();
 
     });
-//
-//    $(document).ready(function(){
-//        $("#topic_linking_topic_1").on("change", function(){
-//            alert("fine");
-//        });
-//    });
-
 
 </script>

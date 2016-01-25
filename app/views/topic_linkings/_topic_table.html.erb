@@ -32,6 +32,11 @@
           <% end %>
         </td>
       </tr>
+
+
+      
+
+
       </tbody>
     </table>
     <%=f.hidden_field :course_linking_id,value: @course_linking.id  %>
@@ -64,9 +69,14 @@
             alert("something went wrong");
             return false;
         }
-        $("#direction").val(str);
-        $("#topic_linking_form").submit();
-
+        if (($( "select#topic_linking_topic_1 option:selected").val()=="") && ($( "select#topic_linking_topic_2 option:selected").val()=="") && ($( "select#topic_linking_topic_3 option:selected").val()=="") && ($( "select#topic_linking_topic_4 option:selected").val()=="")){
+            alert("select atleast one topic from any dropdown");
+        }
+        else{
+            $("#direction").val(str);
+            $("#topic_linking_form").submit();
+        }
     });
 
+    //    }
 </script>

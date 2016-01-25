@@ -686,18 +686,26 @@ class QuestionsController < ApplicationController
   end
 
   def approve_by_teacher
-    @question = Question.find(params[:question_id])
 
+    topic1_id = params[:topic_linking][:topic_1].to_i
+    topic2_id = params[:topic_linking][:topic_2].to_i
+    topic3_id = params[:topic_linking][:topic_3].to_i
+    topic4_id = params[:topic_linking][:topic_4].to_i
+
+    topic_ids = ""+topic1_id.to_s+","+topic2_id.to_s+","+topic3_id.to_s+","+topic4_id.to_s
+
+    @question = Question.find(params[:question_id])
     insert_to_question_history_flag = true
     message = ""
     course_list = current_user.teacher_courses
     course_ids = []
+
     course_list.each do |course|
       course_ids << course.course_id
     end
     course_ids.uniq!
 
-    if current_user.is_hod?
+    if (current_user.is_hod? || current_user.is_admin?)
       if @question.current_state.to_s == "accepted"
         message = "Question already approved!"
         insert_to_question_history_flag = false
@@ -738,6 +746,8 @@ class QuestionsController < ApplicationController
                           "is_approved" => 1}
 
       @question_history = QuestionHistory.new(question_history)
+      @question_history.topic_ids = topic_ids.to_s
+
       @question_history.save
       if @question.current_state == "accepted"
         publish_question(@question)
@@ -758,6 +768,7 @@ class QuestionsController < ApplicationController
       render :json => {:success => true, :question_id => ""}
     end
   end
+
 
   def approve_question
 
@@ -963,7 +974,9 @@ class QuestionsController < ApplicationController
 
   def get_all_topics_from_topic_linking
     respond_to do |format|
-      @course_linking = CourseLinking.find(params[:course_linking_id])
+      @question = params[:question_id].to_i
+      @course_linking_id = Question.find(@question).course_linking_id
+      @course_linking = CourseLinking.find(@course_linking_id)
       @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id]).first
       if @course_linking.nil?
         @flag = false
@@ -990,9 +1003,6 @@ class QuestionsController < ApplicationController
 
         @flag = true
       end
-      # format.html { render :partial => "get_topic_course_link" }
-      # puts "----------<><><><><><><><><><><> get_all_topics_from_topic_linking",params.inspect
-      # puts "----------<><><><><><><><><><><> get_all_topics_from_topic_linking",@topic_linking_array.inspect
       format.html { render :partial => "get_all_topics_from_topic_linking" }
     end
   end

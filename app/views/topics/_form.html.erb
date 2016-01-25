@@ -70,7 +70,13 @@
       <% Topic.all.each do |topic| %>
           <tr>
             <td><%=topic.name%></td>
-            <td><%=topic.course.name %></td>
+
+            <% if topic.parent_topic_id.nil? %>
+                <td><b><%=topic.course.name %></b></td>
+            <% else %>
+                <td><%=topic.course.name %></td>
+            <% end %>
+
 
           </tr>
       <% end %>
@@ -85,12 +91,12 @@
 </div>
 <script>
 
-  $("document").ready(function(){
-      $('.table').dataTable({bFilter: false, "bLengthChange": false});
-      <% if params[:course_id].present? %>
-      $("#course").change();
-      <% end %>
-  });
+    $("document").ready(function(){
+        $('.table').dataTable({bFilter: false, "bLengthChange": false});
+        <% if params[:course_id].present? %>
+        $("#course").change();
+        <% end %>
+    });
 
 
     function generate_courses(degree_id)
@@ -129,7 +135,10 @@
             success:function (data) {
                 $("#parent_topic_container").html(data);
                 $("#topic_name").focus();
+
                 $('#topic_parent_topic_id [value="<%= params[:parent_topic_id] %>"]').attr('selected',true);
+//                $("#topic_parent_topic_id").val(hgvfgh);
+//                    $("#course_container").show();
             },
             error:function (data) {
                 alert ('ERROR');

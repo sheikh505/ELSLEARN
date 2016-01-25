@@ -32,12 +32,94 @@
           <% end %>
         </td>
       </tr>
+
+
+
+      <!--###################################################################################################################-->
+
+
+
+      <tr>
+        <td>
+          <% unless @course_linking.course_1.nil? %>
+              <b>Degrees:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+              <% end %>
+
+              <br /><b>Boards:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+              <% end %>
+
+          <% end %>
+        </td>
+
+
+        <td>
+          <% unless @course_linking.course_2.nil? %>
+              <b>Degrees:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+              <% end %>
+
+              <br /><b>Boards:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+              <% end %>
+
+          <% end %>
+        </td>
+
+        <td>
+          <% unless @course_linking.course_3.nil? %>
+              <b>Degrees:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+              <% end %>
+
+              <br /><b>Boards:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+              <% end %>
+
+          <% end %>
+        </td>
+
+        <td>
+          <% unless @course_linking.course_4.nil? %>
+              <b>Degrees:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "degree[]",f.degree_id %><%= Degree.find(f.degree_id).name %>
+              <% end %>
+
+              <br /><b>Boards:</b>
+              <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
+                  <%=check_box_tag "boards[]",f.board_id %><%= Board.find(f.board_id).name %>
+              <% end %>
+
+          <% end %>
+        </td>
+
+
+
+      </tr>
+
+      <!--###################################################################################################################-->
+
+
+
+
+
+
+
       </tbody>
     </table>
     <%=hidden_field_tag :course_linking_id,value: @course_linking.id  %>
 
 
 <script type="text/javascript">
+
 
     $(".btm_lnks_a").click(function(e){
         var id = e.target.id;
@@ -60,6 +142,39 @@
         $("#direction").val(str);
         $("#topic_linking_form").submit();
 
+    });
+
+    $(document).ready(function(){
+
+        $("#topic_linking_topic_1").on("change", function(){
+            topic_id = this.value;
+//            alert(topic_id);
+
+            if (topic_id == ""){
+                $("#topic_linking_topic_2").val("");
+                $("#topic_linking_topic_3").val("");
+                $("#topic_linking_topic_4").val("");
+                return false;
+            }
+            else{
+                $.ajax({
+                    url: '/questions/get_all_topics_from_topic_linking',
+                    type: 'get',
+//                    data: "topic_id="+topic_id+"&course_linking_id="+<%#= @question.course_linking_id %>,
+                    data: "topic_id="+topic_id+"&question_id="+<%= @question %>,
+                    async: false,
+                    success:function(data){
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                        $("#topic_table_container").html(data);
+
+                    },
+                    error:function(){
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                    }
+                });
+            }
+
+        });
     });
 //
 //    $(document).ready(function(){
