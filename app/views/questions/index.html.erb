@@ -15,7 +15,8 @@
               <option value="" selected>Select Course</option>
               <% if current_user.is_teacher? %>
                   <% current_user.teacher_courses.each do |x| %>
-                      <% unless CourseLinking.search_on_course_column(course.id).nil? %>
+                      <% unless CourseLinking.search_on_course_column(x.id).nil? %>
+                      <%# unless CourseLinking.search_on_course_column(course.id).nil? %>
 
                           <option value="<%=x.course.id %>"><%=x.course.name %></option>
                       <% end %>
@@ -45,19 +46,25 @@
           </div>
 
 
+<!--###################################################### Boards and Degrees Commented ######################################################          -->
 
-          <div class="field" id="board_container">
-            <h4>Boards</h4>
-            <%Board.all.each do |board| %>
-                <%=check_box_tag "boards[]",board.id,false %><%=board.name %>
-            <% end %>
-          </div>
-          <div id="degree_container">
-            <h4>Degrees</h4>
-            <%Degree.all.each do |degree| %>
-                <%=check_box_tag "degree[]",degree.id,false %><%=degree.name %>
-            <% end %>
-          </div>
+
+
+          <!--<div class="field" id="board_container">-->
+            <!--<h4>Boards</h4>-->
+            <!--<%#Board.all.each do |board| %>-->
+                <!--<%#=check_box_tag "boards[]",board.id,false %><%#=board.name %>-->
+            <!--<%# end %>-->
+          <!--</div>-->
+          <!--<div id="degree_container">-->
+            <!--<h4>Degrees</h4>-->
+            <!--<%#Degree.all.each do |degree| %>-->
+                <!--<%#=check_box_tag "degree[]",degree.id,false %><%#=degree.name %>-->
+            <!--<%# end %>-->
+          <!--</div>-->
+
+<!--###################################################### Boards and Degrees Commented ######################################################          -->
+
 
 
 
@@ -115,23 +122,25 @@
         });
     });
 
-    function checkForm(form)
-    {
-        if($('#board_container').find('input[type=checkbox]:checked').length == 0)
-        {
-            $("input:checkbox#boards_").focus();
-            alert('You must check at least one board!');
-            return false;
-        }
 
-        if($('#degree_container').find('input[type=checkbox]:checked').length == 0)
-        {
-            alert('You must check at least one degree!');
-            $("input:checkbox#degree_").focus();
-            return false;
-        }
-        return true;
-    }
+//    function checkForm(form)
+//    {
+//        if($('#board_container').find('input[type=checkbox]:checked').length == 0)
+//        {
+//            $("input:checkbox#boards_").focus();
+//            alert('You must check at least one board!');
+//            return false;
+//        }
+//
+//        if($('#degree_container').find('input[type=checkbox]:checked').length == 0)
+//        {
+//            alert('You must check at least one degree!');
+//            $("input:checkbox#degree_").focus();
+//            return false;
+//        }
+//        return true;
+//    }
+
 
     function fetch_rows(value)
     {   if (value == -1)

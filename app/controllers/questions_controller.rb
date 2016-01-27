@@ -264,23 +264,23 @@ class QuestionsController < ApplicationController
       redirect_to questions_path
     else
       @topics = Course.find_by_id(@course_id).topics
-      @boards_name = []
 
-      # unless @boards.nil?
-      @boards.each do |board|
-        @boards_name << Board.find_by_id(board).name
-      end
+      # @boards_name = []
+      # # unless @boards.nil?
+      # @boards.each do |board|
+      #   @boards_name << Board.find_by_id(board).name
       # end
+      # # end
+      # @degrees_name = []
 
-      @degrees_name = []
       @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
 
       puts "---------------------------->>>>>>",@course_linking_id
 
       # unless @degrees.nill?
-      @degrees.each do |degree|
-        @degrees_name << Degree.find_by_id(degree).name
-      end
+      # @degrees.each do |degree|
+      #   @degrees_name << Degree.find_by_id(degree).name
+      # end
       # end
     end
 
@@ -749,20 +749,20 @@ class QuestionsController < ApplicationController
       @question_history.topic_ids = topic_ids.to_s
 
       @question_history.save
-      if @question.current_state == "accepted"
-        publish_question(@question)
-      end
+      # if @question.current_state == "accepted"
+      #   publish_question(@question)
+      # end
     end
 
 
     if current_user.is_teacher?
-      @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-          joins(:topic => :course).
-          where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, current_user.id).first
+      @question = Question.select("questions.*").
+          joins(:course_linking).
+          where("author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, course_ids, course_ids, course_ids, current_user.id).first
     end
 
-    if @question
+    if @question.present?
       render :json => {:success => true, :question_id => @question.id, :message => message}
     else
       render :json => {:success => true, :question_id => ""}

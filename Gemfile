@@ -6,6 +6,8 @@ gem 'rails', '3.2.14'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #gem 'sqlite3'
+gem 'table_print'
+
 gem 'pg'
 #gem 'mysql2'
 gem 'devise'
@@ -16,7 +18,8 @@ gem 'aws-sdk'
 gem 'will_paginate', '~> 3.0.6'
 gem 'best_in_place', '~> 3.0.1'
 gem 'workflow', '~> 1.2.0'
-
+gem 'jquery-bootstrap-pagination'
+gem 'will_paginate-bootstrap'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

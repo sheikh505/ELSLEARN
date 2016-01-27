@@ -1,6 +1,7 @@
 class CourseLinking < ActiveRecord::Base
   attr_accessible :course_1, :course_2, :course_3, :course_4
   has_many :topic_linking,dependent: :destroy
+  has_many :questions
 
   def self.search_on_course_column course_id
     if course_id.nil?

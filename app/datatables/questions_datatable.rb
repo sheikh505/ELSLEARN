@@ -18,7 +18,7 @@ class QuestionsDatatable
 
   private
   def data
-    puts "===================================================+>",questions.inspect
+    # puts "===================================================+>",questions.inspect
     questions.each_with_index.map do |question,index|
       [
           question.statement.html_safe,
@@ -86,10 +86,10 @@ class QuestionsDatatable
       course_list.each do |course|
         course_ids << course.course_id
       end
-      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-                  joins(:topic => :course).
-                  where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", @view.current_user.email,course_ids, @view.current_user.id).
+      questions = Question.select("questions.*").
+                  joins(:course_linking).
+                  where("author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", @view.current_user.email,course_ids, course_ids, course_ids, course_ids, @view.current_user.id).
                   order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)

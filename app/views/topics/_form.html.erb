@@ -55,38 +55,30 @@
 
   </div>
 
-  <div class="span5 offset1">
+  <!--<div class="span5 offset1">-->
+    <!--<h4>List of courses</h4>-->
+    <!--<table class="table table-condensed">-->
+      <!--<thead>-->
+      <!--<th>Topic</th>-->
+      <!--<th>Courses</th>-->
+      <!--</thead>-->
+      <!--<tbody>-->
+      <%# Topic.all.each do |topic| %>
+          <!--<tr>-->
+            <!--<td><%#=topic.name%></td>-->
 
-    <h4>List of courses</h4>
-    <table class="table table-condensed">
-
-      <thead>
-      <th>Topic</th>
-      <th>Courses</th>
-      </thead>
-
-      <tbody>
-
-      <% Topic.all.each do |topic| %>
-          <tr>
-            <td><%=topic.name%></td>
-
-            <% if topic.parent_topic_id.nil? %>
-                <td><b><%=topic.course.name %></b></td>
-            <% else %>
-                <td><%=topic.course.name %></td>
-            <% end %>
+            <%# if topic.parent_topic_id.nil? %>
+                <!--<td><b><%#=topic.course.name %></b></td>-->
+            <%# else %>
+                <!--<td><%#=topic.course.name %></td>-->
+            <%# end %>
 
 
-          </tr>
-      <% end %>
-
-      </tbody>
-
-    </table>
-
-
-  </div>
+          <!--</tr>-->
+      <%# end %>
+      <!--</tbody>-->
+    <!--</table>-->
+  <!--</div>-->
 
 </div>
 <script>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160125081357) do
+ActiveRecord::Schema.define(:version => 20160127093042) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -148,14 +148,14 @@ ActiveRecord::Schema.define(:version => 20160125081357) do
   create_table "question_histories", :force => true do |t|
     t.integer  "user_id"
     t.integer  "question_id"
-    t.integer  "board_id"
-    t.integer  "degree_id"
     t.integer  "difficulty"
     t.integer  "topic_id"
     t.boolean  "is_approved"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "topic_ids"
+    t.string   "board_ids"
+    t.string   "degree_ids"
   end
 
   create_table "questions", :force => true do |t|

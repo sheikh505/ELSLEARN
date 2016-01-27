@@ -1,35 +1,42 @@
 <h1>Listing topics</h1>
 <div class="listing-holder">
 
-<table class="table table-condensed">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Parent Topic</th>
-    <th>Course</th>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Parent Topic</th>
+      <th>Course</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
 
-<% @topics.each do |topic| %>
-  <tr>
-    <td><%= topic.name %></td>
-    <td><%= get_parent_topic_name(topic.parent_topic_id) %></td>
-    <td><%= topic.course.name unless topic.course.nil? %></td>
-    <% if can? :update, Topic %>
-        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
-    <% else %>
-        <td></td>
+    <% @topics.each do |topic| %>
+        <tr>
+          <% if topic.parent_topic_id.nil? %>
+              <td><b><%= topic.name %></b></td>
+          <% else %>
+              <td><%= topic.name %></td>
+          <% end %>
+          <td><%= get_parent_topic_name(topic.parent_topic_id) %></td>
+          <td><%= topic.course.name unless topic.course.nil? %></td>
+          <% if can? :update, Topic %>
+              <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+          <% else %>
+              <td></td>
+          <% end %>
+          <% if can? :update, Topic %>
+              <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% else %>
+              <td></td>
+          <% end %>
+        </tr>
     <% end %>
-    <% if can? :update, Topic %>
-        <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <% else %>
-        <td></td>
-    <% end %>
-  </tr>
-<% end %>
-</table>
+
+  </table>
+
+  <%= will_paginate @topics %>
 
 
 </div>
@@ -43,7 +50,19 @@
 <% end %>
 
 <script type="text/javascript">
+
     $(document).ready(function() {
-        $('.table').dataTable();
-    } );
+//        $('.table').dataTable();
+    });
+//
+//    $('.table').dataTable({
+//        "bServerSide": true,
+//        "sEcho": 3,
+//        "iTotalRecords": totalRecs,
+//        "iTotalDisplayRecords": 15,
+//        "aaData": tableData,
+//        "aoColumns": tableColumns,
+//        "aaSorting": [[1,'asc']]
+//    });
 </script>
+
