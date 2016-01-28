@@ -4,27 +4,27 @@
   <div class="span5">
     <div class="container">
 
-      <h5>Boards</h5>
-      <p>
-        <% @boards.each do |board| %>
-            <%=board.name %>
-        <% end %>
+      <!--<h5>Boards</h5>-->
+      <!--<p>-->
+        <!--<%# @boards.each do |board| %>-->
+            <!--<%#=board.name %>-->
+        <!--<%# end %>-->
 
 
-      </p>
+      <!--</p>-->
 
 
-      <h5>Degrees</h5>
-      <p>
-        <% @degrees.each do |degree| %>
-            <%=degree.name %>
-        <% end %>
-      </p>
+      <!--<h5>Degrees</h5>-->
+      <!--<p>-->
+        <!--<%# @degrees.each do |degree| %>-->
+            <!--<%#=degree.name %>-->
+        <!--<%# end %>-->
+      <!--</p>-->
 
 
       <div class="row">
         <div id="ques_form_container" class="span9">
-            <%= @view %>
+            <%#= @view %>
           <%= render 'mcq_edit' if @view == '1' %>
           <%= render 'descriptive_edit' if @view == '2' %>
           <%= render 'truefalse_edit' if @view == '4' %>
@@ -54,7 +54,7 @@
     {
         //
 
-        //render_view(<%=@view %>);
+        //render_view(<%#=@view %>);
 
     }
 

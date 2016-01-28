@@ -26,6 +26,8 @@
 //= require highstock
 //= require main
 //= require jquery-bootstrap-pagination
+
+
 //= require_tree .
 
 

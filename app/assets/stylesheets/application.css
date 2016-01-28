@@ -14,8 +14,11 @@
  *= require dataTables/jquery.dataTables
  *= require responsive
  *= require select
+ *= require jquery.ui.core
+ *= require jquery.ui.theme
+ *= require dataTables/src/demo_table_jui
  *= require_self
- *= require_tree .
+*= require_tree .
  */
 
 

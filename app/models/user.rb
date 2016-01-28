@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   belongs_to :membership_plan
   has_many :teacher_requests,foreign_key: 'student_id'
 
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -73,12 +73,12 @@
   -->
 
     <div class="field">
-      <br /><%= f.label :author %>
+      <%= f.label :author %>
       <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
     <div class="field">
-      <br />
+
     <%= f.label :Difficulty %>
     <select id="difficulty" name="difficulty">
       <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>

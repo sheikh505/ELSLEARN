@@ -97,7 +97,13 @@ class QuestionsController < ApplicationController
     end
     @options = @question.options
     @options = @options.shuffle
-    @question_heading = type + ' - ' + @question.topic.course.name.to_s
+
+    course1 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name.blank? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name
+    course2 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name
+    course3 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name
+    course4 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
+    @question_heading = type + ' - ' + course1 + ", " + course2 + ", " + course3 + ", " + course4
+    # @question_heading = type + ' - ' + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
 
 
   end
@@ -194,10 +200,12 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+
+    puts "++++++++++++>>>>>>>>",params.inspect
     @question = Question.find_by_id(params[:id])
 
-    @topic = @question.topic
-    @course_id = @topic.course_id
+    # @topic = @question.topic
+    # @course_id = @topic.course_id
     @boards = []
     @degrees = []
     dummy = @question.board_degree_assignments
@@ -215,20 +223,24 @@ class QuestionsController < ApplicationController
 
     @view = @question.question_type
     @view = @view.to_s()
-    @topics = Course.find_by_id(@course_id).topics
+    # @topics = Course.find_by_id(@course_id).topics
 
     #test_id = params[:test_id]
 
 
   end
 
+  ###################################################################################################################
+
   def add_questions
+
+    puts "============================>>",params.inspect
 
     @question = Question.new
 
     if params[:q_id]
       @current_question = Question.find(params[:q_id])
-
+      # @course_linking_id = @current_question.course_linking_id
       # @course_id = @current_question.topic.course_id
       @boards = []
       @degrees = []
@@ -260,10 +272,10 @@ class QuestionsController < ApplicationController
       @question_no += 1
     end
 
-    if @course_id.nil?
-      redirect_to questions_path
-    else
-      @topics = Course.find_by_id(@course_id).topics
+    # if @course_id.nil?
+    #   redirect_to questions_path
+    # else
+      # @topics = Course.find_by_id(@course_id).topics
 
       # @boards_name = []
       # # unless @boards.nil?
@@ -272,20 +284,25 @@ class QuestionsController < ApplicationController
       # end
       # # end
       # @degrees_name = []
-
+      @course_id = params[:course]
       @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
 
-      puts "---------------------------->>>>>>",@course_linking_id
-
+      # @course_linking_id = Question.find_by_id(params[:q_id]).course_linking_id
+      # puts "---------------------------->>>>>>",@course_linking_id
       # unless @degrees.nill?
       # @degrees.each do |degree|
       #   @degrees_name << Degree.find_by_id(degree).name
       # end
       # end
-    end
+    # end
 
 
   end
+
+
+
+  ###################################################################################################################
+
 
   def render_view
 

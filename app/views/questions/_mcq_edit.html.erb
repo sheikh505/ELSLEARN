@@ -5,12 +5,12 @@
 <%= form_for @question, :html => {:multipart=> true, :onsubmit => "return checkForm(this)"} do |f| %>
 
     <div class="field">
-      <%= f.label :statement %><br/>
+      <%= f.label :statement %>
       <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20"><%= raw @question.statement %></textarea>
     </div>
 
     <div class="field">
-      <%= f.label :detail_answer %><br/>
+      <br/><%= f.label :detail_answer %>
       <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20"><%= @question.description %></textarea>
     </div>
     <% i = 1 %>
@@ -32,10 +32,10 @@
 
           <% if option.is_answer == 0 %>
               <input type="checkbox" id="is_answer_<%= i %>" class="is_answer" name="is_answer_<%= i %>" value="1">
-              Is_Answer
+              Is_Answer<br />
           <% else %>
               <input type="checkbox" id="is_answer_<%= i %>" class="is_answer" name="is_answer_<%= i %>" value="1" checked>
-              Is_Answer
+              Is_Answer<br />
           <% end %>
 
           <% if option.flag.nil? %>
@@ -58,7 +58,7 @@
           <input type="checkbox" id="image_change_<%= i %>" name="image_change_<%= i %>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
           Image
           <input type="checkbox" id="is_answer_<%= i %>" class="is_answer" name="is_answer_<%= i %>" value="1">
-          Is_Answer
+          Is_Answer<br />
           <br/>
           <span id='field_<%= i %>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
           <span style="display: none" id='image_<%= i %>'><%= file_field_tag ('option_image_' + i.to_s).to_sym %></span>
@@ -71,12 +71,12 @@
     <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick='remove_option(<%= @question.id %>)' >
 
     <div class="field">
-      <%= f.label :instruction %><br/>
+      <br/><%= f.label :instruction %>
       <%= f.text_area :instruction, :value => @question.instruction, :size => '4x4' %>
     </div>
 
     <div class="field">
-      <%= f.label :source %><br/>
+      <%= f.label :source %>
       <%= f.text_field :source, :value => @question.source %>
     </div>
 
@@ -100,12 +100,12 @@
     -->
 
     <div class="field">
-      <%= f.label :author %><br/>
+      <%= f.label :author %>
       <%= f.text_field :author, :value=> current_user.email, :disabled => true %>
     </div>
 
     <div class="field">
-      <%= f.label :Difficulty %><br/>
+      <%= f.label :Difficulty %>
       <select id="difficulty" name="difficulty">
         <option <%= 'selected' if @question.difficulty == 1 %> value="1">Easy</option>
         <option <%= 'selected' if @question.difficulty == 2 %> value="2">Moderate</option>
@@ -115,7 +115,7 @@
     </div>
 
     <div class="field">
-      <%= label_tag :pastPaperFlag %><br/>
+      <%= label_tag :pastPaperFlag %>
       <% unless @question.past_paper_history.nil? %>
           <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" checked>Yes
           <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()">No

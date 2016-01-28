@@ -1,42 +1,26 @@
 <h1>Listing topics</h1>
 <div class="listing-holder">
 
-  <table class="table table-condensed">
+  <table id = "all_topics" class="table table-condensed" data-source="<%= topics_url(format: "json") %>">
     <thead>
     <tr>
       <th>Name</th>
       <th>Parent Topic</th>
-      <th>Course</th>
-      <th></th>
-      <th></th>
+      <!--<th>Course</th>-->
+      <!--<th></th>-->
+      <!--<th></th>-->
     </tr>
     </thead>
 
-    <% @topics.each do |topic| %>
-        <tr>
-          <% if topic.parent_topic_id.nil? %>
-              <td><b><%= topic.name %></b></td>
-          <% else %>
-              <td><%= topic.name %></td>
-          <% end %>
-          <td><%= get_parent_topic_name(topic.parent_topic_id) %></td>
-          <td><%= topic.course.name unless topic.course.nil? %></td>
-          <% if can? :update, Topic %>
-              <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
-          <% else %>
-              <td></td>
-          <% end %>
-          <% if can? :update, Topic %>
-              <td><%= link_to 'Delete', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% else %>
-              <td></td>
-          <% end %>
-        </tr>
-    <% end %>
+    <tbody>
+
+
+
+    </tbody>
 
   </table>
 
-  <%= will_paginate @topics %>
+  <%#= will_paginate @topics %>
 
 
 </div>
