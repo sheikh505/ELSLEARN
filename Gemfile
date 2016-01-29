@@ -30,6 +30,10 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+
+
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+  gem 'jquery-ui-rails'
 end
 
 gem 'jquery-rails'
@@ -52,4 +56,4 @@ gem 'jquery-rails'
 gem 'omniauth-facebook'
 gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
 
-gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+# gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'

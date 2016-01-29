@@ -9,3 +9,4 @@ jQuery ->
     bProcessing: true
     bServerSide: true
     sAjaxSource: $('#all_topics').data('source')
+
