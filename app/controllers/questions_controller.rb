@@ -546,6 +546,9 @@ class QuestionsController < ApplicationController
 
   def questions_approval
     respond_to do |format|
+
+      puts "======================>>>>>>questions_approval",params.inspect
+      # puts "======================>>>>>>view_context",view_context.inspect
       format.html
       format.json { render :json => QuestionsDatatable.new(view_context,params[:teacher_self_flag]) }
     end
@@ -835,6 +838,10 @@ class QuestionsController < ApplicationController
   end
 
   def reject_question
+
+
+    # puts "=====================><><><><reject_question",params.inspect
+
     @question = Question.find(params[:question][:id])
     message = ""
     if current_user.is_teacher?
@@ -864,6 +871,7 @@ class QuestionsController < ApplicationController
         @question_history.save
         @question.update_attributes(:comments => params[:comments].to_s)
         @question.reject!
+
       end
       course_list = current_user.teacher_courses
       course_ids = []
@@ -877,11 +885,15 @@ class QuestionsController < ApplicationController
     elsif current_user.is_proofreader?
       if current_user.email == "proofreader1@els.com"
         @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+        @question.update_attributes(:comments => params[:comments].to_s)
+        @question.reject!
+        # redirect_to questions_approval_questions_path
       else
         @question = Question.where(:author => current_user.email).first
       end
     end
     if @question.present?
+      # redirect_to questions_path
       render :json => {:success => true, :question_id => @question.id, :message => message}
     else
       render :json => {:success => true, :question_id => "", :message => message}
