@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160127093042) do
+ActiveRecord::Schema.define(:version => 20160204115914) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(:version => 20160127093042) do
     t.string   "workflow_state"
     t.string   "comments"
     t.integer  "course_linking_id"
+    t.string   "varient"
   end
 
   create_table "quizzes", :force => true do |t|

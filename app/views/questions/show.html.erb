@@ -80,6 +80,11 @@
     <label>Year</label>
     <%= @question.past_paper_history.nil? ? "N/A" : @question.past_paper_history.year %>
   </div>
+
+  <div class="field field_holder">
+    <label>Varient</label>
+    <%= @question.varient.nil? ? "N/A" : @question.varient %>
+  </div>
   <% if (@question.current_state.to_s.include? "rejected") && (current_user.is_operator? || current_user.is_hod?) %>
       <div class="field field_holder">
         <label>Comment Box</label>

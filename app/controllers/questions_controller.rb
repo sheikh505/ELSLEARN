@@ -98,11 +98,14 @@ class QuestionsController < ApplicationController
     @options = @question.options
     @options = @options.shuffle
 
-    course1 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name.blank? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name
-    course2 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name
-    course3 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name
-    course4 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
-    @question_heading = type + ' - ' + course1 + ", " + course2 + ", " + course3 + ", " + course4
+    unless CourseLinking.find_by_id(@question.course_linking_id).nil?
+      course1 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name.blank? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name
+      course2 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name
+      course3 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name
+      course4 = Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name.nil? ? "nil" : Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
+      @question_heading = type + ' - ' + course1 + ", " + course2 + ", " + course3 + ", " + course4
+    end
+
     # @question_heading = type + ' - ' + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
 
 
@@ -284,8 +287,11 @@ class QuestionsController < ApplicationController
       # end
       # # end
       # @degrees_name = []
+    unless params[:course].nil?
       @course_id = params[:course]
       @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
+    end
+
 
       # @course_linking_id = Question.find_by_id(params[:q_id]).course_linking_id
       # puts "---------------------------->>>>>>",@course_linking_id
@@ -358,6 +364,8 @@ class QuestionsController < ApplicationController
   def create
 
 
+    puts "===================>>>params.inspect=",params.inspect
+
     @boards = params[:boards]
     @degrees = params[:degrees]
 
@@ -366,6 +374,7 @@ class QuestionsController < ApplicationController
 
 
     @question = Question.new(params[:question])
+    @question.varient= params[:varient]
     @question.difficulty= params[:difficulty]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
