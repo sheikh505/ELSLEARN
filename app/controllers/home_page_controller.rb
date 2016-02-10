@@ -83,6 +83,26 @@ class HomePageController < ApplicationController
 
   end
 
+  def get_varients
+    question_ids = []
+    past_papers = PastPaperHistory.where(year: params[:year], session: params[:session])
+
+    past_papers.each do |paper|
+      question_ids << paper.question_id
+    end
+    all_questions_with_fetched_ids = Question.find(question_ids)
+    @varients = []
+    all_questions_with_fetched_ids.each do |question_varient|
+      @varients<<question_varient.varient
+    end
+    @varients.compact!
+    @varients = @varients.reject { |c| c.empty? }
+    @varients.uniq!
+
+    render :partial => 'home_page/varient_list'
+  end
+
+
   def about_us
 
   end

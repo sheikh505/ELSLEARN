@@ -68,12 +68,19 @@
                 <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
 
           </div>
+
           <div class="row_custom">
             <select id="paper" name="paper">
               <option value="">[PLEASE SELECT PAPER]</option>
               <option value="mcq" selected >Paper P1</option>
             </select>
           </div>
+
+
+          <div class="row_custom" id="option_populate">
+            <%#= render :partial => "home_page/varient_list" %>
+          </div>
+
 
           <div class="row_custom" id="test_container_1">
             <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" onclick="return check_sign_in(1);"  class="btn">
@@ -320,6 +327,7 @@
 
 <script>
 
+
     $(document).ready(function() {
                 $('#question_type_1').val(10);
                 $('#question_type_2').val(10);
@@ -368,9 +376,42 @@
                         }
                     });
                 });
-
             }
+
     );
+
+
+    $(document).ready(function(){
+        $('#create_test input').on('click', function() {
+
+            var year = $("#year").val();
+            var session = $('input[name=session]:checked', '#create_test').val();
+            $.ajax({
+                url: "home_page/get_varients?year="+year+"&session="+session,
+                type: 'get',
+                dataType: 'html',
+                success:function(response){
+                    $("#option_populate").html(response);
+
+                }
+            });
+        });
+
+        $('#year').on('change', function() {
+
+            var year = $("#year").val();
+            var session = $('input[name=session]:checked', '#create_test').val();
+            $.ajax({
+                url: "home_page/get_varients?year="+year+"&session="+session,
+                type: 'get',
+                dataType: 'html',
+                success:function(response){
+                    $("#option_populate").html(response);
+                }
+            });
+        });
+    });
+
 
     function create_user()
     {
@@ -673,6 +714,8 @@
 
 
     }
+
+
 
 
     function generate_test(course)
