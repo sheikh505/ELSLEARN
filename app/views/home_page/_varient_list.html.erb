@@ -1,9 +1,9 @@
 <% if @varients.size == 0 %>
 <% else %>
     <select id="varient" name="varient">
-      <option value="">Varient</option>
-      <% @varients.each do |varient| %>
-          <option value="<%= varient %>"><%= varient %></option>
+      <option value="">Variant</option>
+      <% @varients.each do |variant| %>
+          <option value="<%= variant %>"><%= variant %></option>
       <% end %>
     </select>
 <% end %>
