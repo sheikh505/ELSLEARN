@@ -3,8 +3,8 @@ class WorkflowPathsController < ApplicationController
   def index
     @course_degree_hash = {}
     DegreeCourseAssignment.all.each do |dc|
-      @course_degree_hash["#{dc.board_degree_assignment.degree.id}_#{dc.board_degree_assignment.degree.name}_#{dc.course.id}"] = dc.course
-    end
+      @course_degree_hash["#{dc.board_degree_assignment.degree.id}_#{dc.board_degree_assignment.degree.name}_#{dc.course.id}"] = dc.course unless dc.nil?
+    end unless DegreeCourseAssignment.nil?
   end
 
   def toggle_workflow
