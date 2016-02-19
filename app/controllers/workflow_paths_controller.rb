@@ -2,9 +2,13 @@ class WorkflowPathsController < ApplicationController
   layout "admin_panel_layout"
   def index
     @course_degree_hash = {}
-    DegreeCourseAssignment.all.each do |dc|
-      @course_degree_hash["#{dc.board_degree_assignment.degree.id}_#{dc.board_degree_assignment.degree.name}_#{dc.course.id}"] = dc.course unless dc.nil?
-    end unless DegreeCourseAssignment.nil?
+    @degree_course_assignment = DegreeCourseAssignment.all
+      @degree_course_assignment.each do |dc|
+          unless dc.board_degree_assignment.blank? || dc.board_degree_assignment.degree.blank? || dc.course.blank?
+          @course_degree_hash["#{dc.board_degree_assignment.degree.id}_#{dc.board_degree_assignment.degree.name}_#{dc.course.id}"] = dc.course
+        end
+      end
+
   end
 
   def toggle_workflow
