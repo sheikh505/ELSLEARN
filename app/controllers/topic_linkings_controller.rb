@@ -1,5 +1,4 @@
 class TopicLinkingsController < ApplicationController
-
   load_and_authorize_resource
   before_filter :set_topic_linking, only: [:show, :edit, :update, :destroy]
   layout "admin_panel_layout"
