@@ -16,7 +16,6 @@ gem 'paperclip', '~> 4.2'
 gem 'tinymce-rails'
 # gem 'aws-sdk'
 gem 'aws-sdk', '< 2.0'
-
 gem 'will_paginate', '~> 3.0.6'
 gem 'best_in_place', '~> 3.0.1'
 gem 'workflow', '~> 1.2.0'
