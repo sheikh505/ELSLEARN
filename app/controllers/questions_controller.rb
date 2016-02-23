@@ -47,8 +47,9 @@ class QuestionsController < ApplicationController
     render :partial => 'questions/ques'
   end
 
-  def delete_ques
 
+
+  def delete_ques
     @question = Question.find(params[:ques_id])
     @question.deleted = true
     @question.save
@@ -60,10 +61,10 @@ class QuestionsController < ApplicationController
 
     @questions = Question.search(search, page, limit)
     @row = limit
-
-
     render :partial => 'questions/ques'
   end
+
+
 
   def get_tests
     @tests = []
@@ -241,7 +242,7 @@ class QuestionsController < ApplicationController
 
     @question = Question.new
 
-    if params[:q_id]
+      if params[:q_id]
       @current_question = Question.find(params[:q_id])
       # @course_linking_id = @current_question.course_linking_id
       # @course_id = @current_question.topic.course_id
@@ -471,6 +472,7 @@ class QuestionsController < ApplicationController
   def update
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
+    @question.varient= params[:varient]
     @question.statement = params[:tinymce4]
     @question.description = params[:tinymce5]
     # @question.topic_id = params[:topic_id]
@@ -645,6 +647,8 @@ class QuestionsController < ApplicationController
   def destroy
     @question.deleted = true
     @question.save
+
+    redirect_to "/questions/questions_approval"
   end
 
   #get methods
@@ -716,12 +720,16 @@ class QuestionsController < ApplicationController
 
   def approve_by_teacher
 
+    if params[:topic_linking].present?
+
     topic1_id = params[:topic_linking][:topic_1].to_i
     topic2_id = params[:topic_linking][:topic_2].to_i
     topic3_id = params[:topic_linking][:topic_3].to_i
     topic4_id = params[:topic_linking][:topic_4].to_i
 
     topic_ids = ""+topic1_id.to_s+","+topic2_id.to_s+","+topic3_id.to_s+","+topic4_id.to_s
+    end
+
 
     @question = Question.find(params[:question_id])
     insert_to_question_history_flag = true
@@ -766,12 +774,12 @@ class QuestionsController < ApplicationController
       degree_id_array = ""
       board_ids.each do |board_id|
         board_id_array << board_id.to_s << ","
-      end
+      end unless board_ids.nil?
       degree_ids.each do |degree_id|
         degree_id_array << degree_id.to_s << ","
-      end
+      end unless degree_ids.nil?
       question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
-                          "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
+                          "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.object_id,
                           "is_approved" => 1}
 
       @question_history = QuestionHistory.new(question_history)
@@ -788,7 +796,7 @@ class QuestionsController < ApplicationController
       @question = Question.select("questions.*").
           joins(:course_linking).
           where("author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, course_ids, course_ids, course_ids, current_user.id).first
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?) and deleted = 'FALSE'",current_user.email, course_ids, course_ids, course_ids, course_ids, current_user.id).first
     end
 
     if @question.present?
@@ -824,15 +832,16 @@ class QuestionsController < ApplicationController
       if flag_path == true
         @question.submit!
       else
+        ########## submit to hod for submission???????????
         @question.accept!
       end
 
 
       if params[:from].present? && params[:from] == "view"
         if current_user.email == "proofreader1@els.com"
-          @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+          @question = Question.where("workflow_state = 'new' or workflow_state is null  and deleted = 'FALSE'").first
         else
-          @question = Question.where("(workflow_state = 'new' or workflow_state is null) and author = ?", current_user.email).first
+          @question = Question.where("(workflow_state = 'new' or workflow_state is null) and author = ? and deleted = 'FALSE'", current_user.email).first
         end
         # @question = Question.where("workflow_state = 'new' or workflow_state is null").first
         if @question
@@ -890,16 +899,16 @@ class QuestionsController < ApplicationController
       @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
           where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)",current_user.email, course_ids, current_user.id).first
+                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)  and deleted = 'FALSE'",current_user.email, course_ids, current_user.id).first
     elsif current_user.is_proofreader?
-      if current_user.email == "proofreader1@els.com"
-        @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+      #if current_user.email == "proofreader1@els.com"
+        @question = Question.where("workflow_state = 'new' or workflow_state is null and deleted = 'FALSE'").first
         @question.update_attributes(:comments => params[:comments].to_s)
         @question.reject!
         # redirect_to questions_approval_questions_path
-      else
-        @question = Question.where(:author => current_user.email).first
-      end
+      #else
+       # @question = Question.where(:author => current_user.email).first
+      #end
     end
     if @question.present?
       # redirect_to questions_path
@@ -960,7 +969,7 @@ class QuestionsController < ApplicationController
 
     topics = Course.find(params[:course_id]).topics
     topics.each do |topic|
-      count = Question.where("topic_id = ? AND question_type = ?",topic.id,params[:question_type]).count
+      count = Question.where("topic_id = ? AND question_type = ?  and deleted = 'FALSE'",topic.id,params[:question_type]).count
       @hash_detail["Total"] += count
       @hash_detail["#{topic.name}"] = count
     end
@@ -1007,7 +1016,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  ######################################################  ######################################################
 
 
   def get_all_topics_from_topic_linking
@@ -1045,9 +1053,23 @@ class QuestionsController < ApplicationController
     end
   end
 
+  ###################################################### Questions Rejected by proofreader ######################################################
+
+  def get_rejected_questions_by_proofreader
+
+    unless params[:role] == "0"
+      @proofreader = User.find_by_id(params[:role]).email
+    else
+      @proofreader = "None"
+    end
+
+    @operator = params[:operator]
+    @rejected_questions = Question.where("author = ? AND workflow_state = 'rejected'",@operator)
+
+
+  end
+
   ######################################################  ######################################################
-
-
 
   private
   def publish_question(question)

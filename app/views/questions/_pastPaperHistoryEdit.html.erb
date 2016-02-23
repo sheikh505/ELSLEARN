@@ -2,12 +2,12 @@
   <% if @question.past_paper_history %>
 
       <div class="field">
-        <%= label_tag "question #" %><br />
+        <%= label_tag "question #" %>
         <%= text_field_tag :ques_no, @question.past_paper_history.ques_no %>
       </div>
 
       <div class="field">
-        <%= label_tag :session %><br />
+        <%= label_tag :session %>
         <%if @question.past_paper_history.session == 'May/June' %>
             <input type="radio" checked name="session" value="May/June" >May/June
             <input type="radio" name="session" value="Nov/Dec">Nov/Dec
@@ -19,19 +19,26 @@
 
 
       <div class="field">
-        <%= label_tag :year %><br />
+        <%= label_tag :year %>
         <%= text_field_tag :year , @question.past_paper_history.year %>
       </div>
-  <% else %>
+
+      <div class="field">
+        <%= label_tag :variant %>
+        <%= text_field_tag :varient, @question.varient %>
+      </div>
+
+
+<% else %>
 
 
       <div class="field">
-        <%= label_tag "question #" %><br />
+        <%= label_tag "question #" %>
         <%= text_field_tag :ques_no  %>
       </div>
 
       <div class="field">
-        <%= label_tag :session %><br />
+        <%= label_tag :session %>
         <input type="radio" checked name="session" value="May/June" >May/June
         <input type="radio" name="session" value="Nov/Dec">Nov/Dec
 
@@ -39,7 +46,7 @@
 
 
       <div class="field">
-        <%= label_tag :year %><br />
+        <%= label_tag :year %>
         <select id="year" name="year">
           <% i = Time.new.year.inspect.to_i - 1 %>
           <% 25.times{ %>
@@ -49,6 +56,12 @@
         </select>
       </div>
 
-  <% end %>
+      <div class="field">
+        <%= label_tag :variant %>
+        <%= text_field_tag :varient %>
+      </div>
+
+
+<% end %>
 
 </div>

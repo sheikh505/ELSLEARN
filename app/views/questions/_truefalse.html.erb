@@ -2,29 +2,29 @@
 
 
     <div class="field">
-      <%= f.label :statement %><br />
+      <%= f.label :statement %>
       <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
     </div>
 
     <div class="field">
-      <%= f.label :detail_answer %><br />
+      <%= f.label :detail_answer %>
       <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
     </div>
 
     <div class="field">
-      <%= f.label :option %><br />
+      <%= f.label :option %>
       <%= radio_button_tag :option,'True' %>True
       <%= radio_button_tag :option,'False' %>False
     </div>
 
 
     <div class="field">
-      <%= f.label :instruction %><br />
+      <%= f.label :instruction %>
       <%= f.text_area :instruction, :size => '4x4' %>
     </div>
 
     <div class="field">
-      <%= f.label :source %><br />
+      <%= f.label :source %>
       <%= f.text_field :source %>
     </div>
 
@@ -42,13 +42,16 @@
   -->
 
     <div class="field">
-      <%= f.label :author %><br />
+      <%= f.label :author, "Data Entered By" %>
       <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
-    <div class="field">
 
-      <%= f.label :Difficulty %><br />
+    <% unless current_user.is_operator? %>
+
+        <div class="field">
+
+      <%= f.label :Difficulty %>
       <select id="difficulty" name="difficulty">
         <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
         <option <%='selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
@@ -57,8 +60,12 @@
       </select>
     </div>
 
+    <% end %>
+
+
+
     <div class="field">
-      <%= label_tag :pastPaperFlag %><br />
+      <%= label_tag :pastPaperFlag, "Past Paper?" ,:style=>"display: inline-block;" %>
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" <%='checked' if @question.past_paper_history %>>Yes
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" <%='checked' unless @question.past_paper_history %>>No
     </div>

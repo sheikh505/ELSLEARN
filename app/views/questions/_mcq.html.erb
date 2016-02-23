@@ -11,8 +11,10 @@
     </div>
 
     <div class="field">
-      <br /><%= f.label :detail_answer %>
-      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
+      <br /><%= f.label :detail_answer %><%= check_box_tag :detail_answer_checkbox%>
+      <div id="tinymce-pre">
+        <textarea id="tinymce5"  name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
+      </div>
       <!--%= f.text_area :description,value: "", size: '5x5' %-->
     </div>
 <% i = 1 %>
@@ -20,13 +22,16 @@
         <% if i < 5 %>
         <div class="field">
           <%= f.label ('option_' + i.to_s).to_sym %>
+
+          <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil,required: true %></span>
+          <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym  %></span>
+
         <input type="checkbox" id="image_change_<%=i%>" name="image_change_<%=i%>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
         Image
         <input type="checkbox" id="is_answer_<%=i%>" class="is_answer" name="is_answer_<%=i%>" value="1">
         Is_Answer
-        <br />
-        <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil,required: true %></span>
-        <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym  %></span>
+
+
         <% i+=1 %>
         </div>
             <% else %>
@@ -50,8 +55,10 @@
     <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick="remove_option()" >
 
     <div class="field">
-      <br /><%= f.label :instruction %>
+      <br /><%= f.label :instruction %><%= check_box_tag :instruction_checkbox%>
+      <div id="instruction-pre">
       <%= f.text_area :instruction, :size => '4x4' %>
+        </div>
     </div>
 
     <div class="field">
@@ -73,24 +80,26 @@
   -->
 
     <div class="field">
-      <%= f.label :author %>
+      <%= f.label :author, "Data Entered By" %>
       <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
+
+    <% unless current_user.is_operator? %>
+
+        <div class="field">
+        <%= f.label :Difficulty %>
+        <select id="difficulty" name="difficulty">
+          <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
+          <option <%='selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
+          <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
+        </select>
+        </div>
+
+    <% end %>
+
     <div class="field">
-
-    <%= f.label :Difficulty %>
-    <select id="difficulty" name="difficulty">
-      <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
-      <option <%='selected' if @question.difficulty == 2 %> value="2" selected>Moderate</option>
-      <option <%='selected' if @question.difficulty == 3 %> value="3">Hard</option>
-
-
-    </select>
-    </div>
-
-    <div class="field">
-      <%= label_tag :pastPaperFlag %>
+          <%= label_tag :pastPaperFlag, "Past Paper?" ,:style=>"display: inline-block;" %>
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" <%='checked' if @question.past_paper_history %>>Yes
       <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" <%='checked' unless @question.past_paper_history %>>No
     </div>
@@ -117,6 +126,22 @@
 <% end %>
 
 <script>
+
+  $(document).ready(function(){
+        $("#detail_answer_checkbox").prop('checked', false);
+      $("#tinymce-pre").hide();
+      $("#detail_answer_checkbox").on('change', function(){
+              $("#tinymce-pre").toggle();
+      });
+
+      $("#instruction_checkbox").prop('checked', false);
+      $("#instruction-pre").hide();
+      $("#instruction_checkbox").on('change', function(){
+          $("#instruction-pre").toggle();
+      });
+
+  });
+
   function change_field(box_id, span_id,field_id,id)
   {
      // alert(box_id +"-"+ span_id)

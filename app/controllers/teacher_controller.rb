@@ -113,7 +113,7 @@ class TeacherController < ApplicationController
       @assignment = Assignment.new(assignment)
       @assignment.save
       if @role_id != 0
-        if @user.is_operator?
+        unless @user.is_operator?
           @user.update_attributes(:role => 0)
         end
 

@@ -2,27 +2,27 @@
 
 
     <div class="field">
-      <%= f.label :statement %><br />
+      <%= f.label :statement %>
       <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" autofocus="yes"><%=raw @question.statement %></textarea>
     </div>
 
     <div class="field">
-      <%= label_tag :answer %><br />
+      <%= label_tag :answer %>
       <%= text_field_tag :answer, @question.options.last.statement , :required => true  %>
     </div>
 
     <div class="field">
-      <%= f.label :detail_answer %><br />
+      <%= f.label :detail_answer %>
       <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20" ><%=@question.description %></textarea>
     </div>
 
     <div class="field">
-      <%= f.label :instruction %><br />
+      <%= f.label :instruction %>
       <%= f.text_area :instruction,:value => @question.instruction, :size => '4x4' %>
     </div>
 
     <div class="field">
-      <%= f.label :source %><br />
+      <%= f.label :source %>
       <%= f.text_field :source,:value => @question.source %>
     </div>
 
@@ -44,12 +44,14 @@
 -->
 
     <div class="field">
-      <%= f.label :author %><br />
+      <%= f.label :author, "Data Entered By" %>
       <%= f.text_field :author, value: current_user.email, :disabled => true %>
     </div>
 
-    <div class="field">
-      <%= f.label :Difficulty %><br />
+    <% unless current_user.is_operator? %>
+
+        <div class="field">
+      <%= f.label :Difficulty %>
       <select id="difficulty" name="difficulty">
         <option <%='selected' if @question.difficulty == 1 %> value="1">Easy</option>
         <option <%='selected' if @question.difficulty == 2 %> value="2">Moderate</option>
@@ -58,8 +60,11 @@
       </select>
     </div>
 
+    <% end %>
+
+
     <div class="field">
-      <%= label_tag :pastPaperFlag %><br />
+      <%= label_tag :pastPaperFlag, "Past Paper?" ,:style=>"display: inline-block;" %>
       <%unless @question.past_paper_history.nil? %>
           <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="1" onclick="show_div()" checked>Yes
           <input type="radio" id="pastPaperFlag" name="pastPaperFlag" value="0" onclick="hide_div()" >No

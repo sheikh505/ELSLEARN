@@ -25,6 +25,7 @@ class QuestionsDatatable
           link_to("View", ("/questions/#{question.id}")),
           "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
       ]
+
     end
   end
 
@@ -57,7 +58,7 @@ class QuestionsDatatable
   end
 
   def fetch_questions
-      questions = Question.where("id > 0").order("#{sort_helper}")
+      questions = Question.where("id > 0 AND deleted = 'FALSE'").order("#{sort_helper}")
       questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
@@ -67,9 +68,9 @@ class QuestionsDatatable
 
   def fetch_questions_by_proofreader
     if @view.current_user.email == "proofreader1@els.com"
-      questions = Question.where("workflow_state = 'new' or workflow_state is null").order("#{sort_helper}")
+      questions = Question.where("workflow_state = 'new' or workflow_state is null AND deleted = 'FALSE'").order("#{sort_helper}")
     else
-      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s)).order("#{sort_helper}")
+      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s), :deleted => false).order("#{sort_helper}")
     end
 
     questions = questions.page(page).per_page(per_page)
@@ -89,7 +90,7 @@ class QuestionsDatatable
       questions = Question.select("questions.*").
                   joins(:course_linking).
                   where("author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)", @view.current_user.email,course_ids, course_ids, course_ids, course_ids, @view.current_user.id).
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?) AND deleted = 'FALSE'", @view.current_user.email,course_ids, course_ids, course_ids, course_ids, @view.current_user.id).
                   order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
@@ -110,7 +111,7 @@ class QuestionsDatatable
       end
       questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
-          where("author = ? AND course_id IN (?)", @view.current_user.email,course_ids).
+          where("author = ? AND course_id IN (?) AND deleted = 'FALSE'", @view.current_user.email,course_ids).
           order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
@@ -130,7 +131,7 @@ class QuestionsDatatable
       end
       questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
-          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).
+          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?) AND deleted = 'FALSE'", course_ids).
           order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
@@ -144,7 +145,7 @@ class QuestionsDatatable
   end
 
   def fetch_questions_by_operator
-    questions = Question.where("author = ? and (workflow_state IN ('', 'new', 'rejected'))", @view.current_user.email).order("#{sort_helper}")
+    questions = Question.where("author = ? and (workflow_state IN ('', 'new', 'rejected')) AND deleted = 'FALSE'", @view.current_user.email).order("#{sort_helper}")
     questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")

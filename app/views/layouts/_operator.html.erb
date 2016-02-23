@@ -1,18 +1,18 @@
-<li>
-  <%= link_to "Manage Boards", boards_path %>
-</li>
+<!--<li>-->
+  <%#= link_to "Manage Boards", boards_path %>
+<!--</li>-->
 
-<li>
-  <%= link_to "Manage Degrees", degrees_path %>
-</li>
+<!--<li>-->
+  <%#= link_to "Manage Degrees", degrees_path %>
+<!--</li>-->
 
-<li>
-  <%= link_to "Manage Courses", courses_path%>
-</li>
+<!--<li>-->
+  <%#= link_to "Manage Courses", courses_path%>
+<!--</li>-->
 
-<li>
-  <%= link_to "Manage Topics", topics_path %>
-</li>
+<!--<li>-->
+  <%#= link_to "Manage Topics", topics_path %>
+<!--</li>-->
 
 <li>
   <%= link_to "Add Questions", questions_path %>
@@ -20,4 +20,10 @@
 
 <li>
   <%= link_to "Manage Questions", questions_approval_questions_path %>
+</li>
+
+<li>
+  <%# if current_user.email %>
+  <%= link_to "Rejected Questions", get_rejected_questions_by_proofreader_questions_path({:role=>current_user.role, :operator=>current_user.email}) %>
+  <%#= link_to current_user.role, questions_approval_questions_path %>
 </li>
