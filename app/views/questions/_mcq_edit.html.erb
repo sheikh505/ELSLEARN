@@ -10,7 +10,7 @@
     </div>
 
     <div class="field">
-      <br/><%= f.label :detail_answer %>
+      <br/><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
       <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20"><%= @question.description %></textarea>
     </div>
     <% i = 1 %>
@@ -74,7 +74,7 @@
     <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick='remove_option(<%= @question.id %>)' >
 
     <div class="field">
-      <br/><%= f.label :instruction %>
+      <br/><%= f.label :instruction, style:"display: inline-block; vertical-align: sub;" %>
       <%= f.text_area :instruction, :value => @question.instruction, :size => '4x4' %>
     </div>
 
@@ -155,7 +155,7 @@
 <% end %>
 
 <script>
-  
+
 
     function change_field(box_id, span_id, field_id, id) {
         box = document.getElementById(box_id)
@@ -228,10 +228,7 @@
             error:function (data) {
             }
         });
-
     }
-
-
 </script>
 
 

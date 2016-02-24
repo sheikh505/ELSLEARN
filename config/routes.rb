@@ -99,7 +99,7 @@ ExamsSystem::Application.routes.draw do
       get :get_course_linking
       get :get_topic_course_link
       get :get_all_topics_from_topic_linking
-      get :get_rejected_questions_by_proofreader
+      get :rejected_questions
     end
   end
 

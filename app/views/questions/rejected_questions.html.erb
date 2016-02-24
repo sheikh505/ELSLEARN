@@ -1,0 +1,36 @@
+ <table class="table table-condensed" id="rej_questions">
+   <thead>
+    <tr>
+      <th>Question Statement</th>
+      <th>Action</th>
+      <th>Status</th>
+      <th>Comments</th>
+    </tr>
+   </thead>
+
+   <tbody>
+
+    <% unless @rejected_questions.nil? %>
+
+        <% @rejected_questions.each do |q| %>
+            <tr>
+              <td><%=raw q.statement %></td>
+              <td><%=link_to "View", question_path(q)%></td>
+              <td><%=raw q.workflow_state %></td>
+              <td><%=raw q.comments %></td>
+            </tr>
+        <% end %>
+    <% end %>
+
+   </tbody>
+
+  </table>
+
+
+<script>
+    $(document).ready(function(){
+        $('#rej_questions').DataTable({
+            "order": [[ 1, 'asc' ]]
+        });
+    });
+</script>

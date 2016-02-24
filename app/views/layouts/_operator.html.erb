@@ -24,6 +24,6 @@
 
 <li>
   <%# if current_user.email %>
-  <%= link_to "Rejected Questions", get_rejected_questions_by_proofreader_questions_path({:role=>current_user.role, :operator=>current_user.email}) %>
+  <%= link_to "Rejected Questions", rejected_questions_questions_path %>
   <%#= link_to current_user.role, questions_approval_questions_path %>
 </li>

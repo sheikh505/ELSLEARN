@@ -557,9 +557,6 @@ class QuestionsController < ApplicationController
 
   def questions_approval
     respond_to do |format|
-
-      puts "======================>>>>>>questions_approval",params.inspect
-      # puts "======================>>>>>>view_context",view_context.inspect
       format.html
       format.json { render :json => QuestionsDatatable.new(view_context,params[:teacher_self_flag]) }
     end
@@ -1055,18 +1052,9 @@ class QuestionsController < ApplicationController
 
   ###################################################### Questions Rejected by proofreader ######################################################
 
-  def get_rejected_questions_by_proofreader
-
-    unless params[:role] == "0"
-      @proofreader = User.find_by_id(params[:role]).email
-    else
-      @proofreader = "None"
-    end
-
-    @operator = params[:operator]
-    @rejected_questions = Question.where("author = ? AND workflow_state = 'rejected'",@operator)
-
-
+  def rejected_questions
+    @author = User.find_by_id(current_user.role).email
+    @rejected_questions = Question.where("author = ? AND workflow_state = 'rejected'",current_user.email)
   end
 
   ######################################################  ######################################################
