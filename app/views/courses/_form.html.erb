@@ -19,9 +19,9 @@
       <% @board_hash.each do |id,value| %>
             <% if @boards.find {|x| x.id == id} %>
 
-                <label><%= check_box_tag 'boards[]', id,true %><%=value %></label><br>
+                <label><%= radio_button_tag 'boards[]', id,true %><%=value %></label><br>
              <% else %>
-                <label><%= check_box_tag 'boards[]', id,false %><%=value %></label><br>
+                <label><%= radio_button_tag 'boards[]', id,false %><%=value %></label><br>
 
             <% end %>
       <% end %>

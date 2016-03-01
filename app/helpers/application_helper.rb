@@ -64,4 +64,92 @@ module ApplicationHelper
     end
     return stats
   end
+
+
+
+
+  def questions_count
+    question_counter = 0
+    Question.all.each do |question|
+      if question.deleted == false
+        question_counter += 1
+      end
+    end
+    return question_counter
+  end
+
+  def question_count_proofreader
+    if current_user.email == "proofreader1@els.com"
+      questions = Question.where("(workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'")
+    else
+      questions = Question.where(:author => User.select("email").where(:role=>current_user.id.to_s), :deleted => false, :workflow_state => ["reviewed_by_proofreader", "accepted", "new"])
+    end
+    # questions = Question.where(:author => User.select("email").where(:role=>current_user.id.to_s), :deleted => false, :workflow_state => ["reviewed_by_proofreader", "accepted", "new"])
+    return questions.size
+  end
+
+  def question_count_teacher
+    if current_user.teacher_courses.present?
+      course_list = current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("author = ? AND course_id IN (?) AND deleted = 'FALSE'", current_user.email,course_ids)
+    else
+      questions = Question.where(:id => 0)
+    end
+    return questions.size
+  end
+
+  def approve_question_count_teacher
+    if current_user.teacher_courses.present?
+      course_list = current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*").
+          joins(:course_linking).
+          where("(author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)) AND deleted = 'FALSE'", current_user.email,course_ids, course_ids, course_ids, course_ids, current_user.id)
+    else
+      questions = Question.where(:id => 0)
+    end
+    return questions.size
+  end
+
+
+
+  def question_count_operator
+    questions = Question.where("author = ? and (workflow_state IN ('', 'new')) AND deleted = 'FALSE'", current_user.email)
+    return questions.size
+  end
+
+  def question_count_operator_rejected
+    questions = Question.where("author = ? AND workflow_state = 'rejected'",current_user.email)
+    return questions.size
+  end
+
+  def question_count_hod
+    if current_user.teacher_courses.present?
+      course_list = current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+          joins(:topic => :course).
+          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?) AND deleted = 'FALSE'", course_ids).
+          order("#{sort_helper}")
+    else
+      questions = Question.where(:id => 0)
+    end
+
+    return questions.size
+  end
+
+
 end

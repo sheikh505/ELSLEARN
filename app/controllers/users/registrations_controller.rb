@@ -39,7 +39,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
           sign_up(resource_name, resource)
           ######## set role for user ########
           unless params[:role].blank?
-            Assignment.create(user_id: resource.id,role_id: params[:role])
+            Assignment.create!(user_id: resource.id,role_id: params[:role])
             if resource.roles.first.name.downcase == 'teacher'
               str = "#{resource.email.split("@").first}_#{(0...5).map { (65 + rand(26)).chr }.join}"
               resource.update_attribute(:teacher_token,str)

@@ -101,7 +101,9 @@ class TeacherController < ApplicationController
   end
 
   def create
+
     @user = User.new(params[:user])
+    # @user.role = params[:role_id]
     @role_id = params[:role_id]
 
     if @user.save
@@ -129,7 +131,7 @@ class TeacherController < ApplicationController
                 teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
                 @teacher_course = TeacherCourse.new(teacher_course)
                 @teacher_course.save
-              end
+              end unless course_id.nil?
             end
           end
         elsif @user.is_hod?

@@ -19,11 +19,11 @@
 </li>
 
 <li>
-  <%= link_to "Manage Questions", questions_approval_questions_path %>
+  <%= link_to "Manage Questions (#{question_count_operator})", questions_approval_questions_path %>
 </li>
 
 <li>
   <%# if current_user.email %>
-  <%= link_to "Rejected Questions", rejected_questions_questions_path %>
+  <%= link_to "Rejected Questions (#{question_count_operator_rejected})", rejected_questions_questions_path %>
   <%#= link_to current_user.role, questions_approval_questions_path %>
 </li>

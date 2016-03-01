@@ -183,7 +183,7 @@ class QuestionsController < ApplicationController
         array = ""
         qh.board_ids.split(",").each do |board_id|
           array << Board.find(board_id.to_i).name << ","
-        end
+        end unless qh.board_ids.nil?
         qh.board_ids = array[0...-1]
         array = ""
         qh.degree_ids.split(",").each do |degree_id|
@@ -717,6 +717,9 @@ class QuestionsController < ApplicationController
 
   def approve_by_teacher
 
+    puts "==================>>>>",params.inspect
+    # mnjkbjbkj
+
     if params[:topic_linking].present?
 
     topic1_id = params[:topic_linking][:topic_1].to_i
@@ -763,21 +766,24 @@ class QuestionsController < ApplicationController
 
 
     if insert_to_question_history_flag
-      board_ids = params[:boards]
+      # board_ids = params[:boards]
       degree_ids = params[:degree]
       topic_id = params[:topic]
       difficulty = params[:difficulty]
       board_id_array = ""
       degree_id_array = ""
-      board_ids.each do |board_id|
-        board_id_array << board_id.to_s << ","
-      end unless board_ids.nil?
+
       degree_ids.each do |degree_id|
         degree_id_array << degree_id.to_s << ","
       end unless degree_ids.nil?
+
       question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
-                          "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.object_id,
+                          "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
                           "is_approved" => 1}
+
+      # question_history = {"degree_ids" => degree_id_array, "topic_id" => topic_id,
+      #                     "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
+      #                     "is_approved" => 1}
 
       @question_history = QuestionHistory.new(question_history)
       @question_history.topic_ids = topic_ids.to_s

@@ -68,7 +68,7 @@ class QuestionsDatatable
 
   def fetch_questions_by_proofreader
     if @view.current_user.email == "proofreader1@els.com"
-      questions = Question.where("workflow_state = 'new' or workflow_state is null AND deleted = 'FALSE'").order("#{sort_helper}")
+      questions = Question.where("(workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'").order("#{sort_helper}")
     else
       questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s), :deleted => false, :workflow_state => ["reviewed_by_proofreader", "accepted", "new"]).order("#{sort_helper}")
     end
@@ -89,8 +89,8 @@ class QuestionsDatatable
       end
       questions = Question.select("questions.*").
                   joins(:course_linking).
-                  where("author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?) AND deleted = 'FALSE'", @view.current_user.email,course_ids, course_ids, course_ids, course_ids, @view.current_user.id).
+                  where("(author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)) AND deleted = 'FALSE'", @view.current_user.email,course_ids, course_ids, course_ids, course_ids, @view.current_user.id).
                   order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
@@ -122,6 +122,7 @@ class QuestionsDatatable
     end
     questions
   end
+
   def fetch_questions_by_hod
     if @view.current_user.teacher_courses.present?
       course_list = @view.current_user.teacher_courses
