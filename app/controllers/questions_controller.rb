@@ -770,6 +770,8 @@ class QuestionsController < ApplicationController
       degree_ids = params[:degree]
       topic_id = params[:topic]
       difficulty = params[:difficulty]
+      difficulties = params[:difficulties]
+      # @question = params[:question_id]
       board_id_array = ""
       degree_id_array = ""
 
@@ -777,9 +779,8 @@ class QuestionsController < ApplicationController
         degree_id_array << degree_id.to_s << ","
       end unless degree_ids.nil?
 
-      question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
-                          "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
-                          "is_approved" => 1}
+      question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id, "user_id" => current_user.id, "question_id" => params[:question_id],
+                          "is_approved" => 1, "difficulty_str" => difficulties.to_s}
 
       # question_history = {"degree_ids" => degree_id_array, "topic_id" => topic_id,
       #                     "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,

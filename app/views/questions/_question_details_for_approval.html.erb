@@ -8,11 +8,17 @@
         </div>
       </div>
 
-      <h5 class="labelquestions">Difficulty</h5>
-      <%=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>EASY
-      <%=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>MEDIUM
-      <%=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>HARD
+
+<!--############################################### Original Difficulty Section ###############################################      -->
+
+      <!--<h5 class="labelquestions">Difficulty</h5>-->
+          <%#=radio_button_tag "difficulty[]",1, @question.difficulty == 1 ? true : false %>
+          <%#=radio_button_tag "difficulty[]",2, @question.difficulty == 2 ? true : false %>
+          <%#=radio_button_tag "difficulty[]",3, @question.difficulty == 3 ? true : false %>
       <%= hidden_field_tag :question_id,@question.id %>
+
+<!--############################################### Original Difficulty Section ###############################################      -->
+
 
 
     </div>
@@ -83,10 +89,20 @@
 
     $('#approve').click(function() {
 
+        difficulty = "";
+        a = $('input[name="difficulty1[]"]:checked', '#question_details').val()
+        b = $('input[name="difficulty2[]"]:checked', '#question_details').val()
+        c = $('input[name="difficulty3[]"]:checked', '#question_details').val()
+        d = $('input[name="difficulty4[]"]:checked', '#question_details').val()
+
+        difficulty += a+","+b+","+c+","+d
+//        alert(str);
+
+
         var $form = $('#question_details');
         var serializedData = $form.serialize();
         $.ajax({
-            url:'/questions/approve_by_teacher',
+            url:'/questions/approve_by_teacher?difficulties='+difficulty,
             type:'post',
             dataType:'json',
             data: serializedData,
@@ -106,6 +122,9 @@
                 alert ("Error Occurred");
             }
         });
+
+
+
     });
 
     $('#reject').click(function() {
