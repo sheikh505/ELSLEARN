@@ -1,5 +1,14 @@
-<div class="row listing-holder listing-holder-p">
-  <div class="span5">
+<div class="container">
+<div class="row  listing-holder-p">
+  <div class="col-md-8 mrgr32 listing-holder">
+    <table class="table table-condensed">
+      <th>List of Boards</th>
+      <%Board.all.each do |board| %>
+          <tr><td><%=board.name%></td></tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="col-md-3 pd17 listing-holder">
     <%= form_for(@board) do |f| %>
         <% if @board.errors.any? %>
             <div id="error_explanation">
@@ -14,7 +23,7 @@
         <% end %>
 
         <div class="field">
-          <%= f.label :name %><br />
+          <%= f.label :name %>
           <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
         </div>
         <div class="actions">
@@ -22,12 +31,7 @@
         </div>
     <% end %>
   </div>
-  <div class="span5 offset1 nomgtop listing-holder">
-    <table class="table table-condensed">
-      <th>List of Boards</th>
-      <%Board.all.each do |board| %>
-          <tr><td><%=board.name%></td></tr>
-      <% end %>
-    </table>
-  </div>
+
+</div>
+
 </div>

@@ -1,5 +1,6 @@
-<div class="row listing-holder listing-holder-p">
-  <div class="span12 course_link_cont">
+<div class="container">
+<div class="row  listing-holder-p">
+  <div class="col-md-12 course_link_cont">
     <h3>Select Course</h3>
       <%=form_tag "/topic_linkings/get_course_link",remote: true,id: "course_form" do %>
           <%=select_tag :course_id,options_for_select(@course_arr.map{|x| [x.name,x.id]} ),prompt: "SELECT COURSE" %>
@@ -12,7 +13,8 @@
 
   </div>
 </div>
-<%= link_to 'Back', topic_linkings_path %>
+</div>
+<%= link_to 'Back', topic_linkings_path, :class=>'btn btn-inverse' %>
 
 
 

@@ -924,7 +924,7 @@ Pop up Strat
 }
 
 .btn-inverse {
-    background: #03a9f4 none repeat scroll 0 0;
+    background: #1ab394 none repeat scroll 0 0;
     border: none;
     border-radius: 1px;
     color: #fff;
@@ -944,9 +944,9 @@ Pop up Strat
 .btn-inverse.disabled,
 .btn-inverse[disabled] {
     color: #ffffff;
-    background-color: #5cbcf6;
-    *background-color: #5cbcf6;
-    box-shadow: 0 3px #49a7df;
+    background-color: #18a689;
+    *background-color: #18a689;
+    box-shadow: 0 3px #18a689;
 }
 .btn-mini [class^="icon-"],
 .btn-mini [class*=" icon-"] {
@@ -1800,7 +1800,7 @@ select, input[type="file"] {
     content: '';
 }
 #sidebar-wrapper{
-    top: 65px;
+    top: 56px;
 }
 .header.admin-header:after,
 .header.admin-header:before{
@@ -1922,7 +1922,7 @@ select, input[type="file"] {
     padding: 10px;
 }
 .btm_lnks a{
-    margin: 6px 0 0 75px;
+    margin: 6px 0 0 12px;
 }
 /*
     Common
@@ -2318,15 +2318,15 @@ select, input[type="file"] {
     -moz-border-right-colors: none !important;
     -moz-border-top-colors: none !important;
     background-color: white;
-    border-bottom: 1px solid #999999 !important;
+    border-bottom: 2px solid #213a4b !important;
     border-image: none !important;
-    border-left: 1px solid #999999 !important;
+    border-left: 2px solid #213a4b !important;
     border-radius: 0 !important;
-    border-right: 1px solid #999999 !important;
+    border-right: 2px solid #213a4b !important;
     border-top: medium none;
     box-sizing: border-box;
     display: block;
-    top: -1px;
+    top: -2px;
     left: -100000px;
     position: absolute;
     width: 100%;
@@ -2346,7 +2346,7 @@ select, input[type="file"] {
 }
 .select2-container--default .select2-selection--single {
     background-color: #fff;
-    border: 1px solid #999999 !important;
+    border: 2px solid #213a4b !important;
     border-radius: 0 !important;
 }
 .nomgtop{
@@ -2424,4 +2424,21 @@ table.dataTable thead th, table.dataTable thead td{
     margin: 0;
     padding: 0;
     font-size: 25px
+}
+#board_name,
+#question_source,
+#question_author{
+    width: 100%;
+}
+.mrgr32{
+    margin-right: 30px !important;
+}
+.pd17{
+    padding: 17px !important;
+}
+.mrtb10{
+    margin: 10px 0;
+}
+#page-content-wrapper .listing-holder.course_link_container{
+    min-height: 90px;
 }

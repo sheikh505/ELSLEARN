@@ -1,5 +1,17 @@
-<div class="row listing-holder listing-holder-p">
-  <div class="span5">
+<div class="container">
+<div class="row  listing-holder-p">
+  <div class="col-md-8 mrgr32 listing-holder">
+    <table class="table table-condensed">
+      <th>List of Degrees</th>
+      <th>Board</th>
+      <%BoardDegreeAssignment.all.each do |bDegree| %>
+          <tr><td><%=bDegree.degree.name%></td>
+            <td><%=bDegree.board.name %></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="col-md-3 pd17 listing-holder">
 <%= form_for(@degree) do |f| %>
   <% if @degree.errors.any? %>
     <div id="error_explanation">
@@ -20,6 +32,7 @@
                 <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%=board.name %>
                 <%else %>
                 <%= check_box_tag 'boards[]', board.id,false %><%=board.name %>
+
                  <%end %>
 
           <% end %>
@@ -28,7 +41,7 @@
 
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name , :class=>'mrtb10' %>
     <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
   </div>
   <div class="actions">
@@ -36,20 +49,10 @@
   </div>
 <% end %>
 </div>
-    <div class="span5 offset1 listing-holder">
-     <table class="table table-condensed">
-     <th>List of Degrees</th>
-       <th>Board</th>
-      <%BoardDegreeAssignment.all.each do |bDegree| %>
-      <tr><td><%=bDegree.degree.name%></td>
-        <td><%=bDegree.board.name %></td>
-      </tr>
-      <% end %>
-     </table>
-    </div>
+
     </div>
 
-
+</div>
 <script type="text/javascript">
   function check_boxes(){
 
