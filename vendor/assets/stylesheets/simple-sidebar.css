@@ -20,18 +20,18 @@ a{
 }
 
 #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: 220px;
 }
 
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 250px;
+    left: 220px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -220px;
     overflow-y: auto;
-    background: #999;
+    background: #2f4050;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -39,7 +39,7 @@ a{
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 220px;
 }
 
 #page-content-wrapper {
@@ -49,14 +49,14 @@ a{
 
 #wrapper.toggled #page-content-wrapper {
     position: absolute;
-    margin-right: -250px;
+    margin-right: -220px;
 }
 
 /* Sidebar Styles */
 
 .sidebar-nav {
 
-    width: 250px;
+    width: 220px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -74,9 +74,9 @@ a{
 
 .sidebar-nav li a {
     display: block;
-    border-bottom: 1px solid #ccc;
     text-decoration: none;
-    color: #fff;
+    color: #a7b1c2;
+    font-size: 13px;
     -webkit-transition: all 0.5s ;
     -moz-transition: all 0.5s;
     -ms-transition: all 0.5s;
@@ -89,8 +89,8 @@ a{
 .btn_holder a.btn:hover{ background: #ccc;}
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #222;
-    background: rgba(255,255,255,0.2);
+    color: #fff;
+    background: #293846;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
     -ms-transition: all 0.5s;
@@ -104,13 +104,12 @@ a{
 }
 
 .sidebar-nav > .sidebar-brand {
-    height: 60px;
     font-size: 18px;
     line-height: 60px;
 }
 
 .sidebar-nav > .sidebar-brand a {
-    color: #222;
+    color: #fff;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
@@ -120,7 +119,7 @@ a{
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 220px;
     }
 
     #wrapper.toggled {
@@ -128,7 +127,7 @@ a{
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 220px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -927,4 +926,12 @@ a.btn-large{
 .btn_holder_post .btn{
     margin-right: 15px;
 
+}
+.sidebar-brand {
+    background: url("/assets/header-profile.png") no-repeat scroll 0 0;
+    padding: 33px 5px;
+}
+.admin-header-right li span,
+.admin-header-right li a{
+    color: #888;
 }

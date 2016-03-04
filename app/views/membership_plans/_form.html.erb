@@ -1,3 +1,6 @@
+<div class="container">
+  <div class="row">
+
 <%= form_for(@membership_plan) do |f| %>
   <% if @membership_plan.errors.any? %>
     <div id="error_explanation">
@@ -10,35 +13,43 @@
       </ul>
     </div>
   <% end %>
-    <div class="field">
+<div class="listing-holder col-md-12">
+  <div class="row">
+    <div class="field col-md-4 mrtb10">
       <%= f.label :name %>
       <%= f.text_field :name %>
     </div>
-  <div class="field">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :price %>
     <%= f.text_field :price %>
   </div>
-  <div class="field">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :paper %>
     <%= f.text_field :paper %>
   </div>
-  <div class="field">
+  </div>
+  <div class="row">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :max_questions_allowed %>
     <%= f.text_field :max_questions_allowed %>
   </div>
-  <div class="field">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :result_type %>
     <%= f.text_field :result_type %>
   </div>
-  <div class="field">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :validity %>
     <%= f.text_field :validity %>
   </div>
-  <div class="field">
+  <div class="field col-md-4 mrtb10">
     <%= f.label :other_course_amount %>
     <%= f.text_field :other_course_amount %>
   </div>
-  <div class="actions">
+  </div>
+  <div class="actions mrtb10">
     <%= f.submit :class=>'btn btn-inverse' %>
   </div>
+    </div>
 <% end %>
+  </div>
+</div>

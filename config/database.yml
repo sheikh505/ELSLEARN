@@ -16,9 +16,9 @@ development:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  database: elslearn
+  database: elslearn_latest
   pool: 5
-  username: mac
+  username: postgres
   password: Elslearn001
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -43,15 +43,15 @@ test:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  database: elslearn
+  database: elslearn_latest
   pool: 5
-  username: mac
+  username: postgres
   password: Elslearn001
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: elslearn
+  database: elslearn_latest
   pool: 5
-  username: mac
+  username: postgres
   password: Elslearn001

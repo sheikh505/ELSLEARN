@@ -14,6 +14,7 @@
  *= require dataTables/jquery.dataTables
  *= require responsive
  *= require select
+ *= require bootstrapnew.css
  *= require_self
 *= require_tree .
  */
@@ -38,7 +39,7 @@ th { border-bottom: 2px solid #f8f8f8; }
 table tr th{
     color: #a0a8af;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     height: 50px;
     line-height: 38px !important;
 }
@@ -49,13 +50,14 @@ table td tr{ height: 40px;}
     border: 1px solid rgba(0, 0, 0, 0.12);
     margin: 30px 0 ;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    min-height: 160px;
+    min-height: 200px;
 
 }
 #page-content-wrapper h1{
     padding: 0 28px 0 0;
     text-transform: capitalize;
-    font-size: 36px;
+    font-size: 24px;
+    color: #676a6c;
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
@@ -180,7 +182,7 @@ input[type="file"], input[type="image"], input[type="submit"], input[type="reset
 }
 input[type="radio"], input[type="checkbox"] {
     line-height: normal;
-    margin: 4px 0 0;
+    margin: -1px 4px 0 0;
 }
 label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
     cursor: pointer;
