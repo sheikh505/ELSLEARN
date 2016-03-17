@@ -1,8 +1,10 @@
+<ul>
 <%@courses.each do |x| %>
     <% unless @user.present? %>
-        <%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,false %><span><%=x.name %></span>
+        <li><%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,false %><span><%=x.name %></span></li>
     <% else %>
-        <%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:course_id] == x.id && b[:degree_id] == @degree_id } %><span><%=x.name %></span>
+        <li><%= check_box_tag "course_#{@degree_id.to_s}[]", x.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:course_id] == x.id && b[:degree_id] == @degree_id } %><span><%=x.name %></span></li>
     <% end %>
 
 <% end %>
+</ul>

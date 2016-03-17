@@ -1,11 +1,11 @@
-<div id="past_paper_history_div">
+<div id="past_paper_history_div" class="row padding-custom">
 
-  <div class="field">
+  <div class="field col-md-3">
     <%= label_tag "question #" %>
     <%= text_field_tag :ques_no, @question_no %>
   </div>
 
-  <div class="field">
+  <div class="field col-md-2">
     <%= label_tag :session %>
     <% if @question.past_paper_history && @question.past_paper_history.session == 'Nov/Dec' %>
         <input type="radio" name="session" value="May/June">May/June
@@ -20,7 +20,7 @@
   </div>
 
 
-  <div class="field">
+  <div class="field col-md-2">
     <%= label_tag :year %>
     <select id="year" name="year">
       <% i = Time.new.year.inspect.to_i - 1 %>
@@ -38,7 +38,7 @@
 
   </div>
 
-  <div class="field">
+  <div class="field col-md-3">
     <%= label_tag :variant %>
       <%= text_field_tag :varient %>
   </div>

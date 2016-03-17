@@ -46,10 +46,11 @@
             </fieldset>
           </form>
           <% if user_signed_in? %>
-              <li class="dropdown"><a href="/user/my_profile">My Account</a>
+              <li class="dropdown"><a href="javascript:void(0)">My Account</a>
                 <ul class="sub_menu"><li>
                   <% if user_signed_in? %>
                       <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %>
+                      <%= link_to "Profile" , "/user/my_profile" %>
                   <% else %>
                       <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
                   <% end %>

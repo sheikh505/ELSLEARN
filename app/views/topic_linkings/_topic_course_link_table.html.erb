@@ -1,5 +1,5 @@
 <%=form_for :topic_linking,url: topic_linkings_path,remote: true,html: {id: "topic_linking_form"} do |f| %>
-    <table class="table table-condensed topic_table">
+    <table class="table table-condensed topic_table ">
       <thead>
       <tr>
         <th><%=get_course_name_tab(@course_linking.course_1) %></th>
@@ -13,7 +13,7 @@
       <tr>
         <td>
           <% unless @course_linking.course_1.nil? %>
-              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+              <%= select_tag "topic_linking[topic_1]",grouped_options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
           <% end %>
         </td>
         <td>
