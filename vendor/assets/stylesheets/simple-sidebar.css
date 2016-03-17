@@ -883,20 +883,39 @@ a{
 }
 #degreeList{
     margin-bottom: 20px;
+    margin-left: 28px;
+    margin-right: 20px;
+}
+#degreeList label[for='degree']{
+    margin-left: 13px;
 }
 #degreeList .col_deg{
     display: inline-block;
     vertical-align: top;
-    width: 33%;
     margin: 0 -2px;
+}
+.courseList_post_holder {
+    width: 100%;
+    margin: 0 10px;
+    overflow: hidden;
+}
+ .courseList_post{
+    margin: 8px 0 ;
+    padding: 7px 0;
 }
 .courseList_post{
     margin-top: 2px;
-    border-top: 2px solid #f2f2f2;
 }
 .courseList_post input[type='checkbox']{
     width: 25px;
     margin-top: 0;
+}
+.courseList_post li{
+    font-size: 12px;
+}
+.courseList_post li span{
+    text-transform: capitalize;
+
 }
 .courseList_post label{
     margin-bottom: 0;
@@ -934,4 +953,7 @@ a.btn-large{
 .admin-header-right li span,
 .admin-header-right li a{
     color: #888;
+}
+.sidebar-nav li{
+    color: #a7b1c2;
 }

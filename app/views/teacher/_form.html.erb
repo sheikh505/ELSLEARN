@@ -63,18 +63,7 @@
       </select>
 
     </div>
-    <div id="degreeList" style="display: none;" class="field">
-      <%=label_tag :degree %>
 
-        <%@degrees.each_with_index do |degree,index| %>
-          <div class="col_deg">
-          <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
-            <div id="courseList_<%= degree.id %>" class="field courseList_post">
-
-            </div>
-          </div>
-        <% end %>
-    </div>
     <div id="courseList_all" style="display: none;" class="field">
       <%@courses.each do |x| %>
           <%= check_box_tag "course[]", x.id,false %><span><%=x.name %></span>
@@ -121,7 +110,23 @@
       <% end %>
     </div>
 
+<div id="degreeList" style="display: none;" class="field row">
+  <%=label_tag :degree%>
+
+  <%@degrees.each_with_index do |degree,index| %>
+      <div class="col_deg col-md-3">
+        <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
+        <div id="courseList_<%= degree.id %>" class="field courseList_post">
+
+        </div>
+      </div>
+
+  <% end %>
+
 </div>
+
+
+
 
 
 
@@ -191,6 +196,8 @@
         }
         else
             $("#"+"courseList_"+object.value).hide();
+
     }
+
 
 </script>
