@@ -11,7 +11,7 @@
     </div>
 
     <div class="field">
-      <br /><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %><%= check_box_tag :detail_answer_checkbox%>
+      <br /><%= check_box_tag :detail_answer_checkbox%><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
       <div id="tinymce-pre">
         <textarea id="tinymce5"  name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
       </div>
@@ -21,7 +21,7 @@
     <% 7.times{ %>
         <% if i < 5 %>
         <div class="field">
-          <%= f.label ('option_' + i.to_s).to_sym %>
+          <%= f.label ('option_' + i.to_s).to_sym , class:'label-inline'%>
 
           <span id='field_<%=i%>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil,required: true %></span>
           <span style="display: none" id='image_<%=i%>'><%= file_field_tag ('option_image_' + i.to_s).to_sym  %></span>

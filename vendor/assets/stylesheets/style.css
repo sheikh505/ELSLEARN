@@ -2442,3 +2442,15 @@ table.dataTable thead th, table.dataTable thead td{
 #page-content-wrapper .listing-holder.course_link_container{
     min-height: 90px;
 }
+.padding-custom .field:first-child{
+    padding-left: 20px;
+}
+.listing-holder .padding-custom .field .select2-container{
+    width: 82px !important;
+}
+.listing-holder .padding-custom .field input[type='text']{
+    width: 100%;
+}
+.label-inline{
+    display: inline-block;
+}
