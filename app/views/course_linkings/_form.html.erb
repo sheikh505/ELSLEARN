@@ -1,5 +1,5 @@
 <div class="row listing-holder listing-holder-p">
-  <div class="span12 course_link_cont">
+  <div class="course_link_cont">
     <%= form_for @course_linking,onsubmit: "return check_form()" do |f| %>
         <% if @course_linking.errors.any? %>
             <div id="error_explanation">
