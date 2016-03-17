@@ -188,7 +188,7 @@ class QuestionsController < ApplicationController
         array = ""
         qh.degree_ids.split(",").each do |degree_id|
           array << Degree.find(degree_id.to_i).name << ","
-        end
+        end unless qh.degree_ids.nil?
         qh.degree_ids = array[0...-1]
       end
       respond_with(@question)
