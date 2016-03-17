@@ -881,12 +881,12 @@ class QuestionsController < ApplicationController
         degree_id_array = ""
         board_ids.each do |board_id|
           board_id_array << board_id.to_s << ","
-        end
+        end unless board_ids.nil?
         degree_ids.each do |degree_id|
           degree_id_array << degree_id.to_s << ","
-        end
+        end unless degree_ids.nil?
         question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id,
-                            "difficulty" => difficulty.first.to_i, "user_id" => current_user.id, "question_id" => @question.id,
+                            "difficulty" => difficulty.to_i, "user_id" => current_user.id, "question_id" => @question.id,
                             "is_approved" => 0}
 
         @question_history = QuestionHistory.new(question_history)
