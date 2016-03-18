@@ -989,3 +989,16 @@ a.btn-large{
     box-shadow: none !important;
     color: #666 !important;
 }
+.header_right ul{
+    margin-bottom: 0;
+}
+.animated_number{
+    background-attachment: fixed;
+    width: 100%;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+ul.admin-opt li a{
+    display: block;
+    padding: 25px;
+}

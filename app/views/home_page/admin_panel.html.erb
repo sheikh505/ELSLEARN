@@ -1,15 +1,15 @@
-<table class="table table-condensed">
+<ul class="admin-opt">
   <% unless current_user.is_operator? ||  current_user.is_proofreader? || current_user.is_student?%>
-      <tr>
-        <td><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></td>
-        <td><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></td>
-        <td><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></td>
-      </tr>
+
+        <li><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></li>
+        <li><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></li>
+        <li><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></li>
+
   <% end %>
-  <tr>
+
     <!--td><%= link_to "Add New Test", new_quiz_path, :class => 'btn btn-inverse btn-large' %></td>
     <td><%= link_to "Add New Notes", new_book_path, :class => 'btn btn-inverse btn-large' %></td-->
-    <td><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></td>
-  </tr>
-</table>
+    <li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>
+</ul>
+
 
