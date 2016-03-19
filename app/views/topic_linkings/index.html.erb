@@ -14,9 +14,9 @@
     <tbody>
     <% @topic_linkings.each do |topic_linking| %>
         <tr>
-          <td><%= get_topic_name(topic_linking.topic_1) %></td>
-          <td><%= get_topic_name(topic_linking.topic_2) %></td>
           <td><%= get_topic_name(topic_linking.topic_3) %></td>
+          <td><%= get_topic_name(topic_linking.topic_2) %></td>
+          <td><%= get_topic_name(topic_linking.topic_1) %></td>
           <td><%= get_topic_name(topic_linking.topic_4) %></td>
           <td><%= link_to 'Edit', edit_topic_linking_path(topic_linking) %></td>
           <td><%= link_to 'Destroy', topic_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -5,8 +5,8 @@
   <tr>
 
     <td>
-      <% unless @course_linking.course_1.nil? %>
-          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+      <% unless @course_linking.course_3.nil? %>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
               <%= Degree.find(f.degree_id).name %>
           <% end %>
       <% end %>
@@ -21,8 +21,8 @@
     </td>
 
     <td>
-      <% unless @course_linking.course_3.nil? %>
-          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+      <% unless @course_linking.course_1.nil? %>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
               <%= Degree.find(f.degree_id).name %>
           <% end %>
       <% end %>
@@ -42,9 +42,9 @@
 
 
   <tr>
-    <th><%=get_course_name_tab(@course_linking.course_1) %></th>
-    <th><%=get_course_name_tab(@course_linking.course_2) %></th>
     <th><%=get_course_name_tab(@course_linking.course_3) %></th>
+    <th><%=get_course_name_tab(@course_linking.course_2) %></th>
+    <th><%=get_course_name_tab(@course_linking.course_1) %></th>
     <th><%=get_course_name_tab(@course_linking.course_4) %></th>
   </tr>
 
@@ -53,8 +53,8 @@
   <tbody>
   <tr>
     <td>
-      <% unless @course_linking.course_1.nil? %>
-          <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% unless @course_linking.course_3.nil? %>
+          <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
       <% end %>
     </td>
     <td>
@@ -63,8 +63,8 @@
       <% end %>
     </td>
     <td>
-      <% unless @course_linking.course_3.nil? %>
-          <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+      <% unless @course_linking.course_1.nil? %>
+          <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
       <% end %>
     </td>
     <td>
@@ -80,22 +80,20 @@
 
 
   <tr>
-
     <td>
-      <% unless @course_linking.course_1.nil? %>
+      <% unless @course_linking.course_3.nil? %>
           <!--<b>Degrees:</b>-->
-          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
               <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
-          <!--<%# Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>-->
-              <!--<label><%#=check_box_tag "boards[]",f.board_id %><%#= Board.find(f.board_id).name %></label>-->
+          <!--<%# Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>-->
+          <!--<label><%#=check_box_tag "boards[]",f.board_id %><%#= Board.find(f.board_id).name %></label>-->
           <!--<%# end %>-->
 
       <% end %>
     </td>
-
 
     <td>
       <% unless @course_linking.course_2.nil? %>
@@ -113,15 +111,15 @@
     </td>
 
     <td>
-      <% unless @course_linking.course_3.nil? %>
+      <% unless @course_linking.course_1.nil? %>
           <!--<b>Degrees:</b>-->
-          <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
+          <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
               <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
-          <!--<%# Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>-->
-              <!--<label><%#=check_box_tag "boards[]",f.board_id %><%#= Board.find(f.board_id).name %></label>-->
+          <!--<%# Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>-->
+          <!--<label><%#=check_box_tag "boards[]",f.board_id %><%#= Board.find(f.board_id).name %></label>-->
           <!--<%# end %>-->
 
       <% end %>

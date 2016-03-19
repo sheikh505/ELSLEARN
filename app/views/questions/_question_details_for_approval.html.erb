@@ -50,13 +50,13 @@
 
     $(document).ready(function(){
 
-        $("#topic_linking_topic_1").on("change", function(){
+        $("#topic_linking_topic_3").on("change", function(){
             topic_id = this.value;
 //            alert(topic_id);
 
             if (topic_id == ""){
                 $("#topic_linking_topic_2").val("");
-                $("#topic_linking_topic_3").val("");
+                $("#topic_linking_topic_1").val("");
                 $("#topic_linking_topic_4").val("");
                 return false;
             }

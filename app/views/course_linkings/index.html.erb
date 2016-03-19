@@ -3,9 +3,9 @@
   <table class="table table-condensed">
     <thead>
     <tr>
-      <th>GCE <br/> IGCSE</th>
-      <th>GCE <br/> O Level</th>
       <th>GCE <br/> A & AS Level </th>
+      <th>GCE <br/> O Level</th>
+      <th>GCE <br/> IGCSE</th>
       <th>EdExcel <br/> A & AS Level </th>
       <th></th>
       <th></th>
@@ -14,9 +14,9 @@
     <tbody>
     <% @course_linkings.each do |course_linking| %>
         <tr>
-          <td><%= get_course_name(course_linking.course_1) %></td>
-          <td><%= get_course_name(course_linking.course_2) %></td>
           <td><%= get_course_name(course_linking.course_3) %></td>
+          <td><%= get_course_name(course_linking.course_2) %></td>
+          <td><%= get_course_name(course_linking.course_1) %></td>
           <td><%= get_course_name(course_linking.course_4) %></td>
           <td><%= link_to 'Edit', edit_course_linking_path(course_linking) %></td>
           <td><%= link_to 'Destroy', course_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>

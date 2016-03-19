@@ -14,16 +14,17 @@
         <% end %>
 
         <div class="field inline_form_fields">
-          <label for="course_linking_course_1">GCE  IGCSE</label>
-          <%= select_tag "course_linking[course_1]",options_for_select(@courses_gce_igcse.map{|x| [x.name,x.id]},@course_linking.course_1),prompt: "COURSE" %>
+          <label for="course_linking_course_3">GCE  A & AS Level</label>
+          <%= select_tag "course_linking[course_3]",options_for_select(@courses_gce_a_level.map{|x| [x.name,x.id]},@course_linking.course_3),prompt: "COURSE" %>
         </div>
+
         <div class="field inline_form_fields">
           <label for="course_linking_course_2">GCE O Level</label>
           <%= select_tag "course_linking[course_2]",options_for_select(@courses_gce_o_level.map{|x| [x.name,x.id]},@course_linking.course_2),prompt: "COURSE" %>
         </div>
         <div class="field inline_form_fields">
-          <label for="course_linking_course_3">GCE  A & AS Level</label>
-          <%= select_tag "course_linking[course_3]",options_for_select(@courses_gce_a_level.map{|x| [x.name,x.id]},@course_linking.course_3),prompt: "COURSE" %>
+          <label for="course_linking_course_1">GCE  IGCSE</label>
+          <%= select_tag "course_linking[course_1]",options_for_select(@courses_gce_igcse.map{|x| [x.name,x.id]},@course_linking.course_1),prompt: "COURSE" %>
         </div>
         <div class="field inline_form_fields">
           <label for="course_linking_course_4">EdExcel A & AS Level </label>
