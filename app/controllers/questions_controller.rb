@@ -187,9 +187,19 @@ class QuestionsController < ApplicationController
         qh.board_ids = array[0...-1]
         array = ""
         qh.degree_ids.split(",").each do |degree_id|
-          array << Degree.find(degree_id.to_i).name << ","
+          if degree_id.to_i != 0
+            array << Degree.find(degree_id.to_i).name << ","
+          end
         end unless qh.degree_ids.nil?
         qh.degree_ids = array[0...-1]
+
+        array = ""
+        qh.topic_ids.split(",").each do |topic_id|
+          if topic_id.to_i != 0
+            array << Topic.find(topic_id.to_i).name << ","
+          end
+        end unless qh.topic_ids.nil?
+        qh.topic_ids = array[0...-1]
       end
       respond_with(@question)
     else
