@@ -30,7 +30,8 @@ class TopicsDatatable < ApplicationController
           # h(topic.category),
           # h(topic.parent_topic_id)
           h(get_parent_topic_name(topic.parent_topic_id)),
-          h(Course.find_by_id(topic.course_id).name)
+          h(Course.find_by_id(topic.course_id).name),
+          link_to('Edit', :controller => 'topics', :action => 'edit', :id => topic) + "/ " +link_to('Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' })
           # h(topic.released_on.strftime("%B %e, %Y")),
           # number_to_currency(topic.price)
       ]
