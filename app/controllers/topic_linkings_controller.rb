@@ -117,10 +117,10 @@ class TopicLinkingsController < ApplicationController
           @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
           @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
         else
-          @topics_1 = Topic.where("course_id = ? AND id NOT IN (#{arr.join(",")})",@course_linking.course_1)
-          @topics_2 = Topic.where("course_id = ? AND id NOT IN (#{arr.join(",")})",@course_linking.course_2)
-          @topics_3 = Topic.where("course_id = ? AND id NOT IN (#{arr.join(",")})",@course_linking.course_3)
-          @topics_4 = Topic.where("course_id = ? AND id NOT IN (#{arr.join(",")})",@course_linking.course_4)
+          @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
+          @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
+          @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+          @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
         end
 
         @flag = true

@@ -54,22 +54,62 @@
   <tr>
     <td>
       <% unless @course_linking.course_3.nil? %>
-          <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <!--<%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>-->
+          <select name="topic_linking[topic_3]" id="topic_linking_topic_3" class="topic_select">
+            <option value="">select topic</option>
+            <%@topics_3.each do |x| %>
+                <% if x.parent_topic_id.nil? %>
+                    <option value="<%=x.id%>"><%=x.name%></option>
+                <% else %>
+                    <option value="<%=x.id%>">--- <%=x.name%></option>
+                <% end %>
+            <% end %>
+          </select><span id="topics_count_3">(n)</span>
       <% end %>
     </td>
     <td>
       <% unless @course_linking.course_2.nil? %>
-          <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <!--<%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>-->
+          <select name="topic_linking[topic_2]" id="topic_linking_topic_2" class="topic_select">
+            <option value="">select topic</option>
+            <%@topics_2.each do |x| %>
+                <% if x.parent_topic_id.nil? %>
+                    <option value="<%=x.id%>"><%=x.name%></option>
+                <% else %>
+                    <option value="<%=x.id%>">--- <%=x.name%></option>
+                <% end %>
+            <% end %>
+          </select><span id="topics_count_2">(n)</span>
       <% end %>
     </td>
     <td>
       <% unless @course_linking.course_1.nil? %>
-          <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <!--<%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>-->
+          <select name="topic_linking[topic_1]" id="topic_linking_topic_1" class="topic_select">
+            <option value="">select topic</option>
+            <%@topics_1.each do |x| %>
+                <% if x.parent_topic_id.nil? %>
+                    <option value="<%=x.id%>"><%=x.name%></option>
+                <% else %>
+                    <option value="<%=x.id%>">--- <%=x.name%></option>
+                <% end %>
+            <% end %>
+          </select><span id="topics_count_1">(n)</span>
       <% end %>
     </td>
     <td>
       <% unless @course_linking.course_4.nil? %>
-          <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+          <!--<%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>-->
+          <select name="topic_linking[topic_4]" id="topic_linking_topic_4" class="topic_select">
+            <option value="">select topic</option>
+            <%@topics_4.each do |x| %>
+                <% if x.parent_topic_id.nil? %>
+                    <option value="<%=x.id%>"><%=x.name%></option>
+                <% else %>
+                    <option value="<%=x.id%>">--- <%=x.name%></option>
+                <% end %>
+            <% end %>
+          </select><span id="topics_count_4">(n)</span>
       <% end %>
     </td>
   </tr>
@@ -215,4 +255,14 @@
 
     });
 
+    $(document).ready(function() {
+        var topics_1 = $("#topic_linking_topic_1 option").size()-1
+        var topics_2 = parseInt($("#topic_linking_topic_2 option").size())-1
+        var topics_3 = parseInt($("#topic_linking_topic_3 option").size())-1
+        var topics_4 = parseInt($("#topic_linking_topic_4 option").size())-1
+        $("#topics_count_1").text("(" + topics_1 + ")")
+        $("#topics_count_2").text("(" + topics_2 + ")")
+        $("#topics_count_3").text("(" + topics_3 + ")")
+        $("#topics_count_4").text("(" + topics_4 + ")")
+    });
 </script>
