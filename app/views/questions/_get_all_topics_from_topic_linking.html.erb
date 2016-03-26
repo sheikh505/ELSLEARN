@@ -56,7 +56,7 @@
 
         <td>
           <% unless @course_linking.course_3.nil? %>
-              <!--<%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.topic_3),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_3),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_3]" id="topic_linking_topic_3" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_3.each do |x| %>
@@ -71,7 +71,7 @@
         </td>
         <td>
           <% unless @course_linking.course_2.nil? %>
-              <!--<%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.topic_2),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_2),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_2]" id="topic_linking_topic_2" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_2.each do |x| %>
@@ -87,7 +87,7 @@
 
         <td>
           <% unless @course_linking.course_1.nil? %>
-              <!--<%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.topic_1),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_1),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_1]" id="topic_linking_topic_1" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_1.each do |x| %>
@@ -102,7 +102,7 @@
         </td>
         <td>
           <% unless @course_linking.course_4.nil? %>
-              <!--<%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.topic_4),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_4),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_4]" id="topic_linking_topic_4" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_4.each do |x| %>
@@ -267,10 +267,10 @@
         $("#topics_count_3").text("(" + topics_3 + ")")
         $("#topics_count_4").text("(" + topics_4 + ")")
 
-        $("#topic_linking_topic_1").val(<%= @topic_linking_array.topic_1 %>);
-        $("#topic_linking_topic_2").val(<%= @topic_linking_array.topic_2 %>);
-        $("#topic_linking_topic_3").val(<%= @topic_linking_array.topic_3 %>);
-        $("#topic_linking_topic_4").val(<%= @topic_linking_array.topic_4 %>);
+        $("#topic_linking_topic_1").val(<%= @topic_linking_array.first.topic_1 %>);
+        $("#topic_linking_topic_2").val(<%= @topic_linking_array.first.topic_2 %>);
+        $("#topic_linking_topic_3").val(<%= @topic_linking_array.first.topic_3 %>);
+        $("#topic_linking_topic_4").val(<%= @topic_linking_array.first.topic_4 %>);
 
         $("#topic_linking_topic_3").on("change", function(){
             topic_id = this.value;

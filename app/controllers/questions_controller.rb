@@ -1037,12 +1037,12 @@ class QuestionsController < ApplicationController
       @question = params[:question_id].to_i
       @course_linking_id = Question.find(@question).course_linking_id
       @course_linking = CourseLinking.find(@course_linking_id)
-      @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id]).first
+      @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id])
       if @course_linking.nil?
         @flag = false
       else
         arr = []
-        TopicLinking.all.each do |topic|
+        @topic_linking_array.each do |topic|
           arr << topic.topic_1 unless topic.topic_1.nil?
           arr << topic.topic_2 unless topic.topic_2.nil?
           arr << topic.topic_3 unless topic.topic_3.nil?
