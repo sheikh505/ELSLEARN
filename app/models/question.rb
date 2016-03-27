@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
     state :new do
       event :submit, :transitions_to => :reviewed_by_proofreader
       event :reject, :transitions_to => :rejected
-      event :accept, :transitions_to => :accepted
+      event :accept, :transitions_to => :pending_for_hod_approval
     end
     state :reviewed_by_proofreader do
       event :submit, :transitions_to => :being_reviewed
@@ -17,6 +17,10 @@ class Question < ActiveRecord::Base
     end
     state :rejected_by_teacher do
       event :submit, :transitions_to => :being_reviewed
+      event :accept, :transitions_to => :accepted
+    end
+    state :pending_for_hod_approval do
+      event :submit, :transitions_to => :accepted
       event :accept, :transitions_to => :accepted
     end
     state :being_reviewed do

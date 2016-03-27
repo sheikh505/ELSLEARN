@@ -98,6 +98,12 @@
         difficulty += a+","+b+","+c+","+d
 //        alert(str);
 
+        if ($("#topic_linking_topic_3").val() == "" && $("#topic_linking_topic_2").val() == "" &&
+            $("#topic_linking_topic_1").val() == "" && $("#topic_linking_topic_4").val() == "")
+        {
+            alert ("Please select atleast one topic association.");
+            return false;
+        }
 
         var $form = $('#question_details');
         var serializedData = $form.serialize();

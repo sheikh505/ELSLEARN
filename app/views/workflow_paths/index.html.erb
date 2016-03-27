@@ -1,11 +1,11 @@
 <h1>Enable Question Assesment</h1>
 <div class="listing-holder">
   <table class="table table-condensed">
-    <tr>
+    <thead>
       <th>Degree</th>
       <th>Subject</th>
       <th>Enable</th>
-    </tr>
+    </thead>
 
     <% @course_degree_hash.each_with_index do |(degree,course),index| %>
         <% degree_id,degree_name,course_id = degree.split("_") %>
@@ -19,7 +19,12 @@
 </div>
 
 <script type="text/javascript">
-
+    $(document).ready(function() {
+        $('.table').dataTable({
+            "paging":   false,
+            "bFilter": false,
+        });
+    });
     function toggle_workflow_path(degree_id,course_id,id){
         var value = 1;
         if($("#"+id).is(":checked") == true){
@@ -39,7 +44,6 @@
 
             },
             error:function (data) {
-                alert ('nae chalaa');
                 //    window.location.reload();
             }
         });

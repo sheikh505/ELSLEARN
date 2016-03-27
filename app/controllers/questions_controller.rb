@@ -838,8 +838,9 @@ class QuestionsController < ApplicationController
       @course = @question.course_linking_id
       ####### check if any entry is present in workflow with a false
       flag_path = true
-      @degrees.each do |degree_id|
-        WorkflowPath.where(degree_id: degree_id,course_id: @course).each do |workflow_path|
+      WorkflowPath.all.each do |workflow_path|
+        course_linking_id =  CourseLinking.search_on_course_column(workflow_path.course_id).id
+        if course_linking_id == @course
           flag_path = false if workflow_path.is_complete == false
         end
       end

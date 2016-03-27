@@ -130,9 +130,11 @@ class QuestionsDatatable
       course_list.each do |course|
         course_ids << course.course_id
       end
-      questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-          joins(:topic => :course).
-          where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?) AND deleted = 'FALSE'", course_ids).
+      questions = Question.select("questions.*")
+          .joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))
+                  AND workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher', 'pending_for_hod_approval') AND deleted = 'FALSE'",
+                  course_ids, course_ids, course_ids, course_ids).
           order("#{sort_helper}")
     else
       questions = Question.where(:id => 0)
