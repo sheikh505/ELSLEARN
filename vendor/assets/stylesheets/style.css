@@ -2454,3 +2454,32 @@ table.dataTable thead th, table.dataTable thead td{
 .label-inline{
     display: inline-block;
 }
+.courseList_all{
+    margin: 0 21px;
+}
+.courseList_all table thead th{
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+.courseList_all table thead th:first-child{
+    text-align: left;
+}
+.courseList_all  table tbody tr:nth-child(2n+1){
+    background: #f1f1f3;
+}
+.courseList_all  table tbody tr td{
+    text-align: center;
+}
+.courseList_all  table tbody tr td:first-child{
+    text-align: left;
+}
+#degreeList.degreeListEdit{
+    width: 100%;
+    overflow: hidden;
+    padding-top: 18px;
+    margin-right: 0;
+    margin-left: 10px;
+}
+#degreeList.degreeListEdit .cousreList_post_edit.courseList_post input[type='checkbox']{
+    width: 14px;
+}
