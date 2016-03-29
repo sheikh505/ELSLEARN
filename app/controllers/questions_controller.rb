@@ -252,7 +252,7 @@ class QuestionsController < ApplicationController
 
     @question = Question.new
 
-      if params[:q_id]
+    if params[:q_id]
       @current_question = Question.find(params[:q_id])
       # @course_linking_id = @current_question.course_linking_id
       # @course_id = @current_question.topic.course_id
@@ -298,13 +298,19 @@ class QuestionsController < ApplicationController
       # end
       # # end
       # @degrees_name = []
-    unless params[:course].nil?
+    if (!params[:course].nil?)
       @course_id = params[:course]
-      @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
+      @course_linking = CourseLinking.search_on_course_column(@course_id)
+      @course_linking_id = @course_linking.id
+      @courses = Course.where("id = ? OR id = ? OR id = ? OR ID = ?",@course_linking.course_1, @course_linking.course_2,
+                                                                      @course_linking.course_3, @course_linking.course_4)
+    elsif (!@current_question.course_linking_id.nil?)
+      @course_linking = CourseLinking.find(@current_question.course_linking_id)
+      @course_linking_id = @course_linking.id
+      @courses = Course.where("id = ? OR id = ? OR id = ? OR ID = ?",@course_linking.course_1, @course_linking.course_2,
+                              @course_linking.course_3, @course_linking.course_4)
     end
 
-    @course_linking_name = CourseLinking.all
-    @course_linking_hash = @course_linking_name.collect{|course| {:value => course.id}}
 
 
       # @course_linking_id = Question.find_by_id(params[:q_id]).course_linking_id
@@ -410,6 +416,7 @@ class QuestionsController < ApplicationController
                                            :ques_no => params[:ques_no],
                                            :session => params[:session],
                                            :year => params[:year],
+                                           :course_id => params[:course_id],
                                            :question_id => @question.id
         )
         @past_paper.save

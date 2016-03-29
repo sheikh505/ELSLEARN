@@ -40,14 +40,23 @@
 
   <div class="field col-md-3">
     <%= label_tag :variant %>
-      <%= text_field_tag :varient %>
+        <%= text_field_tag :varient, @question.varient %>
   </div>
 
 
-  <div class="field col-md-3" id = "course_linking_element">
+  <div class="col-md-8" id="courses">
     <%= label_tag :course_id %>
-    <%= select_tag :course_id, options_for_select([ ] ) %>
-    <%#= select_tag :course_id, options_for_select(@course_linking.collect{ |u| [u.name, u.id] }) %>
+    <select id="course_id" name="course_id" >
+    <%unless @courses.nil? %>
+        <% @courses.each do |course| %>
+              <% if @question.past_paper_history && @question.past_paper_history.course_id == course.id.to_s %>
+                <option selected value="<%=course.id %>"><%=course.name%></option>
+              <% else %>
+                  <option value="<%=course.id %>"><%=course.name%></option>
+              <% end %>
+        <% end %>
+    <% end %>
+    </select>
   </div>
 
 </div>
