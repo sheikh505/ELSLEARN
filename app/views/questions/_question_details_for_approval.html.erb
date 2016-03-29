@@ -96,6 +96,46 @@
         d = $('input[name="difficulty4[]"]:checked', '#question_details').val()
 
         difficulty += a+","+b+","+c+","+d
+
+        var publish = "";
+//        alert($('input[name="degree1[]"].checkbox_check').prop('checked'));
+         if ($('input[name="degree1[]"]').prop('checked')){
+
+            var a = $(('input[name="degree1[]"]:checkbox:checked'), '#question_details').val()
+         }
+        else{
+             a = 0;
+//             alert(a);
+         }
+        if ($('input[name="degree2[]"]').prop('checked')){
+
+          var b = $(('input[name="degree2[]"]:checkbox:checked'), '#question_details').val()
+        }
+        else{
+            b = 0;
+        }
+        if ($('input[name="degree3[]"]').prop('checked')){
+
+          var c = $(('input[name="degree3[]"]:checkbox:checked'), '#question_details').val()
+        }
+        else{
+            c = 0;
+        }
+        if ($('input[name="degree4[]"]').prop('checked')){
+
+           var d = $(('input[name="degree4[]"]:checkbox:checked'), '#question_details').val()
+        }
+        else{
+            d = 0;
+        }
+
+//        a = $(('input[name="degree1[]"]:checkbox:checked'), '#question_details').val()
+//        b = $(('input[name="degree2[]"]:checkbox:checked'), '#question_details').val()
+//        c = $(('input[name="degree3[]"]:checkbox:checked'), '#question_details').val()
+//        d = $(('input[name="degree4[]"]:checkbox:checked'), '#question_details').val()
+
+        publish += a+","+b+","+c+","+d
+
 //        alert(str);
 
         if ($("#topic_linking_topic_3").val() == "" && $("#topic_linking_topic_2").val() == "" &&
@@ -104,11 +144,11 @@
             alert ("Please select atleast one topic association.");
             return false;
         }
-
+//alert(publish);
         var $form = $('#question_details');
         var serializedData = $form.serialize();
         $.ajax({
-            url:'/questions/approve_by_teacher?difficulties='+difficulty,
+            url:'/questions/approve_by_teacher?difficulties='+difficulty + "&publishes=" + publish,
             type:'post',
             dataType:'json',
             data: serializedData,

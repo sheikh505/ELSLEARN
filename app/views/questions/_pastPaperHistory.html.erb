@@ -44,6 +44,12 @@
   </div>
 
 
+  <div class="field col-md-3" id = "course_linking_element">
+    <%= label_tag :course_id %>
+    <%= select_tag :course_id, options_for_select([ ] ) %>
+    <%#= select_tag :course_id, options_for_select(@course_linking.collect{ |u| [u.name, u.id] }) %>
+  </div>
+
 </div>
 
 

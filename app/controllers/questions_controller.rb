@@ -303,6 +303,9 @@ class QuestionsController < ApplicationController
       @course_linking_id = CourseLinking.search_on_course_column(@course_id).id
     end
 
+    @course_linking_name = CourseLinking.all
+    @course_linking_hash = @course_linking_name.collect{|course| {:value => course.id}}
+
 
       # @course_linking_id = Question.find_by_id(params[:q_id]).course_linking_id
       # puts "---------------------------->>>>>>",@course_linking_id
@@ -781,6 +784,9 @@ class QuestionsController < ApplicationController
       topic_id = params[:topic]
       difficulty = params[:difficulty]
       difficulties = params[:difficulties]
+      pub = params[:publishes]
+      puts "**====###>>>>>>>",pub.inspect
+      puts "#====>>>#difficulties checking ##",difficulties.inspect
       # @question = params[:question_id]
       board_id_array = ""
       degree_id_array = ""
@@ -788,8 +794,8 @@ class QuestionsController < ApplicationController
       degree_ids.each do |degree_id|
         degree_id_array << degree_id.to_s << ","
       end unless degree_ids.nil?
-
-      question_history = {"board_ids" => board_id_array, "degree_ids" => degree_id_array, "topic_id" => topic_id, "user_id" => current_user.id, "question_id" => params[:question_id],
+      puts "%%% ------>>>>>> degree id checking %%%",degree_id_array.inspect
+      question_history = {"board_ids" => board_id_array, "degree_ids" => pub, "topic_id" => topic_id, "user_id" => current_user.id, "question_id" => params[:question_id],
                           "is_approved" => 1, "difficulty_str" => difficulties.to_s}
 
       # question_history = {"degree_ids" => degree_id_array, "topic_id" => topic_id,
@@ -995,9 +1001,6 @@ class QuestionsController < ApplicationController
     @course_linking = CourseLinking.search_on_course_column(params[:course_id])
     render :partial => 'course_linking_tbl'
   end
-
-
-
   def get_topic_course_link
     respond_to do |format|
       # @course_linking = CourseLinking.search_on_course_column(params[:course_id])
