@@ -137,7 +137,7 @@
   <% end %>
     <% if current_user.is_admin? %>
         <%#= link_to 'Delete', delete_ques_questions_path(:ques_id => @question.id) , :class=> 'btn btn-large btn-inverse'%>
-        <%= link_to 'Delete', question_path(:ques_id => @question.id), method: :DELETE , :class=> 'btn btn-large btn-inverse'%>
+        <%= link_to 'Delete', question_path(:ques_id => @question.id), method: :DELETE , data: { confirm: 'Are you sure?' },:class=> 'btn btn-large btn-inverse'%>
     <% end %>
 
 

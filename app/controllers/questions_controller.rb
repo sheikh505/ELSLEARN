@@ -276,7 +276,6 @@ class QuestionsController < ApplicationController
       @degrees = session[:question][:degrees]
       @view = session[:question][:view]
     end
-
     unless params[:q_id].nil?
       @ques_id = params[:q_id]
       @flag = 1
@@ -310,8 +309,6 @@ class QuestionsController < ApplicationController
       @courses = Course.where("id = ? OR id = ? OR id = ? OR ID = ?",@course_linking.course_1, @course_linking.course_2,
                               @course_linking.course_3, @course_linking.course_4)
     end
-
-
 
       # @course_linking_id = Question.find_by_id(params[:q_id]).course_linking_id
       # puts "---------------------------->>>>>>",@course_linking_id
@@ -508,7 +505,9 @@ class QuestionsController < ApplicationController
                                            :ques_no => params[:ques_no],
                                            :session => params[:session],
                                            :year => params[:year],
+                                           :course_id => params[:course_id],
                                            :question_id => @question.id
+
         )
         @past_paper.save
       end
@@ -518,6 +517,7 @@ class QuestionsController < ApplicationController
                                                      :ques_no => params[:ques_no],
                                                      :session => params[:session],
                                                      :year => params[:year],
+                                                     :course_id => params[:course_id],
                                                      :question_id => @question.id
       )
     end
