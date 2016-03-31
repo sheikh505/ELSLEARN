@@ -201,6 +201,7 @@ class QuestionsController < ApplicationController
         end unless qh.topic_ids.nil?
         qh.topic_ids = array[0...-1]
       end
+      @courses =[]
       if (!params[:course].nil?)
         @course_id = params[:course]
         @course_linking = CourseLinking.search_on_course_column(@course_id)
