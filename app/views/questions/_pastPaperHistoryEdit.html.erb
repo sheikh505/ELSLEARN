@@ -1,6 +1,21 @@
 <div style="display: inline" id="past_paper_history_div">
   <% if @question.past_paper_history %>
 
+      <div class="col-md-12" id="courses">
+        <%= label_tag :course_id %>
+        <select id="course_id" name="course_id" >
+          <%unless @courses.nil? %>
+              <% @courses.each do |course| %>
+                  <% if @question.past_paper_history && @question.past_paper_history.course_id == course.id.to_s %>
+                      <option selected value="<%=course.id %>"><%=course.name%></option>
+                  <% else %>
+                      <option value="<%=course.id %>"><%=course.name%></option>
+                  <% end %>
+              <% end %>
+          <% end %>
+        </select>
+      </div>
+
       <div class="field">
         <%= label_tag "question #" %>
         <%= text_field_tag :ques_no, @question.past_paper_history.ques_no %>
