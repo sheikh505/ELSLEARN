@@ -201,6 +201,18 @@ class QuestionsController < ApplicationController
         end unless qh.topic_ids.nil?
         qh.topic_ids = array[0...-1]
       end
+      if (!params[:course].nil?)
+        @course_id = params[:course]
+        @course_linking = CourseLinking.search_on_course_column(@course_id)
+        @course_linking_id = @course_linking.id
+        @courses = Course.where("id = ? OR id = ? OR id = ? OR ID = ?",@course_linking.course_1, @course_linking.course_2,
+                                @course_linking.course_3, @course_linking.course_4)
+      elsif (!@question.course_linking_id.nil?)
+        @course_linking = CourseLinking.find(@question.course_linking_id)
+        @course_linking_id = @course_linking.id
+        @courses = Course.where("id = ? OR id = ? OR id = ? OR ID = ?",@course_linking.course_1, @course_linking.course_2,
+                                @course_linking.course_3, @course_linking.course_4)
+      end
       respond_with(@question)
     else
       redirect_to questions_path
