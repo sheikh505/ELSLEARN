@@ -4,7 +4,7 @@
     <h2>Register User</h2>
     <% end %>
 <div class="row">
-  <div class="span5">
+  <div class="">
 <%= form_for @user, :url => {:controller => 'teacher', :action => 'create'} do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
@@ -15,7 +15,7 @@
               </ul>
             </div>
         <% end %>
-
+<div class="span5">
     <div class="field">
       <%= f.label :email %>
       <%= f.email_field :email,:required => true, :autofocus=> true ,:class=>'row_field' %>
@@ -63,7 +63,7 @@
       </select>
 
     </div>
-
+</div>
 
     <div id="proofreader_all" class="field" style="display: none;">
       <%= f.label "Proof Reader" %>
@@ -79,69 +79,72 @@
       </select>
 
     </div>
-    <div class="actions">
+        <div class="span5 offset1">
+          <% if current_user.is_proofreader? %>
+              <h3>Listed Operators</h3>
+
+              <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
+                  <li>
+                    <%=opertaor.email %>
+                  </li>
+              <% end %>
+          <% else %>
+              <h3>Listed Users</h3>
+              <div class="usersList">
+                <% User.all.each do |teacher| %>
+                    <li>
+                      <%=teacher.email %>
+                    </li>
+                <% end %>
+              </div>
+
+          <% end %>
+        </div>
+    <div class="actions mrtb10 col-md-12">
       <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
     </div>
-<% end %>
-</div>
-    <div class="span5 offset1">
-      <% if current_user.is_proofreader? %>
-        <h3>Listed Operators</h3>
 
-        <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
-        <li>
-          <%=opertaor.email %>
-        </li>
-        <% end %>
-      <% else %>
-          <h3>Listed Users</h3>
-          <div class="usersList">
-          <% User.all.each do |teacher| %>
-              <li>
-                <%=teacher.email %>
-              </li>
-          <% end %>
-            </div>
+          <div id="courseList_all" style="display: none;" class="field courseList_all">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Course</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <%@courses.each do |x| %>
+                  <tr>
+                    <td>
+                      <span><%=x.name %></span>
+                    </td>
+                    <td>
+                      <%= check_box_tag "course[]", x.id,false %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
           </div>
-      <% end %>
-    </div>
-<div id="courseList_all" style="display: none;" class="field courseList_all">
-  <table class="table">
-    <thead>
-        <tr>
-          <th>Course</th>
-          <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-    <%@courses.each do |x| %>
-        <tr>
-          <td>
-            <span><%=x.name %></span>
-          </td>
-          <td>
-            <%= check_box_tag "course[]", x.id,false %>
-          </td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
-<div id="degreeList" style="display: none;" class="field row">
-  <%=label_tag :degree%>
+          <div id="degreeList" style="display: none;" class="field col-md-12">
+            <%=label_tag :degree%>
 
-  <%@degrees.each_with_index do |degree,index| %>
-      <div class="col_deg col-md-3">
-        <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
-        <div id="courseList_<%= degree.id %>" class="field courseList_post">
+            <%@degrees.each_with_index do |degree,index| %>
+                <div class="col_deg col-md-3">
+                  <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
+                  <div id="courseList_<%= degree.id %>" class="field courseList_post">
 
-        </div>
-      </div>
+                  </div>
+                </div>
+
+            <% end %>
+
+          </div>
+
 
   <% end %>
-
 </div>
-
+</div>
 
 
 

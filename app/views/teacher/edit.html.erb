@@ -1,6 +1,6 @@
 <h2 class="title-edit-user">Edit User</h2>
 <div class="row listing-holder listing-holder-edit-user ">
-  <div class="span5">
+  <div class="">
     <%= form_for @user, :url => {:controller => 'teacher', :action => 'update'} do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
@@ -13,7 +13,7 @@
               </ul>
             </div>
         <% end %>
-
+    <div class="span5">
         <div class="field">
           <%= f.label :email %>
           <%= f.email_field :email, :disabled => true, :value => @user.email %>
@@ -68,7 +68,7 @@
 
           <% end %>
         </select>
-
+    </div>
 
 
 
@@ -95,66 +95,70 @@
         </div>
 
 
-
-
-        <div class="actions">
-          <%= f.submit "Register" , class: 'btn btn-large btn-inverse' %>
-        </div>
-    <% end %>
-  </div>
-  <div class="span5 offset1">
-    <% if current_user.is_proofreader? %>
-        <h3>Listed Operators</h3>
-        <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
-            <li>
-              <%=opertaor.email %>
-            </li>
-        <% end %>
-    <% else %>
-        <h3>Listed Users</h3>
-        <div class="usersList">
-        <% User.all.each do |teacher| %>
-            <li>
-              <%=teacher.email %>
-            </li>
-        <% end %>
-    <% end %>
-  </div>
-</div>
-  <div id="courseList_all" style="display: none;" class="field courseList_all">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-      <%@courses.each do |x| %>
-        <tr>
-            <td><span><%=x.name %></span></td>
-          <td><%= check_box_tag "course[]", x.id,!@user.teacher_courses.nil? && @user.teacher_courses.any? { |b| b[:course_id] == x.id} %></td>
-
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-
-
-  </div>
-  <div id="degreeList" style="display: none;" class="field degreeListEdit row">
-    <%=label_tag :degree %>
-
-    <%@degrees.each_with_index do |degree,index| %>
-        <div class="col_deg col-md-3">
-          <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:degree_id] == degree.id } ? true:false, :onclick => "show_courses(this);", :class => "degree" %><%=degree.name %>
-          <div id="courseList_<%= degree.id %>" class="field courseList_post cousreList_post_edit">
-
+        <div class="span5 offset1">
+          <% if current_user.is_proofreader? %>
+              <h3>Listed Operators</h3>
+              <% User.where(:role => current_user.id.to_s).each do |opertaor| %>
+                  <li>
+                    <%=opertaor.email %>
+                  </li>
+              <% end %>
+          <% else %>
+              <h3>Listed Users</h3>
+              <div class="usersList">
+                <% User.all.each do |teacher| %>
+                    <li>
+                      <%=teacher.email %>
+                    </li>
+                <% end %>
+          <% end %>
           </div>
         </div>
+        <div class="actions col-md-12">
+          <%= f.submit "Register" , class: 'btn btn-large btn-inverse' %>
+        </div>
+        <div id="courseList_all" style="display: none;" class="field courseList_all">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Course</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%@courses.each do |x| %>
+                <tr>
+                  <td><span><%=x.name %></span></td>
+                  <td><%= check_box_tag "course[]", x.id,!@user.teacher_courses.nil? && @user.teacher_courses.any? { |b| b[:course_id] == x.id} %></td>
+
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+
+
+        </div>
+
+        <div id="degreeList" style="display: none;" class="field degreeListEdit row">
+          <%=label_tag :degree %>
+
+          <%@degrees.each_with_index do |degree,index| %>
+              <div class="col_deg col-md-3">
+                <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,!@teacher_courses.nil? && @teacher_courses.any? { |b| b[:degree_id] == degree.id } ? true:false, :onclick => "show_courses(this);", :class => "degree" %><%=degree.name %>
+                <div id="courseList_<%= degree.id %>" class="field courseList_post cousreList_post_edit">
+
+                </div>
+              </div>
+          <% end %>
+        </div>
+
+
     <% end %>
   </div>
+
+
+
           </div>
 <script>
     $( document ).ready(function() {

@@ -101,6 +101,7 @@ class TeacherController < ApplicationController
   end
 
   def create
+    puts "uhh<><><><><???????",params.inspect
 
     @user = User.new(params[:user])
     # @user.role = params[:role_id]
@@ -127,8 +128,10 @@ class TeacherController < ApplicationController
           if @degrees.present?
             @degrees.each do |degree|
               course_id = params["course_#{degree.id}"]
+              puts "=============<><><><><>",course_id.inspect
               course_id.each do |course|
                 teacher_course = {'user_id'=>@user.id, 'degree_id'=>degree.id, 'course_id'=>course}
+                puts "================>>>>>>>>>",teacher_course.inspect
                 @teacher_course = TeacherCourse.new(teacher_course)
                 @teacher_course.save
               end unless course_id.nil?
