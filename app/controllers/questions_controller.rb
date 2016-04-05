@@ -873,10 +873,14 @@ class QuestionsController < ApplicationController
       ##### fetch the course
       # @course = @question.topic.course.id
       @course = @question.course_linking_id
+      puts "===================>>>>>",@course.inspect
       ####### check if any entry is present in workflow with a false
       flag_path = true
       WorkflowPath.all.each do |workflow_path|
+        @course_ids = CourseLinking.search_on_course_column(workflow_path.course_id)
+        if @course_ids.present?
         course_linking_id =  CourseLinking.search_on_course_column(workflow_path.course_id).id
+        end
         if course_linking_id == @course
           flag_path = false if workflow_path.is_complete == false
         end
