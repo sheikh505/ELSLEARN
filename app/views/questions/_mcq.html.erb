@@ -55,7 +55,7 @@
     <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick="remove_option()" >
 
     <div class="field">
-      <br /><%= f.label :instruction, style:"display: inline-block; vertical-align: sub;"%><%= check_box_tag :instruction_checkbox%>
+      <br /><%= check_box_tag :instruction_checkbox%><%= f.label :instruction, style:"display: inline-block; vertical-align: sub;"%>
       <div id="instruction-pre">
       <%= f.text_area :instruction, :size => '4x4' %>
         </div>
