@@ -402,6 +402,42 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def past_paper_history_param
+
+
+
+    @past_p_h = params[:past_paper_h]
+    a = params[:course_id]
+    b = params[:ques_no]
+    c = params[:session]
+    d = params[:year]
+    e = params[:varient]
+    puts "---course_id----",a.inspect
+    puts "---ques_no----",b.inspect
+    puts "---session----",c.inspect
+    puts "---year----",d.inspect
+    puts "---varient----",e.inspect
+
+  @past_paper_history = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where("p.course_id = ?
+                                                                                              and p.ques_no = ?
+                                                                                              and p.session = ?
+                                                                                              and p.year = ?
+                                                                                              and varient = ?", a,b,c,d,e)
+
+
+    puts "-------------->", @past_paper_history.count
+    if @past_paper_history.count!=0
+    respond_to do |format|
+      format.json { render :json =>   result = true }
+
+    end
+    else
+      respond_to do |format|
+        format.json { render :json => result = false }
+      end
+    end
+  end
+
   def create
 
 

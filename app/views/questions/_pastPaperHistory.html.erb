@@ -16,7 +16,7 @@
   </div>
   <div class="field col-md-3">
     <%= label_tag "question #" %>
-    <%= text_field_tag :ques_no, @question_no %>
+    <%= text_field_tag :ques_no, @question_no, :class=>'aaa' %>
   </div>
 
   <div class="field col-md-2">
@@ -37,7 +37,7 @@
   <div class="field col-md-2">
     <%= label_tag :year %>
     <select id="year" name="year">
-      <% i = Time.new.year.inspect.to_i - 1 %>
+      <% i = Time.new.year.inspect.to_i %>
       <% 25.times{ %>
           <% if @question.past_paper_history && @question.past_paper_history.year == i.to_s %>
               <option selected value="<%=i  %>"><%=i %></option>
