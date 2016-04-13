@@ -85,6 +85,7 @@ ExamsSystem::Application.routes.draw do
       get :approve_question
       post :approve_by_teacher
       post :past_paper_history_param
+      get :past_paper_history_param_edit
       post :reject_by_teacher
       get :reject_question
       post :reject_question
