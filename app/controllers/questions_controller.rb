@@ -422,7 +422,7 @@ class QuestionsController < ApplicationController
                                                                                               and p.ques_no = ?
                                                                                               and p.session = ?
                                                                                               and p.year = ?
-                                                                                              and varient = ?", a,b,c,d,e)
+                                                                                              and varient = ? and deleted = false", a,b,c,d,e)
 
 
     puts "-------------->", @past_paper_history.count
@@ -457,7 +457,7 @@ class QuestionsController < ApplicationController
                                                                                               and p.ques_no = ?
                                                                                               and p.session = ?
                                                                                               and p.year = ?
-                                                                                              and varient = ?", a,b,c,d,e)
+                                                                                              and varient = ? and deleted =false" , a,b,c,d,e)
 
 
     puts "-------------->", @past_paper_history.count
@@ -764,12 +764,16 @@ class QuestionsController < ApplicationController
 
   #get methods
   def questions_exits
+    puts "--------",params.inspect
     year = params["year"]
     session = params[:session]
     board_id = params[:board_id]
     degree_id = params[:degree_id]
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
+    varient = params[:varient]
+    puts "=-=-=-varient=-=-=-=",varient.inspect
+    ques_no = params[:ques_no]
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
     @questions = []
     if past_paper_flag.to_i == 2
@@ -804,11 +808,15 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-      @questions = bd.questions.select { |q| q.deleted == false &&
-          q.topic.course_id == course_id.to_i &&
+      @questions = Question.select { |q| q.deleted == false &&
           q.past_paper_history.present? &&
+          q.past_paper_history.course_id == course_id.to_i  &&
+          #q.past_paper_history.ques_no == ques_no.to_s &&
           q.past_paper_history.year == year.to_s &&
-          q.past_paper_history.session == session.to_s }
+          q.past_paper_history.session == session.to_s
+          q.varient == varient.to_s &&
+          q.workflow_state == 'accepted' }
+      puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
     end
     if (@questions.length > 0)
       render :json => {:success => true}

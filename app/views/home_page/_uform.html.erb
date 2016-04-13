@@ -54,7 +54,7 @@
           <div class="row_custom">
             <%= label_tag :year %>
             <select id="year" name="year">
-              <% i = Time.new.year.inspect.to_i - 1 %>
+              <% i = Time.new.year.inspect.to_i %>
               <% 15.times{ %>
                       <option value="<%=i  %>"><%=i %></option>
               <% i-=1
@@ -532,7 +532,7 @@
     }
     function validate_past_paper()
     {
-        course_id = $('#course_id').val($('.scourse').children('li').val()).val();
+        course_id = $('#course').val();
         degree_id = $('#degree_id').val($('.sdegree').children('li').val()).val();
         board_id = $('#b_id').val($('.sboard').children('li').val()).val();
 
@@ -542,12 +542,13 @@
         {
             year = $("#year").val();
             session = $("input[name$='session']").val();
+            varient = $("#varient").val();
 
             $.ajax({
                 url:'/questions/questions_exits?year='+ year +
                                             "&session="+session + "&course_id="+course_id+
                                             "&degree_id="+degree_id+ "&board_id="+board_id+
-                                            "&pre_Past="+ past_paper_flag,
+                                            "&pre_Past="+ past_paper_flag + "&varient="+varient,
                 type:'get',
                 dataType:'json',
                 async: false,
@@ -618,29 +619,29 @@
             return false;
         }
     }
-   function selectCourse(id)
+    function selectCourse(id)
     {
 
-//        if($('.scourse')){
+        if($('.scourse')){
 
             $('#past_paper').show();
-//        }
-
-//        if ($('#'+id).hasClass('scourse')){
-//
-//            $('#'+id).css("color","#52CC52");
-//
-//
-//        }
-//        else {
-//            $('.scourse').css("color", "#000000");
-//            $('.scourse').removeClass('scourse');
-//
-//            $('#' + id).css("color", "#52CC52");
-//            $('#' + id).addClass('scourse');
-//        }
         }
 
+        if ($('#'+id).hasClass('scourse')){
+
+            $('#'+id).css("color","#52CC52");
+
+
+        }
+        else {
+            $('.scourse').css("color", "#000000");
+            $('.scourse').removeClass('scourse');
+
+            $('#' + id).css("color", "#52CC52");
+            $('#' + id).addClass('scourse');
+        }
+
+    }
     function selectDegreeList(id,degree_id)
     {
         if ($('#'+id).hasClass('sdegree')){

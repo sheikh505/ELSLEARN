@@ -213,6 +213,8 @@ class HomePageController < ApplicationController
       if params[:user_test_history_id].present?
         @user_test_history_id = params[:user_test_history_id]
       end
+
+
       user_test_history = UserTestHistory.find(@user_test_history_id)
       @board_id = user_test_history[:board_id]
       @degree_id = user_test_history[:degree_id]
@@ -224,7 +226,6 @@ class HomePageController < ApplicationController
       @past_paper_flag = user_test_history[:pastpaperflag]
       @year = user_test_history[:year]
       @session = user_test_history[:session]
-
       bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
       @questions = []
       @course = Course.find(@course_id).name
@@ -256,11 +257,10 @@ class HomePageController < ApplicationController
 
         end
       elsif @past_paper_flag.to_i == 1
-        list = bd.questions.select{|q| q.deleted == false &&
-            q.topic.course_id == @course_id.to_i &&
-            q.past_paper_history.present? &&
-            q.past_paper_history.year == @year.to_s &&
-            q.past_paper_history.session == @session.to_s }
+        list = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+                             "p.course_id = ? and p.year = ? and p.session = ?
+                               and deleted = 'false'
+                              and workflow_state = 'accepted'" ,@course_id.to_s,@year.to_s,@session.to_s )
         @questions = list.shuffle
       end
     elsif params[:test_code].present? || params[:test_code_login].present? || params[:test_code_registration].present?
