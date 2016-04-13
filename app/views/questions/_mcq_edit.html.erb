@@ -2,7 +2,7 @@
     var global_option_count = <%=@question.options.size %>;
 </script>
 
-<%= form_for @question, :html => {:multipart=> true, :onsubmit => "return checkForm(this)"} do |f| %>
+<%= form_for @question, :html => {:multipart=> true, :id =>"form_id", :onsubmit => "return checkForm(this)"} do |f| %>
 
     <div class="field">
       <%= f.label :statement %>
@@ -273,6 +273,38 @@
 
     function checkForm(form)
     {
+        var past_paper_histories=""
+        a=$("#course_id").val();
+        b = $('input[name="ques_no"]' , '#form_id').val();
+        c = $('input[name="session"]:checked' , '#form_id').val();
+        d = $("#year").val();
+        e = $('input[name="varient"]', '#form_id').val();
+        past_paper_histories += a+","+b+","+c+","+d+","+e
+        var $form = $('#form_id');
+        var serializedData = $form.serialize();
+
+        var retValue = false;
+        $.ajax({
+            url:'/questions/past_paper_history_param_edit?past_paper_h='+past_paper_histories + "&id="+<%=@question.id %>,
+            type:'get',
+            data: serializedData,
+            async:false,
+            success:function (response) {
+                if (response)
+                {
+                    retValue = true;
+                }
+            },
+            error:function (data) {
+                alert ("Error Occurred");
+            }
+
+        });
+        if (retValue)
+        {
+            alert("Past paper question has already been added.")
+            return false;
+        }
         box = $("input:checkbox.is_answer:checked");
         if (!box.length) {
             alert('You must check at least one box!');
