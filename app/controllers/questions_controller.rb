@@ -781,7 +781,8 @@ class QuestionsController < ApplicationController
       fill = params[:fill]
       true_false = params[:true_false]
       descriptive = params[:descriptive]
-      temp = bd.questions.select { |q| q.deleted == false && q.topic.course_id == course_id.to_i }
+      temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
+      puts "========",temp.inspect
       list = temp
       list.shuffle!
       #select number of questions according to the user requirement

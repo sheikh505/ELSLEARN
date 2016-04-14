@@ -236,7 +236,7 @@ class HomePageController < ApplicationController
       @questions = []
       @course = Course.find(@course_id).name
       if @past_paper_flag.to_i == 2
-        temp = bd.questions.select{|q| q.deleted == false && q.topic.course_id == @course_id.to_i}
+        temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and course_linking_id = ? " , CourseLinking.search_on_course_column(@course_id).id)
         list = temp
         list.shuffle!
         #select number of questions according to the user requirement
