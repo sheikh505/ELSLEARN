@@ -147,6 +147,7 @@ class HomePageController < ApplicationController
   end
 
   def instructions
+    puts "---------------paramsInspect",params.inspect
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
     elsif params[:uthid].present?
@@ -156,7 +157,8 @@ class HomePageController < ApplicationController
       session[:board_id] = @board_id
       @degree_id = params[:degree_id]
       session[:degree_id] = @degree_id
-      @course_id = params[:course_id]
+      @course_id = params[:course]
+      puts "======courseID=---=>>",@course_id.inspect
       session[:course_id] = @course_id
       @past_paper_flag = params[:pre_Past]
       session[:past_paper_flag] = @past_paper_flag
@@ -200,7 +202,9 @@ class HomePageController < ApplicationController
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
                              :year=> @year, :session=> @session, :user_id=>current_user.id}
+        puts "new puts===>>>",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
+        puts "new userhistory------",user_history.inspect
         user_history.save
         @user_test_history_id = user_history.id
       end
@@ -219,11 +223,13 @@ class HomePageController < ApplicationController
       @board_id = user_test_history[:board_id]
       @degree_id = user_test_history[:degree_id]
       @course_id = user_test_history[:course_id]
+      puts "==========---------====",@course_id.inspect
       @mcq = user_test_history[:mcq]
       @fill = user_test_history[:fill]
       @true_false = user_test_history[:truefalse]
       @descriptive = user_test_history[:descriptive]
       @past_paper_flag = user_test_history[:pastpaperflag]
+      puts "-=-=-=-=-=-=-=----====<><>>>>>",@past_paper_flag.inspect
       @year = user_test_history[:year]
       @session = user_test_history[:session]
       bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
@@ -319,7 +325,9 @@ class HomePageController < ApplicationController
                              :truefalse=> params[:true_false],:fill=> params[:fill],
                              :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                              :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+        puts "============<<<<<",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
+        pputs "<<<<<<<<<<<<<",user_history.inspect
         user_history.save
         render :json => {:success => true, :user_test_history_id => user_history.id}
       else
@@ -338,7 +346,9 @@ class HomePageController < ApplicationController
                            :truefalse=> params[:true_false],:fill=> params[:fill],
                            :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                            :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+      put "09090909090",user_test_history.inspect
       user_history = UserTestHistory.new(user_test_history)
+      puts "784841245599",user_history.inspect
       user_history.save
 
       render :json => {:success => true, :user_test_history_id => user_history.id}
@@ -353,7 +363,9 @@ class HomePageController < ApplicationController
                          :truefalse=> params[:true_false],:fill=> params[:fill],
                          :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
                          :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+    puts "======UserTestHistory=====",user_test_history.inspect
     user_history = UserTestHistory.new(user_test_history)
+    puts "=========--UserHistory=-====",user_history.inspect
     if user_history.save
       render :json => {:success => true, :user_test_history_id => user_history.id}
     else
