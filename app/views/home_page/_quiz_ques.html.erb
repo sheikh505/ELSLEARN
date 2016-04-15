@@ -217,8 +217,7 @@
             <% else %>
                 score = $( "#score").val();
                 alert("you score "+score+"out of <%=$size * 5%>");
-//                window.location = 'add_user_test?score='+score + '&total=<%#=$size * 5%>&course=<%#=$arr.last.past_paper_history.course_id%>'
-                window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last(@course_id) %>'
+                window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.past_paper_history.course_id%>'
             <% end %>
         }
 }
