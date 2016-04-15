@@ -220,7 +220,7 @@
             <% if $arr.last.past_paper_history.present? %>
                 window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.past_paper_history.course_id%>'
             <% else %>
-            window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.(CourseLinking.search_on_course_column(@course_id).id)%>'
+            window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=CourseLinking.search_on_course_column(@course_id).id%>'
             <% end %>
             <% end %>
         }
