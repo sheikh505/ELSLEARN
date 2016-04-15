@@ -781,7 +781,7 @@ class QuestionsController < ApplicationController
       fill = params[:fill]
       true_false = params[:true_false]
       descriptive = params[:descriptive]
-      temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
+      temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
       puts "========",temp.inspect
       list = temp
       list.shuffle!
