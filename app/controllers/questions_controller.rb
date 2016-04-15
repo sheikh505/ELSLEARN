@@ -809,14 +809,18 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-      @questions = Question.select { |q| q.deleted == false &&
-          q.past_paper_history.present? &&
-          q.past_paper_history.course_id == course_id.to_i  &&
-          #q.past_paper_history.ques_no == ques_no.to_s &&
-          q.past_paper_history.year == year.to_s &&
-          q.past_paper_history.session == session.to_s
-          q.varient == varient.to_s &&
-          q.workflow_state == 'accepted' }
+      @questions = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+          "p.course_id = ? and p.year = ? and p.session = ?
+                               and deleted = 'false'
+                              and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
+      # @questions = Question.select { |q| q.deleted == false &&
+      #     q.past_paper_history.present? &&
+      #     q.past_paper_history.course_id == course_id.to_i  &&
+      #     #q.past_paper_history.ques_no == ques_no.to_s &&
+      #     q.past_paper_history.year == year.to_s &&
+      #     q.past_paper_history.session == session.to_s
+      #     q.varient == varient.to_s &&
+      #     q.workflow_state == 'accepted' }
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
     end
     if (@questions.length > 0)
