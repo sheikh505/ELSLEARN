@@ -10,6 +10,9 @@
     <!--td><%= link_to "Add New Test", new_quiz_path, :class => 'btn btn-inverse btn-large' %></td>
     <td><%= link_to "Add New Notes", new_book_path, :class => 'btn btn-inverse btn-large' %></td-->
     <li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>
+    <% if current_user.is_admin? %>
+    <li><%= link_to "Backup Database", home_page_get_backup_path, :class => 'btn btn-inverse btn-large' %></li>
+      <% end %>
 </ul>
 
 
