@@ -132,6 +132,7 @@ ExamsSystem::Application.routes.draw do
   get "home_page/assign_member_ship_plan" => "home_page#assign_member_ship_plan"
 
   get "home_page/get_varients"
+  get "home_page/get_backup"
 
 
   resources :tests do
