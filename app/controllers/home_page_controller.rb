@@ -112,7 +112,8 @@ class HomePageController < ApplicationController
   end
 
   def get_backup
-    `sudo -u postgres PGPASSWORD="Elslearn001" pg_dump elslearn >   elslearnbackup.sql`
+    `PGPASSWORD=Elslearn001 pg_dump -U postgres elslearn > elslearnbackup.sql`
+    # `sudo -u postgres PGPASSWORD="Elslearn001" pg_dump elslearn >   elslearnbackup.sql`
     # `scp -i els_live.pem ubuntu@54.236.217.115:/var/www/elslearn/elslearnbackup.sql ~/project/elslearn`
     send_file Rails.root.join('elslearnbackup.sql'), :type=>"application/sql", :x_sendfile=>true
   end
