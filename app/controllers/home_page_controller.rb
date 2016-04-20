@@ -474,7 +474,15 @@ class HomePageController < ApplicationController
   def pricing
     @membership_plans = MembershipPlan.order(:price)
   end
+  def try_it
 
+  end
+  def how_it_works
+
+  end
+  def testimonials
+
+  end
   def assign_member_ship_plan
     ###### find current user
     respond_to do |format|

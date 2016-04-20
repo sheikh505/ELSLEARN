@@ -127,8 +127,11 @@ ExamsSystem::Application.routes.draw do
   get "home_page/save_data" => 'home_page#save_data'
   get "home_page/save_answer" => 'home_page#save_answer_to_session'
   get "home_page/get_answer" => 'home_page#get_answer_from_session'
-  get "about_us" => 'home_page#about_us'
+  get "aboutUs" => 'home_page#about_us'
   get "pricing" => 'home_page#pricing'
+  get "try_it" => 'home_page#try_it'
+  get "how_it_works" => 'home_page#how_it_works'
+  get "testimonials" => 'home_page#testimonials'
   get "home_page/assign_member_ship_plan" => "home_page#assign_member_ship_plan"
 
   get "home_page/get_varients"
