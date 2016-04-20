@@ -2483,3 +2483,62 @@ table.dataTable thead th, table.dataTable thead td{
 #degreeList.degreeListEdit .cousreList_post_edit.courseList_post input[type='checkbox']{
     width: 14px;
 }
+.btn-group.buttons,
+.info-container{
+    display: none;
+}
+.try_it select{
+    width: 100%;
+    padding: 15px;
+}
+.try_it select option{
+    background: #eee;
+    padding: 7px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+.try_it select option:after{
+    position: absolute;
+    content: '+';
+    top: 7px;
+    display: block;
+    right: 10px;
+}
+.try_it .box2 select option:after{
+    content: 'x';
+}
+.btn.btn-default.btn-block{
+    width: 200px;
+    margin-left: -5px;
+    margin-top: 10px;
+}
+.try_it .box2 select{
+    background: #f9f9f9;
+}
+.try_it .box2 select option{
+    background: #999;
+    padding: 7px;
+    font-size: 13px;
+    border: 1px solid #555;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    color: #fff;
+    position: relative;
+}
+#course_container_form{
+    position: relative;
+}
+#course_container_form:after{
+    position: absolute;
+    content: '';
+    display: block;
+    background: url("/assets/1461189140_Enter.png");
+    width: 32px;
+    height: 32px;
+    left: 48.2%;
+    top: 39%;
+
+}

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require data_table
+//= require jquery.bootstrap-duallistbox
 //= require best_in_place
 //= require bootstrap.min
 //= require tinymce
@@ -36,7 +37,7 @@ window.location.hash="";//again because google chrome don't insert first hash in
 window.onhashchange=function(){window.location.hash="";}
 
 $(document).ready(function() {
-    $("select").select2();
+    $("select.select").select2();
 
     $(".tabs").hide();
     $(".fa-caret-down").hide();
