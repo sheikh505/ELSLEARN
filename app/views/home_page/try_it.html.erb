@@ -1,0 +1,45 @@
+<%= render 'uform' %>
+
+<!--<div class="field">-->
+  <!--<select id="course" name="course" required>-->
+    <!--<option value="">Select Course</option>-->
+
+    <!--<% @courses.each do |course| %>-->
+        <!--<% if !@course.nil? && course.id == @course.id %>-->
+            <!--<option selected value="<%=course.id%>"><%=course.name%></option>-->
+        <!--<% elsif params[:course_id].present? %>-->
+            <!--<% if course.id.to_s == params[:course_id] %>-->
+                <!--<option value="<%=course.id %>" selected><%=course.name%></option>-->
+            <!--<% end %>-->
+        <!--<% else %>-->
+            <!--<option value="<%=course.id%>"><%=course.name%></option>-->
+        <!--<% end %>-->
+    <!--<% end %>-->
+  <!--</select>-->
+<!--</div>-->
+<!--<div id = "course_list">-->
+
+<!--</div>-->
+<script>
+
+
+    $("#course").change(function(){
+    $this = $(this);
+    course_id = $this.val();
+        alert(course_id);
+    $.ajax({
+    url:'/home_page/get_topic?course_id='+course_id,
+    type:'Post',
+    dataType:'html',
+    processData:false,
+    success:function (data) {
+        $("#course_list").html(data);
+    },
+    error:function (data) {
+    alert ('ERROR');
+    //    window.location.reload();
+    }
+    });
+    });
+<%#= select_tag "topic[parent_topic_id]", options_for_select(@topics.map{|x| [x.name,x.id]},@topic.nil? ? "" : @topic.parent_topic_id ), :prompt => "Select Parent"%>
+</script>

@@ -130,6 +130,7 @@ ExamsSystem::Application.routes.draw do
   get "aboutUs" => 'home_page#about_us'
   get "pricing" => 'home_page#pricing'
   get "try_it" => 'home_page#try_it'
+  post "home_page/get_topic" => 'home_page#get_topic'
   get "how_it_works" => 'home_page#how_it_works'
   get "testimonials" => 'home_page#testimonials'
   get "home_page/assign_member_ship_plan" => "home_page#assign_member_ship_plan"

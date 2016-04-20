@@ -8,3 +8,26 @@
       <% end %>
     </select>
 <% end %>
+<div id ="course_lists">
+
+</div>
+<script>
+    $("#course").change(function(){
+    $this = $(this);
+    course_id = $this.val();
+    alert(course_id);
+    $.ajax({
+    url:'/home_page/get_topic?course_id='+course_id,
+    type:'Post',
+    dataType:'html',
+    processData:false,
+    success:function (data) {
+    $("#course_lists").html(data);
+    },
+    error:function (data) {
+    alert ('ERROR');
+    //    window.location.reload();
+    }
+    });
+    });
+</script>

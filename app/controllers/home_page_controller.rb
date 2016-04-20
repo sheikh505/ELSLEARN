@@ -12,6 +12,7 @@ class HomePageController < ApplicationController
     @degrees << 'select board first'
 
     @courses = []
+    @topics = []
     #@courses << 'select board and degree first'
 
     sql2 = 'SELECT COUNT(q.id) as q_count,c.name as course FROM
@@ -475,7 +476,46 @@ class HomePageController < ApplicationController
     @membership_plans = MembershipPlan.order(:price)
   end
   def try_it
+    @courses = Course.all
+    if user_signed_in?
+      @user = current_user
+    else
+      @user = User.new
+    end
+    @boards = Board.all
+    @degrees = []
+    @degrees << 'select board first'
 
+    @courses = []
+    @topics = []
+    #@courses << 'select board and degree first'
+
+    sql2 = 'SELECT COUNT(q.id) as q_count,c.name as course FROM
+           questions as q JOIN topics as t ON q.topic_id = t.id
+           JOIN courses as c ON t.course_id = c.id
+            GROUP BY c.id
+            ORDER BY c.name'
+    connection = ActiveRecord::Base.connection
+    @question_stats = connection.execute(sql2)
+
+    sql_top_user = 'SELECT SUM(score) as user_score,SUM(total) as total,c.name as course,u.name as name,u.id as user_id FROM
+                user_test_histories as h JOIN users as u
+                ON h.user_id = u.id
+                JOIN courses as c
+                ON c.id = h.course_id
+                GROUP BY u.id,c.name
+                ORDER BY user_score DESC
+                LIMIT 5'
+    @top_scorer_users = connection.execute(sql_top_user)
+
+    @flag = true
+  end
+  def get_topic
+    a = params[:course_id]
+    puts "=======alert===>>>>>>",a.inspect
+    @topics = Topic.where("course_id = ?",a).order(:name)
+    puts "----=-=======-",@topics.inspect
+    render :partial => 'home_page/topic_list'
   end
   def how_it_works
 
