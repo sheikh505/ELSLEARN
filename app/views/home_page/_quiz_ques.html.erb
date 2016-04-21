@@ -112,14 +112,24 @@
 
     function check_blank(str){
         var str_comp = $("#fill_in_the_blank_field").val();
+        var array = str.split(',');
+        var text = "";
+        var i;
+        for (i = 0; i < array.length; i++) {
+            text = array[i];
+        }
 
+        if(array.includes(str_comp)){
+            var b = str_comp.toLowerCase();
+        }
+//        alert(array.includes(str_comp));
         flag = parseInt($("#answer_selected").val());
         score = $( "#score").val();
-        if(str.toLowerCase() == str_comp.toLowerCase() && flag){
+        if(b.toLowerCase() == str_comp.toLowerCase() && flag){
             $("#answer_selected").val("0");
             score = parseInt(score,10) + 5;
         }
-        else if ((str != str_comp) && !flag){
+        else if ((b.toLocaleLowerCase() != str_comp) && !flag){
             $("#answer_selected").val("1");
             score = parseInt(score,10) - 5;
 
