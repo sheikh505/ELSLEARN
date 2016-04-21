@@ -2500,16 +2500,16 @@ table.dataTable thead th, table.dataTable thead td{
     border-radius: 5px;
     position: relative;
 }
-.try_it select option:after{
-    position: absolute;
-    content: '+';
-    top: 7px;
-    display: block;
-    right: 10px;
-}
-.try_it .box2 select option:after{
-    content: 'x';
-}
+/*.try_it select option:after{*/
+    /*position: absolute;*/
+    /*content: '+';*/
+    /*top: 7px;*/
+    /*display: block;*/
+    /*right: 10px;*/
+/*}*/
+/*.try_it .box2 select option:after{*/
+    /*content: 'x';*/
+/*}*/
 .btn.btn-default.btn-block{
     width: 200px;
     margin-left: -5px;
