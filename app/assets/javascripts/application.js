@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require data_table
-//= require jquery.bootstrap-duallistbox
 //= require best_in_place
 //= require bootstrap.min
 //= require tinymce
@@ -27,8 +26,7 @@
 //= require highstock
 //= require main
 //= require jquery-bootstrap-pagination
-
-
+//= require jquery.bootstrap-duallistbox
 //= require_tree .
 
 

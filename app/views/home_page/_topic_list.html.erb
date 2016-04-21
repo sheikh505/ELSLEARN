@@ -1,3 +1,29 @@
-<% @topics.all.each do | topic|%>
-    <%= topic.name %>
-<% end %>
+<div class="row">
+  <div class="container">
+    <div class="col-md-12">
+      <form id="course_container_form">
+
+        <select id="first_new" multiple="multiple" size="10" name="duallistbox_demo1[]">
+          <% @topics.all.each do | topic|%>
+          <option value="<%= topic.name %>"><%= topic.name %> </option>
+          <% end %>
+        </select>
+
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+<script>
+  $(document).ready(function(){
+      var demo1 = $("#first_new").bootstrapDualListbox({
+          showFilterInputs : false,
+          infoText : false
+      });
+      $("#course_container_form").submit(function() {
+//          $($('[name="duallistbox_demo1[]"]').val()).modal('show');
+          alert($('[name="duallistbox_demo1[]"]').val());
+          return false;
+      });
+  });
+</script>
