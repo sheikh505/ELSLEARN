@@ -760,8 +760,13 @@ a{
     border-bottom: 1px solid #494a5a;
     padding: 0px;
     margin: 0px;
+    white-space: nowrap;
     text-align: center;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
     height: 52px;
+    max-width: 289px;
     line-height: 52px;
 }
 .container_holder_post{
@@ -771,6 +776,7 @@ a{
 
 .container_holder_post .whole{
     display: inline-block;
+    width: 25%;
 
 }
 .container_holder_post .type{
@@ -828,9 +834,6 @@ a{
     padding: 0px;
     margin: -10px;
 }
-.container_holder_post .price{
-    height:80px;
-}
 .container_holder_post .cart{
     color:white;
     position: relative;
@@ -875,7 +878,7 @@ a{
 }
 .container_holder_post .whole.custom-whole{
     vertical-align:top;
-    margin: 152px -6px;
+    margin: 219px -6px;
 }
 .pricing_holder{
     margin-top: 50px;

@@ -2531,14 +2531,15 @@ table.dataTable thead th, table.dataTable thead td{
 #course_container_form{
     position: relative;
 }
-#course_container_form:after{
+#course_container_form:after {
     position: absolute;
     content: '';
     display: block;
     background: url("/assets/1461189140_Enter.png");
     width: 32px;
     height: 32px;
-    left: 48.2%;
-    top: 39%;
-
+    left: 48.5%;
+    top: 45%;
+    background-size: 80%;
+    background-repeat: no-repeat;
 }

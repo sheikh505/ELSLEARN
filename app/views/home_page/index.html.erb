@@ -33,47 +33,47 @@
 </section>
 
 
-<section class="animated_number">
-  <div class="animated_number_holder container">
-    <div class="section_header">
-      <h2 class="section_title text_center wow fadeInDown">QUESTION</h2>
-      <p class="text-center wow fadeInDown">Our Stats</p>
-    </div>
+<!--<section class="animated_number">-->
+  <!--<div class="animated_number_holder container">-->
+    <!--<div class="section_header">-->
+      <!--<h2 class="section_title text_center wow fadeInDown">QUESTION</h2>-->
+      <!--<p class="text-center wow fadeInDown">Our Stats</p>-->
+    <!--</div>-->
 
-    <div class="row text_center">
-      <% @question_stats.each do |stat| %>
-      <div class="pre_animated_content">
-        <div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
-          <div class="animated-number" data-digit="<%=stat['q_count'] %>" data-duration="1000"></div>
-          <strong> <%=stat['course'] %> </strong>
-        </div>
-      </div>
-      <% end %>
-    </div>
-  </div>
-</section>
+    <!--<div class="row text_center">-->
+      <!-- <%@question_stats.each do |stat| %>-->
+      <!--<div class="pre_animated_content">-->
+        <!--<div class="wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">-->
+          <!--<div class="animated-number" data-digit="<%=stat['q_count'] %>" data-duration="1000"></div>-->
+          <!--<strong> <%=stat['course'] %> </strong>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<% end %>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</section>-->
 
 
-<section class="h_student">
-  <div class="h_student_holder container">
-    <h2>High Achievers</h2>
-    <div class="flexslider">
-      <ul class="slides">
-        <% @top_scorer_users.each do |user| %>
-        <li>
-          <p class="pre_bg_none">“At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.”</p>
-          <img src="<%=get_avatar(user['user_id'])%>" alt=""> </a>
-          <div class="slider_content">
+<!--<section class="h_student">-->
+  <!--<div class="h_student_holder container">-->
+    <!--<h2>High Achievers</h2>-->
+    <!--<div class="flexslider">-->
+      <!--<ul class="slides">-->
+        <!--<% @top_scorer_users.each do |user| %>-->
+        <!--<li>-->
+          <!--<p class="pre_bg_none">“At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.”</p>-->
+          <!--<img src="<%=get_avatar(user['user_id'])%>" alt=""> </a>-->
+          <!--<div class="slider_content">-->
 
-            <p><%=user['name']%></p>
-            <span class="pre_subject"><%=user['course']%> </span>
-            <span>Score - <%=user['user_score']%> %</span>
-          </div>
-        </li>
-        <% end %>
+            <!--<p><%=user['name']%></p>-->
+            <!--<span class="pre_subject"><%=user['course']%> </span>-->
+            <!--<span>Score - <%=user['user_score']%> %</span>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<% end %>-->
 
-      </ul>
-    </div>
-  </div>
+      <!--</ul>-->
+    <!--</div>-->
+  <!--</div>-->
 
-</section>
+<!--</section>-->
