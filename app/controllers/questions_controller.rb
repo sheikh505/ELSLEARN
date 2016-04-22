@@ -869,11 +869,18 @@ class QuestionsController < ApplicationController
     end
     course_ids.uniq!
 
+
+
     if (current_user.is_hod? || current_user.is_admin?)
       if @question.current_state.to_s == "accepted"
         message = "Question already approved!"
         insert_to_question_history_flag = false
       else
+        publish = params[:publishes]
+        difficulti = params[:difficulties]
+        question_data = { "topic_ids" => topic_ids, "degree_ids" => publish,
+                             "difficulty_ids" => difficulti.to_s}
+        @question.update_attributes(question_data)
         @question.accept!
         @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
             joins(:topic => :course).
@@ -882,7 +889,79 @@ class QuestionsController < ApplicationController
 
     else
       if @question.current_state.to_s == "being_reviewed" && @question.question_histories.count == 2
-        @question.accept!
+        @question_histories1 = @question.question_histories.first
+        puts "-----QH1-----",@question_histories1.inspect
+
+        @question_historis2 = @question.question_histories.last
+        puts "-----QH2-----",@question_historis2.inspect
+        degree_ids = params[:publishes]
+        difficulties = params[:difficulties]
+
+        question_verify = { "topic_ids" => topic_ids, "degree_ids" => degree_ids,
+                            "difficulty_str" => difficulties.to_s }
+        puts "=-------======question_verify==--==-=-=-=-=-",question_verify.inspect
+
+        acceptQuestionFlag1 = false
+        if (@question_histories1.degree_ids == @question_historis2.degree_ids ||
+            @question_histories1.degree_ids == question_verify["degree_ids"] ||
+            question_verify["degree_ids"] == @question_historis2.degree_ids)
+
+          if
+          @question_histories1.degree_ids == @question_historis2.degree_ids
+            degree_ids_value = @question_histories1.degree_ids
+          elsif
+          @question_historis2.degree_ids == question_verify["degree_ids"]
+            degree_ids_value = @question_historis2.degree_ids
+          else
+            @question_histories1 == question_verify["degree_ids"]
+            degree_ids_value = question_verify["degree_ids"]
+          end
+          acceptQuestionFlag1 = true
+        end
+        acceptQuestionFlag2 = false
+        if (@question_histories1.topic_ids == @question_historis2.topic_ids ||
+            @question_histories1.topic_ids == question_verify["topic_ids"] ||
+            question_verify["topic_ids"] == @question_historis2.topic_ids)
+
+          if
+            @question_histories1.topic_ids == @question_historis2.topic_ids
+            topic_ids_value = @question_histories1.topic_ids
+          elsif
+          @question_historis2.topic_ids == question_verify["topic_ids"]
+            topic_ids_value = @question_historis2.topic_ids
+          else
+            @question_histories1.topic_ids == question_verify["topic_ids"]
+            topic_ids_value = question_verify["topic_ids"]
+          end
+          acceptQuestionFlag2 = true
+        end
+        acceptQuestionFlag3 = false
+
+        if (@question_histories1.difficulty_str == @question_historis2.difficulty_str ||
+            @question_histories1.difficulty_str == question_verify["difficulty_str"] ||
+            question_verify["difficulty_str"] == @question_historis2.difficulty_str)
+
+          if
+          @question_histories1.difficulty_str == @question_historis2.difficulty_str
+            difficulty_ids_value = @question_histories1.difficulty_str
+          elsif
+          @question_historis2.difficulty_str == question_verify["difficulty_str"]
+            difficulty_ids_value = @question_historis2.difficulty_str
+          else
+            @question_histories1.difficulty_str == question_verify["difficulty_str"]
+            difficulty_ids_value = question_verify["difficulty_str"]
+          end
+          acceptQuestionFlag3 = true
+        end
+        if acceptQuestionFlag1 && acceptQuestionFlag2 && acceptQuestionFlag3
+          question_data1 = { "topic_ids" => topic_ids_value, "degree_ids" => degree_ids_value,
+                            "difficulty_ids" => difficulty_ids_value.to_s}
+          @question.update_attributes(question_data1)
+          @question.accept!
+        else
+          @question.submitToHOD!
+        end
+
       elsif @question.current_state.to_s == "reviewed_by_proofreader"
         @question.submit!
       elsif @question.current_state.to_s == "accepted" || @question.question_histories.count == 3
@@ -899,8 +978,6 @@ class QuestionsController < ApplicationController
       difficulty = params[:difficulty]
       difficulties = params[:difficulties]
       pub = params[:publishes]
-      puts "**====###>>>>>>>",pub.inspect
-      puts "#====>>>#difficulties checking ##",difficulties.inspect
       # @question = params[:question_id]
       board_id_array = ""
       degree_id_array = ""

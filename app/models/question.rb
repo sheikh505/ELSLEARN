@@ -26,6 +26,7 @@ class Question < ActiveRecord::Base
     state :being_reviewed do
       event :accept, :transitions_to => :accepted
       event :reject, :transitions_to => :rejected_by_teacher
+      event :submitToHOD, :transitions_to => :pending_for_hod_approval
     end
     state :accepted do
       event :reject, :transitions_to => :being_reviewed
@@ -43,7 +44,8 @@ class Question < ActiveRecord::Base
   belongs_to :course_linking
 
   attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments,
-                  :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status, :workflow_state
+                  :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status, :workflow_state,:topic_ids,
+                  :difficulty_ids, :degree_ids
 
 
 
