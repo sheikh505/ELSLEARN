@@ -2,24 +2,24 @@
 <div class="pricing">
   <div class="pricing_holder container">
     <div  class="container_holder_post">
-      <div class="whole custom-whole">
-        <div class="plan">
-          <div class="content">
-            <ul>
-              <li>Number of Courses:</li>
-              <li>Papers:</li>
-              <li>Max Questions Allowed:</li>
-              <li class="pre_auto_height">Result Type:</li>
-              <li>Validity:</li>
-              <li class="last">Add Other Courses:</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <!--<div class="whole custom-whole">-->
+        <!--<div class="plan">-->
+          <!--<div class="content">-->
+            <!--<ul>-->
+              <!--<li>Number of Courses:</li>-->
+              <!--<li>Papers:</li>-->
+              <!--<li>Max Questions Allowed:</li>-->
+              <!--<li class="pre_auto_height">Result Type:</li>-->
+              <!--<li>Validity:</li>-->
+              <!--<li class="last">Add Other Courses:</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <% @membership_plans.each do |plan| %>
           <div class="whole">
             <div class="type">
-              <p><%=plan.name || " "%></p>
+              <p><%=plan.name || ""%></p>
             </div>
             <div class="plan">
 
@@ -36,7 +36,7 @@
                 </ul>
               </div>
               <div class="price">
-                <%=link_to "BUY","home_page/checkout_form?mm_plan_id=#{plan.id}",class: 'bottom' %>
+                <%=link_to "BUY","home_page/checkout_form?mm_plan_id=#{plan.id}",class: 'bottom btn btn-primary' %>
 
               </div>
             </div>
