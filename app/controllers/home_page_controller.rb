@@ -320,6 +320,7 @@ class HomePageController < ApplicationController
     @user = current_user
 
     if @questions.present?
+      puts "%%%%%%%%%%% if question present ? %%%%%%%",@questions.inspect
       @size = @questions.length
       @index = 0
       @answer = Hash.new
@@ -441,6 +442,7 @@ class HomePageController < ApplicationController
   def next
     @index = params[:index].to_i
     @index = @index + 1
+    @course_id = params[:course]
 
     render :partial => 'quiz_ques'
   end
