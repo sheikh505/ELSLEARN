@@ -182,8 +182,7 @@ header Start
 ---------------------------------------------------------*/
 .header{
     width:100%;
-    position: fixed;
-    z-index: 99999999999;
+    background: #fff;
 }
 .header_holder .nav ul{ margin: 0;}
 .header_holder .nav ul li{
@@ -1581,12 +1580,9 @@ select, input[type="file"] {
 }
 .sub_menu{
     background: none repeat scroll 0 0 #fff;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 10px 0 #f1f1f1;
     display: none;
     left: -10px;
     min-width: 160px;
-    padding: 3px 0 0;
     position: absolute;
     text-align: left;
     top: 100%;
@@ -1607,7 +1603,7 @@ select, input[type="file"] {
 .header_holder .nav ul li  .sub_menu li a{
     color: #333;
     display: block;
-    padding: 6px 10px 10px;
+    padding: 10px 15px 10px;
 }
 .header_holder .nav ul li  .sub_menu li a:hover{
     background: #0095D9;
@@ -2551,27 +2547,48 @@ table.dataTable thead th, table.dataTable thead td{
     margin-top: 0px;
     position: relative;
 }
+.hero-holder.my-profile {
+    background: url("/assets/profile-image.png");
+}
 .hero-holder .hero-container{
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 40%;
     right: 0;
     text-align: center;
+}
+.hero-holder .hero-container hr{
+    max-width: 50px;
+    height: 3px;
+    background: #3FB1E4;
+    border: none;
+    margin:30px auto 40px;
+    display: block;
+}
+.btn.btn-circle{
+    border-radius: 300px;
+    padding: 12px 30px 14px;
+    font-weight: bold;
 }
 .hero-holder .hero-container h3{
     font-weight: 700;
     color: #fff;
-    font-size: 42px;
+    font-size: 52px;
 }
 .hero-holder .hero-container h3 span{
-    color: #3FB1E4;
+    color: #428bca;
 }
 .shrink{
-    background: #fff;
+    background: #fff !important;
 }
-.header{
+.header.header-home{
     -webkit-transition: all 0.4s ease-in-out;
--moz-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    position: fixed;
+    z-index: 99999999999;
+    background: rgba(255, 255, 255, 0.3);
+    top: 0;
 }
 .shrink .header_holder .nav ul li a{
     color: #999;
