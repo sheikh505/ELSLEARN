@@ -537,18 +537,19 @@
         board_id = $('#b_id').val($('.sboard').children('li').val()).val();
 
         past_paper_flag = $("input[name$='pre_Past']:checked").val();
+        var selectedTopic = $('#first_new').find(":selected").map(function(){ return this.value }).get().join(",");
         returnValue = 0;
         if (past_paper_flag == "1")
         {
             year = $("#year").val();
-            session = $("input[name$='session']").val();
+            session = $("input[name$='session']:checked").val();
             varient = $("#varient").val();
 
             $.ajax({
                 url:'/questions/questions_exits?year='+ year +
                                             "&session="+session + "&course_id="+course_id+
                                             "&degree_id="+degree_id+ "&board_id="+board_id+
-                                            "&pre_Past="+ past_paper_flag + "&varient="+varient,
+                                            "&pre_Past="+ past_paper_flag + "&varient="+varient + "&selected_topic_ids=" +selectedTopic ,
                 type:'get',
                 dataType:'json',
                 async: false,
@@ -592,7 +593,7 @@
                         "&fill="+fill +"&descriptive="+descriptive +
                         "&course_id="+course_id+
                         "&degree_id="+degree_id+ "&board_id="+board_id+
-                        "&pre_Past="+ past_paper_flag,
+                        "&pre_Past="+ past_paper_flag + "&selected_topic_ids=" +selectedTopic,
                 type:'get',
                 dataType:'json',
                 async: false,
