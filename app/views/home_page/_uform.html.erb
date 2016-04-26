@@ -542,7 +542,7 @@
         if (past_paper_flag == "1")
         {
             year = $("#year").val();
-            session = $("input[name$='session']").val();
+            session = $("input[name$='session']:checked").val();
             varient = $("#varient").val();
 
             $.ajax({
