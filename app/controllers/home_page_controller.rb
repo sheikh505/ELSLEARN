@@ -166,8 +166,13 @@ class HomePageController < ApplicationController
       @degree_id = params[:degree_id]
       session[:degree_id] = @degree_id
       @course_id = params[:course]
+      list = []
       selected_topic_ids = params[:topic_ids]
-      puts "======courseID=---=>>",@course_id.inspect
+      selected_topic_ids.each do |a|
+        puts "aaaaaaaaa-----",a
+        list << a.to_i
+      end
+      puts "======courseID=---=>>",list
       session[:course_id] = @course_id
       @past_paper_flag = params[:pre_Past]
       session[:past_paper_flag] = @past_paper_flag
@@ -210,7 +215,7 @@ class HomePageController < ApplicationController
                              :course_id=> @course_id,:mcq=> @mcq,
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
-                             :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => selected_topic_ids}
+                             :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => list.join(",")}
         puts "new puts===>>>",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
         puts "new userhistory------",user_history.inspect
@@ -233,7 +238,8 @@ class HomePageController < ApplicationController
       @degree_id = user_test_history[:degree_id]
       @course_id = user_test_history[:course_id]
       deg_id = @degree_id.to_s
-      selected_topic_ids = user_test_history[:topic_ids].to_s
+      selected_topic_ids = user_test_history[:topic_ids]
+      puts "$$$$$$$$$$$$",selected_topic_ids.inspect
       puts "==========---------====",@course_id.inspect
       @mcq = user_test_history[:mcq]
       @fill = user_test_history[:fill]

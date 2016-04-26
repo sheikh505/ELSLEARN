@@ -185,11 +185,10 @@
   }
 
   function previous_question(){
-      flag = 0;
+      var flag = 0;
       if (flag == 0)
       {
           <% if @index > 0 %>
-          <% if $arr.last.past_paper_history.present? %>
           $.ajax({
               url:'/home_page/next_ques?index='+<%=@index-2%>,
               type:'get',
@@ -204,22 +203,7 @@
                   //    window.location.reload();
               }
           });
-          <% else %>
-          $.ajax({
-              url:'/home_page/next_ques?index='+<%=@index-2%> +'&course=<%=CourseLinking.search_on_course_column(@course_id).id %>',
-              type:'get',
-              dataType:'html',
-              processData:false,
-              success:function (data) {
-                  $("#quiz_container").html(data);
 
-              },
-              error:function (data) {
-                  alert ('Error Occurred!!!!');
-                  //    window.location.reload();
-              }
-          });
-          <% end %>
           <% end %>
       }
   }
@@ -228,10 +212,8 @@
         if (flag == 0)
         {
             <% if @index < $size - 1 %>
-            <% if $arr.last.past_paper_history.present? %>
             $.ajax({
                 url:'/home_page/next_ques?index='+<%=@index%>,
-//                url:'/home_page/next_ques?index='+<%#=@index%> +'&course=<%#=CourseLinking.search_on_course_column(@course_id).id %>',
                 type:'get',
                 dataType:'html',
                 processData:false,
@@ -243,29 +225,13 @@
                     alert ("Error Occurred");
                 }
             });
-            <% else %>
-            $.ajax({
-//                url:'/home_page/next_ques?index='+<%#=@index%>,
-                url:'/home_page/next_ques?index='+<%=@index%> +'&course=<%=CourseLinking.search_on_course_column(@course_id).id %>',
-                type:'get',
-                dataType:'html',
-                processData:false,
-                success:function (data) {
-                    $("#quiz_container").html(data);
 
-                },
-                error:function (data) {
-                    alert ("Error Occurred");
-                }
-            });
-            <% end %>
+
             <% else %>
                 score = $( "#score").val();
                 alert("you score "+score+"out of <%=$size * 5%>");
             <% if $arr.last.past_paper_history.present? %>
                 window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=$arr.last.past_paper_history.course_id%>'
-            <% else %>
-            window.location = 'add_user_test?score='+score + '&total=<%=$size * 5%>&course=<%=CourseLinking.search_on_course_column(@course_id).id%>'
             <% end %>
             <% end %>
         }
