@@ -769,9 +769,12 @@ class QuestionsController < ApplicationController
     session = params[:session]
     board_id = params[:board_id]
     degree_id = params[:degree_id]
+    puts "------===degree_id===--=-=",degree_id.inspect
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
     varient = params[:varient]
+    selected_topic_ids = params[:selected_topic_ids].split(",")
+    puts "--------selected topics------",selected_topic_ids.inspect
     puts "=-=-=-varient=-=-=-=",varient.inspect
     ques_no = params[:ques_no]
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
@@ -781,8 +784,19 @@ class QuestionsController < ApplicationController
       fill = params[:fill]
       true_false = params[:true_false]
       descriptive = params[:descriptive]
-      temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
-      puts "========",temp.inspect
+      # temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
+      question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
+
+      temp = question_select.select{|x|  x.topic_ids.present? &&
+          (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
+              x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
+              degree_id.include?(x.degree_ids.split(",")[1]) ||
+              degree_id.include?(x.degree_ids.split(",")[2]) ||
+              degree_id.include?(x.degree_ids.split(",")[3]) ) }
+      puts "====Question_without_pastPaperHistory====",temp.inspect
       list = temp
       list.shuffle!
       #select number of questions according to the user requirement
@@ -809,10 +823,20 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-      @questions = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+
+      questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
           "p.course_id = ? and p.year = ? and p.session = ?
                                and deleted = 'false'
                               and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
+      @questions = questions_data.select{|x|  x.topic_ids.present? &&
+          (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+              selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+              x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
+              degree_id.include?(x.degree_ids.split(",")[1]) ||
+              degree_id.include?(x.degree_ids.split(",")[2]) ||
+              degree_id.include?(x.degree_ids.split(",")[3]) )}
       # @questions = Question.select { |q| q.deleted == false &&
       #     q.past_paper_history.present? &&
       #     q.past_paper_history.course_id == course_id.to_i  &&

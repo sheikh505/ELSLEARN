@@ -166,6 +166,7 @@ class HomePageController < ApplicationController
       @degree_id = params[:degree_id]
       session[:degree_id] = @degree_id
       @course_id = params[:course]
+      selected_topic_ids = params[:topic_ids]
       puts "======courseID=---=>>",@course_id.inspect
       session[:course_id] = @course_id
       @past_paper_flag = params[:pre_Past]
@@ -209,7 +210,7 @@ class HomePageController < ApplicationController
                              :course_id=> @course_id,:mcq=> @mcq,
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
-                             :year=> @year, :session=> @session, :user_id=>current_user.id}
+                             :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => selected_topic_ids}
         puts "new puts===>>>",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
         puts "new userhistory------",user_history.inspect
@@ -231,6 +232,8 @@ class HomePageController < ApplicationController
       @board_id = user_test_history[:board_id]
       @degree_id = user_test_history[:degree_id]
       @course_id = user_test_history[:course_id]
+      deg_id = @degree_id.to_s
+      selected_topic_ids = user_test_history[:topic_ids].to_s
       puts "==========---------====",@course_id.inspect
       @mcq = user_test_history[:mcq]
       @fill = user_test_history[:fill]
@@ -244,7 +247,16 @@ class HomePageController < ApplicationController
       @questions = []
       @course = Course.find(@course_id).name
       if @past_paper_flag.to_i == 2
-        temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(@course_id).id)
+        question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
+        temp = question_select.select{|x|  x.topic_ids.present? &&
+            (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
+                x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
+            deg_id.include?(x.degree_ids.split(",")[1]) ||
+            deg_id.include?(x.degree_ids.split(",")[2]) ||
+            deg_id.include?(x.degree_ids.split(",")[3]) ) }
         list = temp
         list.shuffle!
         #select number of questions according to the user requirement
@@ -271,10 +283,21 @@ class HomePageController < ApplicationController
 
         end
       elsif @past_paper_flag.to_i == 1
-        list = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+        @questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
                              "p.course_id = ? and p.year = ? and p.session = ?
                                and deleted = 'false'
                               and workflow_state = 'accepted'" ,@course_id.to_s,@year.to_s,@session.to_s )
+        puts "&&&&&&&&&&&",@questions_data.inspect
+        list = @questions_data.select{|x|  x.topic_ids.present? &&
+            (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+                x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
+            deg_id.include?(x.degree_ids.split(",")[1]) ||
+            deg_id.include?(x.degree_ids.split(",")[2]) ||
+            deg_id.include?(x.degree_ids.split(",")[3]) )}
+        puts "^^^^^^^^%%%%%%",list.inspect
         @questions = list.shuffle
       end
     elsif params[:test_code].present? || params[:test_code_login].present? || params[:test_code_registration].present?
