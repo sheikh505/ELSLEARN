@@ -181,9 +181,9 @@ Wrapper Start
 header Start
 ---------------------------------------------------------*/
 .header{
-    border-bottom:1px solid #ccc;
     width:100%;
-    background: #fff;
+    position: fixed;
+    z-index: 99999999999;
 }
 .header_holder .nav ul{ margin: 0;}
 .header_holder .nav ul li{
@@ -199,7 +199,7 @@ header Start
     padding:0 0 10px;
 }
 .header_holder .nav ul li a{
-    color:#999;
+    color:#fff;
     font-size:12px;
     text-decoration: none;
     text-transform: uppercase;
@@ -2542,4 +2542,37 @@ table.dataTable thead th, table.dataTable thead td{
     top: 45%;
     background-size: 80%;
     background-repeat: no-repeat;
+}
+.hero-holder{
+    background: url("/assets/logo-banner-search.png");
+    height: 600px;
+    background-attachment: fixed;
+    background-size: cover;
+    margin-top: 0px;
+    position: relative;
+}
+.hero-holder .hero-container{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    right: 0;
+    text-align: center;
+}
+.hero-holder .hero-container h3{
+    font-weight: 700;
+    color: #fff;
+    font-size: 42px;
+}
+.hero-holder .hero-container h3 span{
+    color: #3FB1E4;
+}
+.shrink{
+    background: #fff;
+}
+.header{
+    -webkit-transition: all 0.4s ease-in-out;
+-moz-transition: all 0.4s ease-in-out;
+}
+.shrink .header_holder .nav ul li a{
+    color: #999;
 }

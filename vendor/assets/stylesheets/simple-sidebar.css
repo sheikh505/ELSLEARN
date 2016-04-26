@@ -572,9 +572,7 @@ a{
     background: none;
     line-height: 23px;
 }
-.header_top{
-    border-bottom: 1px solid #e7e7e7;
-}
+
 .header_holder .nav{
     margin: 12px 0;
 }
