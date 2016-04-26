@@ -2554,20 +2554,33 @@ table.dataTable thead th, table.dataTable thead td{
 .hero-holder .hero-container{
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 40%;
     right: 0;
     text-align: center;
+}
+.hero-holder .hero-container hr{
+    max-width: 50px;
+    height: 3px;
+    background: #3FB1E4;
+    border: none;
+    margin:30px auto 40px;
+    display: block;
+}
+.btn.btn-circle{
+    border-radius: 300px;
+    padding: 12px 30px 14px;
+    font-weight: bold;
 }
 .hero-holder .hero-container h3{
     font-weight: 700;
     color: #fff;
-    font-size: 42px;
+    font-size: 52px;
 }
 .hero-holder .hero-container h3 span{
-    color: #3FB1E4;
+    color: #428bca;
 }
 .shrink{
-    background: #fff;
+    background: #fff !important;
 }
 .header{
     -webkit-transition: all 0.4s ease-in-out;
@@ -2575,4 +2588,7 @@ table.dataTable thead th, table.dataTable thead td{
 }
 .shrink .header_holder .nav ul li a{
     color: #999;
+}
+.header.header-home{
+    background: rgba(255, 255, 255, 0.3) ;
 }
