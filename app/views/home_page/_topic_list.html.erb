@@ -1,13 +1,13 @@
-<div class="row">
+<div class="row try_it">
   <div class="container">
     <div class="col-md-12">
 
         <select id="first_new" multiple="multiple" size="10" name="topic_ids[]">
           <% @topics.all.each do | topic|%>
               <% if topic.parent_topic_id.present? %>
-          <option style="font-weight: bold" value="<%= topic.id %>"><%= topic.name %></option>
+          <option style="font-weight: bold;  margin-left: 10px" value="<%= topic.id %>"><%= topic.name %></option>
                   <% else %>
-                  <option value="<%= topic.id %>">--<%= topic.name %> </option>
+                  <option  value="<%= topic.id %>">--<%= topic.name %> </option>
               <% end %>
           <% end %>
         </select>
@@ -27,6 +27,7 @@
           alert($('[name="duallistbox_demo1[]"]').val());
           return false;
       });
+
   });
 
 </script>
