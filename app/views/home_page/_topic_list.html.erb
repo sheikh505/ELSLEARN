@@ -5,9 +5,9 @@
         <select id="first_new" multiple="multiple" size="10" name="topic_ids[]">
           <% @topics.all.each do | topic|%>
               <% if topic.parent_topic_id.present? %>
-          <option style="font-weight: bold" value="<%= topic.id %>"><%= topic.name %></option>
+          <option value="<%= topic.id %>">--<%= topic.name %></option>
                   <% else %>
-                  <option value="<%= topic.id %>">--<%= topic.name %> </option>
+                  <option style="font-weight: bold" value="<%= topic.id %>"><%= topic.name %> </option>
               <% end %>
           <% end %>
         </select>
