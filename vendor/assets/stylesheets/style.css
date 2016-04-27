@@ -255,12 +255,10 @@ header End
 Viual Start
 ---------------------------------------------------------*/
 .viual{
-    background:#f6f6f6 url('/assets/bg_hero.jpg');
     width:100%;
-    background-size: cover;
 }
 .visual_holder{
-    padding:40px 0;
+    padding:40px 0 110px !important;
 }
 
 .visual_holder .viual0_left,
@@ -277,7 +275,7 @@ Viual Start
 }
 .visual_holder .viual_left{width: 46%;}
 .visual_holder .col .header_col{
-    background:#f7f7f7;
+    background:#e6e6e6;
     cursor:pointer;
     overflow:hidden;
 }
@@ -1336,10 +1334,10 @@ select, input[type="file"] {
     padding: 9px 0 15px 23px;
 }
 .col .pre_question_holder{
+    max-width: 555px;
     position: absolute;
-    right: -715px;
-    top:-9px;
-    width: 94.5%;
+    right: -641px;
+    top: -9px;
 }
 .col .row_custom label input[type="checkbox"]{
     margin: 0 5px 0 0;
@@ -2479,50 +2477,44 @@ table.dataTable thead th, table.dataTable thead td{
 #degreeList.degreeListEdit .cousreList_post_edit.courseList_post input[type='checkbox']{
     width: 14px;
 }
-.btn-group.buttons,
-.info-container{
+.btn-group.buttons .btn.move,
+.info-container .btn.clear1.btn-xs,
+.box2 .btn-group.buttons .btn.move,
+.box2 .info-container .btn.clear1.btn-xs{
     display: none;
 }
 .try_it select{
     width: 100%;
     padding: 15px;
+    height: 250px !important;
+    border: none;
+    border-bottom: 5px solid #ccc;
+    border-radius: 5px;
 }
 .try_it select option{
-    background: #eee;
+    background: url("/assets/1461779890_199_CircledPlus.png")  98% no-repeat #eee;
     padding: 7px;
     font-size: 13px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
-    border-radius: 5px;
-    position: relative;
+    border-radius: 3px;
 }
-/*.try_it select option:after{*/
-    /*position: absolute;*/
-    /*content: '+';*/
-    /*top: 7px;*/
-    /*display: block;*/
-    /*right: 10px;*/
-/*}*/
-/*.try_it .box2 select option:after{*/
-    /*content: 'x';*/
-/*}*/
 .btn.btn-default.btn-block{
     width: 200px;
     margin-left: -5px;
     margin-top: 10px;
 }
 .try_it .box2 select{
-    background: #f9f9f9;
+    background: #fff;
 }
 .try_it .box2 select option{
-    background: #999;
+    background: url("/assets/1461779882_200_CircledMinus.png")  98%  no-repeat #e6e6e6;
     padding: 7px;
     font-size: 13px;
     border: 1px solid #555;
     margin-bottom: 5px;
-    border-radius: 5px;
-    color: #fff;
-    position: relative;
+    border-radius: 3px;
+    color: #333;
 }
 #course_container_form{
     position: relative;
@@ -2592,4 +2584,9 @@ table.dataTable thead th, table.dataTable thead td{
 }
 .shrink .header_holder .nav ul li a{
     color: #999;
+}
+#courses_holder .box1,
+#courses_holder .box2{
+    padding-left: 9px;
+    padding-right: 9px;
 }

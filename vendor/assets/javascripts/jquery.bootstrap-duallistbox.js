@@ -359,7 +359,7 @@
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear1 pull-right"></button>' +
+        '     <button type="button" class="btn clear1 pull-right" ></button>' +
         '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
@@ -377,11 +377,11 @@
         '   <label></label>' +
         '   <span class="info-container">' +
         '     <span class="info"></span>' +
-        '     <button type="button" class="btn clear2 pull-right"></button>' +
+        '     <button type="button" class="btn clear2 pull-right" style="display: none;"></button>' +
         '   </span>' +
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
-        '     <button type="button" class="btn remove">' +
+        '     <button type="button" class="btn remove" style="display: none;">' +
         '       <i></i>' +
         '     </button>' +
         '     <button type="button" class="btn removeall">' +
@@ -482,8 +482,8 @@
         this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
         this.container.find('input, select').addClass('form-control');
         this.container.find('.btn').addClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
+        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('fa fa-chevron-right');
+        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('fa fa-chevron-left');
       }
       if (refresh) {
         refreshSelects(this);

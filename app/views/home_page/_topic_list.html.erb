@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row try_it">
   <div class="container">
     <div class="col-md-12">
 
@@ -8,6 +8,8 @@
           <option value="<%= topic.id %>">--<%= topic.name %></option>
                   <% else %>
                   <option style="font-weight: bold" value="<%= topic.id %>"><%= topic.name %> </option>
+
+          <option style="font-weight: bold;  margin-left: 10px" value="<%= topic.id %>"><%= topic.name %></option>
               <% end %>
           <% end %>
         </select>
@@ -15,7 +17,6 @@
     </div>
   </div>
 </div>
-</section>
 <script>
   $(document).ready(function(){
       var demo1 = $("#first_new").bootstrapDualListbox({
@@ -27,6 +28,7 @@
           alert($('[name="duallistbox_demo1[]"]').val());
           return false;
       });
+
   });
 
 </script>
