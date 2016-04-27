@@ -46,7 +46,7 @@
 
     $("#select_degree").change(function(){
         degree_id = $(this).val();
-        alert(degree_id);
+//        alert(degree_id);
         $.ajax({
             url: '/user/get_courses_by_degree_id?degree_id=' + degree_id,
             type: 'get',
