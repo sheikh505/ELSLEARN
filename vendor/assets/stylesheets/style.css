@@ -2590,3 +2590,6 @@ table.dataTable thead th, table.dataTable thead td{
     padding-left: 9px;
     padding-right: 9px;
 }
+.flexslider{
+    overflow: hidden;
+}

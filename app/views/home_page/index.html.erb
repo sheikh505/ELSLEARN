@@ -1,15 +1,45 @@
 <%#= render 'uform' %>
-<section class="hero-holder">
-  <div class="row">
-    <div class="container">
-        <div class="hero-container">
-        <h3>Getting started with <span>e-Learning</span></h3>
-          <hr>
-          <button class="btn btn-primary btn-circle">Find Out More</button>
+<div class="flexslider">
+  <ul class="slides">
+    <li>
+    <section class="hero-holder" style="background: url('/assets/logo-banner-search.png')">
+      <div class="row">
+        <div class="container">
+            <div class="hero-container">
+            <h3>Getting started with <span>e-Learning</span></h3>
+              <hr>
+              <button class="btn btn-primary btn-circle">Find Out More</button>
+            </div>
         </div>
-    </div>
-  </div>
-</section>
+      </div>
+    </section>
+  </li>
+    <li>
+      <section class="hero-holder" style="background: url('/assets/els-banner-1.png')">
+        <div class="row">
+          <div class="container">
+            <div class="hero-container">
+              <h3>Getting started with <span>e-Learning</span></h3>
+              <hr>
+              <button class="btn btn-primary btn-circle">Find Out More</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </li>
+    <li>
+      <section class="hero-holder" style="background: url('/assets/els-banner-2.png')">
+        <div class="row">
+          <div class="container">
+            <div class="hero-container">
+
+            </div>
+          </div>
+        </div>
+      </section>
+    </li>
+  </ul>
+</div>
 <section class="main">
   <div class="main_holder main_front container" id="container">
     <div class="box">
@@ -88,3 +118,10 @@
   <!--</div>-->
 
 <!--</section>-->
+<script>
+    $(window).load(function() {
+        $('.flexslider').flexslider({
+            animation: "slide"
+        });
+    });
+</script>
