@@ -45,10 +45,12 @@
 
   <div class="modal_iframe_footer">
     <%if @index > 0%>
-        <a class="modal_btn" class="modal_btn" onclick="previous_question()">Previos</a>
+        <a class="modal_btn" id="modal_btn_new" onclick="previous_question()">Previos</a>
     <% end %>
     <%if @index+1 < $size%>
-        <a class="modal_btn" class="modal_btn" onclick="next_quiz()">Next</a>
+        <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
+        <a class="modal_btn" id="modal_btn_new" onclick="next_quiz()">Next</a>
+
     <% else %>
         <a class="modal_btn" href="#myModal" class="modal_btn" onclick="finish_quiz()">Finish</a>
     <% end %>
