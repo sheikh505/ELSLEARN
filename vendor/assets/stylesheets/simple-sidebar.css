@@ -479,6 +479,7 @@ a{
     width: 48px;
     cursor: pointer;
     display: block;
+    outline: none;
     background-size: 75%;
     background-repeat: no-repeat;
     text-indent: -9999px;
@@ -496,6 +497,7 @@ a{
     width: 48px;
     cursor: pointer;
     height: 64px;
+    outline: none;
     text-indent: -9999px;
     display: block;
     background-size: 75%;
