@@ -42,7 +42,7 @@
             var $countdown;
             var $form;
             var incrementTime = 70;
-            var currentTime = 3600000; // 5 minutes (in milliseconds)
+            var currentTime = '<%=$size%>' * 120000; // 5 minutes (in milliseconds)
 
             $(function() {
 
@@ -62,6 +62,8 @@
                     Example2.Timer.stop();
                     alert('Oops... Times up!!!');
                     $(".question_p_section ul li a").addClass('disabled');
+                    $("a#modal_btn_new").addClass('disabled');
+                    $("a#modal_btn_finish").css('display' , 'inline-block');
                     return;
                 }
 
