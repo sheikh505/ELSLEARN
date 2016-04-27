@@ -25,7 +25,7 @@ ExamsSystem::Application.routes.draw do
   get "user/progress"
   put 'user/update_password'
   post "user/request_teacher"
-
+  get "user/get_courses_by_degree_id"
   get "user/dashboard"
   get "user/ReTakeTest"
 

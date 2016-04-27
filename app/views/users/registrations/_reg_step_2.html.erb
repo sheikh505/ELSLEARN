@@ -32,10 +32,8 @@
     <% end %>
 
     <div id="courses_container" class="field">
-      <%= label_tag :courses %><br />
-      <% get_courses.each do |course| %>
-          <%= check_box_tag 'courses[]', course.id -%><%=course.name %>
-      <% end %>
+      <div id = "selected_course"></div>
+
     </div>
 
     <div class="actions">
@@ -47,9 +45,23 @@
 <script type="text/javascript">
 
     $("#select_degree").change(function(){
-        $this = $(this);
-        $("#courses_container").show();
-        $(".course_all").show();
+        degree_id = $(this).val();
+        alert(degree_id);
+        $.ajax({
+            url: '/user/get_courses_by_degree_id?degree_id=' + degree_id,
+            type: 'get',
+            dataType: 'html',
+            processData: false,
+            success: function (data) {
+                $('#selected_course').html(data);
+            },
+            error: function (data) {
+                alert("Error Occurred");
+            }
+        });
+//        $("#courses_container").show();
+//        $(".course_all").show();
 //      $(".course_"+$this.attr("id")).show();
     });
+
 </script>

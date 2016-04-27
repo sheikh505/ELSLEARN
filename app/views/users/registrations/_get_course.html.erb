@@ -1,0 +1,6 @@
+<%= label_tag :courses %><br />
+<% unless @courses_selected.blank? %>
+<% @courses_selected.each do |course| %>
+    <%= check_box_tag 'courses[]', course.id -%><%=course.name %>
+        <% end %>
+<% end %>

@@ -83,6 +83,18 @@ class UserController < ApplicationController
       format.js
     end
   end
+  def get_courses_by_degree_id
+    @degree_id_selected = params[:degree_id].to_i
+    puts "----------course=======",@degree_id_selected.inspect
+    sql = "Select distinct c.id, name
+          From courses c
+          Inner join degree_course_assignments dca on c.id = dca.course_id
+          Inner join board_degree_assignments bda on dca.board_degree_assignment_id = bda.id
+          where degree_id = ?", @degree_id_selected
+    @courses_selected = Course.find_by_sql(sql)
+    puts "-===========-=",@courses_selected.inspect
+    render :partial => 'users/registrations/get_course'
+  end
 
   def progress
 
