@@ -155,7 +155,6 @@ class HomePageController < ApplicationController
   end
 
   def instructions
-    puts "---------------paramsInspect",params.inspect
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
     elsif params[:uthid].present?
@@ -169,10 +168,8 @@ class HomePageController < ApplicationController
       list = []
       selected_topic_ids = params[:topic_ids]
       selected_topic_ids.each do |a|
-        puts "aaaaaaaaa-----",a
         list << a.to_i
       end
-      puts "======courseID=---=>>",list
       session[:course_id] = @course_id
       @past_paper_flag = params[:pre_Past]
       session[:past_paper_flag] = @past_paper_flag
@@ -352,6 +349,11 @@ class HomePageController < ApplicationController
   end
 
   def create_user_registration
+    list = []
+    selected_topic_ids = params[:topic_ids]
+    selected_topic_ids.each do |a|
+      list << a.to_i
+    end
     unless user_signed_in?
       @user = User.new(params[:user])
 
@@ -360,10 +362,10 @@ class HomePageController < ApplicationController
         assignment = Assignment.new(:user_id=> @user.id,:role_id=> Role.find_by_name('Student').id)
         assignment.save
         user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                             :course_id=> params[:course_id],:mcq=> params[:mcq],
+                             :course_id=> params[:course],:mcq=> params[:mcq],
                              :truefalse=> params[:true_false],:fill=> params[:fill],
                              :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
-                             :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
+                             :year=> params[:year], :session=> params[:session], :user_id=>current_user.id,:topic_ids => list.join(",")}
         puts "============<<<<<",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
         pputs "<<<<<<<<<<<<<",user_history.inspect
@@ -377,17 +379,20 @@ class HomePageController < ApplicationController
   end
 
   def sign_in_user
+    list = []
+    selected_topic_ids = params[:topic_ids]
+    selected_topic_ids.each do |a|
+      list << a.to_i
+    end
     user = User.find_by_email(params[:new_user][:email])
     if user.present? && user.valid_password?(params[:new_user][:password])
       sign_in user
       user_test_history = {:board_id=> params[:b_id],:degree_id=> params[:degree_id],
-                           :course_id=> params[:course_id],:mcq=> params[:mcq],
+                           :course_id=> params[:course],:mcq=> params[:mcq],
                            :truefalse=> params[:true_false],:fill=> params[:fill],
                            :descriptive=> params[:descriptive], :pastpaperflag=> params[:pre_Past],
-                           :year=> params[:year], :session=> params[:session], :user_id=>current_user.id}
-      put "09090909090",user_test_history.inspect
+                           :year=> params[:year], :session=> params[:session], :user_id=>current_user.id,:topic_ids => list.join(",")}
       user_history = UserTestHistory.new(user_test_history)
-      puts "784841245599",user_history.inspect
       user_history.save
 
       render :json => {:success => true, :user_test_history_id => user_history.id}
@@ -545,7 +550,7 @@ class HomePageController < ApplicationController
   def get_topic
     a = params[:course_id]
     puts "=======alert===>>>>>>",a.inspect
-    @topics = Topic.where("course_id = ?",a).order(:name)
+    @topics = Topic.where("course_id = ?",a).order(:created_at)
     puts "----=-=======-",@topics.inspect
     render :partial => 'home_page/topic_list'
   end

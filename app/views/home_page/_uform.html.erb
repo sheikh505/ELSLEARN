@@ -207,34 +207,34 @@
                       <% end %>
 
 
-                      <h2>Create An Account</h2>
-                      <div class="field">
-                        <%= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>
-                      </div>
+                      <!--<h2>Create An Account</h2>-->
+                      <!--<div class="field">-->
+                        <!--<%#= f.email_field :email,:required => true, :placeholder=>:Email, :autofocus => true ,:class=>'row_field' %>-->
+                      <!--</div>-->
 
-                      <div class="field">
-                        <%= f.text_field :name,:required => true, :placeholder=>:Name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
-                      </div>
+                      <!--<div class="field">-->
+                        <!--<%#= f.text_field :name,:required => true, :placeholder=>:Name, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>-->
+                      <!--</div>-->
 
-                      <div class="field">
-                        <%= f.phone_field :phone, :placeholder=>:Phone, :required => true,:class=>'row_field' %>
-                      </div>
+                      <!--<div class="field">-->
+                        <!--<%#= f.phone_field :phone, :placeholder=>:Phone, :required => true,:class=>'row_field' %>-->
+                      <!--</div>-->
 
-                      <div class="field">
-                        <% if @validatable %>
-                            <em>(<%= @minimum_password_length %> characters minimum)</em>
-                        <% end %>
-                        <%= f.password_field :password, :placeholder=>:Password, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>
-                      </div>
+                      <!--<div class="field">-->
+                        <!--<%# if @validatable %>-->
+                            <!--<em>(<%#= @minimum_password_length %> characters minimum)</em>-->
+                        <!--<%# end %>-->
+                        <!--<%#= f.password_field :password, :placeholder=>:Password, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>-->
+                      <!--</div>-->
 
-                      <div class="field">
-                        <%= f.password_field :password_confirmation, :placeholder=>:Password_confirmation, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>
+                      <!--<div class="field">-->
+                        <!--<%#= f.password_field :password_confirmation, :placeholder=>:Password_confirmation, :autocomplete=> "off" ,:required => true,:class=>'row_field' %>-->
 
-                      </div>
-                      <div style="float: left;"><label id="register_message" style="color:red; margin:0"></label></div>
-                      <div class="actions">
-                        <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
-                      </div>
+                      <!--</div>-->
+                      <!--<div style="float: left;"><label id="register_message" style="color:red; margin:0"></label></div>-->
+                      <!--<div class="actions">-->
+                        <!--<%#= f.submit "Register", :class => 'btn btn-large btn-inverse' %>-->
+                      <!--</div>-->
 
                   </div>
                       <input type="hidden" name="test_code_registration" class="text" placeholder="Test Code">
