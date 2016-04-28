@@ -253,7 +253,8 @@ class HomePageController < ApplicationController
       @questions = []
       @course = Course.find(@course_id).name
       if @past_paper_flag.to_i == 2
-        question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
+        question_select = Question.includes(:past_paper_history).where("past_paper_histories.id is null and deleted = 'false' and workflow_state ='accepted' ")
+        # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
         temp = question_select.select{|x|  x.topic_ids.present? &&
             (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
                 selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
