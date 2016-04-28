@@ -1597,7 +1597,7 @@ select, input[type="file"] {
     padding: 0;
     margin: 0;
 }
-.header_holder .nav ul li  .sub_menu li a{
+.header .header_holder .nav ul li  .sub_menu li a{
     color: #333;
     display: block;
     padding: 10px 15px 10px;
