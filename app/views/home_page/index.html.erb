@@ -119,9 +119,21 @@
 
 <!--</section>-->
 <script>
-    $(window).load(function() {
+    $(window).ready(function() {
+        $(".header").addClass("header_h");
         $('.flexslider').flexslider({
             animation: "slide"
         });
+    });
+    $(document).on("scroll", function(){
+
+        if
+        ($(document).scrollTop() > 100){
+            $(".header").addClass("shrink");
+        }
+        else
+        {
+            $(".header").removeClass("shrink");
+        }
     });
 </script>
