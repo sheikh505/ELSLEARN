@@ -2636,3 +2636,13 @@ table.dataTable thead th, table.dataTable thead td{
 .modal-dialog.modal-sm{
     width: 430px;
 }
+ul.admin-opt-dashboard{
+    overflow: hidden;
+    margin: 0;
+    position: absolute;
+    right: 20px;
+}
+ul.admin-opt-dashboard.admin-opt li a{
+    display: inline-block;
+    padding: 15px;
+}
