@@ -1,18 +1,113 @@
-<ul class="admin-opt">
-  <% unless current_user.is_operator? ||  current_user.is_proofreader? || current_user.is_student?%>
 
-        <li><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></li>
-        <li><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></li>
-        <li><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></li>
+<ul class="admin-opt admin-opt-dashboard">
+  <!--<% unless current_user.is_operator? ||  current_user.is_proofreader? || current_user.is_student?%>-->
 
-  <% end %>
+        <!--<li><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></li>-->
+        <!--<li><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></li>-->
+        <!--<li><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></li>-->
+
+  <!--<% end %>-->
 
     <!--td><%= link_to "Add New Test", new_quiz_path, :class => 'btn btn-inverse btn-large' %></td>
     <td><%= link_to "Add New Notes", new_book_path, :class => 'btn btn-inverse btn-large' %></td-->
-    <li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>
+    <!--<li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>-->
     <% if current_user.is_admin? %>
-    <li><%= link_to "Backup Database", home_page_get_backup_path, :class => 'btn btn-inverse btn-large' %></li>
+        <li class="pull-right"><%= link_to "Backup Database", home_page_get_backup_path, :class => 'btn btn-inverse btn-large' %></li>
       <% end %>
 </ul>
+<section class="dashboard-main">
+  <div class="row">
+    <div class="container-fluid">
+      <h1 class="title">Dashboard</h1>
+    </div>
+  </div>
+    <div class="row">
+        <div class="container-fluid">
+            <div class="listing-holder mrgr32 col-md-6 listing">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Questions</th>
+                      <th>Published</th>
+                      <th>Not-Published</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>MCQs</td>
+                      <td>10</td>
+                      <td>5</td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>True/False</td>
+                      <td>10</td>
+                      <td>5</td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>Fill in the Blanks</td>
+                      <td>10</td>
+                      <td>5</td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>Descriptive Questions</td>
+                      <td>10</td>
+                      <td>5</td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>TOTAL</td>
+                      <td>40</td>
+                      <td>20</td>
+                      <td>60</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          <div class="listing-holder col-md-5 listing">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Users</th>
+                <th>Active</th>
 
-
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Admin</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Students</td>
+                <td>25</td>
+              </tr>
+              <tr>
+                <td>HODs</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>Teachers</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Proofreaders</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Operators</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>Total</td>
+                <td>46</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+</section>
