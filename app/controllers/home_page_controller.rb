@@ -109,6 +109,28 @@ class HomePageController < ApplicationController
   end
 
   def admin_panel
+    @questionc_mcq_publish =  Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='1'").count
+    @questionc_mcq_not_publish = Question.where("deleted = 'false' and (workflow_state != 'accepted' or workflow_state is null) and question_type = '1' ").count
+    @total_questions_mcq = Question.where("deleted = 'false' and question_type ='1'").count
+    @questionc_truefalse_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='4'").count
+    @questionc_truefalse_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='4'").count
+    @total_questions_truefalse = Question.where("deleted = 'false' and question_type ='4'").count
+    @questionc_blank_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='3'").count
+    @questionc_blank_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='3'").count
+    @total_questions_blank = Question.where("deleted = 'false' and question_type ='3'").count
+    @questionc_descriptive_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='2'").count
+    @questionc_descriptive_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='2'").count
+    @total_questions_descriptive = Question.where("deleted = 'false' and question_type ='2'").count
+    @total_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' ").count
+    @total_not_publish = Question.where("deleted = 'false' and (workflow_state != 'accepted' or workflow_state is null)").count
+    @total_questions = Question.where("deleted = 'false' ").count
+    @admin_users = User.joins(:assignments, :roles).where("assignments.role_id = '4' ").count
+    @student_users = User.joins(:assignments, :roles).where("assignments.role_id = '5' ").count
+    @operator_users = User.joins(:assignments, :roles).where("assignments.role_id = '6' ").count
+    @teacher_users = User.joins(:assignments, :roles).where("assignments.role_id = '8' ").count
+    @hod_users = User.joins(:assignments, :roles).where("assignments.role_id = '9' ").count
+    @proofreader_users = User.joins(:assignments, :roles).where("assignments.role_id = '10' ").count
+    @total_users = User.count
     render :layout => "admin_panel_layout"
   end
 
