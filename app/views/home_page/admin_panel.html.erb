@@ -1,20 +1,24 @@
+<% if current_user.is_not_admin? %>
+<ul class="admin-opt">
+  <% unless current_user.is_operator? ||  current_user.is_proofreader? || current_user.is_student?%>
 
-<ul class="admin-opt admin-opt-dashboard">
-  <!--<% unless current_user.is_operator? ||  current_user.is_proofreader? || current_user.is_student?%>-->
+        <li><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></li>
+        <li><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></li>
+        <li><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></li>
 
-        <!--<li><%= link_to "Add New Course", new_course_path, :class => 'btn btn-inverse btn-large' %></li>-->
-        <!--<li><%= link_to "Add New Degree", new_degree_path, :class => 'btn btn-inverse btn-large' %></li>-->
-        <!--<li><%= link_to "Add New Board", new_board_path, :class => 'btn btn-inverse btn-large' %></li>-->
-
-  <!--<% end %>-->
+  <% end %>
 
     <!--td><%= link_to "Add New Test", new_quiz_path, :class => 'btn btn-inverse btn-large' %></td>
     <td><%= link_to "Add New Notes", new_book_path, :class => 'btn btn-inverse btn-large' %></td-->
-    <!--<li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>-->
-    <% if current_user.is_admin? %>
-        <li class="pull-right"><%= link_to "Backup Database", home_page_get_backup_path, :class => 'btn btn-inverse btn-large' %></li>
-      <% end %>
+    <li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>
+  <% end %>
 </ul>
+<ul class="admin-opt admin-opt-dashboard">
+<% if current_user.is_admin? %>
+    <li class="pull-right"><%= link_to "Backup Database", home_page_get_backup_path, :class => 'btn btn-inverse btn-large' %></li>
+<% end %>
+  </ul>
+<% if current_user.is_admin? %>
 <section class="dashboard-main">
   <div class="row">
     <div class="container-fluid">
@@ -111,3 +115,4 @@
         </div>
     </div>
 </section>
+    <% end %>

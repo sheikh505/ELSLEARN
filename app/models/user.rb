@@ -67,7 +67,9 @@ class User < ActiveRecord::Base
   def is_not_student?
     return self.roles.first.name.downcase != 'student' ? true : false
   end
-
+  def is_not_admin?
+    return self.roles.first.name.downcase != 'admin' ? true : false
+  end
   def self.from_omniauth(auth)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
