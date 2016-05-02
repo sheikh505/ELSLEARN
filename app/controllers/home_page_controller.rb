@@ -109,17 +109,17 @@ class HomePageController < ApplicationController
   end
 
   def admin_panel
-    @questionc_mcq_publish =  Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='1'").count
-    @questionc_mcq_not_publish = Question.where("deleted = 'false' and (workflow_state != 'accepted' or workflow_state is null) and question_type = '1' ").count
+    @questions_mcq_publish =  Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='1'").count
+    @questions_mcq_not_publish = Question.where("deleted = 'false' and (workflow_state != 'accepted' or workflow_state is null) and question_type = '1' ").count
     @total_questions_mcq = Question.where("deleted = 'false' and question_type ='1'").count
-    @questionc_truefalse_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='4'").count
-    @questionc_truefalse_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='4'").count
+    @questions_truefalse_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='4'").count
+    @questions_truefalse_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='4'").count
     @total_questions_truefalse = Question.where("deleted = 'false' and question_type ='4'").count
-    @questionc_blank_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='3'").count
-    @questionc_blank_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='3'").count
+    @questions_blank_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='3'").count
+    @questions_blank_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='3'").count
     @total_questions_blank = Question.where("deleted = 'false' and question_type ='3'").count
-    @questionc_descriptive_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='2'").count
-    @questionc_descriptive_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='2'").count
+    @questions_descriptive_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' and question_type ='2'").count
+    @questions_descriptive_not_publish = Question.where("deleted = 'false' and workflow_state != 'accepted' and question_type ='2'").count
     @total_questions_descriptive = Question.where("deleted = 'false' and question_type ='2'").count
     @total_publish = Question.where("deleted = 'false' and workflow_state = 'accepted' ").count
     @total_not_publish = Question.where("deleted = 'false' and (workflow_state != 'accepted' or workflow_state is null)").count
