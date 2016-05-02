@@ -253,8 +253,18 @@
 
     dualListbox.elements.select2.find('option:selected').each(function(index, item) {
       var $item = $(item);
-      if (!$item.data('filtered2')) {
         changeSelectionState(dualListbox, $item.data('original-index'), false);
+          if (!$item.data('filtered2')) {
+              dualListbox.element.find('option').each(function(index, item) {
+//                  var $item = $(item);
+                  if ($item.val() == $(item).data("parentid")) {
+                      var $item1 = $(item);
+                      $item1.prop('selected', false);
+                      $item1.removeAttr('data-sortindex');
+                  }
+
+          });
+
       }
     });
 
