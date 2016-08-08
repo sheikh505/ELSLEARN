@@ -134,6 +134,7 @@ ExamsSystem::Application.routes.draw do
   get "how_it_works" => 'home_page#how_it_works'
   get "testimonials" => 'home_page#testimonials'
   get "home_page/assign_member_ship_plan" => "home_page#assign_member_ship_plan"
+  post "home_page/checkout" => "home_page#checkout"
 
   get "home_page/get_varients"
   get "home_page/get_backup"
