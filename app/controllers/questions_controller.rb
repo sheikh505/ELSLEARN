@@ -785,7 +785,7 @@ class QuestionsController < ApplicationController
       true_false = params[:true_false]
       descriptive = params[:descriptive]
       # temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
-      question_select = Question.includes(:past_paper_history).where("past_paper_histories.id is null and deleted = 'false' and workflow_state ='accepted' ")
+      question_select = Question.includes(:past_paper_history).where("deleted = 'false' and workflow_state ='accepted' ")
       # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
 
       temp = question_select.select{|x|  x.topic_ids.present? &&
