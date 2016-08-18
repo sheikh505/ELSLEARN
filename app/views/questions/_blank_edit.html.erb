@@ -9,6 +9,7 @@
     <div class="field">
       <%= label_tag :answer %>
       <%= text_field_tag :answer, @question.options.last.statement , :required => true  %>
+      <span style="font-size: small; color: #808080"> (answer1/answer2/answer3...)</span>
     </div>
 
     <div class="field">

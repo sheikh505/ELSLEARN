@@ -1,4 +1,4 @@
-<% if @courses.size == 0 %>
+<% if @courses.present? %>
     <%=select_tag "course",options_for_select(['select board and degree first'].map{|course| [course,""]}),class: 'select' %>
 <% else %>
     <select id="course" name="course" onchange="selectCourse(this.value)">

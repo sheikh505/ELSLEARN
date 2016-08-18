@@ -13,22 +13,22 @@
       <tr>
         <td>
           <% unless @course_linking.course_3.nil? %>
-              <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+              <%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select', :tabindex => 12 %>
           <% end %>
         </td>
         <td>
           <% unless @course_linking.course_2.nil? %>
-              <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+              <%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select', :tabindex => 13 %>
           <% end %>
         </td>
         <td>
           <% unless @course_linking.course_1.nil? %>
-              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+              <%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select', :tabindex => 14 %>
           <% end %>
         </td>
         <td>
           <% unless @course_linking.course_4.nil? %>
-              <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select' %>
+              <%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}),prompt: "select topic",class: 'topic_select', :tabindex => 15 %>
           <% end %>
         </td>
       </tr>
