@@ -83,17 +83,13 @@
         border-bottom: 1px solid #f1f1f3;
         padding: 10px 30px;
     }
-    .header_left .nav ul li a:hover{
-        color: #fff;
-        background: #0CA9E2;
-    }
     .mobil_btn {
-        background: none repeat scroll 0 0 #fff;
+        background: #fff;
         cursor: pointer;
         display: block !important;
-        float: left;
-        margin: 3px 10px 0;
-        padding: 9px 6px 11px;
+        float: right;
+        margin: 9px 10px 0;
+        padding: 9px 6px 6px;
         width: 32px;
     }
     .mobil_btn span {
@@ -102,6 +98,13 @@
         display: block;
         margin-bottom: 4px;
         padding: 1px 9px;
+    }
+    .header.header_h .header_holder .nav ul li a{
+        color: #999 !important;
+    }
+    .header.header_h .header_left .nav ul li a:hover{
+        color: #fff !important;
+        background: #0CA9E2;
     }
     .header,
     .sub_menu{
@@ -131,7 +134,7 @@
         margin: 0 8px 0 0;
     }
     .main_holder .box{
-        width: 46%;
+        width: 100%;
     }
     .user_profile_holder .user_profile_left ul li a{
         padding: 8px 5px;
@@ -246,6 +249,9 @@ Admin  Strat
         margin-left: 20px !important;
         width: 100% !important;
     }
+    .header_holder .nav ul li{
+        margin: 0 5px;
+    }
 }
 @media only screen and (max-width:800px){
     #page-content-wrapper h1{
@@ -331,7 +337,7 @@ Admin  Strat
         width: 120px;
     }
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 640px) {
     .header .admin-header-right{
         margin: 14px 0 0 6px !important;
     }
