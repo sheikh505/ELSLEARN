@@ -58,5 +58,6 @@ module ExamsSystem
     config.assets.initialize_on_precompile = false 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.1'
+    config.autoload_paths += %w(#{config.root}/app/models/ckeditor)
   end
 end
