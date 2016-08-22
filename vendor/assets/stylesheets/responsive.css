@@ -251,6 +251,19 @@ Admin  Strat
     #page-content-wrapper h1{
         font-size: 25px;
     }
+    .navbar.navbar-default.navbar-fixed-top .collapse{
+        display: block;
+        visibility: visible;
+    }
+    #quiz_container.modal_content .modal_left{
+        padding-left: 0;
+    }
+    .modal_content .modal_left .question_p_section > ul{
+        padding-left: 24px;
+    }
+    .modal_content .modal_left .question_p_section ul li a{
+        width: 100%;
+    }
     #wrapper{
         padding-left: 0;
     }
@@ -265,13 +278,16 @@ Admin  Strat
     }
     .header .admin-header-right{
         float: none;
-        margin: 0 0 0 17px  ;
+        margin: 14px 0 0 17px  ;
     }
     .admin-header{
         position: relative;
     }
     .admin-header .collapse.navbar-collapse{
-        float: left;
+        float: none;
+    }
+    #countdown{
+        top:10%;
     }
     .admin-header .mobil_btn{
         float: right;
@@ -309,16 +325,15 @@ Admin  Strat
     .header .navbar{
         padding: 4px !important;
     }
-    .header .admin-header-right{
-        margin: 0 0 0 6px !important;
-    }
+
     .header.admin-header .collapse.navbar-collapse img{
         margin: 0 !important;
+        width: 120px;
     }
 }
 @media only screen and (max-width: 480px) {
     .header .admin-header-right{
-        margin: 0 0 0 6px !important;
+        margin: 14px 0 0 6px !important;
     }
     .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
         display: block;
