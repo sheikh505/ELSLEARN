@@ -6,14 +6,14 @@
 <%= form_for :question, :url => questions_path, :html => {:multipart=> true,:id=>"form_id", :onsubmit => "return checkForm(this)"} do |f| %>
 
     <div class="field">
-      <br /><%= f.label :statement %>
-      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20" ></textarea>
+      <%= f.label :statement %>
+      <textarea id="textarea" class="textarea" ></textarea>
     </div>
 
     <div class="field">
-      <br /><%= check_box_tag :detail_answer_checkbox%><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
+      <%= check_box_tag :detail_answer_checkbox%><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
       <div id="tinymce-pre">
-        <textarea id="tinymce5"  name="tinymce5" rel="tinymce" rows="9" cols="20" ></textarea>
+        <textarea id="textarea1" class="textarea" ></textarea>
       </div>
       <!--%= f.text_area :description,value: "", size: '5x5' %-->
     </div>

@@ -1080,11 +1080,17 @@ class QuestionsController < ApplicationController
 
       if params[:from].present? && params[:from] == "view"
         if current_user.email == "proofreader1@els.com"
-          @question = Question.where("workflow_state = 'new' or workflow_state is null  and deleted = 'FALSE'").first
+          @question = Question.where("(workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'").first
         else
-          @question = Question.where("(workflow_state = 'new' or workflow_state is null) and author = ? and deleted = 'FALSE'", current_user.email).first
+          @question = Question.where(:author => User.select("email").where(:role=>current_user.id.to_s), :deleted => false, :workflow_state => ["new"]).first
         end
+        # if current_user.email == "proofreader1@els.com"
+        #   @question = Question.where("workflow_state = 'new' or workflow_state is null  and deleted = 'FALSE'").first
+        # else
+        #   @question = Question.where("(workflow_state = 'new' or workflow_state is null) and author = ? and deleted = 'FALSE'", current_user.email).first
+        # end
         # @question = Question.where("workflow_state = 'new' or workflow_state is null").first
+
         if @question
           redirect_to question_path(@question)
         else

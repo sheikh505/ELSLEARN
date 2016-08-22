@@ -50,6 +50,9 @@ GEM
       railties (>= 3.2)
     builder (3.0.4)
     cancan (1.6.10)
+    ckeditor (4.2.0)
+      cocaine
+      orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.8)
@@ -210,6 +213,7 @@ DEPENDENCIES
   aws-sdk (< 2.0)
   best_in_place (~> 3.0.1)
   cancan
+  ckeditor
   coffee-rails (~> 3.2.1)
   devise
   jquery-bootstrap-pagination

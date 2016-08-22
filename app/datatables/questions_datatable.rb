@@ -70,7 +70,7 @@ class QuestionsDatatable
     if @view.current_user.email == "proofreader1@els.com"
       questions = Question.where("(workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'").order("#{sort_helper}")
     else
-      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s), :deleted => false, :workflow_state => ["reviewed_by_proofreader", "accepted", "new"]).order("#{sort_helper}")
+      questions = Question.where(:author => User.select("email").where(:role=>@view.current_user.id.to_s), :deleted => false, :workflow_state => ["new"]).order("#{sort_helper}")
     end
 
     questions = questions.page(page).per_page(per_page)

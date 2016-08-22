@@ -27,7 +27,7 @@
 //= require main
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox
-//= require ckeditor/ckeditor
+//= require ckeditor/init
 //= require_tree .
 
 
