@@ -1,4 +1,6 @@
 ExamsSystem::Application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
+
   resources :topic_linkings do
     collection do
       post :get_course_link
@@ -69,6 +71,11 @@ ExamsSystem::Application.routes.draw do
     end
   end
 
+  resources :services do
+    collection do
+      post :sign_in
+    end
+  end
 
   resources :questions do
     collection do
@@ -196,6 +203,7 @@ ExamsSystem::Application.routes.draw do
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'
+  mount Ckeditor::Engine => "/ckeditor"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
