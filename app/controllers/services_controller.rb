@@ -7,6 +7,7 @@ class ServicesController < ApplicationController
     user = User.find_by_email(params[:user][:email])
     if user.present? && user.valid_password?(params[:user][:password])
         user.update_attributes(:device_token => params[:user][:token])
+        user.role = user.roles.first.name.downcase
         # data = {:auth_token => user.auth_token}
         render :json => {:success => "true", :user => user, :message => "User signed In"}
     else
