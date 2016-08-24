@@ -74,6 +74,10 @@ ExamsSystem::Application.routes.draw do
   resources :services do
     collection do
       post :sign_in
+      get :get_all_boards
+      get :get_all_degrees
+      get :is_questions_exits
+      get :is_test_exists
     end
   end
 
