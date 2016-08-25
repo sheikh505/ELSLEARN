@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
-  before_filter :check_session, :except => [:sign_in]
+  before_filter :check_session, :except => [:sign_in, :get_lookup_data]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -13,6 +13,13 @@ class ServicesController < ApplicationController
     else
       render :json => {:success => "false", :message => "Invalid Email Or Password."}
     end
+  end
+
+  def get_lookup_data
+    boards = Board.all
+    degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id")
+    courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
+    render :json => {:success => "true", :boards => boards, :degrees => degrees, :courses => courses}
   end
 
   def get_all_boards
@@ -34,7 +41,7 @@ class ServicesController < ApplicationController
   end
 
   #get methods
-  def questions_exits
+  def is_questions_exits
     year = params["year"]
     session = params[:session]
     board_id = params[:board_id]
@@ -124,7 +131,7 @@ class ServicesController < ApplicationController
     end
   end
 
-  def test_exists
+  def is_test_exists
     test_code = params["test_code"]
     if (Quiz.find_by_test_code(test_code).present?)
       render :json => {:success => true}

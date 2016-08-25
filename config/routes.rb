@@ -77,6 +77,7 @@ ExamsSystem::Application.routes.draw do
       get :get_all_boards
       get :get_all_degrees
       get :is_questions_exits
+      get :get_lookup_data
       get :is_test_exists
     end
   end
