@@ -19,7 +19,33 @@ class ServicesController < ApplicationController
     boards = Board.all
     degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id")
     courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
-    render :json => {:success => "true", :boards => boards, :degrees => degrees, :courses => courses}
+    question_ids = []
+    past_papers = PastPaperHistory.all
+    sessions = []
+    past_papers.uniq{|x| x.session}.each do |uniqueItems|
+      sessions << uniqueItems.session
+    end
+    years = []
+    past_papers.uniq{|x| x.year}.each do |uniqueItems|
+      years << uniqueItems.year
+    end
+
+    past_papers.each do |paper|
+      question_ids << paper.question_id
+    end
+    all_questions_with_fetched_ids = Question.find_all_by_id(question_ids)
+    variants = []
+    all_questions_with_fetched_ids.each do |question_varient|
+      variants << question_varient.varient
+    end
+    variants.compact!
+    variants = variants.reject { |c| c.empty? }
+    variants.uniq!
+    # years = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
+    # sessions = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
+    # variants = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
+    render :json => {:success => "true", :boards => boards, :degrees => degrees, :courses => courses, :sessions => sessions,
+                                         :variants => variants, :years => years }
   end
 
   def get_all_boards
