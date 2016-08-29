@@ -192,9 +192,9 @@ class ServicesController < ApplicationController
   def check_session
     if params[:auth_token].present?
       @user = User.find_by_device_token(params[:auth_token])
-      render :json => {:success => "false", :errors => "authentication failed"} unless @user.present?
+      render :json => {:success => false, :errors => "authentication failed"} unless @user.present?
     else
-      render :json => {:success => "false", :errors => "authentication failed"}
+      render :json => {:success => false, :errors => "authentication failed"}
     end
   end
 
