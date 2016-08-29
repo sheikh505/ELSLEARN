@@ -124,7 +124,7 @@
       <% unless @course_linking.course_3.nil? %>
           <!--<b>Degrees:</b>-->
           <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
-              <label><%=check_box_tag "degree1[]",f.degree_id %>Publish</label>
+              <label id="degree3"><%=check_box_tag "degree1[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
@@ -139,7 +139,7 @@
       <% unless @course_linking.course_2.nil? %>
           <!--<b>Degrees:</b>-->
           <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
-              <label><%=check_box_tag "degree2[]",f.degree_id %>Publish</label>
+              <label id="degree2"><%=check_box_tag "degree2[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
@@ -154,7 +154,7 @@
       <% unless @course_linking.course_1.nil? %>
           <!--<b>Degrees:</b>-->
           <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
-              <label><%=check_box_tag "degree3[]",f.degree_id %>Publish</label>
+              <label id="degree1"><%=check_box_tag "degree3[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
@@ -169,7 +169,7 @@
       <% unless @course_linking.course_4.nil? %>
           <!--<b>Degrees:</b>-->
           <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
-              <label><%=check_box_tag "degree4[]",f.degree_id %>Publish</label>
+              <label id="degree4"><%=check_box_tag "degree4[]",f.degree_id %>Publish</label>
           <% end %>
 
           <!--<br /><b>Boards:</b>-->
@@ -182,7 +182,7 @@
 
   </tr>
 
-  <tr>
+  <!--tr>
     <td>
       <h5 class="labelquestions">Difficulty</h5>
       <%=radio_button_tag "difficulty1[]",1,1 %>EASY
@@ -217,7 +217,7 @@
 
     <%#= hidden_field_tag :question_id,@question.id %>
 
-  </tr>
+  </tr-->
 
 
 
@@ -264,5 +264,6 @@
         $("#topics_count_2").text("(" + topics_2 + ")")
         $("#topics_count_3").text("(" + topics_3 + ")")
         $("#topics_count_4").text("(" + topics_4 + ")")
+
     });
 </script>

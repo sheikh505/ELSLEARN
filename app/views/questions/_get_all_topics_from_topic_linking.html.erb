@@ -56,7 +56,7 @@
 
         <td>
           <% unless @course_linking.course_3.nil? %>
-              <!--<%= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_3),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%#= select_tag "topic_linking[topic_3]",options_for_select(@topics_3.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_3),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_3]" id="topic_linking_topic_3" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_3.each do |x| %>
@@ -71,7 +71,7 @@
         </td>
         <td>
           <% unless @course_linking.course_2.nil? %>
-              <!--<%= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_2),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%#= select_tag "topic_linking[topic_2]",options_for_select(@topics_2.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_2),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_2]" id="topic_linking_topic_2" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_2.each do |x| %>
@@ -87,7 +87,7 @@
 
         <td>
           <% unless @course_linking.course_1.nil? %>
-              <!--<%= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_1),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%#= select_tag "topic_linking[topic_1]",options_for_select(@topics_1.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_1),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_1]" id="topic_linking_topic_1" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_1.each do |x| %>
@@ -102,7 +102,7 @@
         </td>
         <td>
           <% unless @course_linking.course_4.nil? %>
-              <!--<%= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_4),prompt: "select topic",class: 'topic_select' %>-->
+              <!--<%#= select_tag "topic_linking[topic_4]",options_for_select(@topics_4.map{|x| [x.name,x.id]}, :selected => @topic_linking_array.first.topic_4),prompt: "select topic",class: 'topic_select' %>-->
               <select name="topic_linking[topic_4]" id="topic_linking_topic_4" class="topic_select">
                 <option value="">select topic</option>
                 <%@topics_4.each do |x| %>
@@ -127,7 +127,7 @@
           <% unless @course_linking.course_3.nil? %>
               <!--<b>Degrees:</b>-->
               <% Course.find_by_name(get_course_name_tab(@course_linking.course_3)).board_degree_assignments.each do |f| %>
-                  <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
+                  <label id="degree3"><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
               <% end %>
 
               <!--<br /><b>Boards:</b>-->
@@ -142,7 +142,7 @@
           <% unless @course_linking.course_2.nil? %>
               <!--<b>Degrees:</b>-->
               <% Course.find_by_name(get_course_name_tab(@course_linking.course_2)).board_degree_assignments.each do |f| %>
-                  <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
+                  <label id="degree2"><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
               <% end %>
 
               <!--<br /><b>Boards:</b>-->
@@ -157,7 +157,7 @@
           <% unless @course_linking.course_1.nil? %>
               <!--<b>Degrees:</b>-->
               <% Course.find_by_name(get_course_name_tab(@course_linking.course_1)).board_degree_assignments.each do |f| %>
-                  <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
+                  <label id="degree1"><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
               <% end %>
 
               <!--<br /><b>Boards:</b>-->
@@ -172,7 +172,7 @@
           <% unless @course_linking.course_4.nil? %>
               <!--<b>Degrees:</b>-->
               <% Course.find_by_name(get_course_name_tab(@course_linking.course_4)).board_degree_assignments.each do |f| %>
-                  <label><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
+                  <label id="degree4"><%=check_box_tag "degree[]",f.degree_id %>Publish</label>
               <% end %>
 
               <!--<br /><b>Boards:</b>-->
@@ -185,7 +185,7 @@
 
       </tr>
 
-      <tr>
+      <!--tr>
         <td>
           <h5 class="labelquestions">Difficulty</h5>
           <%=radio_button_tag "difficulty1[]",1,1 %>EASY
@@ -220,7 +220,7 @@
 
         <%#= hidden_field_tag :question_id,@question.id %>
 
-      </tr>
+      </tr-->
 
 
 
@@ -258,6 +258,7 @@
     });
 
     $(document).ready(function(){
+        $("select").select2();
         var topics_1 = $("#topic_linking_topic_1 option").size()-1
         var topics_2 = $("#topic_linking_topic_2 option").size()-1
         var topics_3 = $("#topic_linking_topic_3 option").size()-1
@@ -267,39 +268,133 @@
         $("#topics_count_3").text("(" + topics_3 + ")")
         $("#topics_count_4").text("(" + topics_4 + ")")
 
-        $("#topic_linking_topic_1").val(<%= @topic_linking_array.first.topic_1 %>);
-        $("#topic_linking_topic_2").val(<%= @topic_linking_array.first.topic_2 %>);
-        $("#topic_linking_topic_3").val(<%= @topic_linking_array.first.topic_3 %>);
-        $("#topic_linking_topic_4").val(<%= @topic_linking_array.first.topic_4 %>);
+        <% if @topic_linking_array.present? %>
+            $("#topic_linking_topic_1").val(<%= @topic_linking_array.first.topic_1 %>);
+            $("#topic_linking_topic_2").val(<%= @topic_linking_array.first.topic_2 %>);
+            $("#topic_linking_topic_3").val(<%= @topic_linking_array.first.topic_3 %>);
+            $("#topic_linking_topic_4").val(<%= @topic_linking_array.first.topic_4 %>);
+        <% else %>
+            $("#topic_linking_topic_1").val($("#topic_linking_topic_1 option:first").val());
+            $("#topic_linking_topic_2").val($("#topic_linking_topic_2 option:first").val());
+            $("#topic_linking_topic_3").val($("#topic_linking_topic_3 option:first").val());
+            $("#topic_linking_topic_4").val($("#topic_linking_topic_4 option:first").val());
+        <% end %>
 
+        if ($("#topic_linking_topic_1 option:selected").val() != "")
+        {
+            $("#degree1 input[type=checkbox]").prop("checked", true);
+        }
+        else
+        {
+            $("#degree1 input[type=checkbox]").prop("checked", false);
+        }
+
+        if ($("#topic_linking_topic_2 option:selected").val() != "")
+        {
+            $("#degree2 input[type=checkbox]").prop("checked", true);
+        }
+        else
+        {
+            $("#degree2 input[type=checkbox]").prop("checked", false);
+        }
+
+        if ($("#topic_linking_topic_3 option:selected").val() != "")
+        {
+            $("#degree3 input[type=checkbox]").prop("checked", true);
+        }
+        else
+        {
+            $("#degree3 input[type=checkbox]").prop("checked", false);
+        }
+
+        if ($("#topic_linking_topic_4 option:selected").val() != "")
+        {
+            $("#degree4 input[type=checkbox]").prop("checked", true);
+        }
+        else
+        {
+            $("#degree4 input[type=checkbox]").prop("checked", false);
+        }
+
+        $("#topic_linking_topic_1").on("change", function(){
+            if ($("#topic_linking_topic_1 option:selected").val() != "") {
+                $("#degree1 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree1 input[type=checkbox]").prop("checked", false);
+            }
+        });
+        $("#topic_linking_topic_2").on("change", function(){
+            if ($("#topic_linking_topic_2 option:selected").val() != "") {
+                $("#degree2 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree2 input[type=checkbox]").prop("checked", false);
+            }
+        });
+        $("#topic_linking_topic_4").on("change", function(){
+            if ($("#topic_linking_topic_4 option:selected").val() != "") {
+                $("#degree4 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree4 input[type=checkbox]").prop("checked", false);
+            }
+        });
         $("#topic_linking_topic_3").on("change", function(){
             topic_id = this.value;
 //            alert(topic_id);
-
-            if (topic_id == ""){
-                $("#topic_linking_topic_2").val("");
-                $("#topic_linking_topic_1").val("");
-                $("#topic_linking_topic_4").val("");
-                return false;
-            }
-            else{
-                $.ajax({
-                    url: '/questions/get_all_topics_from_topic_linking',
-                    type: 'get',
+            if ($("#topicAssociation").prop("checked") ) {
+                if (topic_id == "") {
+                    $("#topic_linking_topic_2").val("");
+                    $("#topic_linking_topic_1").val("");
+                    $("#topic_linking_topic_4").val("");
+                    $.ajax({
+                        url: '/questions/get_all_topics_from_topic_linking',
+                        type: 'get',
 //                    data: "topic_id="+topic_id+"&course_linking_id="+<%#= @question.course_linking_id %>,
-                    data: "topic_id="+topic_id+"&question_id="+<%= @question %>,
-                    async: false,
-                    success:function(data){
+                        data: "topic_id=0&question_id=" +<%= @question %>,
+                        async: false,
+                        success: function (data) {
 //                    alert("topic_id se TopicLinking wala ajax success function");
-                        $("#topic_table_container").html(data);
+                            $("#topic_table_container").html(data);
 
-                    },
-                    error:function(){
+                        },
+                        error: function () {
 //                                alert("topic_id se TopicLinking wala ajax error function");
-                    }
-                });
-            }
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/questions/get_all_topics_from_topic_linking',
+                        type: 'get',
+//                    data: "topic_id="+topic_id+"&course_linking_id="+<%#= @question.course_linking_id %>,
+                        data: "topic_id=" + topic_id + "&question_id=" +<%= @question %>,
+                        async: false,
+                        success: function (data) {
+//                    alert("topic_id se TopicLinking wala ajax success function");
+                            $("#topic_table_container").html(data);
 
+                        },
+                        error: function () {
+//                                alert("topic_id se TopicLinking wala ajax error function");
+                        }
+                    });
+                }
+            }
+            else
+            {
+                if ($("#topic_linking_topic_3 option:selected").val() != "") {
+                    $("#degree3 input[type=checkbox]").prop("checked", true);
+                }
+                else
+                {
+                    $("#degree3 input[type=checkbox]").prop("checked", false);
+                }
+            }
         });
     });
 //

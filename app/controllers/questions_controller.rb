@@ -1267,32 +1267,62 @@ class QuestionsController < ApplicationController
       @question = params[:question_id].to_i
       @course_linking_id = Question.find(@question).course_linking_id
       @course_linking = CourseLinking.find(@course_linking_id)
-      @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id])
-      if @course_linking.nil?
-        @flag = false
-      else
-        arr = []
-        @topic_linking_array.each do |topic|
-          arr << topic.topic_1 unless topic.topic_1.nil?
-          arr << topic.topic_2 unless topic.topic_2.nil?
-          arr << topic.topic_3 unless topic.topic_3.nil?
-          arr << topic.topic_4 unless topic.topic_4.nil?
-        end
-        arr.uniq!
-        if arr.blank?
-          @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
-          @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
-          @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
-          @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
-        else
-          @topics_1 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_1)
-          @topics_2 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_2)
-          @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
-          @topics_4 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_4)
-        end
 
-        @flag = true
+      if (params[:topic_id].to_i != 0)
+        @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id])
+        if @course_linking.nil?
+          @flag = false
+        else
+          arr = []
+          @topic_linking_array.each do |topic|
+            arr << topic.topic_1 unless topic.topic_1.nil?
+            arr << topic.topic_2 unless topic.topic_2.nil?
+            arr << topic.topic_3 unless topic.topic_3.nil?
+            arr << topic.topic_4 unless topic.topic_4.nil?
+          end
+          arr.uniq!
+          if arr.blank?
+            @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
+            @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
+            @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+            @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
+          else
+            @topics_1 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_1)
+            @topics_2 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_2)
+            @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+            @topics_4 = Topic.where("course_id = ? AND id IN (#{arr.join(",")})",@course_linking.course_4)
+          end
+
+          @flag = true
+        end
+      else
+        if @course_linking.nil?
+          @flag = false
+        else
+          arr = []
+          TopicLinking.all.each do |topic|
+            arr << topic.topic_1 unless topic.topic_1.nil?
+            arr << topic.topic_2 unless topic.topic_2.nil?
+            arr << topic.topic_3 unless topic.topic_3.nil?
+            arr << topic.topic_4 unless topic.topic_4.nil?
+          end
+          arr.uniq!
+          if arr.blank?
+            @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
+            @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
+            @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+            @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
+          else
+            @topics_1 = Topic.where("course_id = ?",@course_linking.course_1)
+            @topics_2 = Topic.where("course_id = ?",@course_linking.course_2)
+            @topics_3 = Topic.where("course_id = ?",@course_linking.course_3)
+            @topics_4 = Topic.where("course_id = ?",@course_linking.course_4)
+          end
+
+          @flag = true
+        end
       end
+
       format.html { render :partial => "get_all_topics_from_topic_linking" }
     end
   end

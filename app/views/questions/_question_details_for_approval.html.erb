@@ -3,7 +3,9 @@
 
 
       <div class="course_link_cont">
-        <h3>Topic Association</h3>
+        <h3>Topic Association
+        <span style="float: right; font-size: small"><input id="topicAssociation" type="checkbox" checked />Enable Topic Linking</span>
+        </h3>
         <div id="topic_table_container" class="course_link_container listing-holder">
         </div>
       </div>
@@ -50,33 +52,72 @@
 
     $(document).ready(function(){
 
+        $("select").select2();
+        $("#topic_linking_topic_1").on("change", function(){
+            if ($("#topic_linking_topic_1 option:selected").val() != "") {
+                $("#degree1 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree1 input[type=checkbox]").prop("checked", false);
+            }
+        });
+        $("#topic_linking_topic_2").on("change", function(){
+            if ($("#topic_linking_topic_2 option:selected").val() != "") {
+                $("#degree2 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree2 input[type=checkbox]").prop("checked", false);
+            }
+        });
+        $("#topic_linking_topic_4").on("change", function(){
+            if ($("#topic_linking_topic_4 option:selected").val() != "") {
+                $("#degree4 input[type=checkbox]").prop("checked", true);
+            }
+            else
+            {
+                $("#degree4 input[type=checkbox]").prop("checked", false);
+            }
+        });
         $("#topic_linking_topic_3").on("change", function(){
             topic_id = this.value;
 //            alert(topic_id);
 
-            if (topic_id == ""){
-                $("#topic_linking_topic_2").val("");
-                $("#topic_linking_topic_1").val("");
-                $("#topic_linking_topic_4").val("");
-                return false;
-            }
-            else{
-                $.ajax({
-                    url: '/questions/get_all_topics_from_topic_linking',
-                    type: 'get',
-                    data: "topic_id="+topic_id+"&question_id="+<%= @question.id%>,
-                    async: false,
-                    success:function(data){
+            if ($("#topicAssociation").prop("checked") ) {
+                if (topic_id == "") {
+                    $("#topic_linking_topic_2").val("");
+                    $("#topic_linking_topic_1").val("");
+                    $("#topic_linking_topic_4").val("");
+                    return false;
+                }
+                else {
+                    $.ajax({
+                        url: '/questions/get_all_topics_from_topic_linking',
+                        type: 'get',
+                        data: "topic_id=" + topic_id + "&question_id=" +<%= @question.id%>,
+                        async: false,
+                        success: function (data) {
 //                    alert("topic_id se TopicLinking wala ajax success function");
-                        $("#topic_table_container").html(data);
+                            $("#topic_table_container").html(data);
 
-                    },
-                    error:function(){
+                        },
+                        error: function () {
 //                                alert("topic_id se TopicLinking wala ajax error function");
-                    }
-                });
+                        }
+                    });
+                }
             }
-
+            else
+            {
+                if ($("#topic_linking_topic_3 option:selected").val() != "") {
+                    $("#degree3 input[type=checkbox]").prop("checked", true);
+                }
+                else
+                {
+                    $("#degree3 input[type=checkbox]").prop("checked", false);
+                }
+            }
         });
     });
 
