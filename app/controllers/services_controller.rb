@@ -159,8 +159,21 @@ class ServicesController < ApplicationController
 
   def is_test_exists
     test_code = params["test_code"]
-    if (Quiz.find_by_test_code(test_code).present?)
+    quiz = Quiz.find_by_test_code(test_code).first
+    if (quiz.present? && quiz.question_ids.present? )
       render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
+  end
+
+  def get_questions_by_test_code
+    test_code =  params[:test_code]
+    quiz = Quiz.find_by_test_code(test_code)
+    if quiz.present? && quiz.question_ids.present?
+      question_ids = quiz.question_ids
+      questions = Question.find(question_ids.split(','))
+      render :json => {:success => true, :questions => questions}
     else
       render :json => {:success => false}
     end
