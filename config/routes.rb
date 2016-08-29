@@ -79,6 +79,7 @@ ExamsSystem::Application.routes.draw do
       get :is_questions_exits
       get :get_lookup_data
       get :is_test_exists
+      get :get_questions_by_test_code
     end
   end
 
