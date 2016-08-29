@@ -173,7 +173,23 @@ class ServicesController < ApplicationController
     if quiz.present? && quiz.question_ids.present?
       question_ids = quiz.question_ids
       questions = Question.find(question_ids.split(','))
-      render :json => {:success => true, :questions => questions}
+
+      @questionlist = questions.map do |u|
+        { :id=> u.id, :statement => u.statement, :type => u.question_type, :options => u.options }
+      end
+
+      render :json => {:success => true, :questions => @questionlist}
+    else
+      render :json => {:success => false}
+    end
+  end
+
+  def get_options_by_question_id
+    question_id =  params[:question_id]
+    question = Question.find(question_id)
+    if question.present?
+      options = question.options
+      render :json => {:success => true, :options => options}
     else
       render :json => {:success => false}
     end
