@@ -175,7 +175,11 @@ class ServicesController < ApplicationController
       questions = Question.find(question_ids.split(','))
 
       @questionlist = questions.map do |u|
-        { :id=> u.id, :statement => u.statement, :type => u.question_type, :options => u.options }
+        { :id=> u.id, :statement => u.statement, :type => u.question_type,
+          :options =>  u.options.map do |o|
+            {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement, :is_answer => o.is_answer}
+          end
+        }
       end
 
       render :json => {:success => true, :questions => @questionlist}
