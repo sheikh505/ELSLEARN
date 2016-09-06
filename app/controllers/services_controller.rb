@@ -199,6 +199,30 @@ class ServicesController < ApplicationController
     end
   end
 
+  def verify_answers
+    puts "===========================>", params.inspect
+    render :json => {:success => true, :result => 50, :total => 100}
+    answers = params[:answer]
+    answers.each do |answer|
+      questionId = answer[:questionId]
+      questionType = answer[:questionType]
+      optionId = answer[:optionId]
+      answer = answer[:answer]
+      trueFalse = answer[:trueFalse]
+      case (questionType)
+        when 1
+          puts "=================>", questionType.inspect
+        else
+          puts "=================>else", questionType.inspect
+      end
+    end
+    # questionId;
+    # public int questionType;
+    # public int optionId;
+    # public String answer;
+    # public boolean trueFalse;
+  end
+
   def get_all_degrees
     degrees = Degree.all
     if boards.present?

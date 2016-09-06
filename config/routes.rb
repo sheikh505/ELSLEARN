@@ -80,6 +80,8 @@ ExamsSystem::Application.routes.draw do
       get :get_lookup_data
       get :is_test_exists
       get :get_questions_by_test_code
+      get :get_options_by_question_id
+      get :verify_answers
     end
   end
 
@@ -96,6 +98,8 @@ ExamsSystem::Application.routes.draw do
       get :demo
       get :questions_approval
       get :approve_question
+      get :next_question
+      get :previous_question
       post :approve_by_teacher
       post :past_paper_history_param
       get :past_paper_history_param_edit
