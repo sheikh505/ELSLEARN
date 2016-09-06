@@ -177,7 +177,7 @@ class ServicesController < ApplicationController
       @questionlist = questions.map do |u|
         { :id=> u.id, :statement => u.statement, :type => u.question_type,
           :options =>  u.options.map do |o|
-            {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "", :is_answer => o.is_answer}
+            {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "NNNN", :is_answer => o.is_answer}
           end
         }
       end
@@ -300,20 +300,20 @@ class ServicesController < ApplicationController
   def verify_answers
     puts "===========================>", params.inspect
     render :json => {:success => true, :result => 50, :total => 100}
-    answers = params[:answer]
-    answers.each do |answer|
-      questionId = answer[:questionId]
-      questionType = answer[:questionType]
-      optionId = answer[:optionId]
-      answer = answer[:answer]
-      trueFalse = answer[:trueFalse]
-      case (questionType)
-        when 1
-          puts "=================>", questionType.inspect
-        else
-          puts "=================>else", questionType.inspect
-      end
-    end
+    # answers = params[:answer]
+    # answers.each do |answer|
+    #   questionId = answer[:questionId]
+    #   questionType = answer[:questionType]
+    #   optionId = answer[:optionId]
+    #   answer = answer[:answer]
+    #   trueFalse = answer[:trueFalse]
+    #   case (questionType)
+    #     when 1
+    #       puts "=================>", questionType.inspect
+    #     else
+    #       puts "=================>else", questionType.inspect
+    #   end
+    # end
     # questionId;
     # public int questionType;
     # public int optionId;
