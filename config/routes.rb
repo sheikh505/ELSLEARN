@@ -76,7 +76,8 @@ ExamsSystem::Application.routes.draw do
       post :sign_in
       get :get_all_boards
       get :get_all_degrees
-      get :is_questions_exits
+      get :is_questions_exists
+      get :fetch_questions
       get :get_lookup_data
       get :is_test_exists
       get :get_questions_by_test_code
