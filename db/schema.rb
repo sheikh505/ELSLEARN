@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160204115914) do
+ActiveRecord::Schema.define(:version => 20160823153510) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -148,14 +148,15 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
   create_table "question_histories", :force => true do |t|
     t.integer  "user_id"
     t.integer  "question_id"
+    t.integer  "board_id"
+    t.integer  "degree_id"
     t.integer  "difficulty"
     t.integer  "topic_id"
     t.boolean  "is_approved"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "topic_ids"
-    t.string   "board_ids"
-    t.string   "degree_ids"
+    t.string   "difficulty_str"
   end
 
   create_table "questions", :force => true do |t|
@@ -271,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "year"
     t.string   "session"
     t.integer  "course_id"
+    t.text     "topic_ids"
   end
 
   create_table "users", :force => true do |t|
@@ -303,6 +305,8 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "membership_plan_id"
     t.string   "teacher_token"
     t.boolean  "free_plan_flag"
+    t.string   "device_token"
+    t.string   "test_permission_ids"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

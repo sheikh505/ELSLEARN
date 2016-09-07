@@ -68,7 +68,7 @@ class TopicsController < ApplicationController
 
   def destroy
     check = Topic.where(parent_topic_id: @topic.id)
-    if (check.empty?)
+    if check.empty?
       @topic.destroy
       respond_with(@topic)
     else
