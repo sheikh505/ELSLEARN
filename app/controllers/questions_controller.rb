@@ -1102,6 +1102,97 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def next_question
+
+    question_id = Question.find(params[:ques_id])
+
+    if params[:from].present? && params[:from] == "view"
+      if current_user.is_admin?
+        questions = Question.where("id < ? AND deleted = 'FALSE'", question_id)
+      elsif current_user.is_operator?
+        questions = Question.where("id < ? AND author = ? and (workflow_state IN ('', 'new')) AND deleted = 'FALSE'", question_id, current_user.email)
+      elsif current_user.is_proofreader?
+        if current_user.email == "proofreader1@els.com"
+          questions = Question.where("id < ? AND (workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'", question_id)
+        else
+          questions = Question.where(:author => User.select("email").where(:role=> current_user.id.to_s), :deleted => false, :workflow_state => ["new"]).order("#{sort_helper}")
+        end
+      elsif current_user.is_teacher?
+        if @teacher_self_flag == '1' # teacher's questions only
+          if current_user.teacher_courses.present?
+            course_list = current_user.teacher_courses
+            course_ids = []
+            course_list.each do |course|
+              course_ids << course.course_id
+            end
+            questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+                joins(:topic => :course).
+                where("author = ? AND course_id IN (?) AND deleted = 'FALSE'", current_user.email,course_ids)
+          else
+            questions = Question.where(:id => 0)
+          end
+        else                      # all un approved questions only
+          if current_user.teacher_courses.present?
+            course_list = current_user.teacher_courses
+            course_ids = []
+            course_list.each do |course|
+              course_ids << course.course_id
+            end
+            questions = Question.select("questions.*").
+                joins(:course_linking).
+                where("(author != ? AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                        questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)) AND deleted = 'FALSE'",
+                      current_user.email,course_ids, course_ids, course_ids, course_ids, current_user.id)
+          else
+            questions = Question.where(:id => 0)
+          end
+        end
+      elsif current_user.is_hod?
+        if current_user.teacher_courses.present?
+          course_list = current_user.teacher_courses
+          course_ids = []
+          course_list.each do |course|
+            course_ids << course.course_id
+          end
+          questions = Question.select("questions.*")
+          .joins(:course_linking).
+              where("questions.id < ?  AND (course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))
+                  AND workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher', 'pending_for_hod_approval') AND deleted = 'FALSE'",
+                    question_id, course_ids, course_ids, course_ids, course_ids)
+        else
+          questions = Question.where(:id => 0)
+        end
+      end
+      puts "=================================>", @questions.inspect
+      @question = questions.where("questions.id < ? AND deleted = 'FALSE'", question_id).first
+
+      if @question
+        redirect_to question_path(@question)
+      else
+        redirect_to questions_approval_questions_path
+      end
+    else
+      render :json => {:success => true}
+    end
+  end
+
+  def previous_question
+
+    question_id = Question.find(params[:ques_id])
+
+    if params[:from].present? && params[:from] == "view"
+      @question = Question.where("id > ? AND deleted = 'FALSE'", question_id).first
+
+      if @question
+        redirect_to question_path(@question)
+      else
+        redirect_to questions_approval_questions_path
+      end
+    else
+      render :json => {:success => true}
+    end
+  end
+
   def reject_question
 
 

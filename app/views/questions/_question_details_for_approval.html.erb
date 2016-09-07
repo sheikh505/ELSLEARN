@@ -25,9 +25,11 @@
 
     </div>
     <div class="btn_holder_post">
+      <%= link_to 'Next', next_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
       <%= f.submit 'Approve & Move to next', :id => "approve", :class=> 'btn btn-large btn-inverse' %>
       <%= f.submit 'Reject & Move to next', :id => "reject", :class=> 'btn btn-large btn-inverse' %>
       <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
+      <%= link_to 'Previous', previous_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
 
     </div>
 <% end %>
