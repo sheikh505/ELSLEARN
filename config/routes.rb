@@ -1,4 +1,6 @@
 ExamsSystem::Application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
+
   resources :topic_linkings do
     collection do
       post :get_course_link

@@ -48,7 +48,7 @@ gem 'sinatra'
 gem 'twocheckout'
 
 gem 'test-unit'
-gem "ckeditor"
+gem 'ckeditor'
 #gem 'turbolinks'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

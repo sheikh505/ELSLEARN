@@ -1424,6 +1424,7 @@ class QuestionsController < ApplicationController
 
       if params[:topic_id].to_i != 0
         @topic_linking_array = TopicLinking.where("topic_1 = ? OR topic_2 = ? OR topic_3 = ? OR topic_4 = ?",params[:topic_id],params[:topic_id],params[:topic_id],params[:topic_id])
+        @topic_id = params[:topic_id].to_i unless @topic_linking_array.present?
         if @course_linking.nil?
           @flag = false
         else

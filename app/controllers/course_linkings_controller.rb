@@ -27,25 +27,25 @@ class CourseLinkingsController < ApplicationController
     arr.uniq!
 
 
-    ##################### GCE IGCSE ###################################
+    ##################### GCE IGCSE ########################
     @courses_gce_igcse = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("IGCSE").id)
     if !@courses_gce_igcse.nil?
       @courses_gce_igcse = @courses_gce_igcse.first
       @courses_gce_igcse = @courses_gce_igcse.courses.blank? ? [] : @courses_gce_igcse.courses
     end
 
-    ##################### GCE O Levels ###################################
+    ##################### GCE O Levels #####################
 
     @courses_gce_o_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("O LEVEL").id)
     @courses_gce_o_level = @courses_gce_o_level.first
     @courses_gce_o_level = @courses_gce_o_level.courses.blank? ? [] : @courses_gce_o_level.courses
 
-    ##################### GCE A Levels ###################################
+    ##################### GCE A Levels #####################
 
     @courses_gce_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("GCE - A & AS LEVEL").id)
     @courses_gce_a_level = @courses_gce_a_level.first
     @courses_gce_a_level = @courses_gce_a_level.courses.blank? ? [] : @courses_gce_a_level.courses
-    ##################### GCE A Levels ###################################
+    ##################### GCE A Levels #####################
 
     @courses_edexcel_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("EDEXCEL").id,Degree.find_by_name("EDEXCEL - A & AS LEVEL").id)
     @courses_edexcel_a_level = @courses_edexcel_a_level.first
@@ -74,23 +74,23 @@ class CourseLinkingsController < ApplicationController
     end
     arr.uniq!
 
-    ##################### GCE IGCSE ###################################
+    ##################### GCE IGCSE ########################
     @courses_gce_igcse = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("IGCSE").id)
     @courses_gce_igcse = @courses_gce_igcse.first
     @courses_gce_igcse = @courses_gce_igcse.courses.blank? ? [] : @courses_gce_igcse.courses
 
-    ##################### GCE O Levels ###################################
+    ##################### GCE O Levels #####################
 
     @courses_gce_o_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("O LEVEL").id)
     @courses_gce_o_level = @courses_gce_o_level.first
     @courses_gce_o_level = @courses_gce_o_level.courses.blank? ? [] : @courses_gce_o_level.courses
 
-    ##################### GCE A Levels ###################################
+    ##################### GCE A Levels #####################
 
     @courses_gce_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("GCE").id,Degree.find_by_name("GCE - A & AS LEVEL").id)
     @courses_gce_a_level = @courses_gce_a_level.first
     @courses_gce_a_level = @courses_gce_a_level.courses.blank? ? [] : @courses_gce_a_level.courses
-    ##################### GCE A Levels ###################################
+    ##################### GCE A Levels #####################
 
     @courses_edexcel_a_level = BoardDegreeAssignment.where("board_id = ? AND degree_id = ?",Board.find_by_name("EDEXCEL").id,Degree.find_by_name("EDEXCEL - A & AS LEVEL").id)
     @courses_edexcel_a_level = @courses_edexcel_a_level.first
