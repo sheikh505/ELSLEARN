@@ -22,12 +22,12 @@
 //= require dataTables/jquery.dataTables
 //= require jquery.inview.min
 //= require select
-//= require ckeditor/init
 //= require jquery.steps.min
 //= require highstock
 //= require main
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox
+//= require ckeditor/init
 //= require_tree .
 
 
