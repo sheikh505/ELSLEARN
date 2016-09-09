@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160204115914) do
+ActiveRecord::Schema.define(:version => 20160909193850) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -55,8 +55,6 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.string   "name"
     t.string   "price"
     t.string   "description"
-    t.integer  "degree_id"
-    t.integer  "course_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.string   "avatar_file_name"
@@ -64,7 +62,26 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "author"
+    t.integer  "course_id"
+    t.integer  "degree_id"
   end
+
+  create_table "ckeditor_assets", :force => true do |t|
+    t.string   "data_file_name",                  :null => false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.string   "data_fingerprint"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    :limit => 30
+    t.string   "type",              :limit => 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
+  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
 
   create_table "course_linkings", :force => true do |t|
     t.integer  "course_1"
@@ -143,19 +160,21 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "question_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "course_id"
   end
 
   create_table "question_histories", :force => true do |t|
     t.integer  "user_id"
     t.integer  "question_id"
+    t.string   "board_ids"
+    t.string   "degree_ids"
     t.integer  "difficulty"
     t.integer  "topic_id"
     t.boolean  "is_approved"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "topic_ids"
-    t.string   "board_ids"
-    t.string   "degree_ids"
+    t.string   "difficulty_str"
   end
 
   create_table "questions", :force => true do |t|
@@ -176,6 +195,9 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.string   "comments"
     t.integer  "course_linking_id"
     t.string   "varient"
+    t.string   "topic_ids"
+    t.string   "difficulty_ids"
+    t.string   "degree_ids"
   end
 
   create_table "quizzes", :force => true do |t|
@@ -217,11 +239,11 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "name"
+    t.string   "questionids"
+    t.string   "question_ids"
     t.integer  "user_id"
     t.string   "test_code"
     t.integer  "course_id"
-    t.string   "question_ids"
-    t.string   "questionids"
   end
 
   create_table "topic_linkings", :force => true do |t|
@@ -271,6 +293,7 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "year"
     t.string   "session"
     t.integer  "course_id"
+    t.text     "topic_ids"
   end
 
   create_table "users", :force => true do |t|
@@ -303,6 +326,8 @@ ActiveRecord::Schema.define(:version => 20160204115914) do
     t.integer  "membership_plan_id"
     t.string   "teacher_token"
     t.boolean  "free_plan_flag"
+    t.string   "device_token"
+    t.string   "test_permission_ids"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

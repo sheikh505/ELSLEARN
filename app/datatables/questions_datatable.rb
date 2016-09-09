@@ -18,7 +18,7 @@ class QuestionsDatatable
 
   private
   def data
-    # puts "===================================================+>",questions.inspect
+    # puts "===================================================>" + questions.inspect
     questions.each_with_index.map do |question,index|
       [
           question.statement.html_safe,

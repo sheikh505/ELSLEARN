@@ -29,12 +29,10 @@
 
           <% Board.all.each do |board| %>
                 <%if @boards.find {|x| x.id == board.id} %>
-                <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%=board.name %>
+                <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%= board.name %>
                 <%else %>
-                <%= check_box_tag 'boards[]', board.id,false %><%=board.name %>
-
-                 <%end %>
-
+                <%= check_box_tag 'boards[]', board.id,false %><%= board.name %>
+                <%end %>
           <% end %>
 
 

@@ -19,8 +19,6 @@ class QuizzesController < ApplicationController
     @test_code = Devise.friendly_token.first(8)
 
     respond_with(@quiz, @test_code)
-
-
   end
 
   def edit

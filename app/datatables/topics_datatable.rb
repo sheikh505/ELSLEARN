@@ -21,7 +21,7 @@ class TopicsDatatable < ApplicationController
 
   def data
 
-    puts "==============================>>",topics.inspect
+    puts "==============================>>" + topics.inspect
     topics.map do |topic|
       [
 

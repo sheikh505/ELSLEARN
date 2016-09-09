@@ -133,6 +133,8 @@
         <% if (@question.workflow_state.nil? || @question.current_state.to_s == "new") %>
             <%= link_to 'Approve & Move to next', approve_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
             <%= link_to 'Reject & Move to next', '#', :onclick=>"reject_question("+@question.id.to_s+")", :class=> 'btn btn-large btn-inverse'%>
+            <%= link_to 'Previous', previous_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+            <%= link_to 'Next', next_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
             <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
         <% end %>
 
@@ -144,9 +146,11 @@
         <%= link_to 'New', questions_path , :class=> 'btn btn-large  btn-inverse'%>
         <%= link_to 'Add Next', add_questions_questions_path(:q_id => @question.id) , :class=> 'btn  btn-inverse btn-large'%>
     <% else %>
+        <%= link_to 'Previous', previous_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
         <%= link_to 'Next', next_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
         <%= link_to 'Go Back', questions_approval_questions_path , :class=> 'btn btn-large btn-inverse'%>
-        <%= link_to 'Previous', previous_question_questions_path(:ques_id=> @question.id, :from=>"view", :role=>params["from"]) , :class=> 'btn btn-large btn-inverse'%>
+
+
 
   <% end %>
     <% if current_user.is_admin? %>

@@ -61,9 +61,29 @@
                 <option value="">select topic</option>
                 <%@topics_3.each do |x| %>
                     <% if x.parent_topic_id.nil? %>
-                        <option value="<%=x.id%>"><%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_3 %>
+                                <option value="<%=x.id%>" selected><%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>"><%=x.name%></option>
+                            <% end %>
+                        <% elsif x.id == @topic_id %>
+                            <option value="<%=x.id%>" selected><%=x.name%></option>
+                        <% else %>
+                            <option value="<%=x.id%>"><%=x.name%></option>
+                        <% end %>
                     <% else %>
-                        <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_3 %>
+                                <option value="<%=x.id%>" selected>--- <%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>">--- <%=x.name%></option>
+                            <% end %>
+                        <% elsif x.id == @topic_id %>
+                            <option value="<%=x.id%>" selected>--- <%=x.name%></option>
+                        <% else %>
+                            <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% end %>
                     <% end %>
                 <% end %>
               </select><span id="topics_count_3">(n)</span>
@@ -76,9 +96,25 @@
                 <option value="">select topic</option>
                 <%@topics_2.each do |x| %>
                     <% if x.parent_topic_id.nil? %>
-                        <option value="<%=x.id%>"><%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_2 %>
+                                <option value="<%=x.id%>" selected><%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>"><%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>"><%=x.name%></option>
+                        <% end %>
                     <% else %>
-                        <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_2 %>
+                                <option value="<%=x.id%>" selected>--- <%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>">--- <%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% end %>
                     <% end %>
                 <% end %>
               </select><span id="topics_count_2">(n)</span>
@@ -92,9 +128,25 @@
                 <option value="">select topic</option>
                 <%@topics_1.each do |x| %>
                     <% if x.parent_topic_id.nil? %>
-                        <option value="<%=x.id%>"><%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_1 %>
+                                <option value="<%=x.id%>" selected><%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>"><%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>"><%=x.name%></option>
+                        <% end %>
                     <% else %>
-                        <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_1 %>
+                                <option value="<%=x.id%>" selected>--- <%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>">--- <%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% end %>
                     <% end %>
                 <% end %>
               </select><span id="topics_count_1">(n)</span>
@@ -107,9 +159,25 @@
                 <option value="">select topic</option>
                 <%@topics_4.each do |x| %>
                     <% if x.parent_topic_id.nil? %>
-                        <option value="<%=x.id%>"><%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_4 %>
+                                <option value="<%=x.id%>" selected><%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>"><%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>"><%=x.name%></option>
+                        <% end %>
                     <% else %>
-                        <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% if @topic_linking_array.present? %>
+                            <% if x.id == @topic_linking_array.first.topic_4 %>
+                                <option value="<%=x.id%>" selected>--- <%=x.name%></option>
+                            <% else %>
+                                <option value="<%=x.id%>">--- <%=x.name%></option>
+                            <% end %>
+                        <% else %>
+                            <option value="<%=x.id%>">--- <%=x.name%></option>
+                        <% end %>
                     <% end %>
                 <% end %>
               </select><span id="topics_count_4">(n)</span>
@@ -259,26 +327,17 @@
 
     $(document).ready(function(){
         $("select").select2();
-        var topics_1 = $("#topic_linking_topic_1 option").size()-1
-        var topics_2 = $("#topic_linking_topic_2 option").size()-1
-        var topics_3 = $("#topic_linking_topic_3 option").size()-1
-        var topics_4 = $("#topic_linking_topic_4 option").size()-1
-        $("#topics_count_1").text("(" + topics_1 + ")")
-        $("#topics_count_2").text("(" + topics_2 + ")")
-        $("#topics_count_3").text("(" + topics_3 + ")")
-        $("#topics_count_4").text("(" + topics_4 + ")")
+        var topics_1 = $("#topic_linking_topic_1 option").size()-1;
+        var topics_2 = $("#topic_linking_topic_2 option").size()-1;
+        var topics_3 = $("#topic_linking_topic_3 option").size()-1;
+        var topics_4 = $("#topic_linking_topic_4 option").size()-1;
+        $("#topics_count_1").text("(" + topics_1 + ")");
+        $("#topics_count_2").text("(" + topics_2 + ")");
+        $("#topics_count_3").text("(" + topics_3 + ")");
+        $("#topics_count_4").text("(" + topics_4 + ")");
 
-        <% if @topic_linking_array.present? %>
-            $("#topic_linking_topic_1").val(<%= @topic_linking_array.first.topic_1 %>);
-            $("#topic_linking_topic_2").val(<%= @topic_linking_array.first.topic_2 %>);
-            $("#topic_linking_topic_3").val(<%= @topic_linking_array.first.topic_3 %>);
-            $("#topic_linking_topic_4").val(<%= @topic_linking_array.first.topic_4 %>);
-        <% else %>
-            $("#topic_linking_topic_1").val($("#topic_linking_topic_1 option:first").val());
-            $("#topic_linking_topic_2").val($("#topic_linking_topic_2 option:first").val());
-            $("#topic_linking_topic_3").val($("#topic_linking_topic_3 option:first").val());
-            $("#topic_linking_topic_4").val($("#topic_linking_topic_4 option:first").val());
-        <% end %>
+
+
 
         if ($("#topic_linking_topic_1 option:selected").val() != "")
         {
