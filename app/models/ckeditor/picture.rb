@@ -5,7 +5,6 @@ class Ckeditor::Picture < Ckeditor::Asset
   #                   styles: { content: '800>', thumb: '118x100#' }
 
   has_attached_file :data, :styles => { :medium => "300x300>", :thumb => "100x100>" },
-                    :command_path => 'C:\Program Files\ImageMagick-7.0.2-Q16',
                     :default_url => "/images/:style/missing.png",
                     :storage => :s3,
                     :url => 's3_domain_url',
@@ -14,6 +13,6 @@ class Ckeditor::Picture < Ckeditor::Asset
                     :path => "/files/:style/:id_:filename"
 
   def url_content
-    url(:content)
+    url(:original)
   end
 end

@@ -1,10 +1,10 @@
-v<%= form_for :question, :url => questions_path, :html => {:multipart=> true,:id=>"form_id", :onsubmit => "return checkForm(this)"} do |f| %>
+<%= form_for :question, :url => questions_path, :html => {:multipart=> true,:id=>"form_id", :onsubmit => "return checkForm(this)"} do |f| %>
 
 
 
     <div class="field">
       <%= f.label :statement %>
-      <cktext_area id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20"></cktext_area>
+      <textarea id="tinymce4" name="tinymce4" rel="tinymce" rows="9" cols="20"></textarea>
     </div>
     <div class="field">
       <%= label_tag :answer %>
@@ -13,7 +13,7 @@ v<%= form_for :question, :url => questions_path, :html => {:multipart=> true,:id
 
     <div class="field">
       <%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
-      <cktext_area id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20"></cktext_area>
+      <textarea id="tinymce5" name="tinymce5" rel="tinymce" rows="9" cols="20"></textarea>
     </div>
 
     <div class="field">

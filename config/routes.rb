@@ -11,6 +11,8 @@ ExamsSystem::Application.routes.draw do
 
   resources :course_linkings
 
+  resources :ckeditor, controller: 'ckeditor/'
+
 
   resources :membership_plans
 
