@@ -273,7 +273,6 @@ class QuestionsController < ApplicationController
   def add_questions
 
     puts "============================>>",params.inspect
-
     @question = Question.new
 
     if params[:q_id]

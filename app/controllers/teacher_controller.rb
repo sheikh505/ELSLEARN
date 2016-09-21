@@ -101,11 +101,17 @@ class TeacherController < ApplicationController
   end
 
   def create
-    puts "uhh<><><><><???????",params.inspect
+    params[:test_permission_ids] = params[:test_permission_ids].values
+    params[:test_permission_ids] = params[:test_permission_ids].join(",")
+    puts "uhh<><><><><???????",params[:test_permission_ids].inspect
 
     @user = User.new(params[:user])
     # @user.role = params[:role_id]
     @role_id = params[:role_id]
+
+
+
+
 
     if @user.save
       if current_user.is_proofreader?
@@ -118,6 +124,11 @@ class TeacherController < ApplicationController
       if @role_id != 0
         unless @user.is_operator?
           @user.update_attributes(:role => 0)
+        end
+
+        if @role_id == "5"
+          @user.update_attributes(:role => @role_id, :test_permission_ids => params[:test_permission_ids])
+
         end
 
         if @user.is_teacher?

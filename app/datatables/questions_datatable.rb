@@ -21,7 +21,7 @@ class QuestionsDatatable
     # puts "===================================================>" + questions.inspect
     questions.each_with_index.map do |question,index|
       [
-          question.statement.html_safe,
+          question.statement,
           link_to("View", ("/questions/#{question.id}")),
           "#{label_tag('status', h(question.current_state), :title=>question.comments.to_s, :class=> 'question_status')}"
       ]

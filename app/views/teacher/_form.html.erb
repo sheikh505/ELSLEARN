@@ -65,6 +65,8 @@
     </div>
 </div>
 
+
+
     <div id="proofreader_all" class="field" style="display: none;">
       <%= f.label "Proof Reader" %>
       <select id="user_role" name="user[role]" class="row_field">
@@ -103,6 +105,21 @@
     <div class="actions mrtb10 col-md-12">
       <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
     </div>
+
+        <!-- 1. Attempt test by code
+             2. Attempt past papers
+             3. Create your own test  -->
+
+        <div id="student" style="display: none;" class="field col-md-12" >
+          <br>
+          <%= check_box_tag "test_permission_ids[0]",  "1" %>
+          Attempt test by code
+          <%= check_box_tag "test_permission_ids[1]",  "2" %>
+          Attempt past papers
+          <%= check_box_tag "test_permission_ids[2]",  "3" %>
+          Create your own test
+          <br><br>
+        </div>
 
           <div id="courseList_all" style="display: none;" class="field courseList_all">
             <table class="table">
@@ -176,20 +193,35 @@
             $(".courseList_post").hide();
             $("#courseList_all").hide();
             $("#proofreader_all").hide();
-
+            $("#student").hide();
         }
         else if ($("#role_id option:selected").text() == "Hod")
         {
             $("#courseList_all").show();
             $("#degreeList").hide();
+            $(".courseList_post").hide();
             $("#proofreader_all").hide();
+            $("#student").hide();
         }
         else if ($("#role_id option:selected").text() == "Operator")
         {
             $("#proofreader_all").show();
+            $("#courseList_all").hide();
+            $("#degreeList").hide();
+            $(".courseList_post").hide();
+            $("#student").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Student")
+        {
+            $("#student").show();
+            $("#proofreader_all").hide();
+            $("#courseList_all").hide();
+            $("#degreeList").hide();
+            $(".courseList_post").hide();
         }
         else
         {
+            $("#student").hide();
             $("#courseList_all").hide();
             $("#courseList").hide();
             $("#degreeList").hide();
