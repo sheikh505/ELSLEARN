@@ -7,7 +7,7 @@ class Ckeditor::AttachmentFile < Ckeditor::Asset
                     :s3_credentials => File.join(Rails.root, 'config', 's3.yml'),
                     :path => "/files/:style/:id_:filename"
 
-  do_not_validate_attachment_file_type :data
+  
 
   def url_thumb
     @url_thumb ||= Ckeditor::Utils.filethumb(filename)
