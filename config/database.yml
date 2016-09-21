@@ -2,9 +2,7 @@
 #
 # Install the pg driver:
 #   gem install pg
-# On OS X with Homebrew:
-#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
-# On OS X with MacPorts:
+# On Mac OS X with macports:
 #   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
 # On Windows:
 #   gem install pg
@@ -14,9 +12,14 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
-  #username: mac
-  #password: Elslearn001
+development:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  database: elslearn
+  pool: 5
+  username: postgres
+  password: Elslearn001
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -24,7 +27,7 @@ default: &default
   #host: localhost
   #port: 5432
 
-  #Schema search path. The server defaults to $user,public
+  # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
 
   # Minimum log levels, in increasing order:
@@ -39,11 +42,16 @@ default: &default
 test:
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  host: localhost
+  database: elslearn
   pool: 5
+  username: postgres
+  password: Elslearn001
 
-development:
-  <<: *default
-  database: elslearn_live
-
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: elslearn
+  pool: 5
+  username: postgres
+  password: Elslearn001
