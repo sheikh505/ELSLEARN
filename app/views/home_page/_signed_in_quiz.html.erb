@@ -88,7 +88,7 @@
     </script>
     <span id="countdown">60:00</span>
 
-<%=form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
+<%= form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
     <input type="hidden" id="id" name="user_test_history[id]" value="<%=@user_test_history_id%>" >
     <input type="hidden" id="score" name="user_test_history[score]" value="0" >
     <input type="hidden" id="course" name="course" value="<%=@course%>" >
@@ -129,31 +129,5 @@
 
             next_quiz();
         }, 1000);
-
-
-
-
     }
-
-    function next_question_type_true_false(id,id_2,option){
-
-        if (option == 1){
-            $("#"+id_2).addClass('wrong_answer selected');
-            $("#"+id).addClass('correct_answer');
-            score = $( "#score").val();
-            score = parseInt(score,10) + 5;
-            $( "#score").val(score);
-
-        }else{
-            $("#"+id).addClass('wrong_answer selected');
-            $("#"+id_2).addClass('correct_answer');
-        }
-        setTimeout(function() {
-            next_quiz();
-        }, 1000);
-    }
-
-
-
-
 </script>

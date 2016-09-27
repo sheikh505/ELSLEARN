@@ -6,7 +6,6 @@ class Ckeditor::AttachmentFile < Ckeditor::Asset
                     :s3_host_alias => 'elslearning.s3-website-us-east-1.amazonaws.com',
                     :s3_credentials => File.join(Rails.root, 'config', 's3.yml'),
                     :path => "/files/:style/:id_:filename"
-
   
 
   def url_thumb

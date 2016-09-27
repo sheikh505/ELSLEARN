@@ -19,9 +19,9 @@
         </ul>
     <%elsif $arr[@index].question_type == 4 %>
         <ul>
-         <li ><a href="javascript:void(0)" id="ref_opt_1" onclick="next_question_type_true_false('ref_opt_1','ref_opt_2',<%=$arr[@index].options.first.statement == true ? "1": "0" %>)" class='option_question'>True</a></li>
+         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_opt_1','ref_opt_2','ref_<%=$arr[@index].options.first.statement == true ? "1": "0" %>')" class='option_question'>True</a></li>
 
-         <li ><a href="javascript:void(0)" id="ref_opt_2" onclick="next_question_type_true_false('ref_opt_2','ref_opt_1',<%=$arr[@index].options.first.statement == true ? "0": "1" %>)" class='option_question'>False</a></li>
+         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_opt_2','ref_opt_1','ref_<%=$arr[@index].options.first.statement == true ? "0": "1" %>')" class='option_question'>False</a></li>
 
 
         </ul>
@@ -114,7 +114,7 @@
 
     function check_blank(str){
         var str_comp = $("#fill_in_the_blank_field").val();
-        var array = str.split(',');
+        var array = str.split('/');
         var text = "";
         var i;
         for (i = 0; i < array.length; i++) {
@@ -124,6 +124,11 @@
         if(array.includes(str_comp)){
             var b = str_comp.toLowerCase();
         }
+        else
+        {
+          b = "";
+        }
+
 //        alert(array.includes(str_comp));
         flag = parseInt($("#answer_selected").val());
         score = $( "#score").val();
@@ -137,6 +142,7 @@
 
         }
         $( "#score").val(score);
+
         $.ajax({
             url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + str_comp,
             type:'get',
@@ -150,6 +156,38 @@
             }
         });
 
+    }
+
+    function next_question_type_true_false(id,id_2,option){
+
+
+      $.ajax({
+        url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option,
+        type:'get',
+        dataType:'json',
+        processData:false,
+        success:function (data) {
+
+        },
+        error:function (data) {
+          alert ('Error Occurred!!!!');
+        }
+      });
+
+      if (option == 1){
+        $("#"+id_2).addClass('wrong_answer selected');
+        $("#"+id).addClass('correct_answer');
+        score = $( "#score").val();
+        score = parseInt(score,10) + 5;
+        $( "#score").val(score);
+
+      }else{
+        $("#"+id).addClass('wrong_answer selected');
+        $("#"+id_2).addClass('correct_answer');
+      }
+      setTimeout(function() {
+        next_quiz();
+      }, 1000);
     }
 
   function answer(answer_id,is_answer,option_index)
