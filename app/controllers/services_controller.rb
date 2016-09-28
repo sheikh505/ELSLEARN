@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
-  before_filter :check_session, :except => [:sign_in, :get_lookup_data]
+  before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -301,7 +301,39 @@ class ServicesController < ApplicationController
 
   def verify_answers
     puts "===========================>", params.inspect
-    render :json => {:success => true, :result => 50, :total => 100}
+    @score = 0
+    array = params[:array].split(",")
+    array.each do |ques|
+      @question = Question.find(ques.split(":")[0])
+      if @question.question_type == 1
+        if ques.split(":")[1]
+          if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
+            @option = Option.find(ques.split(":")[1])
+            if @option.is_answer == 1
+              @score += 5
+            end
+          end
+        end
+      elsif @question.question_type == 4
+        @option = @question.options.first
+        if ques.split(":")[1]
+          if @option.statement == ques.split(":")[1]
+            @score += 5
+          end
+        end
+      elsif @question.question_type == 3
+        @options = @question.options.last.statement.split("/")
+        if ques.split(":")[1]
+          @options.each do |opt|
+            if opt == ques.split(":")[1]
+              @score += 5
+              break
+            end
+          end
+        end
+      end
+    end
+    render :json => {:success => true, :result => @score, :total => 100}
     # answers = params[:answer]
     # answers.each do |answer|
     #   questionId = answer[:questionId]

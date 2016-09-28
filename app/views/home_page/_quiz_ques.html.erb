@@ -1,3 +1,8 @@
+<% $ques_id = 0 %>
+<% $ques_id_array = Array.new %>
+<% $arr.each do |ques| %>
+    <% $ques_id_array << ques.id %>
+<% end %>
 <div class="modal_left">
   <div class="box_modal">
     <h2>ELS Quiz </h2>
@@ -8,29 +13,32 @@
   <div class="question_p_section">
 
    <%if $arr[@index].question_type == 1 %>
+        <% $ques_id = $arr[@index].id %>
         <ul class="pre_question_options" style="list-style-type: upper-alpha;">
           <% $arr[@index].options.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')"  class='option_question'><%=option.statement %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>', <%= $ques_id %>)"  class='option_question'><%=option.statement %></a></li>
               <% else %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>')" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>', <%= $ques_id %>)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
               <% end %>
           <% end %>
         </ul>
     <%elsif $arr[@index].question_type == 4 %>
+        <% $ques_id = $arr[@index].id %>
         <ul>
-         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_opt_1','ref_opt_2','ref_<%=$arr[@index].options.first.statement == true ? "1": "0" %>')" class='option_question'>True</a></li>
+         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_1','ref_2','ref_<%=$arr[@index].options.first.statement == true ? "1": "0" %>', <%= $ques_id %>, 'True')" class='option_question'>True</a></li>
 
-         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_opt_2','ref_opt_1','ref_<%=$arr[@index].options.first.statement == true ? "0": "1" %>')" class='option_question'>False</a></li>
+         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_2','ref_1','ref_<%=$arr[@index].options.first.statement == true ? "0": "1" %>', <%= $ques_id %>, 'False')" class='option_question'>False</a></li>
 
 
         </ul>
 
     <%elsif $arr[@index].question_type == 3 %>
+        <% $ques_id = $arr[@index].id %>
     <ul>
       <li>
         <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field"
-               onchange="check_blank('<%=$arr[@index].options.last.statement %>')"
+               onchange="check_blank('<%=$arr[@index].options.last.statement %>', <%= $ques_id %>)"
                class="text" autocomplete="off" placeholder="Answer the question" >
       </li>
       <li>
@@ -100,11 +108,11 @@
             dataType:'json',
             processData:false,
             success:function (data) {
-                <% if $arr[@index].question_type == 3 %>
+                <!--<% if $arr[@index].question_type == 3 %>-->
                     var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
-                <% else %>
+                <!--<% else %>-->
                     $("#"+data.option_index).addClass('correct_answer');
-                <% end %>
+                <!--<% end %>-->
             },
             error:function (data) {
                 alert ('Error Occurred!!!!');
@@ -112,39 +120,11 @@
         });
     });
 
-    function check_blank(str){
+    function check_blank(str, ques_id){
         var str_comp = $("#fill_in_the_blank_field").val();
-        var array = str.split('/');
-        var text = "";
-        var i;
-        for (i = 0; i < array.length; i++) {
-            text = array[i];
-        }
-
-        if(array.includes(str_comp)){
-            var b = str_comp.toLowerCase();
-        }
-        else
-        {
-          b = "";
-        }
-
-//        alert(array.includes(str_comp));
-        flag = parseInt($("#answer_selected").val());
-        score = $( "#score").val();
-        if(b.toLowerCase() == str_comp.toLowerCase() && flag){
-            $("#answer_selected").val("0");
-            score = parseInt(score,10) + 5;
-        }
-        else if ((b.toLocaleLowerCase() != str_comp) && !flag){
-            $("#answer_selected").val("1");
-            score = parseInt(score,10) - 5;
-
-        }
-        $( "#score").val(score);
 
         $.ajax({
-            url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + str_comp,
+            url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + str_comp + '&ques_id=' + ques_id + '&choice=' + str_comp,
             type:'get',
             dataType:'json',
             processData:false,
@@ -158,11 +138,11 @@
 
     }
 
-    function next_question_type_true_false(id,id_2,option){
+    function next_question_type_true_false(id,id_2,option, ques_id, choice){
 
 
       $.ajax({
-        url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option,
+        url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option + '&ques_id=' + ques_id + '&choice=' + choice,
         type:'get',
         dataType:'json',
         processData:false,
@@ -177,25 +157,20 @@
       if (option == 1){
         $("#"+id_2).addClass('wrong_answer selected');
         $("#"+id).addClass('correct_answer');
-        score = $( "#score").val();
-        score = parseInt(score,10) + 5;
-        $( "#score").val(score);
 
       }else{
         $("#"+id).addClass('wrong_answer selected');
         $("#"+id_2).addClass('correct_answer');
       }
-      setTimeout(function() {
-        next_quiz();
-      }, 1000);
+
     }
 
-  function answer(answer_id,is_answer,option_index)
+  function answer(answer_id,is_answer,option_index, ques_id)
   {
       $(".question_p_section ul li a").removeClass('correct_answer');
       $("#"+option_index).addClass('correct_answer');
       $.ajax({
-          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option_index,
+          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + option_index + '&ques_id=' + ques_id + '&choice=' + answer_id,
           type:'get',
           dataType:'json',
           processData:false,
@@ -208,20 +183,7 @@
       });
 
 
-      flag = parseInt($("#answer_selected").val());
-      if(is_answer && flag) {
-          $("#answer_selected").val("0");
-          score = $( "#score").val();
-          score = parseInt(score,10) + 5;
-          $( "#score").val(score);
-      }
-      else if (!is_answer && !flag)
-      {
-          $("#answer_selected").val("1");
-          score = $( "#score").val();
-          score = parseInt(score,10) - 5;
-          $( "#score").val(score);
-      }
+
   }
 
   function previous_question(){
@@ -259,7 +221,6 @@
                 processData:false,
                 success:function (data) {
                     $("#quiz_container").html(data);
-
                 },
                 error:function (data) {
                     alert ("Error Occurred");
@@ -281,9 +242,33 @@
     {
         var confirmText = "Are you sure you want to finish this test?";
         if(confirm(confirmText)) {
-            $("#course_name").text($("input[name$='course']").val());
-            $("#test_score").text($( "#score").val());
-            $('#myModal').modal('toggle');
+          $.ajax({
+            url:'/home_page/get_session?ques_id_array=' + <%= $ques_id_array %>,
+            type:'get',
+            processData:false,
+            success:function (data) {
+              $array = data.array;
+              $.ajax({
+                url:'/services/verify_answers?array='+$array,
+                type:'get',
+                processData:false,
+                success:function (data) {
+                  console.log(data);
+                  $("#course_name").text($("input[name$='course']").val());
+                  $("#test_score").text(data.result);
+                  $('#myModal').modal('toggle');
+                },
+                error:function (data) {
+                  alert ("Error Occurred");
+                }
+              });
+            },
+            error:function (data) {
+              alert ("Error Occurred");
+            }
+          });
+
+
         }
     }
 

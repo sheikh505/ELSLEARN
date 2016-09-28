@@ -180,7 +180,7 @@ ExamsSystem::Application.routes.draw do
     end
   end
 
-
+  get "/home_page/get_session", :to => 'home_page#get_session'
 
   resources :courses
 

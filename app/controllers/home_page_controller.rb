@@ -441,6 +441,8 @@ class HomePageController < ApplicationController
   def save_answer_to_session
     puts "------------------>", session.inspect
     session[params[:index]] = params[:option_index]
+    session[params[:ques_id]] = params[:choice]
+    puts "========================>@@@@@@" + params[:ques_id].inspect + params[:choice].inspect
     render :json => {:success => true}
   end
   def get_answer_from_session
@@ -451,6 +453,19 @@ class HomePageController < ApplicationController
     else
       render :json => {:success => false}
     end
+  end
+
+  def get_session
+    arr = params[:ques_id_array].split(",")
+    @array = Array.new
+    arr.each do |i|
+      str = i + ":" + session[i].to_s
+      session[i] = nil
+      @array << str
+      puts "========================>@@@@@@" + str.inspect
+    end
+    puts "========================>" + @array.inspect
+    render :json => {:array => @array}
   end
 
   def is_user_signed_in
