@@ -17,18 +17,18 @@
         <ul class="pre_question_options" style="list-style-type: upper-alpha;">
           <% $arr[@index].options.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>', <%= $ques_id %>)"  class='option_question'><%=option.statement %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>', <%= $ques_id %>)"  class='option_question'><%=option.statement %></a></li>
               <% else %>
-                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,<%=option.is_answer%>,'ref_<%=index%>', <%= $ques_id %>)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
+                  <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>', <%= $ques_id %>)" class=''><%=image_tag option.avatar.url(:medium) %></a></li>
               <% end %>
           <% end %>
         </ul>
     <%elsif $arr[@index].question_type == 4 %>
         <% $ques_id = $arr[@index].id %>
         <ul>
-         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_1','ref_2','ref_<%=$arr[@index].options.first.statement == true ? "1": "0" %>', <%= $ques_id %>, 'True')" class='option_question'>True</a></li>
+         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_1','ref_2','ref_0', <%= $ques_id %>, 'True')" class='option_question'>True</a></li>
 
-         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_2','ref_1','ref_<%=$arr[@index].options.first.statement == true ? "0": "1" %>', <%= $ques_id %>, 'False')" class='option_question'>False</a></li>
+         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_2','ref_1','ref_1', <%= $ques_id %>, 'False')" class='option_question'>False</a></li>
 
 
         </ul>
@@ -38,7 +38,7 @@
     <ul>
       <li>
         <input type="text" id="fill_in_the_blank_field" name="fill_in_the_blank_field"
-               onchange="check_blank('<%=$arr[@index].options.last.statement %>', <%= $ques_id %>)"
+               onchange="check_blank(<%= $ques_id %>)"
                class="text" autocomplete="off" placeholder="Answer the question" >
       </li>
       <li>
@@ -120,7 +120,7 @@
         });
     });
 
-    function check_blank(str, ques_id){
+    function check_blank(ques_id){
         var str_comp = $("#fill_in_the_blank_field").val();
 
         $.ajax({
@@ -165,7 +165,7 @@
 
     }
 
-  function answer(answer_id,is_answer,option_index, ques_id)
+  function answer(answer_id,option_index, ques_id)
   {
       $(".question_p_section ul li a").removeClass('correct_answer');
       $("#"+option_index).addClass('correct_answer');

@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   end
   has_one :user_address
   has_many :bookrequests
+  has_many :courses, through: :teacher_courses
   has_many :assignments, :dependent => :destroy
   has_many :roles, through: :assignments
   has_many :teacher_courses

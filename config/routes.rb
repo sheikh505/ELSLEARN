@@ -87,6 +87,9 @@ ExamsSystem::Application.routes.draw do
       get :get_questions_by_test_code
       get :get_options_by_question_id
       get :verify_answers
+      get :get_courses_by_teacher
+      get :get_questions
+      get :get_els_questions
     end
   end
 
