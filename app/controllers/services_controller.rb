@@ -362,64 +362,56 @@ class ServicesController < ApplicationController
   end
 
   def get_questions
+    count = params[:count]
     if params[:page_size]
+      page_size = params[:page_size]
       course_id = params[:course_id]
       email = params[:email]
-      @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-          joins(:topic => :course).
-          where("course_id = ? and author != ? and workflow_state = 'accepted'", course_id, email).limit(page_size).offset(count)
-      render :partial => 'quizzes/questions_list'
+      @questions = Question.select("questions.*").
+          joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(page_size).offset(count)
+      render :json => {:success => true,:questions => @questions}
     else
       course_id = params[:course_id]
       email = params[:email]
-      @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-          joins(:topic => :course).
-          where("course_id = ? and author != ? and workflow_state = 'accepted'", course_id, email).limit(100).offset(count)
-      render :partial => 'quizzes/questions_list'
+      @questions = Question.select("questions.*").
+          joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(page_size).offset(count)
+      render :json => {:success => true,:questions => @questions}
     end
   end
 
   def get_els_questions
+    count = params[:count]
     if params[:page_size]
+      page_size = params[:page_size]
       @course_id = params[:course_id]
-      if params[:topic_id] == "" || params[:topic_id] == 'ALL'
-        @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-            joins(:topic => :course).
-            where("course_id = ? and workflow_state = 'accepted' and question_type in (?)", @course_id,params[:ques_types].split(",")).limit(page_size).offset(count)
-      else
-        @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-            joins(:topic => :course).
-            where("course_id = ? and topic_id = ? and workflow_state = 'accepted' and question_type in (?)", @course_id,params[:topic_id],params[:ques_types].split(",")).limit(page_size).offset(count)
-      end
+      @questions = Question.select("questions.*").
+          joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and workflow_state = 'accepted' and question_type in (?)",
+                @course_id, @course_id, @course_id, @course_id,params[:ques_types].split(",")).limit(page_size).offset(count)
       @questions.shuffle!
       if @questions.size == 0
-
+        render :json => {:success => false}.to_json
       else
         @question = @questions.pop
         ids = @questions.pluck(:id).shuffle.join(",")
-        render :json => {:success => true,html: render_to_string(partial: 'quizzes/pop_up'),:question_ids => ids}.to_json
+        render :json => {:success => true,:questions => @questions}
       end
-      render :json => {:success => false}.to_json
     else
       @course_id = params[:course_id]
-      if params[:topic_id] == "" || params[:topic_id] == 'ALL'
-        @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-            joins(:topic => :course).
-            where("course_id = ? and workflow_state = 'accepted' and question_type in (?)", @course_id,params[:ques_types].split(",")).limit(100).offset(count)
-      else
-        @questions = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-            joins(:topic => :course).
-            where("course_id = ? and topic_id = ? and workflow_state = 'accepted' and question_type in (?)", @course_id,params[:topic_id],params[:ques_types].split(",")).limit(100).offset(count)
-      end
+      @questions = Question.select("questions.*").
+          joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and workflow_state = 'accepted' and question_type in (?)",
+                @course_id, @course_id, @course_id, @course_id,params[:ques_types].split(",")).limit(100).offset(count)
       @questions.shuffle!
       if @questions.size == 0
-
+        render :json => {:success => false}.to_json
       else
         @question = @questions.pop
         ids = @questions.pluck(:id).shuffle.join(",")
-        render :json => {:success => true,html: render_to_string(partial: 'quizzes/pop_up'),:question_ids => ids}.to_json
+        render :json => {:success => true,:questions => @questions}
       end
-      render :json => {:success => false}.to_json
     end
   end
 

@@ -14,7 +14,6 @@
       <tr>
         <td><%= check_box_tag(:add_to_test, question.id, false, :class => 'add_to_test') %></td>
         <td><%= question.statement.html_safe %></td>
-        <td><%= question.topic.name %></td>
         <td><%= link_to("View", ("/questions/#{question.id}")) %></td>
         <td><%= question.current_state %></td>
 
