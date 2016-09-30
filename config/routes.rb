@@ -90,6 +90,7 @@ ExamsSystem::Application.routes.draw do
       get :get_courses_by_teacher
       get :get_questions
       get :get_els_questions
+      get :quiz
     end
   end
 

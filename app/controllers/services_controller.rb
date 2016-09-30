@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_questions, :get_els_questions]
+                                            :get_questions, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -412,6 +412,114 @@ class ServicesController < ApplicationController
         ids = @questions.pluck(:id).shuffle.join(",")
         render :json => {:success => true,:questions => @questions}
       end
+    end
+  end
+
+  def quiz
+    if params[:user_test_history_id].present? || @user_test_history_id.present?
+      if params[:user_test_history_id].present?
+        @user_test_history_id = params[:user_test_history_id]
+      end
+
+
+      user_test_history = UserTestHistory.find(@user_test_history_id)
+      @board_id = user_test_history[:board_id]
+      @degree_id = user_test_history[:degree_id]
+      @course_id = user_test_history[:course_id]
+      deg_id = @degree_id.to_s
+      selected_topic_ids = user_test_history[:topic_ids]
+      puts "$$$$$$$$$$$$",selected_topic_ids.inspect
+      puts "==========---------====",@course_id.inspect
+      @mcq = user_test_history[:mcq]
+      @fill = user_test_history[:fill]
+      @true_false = user_test_history[:truefalse]
+      @descriptive = user_test_history[:descriptive]
+      @past_paper_flag = user_test_history[:pastpaperflag]
+      puts "-=-=-=-=-=-=-=----====<><>>>>>",@past_paper_flag.inspect
+      @year = user_test_history[:year]
+      @session = user_test_history[:session]
+      bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
+      @questions = []
+      @course = Course.find(@course_id).name
+      if @past_paper_flag.to_i == 2
+        question_select = Question.includes(:past_paper_history).where("deleted = 'false' and workflow_state ='accepted' ")
+        # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
+        temp = question_select.select{|x|  x.topic_ids.present? &&
+            (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
+            x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
+            deg_id.include?(x.degree_ids.split(",")[1]) ||
+            deg_id.include?(x.degree_ids.split(",")[2]) ||
+            deg_id.include?(x.degree_ids.split(",")[3]) ) }
+        list = temp
+        list.shuffle!
+        #select number of questions according to the user requirement
+
+        i = 0
+        j = 0
+        k = 0
+        l = 0
+
+        list.each do |question|
+          if question.question_type == 1 && i < @mcq.to_i
+            @questions << question
+            i += 1
+          elsif question.question_type == 4 && j < @true_false.to_i
+            @questions << question
+            j += 1
+          elsif question.question_type == 3 && k < @fill.to_i
+            @questions << question
+            k += 1
+          elsif question.question_type == 9 && l < @descriptive.to_i
+            @questions << question
+            l += 1
+          end
+
+        end
+      elsif @past_paper_flag.to_i == 1
+        @questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+            "p.course_id = ? and p.year = ? and p.session = ?
+                               and deleted = 'false'
+                              and workflow_state = 'accepted'" ,@course_id.to_s,@year.to_s,@session.to_s )
+        puts "&&&&&&&&&&&",@questions_data.inspect
+        list = @questions_data.select{|x|  x.topic_ids.present? &&
+            (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+                selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+            x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
+            deg_id.include?(x.degree_ids.split(",")[1]) ||
+            deg_id.include?(x.degree_ids.split(",")[2]) ||
+            deg_id.include?(x.degree_ids.split(",")[3]) )}
+        puts "^^^^^^^^%%%%%%",list.inspect
+        @questions = list.shuffle
+      end
+    elsif params[:test_code].present? || params[:test_code_login].present? || params[:test_code_registration].present?
+      if params[:test_code].present?
+        test_code =  params[:test_code]
+      elsif params[:test_code_login].present?
+        test_code = params[:test_code_login]
+      elsif params[:test_code_registration].present?
+        test_code =  params[:test_code_registration]
+      end
+      quiz = Quiz.find_by_test_code(test_code)
+      if quiz.present?
+        question_ids = quiz.question_ids
+        @questions = Question.find(question_ids.split(','))
+      end
+    end
+
+    @user = current_user
+
+    if @questions.present?
+      puts "%%%%%%%%%%% if question present ? %%%%%%%",@questions.inspect
+      @size = @questions.length
+      @index = 0
+      render :json => {:success => true,:questions => @questions, :size => @size, :index => @index}
+    else
+      render :json => {:success => false}
     end
   end
 
