@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_questions, :quiz, :get_els_questions]
+                                            :get_questions, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -430,6 +430,21 @@ class ServicesController < ApplicationController
       else
         render :json => {:success => true,:questions => @questions, :count => @count}
       end
+    end
+  end
+
+  def create_quiz
+    @quiz = Quiz.new
+    @quiz.name = params[:name]
+    @quiz.test_code = params[:test_code]
+    @quiz.user_id = User.find_by_email(params[:email]).id
+    @quiz.question_ids = params[:question_ids]
+    @quiz.course_id = params[:course_id]
+    if @quiz.save
+      render :json => {:success => true, :message => "Quiz successfully created!"}
+    else
+      @messages = @quiz.errors.full_messages
+      render :json => {:success => false, :message => @messages}
     end
   end
 

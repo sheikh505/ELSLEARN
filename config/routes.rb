@@ -91,6 +91,7 @@ ExamsSystem::Application.routes.draw do
       get :get_questions
       get :get_els_questions
       get :quiz
+      post :create_quiz
     end
   end
 
