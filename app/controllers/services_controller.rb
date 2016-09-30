@@ -435,11 +435,11 @@ class ServicesController < ApplicationController
 
   def create_quiz
     @quiz = Quiz.new
-    @quiz.name = params[:name]
-    @quiz.test_code = params[:test_code]
-    @quiz.user_id = User.find_by_email(params[:email]).id
-    @quiz.question_ids = params[:question_ids]
-    @quiz.course_id = params[:course_id]
+    @quiz.name = params[:name] if params[:name]
+    @quiz.test_code = params[:test_code] if params[:test_code]
+    @quiz.user_id = User.find_by_email(params[:email]).id if params[:email]
+    @quiz.question_ids = params[:question_ids] if params[:question_ids]
+    @quiz.course_id = params[:course_id] if params[:course_id]
     if @quiz.save
       render :json => {:success => true, :message => "Quiz successfully created!"}
     else
