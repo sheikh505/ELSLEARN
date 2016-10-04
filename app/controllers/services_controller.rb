@@ -305,7 +305,19 @@ class ServicesController < ApplicationController
     if @quizzes.size == 0
       render :json => {:success => false}
     else
-      render :json => {:success => true, :quiz_list => @quizzes, :count => @quizzes.size}
+      @quizzes = @quizzes.map{|a|
+        {
+          :quiz_id => a.id,
+          :name => a.name,
+          :course_id => a.course_id,
+          :created_at => a.created_at,
+          :question_ids => a.question_ids,
+          :test_code => a.test_code,
+          :user_id => a.user_id,
+          :ques_count => a.question_ids.split(",").length
+        }
+      }
+      render :json => {:success => true, :quiz_list => @quizzes}
     end
   end
 
