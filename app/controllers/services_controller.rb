@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_questions, :create_quiz, :quiz, :get_els_questions]
+                                            :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -302,10 +302,10 @@ class ServicesController < ApplicationController
 
   def get_quiz_list
     @quizzes = Quiz.where(:user_id => User.find_by_email(params[:email]).id)
-    if @quizzes.present?
-      render :json => {:success => true, :quiz_list => @quizzes, :count => @quizzes.length}
-    else
+    if @quizzes.size == 0
       render :json => {:success => false}
+    else
+      render :json => {:success => true, :quiz_list => @quizzes, :count => @quizzes.size}
     end
   end
 
