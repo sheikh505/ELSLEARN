@@ -300,10 +300,21 @@ class ServicesController < ApplicationController
     end
   end
 
+  def get_quiz_list
+    @quizzes = Quiz.where(:user_id => User.find_by_email(params[:email]).id)
+    if @quizzes.present?
+      render :json => {:success => true, :quiz_list => @quizzes, :count => @quizzes.length}
+    else
+      render :json => {:success => false}
+    end
+  end
+
   def verify_answers
     puts "===========================>", params.inspect
     @score = 0
+
     array = params[:array].split(",")
+    @total = array.length*5
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
@@ -334,7 +345,7 @@ class ServicesController < ApplicationController
         end
       end
     end
-    render :json => {:success => true, :result => @score, :total => 100}
+    render :json => {:success => true, :result => @score, :total => @total}
     # answers = params[:answer]
     # answers.each do |answer|
     #   questionId = answer[:questionId]
