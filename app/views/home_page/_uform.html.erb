@@ -50,6 +50,11 @@
           <input type="radio" name="pre_Past" value="1"><span>Past Paper</span>
           <input type="radio" name="pre_Past" value="2"><span>Create your own test </span>
         </div>
+
+        <div style="padding-top:30px;display:none" id ="course_lists">
+
+        </div>
+
         <div id="past_paper_question_container" class="pre_question_holder" style="display: none;">
           <div class="row_custom">
             <%= label_tag :year %>
@@ -84,7 +89,7 @@
             <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" onclick="return check_sign_in(1);"  class="btn">
           </div>
         </div>
-        <div id="question_type_container" class="pre_question_holder" style="display: none;">
+        <div id="question_type_container"  style="margin-top:30px;display: none;">
           <div class="row_custom">
             <label class="lablel_check_box_left">
               <input id="mcq_checkbox" type="checkbox" name="question_types[]" value="1"><span>MCQ</span>
