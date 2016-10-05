@@ -2,7 +2,7 @@
 <div class="listing-holder">
   <table class="table table-condensed">
     <tr>
-      <th>Degree</th>
+      <th>Certification</th>
       <th>Subject</th>
       <th>Question Type</th>
       <th>Action</th>
@@ -23,7 +23,7 @@
 </div>
 <!-------------------------------------modal pop up-->
 
-<div id="modal_ques" class="modal fade">
+<div id="modal_ques" style="overflow:scroll;" class="modal fade">
 <%#= render 'ques_detail' %>
 </div><!-- /.modal -->
 
@@ -39,6 +39,7 @@
           success:function (response) {
               $("#modal_ques").html(response);
               $("#modal_ques").modal("show");
+              $("#modal_ques").focus();
           },
           error:function (data) {
 

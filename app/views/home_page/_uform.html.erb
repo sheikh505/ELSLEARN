@@ -20,7 +20,7 @@
 
       <div class="col">
         <div class="header_col">
-          <p class="tabs_holde">Degrees</p>
+          <p class="tabs_holde">Certifications</p>
           <i class="arrow_right fa fa-caret-right"></i>
           <i class="arrow_down fa fa-caret-down"></i>
         </div>
@@ -48,24 +48,22 @@
       <div id="past_paper" class="col col_last_holder" style="display: none;">
         <div id="past_paper_container" >
           <input type="radio" name="pre_Past" value="1"><span>Past Paper</span>
-          <input type="radio" name="pre_Past" value="2"><span> Create your own test </span>
+          <input type="radio" name="pre_Past" value="2"><span>Create your own test </span>
         </div>
         <div id="past_paper_question_container" class="pre_question_holder" style="display: none;">
           <div class="row_custom">
             <%= label_tag :year %>
             <select id="year" name="year">
-              <% i = Time.new.year.inspect.to_i %>
-              <% 15.times{ %>
-                      <option value="<%=i  %>"><%=i %></option>
-              <% i-=1
-                 } %>
+              <% @years.each do |year| %>
+              <option value="<%= year %>"><%= year %></option>
+              <% end %>
             </select>
           </div>
 
           <div class="row_custom">
             <%= label_tag :session %>
                 <input type="radio" name="session" value="May/June" checked>May/June
-                <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
+                <input type="radio" name="session" value="Oct/Nov" >Oct/Nov
 
           </div>
 
@@ -157,6 +155,30 @@
 
 
           </div>
+
+          <div class="row_custom">
+            <label class=""><span>Time required for your quiz</span></label>
+            <label class="">
+              <select id="quiz_time" name="quiz_time">
+                <option value="1">Default</option>
+                <option value="5">5 minutes</option>
+                <option value="10">10 minutes</option>
+                <option value="15">15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="25">25 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="35">35 minutes</option>
+                <option value="40">40 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="50">50 minutes</option>
+                <option value="55">55 minutes</option>
+                <option value="60">60 minutes</option>
+              </select>
+            </label>
+
+
+          </div>
+
           <div style="display: block;" id="test_containerr">
             <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" onclick="return check_sign_in(1);" class="btn">
           </div>
@@ -368,6 +390,8 @@
                         $("div#question_type_container").toggle("slide");
                     }
                 });
+
+        $('#course_lists').hide();
                 $('#facebook-connect').click(function(e) {
                     e.preventDefault();
 
@@ -416,6 +440,15 @@
                 }
             });
         });
+
+      $('input[name=pre_Past]').on('change', function() {
+        value = $('input[name=pre_Past]:checked').val();
+        if (value == 2)
+          $('#course_lists').show();
+        else
+          $('#course_lists').hide();
+
+      })
 
         $('#year').on('change', function() {
 
@@ -490,10 +523,12 @@
         link.prop('href', function(){
             this.href = this.href+test_code;
         });
+        $quiz_time = $("#quiz_time");
+        $("#quiz_time").disable();
         $("input[name$='test_code_registration']").val(test_code);
         this.href = this.protocol + '//' + this.hostname + '/' + encodeURIComponent(self.value);
         $.ajax({
-            url:'/home_page/is_user_signed_in',
+            url:'/home_page/is_user_signed_in?quiz_time='+$quiz_time,
             type:'get',
             dataType:'json',
             processData:false,
@@ -569,7 +604,7 @@
                 url:'/questions/questions_exits?year='+ year +
                                             "&session="+session + "&course_id="+course_id+
                                             "&degree_id="+degree_id+ "&board_id="+board_id+
-                                            "&pre_Past="+ past_paper_flag + "&varient="+varient + "&selected_topic_ids=" +selectedTopic ,
+                                            "&pre_Past="+ past_paper_flag + "&varient="+varient ,
                 type:'get',
                 dataType:'json',
                 async: false,
@@ -613,7 +648,7 @@
                         "&fill="+fill +"&descriptive="+descriptive +
                         "&course_id="+course_id+
                         "&degree_id="+degree_id+ "&board_id="+board_id+
-                        "&pre_Past="+ past_paper_flag + "&selected_topic_ids=" +selectedTopic,
+                        "&pre_Past="+ past_paper_flag,
                 type:'get',
                 dataType:'json',
                 async: false,
@@ -646,6 +681,11 @@
         if($('.scourse')){
 
             $('#past_paper').show();
+          value = $('input[name=pre_Past]:checked').val();
+          if (value == 2)
+            $('#course_lists').show();
+          else
+            $('#course_lists').hide();
         }
 
         if ($('#'+id).hasClass('scourse')){

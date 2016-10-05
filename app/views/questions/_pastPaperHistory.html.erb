@@ -23,11 +23,11 @@
     <%= label_tag :session %>
     <% if @question.past_paper_history && @question.past_paper_history.session == 'Nov/Dec' %>
         <input type="radio" name="session" value="May/June">May/June</br>
-        <input type="radio" name="session" value="Nov/Dec" checked>Nov/Dec
+        <input type="radio" name="session" value="Oct/Nov" checked>Oct/Nov
 
     <%else %>
         <input type="radio" name="session" value="May/June" checked>May/June</br>
-        <input type="radio" name="session" value="Nov/Dec" >Nov/Dec
+        <input type="radio" name="session" value="Oct/Nov" >Oct/Nov
 
     <% end %>
 

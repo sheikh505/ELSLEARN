@@ -22,6 +22,7 @@ class Question < ActiveRecord::Base
     state :pending_for_hod_approval do
       event :submit, :transitions_to => :accepted
       event :accept, :transitions_to => :accepted
+      event :reject, :transitions_to => :rejected
     end
     state :being_reviewed do
       event :accept, :transitions_to => :accepted

@@ -7,17 +7,18 @@
 
     <div class="field">
       <%= f.label :statement %>
-      <textarea id="textarea" name="tinymce4" class="textarea" ></textarea>
+      <textarea id="textarea" name="statement" class="textarea" ><% if @question.statement %><%= raw @question.statement %><% end %></textarea>
     </div>
 
     <div class="field">
       <%= check_box_tag :detail_answer_checkbox%><%= f.label :detail_answer, style:"display: inline-block; vertical-align: sub;" %>
       <div id="tinymce-pre">
-        <textarea id="textarea1" name="tinymce5" class="textarea" ></textarea>
+        <textarea id="textarea1" name="detail_answer" class="textarea" ><% if @question.description %><%= @question.description %><% end %></textarea>
       </div>
       <!--%= f.text_area :description,value: "", size: '5x5' %-->
     </div>
-<% i = 1 %>
+    <% unless @question.author %>
+    <% i = 1 %>
     <% 7.times{ %>
         <% if i < 5 %>
         <div class="field">
@@ -50,6 +51,46 @@
             <% end %>
 
     <% } %>
+        <% else %>
+        <% i =1 %>
+        <% @question.options.each do |option| %>
+            <div id="option_div_<%= i %>" class="field">
+              <% if option.flag.nil? %>
+                  <%= f.label ('option_' + i.to_s).to_sym %>
+                  <% if option.flag.nil? %>
+                      <span id='field_<%= i %>'><%= text_field_tag ('option_' + i.to_s).to_sym, option.statement, :required => true %></span>
+                      <span style="display: none" id='image_<%= i %>'><%= file_field_tag ('option_image_' + i.to_s).to_sym %></span>
+                  <% else %>
+                      <span style="display: none" id='field_<%= i %>'><%= text_field_tag ('option_' + i.to_s).to_sym, nil %></span>
+                      <%= image_tag option.avatar.url(:thumb) %>
+                      <span id='image_<%= i %>'><%= file_field_tag ('option_image_' + i.to_s).to_sym %></span>
+                  <% end %>
+
+
+                  <input type="checkbox" id="image_change_<%= i %>" name="image_change_<%= i %>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
+                  Image
+
+              <% else %>
+                  <%= f.label ('option_' + i.to_s).to_sym %>
+                  <input type="checkbox" checked id="image_change_<%= i %>" name="image_change_<%= i %>" value="1" onclick="change_field('image_change_<%=i%>','image_<%=i%>','field_<%=i%>',<%=i%>)">
+                  Image
+              <% end %>
+
+              <% if option.is_answer == 0 %>
+                  <input type="checkbox" id="is_answer_<%= i %>" class="is_answer" name="is_answer_<%= i %>" value="1">
+                  Is_Answer<br />
+              <% else %>
+                  <input type="checkbox" id="is_answer_<%= i %>" class="is_answer" name="is_answer_<%= i %>" value="1" checked>
+                  Is_Answer<br />
+              <% end %>
+
+
+
+              <% i+=1 %>
+            </div>
+
+        <% end %>
+        <% end %>
 
     <input type="button" value="Add Option" class="btn btn-inverse" id="option_add" onclick="add_option()" >
     <input type="button" value="Remove Option" class="btn btn-inverse" style="display: none" id="option_remove" onclick="remove_option()" >

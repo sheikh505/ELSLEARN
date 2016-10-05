@@ -1,5 +1,5 @@
 <% if @courses.length == 0 %>
-    <%=select_tag "course",options_for_select(['select board and degree first'].map{|course| [course,""]}),class: 'select' %>
+    <%=select_tag "course",options_for_select(['select board and certification first'].map{|course| [course,""]}),class: 'select' %>
 <% else %>
     <select id="course" name="course" onchange="selectCourse(this.value)">
       <option value="">select course</option>
@@ -8,7 +8,7 @@
       <% end %>
     </select>
 <% end %>
-<div id ="course_lists">
+<div style="display:none" id ="course_lists">
 
 </div>
 <script>

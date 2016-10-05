@@ -91,13 +91,13 @@ class HomePageController < ApplicationController
     past_papers.each do |paper|
       question_ids << paper.question_id
     end
-    all_questions_with_fetched_ids = Question.find(question_ids)
+    all_questions_with_fetched_ids = Question.where("id IN (?)", question_ids)
+    puts "========================>" + all_questions_with_fetched_ids.inspect
     @varients = []
     all_questions_with_fetched_ids.each do |question_varient|
       @varients<<question_varient.varient
     end
     @varients.compact!
-    @varients = @varients.reject { |c| c.empty? }
     @varients.uniq!
 
     render :partial => 'home_page/varient_list'
@@ -177,6 +177,8 @@ class HomePageController < ApplicationController
   end
 
   def instructions
+    puts "new puts===>>>>>>>>>>>>>>>>>>>>>>>",params[:quiz_time].inspect
+    session[:quiz_time] = params[:quiz_time]
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
     elsif params[:uthid].present?
@@ -246,6 +248,7 @@ class HomePageController < ApplicationController
   end
 
   def quiz
+    @quiz_time = session[:quiz_time]
     if params[:user_test_history_id].present? || @user_test_history_id.present?
       if params[:user_test_history_id].present?
         @user_test_history_id = params[:user_test_history_id]
@@ -550,6 +553,14 @@ class HomePageController < ApplicationController
     @membership_plans = MembershipPlan.order(:price)
   end
   def try_it
+    @past_papers = PastPaperHistory.all
+    @years = []
+    @past_papers.each do |paper|
+      @years << paper.year
+    end
+    @years.uniq!
+    @years.sort!
+    @years.reverse!
     @courses = Course.all
     if user_signed_in?
       @user = current_user

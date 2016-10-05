@@ -10,7 +10,7 @@
 
     <!--td><%= link_to "Add New Test", new_quiz_path, :class => 'btn btn-inverse btn-large' %></td>
     <td><%= link_to "Add New Notes", new_book_path, :class => 'btn btn-inverse btn-large' %></td-->
-    <li><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %></li>
+    <li><% unless current_user.is_proofreader? %><%= link_to "Add New Question", questions_path, :class => 'btn btn-inverse btn-large' %><% end %></li>
   <% end %>
 </ul>
 <ul class="admin-opt admin-opt-dashboard">

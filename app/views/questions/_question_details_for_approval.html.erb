@@ -4,7 +4,7 @@
 
       <div class="course_link_cont">
         <h3>Topic Association
-        <span style="float: right; font-size: small"><input id="topicAssociation" type="checkbox" checked />Enable Topic Linking</span>
+        <span id="" style="float: right; font-size: small"><input id="topicAssociation" type="checkbox" checked />Enable Topic Linking</span>
         </h3>
         <div id="topic_table_container" class="course_link_container listing-holder">
         </div>
@@ -82,6 +82,25 @@
                 $("#degree4 input[type=checkbox]").prop("checked", false);
             }
         });
+
+      $("#topicAssociation").on("change", function(){
+        topic_id = this.value;
+        $.ajax({
+          url: '/questions/get_all_topics_from_topic_linking',
+          type: 'get',
+          data: "topic_id=" + topic_id + "&question_id=" +<%= @question.id%>,
+          async: false,
+          success: function (data) {
+//                    alert("topic_id se TopicLinking wala ajax success function");
+            $("#topic_table_container").html(data);
+
+          },
+          error: function () {
+//                                alert("topic_id se TopicLinking wala ajax error function");
+          }
+        });
+      })
+
         $("#topic_linking_topic_3").on("change", function(){
             topic_id = this.value;
 //            alert(topic_id);

@@ -230,7 +230,6 @@ class QuestionsController < ApplicationController
 
     puts "++++++++++++>>>>>>>>",params.inspect
     @question = Question.find_by_id(params[:id])
-
     # @topic = @question.topic
     # @course_id = @topic.course_id
     @boards = []
@@ -250,6 +249,7 @@ class QuestionsController < ApplicationController
 
     @view = @question.question_type
     @view = @view.to_s()
+    @flag = true
     # @topics = Course.find_by_id(@course_id).topics
 
     #test_id = params[:test_id]
@@ -474,7 +474,7 @@ class QuestionsController < ApplicationController
   def create
 
 
-    puts "===================>>>params.inspect=",params.inspect
+    puts "===================>>>params.inspect="+params.inspect
 
     @boards = params[:boards]
     @degrees = params[:degrees]
@@ -486,10 +486,10 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.varient= params[:varient]
     @question.difficulty= params[:difficulty]
-    @question.statement = params[:tinymce4]
-    @question.description = params[:tinymce5]
+    @question.description = params[:detail_answer]
 
     @question.course_linking_id = params[:course_linking_id]
+    puts "===================>>>params.inspect="+@question.description+"    "+@question.statement
 
     #@question.topic_id = params[:topic_id]
     @question.test_id = nil
@@ -583,8 +583,8 @@ class QuestionsController < ApplicationController
     @question.update_attributes(params[:question])
     @question.difficulty= params[:difficulty]
     @question.varient= params[:varient]
-    @question.statement = params[:tinymce4]
-    @question.description = params[:tinymce5]
+    @question.description = params[:detail_answer]
+    puts "======================>",params.inspect,@question.statement,@question.description, params[:answer]
     # @question.topic_id = params[:topic_id]
     @question.author = current_user.email
     @question.save
@@ -772,7 +772,17 @@ class QuestionsController < ApplicationController
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
     varient = params[:varient]
-    selected_topic_ids = params[:selected_topic_ids].split(",")
+    if params[:selected_topic_ids]
+      selected_topic_ids = params[:selected_topic_ids].split(",")
+    else
+      topics = Course.find(course_id).topics
+      topic_ids = []
+      topics.each do |topic|
+        topic_ids << topic.id
+      end
+      selected_topic_ids = topic_ids
+      puts "====================>"+selected_topic_ids.inspect
+    end
     puts "--------selected topics------",selected_topic_ids.inspect
     puts "=-=-=-varient=-=-=-=",varient.inspect
     ques_no = params[:ques_no]
@@ -1114,7 +1124,7 @@ class QuestionsController < ApplicationController
         if current_user.email == "proofreader1@els.com"
           questions = Question.where("id < ? AND (workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'", question_id)
         else
-          questions = Question.where(:author => User.select("email").where(:role=> current_user.id.to_s), :deleted => false, :workflow_state => ["new"]).order("#{sort_helper}")
+          questions = Question.where(:author => User.select("email").where(:role=> current_user.id.to_s), :deleted => false, :workflow_state => ["new"])
         end
       elsif current_user.is_teacher?
         if @teacher_self_flag == '1' # teacher's questions only
@@ -1188,7 +1198,7 @@ class QuestionsController < ApplicationController
         if current_user.email == "proofreader1@els.com"
           questions = Question.where("id > ? AND (workflow_state = 'new' or workflow_state is null) AND deleted = 'FALSE'", question_id)
         else
-          questions = Question.where(:author => User.select("email").where(:role=> current_user.id.to_s), :deleted => false, :workflow_state => ["new"]).order("#{sort_helper}")
+          questions = Question.where(:author => User.select("email").where(:role=> current_user.id.to_s), :deleted => false, :workflow_state => ["new"])
         end
       elsif current_user.is_teacher?
 
@@ -1261,6 +1271,7 @@ class QuestionsController < ApplicationController
     # puts "=====================><><><><reject_question",params.inspect
 
     @question = Question.find(params[:question][:id])
+    question_id = @question.id
     message = ""
     if current_user.is_teacher?
       insert_to_question_history_flag = true
@@ -1296,19 +1307,24 @@ class QuestionsController < ApplicationController
       course_list.each do |course|
         course_ids << course.course_id
       end
+
       @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
           joins(:topic => :course).
-          where("author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
-                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)  and deleted = 'FALSE'",current_user.email, course_ids, current_user.id).first
+          where("questions.id < ? AND author != ? AND course_id IN (?) and workflow_state IN ('reviewed_by_proofreader', 'being_reviewed') and
+                      questions.id NOT IN (SELECT question_id as id FROM question_histories WHERE user_id = ?)  and deleted = 'FALSE'", question_id,current_user.email, course_ids, current_user.id).first
     elsif current_user.is_proofreader?
       #if current_user.email == "proofreader1@els.com"
-        @question = Question.where("workflow_state = 'new' or workflow_state is null and deleted = 'FALSE'").first
         @question.update_attributes(:comments => params[:comments].to_s)
         @question.reject!
+        @question = Question.where("questions.id < ? AND workflow_state = 'new' or workflow_state is null and deleted = 'FALSE'", question_id).first
         # redirect_to questions_approval_questions_path
       #else
        # @question = Question.where(:author => current_user.email).first
       #end
+    elsif current_user.is_hod?
+      @question.update_attributes(:comments => params[:comments].to_s)
+      @question.reject!
+      @question = Question.where("questions.id < ? AND workflow_state = 'pending_for_hod_approval'", question_id).first
     end
     if @question.present?
       # redirect_to questions_path

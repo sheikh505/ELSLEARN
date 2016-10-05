@@ -1,6 +1,8 @@
 <li>
   <%= current_user.teacher_token || "No TOken" %>
 </li>
+
+<% unless current_user.is_hod? %>
 <li>
   <%= link_to "New Students", "/new_students" %>
 </li>
@@ -8,7 +10,7 @@
 <li>
   <%= link_to "Manage Students", "/manage_students" %>
 </li>
-
+<% end %>
 <li>
   <%= link_to "Manage Tests", quizzes_path %>
 </li>

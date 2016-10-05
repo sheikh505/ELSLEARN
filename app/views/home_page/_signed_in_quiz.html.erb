@@ -2,6 +2,7 @@
 <% $size = @size %>
 <% $answer = @answer %>
 <% $past_paper_flag = @past_paper_flag %>
+<% $quiz_time = @quiz_time %>
 
     <style>
         #countdown {
@@ -42,7 +43,11 @@
             var $countdown;
             var $form;
             var incrementTime = 70;
-            var currentTime = '<%=$size%>' * 120000; // 5 minutes (in milliseconds)
+            var quiz_time = <%=$quiz_time%>
+          if(quiz_time == "1")
+            var currentTime = '<%=$size%>' * 120000;
+          else
+            var currentTime = quiz_time * 60000;
 
             $(function() {
 
