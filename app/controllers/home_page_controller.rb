@@ -181,9 +181,75 @@ class HomePageController < ApplicationController
     session[:quiz_time] = params[:quiz_time]
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
+      @quiz = Quiz.find_by_test_code(params[:test_code])
+      session[:board_id] = ""
+      session[:degree_id] = ""
+      session[:course_id] = @quiz.course_id
+      session[:year] = ""
+      session[:session] = ""
+      @mcq = @fill = @descriptive = @truefalse = 0
+      @quiz.question_ids.split(",").each do |id|
+        question = Question.find(id)
+        if question.question_type == 1
+          @mcq += 1
+        elsif question.question_type == 4
+          @truefalse += 1
+        elsif question.question_type == 3
+          @fill += 1
+        else
+          @descriptive += 1
+        end
+      end
+      session[:mcq] = @mcq
+      session[:fill] = @fill
+      session[:true_false] = @truefalse
+      session[:descriptive] = @descriptive
+
+
+      if user_signed_in?
+        user_test_history = {:board_id=> "",:degree_id=> "",
+                             :course_id=> @quiz.course_id,:mcq=> @mcq,
+                             :truefalse=> @truefalse,:fill=> @fill,
+                             :descriptive=> @descriptive, :quiz_name => @quiz.name,
+                             :year=> "", :session=> "", :code => params[:test_code],
+                             :user_id=> current_user.id, :topic_ids => ""}
+        puts "new puts===>>>",user_test_history.inspect
+        user_history = UserTestHistory.new(user_test_history)
+        puts "new userhistory------",user_history.inspect
+        user_history.save
+        @user_test_history_id = user_history.id
+      end
+
     elsif params[:uthid].present?
+
       @user_test_history_id = params[:uthid]
+      @user_test_history = UserTestHistory.find(@user_test_history_id)
+      session[:board_id] = @user_test_history.board_id
+      session[:degree_id] = @user_test_history.degree_id
+      session[:course_id] = @user_test_history.course_id
+      session[:year] = @user_test_history.year
+      session[:session] = @user_test_history.session
+      session[:mcq] = @user_test_history.mcq
+      session[:fill] = @user_test_history.fill
+      session[:true_false] = @user_test_history.truefalse
+      session[:descriptive] = @user_test_history.descriptive
+
+      if user_signed_in?
+        user_test_history = {:board_id=> @user_test_history.board_id,:degree_id=> @user_test_history.degree_id,
+                             :course_id=> @user_test_history.course_id,:mcq=> @user_test_history.mcq,
+                             :truefalse=> @user_test_history.truefalse,:fill=> @user_test_history.fill,
+                             :descriptive=> @user_test_history.descriptive, :quiz_name => "Past Paper",
+                             :year=> @user_test_history.year, :session=> @user_test_history.session,
+                             :user_id=>current_user.id, :topic_ids => @user_test_history.topic_ids}
+        puts "new puts===>>>",user_test_history.inspect
+        user_history = UserTestHistory.new(user_test_history)
+        puts "new userhistory------",user_history.inspect
+        user_history.save
+        @user_test_history_id = user_history.id
+      end
+
     else
+
       @board_id = params[:b_id]
       session[:board_id] = @board_id
       @degree_id = params[:degree_id]
@@ -233,7 +299,7 @@ class HomePageController < ApplicationController
 
       if user_signed_in?
         user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
-                             :course_id=> @course_id,:mcq=> @mcq,
+                             :course_id=> @course_id,:mcq=> @mcq, :quiz_name => "Created by you",
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
                              :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => list.join(",")}
@@ -328,6 +394,15 @@ class HomePageController < ApplicationController
             deg_id.include?(x.degree_ids.split(",")[3]) )}
         puts "^^^^^^^^%%%%%%",list.inspect
         @questions = list.shuffle
+      else
+        quiz = Quiz.find_by_test_code(user_test_history[:code])
+        if quiz.present?
+          question_ids = quiz.question_ids
+          @questions = Question.find(question_ids.split(','))
+          @size = @questions.length
+        else
+          render :nothing=>true
+        end
       end
     elsif params[:test_code].present? || params[:test_code_login].present? || params[:test_code_registration].present?
       if params[:test_code].present?
@@ -351,6 +426,7 @@ class HomePageController < ApplicationController
     if @questions.present?
       puts "%%%%%%%%%%% if question present ? %%%%%%%",@questions.inspect
       @size = @questions.length
+
       @index = 0
       @answer = Hash.new
       i = 0

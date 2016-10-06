@@ -7,7 +7,10 @@ class UserController < ApplicationController
       user_history = UserTestHistory.new(params[:user_test_history])
       user_history.save
     else
-      UserTestHistory.find(params[:user_test_history][:id]).update_attributes(params[:user_test_history])
+      @test = UserTestHistory.find(params[:user_test_history][:id])
+      @test.score = params[:score]
+      @test.total = params[:total]
+      @test.save
     end
     redirect_to user_dashboard_path
   end

@@ -2,7 +2,7 @@
 <%= render 'register_user' %>
 <% else %>
 
-
+  <% $user_test_history = @user_test_history_id %>
     <%= render 'signed_in_quiz' %>
 <% end%>
 

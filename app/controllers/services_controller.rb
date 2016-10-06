@@ -305,7 +305,7 @@ class ServicesController < ApplicationController
     @quizzes = UserTestHistory.where(:user_id => @student.id)
     @quizzes = @quizzes.map{|quiz|
       {
-          :test_code => quiz.code,
+          :test_name => quiz.quiz_name,
           :obtained_marks => quiz.score,
           :total_marks => quiz.total,
           :created_at => quiz.created_at

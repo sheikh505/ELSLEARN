@@ -86,6 +86,8 @@
 
       </div>
       <div class="modal-footer m_footer_container">
+        <input type="hidden" name="score" value="" id="test_score1" >
+        <input type="hidden" name="total" value="" id="test_total" >
         <button type="submit" class="btn btn-default" >Close</button>
       </div>
     </div>
@@ -253,9 +255,11 @@
                 type:'get',
                 processData:false,
                 success:function (data) {
-                  console.log(data);
+                  alert(data.result);
                   $("#course_name").text($("input[name$='course']").val());
                   $("#test_score").text(data.result);
+                  $("#test_score1").val(data.result);
+                  $("#test_total").val(data.total);
                   $('#myModal').modal('toggle');
                 },
                 error:function (data) {
