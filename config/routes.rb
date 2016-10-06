@@ -93,6 +93,7 @@ ExamsSystem::Application.routes.draw do
       get :quiz
       post :create_quiz
       get :get_quiz_list
+      get :get_student_quiz_list
     end
   end
 
