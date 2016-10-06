@@ -255,7 +255,6 @@
                 type:'get',
                 processData:false,
                 success:function (data) {
-                  alert(data.result);
                   $("#course_name").text($("input[name$='course']").val());
                   $("#test_score").text(data.result);
                   $("#test_score1").val(data.result);
