@@ -47,9 +47,7 @@
       <label id="Total_Number_Of_Questions" for="Total_Number_Of_Questions">Total number of questions : 0</label>
     </div>
     <%= f.hidden_field :question_ids, :value => "" %>
-    <div class="actions">
-      <%= f.submit :class => 'btn btn-inverse' %>
-    </div>
+
 
     <div id="question_type_container" class="pre_question_holder" style="display: none;">
       <div class="row_custom">
@@ -83,6 +81,9 @@
     <div id="ques_container" class='ques_container'>
 
     </div>
+    <div class="actions">
+      <%= f.submit :class => 'btn btn-inverse' %>
+    </div>
 
 
 <% end %>
@@ -91,7 +92,7 @@
 <%=hidden_field_tag "question_ids_els","" %>
 <!--modal pop up for question add to test-->
 
-<div class="modal fade modal_custom" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade modal_custom" id="myModal" style="overflow:scroll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <%#= render partial: 'pop_up' %>
 </div>
 <script>
@@ -125,6 +126,7 @@
     }
 
     function generate_questions() {
+      $("#question_type_container").hide();
         var e = document.getElementById("quiz_course_id");
         var course_id = e.options[e.selectedIndex].value;
         if (course_id == 0) {
