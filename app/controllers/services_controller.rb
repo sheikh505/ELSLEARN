@@ -191,7 +191,6 @@ class ServicesController < ApplicationController
 
   def fetch_questions
     puts "=============================>", params.inspect
-    die
     year = params[:year]
     session = params[:session]
     board_id = params[:board_id]
