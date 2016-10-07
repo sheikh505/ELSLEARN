@@ -382,7 +382,9 @@ class ServicesController < ApplicationController
     end
     if params[:user_test_history_id]
       test = UserTestHistory.find(params[:user_test_history_id])
-      test.update_attributes(:score => @score, :total => @total)
+      test.score = @score
+      test.total = @total
+      test.save
     end
     render :json => {:success => true, :result => @score, :total => @total}
     # answers = params[:answer]

@@ -26,9 +26,9 @@
     <%elsif $arr[@index].question_type == 4 %>
         <% $ques_id = $arr[@index].id %>
         <ul>
-         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_1','ref_2','ref_0', <%= $ques_id %>, 'True')" class='option_question'>True</a></li>
+         <li ><a href="javascript:void(0)" id="ref_0" onclick="next_question_type_true_false('ref_0','ref_1','ref_0', <%= $ques_id %>, 'True')" class='option_question'>True</a></li>
 
-         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_2','ref_1','ref_1', <%= $ques_id %>, 'False')" class='option_question'>False</a></li>
+         <li ><a href="javascript:void(0)" id="ref_1" onclick="next_question_type_true_false('ref_1','ref_0','ref_1', <%= $ques_id %>, 'False')" class='option_question'>False</a></li>
 
 
         </ul>
@@ -156,14 +156,9 @@
         }
       });
 
-      if (option == 1){
-        $("#"+id_2).addClass('wrong_answer selected');
-        $("#"+id).addClass('correct_answer');
 
-      }else{
-        $("#"+id).addClass('wrong_answer selected');
-        $("#"+id_2).addClass('correct_answer');
-      }
+        $("#"+id).addClass('correct_answer');
+        $("#"+id_2).removeClass('correct_answer');
 
     }
 
