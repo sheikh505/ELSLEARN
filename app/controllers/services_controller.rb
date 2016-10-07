@@ -171,6 +171,12 @@ class ServicesController < ApplicationController
   def get_questions_by_test_code
     test_code =  params[:test_code]
     quiz = Quiz.find_by_test_code(test_code)
+    user = User.find_by_email(params[:email])
+    user_test_history = {:quiz_name => quiz.name,
+                         :code => params[:test_code],
+                         :user_id=> user.id}
+    user_history = UserTestHistory.new(user_test_history)
+    user_history.save
     if quiz.present? && quiz.question_ids.present?
       question_ids = quiz.question_ids
       questions = Question.find(question_ids.split(','))
@@ -183,7 +189,7 @@ class ServicesController < ApplicationController
         }
       end
 
-      render :json => {:success => true, :questions => @questionlist}
+      render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist}
     else
       render :json => {:success => false}
     end
@@ -373,6 +379,10 @@ class ServicesController < ApplicationController
           end
         end
       end
+    end
+    if params[:user_test_history_id]
+      test = UserTestHistory.find(params[:user_test_history_id])
+      test.update_attributes(:score => @score, :total => @total)
     end
     render :json => {:success => true, :result => @score, :total => @total}
     # answers = params[:answer]
