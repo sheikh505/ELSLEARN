@@ -171,7 +171,7 @@ class ServicesController < ApplicationController
   def get_questions_by_test_code
     test_code =  params[:test_code]
     quiz = Quiz.find_by_test_code(test_code)
-    user = User.find_by_email(params[:email])
+    user = User.find_by_device_token(params[:auth_token])
     user_test_history = {:quiz_name => quiz.name,
                          :code => params[:test_code],
                          :user_id=> user.id}
