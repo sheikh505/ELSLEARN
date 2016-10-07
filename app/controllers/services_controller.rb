@@ -198,8 +198,8 @@ class ServicesController < ApplicationController
     course_id = params[:course_id]
     past_paper_flag = params[:past_paper_flag]
     varient = params[:varient]
-    selected_topic_ids = params[:selected_topic_ids].split(",")
-    puts "--------selected topics------",selected_topic_ids.inspect
+    # selected_topic_ids = params[:selected_topic_ids].split(",")
+    # puts "--------selected topics------",selected_topic_ids.inspect
     puts "=-=-=-varient=-=-=-=",varient.inspect
     ques_no = params[:ques_no]
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
@@ -214,10 +214,10 @@ class ServicesController < ApplicationController
       # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
 
       temp = question_select.select{|x|  x.topic_ids.present? &&
-          (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
+          # (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
           x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
           degree_id.include?(x.degree_ids.split(",")[1]) ||
           degree_id.include?(x.degree_ids.split(",")[2]) ||
@@ -255,10 +255,10 @@ class ServicesController < ApplicationController
                                and deleted = 'false'
                               and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
       @questions = questions_data.select{|x|  x.topic_ids.present? &&
-          (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+          # (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+          #     selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
           x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
           degree_id.include?(x.degree_ids.split(",")[1]) ||
           degree_id.include?(x.degree_ids.split(",")[2]) ||
