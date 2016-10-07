@@ -355,8 +355,8 @@ class ServicesController < ApplicationController
       if @question.question_type == 1
         if ques.split(":")[1]
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
-            @option = Option.find(ques.split(":")[1])
-            if @option.is_answer == 1
+            @option = Option.find_by_id(ques.split(":")[1])
+            if @option.present? && @option.is_answer == 1
               @score += 5
             end
           end
