@@ -209,12 +209,27 @@ class ServicesController < ApplicationController
     puts "=-=-=-varient=-=-=-=",varient.inspect
     ques_no = params[:ques_no]
     bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(board_id, degree_id)
+    user = User.find_by_email(params[:email])
     @questions = []
     if past_paper_flag.to_i == 2
+
+
+
       mcq = params[:mcq]
       fill = params[:fill]
       true_false = params[:true_false]
       descriptive = params[:descriptive]
+
+      user_test_history = {:board_id=> board_id,:degree_id=> degree_id,
+                           :course_id=> course_id,:mcq=> params[:mcq],
+                           :truefalse=> params[:true_false],:fill=> params[:fill],
+                           :descriptive=> params[:descriptive], :quiz_name => "Own Test",
+                           :user_id=> user.id}
+      puts "new puts===>>>",user_test_history.inspect
+      user_history = UserTestHistory.new(user_test_history)
+      puts "new userhistory------",user_history.inspect
+      user_history.save
+
       # temp = Question.joins(:question_histories, :course_linking).where(" deleted ='false' and workflow_state='accepted' and varient = '' and course_linking_id = ? " , CourseLinking.search_on_course_column(course_id).id)
       question_select = Question.includes(:past_paper_history).where("deleted = 'false' and workflow_state ='accepted' ")
       # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
@@ -253,8 +268,18 @@ class ServicesController < ApplicationController
           l += 1
         end
 
+
+
       end
     elsif past_paper_flag.to_i == 1
+      user_test_history = {:board_id=> board_id,:degree_id=> degree_id, :session => session,
+                           :course_id=> course_id, :year => year,
+                           :quiz_name => "Past Paper Test",
+                           :user_id=> user.id}
+      puts "new puts===>>>",user_test_history.inspect
+      user_history = UserTestHistory.new(user_test_history)
+      puts "new userhistory------",user_history.inspect
+      user_history.save
 
       questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
           "p.course_id = ? and p.year = ? and p.session = ?
@@ -288,7 +313,7 @@ class ServicesController < ApplicationController
         }
       end
 
-      render :json => {:success => true, :questions => @questionlist}
+      render :json => {:success => true, :questions => @questionlist, :user_test_history_id => user_history.id}
     else
       render :json => {:success => false}
     end
