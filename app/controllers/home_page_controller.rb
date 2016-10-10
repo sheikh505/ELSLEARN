@@ -210,12 +210,11 @@ class HomePageController < ApplicationController
 
 
       if user_signed_in?
-        user_test_history = {:board_id=> "",:degree_id=> "",
-                             :course_id=> @quiz.course_id,:mcq=> @mcq,
+        user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
                              :truefalse=> @truefalse,:fill=> @fill,
                              :descriptive=> @descriptive, :quiz_name => @quiz.name,
-                             :year=> "", :session=> "", :code => params[:test_code],
-                             :user_id=> current_user.id, :topic_ids => ""}
+                             :code => params[:test_code],
+                             :user_id=> current_user.id, :is_live => true}
         puts "new puts===>>>",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
         puts "new userhistory------",user_history.inspect
