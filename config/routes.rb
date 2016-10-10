@@ -94,6 +94,7 @@ ExamsSystem::Application.routes.draw do
       post :create_quiz
       get :get_quiz_list
       get :get_student_quiz_list
+      get :get_live_score_list
     end
   end
 

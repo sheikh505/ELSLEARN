@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_student_quiz_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_student_quiz_list, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -174,10 +174,13 @@ class ServicesController < ApplicationController
   def get_questions_by_test_code
     test_code =  params[:test_code]
     quiz = Quiz.find_by_test_code(test_code)
+    unless quiz.attempted
+      quiz.update_attributes(:attempted => true)
+    end
     user = User.find_by_email(params[:email])
     user_test_history = {:quiz_name => quiz.name,
                          :code => params[:test_code],
-                         :user_id=> user.id}
+                         :user_id=> user.id, :is_live => true}
     user_history = UserTestHistory.new(user_test_history)
     user_history.save
     if quiz.present? && quiz.question_ids.present?
@@ -335,7 +338,7 @@ class ServicesController < ApplicationController
 
   def get_student_quiz_list
     @student = User.find_by_email(params[:email])
-    @quizzes = UserTestHistory.where(:user_id => @student.id)
+    @quizzes = UserTestHistory.where(:user_id => @student.id).order('created_at DESC')
     @quizzes = @quizzes.map{|quiz|
       {
           :test_name => quiz.quiz_name,
@@ -412,6 +415,7 @@ class ServicesController < ApplicationController
       test = UserTestHistory.find(params[:user_test_history_id])
       test.score = @score
       test.total = @total
+      test.is_live = false
       test.save!
     end
     render :json => {:success => true, :result => @score, :total => @total}
@@ -434,6 +438,32 @@ class ServicesController < ApplicationController
     # public int optionId;
     # public String answer;
     # public boolean trueFalse;
+  end
+
+  def get_live_score_list
+    user = User.find_by_email(params[:email])
+    quizzes = Quiz.where(:user_id => user.id, :attempted => true)
+    count = Hash.new
+    quizzes.each do |quiz|
+      count[quiz.test_code] = UserTestHistory.where(:code => quiz.test_code).uniq.pluck(:user_id).count
+    end
+    status = Hash.new
+    quizzes.each do |quiz|
+      status[quiz.test_code] = UserTestHistory.where("code = ? AND is_live = ?",quiz.test_code, true ).present? ? "Attempting" : "Attempted"
+    end
+    @quizzes = quizzes.map do |quiz|
+      {
+          :test_code => quiz.test_code,
+          :test_name => quiz.name,
+          :status => status[quiz.test_code],
+          :count => count[quiz.test_code]
+      }
+    end
+    if @quizzes.present?
+      render :json => {:success => true, :quizzes => @quizzes}
+    else
+      render :json => {:success => false}
+    end
   end
 
   def get_courses_by_teacher

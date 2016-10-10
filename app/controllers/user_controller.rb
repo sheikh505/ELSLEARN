@@ -10,6 +10,7 @@ class UserController < ApplicationController
       @test = UserTestHistory.find(params[:user_test_history][:id])
       @test.score = params[:score]
       @test.total = params[:total]
+      @test.is_live = false
       @test.save
     end
     redirect_to user_dashboard_path
@@ -51,7 +52,7 @@ class UserController < ApplicationController
 
   def dashboard
     @user = User.find(current_user.id)
-    @user_test_histories = UserTestHistory.find_all_by_user_id(@user.id)
+    @user_test_histories = UserTestHistory.where(:user_id => @user.id).order('created_at DESC')
   end
 
   def ReTakeTest
