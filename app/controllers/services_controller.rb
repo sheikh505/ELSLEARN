@@ -30,6 +30,8 @@ class ServicesController < ApplicationController
     past_papers.uniq{|x| x.year}.each do |uniqueItems|
       years << uniqueItems.year
     end
+    years.sort!
+    years.reverse!
 
     past_papers.each do |paper|
       question_ids << paper.question_id
@@ -42,6 +44,7 @@ class ServicesController < ApplicationController
     variants.compact!
     variants = variants.reject { |c| c.empty? }
     variants.uniq!
+    variants.sort!
     # years = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # sessions = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # variants = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
