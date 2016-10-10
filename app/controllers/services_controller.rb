@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_student_quiz_list, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -196,6 +196,26 @@ class ServicesController < ApplicationController
       end
 
       render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist}
+    else
+      render :json => {:success => false}
+    end
+  end
+
+  def live_score_details
+    tests = UserTestHistory.where(:code => params[:test_code])
+    user_ids = tests.uniq.pluck(:user_id)
+    users = User.where('id IN (?)', user_ids)
+
+    students = users.map do |user|
+      {
+          :student_email => user.email,
+          :obtained_marks => user.user_test_histories.last.score,
+          :total_marks => user.user_test_histories.last.total,
+          :live => user.user_test_histories.last.is_live
+      }
+    end
+    if students.present?
+      render :json => {:success => true, :students => students}
     else
       render :json => {:success => false}
     end
