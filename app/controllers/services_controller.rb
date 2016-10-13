@@ -563,6 +563,11 @@ class ServicesController < ApplicationController
           :count => count[quiz.test_code]
       }
     end
+    @quizzes.each do |quiz|
+      if quiz[:count] == 0
+        @quizzes.delete_at(@quizzes.index(quiz))
+      end
+    end
     if @quizzes.present?
       render :json => {:success => true, :quizzes => @quizzes}
     else
