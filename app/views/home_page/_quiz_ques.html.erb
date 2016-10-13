@@ -246,7 +246,7 @@
             success:function (data) {
               $array = data.array;
               $.ajax({
-                url:'/services/verify_answers?array='+$array,
+                url:'/services/verify_answers?array='+$array+'&test_history_id='+ <%= $user_test_history_id %>,
                 type:'get',
                 processData:false,
                 success:function (data) {

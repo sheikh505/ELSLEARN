@@ -183,9 +183,6 @@ class ServicesController < ApplicationController
   def get_questions_by_test_code
     test_code =  params[:test_code]
     quiz = Quiz.find_by_test_code(test_code)
-    unless quiz.attempted
-      quiz.update_attributes(:attempted => true)
-    end
     user = User.find_by_email(params[:email])
     user_test_history = {:quiz_name => quiz.name,
                          :code => params[:test_code],
@@ -239,7 +236,7 @@ class ServicesController < ApplicationController
     course_id = params[:course_id]
     past_paper_flag = params[:past_paper_flag]
     varient = params[:varient]
-    # selected_topic_ids = params[:selected_topic_ids].split(",")
+    selected_topic_ids = params[:selected_topic_ids].split(",")
     # puts "--------selected topics------",selected_topic_ids.inspect
     puts "=-=-=-varient=-=-=-=",varient.inspect
     ques_no = params[:ques_no]
@@ -270,10 +267,10 @@ class ServicesController < ApplicationController
       # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
 
       temp = question_select.select{|x|  x.topic_ids.present? &&
-          # (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
-          #     selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
-          #     selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
-          #     selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
+           (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+               selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+               selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+               selected_topic_ids.include?(x.topic_ids.split(",")[3]))  &&
           x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
           degree_id.include?(x.degree_ids.split(",")[1]) ||
           degree_id.include?(x.degree_ids.split(",")[2]) ||
@@ -407,39 +404,117 @@ class ServicesController < ApplicationController
   def verify_answers
     puts "===========================>", params.inspect
     @score = 0
+    @questions = Hash.new
+    @questions[:mcq] = Hash.new
+    @questions[:fill] = Hash.new
+    @questions[:truefalse] = Hash.new
+    @questions[:mcq][:total] = 0
+    @questions[:fill][:total] = 0
+    @questions[:truefalse][:total] = 0
+    @questions[:mcq][:attempted] = 0
+    @questions[:fill][:attempted] = 0
+    @questions[:truefalse][:attempted] = 0
+    @questions[:mcq][:correct] = 0
+    @questions[:fill][:correct] = 0
+    @questions[:truefalse][:correct] = 0
 
     array = params[:array].split(",")
+    @total_questions = array.length
+    @total_correct = 0
+    @total_wrong = array.length
     @total = array.length*5
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
+        @questions[:mcq][:total] += 1
         if ques.split(":")[1]
+          @questions[:mcq][:attempted] += 1
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
             @option = Option.find_by_id(ques.split(":")[1])
             if @option.present? && @option.is_answer == 1
               @score += 5
+              @questions[:mcq][:correct] += 1
+              @total_correct += 1
+              @total_wrong -= 1
             end
           end
         end
       elsif @question.question_type == 4
+        @questions[:truefalse][:total] += 1
         @option = @question.options.first
         if ques.split(":")[1]
+          @questions[:truefalse][:attempted] += 1
           if @option.statement == ques.split(":")[1]
             @score += 5
+            @questions[:truefalse][:correct] += 1
+            @total_correct += 1
+            @total_wrong -= 1
           end
         end
       elsif @question.question_type == 3
+        @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
+          @questions[:fill][:attempted] += 1
           @options.each do |opt|
             if opt == ques.split(":")[1]
               @score += 5
+              @questions[:fill][:correct] += 1
+              @total_correct += 1
+              @total_wrong -= 1
               break
             end
           end
         end
       end
     end
+
+    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2) unless @questions[:mcq][:total] == 0
+    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2) unless @questions[:fill][:total] == 0
+    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2) unless @questions[:truefalse][:total] == 0
+    @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
+
+    test_history = UserTestHistory.find(params[:test_history_id])
+    if test_history.code
+      quiz = Quiz.find_by_test_code(test_history.code)
+      unless quiz.attempted
+        quiz.update_attributes(:attempted => true)
+      end
+      test_history.score = @total_correct*5
+      test_history.total = @total
+      test_history.is_live = false
+      test_history.save!
+      test_total_marks = test_history.total
+
+      user_ids = UserTestHistory.where(:code => test_history.code).uniq.pluck(:user_id)
+      users = User.where("id IN (?)", user_ids)
+      scores = Array.new
+      users.each do |user|
+        scores << user.user_test_histories.last.score.to_i
+      end
+
+      @test_highest = 0
+      @test_lowest = 0
+      sum_of_marks = 0
+      scores.each do|score|
+        sum_of_marks += score
+        if score > @test_highest
+          @test_highest = score
+        end
+        if score < @test_lowest
+          @test_lowest = score
+        end
+      end
+      @test_average = sum_of_marks/scores.length
+      @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
+
+      @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
+      @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
+      @time_allowed = array.length * 2
+    end
+
+
+
     if params[:user_test_history_id]
       test = UserTestHistory.find(params[:user_test_history_id])
       test.score = @score

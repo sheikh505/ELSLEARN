@@ -182,9 +182,6 @@ class HomePageController < ApplicationController
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
       @quiz = Quiz.find_by_test_code(params[:test_code])
-      unless @quiz.attempted
-        @quiz.update_attributes(:attempted => true)
-      end
       session[:board_id] = ""
       session[:degree_id] = ""
       session[:course_id] = @quiz.course_id
