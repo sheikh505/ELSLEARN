@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -13,6 +13,15 @@ class ServicesController < ApplicationController
         render :json => {:success => "true", :user => user, :message => "User signed In"}
     else
       render :json => {:success => "false", :message => "Invalid Email Or Password."}
+    end
+  end
+
+  def get_topics
+    @topics = Topic.where(:course_id => params[:course_id]).order(:created_at)
+    if @topics.present?
+      render :json => {:success => true, :topics => @topics}
+    else
+      render :json => {:success => false}
     end
   end
 
