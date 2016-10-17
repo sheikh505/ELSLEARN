@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_topics, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics,:verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -401,7 +401,7 @@ class ServicesController < ApplicationController
     end
   end
 
-  def verify_answers
+  def verify_answers_web
     puts "===========================>", params.inspect
     @score = 0
     @questions = Hash.new
@@ -419,6 +419,7 @@ class ServicesController < ApplicationController
     @questions[:truefalse][:correct] = 0
 
     array = params[:array].split(",")
+
     @total_questions = array.length
     @total_correct = 0
     @total_wrong = array.length
@@ -469,10 +470,40 @@ class ServicesController < ApplicationController
       end
     end
 
-    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2) unless @questions[:mcq][:total] == 0
-    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2) unless @questions[:fill][:total] == 0
-    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2) unless @questions[:truefalse][:total] == 0
+    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
+    if @questions[:mcq][:percentage].nan?
+      @questions[:mcq][:percentage] = 0.0
+    end
+    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
+    if @questions[:fill][:percentage].nan?
+      @questions[:fill][:percentage] = 0.0
+    end
+    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
+    if @questions[:truefalse][:percentage].nan?
+      @questions[:truefalse][:percentage] = 0.0
+    end
     @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
+    if @overall_percentage.nan?
+      @overall_percentage = 0.0
+    end
+
+    if @overall_percentage >= 90
+      @grade = "A*"
+    elsif @overall_percentage >=85 && @overall_percentage < 90
+      @grade = "A"
+    elsif @overall_percentage >=75 && @overall_percentage < 85
+      @grade = "B"
+    elsif @overall_percentage >=65 && @overall_percentage < 75
+      @grade = "C"
+    elsif @overall_percentage >=55 && @overall_percentage < 65
+      @grade = "D"
+    elsif @overall_percentage >=45 && @overall_percentage < 55
+      @grade = "E"
+    elsif @overall_percentage < 45
+      @grade = "F"
+    end
+
+
 
     test_history = UserTestHistory.find(params[:test_history_id])
     if test_history.code
@@ -480,11 +511,7 @@ class ServicesController < ApplicationController
       unless quiz.attempted
         quiz.update_attributes(:attempted => true)
       end
-      test_history.score = @total_correct*5
-      test_history.total = @total
-      test_history.is_live = false
-      test_history.save!
-      test_total_marks = test_history.total
+
 
       user_ids = UserTestHistory.where(:code => test_history.code).uniq.pluck(:user_id)
       users = User.where("id IN (?)", user_ids)
@@ -493,24 +520,54 @@ class ServicesController < ApplicationController
         scores << user.user_test_histories.last.score.to_i
       end
 
-      @test_highest = 0
-      @test_lowest = 0
+      test_history.score = @total_correct*5
+      test_history.total = @total
+      test_history.is_live = false
+      test_history.save!
+      test_total_marks = test_history.total
+
+      @test_highest = scores[0]
+      @test_lowest = scores[0]
       sum_of_marks = 0
       scores.each do|score|
         sum_of_marks += score
         if score > @test_highest
           @test_highest = score
         end
+      end
+      scores.each do|score|
         if score < @test_lowest
           @test_lowest = score
         end
       end
+
       @test_average = sum_of_marks/scores.length
       @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
 
       @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
       @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
       @time_allowed = array.length * 2
+      @teacher_name = User.find(quiz.user_id).name
+      course = quiz.course
+      @course_name = course.name
+      bdgree = course.board_degree_assignments.first
+      @board_name = bdgree.board.name
+      @degree_name = bdgree.degree.name
+
+      @test_code = test_history.code
+      @test_name = quiz.name
+
+    else
+      test_history.score = @total_correct*5
+      test_history.total = @total
+      test_history.is_live = false
+      test_history.save!
+      test_total_marks = test_history.total
+
+      @course_name = Course.find(test_history.course_id).name
+      @board_name = Board.find(test_history.board_id).name
+      @degree_name = Degree.find(test_history.degree_id).name
+      @time_allowed = session[:quiz_time]
     end
 
 
@@ -522,7 +579,83 @@ class ServicesController < ApplicationController
       test.is_live = false
       test.save!
     end
-    render :json => {:success => true, :result => @score, :total => @total}
+
+    render "home_page/result"
+
+    # answers = params[:answer]
+    # answers.each do |answer|
+    #   questionId = answer[:questionId]
+    #   questionType = answer[:questionType]
+    #   optionId = answer[:optionId]
+    #   answer = answer[:answer]
+    #   trueFalse = answer[:trueFalse]
+    #   case (questionType)
+    #     when 1
+    #       puts "=================>", questionType.inspect
+    #     else
+    #       puts "=================>else", questionType.inspect
+    #   end
+    # end
+    # questionId;
+    # public int questionType;
+    # public int optionId;
+    # public String answer;
+    # public boolean trueFalse;
+  end
+
+  def verify_answers
+    puts "===========================>", params.inspect
+    @score = 0
+
+    array = params[:array].split(",")
+
+
+    @total = array.length*5
+    array.each do |ques|
+      @question = Question.find(ques.split(":")[0])
+      if @question.question_type == 1
+        if ques.split(":")[1]
+          if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
+            @option = Option.find_by_id(ques.split(":")[1])
+            if @option.present? && @option.is_answer == 1
+              @score += 5
+            end
+          end
+        end
+      elsif @question.question_type == 4
+        @option = @question.options.first
+        if ques.split(":")[1]
+          if @option.statement == ques.split(":")[1]
+            @score += 5
+          end
+        end
+      elsif @question.question_type == 3
+        @options = @question.options.last.statement.split("/")
+        if ques.split(":")[1]
+          @options.each do |opt|
+            if opt == ques.split(":")[1]
+              @score += 5
+              break
+            end
+          end
+        end
+      end
+    end
+
+
+
+
+
+    if params[:user_test_history_id]
+      test = UserTestHistory.find(params[:user_test_history_id])
+      test.score = @score
+      test.total = @total
+      test.is_live = false
+      test.save!
+    end
+
+    render :json => {:success => true, :score => @score, :total => @total}
+
     # answers = params[:answer]
     # answers.each do |answer|
     #   questionId = answer[:questionId]
@@ -588,10 +721,10 @@ class ServicesController < ApplicationController
       email = params[:email]
       @questions = Question.select("questions.*").
           joins(:course_linking).
-          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(limit).offset(offset)
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author = ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(limit).offset(offset)
       @count = Question.select("questions.*").
           joins(:course_linking).
-          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).length
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author = ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).length
       if @questions.size == 0
         render :json => {:success => false}
       else

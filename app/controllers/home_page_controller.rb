@@ -298,7 +298,7 @@ class HomePageController < ApplicationController
 
       if user_signed_in?
         user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
-                             :course_id=> @course_id,:mcq=> @mcq, :quiz_name => "Created by you",
+                             :course_id=> @course_id,:mcq=> @mcq, :quiz_name => "Own Test",
                              :truefalse=> @true_false,:fill=> @fill,
                              :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
                              :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => list.join(",")}

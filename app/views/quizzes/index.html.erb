@@ -28,6 +28,9 @@
               <% else %>
                   <td></td>
               <% end %>
+              <% if current_user.is_teacher? %>
+                  <td><%= link_to 'Show', "quizzes/#{quiz.id}" %></td>
+              <% end %>
               <% if can? :update, quiz %>
                   <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
               <% else %>

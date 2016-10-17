@@ -1,0 +1,116 @@
+<style>
+  table, th, td {
+    border: 0.5px solid black;
+    border-collapse: collapse;
+  }
+</style>
+
+<div id="quiz_result">
+  <h1 style="font-weight: bold" align="center">E-LEARNING SERVICES, PAKISTAN.</h1>
+
+  <br>
+
+  <span>     <i><%= @teacher_name %></i></span>
+
+  <span style="float: right"><i><%= DateTime.now.to_date %> / <%= @test_name %> / <%= @test_code %></i></span>
+
+  <span style="float: right;padding-right: 35%"><i><%= @board_name %> / <%= @degree_name %> / <%= @course_name %></i></span>
+
+  <br><br>
+
+  <span>Student Name: <b style="font-size: 120%"><%= current_user.name %></b></span>
+
+  <br><br>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th align="center">Total</th>
+      <th align="center">Attempted</th>
+      <th align="center">Correct</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>MCQs</td>
+      <td align="center"><%= @questions[:mcq][:total] %></td>
+      <td align="center"><%= @questions[:mcq][:attempted] %></td>
+      <td align="center"><%= @questions[:mcq][:correct] %>, <%= @questions[:mcq][:percentage] %>%</td>
+    </tr>
+    <tr>
+      <td>Fill in the Blanks</td>
+      <td align="center"><%= @questions[:fill][:total] %></td>
+      <td align="center"><%= @questions[:fill][:attempted] %></td>
+      <td align="center"><%= @questions[:fill][:correct] %>, <%= @questions[:fill][:percentage] %>%</td>
+    </tr>
+    <tr>
+      <td>True/False</td>
+      <td align="center"><%= @questions[:truefalse][:total] %></td>
+      <td align="center"><%= @questions[:truefalse][:attempted] %></td>
+      <td align="center"><%= @questions[:truefalse][:correct] %>, <%= @questions[:truefalse][:percentage] %>%</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br><br>
+
+  <table>
+    <tr>
+      <td>Time Allowed</td>
+      <td align="center"><%= @time_allowed %> minutes</td>
+    </tr>
+    <tr>
+      <td>Total Questions</td>
+      <td align="center"><%= @total_questions %></td>
+    </tr>
+    <tr>
+      <td>Total Correct</td>
+      <td align="center"><%= @total_correct %></td>
+    </tr>
+    <tr>
+      <td>Total Wrong</td>
+      <td align="center"><%= @total_wrong %></td>
+    </tr>
+    <tr>
+      <td>Overall Percentage</td>
+      <td align="center"><%= @overall_percentage %>%, {Grade-<%= @grade %>}</td>
+    </tr>
+    <tr>
+      <td>Result</td>
+      <td align="center"><% if @grade == "F" || @grade == "G" %><%= "Fail" %>
+            <% else %>
+            <%= "Fail" %>
+            <% end %></td>
+    </tr>
+  </table>
+
+  <br><br>
+  <% if @test_highest %>
+      <table>
+        <tr>
+          <td>Test Average</td>
+          <td align="center"><%= @test_average %>, <%= @test_average_percentage %>%</td>
+        </tr>
+        <tr>
+          <td>Test Highest</td>
+          <td align="center"><%= @test_highest %>, <%= @test_highest_percentage %>%</td>
+        </tr>
+        <tr>
+          <td>Test Lowest</td>
+          <td align="center"><%= @test_lowest %>, <%= @test_lowest_percentage %>%</td>
+        </tr>
+      </table>
+  <% end %>
+</div>
+
+<br><br>
+
+<button id="cmd" onclick="pdf()">generate PDF</button> | <%= link_to "Close", user_dashboard_path %>
+<br><br>
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>

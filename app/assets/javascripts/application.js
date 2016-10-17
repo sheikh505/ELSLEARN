@@ -24,6 +24,7 @@
 //= require select
 //= require jquery.steps.min
 //= require highstock
+//= require jspdf.js
 //= require main
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox

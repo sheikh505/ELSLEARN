@@ -11,7 +11,51 @@ class QuizzesController < ApplicationController
   end
 
   def show
-    respond_with(@quiz)
+    @questions = Question.find(@quiz.question_ids.split(","))
+    @count = Hash.new(0)
+    @questions.each do |question|
+      if question.question_type == 1
+        @count[:mcq] += 1
+      elsif question.question_type == 3
+        @count[:fill] += 1
+      elsif question.question_type == 4
+        @count[:truefalse] += 1
+      elsif question.question_type == 2
+        @count[:descriptive] += 1
+      end
+    end
+    @time_allowed = @questions.count * 2
+    @bdgree = @quiz.course.board_degree_assignments.first
+
+    students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')
+
+    @students = Array.new
+    students.each do |student|
+      s = Hash.new
+      s[:student_name] = student.student_name
+      test = User.find(student.student_id).user_test_histories.where(:code => @quiz.test_code).last
+      s[:score] = test.score
+      s[:total] = test.total
+      s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
+      if s[:percentage] >= 90
+        s[:grade] = "A*"
+      elsif s[:percentage] >=85 && s[:percentage] < 90
+        s[:grade] = "A"
+      elsif s[:percentage] >=75 && s[:percentage] < 85
+        s[:grade] = "B"
+      elsif s[:percentage] >=65 && s[:percentage] < 75
+        s[:grade] = "C"
+      elsif s[:percentage] >=55 && s[:percentage] < 65
+        s[:grade] = "D"
+      elsif s[:percentage] >=45 && s[:percentage] < 55
+        s[:grade] = "E"
+      elsif s[:percentage] < 45
+        s[:grade] = "F"
+      end
+      @students << s
+    end
+
+    respond_with(@quiz, @students)
   end
 
   def new
