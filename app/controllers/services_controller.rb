@@ -735,12 +735,12 @@ class ServicesController < ApplicationController
       email = params[:email]
       @questions = Question.select("questions.*").
           joins(:course_linking).
-          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(100).offset(offset)
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author = ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).limit(100).offset(offset)
       @count = Question.select("questions.*").
           joins(:course_linking).
-          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).length
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author = ? and workflow_state = 'accepted'", course_id, course_id, course_id, course_id, email).length
       if @questions.size == 0
-        render :json => {:success => false}.to_json
+        render :json => {:success => false}
       else
         render :json => {:success => true,:questions => @questions, :count => @count}
       end
