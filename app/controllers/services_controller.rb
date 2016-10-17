@@ -423,7 +423,7 @@ class ServicesController < ApplicationController
     @total_questions = array.length
     @total_correct = 0
     @total_wrong = array.length
-    @total = array.length*5
+    @total = array.length
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
@@ -433,7 +433,7 @@ class ServicesController < ApplicationController
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
             @option = Option.find_by_id(ques.split(":")[1])
             if @option.present? && @option.is_answer == 1
-              @score += 5
+              @score += 1
               @questions[:mcq][:correct] += 1
               @total_correct += 1
               @total_wrong -= 1
@@ -446,7 +446,7 @@ class ServicesController < ApplicationController
         if ques.split(":")[1]
           @questions[:truefalse][:attempted] += 1
           if @option.statement == ques.split(":")[1]
-            @score += 5
+            @score += 1
             @questions[:truefalse][:correct] += 1
             @total_correct += 1
             @total_wrong -= 1
@@ -459,7 +459,7 @@ class ServicesController < ApplicationController
           @questions[:fill][:attempted] += 1
           @options.each do |opt|
             if opt == ques.split(":")[1]
-              @score += 5
+              @score += 1
               @questions[:fill][:correct] += 1
               @total_correct += 1
               @total_wrong -= 1
@@ -520,7 +520,7 @@ class ServicesController < ApplicationController
         scores << user.user_test_histories.last.score.to_i
       end
 
-      test_history.score = @total_correct*5
+      test_history.score = @total_correct
       test_history.total = @total
       test_history.is_live = false
       test_history.save!
@@ -558,7 +558,7 @@ class ServicesController < ApplicationController
       @test_name = quiz.name
 
     else
-      test_history.score = @total_correct*5
+      test_history.score = @total_correct
       test_history.total = @total
       test_history.is_live = false
       test_history.save!
@@ -610,7 +610,7 @@ class ServicesController < ApplicationController
     array = params[:array].split(",")
 
 
-    @total = array.length*5
+    @total = array.length
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
@@ -618,7 +618,7 @@ class ServicesController < ApplicationController
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
             @option = Option.find_by_id(ques.split(":")[1])
             if @option.present? && @option.is_answer == 1
-              @score += 5
+              @score += 1
             end
           end
         end
@@ -626,7 +626,7 @@ class ServicesController < ApplicationController
         @option = @question.options.first
         if ques.split(":")[1]
           if @option.statement == ques.split(":")[1]
-            @score += 5
+            @score += 1
           end
         end
       elsif @question.question_type == 3
@@ -634,7 +634,7 @@ class ServicesController < ApplicationController
         if ques.split(":")[1]
           @options.each do |opt|
             if opt == ques.split(":")[1]
-              @score += 5
+              @score += 1
               break
             end
           end
