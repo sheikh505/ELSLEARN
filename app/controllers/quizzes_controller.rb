@@ -86,7 +86,7 @@ class QuizzesController < ApplicationController
   def create
     @quiz = Quiz.new(params[:quiz])
     @quiz.user_id = current_user.id
-    @quiz.time_allowed = (@quiz.question_ids.split(',').count * 1.5).to_i
+    @quiz.time_allowed = @quiz.question_ids.split(',').count * 1.5
 
     @quiz.save
     redirect_to quizzes_path
