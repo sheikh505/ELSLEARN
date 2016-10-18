@@ -183,6 +183,7 @@ class ServicesController < ApplicationController
   def get_questions_by_test_code
     test_code =  params[:test_code]
     quiz = Quiz.find_by_test_code(test_code)
+    @time_allowed = quiz.time_allowed
     user = User.find_by_email(params[:email])
     user_test_history = {:quiz_name => quiz.name,
                          :code => params[:test_code],
@@ -201,7 +202,7 @@ class ServicesController < ApplicationController
         }
       end
 
-      render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist}
+      render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist, :time_allowed => @time_allowed}
     else
       render :json => {:success => false}
     end
@@ -344,8 +345,9 @@ class ServicesController < ApplicationController
           end
         }
       end
+      @time_allowed = (@questionlist.count * 1.5).to_i
 
-      render :json => {:success => true, :questions => @questionlist, :user_test_history_id => user_history.id}
+      render :json => {:success => true, :questions => @questionlist, :time_allowed => @time_allowed, :user_test_history_id => user_history.id}
     else
       render :json => {:success => false}
     end
@@ -546,7 +548,7 @@ class ServicesController < ApplicationController
 
       @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
       @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
-      @time_allowed = array.length * 2
+      @time_allowed = array.length * 1.5
       @teacher_name = User.find(quiz.user_id).name
       course = quiz.course
       @course_name = course.name
@@ -567,7 +569,11 @@ class ServicesController < ApplicationController
       @course_name = Course.find(test_history.course_id).name
       @board_name = Board.find(test_history.board_id).name
       @degree_name = Degree.find(test_history.degree_id).name
-      @time_allowed = session[:quiz_time]
+      if session[:quiz_time] == '-1'
+        @time_allowed = @total * 1.5
+      else
+        @time_allowed = session[:quiz_time]
+      end
     end
 
 

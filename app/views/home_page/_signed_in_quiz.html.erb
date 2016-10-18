@@ -45,8 +45,8 @@
             var $form;
             var incrementTime = 70;
             var quiz_time = <%=$quiz_time%>
-          if(quiz_time == "1")
-            var currentTime = '<%=$size%>' * 120000;
+          if(quiz_time == "-1")
+            var currentTime = '<%=$size%>' * 90000;
           else
             var currentTime = quiz_time * 60000;
 

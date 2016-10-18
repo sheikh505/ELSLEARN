@@ -30,30 +30,45 @@ class QuizzesController < ApplicationController
     students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')
 
     @students = Array.new
-    students.each do |student|
-      s = Hash.new
-      s[:student_name] = student.student_name
-      test = User.find(student.student_id).user_test_histories.where(:code => @quiz.test_code).last
-      s[:score] = test.score
-      s[:total] = test.total
-      s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
-      if s[:percentage] >= 90
-        s[:grade] = "A*"
-      elsif s[:percentage] >=85 && s[:percentage] < 90
-        s[:grade] = "A"
-      elsif s[:percentage] >=75 && s[:percentage] < 85
-        s[:grade] = "B"
-      elsif s[:percentage] >=65 && s[:percentage] < 75
-        s[:grade] = "C"
-      elsif s[:percentage] >=55 && s[:percentage] < 65
-        s[:grade] = "D"
-      elsif s[:percentage] >=45 && s[:percentage] < 55
-        s[:grade] = "E"
-      elsif s[:percentage] < 45
-        s[:grade] = "F"
+    if students.present?
+      students.each do |student|
+        s = Hash.new
+        s[:student_name] = student.student_name
+        test = User.find(student.student_id).user_test_histories.where(:code => @quiz.test_code).last
+        if test.score == nil
+          test.score = 0
+          test.save
+        end
+        if test.total == nil
+          test.total = 0
+          test.save
+        end
+        s[:score] = test.score
+        s[:total] = test.total
+        s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
+        if s[:percentage].nan?
+          s[:percentage] = 0.0
+        end
+        if s[:percentage] >= 90
+          s[:grade] = "A*"
+        elsif s[:percentage] >=85 && s[:percentage] < 90
+          s[:grade] = "A"
+        elsif s[:percentage] >=75 && s[:percentage] < 85
+          s[:grade] = "B"
+        elsif s[:percentage] >=65 && s[:percentage] < 75
+          s[:grade] = "C"
+        elsif s[:percentage] >=55 && s[:percentage] < 65
+          s[:grade] = "D"
+        elsif s[:percentage] >=45 && s[:percentage] < 55
+          s[:grade] = "E"
+        elsif s[:percentage] < 45
+          s[:grade] = "F"
+        end
+        @students << s
       end
-      @students << s
     end
+
+
 
     respond_with(@quiz, @students)
   end
@@ -71,6 +86,7 @@ class QuizzesController < ApplicationController
   def create
     @quiz = Quiz.new(params[:quiz])
     @quiz.user_id = current_user.id
+    @quiz.time_allowed = (@quiz.question_ids.split(',').count * 1.5).to_i
 
     @quiz.save
     redirect_to quizzes_path

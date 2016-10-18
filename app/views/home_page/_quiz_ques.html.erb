@@ -234,20 +234,30 @@
             <% end %>
         }
 }
+//    function pdf()
+//    {
+//      var doc = new jsPDF();
+//      var specialElementHandlers = {
+//        '#editor': function (element, renderer) {
+//          return true;
+//        }
+//      };
+//
+//        doc.fromHTML($('#quiz_result').html(), 25, 25, {
+//          'width': 550,
+//          'elementHandlers': specialElementHandlers
+//        });
+//        doc.save('Quiz Result.pdf');
+//    }
+
     function pdf()
     {
       var doc = new jsPDF();
-      var specialElementHandlers = {
-        '#editor': function (element, renderer) {
-          return true;
-        }
-      };
 
-        doc.fromHTML($('#quiz_result').html(), 25, 25, {
-          'width': 550,
-          'elementHandlers': specialElementHandlers
-        });
+      doc.addHTML($('#quiz_result')[0],function() {
         doc.save('Quiz Result.pdf');
+      });
+
     }
 
 
@@ -268,6 +278,7 @@
                 processData:false,
                 success:function (data) {
                   $('body').html(data);
+
                   //if (data.test_code_flag == 0)
                   //{
                   //  $("#course_name").text($("input[name$='course']").val());

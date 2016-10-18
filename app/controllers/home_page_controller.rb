@@ -255,7 +255,12 @@ class HomePageController < ApplicationController
       session[:degree_id] = @degree_id
       @course_id = params[:course]
       list = []
-      selected_topic_ids = params[:topic_ids]
+      topics = Course.find(@course_id).topics
+      topic_ids = []
+      topics.each do |topic|
+        topic_ids << topic.id
+      end
+      selected_topic_ids = topic_ids
       selected_topic_ids.each do |a|
         list << a.to_i
       end
@@ -313,7 +318,6 @@ class HomePageController < ApplicationController
   end
 
   def quiz
-    @quiz_time = session[:quiz_time]
     if params[:user_test_history_id].present? || @user_test_history_id.present?
       if params[:user_test_history_id].present?
         @user_test_history_id = params[:user_test_history_id]
@@ -340,6 +344,7 @@ class HomePageController < ApplicationController
       @questions = []
       @course = Course.find(@course_id).name
       if @past_paper_flag.to_i == 2
+        @quiz_time = session[:quiz_time]
         question_select = Question.includes(:past_paper_history).where("deleted = 'false' and workflow_state ='accepted' ")
         # question_select = Question.where(" deleted = 'false' and workflow_state = 'accepted' and varient = '' ")
         temp = question_select.select{|x|  x.topic_ids.present? &&
@@ -393,12 +398,17 @@ class HomePageController < ApplicationController
             deg_id.include?(x.degree_ids.split(",")[3]) )}
         puts "^^^^^^^^%%%%%%",list.inspect
         @questions = list.shuffle
+        puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",@questions.inspect
+        @size = @questions.length
+        @quiz_time = @size * 1.5
+        @index = 0
       else
         quiz = Quiz.find_by_test_code(user_test_history[:code])
         if quiz.present?
           question_ids = quiz.question_ids
           @questions = Question.find(question_ids.split(','))
           @size = @questions.length
+          @quiz_time = @size * 1.5
         else
           render :nothing=>true
         end
@@ -415,6 +425,8 @@ class HomePageController < ApplicationController
       if quiz.present?
         question_ids = quiz.question_ids
         @questions = Question.find(question_ids.split(','))
+        @size = @questions.length
+        @quiz_time = @size * 1.5
       else
         render :nothing=>true
       end
@@ -670,6 +682,8 @@ class HomePageController < ApplicationController
 
     @flag = true
   end
+
+
   def get_topic
     a = params[:course_id]
     puts "=======alert===>>>>>>",a.inspect

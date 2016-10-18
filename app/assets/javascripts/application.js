@@ -23,7 +23,7 @@
 //= require jquery.inview.min
 //= require select
 //= require jquery.steps.min
-//= require highstock
+//= require html2canvas.js
 //= require jspdf.js
 //= require main
 //= require jquery-bootstrap-pagination
