@@ -833,7 +833,12 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-      puts "=--=-=-=-question select-=-=-=-=",course_id.inspect,year.inspect,session.inspect
+      puts "=--=-=-=-question select-=-=-=-=",course_id.inspect,year.inspect,session.inspect,varient.inspect
+      questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+          "p.course_id = ? and p.year = ? and p.session = ?
+                               and deleted = 'false'
+                              and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
+      @questions = questions_data.select{ |q| q.varient == varient.to_s }
       # questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
       #     "p.course_id = ? and p.year = ? and p.session = ?
       #                          and deleted = 'false'
@@ -848,14 +853,14 @@ class QuestionsController < ApplicationController
       #         degree_id.include?(x.degree_ids.split(",")[1]) ||
       #         degree_id.include?(x.degree_ids.split(",")[2]) ||
       #         degree_id.include?(x.degree_ids.split(",")[3]) )}
-      @questions = Question.select { |q| q.deleted == false &&
-          q.past_paper_history.present? &&
-          q.past_paper_history.course_id == course_id.to_i  &&
-          #q.past_paper_history.ques_no == ques_no.to_s &&
-          q.past_paper_history.year == year.to_s &&
-          q.past_paper_history.session == session.to_s
-          q.varient == varient.to_s &&
-          q.workflow_state == 'accepted' }
+      # @questions = Question.select { |q| q.deleted == false &&
+      #     q.past_paper_history.present? &&
+      #     q.past_paper_history.course_id == course_id.to_i  &&
+      #     #q.past_paper_history.ques_no == ques_no.to_s &&
+      #     q.past_paper_history.year == year.to_s &&
+      #     q.past_paper_history.session == session.to_s
+      #     q.varient == varient.to_s &&
+      #     q.workflow_state == 'accepted' }
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect,@questions.count
 
     end
