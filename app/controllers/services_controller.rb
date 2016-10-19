@@ -301,6 +301,15 @@ class ServicesController < ApplicationController
           l += 1
         end
 
+        if (@questions.length > 0)
+          if params[:time_allowed]
+            @time_allowed = params[:time_allowed].to_f
+          else
+            @time_allowed = @questions.length * 1.5
+          end
+        end
+
+
 
 
       end
@@ -336,6 +345,9 @@ class ServicesController < ApplicationController
       #     q.varient == varient.to_s &&
       #     q.workflow_state == 'accepted' }
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
+      if (@questions.length > 0)
+        @time_allowed = @questionlist.count * 1.5
+      end
     end
     if (@questions.length > 0)
       @questionlist = @questions.map do |u|
@@ -345,7 +357,7 @@ class ServicesController < ApplicationController
           end
         }
       end
-      @time_allowed = @questionlist.count * 1.5
+
 
       render :json => {:success => true, :questions => @questionlist, :time_allowed => @time_allowed, :user_test_history_id => user_history.id}
     else
@@ -505,7 +517,13 @@ class ServicesController < ApplicationController
       @grade = "F"
     end
 
-
+    # questions = []
+    # array.each do |ques|
+    #   questions << Question.find(ques.split(":")[0])
+    # end
+    # questions.each do |question|
+    #
+    # end
 
     test_history = UserTestHistory.find(params[:test_history_id])
     if test_history.code
@@ -799,7 +817,7 @@ class ServicesController < ApplicationController
     @quiz.question_ids = params[:question_ids] if params[:question_ids]
     @quiz.course_id = params[:course_id] if params[:course_id]
     if params[:time_allowed]
-      @quiz.time_allowed = params[:question_ids].split(',').count * params[:time_allowed].to_f if params[:question_ids]
+      @quiz.time_allowed = params[:time_allowed].to_f
     else
       @quiz.time_allowed = params[:question_ids].split(',').count * 1.5 if params[:question_ids]
     end
