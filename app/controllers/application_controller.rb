@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     topic_id.nil? ? "":Topic.find(topic_id).name
 
   end
-  protect_from_forgery with: :null_session
+  protect_from_forgery
 
   def after_sign_in_path_for(resource)
     if resource.is_student?
