@@ -798,7 +798,11 @@ class ServicesController < ApplicationController
     @quiz.user_id = User.find_by_email(params[:email]).id if params[:email]
     @quiz.question_ids = params[:question_ids] if params[:question_ids]
     @quiz.course_id = params[:course_id] if params[:course_id]
-    @quiz.time_allowed = params[:question_ids].split(',').count * 1.5 if params[:question_ids]
+    if params[:time_allowed]
+      @quiz.time_allowed = params[:question_ids].split(',').count * params[:time_allowed].to_f if params[:question_ids]
+    else
+      @quiz.time_allowed = params[:question_ids].split(',').count * 1.5 if params[:question_ids]
+    end
     if @quiz.save
       render :json => {:success => true, :message => "Quiz successfully created!"}
     else

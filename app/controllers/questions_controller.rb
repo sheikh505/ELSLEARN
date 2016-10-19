@@ -833,21 +833,21 @@ class QuestionsController < ApplicationController
 
       end
     elsif past_paper_flag.to_i == 1
-
       puts "=--=-=-=-question select-=-=-=-=",course_id.inspect,year.inspect,session.inspect
-      questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
-          "p.course_id = ? and p.year = ? and p.session = ?
-                               and deleted = 'false'
-                              and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
-      @questions = questions_data.select{|x|  x.topic_ids.present? &&
-          (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
-              selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
-              x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
-              degree_id.include?(x.degree_ids.split(",")[1]) ||
-              degree_id.include?(x.degree_ids.split(",")[2]) ||
-              degree_id.include?(x.degree_ids.split(",")[3]) )}
+      # questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+      #     "p.course_id = ? and p.year = ? and p.session = ?
+      #                          and deleted = 'false'
+      #                         and workflow_state = 'accepted'" ,course_id.to_s,year.to_s,session.to_s )
+      # puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
+      # @questions = questions_data.select{|x|  x.topic_ids.present? &&
+      #     (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+      #         selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+      #         selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+      #         selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+      #         x.degree_ids.present? && (degree_id.include?(x.degree_ids.split(",")[0])||
+      #         degree_id.include?(x.degree_ids.split(",")[1]) ||
+      #         degree_id.include?(x.degree_ids.split(",")[2]) ||
+      #         degree_id.include?(x.degree_ids.split(",")[3]) )}
       @questions = Question.select { |q| q.deleted == false &&
           q.past_paper_history.present? &&
           q.past_paper_history.course_id == course_id.to_i  &&
@@ -856,7 +856,8 @@ class QuestionsController < ApplicationController
           q.past_paper_history.session == session.to_s
           q.varient == varient.to_s &&
           q.workflow_state == 'accepted' }
-      puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
+      puts "=--=-=-=-question select-=-=-=-=",@questions.inspect,@questions.count
+
     end
     if (@questions.length > 0)
       render :json => {:success => true}

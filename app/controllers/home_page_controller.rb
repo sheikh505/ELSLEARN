@@ -253,6 +253,7 @@ class HomePageController < ApplicationController
       session[:board_id] = @board_id
       @degree_id = params[:degree_id]
       session[:degree_id] = @degree_id
+      session[:varient] = params[:varient]
       @course_id = params[:course]
       list = []
       topics = Course.find(@course_id).topics
@@ -382,22 +383,34 @@ class HomePageController < ApplicationController
 
         end
       elsif @past_paper_flag.to_i == 1
-        @questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
-                             "p.course_id = ? and p.year = ? and p.session = ?
-                               and deleted = 'false'
-                              and workflow_state = 'accepted'" ,@course_id.to_s,@year.to_s,@session.to_s )
-        puts "&&&&&&&&&&&",@questions_data.inspect
-        list = @questions_data.select{|x|  x.topic_ids.present? &&
-            (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
-                selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
-                selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
-                selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
-                x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
-            deg_id.include?(x.degree_ids.split(",")[1]) ||
-            deg_id.include?(x.degree_ids.split(",")[2]) ||
-            deg_id.include?(x.degree_ids.split(",")[3]) )}
-        puts "^^^^^^^^%%%%%%",list.inspect
-        @questions = list.shuffle
+        @varient = session[:varient]
+        puts "=--=-=-=-question select-=-=-=-=",@course_id.inspect,@year.inspect,@session.inspect, @varient.inspect
+        # @questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
+        #                      "p.course_id = ? and p.year = ? and p.session = ?
+        #                        and deleted = 'false'
+        #                       and workflow_state = 'accepted'" ,@course_id.to_s,@year.to_s,@session.to_s )
+        # puts "&&&&&&&&&&&",@questions_data.inspect
+        # list = @questions_data.select{|x|  x.topic_ids.present? &&
+        #     (selected_topic_ids.include?(x.topic_ids.split(",")[0]) ||
+        #         selected_topic_ids.include?(x.topic_ids.split(",")[1]) ||
+        #         selected_topic_ids.include?(x.topic_ids.split(",")[2]) ||
+        #         selected_topic_ids.include?(x.topic_ids.split(",")[3])) &&
+        #         x.degree_ids.present? && (deg_id.include?(x.degree_ids.split(",")[0])||
+        #     deg_id.include?(x.degree_ids.split(",")[1]) ||
+        #     deg_id.include?(x.degree_ids.split(",")[2]) ||
+        #     deg_id.include?(x.degree_ids.split(",")[3]) )}
+
+        @questions = Question.select { |q| q.deleted == false &&
+            q.past_paper_history.present? &&
+            q.past_paper_history.course_id == @course_id.to_i  &&
+            #q.past_paper_history.ques_no == ques_no.to_s &&
+            q.past_paper_history.year == @year.to_s &&
+            q.past_paper_history.session == @session.to_s
+            q.varient == @varient.to_s &&
+            q.workflow_state == 'accepted' }
+
+        # puts "^^^^^^^^%%%%%%",list.inspect
+        # @questions = list.shuffle
         puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",@questions.inspect
         @size = @questions.length
         @quiz_time = @size * 1.5
