@@ -193,7 +193,8 @@ class ServicesController < ApplicationController
     if quiz.present? && quiz.question_ids.present?
       question_ids = quiz.question_ids
       questions = Question.find(question_ids.split(','))
-      @questions.shuffle!
+
+      questions.shuffle!
 
 
       @questionlist = questions.map do |u|
