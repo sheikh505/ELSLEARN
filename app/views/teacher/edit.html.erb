@@ -117,6 +117,45 @@
         <div class="actions col-md-12">
           <%= f.submit "Register" , class: 'btn btn-large btn-inverse' %>
         </div>
+
+        <div id="student" style="display: none;" class="field col-md-12" >
+          <br>
+          <% if @user.test_permission_ids %>
+              <% if @user.test_permission_ids.split(',').include?("1") %>
+                  <%= check_box_tag "test_permission_ids[0]",  "1", checked: true %>
+                  Attempt test by code
+              <% else %>
+                  <%= check_box_tag "test_permission_ids[0]",  "1" %>
+                  Attempt test by code
+              <% end %>
+
+              <% if @user.test_permission_ids.split(',').include?("2") %>
+                  <%= check_box_tag "test_permission_ids[1]",  "2", checked: true %>
+                  Attempt past papers
+              <% else %>
+                  <%= check_box_tag "test_permission_ids[1]",  "2" %>
+                  Attempt past papers
+              <% end %>
+
+              <% if @user.test_permission_ids.split(',').include?("3") %>
+                  <%= check_box_tag "test_permission_ids[2]",  "3", checked: true %>
+                  Create your own test
+              <% else %>
+                  <%= check_box_tag "test_permission_ids[2]",  "3" %>
+                  Create your own test
+              <% end %>
+          <% else %>
+              <%= check_box_tag "test_permission_ids[0]",  "1" %>
+              Attempt test by code
+              <%= check_box_tag "test_permission_ids[1]",  "2" %>
+              Attempt past papers
+              <%= check_box_tag "test_permission_ids[2]",  "3" %>
+              Create your own test
+          <% end %>
+          <br><br>
+        </div>
+
+
         <div id="courseList_all" style="display: none;" class="field courseList_all">
           <table class="table">
             <thead>
@@ -195,12 +234,17 @@
         {
             $("#proofreader_all").show();
         }
+        else if ($("#role_id option:selected").text() == "Student")
+        {
+          $("#student").show();
+        }
     });
 
     function show_degrees() {
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
+            $("#student").hide();
             $(".courseList_post").hide();
             $("#courseList_all").hide();
             $("#proofreader_all").hide();
@@ -209,12 +253,22 @@
         else if ($("#role_id option:selected").text() == "Hod")
         {
             $("#courseList_all").show();
+            $("#student").hide();
             $("#degreeList").hide();
             $("#proofreader_all").hide();
         }
         else if ($("#role_id option:selected").text() == "Operator")
         {
             $("#proofreader_all").show();
+            $("#student").hide();
+        }
+        else if ($("#role_id option:selected").text() == "Student")
+        {
+          $("#courseList_all").hide();
+          $("#courseList").hide();
+          $("#degreeList").hide();
+          $("#proofreader_all").hide();
+          $("#student").show();
         }
         else
         {
@@ -222,6 +276,7 @@
             $("#courseList").hide();
             $("#degreeList").hide();
             $("#proofreader_all").hide();
+            $("#student").hide();
         }
     }
     function show_courses(object)

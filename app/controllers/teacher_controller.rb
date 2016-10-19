@@ -185,6 +185,12 @@ class TeacherController < ApplicationController
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
       end
+      if params[:test_permission_ids]
+        params[:test_permission_ids] = params[:test_permission_ids].values
+        params[:test_permission_ids] = params[:test_permission_ids].join(",")
+        @user.test_permission_ids = params[:test_permission_ids]
+        @user.save
+      end
       @user.update_attributes(params[:user])
     end
     @role_id = params[:role_id]

@@ -193,10 +193,12 @@ class ServicesController < ApplicationController
     if quiz.present? && quiz.question_ids.present?
       question_ids = quiz.question_ids
       questions = Question.find(question_ids.split(','))
+      @questions.shuffle!
+
 
       @questionlist = questions.map do |u|
         { :id=> u.id, :statement => u.statement, :type => u.question_type,
-          :options =>  u.options.map do |o|
+          :options =>  u.options.shuffle.map do |o|
             {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "NNNN", :is_answer => o.is_answer}
           end
         }
@@ -301,12 +303,14 @@ class ServicesController < ApplicationController
           l += 1
         end
 
+
         if (@questions.length > 0)
           if params[:time_allowed]
             @time_allowed = params[:time_allowed].to_f
           else
             @time_allowed = @questions.length * 1.5
           end
+          @questions.shuffle!
         end
 
 
@@ -347,12 +351,13 @@ class ServicesController < ApplicationController
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
       if (@questions.length > 0)
         @time_allowed = @questionlist.count * 1.5
+        @questions.shuffle!
       end
     end
     if (@questions.length > 0)
       @questionlist = @questions.map do |u|
         { :id=> u.id, :statement => u.statement, :type => u.question_type,
-          :options =>  u.options.map do |o|
+          :options =>  u.options.shuffle.map do |o|
             {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "NNNN", :is_answer => o.is_answer}
           end
         }
@@ -438,6 +443,7 @@ class ServicesController < ApplicationController
     @total_correct = 0
     @total_wrong = array.length
     @total = array.length
+    question_evaluation = Hash.new
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
@@ -447,10 +453,13 @@ class ServicesController < ApplicationController
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
             @option = Option.find_by_id(ques.split(":")[1])
             if @option.present? && @option.is_answer == 1
+              question_evaluation[ques.split(":")[0]] = 1
               @score += 1
               @questions[:mcq][:correct] += 1
               @total_correct += 1
               @total_wrong -= 1
+            else
+              question_evaluation[ques.split(":")[0]] = 0
             end
           end
         end
@@ -460,10 +469,13 @@ class ServicesController < ApplicationController
         if ques.split(":")[1]
           @questions[:truefalse][:attempted] += 1
           if @option.statement == ques.split(":")[1]
+            question_evaluation[ques.split(":")[0]] = 1
             @score += 1
             @questions[:truefalse][:correct] += 1
             @total_correct += 1
             @total_wrong -= 1
+          else
+            question_evaluation[ques.split(":")[0]] = 0
           end
         end
       elsif @question.question_type == 3
@@ -471,8 +483,10 @@ class ServicesController < ApplicationController
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
           @questions[:fill][:attempted] += 1
+          question_evaluation[ques.split(":")[0]] = 0
           @options.each do |opt|
             if opt == ques.split(":")[1]
+              question_evaluation[ques.split(":")[0]] = 1
               @score += 1
               @questions[:fill][:correct] += 1
               @total_correct += 1
@@ -517,13 +531,7 @@ class ServicesController < ApplicationController
       @grade = "F"
     end
 
-    # questions = []
-    # array.each do |ques|
-    #   questions << Question.find(ques.split(":")[0])
-    # end
-    # questions.each do |question|
-    #
-    # end
+
 
     test_history = UserTestHistory.find(params[:test_history_id])
     if test_history.code

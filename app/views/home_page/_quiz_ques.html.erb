@@ -15,7 +15,7 @@
    <%if $arr[@index].question_type == 1 %>
         <% $ques_id = $arr[@index].id %>
         <ul class="pre_question_options" style="list-style-type: upper-alpha;">
-          <% $arr[@index].options.each_with_index do |option,index| %>
+          <% $arr[@index].options.shuffle.each_with_index do |option,index| %>
               <% if option.flag.nil? %>
                   <li ><a href="javascript:void(0)" id="ref_<%=index%>" onclick="answer(<%=option.id %>,'ref_<%=index%>', <%= $ques_id %>)"  class='option_question'><%=option.statement %></a></li>
               <% else %>

@@ -381,6 +381,7 @@ class HomePageController < ApplicationController
             l += 1
           end
 
+
         end
       elsif @past_paper_flag.to_i == 1
         @varient = session[:varient]
@@ -450,6 +451,7 @@ class HomePageController < ApplicationController
     if @questions.present?
       puts "%%%%%%%%%%% if question present ? %%%%%%%",@questions.inspect
       @size = @questions.length
+      @questions.shuffle!
 
       @index = 0
       @answer = Hash.new
