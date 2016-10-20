@@ -352,7 +352,7 @@ class ServicesController < ApplicationController
       #     q.workflow_state == 'accepted' }
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect
       if (@questions.length > 0)
-        @time_allowed = @questionlist.count * 1.5
+        @time_allowed = @questions.count * 1.5
         @questions.shuffle!
       end
     end
