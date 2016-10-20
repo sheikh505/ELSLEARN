@@ -88,6 +88,8 @@ class HomePageController < ApplicationController
     question_ids = []
     past_papers = PastPaperHistory.where(year: params[:year], session: params[:session])
 
+    puts "========================>"+past_papers.inspect
+
     past_papers.each do |paper|
       question_ids << paper.question_id
     end
