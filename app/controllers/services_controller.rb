@@ -429,22 +429,15 @@ class ServicesController < ApplicationController
     @questions[:mcq] = Hash.new
     @questions[:fill] = Hash.new
     @questions[:truefalse] = Hash.new
-    @questions[:mcq][:total] = 0
-    @questions[:fill][:total] = 0
-    @questions[:truefalse][:total] = 0
-    @questions[:mcq][:attempted] = 0
-    @questions[:fill][:attempted] = 0
-    @questions[:truefalse][:attempted] = 0
-    @questions[:mcq][:correct] = 0
-    @questions[:fill][:correct] = 0
-    @questions[:truefalse][:correct] = 0
+    @questions[:mcq][:total] = @questions[:fill][:total] = @questions[:truefalse][:total] = 0
+    @questions[:mcq][:attempted] = @questions[:fill][:attempted] = @questions[:truefalse][:attempted] = 0
+    @questions[:mcq][:correct] = @questions[:fill][:correct] = @questions[:truefalse][:correct] = 0
 
     array = params[:array].split(",")
 
-    @total_questions = array.length
+    @total = @total_questions = @total_wrong = array.length
     @total_correct = 0
-    @total_wrong = array.length
-    @total = array.length
+
     question_evaluation = Hash.new
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
@@ -533,6 +526,129 @@ class ServicesController < ApplicationController
       @grade = "F"
     end
 
+    topic_ids = []
+    @topic_total = Hash.new(0)
+    @topic_correct = Hash.new(0)
+
+    questions = []
+    array.each do |ques|
+      questions << Question.find(ques.split(":")[0])
+      question = questions.last
+      if question.topic_ids.present?
+        ques_topic_ids = question.topic_ids.split(',')
+        if ques_topic_ids[0] != "0"
+          if topic_ids.include?(ques_topic_ids[0])
+            @topic_total[ques_topic_ids[0]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[0]] += 1
+            end
+          else
+            topic_ids << ques_topic_ids[0]
+            @topic_total[ques_topic_ids[0]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[0]] += 1
+            end
+          end
+        elsif ques_topic_ids[1] != "0"
+          if topic_ids.include?(ques_topic_ids[1])
+            @topic_total[ques_topic_ids[1]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[1]] += 1
+            end
+          else
+            topic_ids << ques_topic_ids[1]
+            @topic_total[ques_topic_ids[1]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[1]] += 1
+            end
+          end
+        elsif question.topic_ids.split(',')[2] != "0"
+          if topic_ids.include?(ques_topic_ids[2])
+            @topic_total[ques_topic_ids[2]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[2]] += 1
+            end
+          else
+            topic_ids << ques_topic_ids[2]
+            @topic_total[ques_topic_ids[2]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[2]] += 1
+            end
+          end
+        elsif question.topic_ids.split(',')[3] != "0"
+          if topic_ids.include?(ques_topic_ids[3])
+            @topic_total[ques_topic_ids[3]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[3]] += 1
+            end
+          else
+            topic_ids << ques_topic_ids[3]
+            @topic_total[ques_topic_ids[3]] += 1
+            id = question.id.to_s
+            if question_evaluation[id] == 1
+              @topic_correct[ques_topic_ids[3]] += 1
+            end
+          end
+        end
+      end
+
+    end
+
+    # if @topics
+
+    topic_ids.uniq!
+    puts "======================================>"+topic_ids.inspect
+    @topics = Topic.find(topic_ids.split(','))
+    @sub_topics = @topics.reject{|t|
+      !t.parent_topic_id.present?
+    }
+    @topics.reject!{|t|
+      t.parent_topic_id.present?
+    }
+    @sub_topics.each do |sub|
+      unless topic_ids.include?(sub.parent_topic_id)
+        @topics << Topic.find(sub.parent_topic_id)
+      end
+      @topic_total[sub.parent_topic_id.to_s] = 0
+      @topic_correct[sub.parent_topic_id.to_s] = 0
+    end
+
+    @topics.uniq!
+
+    @topics.each do |topic|
+      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+    end
+    @sub_topics.each do |topic|
+      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+    end
+
+    @topics.each do |topic|
+      @sub_topics.each do |sub|
+        if sub.parent_topic_id == topic.id
+          @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
+          @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+        end
+      end
+    end
+    @topics.uniq!
+    @sub_topics.uniq!
+
+    puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
+    # end
+
+    # @topics.each do |topic|
+    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+    # end
+    # @sub_topics.each do |topic|
+    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+    # end
 
 
     test_history = UserTestHistory.find(params[:test_history_id])
@@ -541,7 +657,6 @@ class ServicesController < ApplicationController
       unless quiz.attempted
         quiz.update_attributes(:attempted => true)
       end
-
 
       user_ids = UserTestHistory.where(:code => test_history.code).uniq.pluck(:user_id)
       users = User.where("id IN (?)", user_ids)

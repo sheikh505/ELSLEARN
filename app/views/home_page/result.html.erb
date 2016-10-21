@@ -107,6 +107,46 @@
         </tr>
       </table>
   <% end %>
+
+  <br>
+
+  <table>
+    <thead>
+      <tr>
+        <th align="center">TOPIC / SUB-TOPIC</th>
+        <th align="center">PERFORMANCE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @topics %>
+        <% @topics.each do |topic| %>
+            <tr>
+              <td><strong><%= topic.name %></strong></td>
+              <% percentage = ((@topic_correct[topic.id.to_s] + 0.0)/@topic_total[topic.id.to_s])*100 %>
+              <% if percentage.nan? %>
+                  <td align="center"><strong><%= @topic_correct[topic.id.to_s] %>/<%= @topic_total[topic.id.to_s] %> - 0.0%</strong></td>
+              <% else %>
+                  <td align="center"><strong><%= @topic_correct[topic.id.to_s] %>/<%= @topic_total[topic.id.to_s] %> - <%= ((@topic_correct[topic.id.to_s] + 0.0)/@topic_total[topic.id.to_s])*100 %>%</strong></td>
+              <% end %>
+            </tr>
+            <% @sub_topics.each do |sub| %>
+                <tr>
+                  <% if sub.parent_topic_id == topic.id %>
+                      <td><%= sub.name %></td>
+                      <% percentage = ((@topic_correct[sub.id.to_s] + 0.0)/@topic_total[sub.id.to_s])*100 %>
+                      <% if percentage.nan? %>
+                          <td align="center"><%= @topic_correct[sub.id.to_s] %>/<%= @topic_total[sub.id.to_s] %> - 0.0%</td>
+                      <% else %>
+                          <td align="center"><%= @topic_correct[sub.id.to_s] %>/<%= @topic_total[sub.id.to_s] %> - <%= ((@topic_correct[sub.id.to_s] + 0.0)/@topic_total[sub.id.to_s])*100 %>%</td>
+                      <% end %>
+                  <% end %>
+                </tr>
+            <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
 </div>
 
 <br>

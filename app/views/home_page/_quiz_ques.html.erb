@@ -254,7 +254,7 @@
     {
       var doc = new jsPDF();
 
-      doc.addHTML($('#quiz_result')[0],function() {
+      doc.addHTML($('#quiz_result'),function() {
         doc.save('Quiz Result.pdf');
       });
 
