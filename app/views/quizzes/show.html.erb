@@ -1,83 +1,104 @@
 <style>
   #quiz_result {
+    padding:2.5%;
+  }
+  .quiz_result {
     background-color: white;
   }
-  table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
+  /*table, th, td {*/
+    /*border: 1px solid black;*/
+    /*border-collapse: collapse;*/
+  /*}*/
 </style>
 
 <div id="quiz_result">
-  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="font-weight: bold" align="center">E-LEARNING SERVICES, PAKISTAN.</h4>
+    </div>
+  </div>
+    <div class="row mrtp30">
+      <div class="col-md-4">
+        <span>     <i><%= current_user.name %></i></span>
+      </div>
+      <div class="col-md-4">
+        <span><i><%= @bdgree.board.name %> / <%= @bdgree.degree.name %> / <%= @quiz.course.name %></i></span>
 
-  <h4 style="font-weight: bold" align="center">E-LEARNING SERVICES, PAKISTAN.</h4>
-  <span>     <i><%= current_user.name %></i></span>
+      </div>
+      <div class="col-md-4 text-right pull-right">
+        <span><i><%= DateTime.now.to_date %> / <%= @quiz.name %> / <%= @quiz.test_code %></i></span>
+      </div>
+    </div>
 
-  <span style="float: right"><i><%= DateTime.now.to_date %> / <%= @quiz.name %> / <%= @quiz.test_code %></i></span>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="listing-holder">
+          <table class="table table-condensed">
+            <tbody>
+            <tr>
+              <td>Total Questions</td>
+              <td align="center"><%= @count[:mcq]+@count[:truefalse]+@count[:fill]+@count[:descriptive] %></td>
+            </tr>
+            <tr>
+              <td>      MCQs</td>
+              <td align="center"><%= @count[:mcq] %></td>
+            </tr>
+            <tr>
+              <td>      Fill in the Blanks</td>
+              <td align="center"><%= @count[:fill] %></td>
+            </tr>
+            <tr>
+              <td>      True / False</td>
+              <td align="center"><%= @count[:truefalse] %></td>
+            </tr>
+            <tr>
+              <td>      Structured Questions</td>
+              <td align="center"><%= @count[:descriptive] %></td>
+            </tr>
+            <tr>
+              <td>Time Allowed</td>
+              <td align="center"><%= @time_allowed %> minutes</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+          <div class="listing-holder">
+          <table class="table table-condensed">
+            <tr>
+              <td style="font-weight: bold"align="center">STUDENT NAME</td>
+              <td style="font-weight: bold"align="center">RESULT</td>
+            </tr>
+            <% @students.each_with_index do |student,index| %>
+                <tr>
+                  <td><%= index+1 %> - <%= student[:student_name] %></td>
+                  <td align="center"><%= student[:score] %> / <%= student[:total] %> - <%= student[:percentage] %>%, {Grade-<%= student[:grade] %>}</td>
+                </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
 
-  <span style="float: right;padding-right: 35%"><i><%= @bdgree.board.name %> / <%= @bdgree.degree.name %> / <%= @quiz.course.name %></i></span>
-
-  <br><br>
-
-  <table>
-    <tr>
-      <td>Total Questions</td>
-      <td align="center"><%= @count[:mcq]+@count[:truefalse]+@count[:fill]+@count[:descriptive] %></td>
-    </tr>
-    <tr>
-      <td>      MCQs</td>
-      <td align="center"><%= @count[:mcq] %></td>
-    </tr>
-    <tr>
-      <td>      Fill in the Blanks</td>
-      <td align="center"><%= @count[:fill] %></td>
-    </tr>
-    <tr>
-      <td>      True / False</td>
-      <td align="center"><%= @count[:truefalse] %></td>
-    </tr>
-    <tr>
-      <td>      Structured Questions</td>
-      <td align="center"><%= @count[:descriptive] %></td>
-    </tr>
-    <tr>
-      <td>Time Allowed</td>
-      <td align="center"><%= @time_allowed %> minutes</td>
-    </tr>
-  </table>
-
-  <br><br>
-
-  <table>
-    <tr>
-      <td style="font-weight: bold"align="center">STUDENT NAME</td>
-      <td style="font-weight: bold"align="center">RESULT</td>
-    </tr>
-    <% @students.each_with_index do |student,index| %>
-        <tr>
-          <td><%= index+1 %> - <%= student[:student_name] %></td>
-          <td align="center"><%= student[:score] %> / <%= student[:total] %> - <%= student[:percentage] %>%, {Grade-<%= student[:grade] %>}</td>
-        </tr>
-    <% end %>
-  </table>
 </div>
 
-
-<br><br><br><br>
-
-<button id="cmd" onclick="pdf()">generate PDF</button> | <%= link_to 'Back', quizzes_path %>
+<div class="row" style="padding-left:2.5%;">
+  <div class="col-md-12">
+    <button id="cmd" class="btn btn-primary" onclick="pdf()">Generate PDF</button> | <%= link_to 'Back', quizzes_path %>
+  </div>
+</div>
 
 
 <script>
   function pdf()
   {
+    $("#quiz_result").addClass("quiz_result");
     var doc = new jsPDF();
-
-    doc.addHTML($('#quiz_result'),function() {
+    var options = {
+      pagesplit: true
+    };
+    doc.addHTML($('#quiz_result'), options,function() {
       doc.save('Quiz Result.pdf');
     });
-
   }
 </script>
 

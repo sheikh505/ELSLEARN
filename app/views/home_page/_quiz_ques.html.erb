@@ -252,9 +252,12 @@
 
     function pdf()
     {
+      $("#quiz_result").addClass("quiz_result");
       var doc = new jsPDF();
-
-      doc.addHTML($('#quiz_result'),function() {
+      var options = {
+        pagesplit: true
+      };
+      doc.addHTML($('#quiz_result'), options,function() {
         doc.save('Quiz Result.pdf');
       });
 
