@@ -93,10 +93,7 @@
   {
     $("#quiz_result").addClass("quiz_result");
     var doc = new jsPDF();
-    var options = {
-      pagesplit: true
-    };
-    doc.addHTML($('#quiz_result'), options,function() {
+    doc.addHTML($('#quiz_result'),function() {
       doc.save('Quiz Result.pdf');
     });
   }
