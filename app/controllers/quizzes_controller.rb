@@ -6,8 +6,13 @@ class QuizzesController < ApplicationController
   respond_to :html
 
   def index
-    @quizzes = Quiz.where(:user_id => current_user.id)
-    respond_with(@quizzes)
+    if current_user.is_admin?
+      @quizzes = Quiz.all
+      respond_with(@quizzes)
+    else
+      @quizzes = Quiz.where(:user_id => current_user.id)
+      respond_with(@quizzes)
+    end
   end
 
   def show
