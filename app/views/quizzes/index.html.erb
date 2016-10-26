@@ -28,7 +28,7 @@
               <% else %>
                   <td></td>
               <% end %>
-              <% if current_user.is_teacher? %>
+              <% if current_user.is_teacher? || current_user.is_admin? %>
                   <td><%= link_to 'Show', "quizzes/#{quiz.id}" %></td>
               <% end %>
               <% if can? :update, quiz %>

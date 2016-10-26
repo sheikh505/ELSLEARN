@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
-                                            :get_topics,:verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -199,7 +199,7 @@ class ServicesController < ApplicationController
 
 
       @questionlist = questions.map do |u|
-        { :id=> u.id, :statement => u.statement, :type => u.question_type,
+        { :id=> u.id, :statement => u.statement, :type => u.question_type, :source => u.source,
           :options =>  u.options.shuffle.map do |o|
             {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "NNNN", :is_answer => o.is_answer}
           end
@@ -358,7 +358,7 @@ class ServicesController < ApplicationController
     end
     if (@questions.length > 0)
       @questionlist = @questions.map do |u|
-        { :id=> u.id, :statement => u.statement, :type => u.question_type,
+        { :id=> u.id, :statement => u.statement, :type => u.question_type, :source => u.source,
           :options =>  u.options.shuffle.map do |o|
             {:id => o.id, :question_id => o.question_id, :flag => o.flag, :image_url => o.avatar.url(:medium), :statement => o.statement.present? ? o.statement : "NNNN", :is_answer => o.is_answer}
           end
