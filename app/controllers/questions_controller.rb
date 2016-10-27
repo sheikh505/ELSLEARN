@@ -1392,7 +1392,7 @@ class QuestionsController < ApplicationController
 
     topics = Course.find(params[:course_id]).topics
     topics.each do |topic|
-      count = Question.where("topic_id = ? AND question_type = ?  and deleted = 'FALSE'",topic.id,params[:question_type]).count
+      count = Question.where("topic_id = ? AND question_type = ?",topic.id,params[:question_type]).count
       @hash_detail["Total"] += count
       @hash_detail["#{topic.name}"] = count
     end

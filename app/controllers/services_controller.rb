@@ -795,8 +795,8 @@ class ServicesController < ApplicationController
 
 
 
-    if params[:user_test_history_id]
-      test = UserTestHistory.find(params[:user_test_history_id])
+    if params[:test_history_id]
+      test = UserTestHistory.find(params[:test_history_id])
       test.score = @score
       test.total = @total
       test.is_live = false
