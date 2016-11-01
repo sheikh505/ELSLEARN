@@ -29,7 +29,7 @@ class QuizzesController < ApplicationController
         @count[:descriptive] += 1
       end
     end
-    @time_allowed = @questions.count * 2
+    @time_allowed = @quiz.time_allowed
     @bdgree = @quiz.course.board_degree_assignments.first
 
     students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')

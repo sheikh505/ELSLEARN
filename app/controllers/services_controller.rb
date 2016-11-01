@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
-  before_filter :check_session, :except => [:sign_in, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
+  before_filter :check_session, :except => [:sign_in,:show_quiz, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
                                             :get_topics, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
@@ -755,35 +755,67 @@ class ServicesController < ApplicationController
   def verify_answers
     puts "===========================>", params.inspect
     @score = 0
+    @questions = Hash.new
+    @questions[:mcq] = Hash.new
+    @questions[:fill] = Hash.new
+    @questions[:truefalse] = Hash.new
+    @questions[:mcq][:total] = @questions[:fill][:total] = @questions[:truefalse][:total] = 0
+    @questions[:mcq][:attempted] = @questions[:fill][:attempted] = @questions[:truefalse][:attempted] = 0
+    @questions[:mcq][:correct] = @questions[:fill][:correct] = @questions[:truefalse][:correct] = 0
 
     array = params[:array].split(",")
 
+    @total = @total_questions = @total_wrong = array.length
+    @total_correct = 0
 
-    @total = array.length
+    question_evaluation = Hash.new
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
+        @questions[:mcq][:total] += 1
         if ques.split(":")[1]
+          @questions[:mcq][:attempted] += 1
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
             @option = Option.find_by_id(ques.split(":")[1])
             if @option.present? && @option.is_answer == 1
+              question_evaluation[ques.split(":")[0]] = 1
               @score += 1
+              @questions[:mcq][:correct] += 1
+              @total_correct += 1
+              @total_wrong -= 1
+            else
+              question_evaluation[ques.split(":")[0]] = 0
             end
           end
         end
       elsif @question.question_type == 4
+        @questions[:truefalse][:total] += 1
         @option = @question.options.first
         if ques.split(":")[1]
+          @questions[:truefalse][:attempted] += 1
           if @option.statement == ques.split(":")[1]
+            question_evaluation[ques.split(":")[0]] = 1
             @score += 1
+            @questions[:truefalse][:correct] += 1
+            @total_correct += 1
+            @total_wrong -= 1
+          else
+            question_evaluation[ques.split(":")[0]] = 0
           end
         end
       elsif @question.question_type == 3
+        @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
+          @questions[:fill][:attempted] += 1
+          question_evaluation[ques.split(":")[0]] = 0
           @options.each do |opt|
             if opt == ques.split(":")[1]
+              question_evaluation[ques.split(":")[0]] = 1
               @score += 1
+              @questions[:fill][:correct] += 1
+              @total_correct += 1
+              @total_wrong -= 1
               break
             end
           end
@@ -791,19 +823,249 @@ class ServicesController < ApplicationController
       end
     end
 
-
-
-
-
-    if params[:test_history_id]
-      test = UserTestHistory.find(params[:test_history_id])
-      test.score = @score
-      test.total = @total
-      test.is_live = false
-      test.save!
+    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
+    if @questions[:mcq][:percentage].nan?
+      @questions[:mcq][:percentage] = 0.0
+    end
+    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
+    if @questions[:fill][:percentage].nan?
+      @questions[:fill][:percentage] = 0.0
+    end
+    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
+    if @questions[:truefalse][:percentage].nan?
+      @questions[:truefalse][:percentage] = 0.0
+    end
+    @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
+    if @overall_percentage.nan?
+      @overall_percentage = 0.0
     end
 
-    render :json => {:success => true, :score => @score, :total => @total}
+    if @overall_percentage >= 90
+      @grade = "A*"
+    elsif @overall_percentage >=85 && @overall_percentage < 90
+      @grade = "A"
+    elsif @overall_percentage >=75 && @overall_percentage < 85
+      @grade = "B"
+    elsif @overall_percentage >=65 && @overall_percentage < 75
+      @grade = "C"
+    elsif @overall_percentage >=55 && @overall_percentage < 65
+      @grade = "D"
+    elsif @overall_percentage >=45 && @overall_percentage < 55
+      @grade = "E"
+    elsif @overall_percentage < 45
+      @grade = "F"
+    end
+
+    # topic_ids = []
+    # @topic_total = Hash.new(0)
+    # @topic_correct = Hash.new(0)
+    #
+    # questions = []
+    # array.each do |ques|
+    #   questions << Question.find(ques.split(":")[0])
+    #   question = questions.last
+    #   if question.topic_ids.present?
+    #     ques_topic_ids = question.topic_ids.split(',')
+    #     if ques_topic_ids[0] != "0"
+    #       if topic_ids.include?(ques_topic_ids[0])
+    #         @topic_total[ques_topic_ids[0]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[0]] += 1
+    #         end
+    #       else
+    #         topic_ids << ques_topic_ids[0]
+    #         @topic_total[ques_topic_ids[0]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[0]] += 1
+    #         end
+    #       end
+    #     elsif ques_topic_ids[1] != "0"
+    #       if topic_ids.include?(ques_topic_ids[1])
+    #         @topic_total[ques_topic_ids[1]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[1]] += 1
+    #         end
+    #       else
+    #         topic_ids << ques_topic_ids[1]
+    #         @topic_total[ques_topic_ids[1]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[1]] += 1
+    #         end
+    #       end
+    #     elsif question.topic_ids.split(',')[2] != "0"
+    #       if topic_ids.include?(ques_topic_ids[2])
+    #         @topic_total[ques_topic_ids[2]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[2]] += 1
+    #         end
+    #       else
+    #         topic_ids << ques_topic_ids[2]
+    #         @topic_total[ques_topic_ids[2]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[2]] += 1
+    #         end
+    #       end
+    #     elsif question.topic_ids.split(',')[3] != "0"
+    #       if topic_ids.include?(ques_topic_ids[3])
+    #         @topic_total[ques_topic_ids[3]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[3]] += 1
+    #         end
+    #       else
+    #         topic_ids << ques_topic_ids[3]
+    #         @topic_total[ques_topic_ids[3]] += 1
+    #         id = question.id.to_s
+    #         if question_evaluation[id] == 1
+    #           @topic_correct[ques_topic_ids[3]] += 1
+    #         end
+    #       end
+    #     end
+    #   end
+    #
+    # end
+    #
+    # # if @topics
+    #
+    # topic_ids.uniq!
+    # puts "======================================>"+topic_ids.inspect
+    # @topics = Topic.find(topic_ids.split(','))
+    # @sub_topics = @topics.reject{|t|
+    #   !t.parent_topic_id.present?
+    # }
+    # @topics.reject!{|t|
+    #   t.parent_topic_id.present?
+    # }
+    # @sub_topics.each do |sub|
+    #   unless topic_ids.include?(sub.parent_topic_id)
+    #     @topics << Topic.find(sub.parent_topic_id)
+    #   end
+    #   @topic_total[sub.parent_topic_id.to_s] = 0
+    #   @topic_correct[sub.parent_topic_id.to_s] = 0
+    # end
+    #
+    # @topics.uniq!
+    #
+    # @topics.each do |topic|
+    #   puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+    # end
+    # @sub_topics.each do |topic|
+    #   puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+    # end
+    #
+    # @topics.each do |topic|
+    #   @sub_topics.each do |sub|
+    #     if sub.parent_topic_id == topic.id
+    #       @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
+    #       @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+    #     end
+    #   end
+    # end
+    # @topics.uniq!
+    # @sub_topics.uniq!
+    #
+    # puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
+    # end
+
+    # @topics.each do |topic|
+    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+    # end
+    # @sub_topics.each do |topic|
+    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+    # end
+
+
+    test_history = UserTestHistory.find(params[:test_history_id])
+    if test_history.code
+      quiz = Quiz.find_by_test_code(test_history.code)
+      unless quiz.attempted
+        quiz.update_attributes(:attempted => true)
+      end
+
+      # user_ids = UserTestHistory.where(:code => test_history.code).uniq.pluck(:user_id)
+      # users = User.where("id IN (?)", user_ids)
+      # scores = Array.new
+      # users.each do |user|
+      #   scores << user.user_test_histories.last.score.to_i
+      # end
+
+      test_history.score = @total_correct
+      test_history.total = @total
+      test_history.is_live = false
+      test_history.save!
+      test_total_marks = test_history.total
+
+      # @test_highest = scores[0]
+      # @test_lowest = scores[0]
+      # sum_of_marks = 0
+      # scores.each do|score|
+      #   sum_of_marks += score
+      #   if score > @test_highest
+      #     @test_highest = score
+      #   end
+      # end
+      # scores.each do|score|
+      #   if score < @test_lowest
+      #     @test_lowest = score
+      #   end
+      # end
+      #
+      # @test_average = sum_of_marks/scores.length
+      # @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
+      #
+      # @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
+      # @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
+      @time_allowed = array.length * 1.5
+      @teacher_name = User.find(quiz.user_id).name
+      course = quiz.course
+      @course_name = course.name
+      bdgree = course.board_degree_assignments.first
+      @board_name = bdgree.board.name
+      @degree_name = bdgree.degree.name
+
+      @test_code = test_history.code
+      @test_name = quiz.name
+
+      if @grade == "F" || @grade == "G"
+        @result = "Fail"
+      else
+        @result = "Pass"
+      end
+
+    else
+      test_history.score = @total_correct
+      test_history.total = @total
+      test_history.is_live = false
+      test_history.save!
+      test_total_marks = test_history.total
+
+      @course_name = Course.find(test_history.course_id).name
+      @board_name = Board.find(test_history.board_id).name
+      @degree_name = Degree.find(test_history.degree_id).name
+      if session[:quiz_time] == '-1'
+        @time_allowed = @total * 1.5
+      else
+        @time_allowed = session[:quiz_time]
+      end
+
+      if @grade == "F" || @grade == "G"
+        @result = "Fail"
+      else
+        @result = "Pass"
+      end
+    end
+
+    render :json => {:success => true, :score => @score, :total => @total, :questions => @questions,
+                    :time_allowed => @time_allowed, :total_correct => @total_correct, :board => @board_name,
+                    :degree => @degree_name, :course => @course_name, :test_name => @test_name, :test_code => @test_code,
+                    :teacher_name => @teacher_name, :total_wrong => @total_wrong, :total_questions => @total_questions,
+                    :overall_percentage => @overall_percentage, :grade => @grade, :result => @result}
 
     # answers = params[:answer]
     # answers.each do |answer|
@@ -953,6 +1215,70 @@ class ServicesController < ApplicationController
       render :json => {:success => false, :message => @messages}
     end
   end
+
+  # def show_quiz
+  #   @quiz = Quiz.find(params[:id])
+  #   @questions = Question.find(@quiz.question_ids.split(","))
+  #   @count = Hash.new(0)
+  #   @questions.each do |question|
+  #     if question.question_type == 1
+  #       @count[:mcq] += 1
+  #     elsif question.question_type == 3
+  #       @count[:fill] += 1
+  #     elsif question.question_type == 4
+  #       @count[:truefalse] += 1
+  #     elsif question.question_type == 2
+  #       @count[:descriptive] += 1
+  #     end
+  #   end
+  #   @time_allowed = @quiz.time_allowed
+  #   @bdgree = @quiz.course.board_degree_assignments.first
+  #   @degree = @bdgree.degree.name
+  #   @board = @bdgree.board.name
+  #   @course = @quiz.course.name
+  #
+  #   students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')
+  #
+  #   @students = Array.new
+  #   if students.present?
+  #     students.each do |student|
+  #       s = Hash.new
+  #       s[:student_name] = student.student_name
+  #       test = User.find(student.student_id).user_test_histories.where(:code => @quiz.test_code).last
+  #       if test.score == nil
+  #         test.score = 0
+  #         test.save
+  #       end
+  #       if test.total == nil
+  #         test.total = 0
+  #         test.save
+  #       end
+  #       s[:score] = test.score
+  #       s[:total] = test.total
+  #       s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
+  #       if s[:percentage].nan?
+  #         s[:percentage] = 0.0
+  #       end
+  #       if s[:percentage] >= 90
+  #         s[:grade] = "A*"
+  #       elsif s[:percentage] >=85 && s[:percentage] < 90
+  #         s[:grade] = "A"
+  #       elsif s[:percentage] >=75 && s[:percentage] < 85
+  #         s[:grade] = "B"
+  #       elsif s[:percentage] >=65 && s[:percentage] < 75
+  #         s[:grade] = "C"
+  #       elsif s[:percentage] >=55 && s[:percentage] < 65
+  #         s[:grade] = "D"
+  #       elsif s[:percentage] >=45 && s[:percentage] < 55
+  #         s[:grade] = "E"
+  #       elsif s[:percentage] < 45
+  #         s[:grade] = "F"
+  #       end
+  #       @students << s
+  #     end
+  #   end
+  #   render :json => {:quiz => @quiz, :students => @students, :board => @board, :degree => @degree}
+  # end
 
   def quiz
     if params[:user_test_history_id].present? || @user_test_history_id.present?

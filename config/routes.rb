@@ -98,6 +98,7 @@ ExamsSystem::Application.routes.draw do
       get :live_score_details
       get :get_topics
       get :verify_answers_web
+      get :show_quiz
     end
   end
 
