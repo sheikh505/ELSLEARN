@@ -1023,6 +1023,7 @@ class ServicesController < ApplicationController
       # @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
       @time_allowed = array.length * 1.5
       @teacher_name = User.find(quiz.user_id).name
+      @student_name = User.find(test_history.user_id).name
       course = quiz.course
       @course_name = course.name
       bdgree = course.board_degree_assignments.first
@@ -1045,6 +1046,7 @@ class ServicesController < ApplicationController
       test_history.save!
       test_total_marks = test_history.total
 
+      @student_name = User.find(test_history.user_id).name
       @course_name = Course.find(test_history.course_id).name
       @board_name = Board.find(test_history.board_id).name
       @degree_name = Degree.find(test_history.degree_id).name
@@ -1065,7 +1067,7 @@ class ServicesController < ApplicationController
                     :time_allowed => @time_allowed, :total_correct => @total_correct, :board => @board_name,
                     :degree => @degree_name, :course => @course_name, :test_name => @test_name, :test_code => @test_code,
                     :teacher_name => @teacher_name, :total_wrong => @total_wrong, :total_questions => @total_questions,
-                    :overall_percentage => @overall_percentage, :grade => @grade, :result => @result}
+                    :overall_percentage => @overall_percentage, :grade => @grade, :result => @result, :student_name => @student_name}
 
     # answers = params[:answer]
     # answers.each do |answer|
@@ -1277,7 +1279,8 @@ class ServicesController < ApplicationController
   #       @students << s
   #     end
   #   end
-  #   render :json => {:quiz => @quiz, :students => @students, :board => @board, :degree => @degree}
+  #   render :json => {:quiz => @quiz, :students => @students, :board => @board, :degree => @degree,
+  #                   :course => @course, :time_allowed => @time_allowed}
   # end
 
   def quiz
