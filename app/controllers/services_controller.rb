@@ -1039,6 +1039,8 @@ class ServicesController < ApplicationController
         @result = "Pass"
       end
 
+      @date = DateTime.now.to_date
+
     else
       test_history.score = @total_correct
       test_history.total = @total
@@ -1061,13 +1063,17 @@ class ServicesController < ApplicationController
       else
         @result = "Pass"
       end
+
+      @date = DateTime.now.to_date
+
     end
 
     render :json => {:success => true, :score => @score, :total => @total, :questions => @questions,
                     :time_allowed => @time_allowed, :total_correct => @total_correct, :board => @board_name,
                     :degree => @degree_name, :course => @course_name, :test_name => @test_name, :test_code => @test_code,
                     :teacher_name => @teacher_name, :total_wrong => @total_wrong, :total_questions => @total_questions,
-                    :overall_percentage => @overall_percentage, :grade => @grade, :result => @result, :student_name => @student_name}
+                    :overall_percentage => @overall_percentage, :grade => @grade, :result => @result, :student_name => @student_name,
+                    :date => @date}
 
     # answers = params[:answer]
     # answers.each do |answer|
