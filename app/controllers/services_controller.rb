@@ -1068,6 +1068,17 @@ class ServicesController < ApplicationController
 
     end
 
+    @questions[:mcq][:type] = "mcq"
+    @questions[:fill][:type] = "fill"
+    @questions[:truefalse][:type] = "truefalse"
+
+    questions = Array.new
+    questions[0] = @questions[:mcq]
+    questions[1] = @questions[:fill]
+    questions[2] = @questions[:truefalse]
+    @questions = questions
+
+
     render :json => {:success => true, :score => @score, :total => @total, :questions => @questions,
                     :time_allowed => @time_allowed, :total_correct => @total_correct, :board => @board_name,
                     :degree => @degree_name, :course => @course_name, :test_name => @test_name, :test_code => @test_code,
