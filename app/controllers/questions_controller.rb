@@ -486,6 +486,7 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.varient= params[:varient]
     @question.difficulty= params[:difficulty]
+    @question.statement = params[:statement] if params[:statement]
     @question.description = params[:detail_answer]
 
     @question.course_linking_id = params[:course_linking_id]
