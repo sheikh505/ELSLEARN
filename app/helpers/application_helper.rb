@@ -40,7 +40,7 @@ module ApplicationHelper
   end
 
   def get_visiting_teacher_role
-    temp = Role.all.select{|x| x.name.downcase == 'visiting'}
+    temp = Role.all.select{|x| x.name.downcase == 'teacher'}
     return temp.blank? ? nil : temp.first.id
   end
 

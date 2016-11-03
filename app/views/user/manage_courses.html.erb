@@ -1,0 +1,30 @@
+<div class="user_profile_holder">
+  <div class="container">
+    <h1>Manage Courses</h1>
+    <%= form_for current_user, :url => "update_courses" do |f| %>
+      <table class="table" style="padding-bottom:10px;border-bottom: 3px solid">
+        <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% unless @courses.blank? %>
+            <% @courses.each do |course| %>
+                <tr>
+                  <td> <%=course.name %></td>
+                  <% if @user_course_ids.include?(course.id.to_s) %>
+                      <td> <%= check_box_tag 'courses[]', course.id, :checked => "checked" %></td>
+                  <% else %>
+                      <td> <%= check_box_tag 'courses[]', course.id %></td>
+                <% end %>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+        <%= f.submit "Update Courses", :style => "font-size:15px;margin-right:5px"  %> | <%= link_to "Back", "/user/my_profile", :style => "font-size:16px;padding:5px" %>
+    <% end %>
+  </div>
+</div>

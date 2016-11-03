@@ -50,6 +50,25 @@ class UserController < ApplicationController
     end
   end
 
+  def manage_courses
+    bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
+    course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
+    @courses = Course.find_all_by_id(course_ids)
+    @user_course_ids = current_user[:courses].split(',')
+  end
+
+  def update_courses
+    if params[:courses]
+      current_user[:courses] = params[:courses].join(',')
+      current_user.save
+      redirect_to "/user/my_profile"
+    else
+      current_user[:courses] = params[:courses]
+      current_user.save
+      redirect_to "/user/my_profile"
+    end
+  end
+
   def dashboard
     @user = User.find(current_user.id)
     @user_test_histories = UserTestHistory.where(:user_id => @user.id).order('created_at DESC')

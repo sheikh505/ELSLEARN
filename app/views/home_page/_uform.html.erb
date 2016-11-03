@@ -2,34 +2,16 @@
   <div class="visual_holder container">
 
     <div class="pull-left viual_left">
-        <%= form_for :@user, :url => {:controller => 'home_page',
+
+
+
+          <%= form_for :@user, :url => {:controller => 'home_page',
                                          :action => 'instructions'},
                      :html => {:id =>"create_test"}    do |f| %>
-      <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Boards</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
-
-        <div id="board_holder">
-            <%= render 'bdc_list' %>
-        </div>
-      </div>
 
 
-      <div class="col">
-        <div class="header_col">
-          <p class="tabs_holde">Certifications</p>
-          <i class="arrow_right fa fa-caret-right"></i>
-          <i class="arrow_down fa fa-caret-down"></i>
-        </div>
 
-        <div id="degree_holder">
-        <%= render 'd_list' %>
-        </div>
 
-       </div>
 
 
       <div class="col">
@@ -55,7 +37,7 @@
 
         </div>
 
-        <div id="past_paper_question_container" class="pre_question_holder" style="display: none;">
+        <div id="past_paper_question_container" class="pre_question_holder" style="display: none;float:left">
           <div class="row_custom">
             <%= label_tag :year %>
             <select id="year" name="year">
@@ -190,9 +172,11 @@
         </div>
       </div>
           <input type="hidden" id="role" name="role" value="2" >
-          <input type="hidden" id="b_id" name="b_id" value="" >
-          <input type="hidden" id="degree_id" name="degree_id" value="" >
+
+
           <input type="hidden" id="course_id" name="course_id" value="" >
+          <%= hidden_field_tag :b_id, @boards %>
+          <%= hidden_field_tag :degree_id, @degrees %>
           <input type="hidden" id="mcq" name="mcq" value="" >
           <input type="hidden" id="fill" name="fill" value="" >
           <input type="hidden" id="true_false" name="true_false" value="" >
@@ -593,8 +577,8 @@
     function validate_past_paper()
     {
         course_id = $('#course').val();
-        degree_id = $('#degree_id').val($('.sdegree').children('li').val()).val();
-        board_id = $('#b_id').val($('.sboard').children('li').val()).val();
+        degree_id = $('#degree_id').val();
+        board_id = $('#b_id').val();
 
         past_paper_flag = $("input[name$='pre_Past']:checked").val();
         var selectedTopic = $('#first_new').find(":selected").map(function(){ return this.value }).get().join(",");

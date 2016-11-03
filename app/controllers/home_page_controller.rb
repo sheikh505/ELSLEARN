@@ -671,17 +671,24 @@ class HomePageController < ApplicationController
     @years.uniq!
     @years.sort!
     @years.reverse!
-    @courses = Course.all
     if user_signed_in?
       @user = current_user
     else
       @user = User.new
     end
-    @boards = Board.all
-    @degrees = []
-    @degrees << 'select board first'
 
-    @courses = []
+    if current_user[:courses]
+      @courses = Course.find(current_user[:courses].split(','))
+      d_c_assignment = @courses.first.degree_course_assignments.first
+      bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
+      @boards = bdgree.board_id
+      @degrees = bdgree.degree_id
+    else
+      @courses = []
+      @degrees = []
+      @boards = []
+    end
+
     @topics = []
     #@courses << 'select board and degree first'
 

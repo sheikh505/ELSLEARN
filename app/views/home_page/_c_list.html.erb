@@ -1,5 +1,5 @@
 <% if @courses.length == 0 %>
-    <%=select_tag "course",options_for_select(['select board and certification first'].map{|course| [course,""]}),class: 'select' %>
+    <%=select_tag "course",options_for_select(['You are not registered with any course'].map{|course| [course,""]}),class: 'select' %>
 <% else %>
     <select id="course" name="course" onchange="selectCourse(this.value)">
       <option value="">select course</option>
@@ -13,22 +13,17 @@
     var $form = $('#create_test');
     var serializedData = $form.serialize();
     $("#course").change(function(){
-//    $this = $(this);
-//    course_id = $this.val();
-    course_id = $('#course').val();
-//    alert(course_id);
-    $.ajax({
-    url:'/home_page/get_topic?course_id='+course_id,
+      course_id = $('#course').val();
+      $.ajax({
+        url:'/home_page/get_topic?course_id='+course_id,
         type:'post',
         data: serializedData,
         async:false,
-    success:function (data) {
-    $("#course_lists").html(data);
-    },
-    error:function (data) {
-    alert ('ERROR');
-    //    window.location.reload();
-    }
-    });
+        success:function (data) {
+          $("#course_lists").html(data);
+        },
+        error:function (data) {
+        }
+      });
     });
 </script>

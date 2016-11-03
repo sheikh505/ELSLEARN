@@ -15,9 +15,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       else
         if @user.update_attributes(params[:user])
           ###### save degrees #######
-            @user.update_attribute(:degrees,params[:degrees].join(",")) unless params[:degrees].blank?
+            @user.update_attribute(:degrees, params[:degrees].join(",")) unless params[:degrees].blank?
           ##### save courses ########
-            @user.update_attribute(:courses,params[:courses].join(",")) unless params[:courses].blank?
+            # puts "=======================>" + params[:courses].join(',').inspect
+            # die
+            unless params[:courses].blank?
+              @user[:courses] = params[:courses].join(',')
+              @user.save
+            end
           @flag = true
         else
           @flag = false
@@ -62,6 +67,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
       @user = resource if @flag == true
       format.js
+    end
+  end
+
+  def user_exists
+    user = User.find_by_email(params[:email])
+    if user == nil
+      render :json => {:success => false}
+    else
+      render :json => {:success => true}
     end
   end
 

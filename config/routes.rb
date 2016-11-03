@@ -32,6 +32,9 @@ ExamsSystem::Application.routes.draw do
   get "user/get_courses_by_degree_id"
   get "user/dashboard"
   get "user/ReTakeTest"
+  get "user/manage_courses" => "user#manage_courses"
+
+  put "/user/update_courses" => "user#update_courses"
 
   delete "user.:id" => "teacher#destroy"
 
@@ -227,6 +230,7 @@ ExamsSystem::Application.routes.draw do
     get "sign_in" => "users/sessions#new"
     delete "sign_out" => "users/sessions#destroy"
     put "users/update_user" => "users/registrations#update_user"
+    get "/user_exists" => "users/registrations#user_exists"
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'

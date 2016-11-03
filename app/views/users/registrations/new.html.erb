@@ -8,8 +8,9 @@
       <%= radio_button("user", "role", "visiting",{class: 'radio_btns'}) %> Teacher
       <%= radio_button("user", "role", "institute",{class: 'radio_btns'}) %> Institute
     </div>
+    <br>
     <div class="main_container_steps" id="example-basic" style="display: none">
-      <h3>STEP 1</h3>
+      <h3></h3>
       <section>
         <%= form_for(resource, :as=> resource_name,remote: true, :url=> registration_path(resource_name),html: {id: 'sign_up_form'}) do |f| %>
             <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
@@ -46,19 +47,21 @@
 
 
 
-            <div class="actions">
-              <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
-            </div>
+
         <% end %>
       </section>
-      <h3>STEP 2</h3>
+      <h3></h3>
       <section>
 
       </section>
 
-      <h3>STEP 3</h3>
+      <h3></h3>
       <section>
-                <p>You have been registered with ELSLEARN</p>
+        <div id="greet"></div>
+        <br><br>
+        <a class="actions buttons" id="button" style="font-size:15px" href="/user/my_profile" id="user_profile">User Profile</a>  |
+        <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>  |
+        <a class="actions buttons" id="button" style="font-size:15px" href="/pricing" id="els_packages">  ELS Packages</a>
       </section>
     </div>
 
@@ -66,6 +69,7 @@
 </div>
 
 <script type="text/javascript">
+
 
     $("#example-basic").steps({
         headerTag: "h3",
@@ -78,21 +82,40 @@
                 //// check role first ////
                 if($("#role").val() == ""){
                    alert("no role found for institute");
-                return false;
+                    return false;
                 }
                 else{
+                  if($('#user_email').val() == "")
+                  {
+                    alert("Email cannot be empty");
+                    return false;
+                  }
+                  else if($('#user_name').val() == "")
+                  {
+                    alert("Name cannot be empty");
+                    return false;
+                  }
+                  else if($('#user_password').val() == "")
+                  {
+                    alert("Password cannot be empty");
+                    return false;
+                  }
+                  else
+                  {
                     $("#select_role_div").hide();
                     $("#sign_up_form").submit();
+                    $('.actions > ul > li:first-child').attr('style', 'display:none');
                     return true;
+                  }
                 }
             }
             else if(currentIndex == 1){ ///// step 2 to 3 ////
-
-                $("#sign_up_form_2").submit();
-                return true;
+              $("#sign_up_form_2").submit();
+              $('.actions > ul').attr('style', 'display:none');
+              return true;
             }
             else{
-                return true;
+              return true;
             }
         },
         onFinishing: function (event, currentIndex)
@@ -105,18 +128,41 @@
         }
     });
 
+    $(document).ready(function() {
+      $('.wizard > .steps > ul > li > a').attr('style', 'border-radius: 47.5%');
+      $('.wizard > .steps > ul > li > a > span').attr('style', 'padding-left: 22px; font-size:20px');
+    })
+
+
 
         $(".radio_btns").click(function(){
            $(".main_container_steps").show();
             $this = $(this);
             if($this.val() == 'student'){
-                $("#role").val("<%=get_student_role%>");
+              $("#role").val("<%=get_student_role%>");
+              $('#greet').html("<p>Thank you for registering with E-Learning Services</p>");
             }
             else if($this.val() == 'visiting'){
-                $("#role").val("<%=get_visiting_teacher_role%>");
+              $("#role").val("<%=get_visiting_teacher_role%>");
+              $('#greet').html("<p>Thank you for registering with E-Learning Services</p>");
+
             }
             else{
-                $("#role").val("<%=get_institute_role%>");
+              $("#role").val("<%=get_institute_role%>");
+              $('#greet').html("<p>Please contact at info@elslearn.com to get yourself registered as an institute and get a separate fully-functional educational web-portal for your students, thank you!</p>");
             }
         });
 </script>
+<style>
+  .button {
+    font: bold 11px Arial;
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+  }
+</style>
