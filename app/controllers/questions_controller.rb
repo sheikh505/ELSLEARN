@@ -489,7 +489,6 @@ class QuestionsController < ApplicationController
     @question.description = params[:detail_answer]
 
     @question.course_linking_id = params[:course_linking_id]
-    puts "===================>>>params.inspect="+@question.description+"    "+@question.statement
 
     #@question.topic_id = params[:topic_id]
     @question.test_id = nil
