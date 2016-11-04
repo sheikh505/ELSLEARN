@@ -72,12 +72,8 @@ class QuizzesController < ApplicationController
         end
         @students << s
       end
-      render 'show', :layout => "application2" and return
     end
-
-
-
-    respond_with(@quiz, @students)
+    render 'show', :layout => "application2" and return
   end
 
   def new
