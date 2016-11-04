@@ -2,7 +2,7 @@ class QuizzesController < ApplicationController
   before_filter :set_quiz, :only=> [:show, :edit, :update, :destroy]
   before_filter :check_session, :except => [:test_exists]
 
-  layout "admin_panel_layout"
+  layout "admin_panel_layout", except: [:show]
   respond_to :html
 
   def index
