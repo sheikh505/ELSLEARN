@@ -2,6 +2,33 @@
 <html>
 <head>
   <title>ExamsSystem</title>
+  <style>
+    #quiz_result {
+      padding:2.5%;
+    }
+    .quiz_result {
+      background-color: white;
+    }
+    /*table, th, td {*/
+    /*border: 1px solid black;*/
+    /*border-collapse: collapse;*/
+    /*}*/
+    @media print
+    {
+      body
+      {
+        display: none !important;
+      }
+      #quiz_result
+      {
+        display: block !important;
+      }
+      #no_print
+      {
+        display: none !important;
+      }
+    }
+  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
