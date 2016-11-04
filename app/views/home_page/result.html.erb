@@ -12,6 +12,13 @@
   /*#quiz_result {*/
     /*background-color: white;*/
   /*}*/
+  @media print
+  {
+    #no_print
+    {
+      display: none !important;
+    }
+  }
 </style>
 
 <div id="quiz_result" class="quiz-result-holder">
@@ -30,7 +37,7 @@
       <span><i><%= @board_name %> / <%= @degree_name %> / <%= @course_name %></i></span>
     </div>
     <div class="col-md-4 text-right pull-right">
-      <span><i><%= DateTime.now.to_date %> / <%= @test_name %> / <%= @test_code %></i></span>
+      <span><i><%= DateTime.now.to_date %><% if @test_name %> / <%= @test_name %><%end %><% if @test_code %> / <%= @test_code %><%end %></i></span>
     </div>
   </div>
   <div class="row mrtp30">
@@ -163,15 +170,15 @@
   </div>
 </div>
 </div>
-<div class="row btn-pdf-holder">
+<div id="no_print" class="row btn-pdf-holder">
   <div class="col-md-12">
     <button id="cmd" class="btn btn-primary" onclick="pdf()">Generate PDF</button> | <%= link_to "Close", user_dashboard_path %>
   </div>
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>-->
 <!--<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>-->
 
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>-->

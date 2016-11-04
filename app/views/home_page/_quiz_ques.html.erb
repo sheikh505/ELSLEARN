@@ -252,12 +252,7 @@
 
     function pdf()
     {
-      $("#quiz_result").addClass("quiz_result");
-      var doc = new jsPDF();
-      doc.addHTML($('#quiz_result'),function() {
-        doc.save('Quiz Result.pdf');
-      });
-
+      window.print();
     }
 
 

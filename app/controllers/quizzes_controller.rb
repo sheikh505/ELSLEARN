@@ -17,6 +17,7 @@ class QuizzesController < ApplicationController
 
   def show
     @questions = Question.find(@quiz.question_ids.split(","))
+    @user = @quiz.user
     @count = Hash.new(0)
     @questions.each do |question|
       if question.question_type == 1
@@ -71,6 +72,7 @@ class QuizzesController < ApplicationController
         end
         @students << s
       end
+      render 'show', :layout => "application2" and return
     end
 
 

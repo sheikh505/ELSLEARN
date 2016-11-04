@@ -729,7 +729,7 @@ class ServicesController < ApplicationController
       test.save!
     end
 
-    render "home_page/result"
+    render "home_page/result", layout: "application2"
 
     # answers = params[:answer]
     # answers.each do |answer|
