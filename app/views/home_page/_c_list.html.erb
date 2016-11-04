@@ -1,5 +1,5 @@
 <% if @courses.length == 0 %>
-    <%=select_tag "course",options_for_select(['You are not registered with any course'].map{|course| [course,""]}),class: 'select' %>
+    <label style="color:darkblue;font-size:18px"><strong>You are not registered with any course.</strong></label>
 <% else %>
     <select id="course" name="course" onchange="selectCourse(this.value)">
       <option value="">select course</option>

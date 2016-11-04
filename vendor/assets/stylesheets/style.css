@@ -1335,7 +1335,8 @@ select, input[type="file"] {
 }
 .col .pre_question_holder{
     max-width: 555px;
-    position: absolute;
+    /*position: absolute;*/
+    margin-top: 18px;
     right: -641px;
     top: -9px;
 }

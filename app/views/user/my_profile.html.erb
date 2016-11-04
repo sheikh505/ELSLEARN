@@ -13,9 +13,11 @@
           <li><a  href="/user/dashboard">
             <i class="fa fa_icon fa-tachometer"></i>
             Dashboard </a> </li>
-          <li><a  href="/user/manage_courses">
-            <i class="fa fa_icon fa-book"></i>
-            Manage Courses</a> </li>
+          <% if current_user.is_student? %>
+              <li><a  href="/user/manage_courses">
+                <i class="fa fa_icon fa-book"></i>
+                Manage Courses</a> </li>
+          <% end %>
           <li><a  href="/pricing">
             <i class="fa fa_icon fa-tachometer"></i>
             Manage ELS Packages </a> </li>
