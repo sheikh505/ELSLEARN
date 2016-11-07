@@ -102,8 +102,11 @@
 
           <% end %>
         </div>
+
+
+
     <div class="actions mrtb10 col-md-12">
-      <%= f.submit "Register", :class => 'btn btn-large btn-inverse' %>
+      <%= f.submit "Register", :id => "submit", :onclick => " return register()", :class => 'btn btn-large btn-inverse' %>
     </div>
 
         <!-- 1. Attempt test by code
@@ -112,11 +115,14 @@
 
         <div id="student" style="display: none;" class="field col-md-12" >
           <br>
-          <%= check_box_tag "test_permission_ids[0]",  "1" %>
+          <div class="alert alert-danger" id="permission_error" style="display:none">
+            Atleast one permission should be checked.
+          </div>
+          <%= check_box_tag "test_permission_ids[0]",  "1", :checked => "checked" %>
           Attempt test by code
-          <%= check_box_tag "test_permission_ids[1]",  "2" %>
+          <%= check_box_tag "test_permission_ids[1]",  "2", :checked => "checked" %>
           Attempt past papers
-          <%= check_box_tag "test_permission_ids[2]",  "3" %>
+          <%= check_box_tag "test_permission_ids[2]",  "3", :checked => "checked" %>
           Create your own test
           <br><br>
         </div>
@@ -186,6 +192,21 @@
         }
 
     });
+
+    function register(){
+      $("#permission_error").hide();
+
+      if(document.getElementById('test_permission_ids_0').checked || document.getElementById('test_permission_ids_1').checked || document.getElementById('test_permission_ids_2').checked)
+      {
+        return true;
+      }
+      else
+      {
+        $("#permission_error").show();
+        return false;
+      }
+    }
+
     function on_roll_change() {
         if ($("#role_id option:selected").text() == "Teacher")
         {
