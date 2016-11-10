@@ -51,10 +51,70 @@ class UserController < ApplicationController
   end
 
   def manage_courses
+    # bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
+    # course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
+    # @courses = Course.find_all_by_id(course_ids)
+    # @user_course_ids = current_user[:courses].split(',')
+    @packages = UserPackage.where(user_id: current_user.id)
+  end
+
+  def delete_package
+    package = UserPackage.find(params[:id])
+    courses = current_user[:courses].split(',')
+    courses.delete(package.id.to_s)
+    current_user[:courses] = courses.join(",")
+    current_user.save
+    package.delete
+    @packages = UserPackage.where(user_id: current_user.id)
+    render partial: "delete_package"
+  end
+
+  def fetch_packages
+    session[:course_id] = params[:course_id]
+    @course = Course.find(params[:course_id])
+    render partial: "fetch_packages"
+  end
+
+  def buy
+    degree_id = current_user.degree_id
+    plan = params[:plan]
+    session[:plan] = params[:plan]
+    @price = Package.where(degree_id: degree_id, flag: plan).first.price
+    render partial: "buy"
+  end
+
+  def purchase
+    degree_id = current_user.degree_id
+    packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i).first
+    package = UserPackage.create(user_id: current_user.id, package_id: packages.id)
+    course = Course.find(session[:course_id])
+    courses = current_user[:courses].split(',')
+    courses << course.id.to_s
+    current_user[:courses] = courses.join(',')
+    current_user.save
+    package.name = course.name
+    package.course_id = course.id
+    package.plan = packages.name
+    package.save
+    if session[:plan] != "1"
+      package.credit_left = packages.price
+      package.validity = 30.days.from_now
+      package.save
+    end
+    render json: {success: true}
+  end
+
+  def add_course
     bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
     course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
+    user_courses = current_user[:courses].split(',')
+    course_ids.each do |id|
+      if user_courses.include?(id.to_s)
+        course_ids.delete(id)
+      end
+    end
     @courses = Course.find_all_by_id(course_ids)
-    @user_course_ids = current_user[:courses].split(',')
+    render partial: "add_course"
   end
 
   def update_courses

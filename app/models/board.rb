@@ -2,7 +2,7 @@ class Board < ActiveRecord::Base
   has_many :board_degree_assignment,:dependent => :destroy
   has_many :question_histories
   has_many :degrees, through: :board_degree_assignment
-  attr_accessible :name
+  attr_accessible :name, :enable
   validates :name, :uniqueness => true
 
   def board_degree_hash

@@ -4,6 +4,6 @@ class Degree < ActiveRecord::Base
   has_many :books
   has_many :question_histories
   has_many :workflow_paths
-  attr_accessible :name
+  attr_accessible :name, :enable
   validates :name, :uniqueness => true
 end

@@ -4,15 +4,17 @@
     <h2>Sign up</h2>
 
     <div id="select_role_div">
-      <%= radio_button("user", "role", "student",{class: 'radio_btns'}) %> Student
-      <%= radio_button("user", "role", "visiting",{class: 'radio_btns'}) %> Teacher
-      <%= radio_button("user", "role", "institute",{class: 'radio_btns'}) %> Institute
+      <select name="user[role]" id="user_role">
+        <option value="student" selected="selected">Student</option>
+        <option value="visiting">Teacher</option>
+        <option value="institute">Institute</option>
+      </select>
     </div>
     <br>
-    <div class="main_container_steps" id="example-basic" style="display: none">
+    <div class="main_container_steps" id="example-basic">
       <h3></h3>
       <section>
-        <%= form_for(resource, :as=> resource_name,remote: true, :url=> registration_path(resource_name),html: {id: 'sign_up_form'}) do |f| %>
+        <%= form_for(resource, :as=> resource_name,remote: true, :url=> "/save_form_1",html: {id: 'sign_up_form'}) do |f| %>
             <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
                 <p style="color: red"><%= flash[type] %></p>
             <% end %>
@@ -20,11 +22,13 @@
             <div class="field">
               <%= f.label :email %><br />
               <%= f.email_field :email, :autofocus=> true %>
+              <span id="email_error" style="display:none;color:#cc0000"></span>
             </div>
 
             <div class="field">
               <%= f.label :name %><br />
               <%= f.text_field :name  %>
+              <span id="name_error" style="display:none;color:#cc0000"></span>
             </div>
 
             <div class="field">
@@ -33,15 +37,16 @@
                   <em>(<%= @minimum_password_length %> characters minimum)</em>
               <% end %><br />
               <%= f.password_field :password, :autocomplete=> "off" %>
+              <span id="password_error" style="display:none;color:#cc0000"></span>
             </div>
 
             <div class="field">
               <%= f.label :password_confirmation %><br />
               <%= f.password_field :password_confirmation, :autocomplete=> "off" %>
-
+              <span id="pass_confirm_error" style="display:none;color:#cc0000"></span>
             </div>
             <div class="field">
-              <%= hidden_field_tag :role %>
+              <%= hidden_field_tag :role, "5" %>
 
             </div>
 
@@ -63,10 +68,18 @@
         <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>  |
         <a class="actions buttons" id="button" style="font-size:15px" href="/pricing" id="els_packages">  ELS Packages</a>
       </section>
+
+      <h3></h3>
+      <section>
+
+      </section>
+
     </div>
 
     </div>
 </div>
+
+
 
 <script type="text/javascript">
 
@@ -79,42 +92,116 @@
         onStepChanging: function (event, currentIndex, newIndex)
         {
             if(currentIndex == 0){   ///// step 1 to 2 ////
-                //// check role first ////
-                if($("#role").val() == ""){
-                   alert("no role found for institute");
-                    return false;
-                }
-                else{
-                  if($('#user_email').val() == "")
-                  {
-                    alert("Email cannot be empty");
-                    return false;
-                  }
-                  else if($('#user_name').val() == "")
-                  {
-                    alert("Name cannot be empty");
-                    return false;
-                  }
-                  else if($('#user_password').val() == "")
-                  {
-                    alert("Password cannot be empty");
-                    return false;
-                  }
-                  else
-                  {
-                    $("#select_role_div").hide();
-                    $("#sign_up_form").submit();
+              $('#email_error').hide();
+              $('#name_error').hide();
+              $('#password_error').hide();
+              $('#pass_confirm_error').hide();
+              if($('#user_email').val() == "")
+              {
+                $('#email_error').text("* Email Required");
+                $('#email_error').show();
+              }
+              else if(!validateEmail($('#user_email').val()))
+              {
+                $('#email_error').text("*Enter a valid email");
+                $('#email_error').show();
+              }
+              else if($('#user_name').val() == "")
+              {
+                $('#name_error').text("*Name Required");
+                $('#name_error').show();
+              }
+              else if($('#user_password').val() == "")
+              {
+                $('#password_error').text("*Password Required");
+                $('#password_error').show();
+              }
+              else if($('#user_password').val().length < 8)
+              {
+                $('#password_error').text("*Password must contain atleast 8 characters");
+                $('#password_error').show();
+              }
+              else if($('#user_password_confirmation').val() != $('#user_password').val())
+              {
+                $('#pass_confirm_error').text("*Password Don't match");
+                $('#pass_confirm_error').show();
+              }
+              else
+              {
+                $("#select_role_div").hide();
+                $.ajax({
+                  url: '/save_form_1?role='+$("#role").val()+"&user[email]="+$('#user_email').val()
+                        +"&user[name]="+$('#user_name').val()+"&user[password]="+$('#user_password').val()
+                        +"&user[password_confirmation]="+$('#user_password_confirmation').val(),
+                  method: "POST",
+                  success: function(data) {
+                    $("#example-basic-p-1").html(data);
                     $('.actions > ul > li:first-child').attr('style', 'display:none');
-                    return true;
+                  },
+                  error: function(data) {
+
                   }
-                }
+                });
+                return true;
+                $('#example-basic-t-0 > span').text('1');
+                $('#example-basic-t-1 > span').text('2');
+                $('#example-basic-t-2 > span').text('3');
+                $('.wizard > .steps > ul > li > a').attr('style', 'border-radius: 47.5%');
+                $('.wizard > .steps > ul > li > a > span').attr('style', 'padding-left: 22px; font-size:20px');
+              }
             }
             else if(currentIndex == 1){ ///// step 2 to 3 ////
-              $("#sign_up_form_2").submit();
-              $('.actions > ul').attr('style', 'display:none');
-              return true;
+              $('#course_error').hide();
+              $('#certification_error').hide();
+              if($('#select_degree').val() == "")
+              {
+                $('#certification_error').text("* Select a Certification");
+                $('#certification_error').show();
+              }
+              else if(!$('#courses_:checked').serialize())
+              {
+                var courses = $('#courses_:checked').map(function() {
+                  return this.value;
+                }).get();
+                alert(courses);
+                $('#course_error').text("* Select a Course");
+                $('#course_error').show();
+              }
+              else
+              {
+                var courses = $('#courses_:checked').map(function() {
+                  return this.value;
+                }).get();
+                var degrees = $('#degrees_:checked').map(function() {
+                  return this.value;
+                }).get();
+                $.ajax({
+                  url: '/save_form_2?institute='+$('#institute').val()+"&phone="+$('#phone').val()+
+                        "&degree_id="+$("#select_degree").val()+"&courses="+courses+"&degrees=" + degrees,
+                  method: "POST",
+                  success: function(data) {
+                    $("#example-basic-p-2").html(data);
+                    $('.wizard > .steps > ul > li > a').attr('style', 'border-radius: 47.5%');
+                  },
+                  error: function(data) {
+                    alert("courses");
+                  }
+                });
+                return true;
+              }
             }
-            else{
+            else if(currentIndex == 2){
+              var packages = $('input[type="radio"]:checked').map(function() {
+                return this.name + ":" + this.value;
+              }).get();
+              $.ajax({
+                url: "/save_form_3?packages=" + packages,
+                method: "POST",
+                success: function(data){
+                  $('.actions').attr('style', 'display:none');
+                  $("#example-basic-p-3").html(data);
+                }
+              });
               return true;
             }
         },
@@ -128,15 +215,30 @@
         }
     });
 
+    function validateEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+
     $(document).ready(function() {
+      $('#example-basic-t-0 > span').text('1');
+      $('#example-basic-t-1 > span').text('2');
+      $('#example-basic-t-2 > span').text('3');
       $('.wizard > .steps > ul > li > a').attr('style', 'border-radius: 47.5%');
       $('.wizard > .steps > ul > li > a > span').attr('style', 'padding-left: 22px; font-size:20px');
     })
 
 
 
-        $(".radio_btns").click(function(){
-           $(".main_container_steps").show();
+        $("#user_role").change(function(){
+          if($(this).val() == "")
+          {
+            $(".main_container_steps").hide();
+            $("#role").val("");
+          }
+          else
+          {
+            $(".main_container_steps").show();
             $this = $(this);
             if($this.val() == 'student'){
               $("#role").val("<%=get_student_role%>");
@@ -151,8 +253,12 @@
               $("#role").val("<%=get_institute_role%>");
               $('#greet').html("<p>Please contact at info@elslearn.com to get yourself registered as an institute and get a separate fully-functional educational web-portal for your students, thank you!</p>");
             }
+          }
         });
 </script>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+
 <style>
   .button {
     font: bold 11px Arial;

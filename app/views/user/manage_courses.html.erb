@@ -1,30 +1,71 @@
 <div class="user_profile_holder">
   <div class="container">
     <h1>Manage Courses</h1>
-    <%= form_for current_user, :url => "update_courses" do |f| %>
+    <div id="success" class="alert alert-success" style="display: none">
+      <strong>Success!</strong> The package has been deleted.
+    </div>
+    <div id="error" class="alert alert-danger" style="display: none">
+      <strong>Sorry!</strong> Due to some error package could not be deleted.
+    </div>
+    <div id="refresh_packages">
       <table class="table" style="padding-bottom:10px;border-bottom: 3px solid">
         <thead>
         <tr>
-          <th>Course Name</th>
-          <th>Action</th>
+          <th>Course</th>
+          <th>Package</th>
+          <th>Expires on</th>
+          <th>Credit Left</th>
+          <th>Option</th>
         </tr>
         </thead>
         <tbody>
-        <% unless @courses.blank? %>
-            <% @courses.each do |course| %>
-                <tr>
-                  <td> <%=course.name %></td>
-                  <% if @user_course_ids.include?(course.id.to_s) %>
-                      <td> <%= check_box_tag 'courses[]', course.id, :checked => "checked" %></td>
-                  <% else %>
-                      <td> <%= check_box_tag 'courses[]', course.id %></td>
-                <% end %>
-                </tr>
-            <% end %>
+        <% @packages.each do |package| %>
+            <tr>
+              <td><%= package.name %></td>
+              <td><%= package.plan.capitalize %></td>
+              <td><% if package.validity %>
+                    <%= package.validity.day %> <%= I18n.t("date.abbr_month_names")[package.validity.month] %>, <%= package.validity.year %>
+                <% else %>
+                    ∞
+                <% end %></td>
+              <td><% if package.validity %>
+                    PKR <%= package.credit_left %>/-
+                <% else %>
+                    N/A
+                <% end %></td>
+              <td><%= link_to "delete", "/user/delete_package?id=#{package.id}", id: "delete",
+                              remote: true, method: :delete %></td>
+            </tr>
         <% end %>
         </tbody>
       </table>
-        <%= f.submit "Update Courses", :style => "font-size:15px;margin-right:5px"  %> | <%= link_to "Back", "/user/my_profile", :style => "font-size:16px;padding:5px" %>
-    <% end %>
+      <div id="add_course_container">
+
+      </div>
+      <div id="packages_container">
+
+      </div>
+      <div id="purchase_container">
+
+      </div>
+      <%= link_to "Add Course", "/user/add_course", class: "btn btn-primary", id: "add_course", remote: true %>
+    </div>
   </div>
 </div>
+
+<script>
+  $('#delete').on('ajax:success', function(e, data, status, xhr){
+    $('#refresh_packages').html(data);
+    $("#success").show();
+    $("#success").delay(2500).fadeOut();
+  }).on('ajax:error',function(e, xhr, status, error){
+    $("#error").show();
+    $("#error").delay(2500).fadeOut();
+  });
+
+  $('#add_course').on('ajax:success', function(e, data, status, xhr){
+    $('#add_course_container').html(data);
+    $('#add_course').hide();
+  })
+
+</script>

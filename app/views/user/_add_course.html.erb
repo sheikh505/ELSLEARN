@@ -1,0 +1,66 @@
+
+<h2>Add Course</h2>
+<table class="table" style="padding-bottom:10px;border-bottom: 3px solid">
+  <thead>
+  <tr>
+    <th>Course Name</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @courses.each do |course| %>
+        <tr>
+          <td> <%= course.name %></td>
+          <span id="course_error" style="display:none;color:#cc0000"></span>
+          <td> <%= radio_button_tag 'course_id', course.id -%></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+<div>
+  Please note that most of the testing tools are FREE for all students.
+  To make a student's learning experience more valuable, certain features are charged as follows:
+
+</div>
+<table>
+  <thead>
+  <tr>
+    <th style="align:center">Certification</th>
+    <th style="align:center">VALUE</th>
+    <th style="align:center">COMPLETE</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>IGCSE</td>
+    <td>$25 | PKR 2750</td>
+    <td>$35 | PKR 3850</td>
+  </tr>
+  <tr>
+    <td>O Level</td>
+    <td>$25 | PKR 2750</td>
+    <td>$35 | PKR 3850</td>
+  </tr>
+  <tr>
+    <td>A & AS Level</td>
+    <td>$35 | PKR 3850</td>
+    <td>$45 | PKR 4950</td>
+  </tr>
+  </tbody>
+</table>
+<br>
+
+<%= link_to "Add", "#", class: "btn btn-primary", id: "fetch_packages", remote: true %>
+
+<script>
+  $('#fetch_packages').click(function(){
+    $.ajax({
+      url: "/user/fetch_packages?course_id=" + $('input[name="course_id"]:checked').val(),
+      method: "GET",
+      success: function(data){
+        $('#packages_container').html(data);
+        $('#add_course_container').hide();
+      }
+    })
+  })
+</script>

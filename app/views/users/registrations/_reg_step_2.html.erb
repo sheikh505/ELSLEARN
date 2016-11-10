@@ -1,40 +1,101 @@
 
 
-<%= form_for @user, remote: true, :url=> '/users/update_user',html: {id: 'sign_up_form_2'} do |f| %>
-    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
-        <p style="color: red"><%= flash[type] %></p>
-    <% end %>
-    <%=hidden_field_tag :id,@user.id %>
+<%= form_tag remote: true, :url=> '/users/save_form_3',html: {id: 'sign_up_form_2'} do |f| %>
     <div class="field">
-      <%= f.label :institute %><br />
-      <%= f.email_field :institute, :autofocus=> true %>
+      <%= label_tag :institute %><br />
+      <%= email_field_tag :institute %>
     </div>
 
     <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone  %>
+      <%= label_tag :phone %><br />
+      <%= text_field_tag :phone  %>
     </div>
-    <% if @user.roles.first.name.downcase == 'student' %>
+    <% if @role.name.downcase == 'student' %>
         <div class="field">
-          <%= label_tag :degree %><br />
-          <%=select_tag "user[degree_id]",options_for_select(get_degrees.map{|x| [x.name,x.id]}),id: 'select_degree' %>
+          <%= label_tag :certification %><br />
+          <select name="degree_id" id="select_degree">
+            <option value="">Select a Certification</option>
+            <% @degrees.each do |degree| %>
+              <option value="<%= degree.id %>"><%= degree.name %></option>
+            <% end %>
+          </select>
+          <span id="certification_error" style="display:none;color:#cc0000"></span>
+          <div id="courses_container" class="field">
+            <div id = "selected_course"></div>
+
+          </div>
+          <br>
+          <div>
+            Please note that most of the testing tools are FREE for all students.
+            To make a student's learning experience more valuable, certain features are charged as follows:
+
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="align:center">Certification</th>
+                <th style="align:center">VALUE</th>
+                <th style="align:center">COMPLETE</th>
+              </tr>
+            </thead>
+            <tbody style="font-size: 12px">
+              <tr>
+                <td>IGCSE</td>
+                <td>$25 | PKR 2750</td>
+                <td>$35 | PKR 3850</td>
+              </tr>
+              <tr>
+                <td>O Level</td>
+                <td>$25 | PKR 2750</td>
+                <td>$35 | PKR 3850</td>
+              </tr>
+              <tr>
+                <td>A & AS Level</td>
+                <td>$35 | PKR 3850</td>
+                <td>$45 | PKR 4950</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
     <% else %>
         <div class="field">
-          <% get_degrees.each do |degree| %>
-              <%= check_box_tag 'degrees[]', degree.id -%><%=degree.name %>
+          <% if @degrees.any? %>
+              <% @degrees.each do |degree| %>
+                  <%= check_box_tag 'degrees[]', degree.id -%><%=degree.name %><br>
+                  <div id="<%=degree.id %>" style="display: none">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th>Course Name</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% @courses[degree.id].each do |course| %>
+
+                          <tr>
+                            <td> <%=course.name %></td>
+                            <td> <%= check_box_tag 'courses[]', course.id -%></td>
+                          </tr>
+                      <% end %>
+                      </tbody>
+                    </table>
+
+                  </div>
+              <% end %>
+          <% else %>
+              <div class="field">
+                <%= label_tag "No degree available" %><br />
+              </div>
           <% end %>
         </div>
         <div class="field">
-          <%= f.label :student_amount %><br />
-          <%= f.text_field :student_amount %>
+          <%= label_tag :student_amount %><br />
+          <%= text_field_tag :student_amount %>
         </div>
     <% end %>
 
-    <div id="courses_container" class="field">
-      <div id = "selected_course"></div>
 
-    </div>
 
     <div class="actions">
       <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
@@ -62,6 +123,19 @@
 //        $("#courses_container").show();
 //        $(".course_all").show();
 //      $(".course_"+$this.attr("id")).show();
+    });
+
+    $('input[value="<%= get_degrees[0].id %>"').change(function(){
+      $('#<%= get_degrees[0].id %>').toggle();
+    });
+    $('input[value="<%= get_degrees[1].id %>"').change(function(){
+      $('#<%= get_degrees[1].id %>').toggle();
+    });
+    $('input[value="<%= get_degrees[2].id %>"').change(function(){
+      $('#<%= get_degrees[2].id %>').toggle();
+    });
+    $('input[value="<%= get_degrees[3].id %>"').change(function(){
+      $('#<%= get_degrees[3].id %>').toggle();
     });
 
 </script>

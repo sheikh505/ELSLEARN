@@ -11,6 +11,7 @@
       <% @courses_selected.each do |course| %>
     <tr>
       <td> <%=course.name %></td>
+      <span id="course_error" style="display:none;color:#cc0000"></span>
       <td> <%= check_box_tag 'courses[]', course.id -%></td>
     </tr>
       <% end %>

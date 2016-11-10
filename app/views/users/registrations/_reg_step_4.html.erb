@@ -1,0 +1,89 @@
+<% if @total_price == 0 %>
+    <div>
+      Thank you for registering with E-Learning Services.
+    </div>
+    <br><br>
+    <a class="actions buttons" id="button" style="font-size:15px" href="/user/my_profile" id="user_profile">User Profile</a>  |
+    <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>
+<% else %>
+    <div id="payment_method">
+      Payment Method
+      <table>
+        <tbody>
+          <tr>
+            <td><input  type="radio" name="payment_method" value="1"></td>
+            <td>Credit/Debit Card</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="payment_method" value="2"></td>
+            <td>Other</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br>
+
+      <div id="card" style="display:none">
+        <%= form_for :user, :remote => true, url: "#" do |f| %>
+          <div class="field">
+            <%= f.label :card_number %>
+            <%= f.text_field :card_number %>
+          </div>
+          <div class="field">
+            <%= f.label :expiration_month %>
+            <%= f.text_field :month %>
+            <%= f.label :expiration_year %>
+            <%= f.text_field :year %>
+          </div>
+          <div class="field">
+            <%= f.label :cvv2 %>
+            <%= f.text_field :cvv2 %>
+          </div>
+          <%= f.submit "Finish Payment", id: "finish" %>
+        <% end %>
+      </div>
+
+      <div id="other" style="display:none">
+        Please contact over WhatsApp/SMS/WeChat on the number: +92 30 44 58 18 98 to get to know about other payment methods.
+      </div>
+
+    </div>
+
+    <div id="finally" style="display:none">
+      <div>
+        Thank you for registering with E-Learning Services.
+      </div>
+      <br><br>
+      <a class="actions buttons" id="button" style="font-size:15px" href="/user/my_profile" id="user_profile">User Profile</a>  |
+      <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>
+    </div>
+
+<% end %>
+
+<script>
+  $('input[type="radio"][name="payment_method"]').change(function(){
+    if(this.value == "1")
+    {
+      $('#other').hide();
+      $('#card').show();
+    }
+    else
+    {
+      $('#card').hide();
+      $('#other').show();
+    }
+  });
+
+    $('#finish').click(function(){
+      $.ajax({
+        url: "/registration?card_number="+$('input[name="card_number"]').val()+"&month="+$('input[name="month"]').val()+
+        "&year="+$('input[name="year"]').val()+"&cvv2="+$('input[name="cvv2"]').val(),
+        method: "POST",
+        success: function(data){
+          $('#payment_method').hide();
+          $('#finally').show();
+        }
+      });
+    });
+</script>
+

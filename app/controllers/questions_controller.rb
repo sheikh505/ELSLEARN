@@ -504,6 +504,7 @@ class QuestionsController < ApplicationController
       if params[:pastPaperFlag] == '1'
         @past_paper = PastPaperHistory.new(:flag => params[:pastPaperFlag],
                                            :ques_no => params[:ques_no],
+                                           :paper => params[:paper],
                                            :session => params[:session],
                                            :year => params[:year],
                                            :course_id => params[:course_id],

@@ -151,7 +151,8 @@ class HomePageController < ApplicationController
     board_id = params[:board_id]
 
     @courses = BoardDegreeAssignment.find_all_by_board_id_and_degree_id(board_id,degree_id)
-    @courses = @courses.last.courses
+    course_ids = UserPackage.where(user_id: current_user.id).pluck(:course_id)
+    @courses = Course.where("id IN (?)", course_ids)
     @flag = false
     render :partial => 'home_page/c_list'
 
@@ -191,37 +192,69 @@ class HomePageController < ApplicationController
       session[:course_id] = @quiz.course_id
       session[:year] = ""
       session[:session] = ""
-      @mcq = @fill = @descriptive = @truefalse = 0
-      @quiz.question_ids.split(",").each do |id|
-        question = Question.find(id)
-        if question.question_type == 1
-          @mcq += 1
-        elsif question.question_type == 4
-          @truefalse += 1
-        elsif question.question_type == 3
-          @fill += 1
-        else
-          @descriptive += 1
+      if UserPackage.where(course_id: @quiz.course_id).first.plan == "free"
+        @mcq = @fill = @truefalse = 0
+        @quiz.question_ids.split(",").each do |id|
+          question = Question.find(id)
+          if question.question_type == 1
+            @mcq += 1
+          elsif question.question_type == 4
+            @truefalse += 1
+          elsif question.question_type == 3
+            @fill += 1
+          end
+        end
+        session[:mcq] = @mcq
+        session[:fill] = @fill
+        session[:true_false] = @truefalse
+
+
+        if user_signed_in?
+          user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
+                               :truefalse=> @truefalse,:fill=> @fill,
+                               :quiz_name => @quiz.name,
+                               :code => params[:test_code],
+                               :user_id=> current_user.id, :is_live => true}
+          puts "new puts===>>>",user_test_history.inspect
+          user_history = UserTestHistory.new(user_test_history)
+          puts "new userhistory------",user_history.inspect
+          user_history.save
+          @user_test_history_id = user_history.id
+        end
+      else
+        @mcq = @fill = @descriptive = @truefalse = 0
+        @quiz.question_ids.split(",").each do |id|
+          question = Question.find(id)
+          if question.question_type == 1
+            @mcq += 1
+          elsif question.question_type == 4
+            @truefalse += 1
+          elsif question.question_type == 3
+            @fill += 1
+          else
+            @descriptive += 1
+          end
+        end
+        session[:mcq] = @mcq
+        session[:fill] = @fill
+        session[:true_false] = @truefalse
+        session[:descriptive] = @descriptive
+
+
+        if user_signed_in?
+          user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
+                               :truefalse=> @truefalse,:fill=> @fill,
+                               :descriptive=> @descriptive, :quiz_name => @quiz.name,
+                               :code => params[:test_code],
+                               :user_id=> current_user.id, :is_live => true}
+          puts "new puts===>>>",user_test_history.inspect
+          user_history = UserTestHistory.new(user_test_history)
+          puts "new userhistory------",user_history.inspect
+          user_history.save
+          @user_test_history_id = user_history.id
         end
       end
-      session[:mcq] = @mcq
-      session[:fill] = @fill
-      session[:true_false] = @truefalse
-      session[:descriptive] = @descriptive
 
-
-      if user_signed_in?
-        user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
-                             :truefalse=> @truefalse,:fill=> @fill,
-                             :descriptive=> @descriptive, :quiz_name => @quiz.name,
-                             :code => params[:test_code],
-                             :user_id=> current_user.id, :is_live => true}
-        puts "new puts===>>>",user_test_history.inspect
-        user_history = UserTestHistory.new(user_test_history)
-        puts "new userhistory------",user_history.inspect
-        user_history.save
-        @user_test_history_id = user_history.id
-      end
 
     elsif params[:uthid].present?
 
@@ -447,6 +480,11 @@ class HomePageController < ApplicationController
       if quiz.present?
         question_ids = quiz.question_ids
         @questions = Question.find(question_ids.split(','))
+        if UserPackage.where(course_id: @quiz.course_id).first.plan == "free"
+          @questions.select!{ |q|
+            q.question_type != 2
+          }
+        end
         @size = @questions.length
         @quiz_time = @size * 1.5
       else
@@ -677,12 +715,19 @@ class HomePageController < ApplicationController
       @user = User.new
     end
 
-    if current_user[:courses]
-      @courses = Course.find(current_user[:courses].split(','))
-      d_c_assignment = @courses.first.degree_course_assignments.first
-      bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
-      @boards = bdgree.board_id
-      @degrees = bdgree.degree_id
+    if UserPackage.where(:user_id => current_user.id).any?
+      course_ids = UserPackage.where(:user_id => current_user.id).pluck(:course_id)
+      @courses = Course.where("id IN (?) AND enable=true", course_ids)
+      if @courses.any?
+        d_c_assignment = @courses.first.degree_course_assignments.first
+        bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
+        @boards = bdgree.board_id
+        @degrees = bdgree.degree_id
+      else
+        @courses = []
+        @degrees = []
+        @boards = []
+      end
     else
       @courses = []
       @degrees = []
@@ -716,6 +761,12 @@ class HomePageController < ApplicationController
 
   def get_topic
     a = params[:course_id]
+    package = UserPackage.where(:user_id => current_user, :course_id => params[:course_id]).firstdef
+    if package.plan == "free"
+      @plan = false
+    else
+      @plan = true
+    end
     puts "=======alert===>>>>>>",a.inspect
     @topics = Topic.where("course_id = ?",a).order(:created_at)
     puts "----=-=======-",@topics.inspect

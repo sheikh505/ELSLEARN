@@ -1,0 +1,30 @@
+<table class="table" style="padding-bottom:10px;border-bottom: 3px solid">
+  <thead>
+    <tr>
+      <th>Course</th>
+      <th>Package</th>
+      <th>Expires on</th>
+      <th>Credit Left</th>
+      <th>Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @packages.each do |package| %>
+      <tr>
+        <td><%= package.name %></td>
+        <td><%= package.plan.capitalize %></td>
+        <td><% if package.validity %>
+              <%= package.validity.day %> <%= I18n.t("date.abbr_month_names")[package.validity.month] %>, <%= package.validity.year %>
+            <% else %>
+              ∞
+            <% end %></td>
+        <td><% if package.validity %>
+              PKR <%= package.credit_left %>/-
+            <% else %>
+              N/A
+            <% end %></td>
+        <td><%= link_to "change package", "#" %>, <%= link_to "delete", "/user/delete_package?id=#{package.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

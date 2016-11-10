@@ -14,6 +14,13 @@
       <% end %>
     </select>
   </div>
+  <div class="row padding-custom" style="margin-left: 0px">
+    <div class="field col-md-3">
+      <%= label_tag :paper %>
+      <%= text_field_tag :paper %>
+    </div>
+  </div>
+
   <div class="field col-md-3">
     <%= label_tag "question #" %>
     <%= text_field_tag :ques_no, @question_no, :class=>'aaa' %>

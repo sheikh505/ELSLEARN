@@ -1,32 +1,163 @@
-<%= form_for @user, remote: true, :url=> users_registrations_update_user_path(@user),html: {id: 'sign_up_form_2'} do |f| %>
-    <% [:alert, :notice].select { |type| !flash[type].blank? }.each do |type| %>
-        <p style="color: red"><%= flash[type] %></p>
+<% if @flag %>
+    <div>
+      <div>
+        <% if @role == "12" %>
+            Please contact at info@elslearn.com to get yourself registered as an institute and get a separate fully-functional educational web-portal for your students, thank you!
+        <% else %>
+            Thank you for registering with E-Learning Services.
+        <% end %>
+      </div>
+      <br><br>
+      <a class="actions buttons" id="button" style="font-size:15px" href="/user/my_profile" id="user_profile">User Profile</a>  |
+      <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>
+    </div>
+<% else %>
+    <%= form_tag remote: true, :url=> '/users/save_form_2',html: {id: 'sign_up_form_3'} do |f| %>
+        <div class="field">
+          <div>
+            Please choose your package.
+            you can see the package details below..
+          </div>
+          <table style="border-bottom: 3px solid">
+            <thead>
+            <tr>
+              <th>Course</th>
+              <th>FREE</th>
+              <th>VALUE</th>
+              <th>COMPLETE</th>
+            </tr>
+            </thead>
+            <tbody style="font-size: 12px">
+            <% @courses.each do |course| %>
+                <tr>
+                  <td><%= course.name.split(' ')[0] %></td>
+                  <td style="text-align: center"><input type="radio" value="1" name="<%= course.id %>" checked="checked"></td>
+                  <td style="text-align: center"><input type="radio" value="2" name="<%= course.id %>"></td>
+                  <td style="text-align: center"><input type="radio" value="3" name="<%= course.id %>"></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <br>
+          <table style="border-bottom: 3px solid">
+            <thead style="font-size: 12px">
+            <tr>
+              <th></th>
+              <th>FREE</th>
+              <th>VALUE</th>
+              <th>COMPLETE</th>
+            </tr>
+            </thead>
+            <tbody style="font-size: 12px">
+            <tr>
+              <td>MCQs</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Fill in the Blanks</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>True/False</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Descriptive Questions</td>
+              <td style="text-align: center">✘</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Past Papers 1</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Instant Results 2</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Teacher Reviews 3</td>
+              <td style="text-align: center">✘</td>
+              <td style="text-align: center">✓</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Video Reviews 4</td>
+              <td style="text-align: center">✘</td>
+              <td style="text-align: center">✘</td>
+              <td style="text-align: center">✓</td>
+            </tr>
+            <tr>
+              <td>Questions Limit 5*</td>
+              <td style="text-align: center">Unlimited</td>
+              <td style="text-align: center">Unlimited*</td>
+              <td style="text-align: center">Unlimited*</td>
+            </tr>
+            <tr>
+              <td>Package Validity 6</td>
+              <td style="text-align: center">Lifetime</td>
+              <td style="text-align: center">1 Month</td>
+              <td style="text-align: center">1 Month</td>
+            </tr>
+            </tbody>
+          </table>
+          <br>
+          <div style="font-size: 11px">
+            <div><span>1.  </span><span>Past Papers are usually obtained from the official websites of respective boards. In other cases, the source of the question is always mentioned.</span></div>
+            <div><span>2.  </span><span>Instant Results are very comprehensive results produced for MCQs, Fill in the Blanks and True/False, right after a student finishes the test. The results are saved and aggregated in Student’s profile. Also, a report can be sent to associated teachers and a .pdf copy can also be downloaded for record.</span></div>
+            <div><span>3.  </span><span>Teacher reviews are available for descriptive questions. An expert tutor checks the answers submitted by the students and provides the feedback in form of comments on the answer image. Finally, performance marks are given after answers assessment.</span></div>
+            <div><span>4.  </span><span>Video Reviews is an innovative concept to provide feedback over the answers submitted by the students. A teacher checks the answers and records a 30-second video review for each question. This is a very convenient and easy-to-understand method for students.</span></div>
+            <div><span>5.  </span><span>*Fair Usage Policy applies for the number of questions a student can attempt through the account. Although, there is no limit for MCQs, True/False and Fill in the Blanks, however, attempts for descriptive questions are limited.</span></div>
+            <div><span>6.  </span><span>For the objective type, all students can enjoy the vast pool of questions as long as they require, however, for the subjective part, the packages are charged on monthly basis.</span></div>
+          </div>
+
+          <!--<div>-->
+          <!--<table>-->
+          <!--<tbody style="font-size: 11px">-->
+          <!--<tr>-->
+          <!--<td></td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td>2.</td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td></td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td></td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td></td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td></td>-->
+          <!--<td></td>-->
+          <!--</tr>-->
+          <!--</tbody>-->
+          <!--</table>-->
+          <!--</div>-->
+        </div>
+
+
+        <div class="actions">
+          <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
+        </div>
     <% end %>
-
-    <div class="field">
-      <%= f.label :institute %><br />
-      <%= f.email_field :institute, :autofocus=> true %>
-    </div>
-
-    <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone  %>
-    </div>
-    <div class="field">
-      <%= label_tag :degree %><br />
-      <%=select_tag "user[degree_id]",options_for_select(get_degrees.map{|x| [x.name,x.id]}),id: 'select_degree' %>
-    </div>
-
-    <div id="courses_container" class="field" style="display: none;">
-      <%= label_tag :courses %><br />
-      <% get_courses.each do |course| %>
-        <%=check_box("","courses",{class: "course_all",:multiple => true},"1","0")%><%= course.name %>
-      <% end %>
-    </div>
-
-    <div class="actions">
-      <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
-    </div>
 <% end %>
 
 

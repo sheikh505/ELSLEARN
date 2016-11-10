@@ -6,5 +6,5 @@ class Course < ActiveRecord::Base
   has_many :quizzes, :dependent => :destroy
   has_many :workflow_paths, :dependent => :destroy
 
-  attr_accessible :name
+  attr_accessible :name, :enable
 end

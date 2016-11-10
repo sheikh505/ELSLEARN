@@ -7,30 +7,31 @@ class Users::RegistrationsController < Devise::RegistrationsController
 # def new
 #   super
 # end
-  def update_user
-    respond_to do |format|
-      @user = User.find(params[:id])
-      if @user.nil?
-        @flag = false
-      else
-        if @user.update_attributes(params[:user])
-          ###### save degrees #######
-            @user.update_attribute(:degrees, params[:degrees].join(",")) unless params[:degrees].blank?
-          ##### save courses ########
-            # puts "=======================>" + params[:courses].join(',').inspect
-            # die
-            unless params[:courses].blank?
-              @user[:courses] = params[:courses].join(',')
-              @user.save
-            end
-          @flag = true
-        else
-          @flag = false
-        end
-      end
-      format.js
-    end
-  end
+#   def save_form_2
+#     respond_to do |format|
+#       @user = User.find(params[:id])
+#       if @user.nil?
+#         @flag = false
+#       else
+#         if @user.update_attributes(params[:user])
+#           ###### save degrees #######
+#             @user.update_attribute(:degrees, params[:degrees].join(",")) unless params[:degrees].blank?
+#           ##### save courses ########
+#             # puts "=======================>" + params[:courses].join(',').inspect
+#             # die
+#             unless params[:courses].blank?
+#               @user[:courses] = params[:courses].join(',')
+#               @user.save
+#             end
+#           @flag = true
+#         else
+#           @flag = false
+#         end
+#       end
+#       format.js
+#     end
+#   end
+
 # POST /resource
   def create
     respond_to do |format|
@@ -68,6 +69,136 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @user = resource if @flag == true
       format.js
     end
+  end
+
+  def save_form_1
+    session[:user] = Hash.new
+    session[:user][:email] = params[:user][:email]
+    session[:user][:name] = params[:user][:name]
+    session[:user][:password] = params[:user][:password]
+    session[:user][:password_confirmation] = params[:user][:password_confirmation]
+    session[:role] = params[:role]
+    @role = Role.find(params[:role])
+    if params[:role] != "5"
+      degrees = Degree.all
+      puts "==============> degrees" + degrees.inspect
+      @courses = Hash.new
+      degrees.each do |d|
+        bdegree = BoardDegreeAssignment.where(:degree_id => d.id).first
+        cdegree = DegreeCourseAssignment.where(:board_degree_assignment_id => bdegree.id)
+        id_array = Array.new
+        cdegree.each do |c|
+          id_array << c.course_id
+        end
+        puts "==============> id_array" + id_array.inspect
+        @courses[d.id] = Course.where("id IN (?) AND enable=true", id_array)
+      end
+    end
+    @degrees = Degree.where(:enable => true)
+    puts "=============>" + @courses.inspect
+    render partial: "save_form_1"
+  end
+
+  def save_form_2
+    if session[:role] != "5"
+      user = User.create(name: session[:user][:name], email: session[:user][:email],
+                          password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                          phone: params[:phone], institute: params[:institute],
+                          degrees: params[:degrees])
+      user[:courses] = params[:courses]
+      user.save
+      Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+      user.reload
+      sign_in(user)
+      @role = session[:role]
+      puts "=============>" + @role.inspect
+      @flag = true
+      render partial: "save_form_2"
+    else
+      session[:user][:institute] = params[:institute]
+      session[:user][:phone] = params[:phone]
+      session[:user][:courses] = params[:courses]
+      session[:user][:degree_id] = params[:degree_id]
+      @courses = Course.find(params[:courses].split(','))
+      render partial: "save_form_2"
+    end
+  end
+
+  def save_form_3
+    user_packages = params[:packages].split(',')
+    session[:user][:packages] = params[:packages].split(',')
+    packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+    @total_price = 0
+    user_packages.each do |p|
+      @total_price += packages.where(:flag => p.split(':')[1]).first.price
+    end
+    if @total_price == 0
+      user = User.create(name: session[:user][:name], email: session[:user][:email],
+                          password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                          degree_id: session[:user][:degree_id].to_i,
+                          phone: session[:user][:phone], institute: session[:user][:institute])
+      user[:courses] = session[:user][:courses]
+      user.save
+      Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+
+      user_packages.each do |p|
+        package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+        course = Course.find(p.split(':')[0])
+        package.name = course.name
+        package.course_id = course.id
+        package.plan = packages.where(:flag => p.split(':')[1]).first.name
+        package.save
+        if p.split(':')[1] != "1"
+          package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+          package.validity = 30.days.from_now
+          package.save
+        end
+      end
+      user.reload
+      sign_in(user)
+    end
+    puts "==============>price = " + @total_price.inspect
+    render partial: "save_form_3"
+  end
+
+  def registration
+    user_packages = session[:user][:packages]
+    packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+    user = User.create(name: session[:user][:name], email: session[:user][:email],
+                        password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                        degree_id: session[:user][:degree_id].to_i,
+                        phone: session[:user][:phone], institute: session[:user][:institute])
+    puts "============>" + user.inspect
+
+    user_packages.each do |p|
+      package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+      course = Course.find(p.split(':')[0])
+      package.name = course.name
+      package.course_id = course.id
+      package.plan = packages.where(:flag => p.split(':')[1]).first.name
+      package.save
+      if p.split(':')[1] != "1"
+        package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+        package.validity = 30.days.from_now
+        package.save
+      end
+    end
+
+    user.reload
+    sign_in(user)
+    user[:courses] = session[:user][:courses]
+    user.save
+    Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+
+    # user_packages.each do |p|
+    #   package = UserPackage.create(user_id: @user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+    #   if p.split(':')[1] != 1
+    #     package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+    #     package.validity = 30.days.from_now
+    #     package.save
+    #   end
+    # end
+    render :json => {success: true}
   end
 
   def user_exists

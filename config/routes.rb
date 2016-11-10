@@ -209,6 +209,16 @@ ExamsSystem::Application.routes.draw do
 
   root :to => "home_page#index"
 
+  delete "/user/delete_package", to: "user#delete_package"
+
+  get "/user/add_course", to: "user#add_course"
+
+  get "/user/fetch_packages", to: "user#fetch_packages"
+
+  get "/user/buy", to: "user#buy"
+
+  get "/user/purchase", to: "user#purchase"
+
   devise_for :users, :controllers=> {:sessions=> "users/sessions",
                                    :confirmations => "users/confirmations",
                                    :passwords => "users/passwords",
@@ -229,8 +239,12 @@ ExamsSystem::Application.routes.draw do
     get "sign_up" => "users/registrations#new"
     get "sign_in" => "users/sessions#new"
     delete "sign_out" => "users/sessions#destroy"
-    put "users/update_user" => "users/registrations#update_user"
+    put "users/save_form_2" => "users/registrations#save_form_2"
     get "/user_exists" => "users/registrations#user_exists"
+    post "/save_form_1" => "users/registrations#save_form_1"
+    post "/save_form_2" => "users/registrations#save_form_2"
+    post "/save_form_3" => "users/registrations#save_form_3"
+    post "/registration" => "users/registrations#registration"
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'
