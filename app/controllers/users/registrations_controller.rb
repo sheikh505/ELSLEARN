@@ -138,6 +138,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
                           degree_id: session[:user][:degree_id].to_i,
                           phone: session[:user][:phone], institute: session[:user][:institute])
       user[:courses] = session[:user][:courses]
+      user.test_permission_ids = "1,2,3"
+      user.is_active = true
       user.save
       Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
 
@@ -186,6 +188,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     user.reload
     sign_in(user)
+    user.is_active = true
+    user.test_permission_ids = "1,2,3"
     user[:courses] = session[:user][:courses]
     user.save
     Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
