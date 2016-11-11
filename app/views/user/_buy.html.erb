@@ -1,49 +1,65 @@
-<div class="field">
-  <div id="payment_method">
-    Payment Method
-    <table>
-      <tbody>
-      <tr>
-        <td><input  type="radio" name="payment_method" value="1"></td>
-        <td>Credit/Debit Card</td>
-      </tr>
-      <tr>
-        <td><input type="radio" name="payment_method" value="2"></td>
-        <td>Other</td>
-      </tr>
-      </tbody>
-    </table>
+<div class="container">
+  <% if @price == 0 %>
+      Thank you for registering this course.<br>
+      <%= link_to "Back", "/user/manage_courses" %>
+      <br><br><br><br><br><br><br>
+  <% else %>
+      <div id="payment_method">
+        Total Cost: <strong>PKR <%= @price %>/-</strong><br>
+        Payment Method
+        <table>
+          <tbody>
+          <tr>
+            <td><input  type="radio" name="payment_method" value="1" checked="checked"></td>
+            <td>Credit/Debit Card</td>
+          </tr>
+          <tr>
+            <td><input type="radio" name="payment_method" value="2"></td>
+            <td>Other</td>
+          </tr>
+          </tbody>
+        </table>
 
-    <br>
+        <br>
 
-    <div id="card" style="display:none">
-      <form action="/user/purchase" data-remote="true" id="purchase">
-        <div class="field">
-          <label>Card Number</label>
-          <input type="text" name="card_number"><br>
+        <div id="card">
+          <form action="/user/purchase" data-remote="true" id="purchase">
+            <div class="field">
+              <label>Card Number</label>
+              <input type="text" name="card_number"><br>
+            </div>
+            <div class="field">
+              <label>Expiration month</label>
+              <input type="text" name="month"><br>
+              <label>Expiration year</label>
+              <input type="text" name="year"><br>
+            </div>
+            <div class="field">
+              <label>Cvv2</label>
+              <input type="text" name="cvv2"><br>
+            </div>
+            <button type="submit">Finish Payment</button>
+          </form>
         </div>
-        <div class="field">
-          <label>Expiration month</label>
-          <input type="text" name="month"><br>
-          <label>Expiration year</label>
-          <input type="text" name="year"><br>
-        </div>
-        <div class="field">
-          <label>Cvv2</label>
-          <input type="text" name="cvv2"><br>
-        </div>
-        <button type="submit">Finish Payment</button>
-      </form>
-    </div>
 
-    <div id="other" style="display:none">
-      Please contact over WhatsApp/SMS/WeChat on the number: +92 30 44 58 18 98 to get to know about other payment methods.
-    </div>
 
-  </div>
+        <div id="other" style="display:none">
+          Please contact over WhatsApp/SMS/WeChat on the number: +92 30 44 58 18 98 to get to know about other payment methods.
+          <br><br><br><br>
+        </div>
+
+      </div>
+      <div id="thanks" style="display:none">
+        Thank you for registering this course.<br>
+        <%= link_to "Back", "/user/manage_courses" %>
+        <br><br><br><br>
+      </div>
+  <% end %>
+
 </div>
 
 <script>
+
   $('input[type="radio"][name="payment_method"]').change(function(){
     if(this.value == "1")
     {
@@ -57,9 +73,10 @@
     }
   });
 
+
+
   $('#purchase').on('ajax:success', function(e, data, status, xhr){
-    alert("Thank you for registering with E-Learning Services.");
-    $('#add_course').hide();
-    location.reload();
+    $('#payment_method').hide();
+    $('#thanks').show();
   })
 </script>

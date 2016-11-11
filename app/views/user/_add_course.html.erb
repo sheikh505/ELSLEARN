@@ -4,7 +4,7 @@
   <thead>
   <tr>
     <th>Course Name</th>
-    <th>Action</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -49,7 +49,7 @@
   </tbody>
 </table>
 <br>
-
+<div id="add_error" class="alert alert-danger" style="display:none">No course selected!</div>
 <%= link_to "Add", "#", class: "btn btn-primary", id: "fetch_packages", remote: true %>
 
 <script>
@@ -60,6 +60,10 @@
       success: function(data){
         $('#packages_container').html(data);
         $('#add_course_container').hide();
+      },
+      error: function(data){
+        $("#add_error").show();
+        $("#add_error").delay(2500).fadeOut();
       }
     })
   })

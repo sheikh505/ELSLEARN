@@ -1,6 +1,5 @@
 <div class="user_profile_holder">
   <div class="container">
-    <h1>Manage Courses</h1>
     <div id="success" class="alert alert-success" style="display: none">
       <strong>Success!</strong> The package has been deleted.
     </div>
@@ -8,6 +7,7 @@
       <strong>Sorry!</strong> Due to some error package could not be deleted.
     </div>
     <div id="refresh_packages">
+      <h1>Manage Courses</h1>
       <table class="table" style="padding-bottom:10px;border-bottom: 3px solid">
         <thead>
         <tr>
@@ -39,17 +39,17 @@
         <% end %>
         </tbody>
       </table>
-      <div id="add_course_container">
-
-      </div>
-      <div id="packages_container">
-
-      </div>
-      <div id="purchase_container">
-
-      </div>
-      <%= link_to "Add Course", "/user/add_course", class: "btn btn-primary", id: "add_course", remote: true %>
     </div>
+    <div id="add_course_container">
+
+    </div>
+    <div id="packages_container">
+
+    </div>
+    <div id="purchase_container">
+
+    </div>
+    <%= link_to "Add Course", "/user/add_course", class: "btn btn-primary", id: "add_course", remote: true %>
   </div>
 </div>
 
@@ -65,6 +65,7 @@
 
   $('#add_course').on('ajax:success', function(e, data, status, xhr){
     $('#add_course_container').html(data);
+    $('#refresh_packages').hide();
     $('#add_course').hide();
   })
 

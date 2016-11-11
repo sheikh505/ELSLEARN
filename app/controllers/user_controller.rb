@@ -61,8 +61,11 @@ class UserController < ApplicationController
   def delete_package
     package = UserPackage.find(params[:id])
     courses = current_user[:courses].split(',')
-    courses.delete(package.id.to_s)
+    puts "==============>"+courses.inspect
+    courses.delete(package.course_id.to_s)
+    puts "==============>"+courses.inspect
     current_user[:courses] = courses.join(",")
+    puts "==============>"+current_user[:courses].inspect
     current_user.save
     package.delete
     @packages = UserPackage.where(user_id: current_user.id)
@@ -71,14 +74,15 @@ class UserController < ApplicationController
 
   def add_course
     bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
-    course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
+    course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => bdgree.first.id).pluck(:course_id)
     user_courses = current_user[:courses].split(',')
-    course_ids.each do |id|
-      if user_courses.include?(id.to_s)
-        course_ids.delete(id)
+    user_courses.each do |id|
+      if course_ids.include?(id.to_i)
+        course_ids.delete(id.to_i)
       end
     end
     @courses = Course.find_all_by_id(course_ids)
+    puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
     render partial: "add_course"
   end
 
@@ -93,6 +97,20 @@ class UserController < ApplicationController
     plan = params[:plan]
     session[:plan] = params[:plan]
     @price = Package.where(degree_id: degree_id, flag: plan).first.price
+    if @price == 0
+      degree_id = current_user.degree_id
+      packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i).first
+      package = UserPackage.create(user_id: current_user.id, package_id: packages.id)
+      course = Course.find(session[:course_id])
+      courses = current_user[:courses].split(',')
+      courses << course.id.to_s
+      current_user[:courses] = courses.join(',')
+      current_user.save
+      package.name = course.name
+      package.course_id = course.id
+      package.plan = packages.name
+      package.save
+    end
     render partial: "buy"
   end
 

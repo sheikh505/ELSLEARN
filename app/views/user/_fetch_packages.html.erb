@@ -1,35 +1,26 @@
-<div class="field">
+<div class="field" id="fetch">
   <form action="/user/buy" data-remote="true" id="asd">
     <div>
       Please choose your package.
       you can see the package details below..
     </div>
-    <table style="border-bottom: 3px solid">
-      <thead>
-      <tr>
-        <th>Course</th>
-        <th>FREE</th>
-        <th>VALUE</th>
-        <th>COMPLETE</th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= @course.name %></td>
-          <td><input type="radio" name="plan" value="1"></td>
-          <td><input type="radio" name="plan" value="2"></td>
-          <td><input type="radio" name="plan" value="3"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <%= @course.name %><br>
+      <input type="radio" name="plan" value="1">Free<br>
+      <input type="radio" name="plan" value="2">Value<br>
+      <input type="radio" name="plan" value="3">Complete<br>
+
       <br>
-    <button type="submit" class="btn btn-primary">Buy</button>
+      <button type="submit" class="btn btn-primary">Buy</button>
+    </div>
+
   </form>
 </div>
 
 <script>
   $('#asd').on('ajax:success', function(e, data, status, xhr){
     $('#purchase_container').html(data);
+    $('#fetch').hide();
   })
 </script>
 
