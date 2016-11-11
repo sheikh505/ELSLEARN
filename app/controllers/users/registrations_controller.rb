@@ -133,7 +133,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if @total_price == 0
         @total_price = packages.where(:flag => p.split(':')[1]).first.price
       else
-        @total_price = @total_price + packages.where(:flag => p.split(':')[1]).first.price
+        @total_price = packages.where(:flag => p.split(':')[1]).first.price + @total_price
       end
     end
     if @total_price == 0
