@@ -130,7 +130,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
     @total_price = 0
     user_packages.each do |p|
-      @total_price = @total_price + packages.where(:flag => p.split(':')[1]).first.price
+      if @total_price == nil
+        @total_price = packages.where(:flag => p.split(':')[1]).first.price
+      else
+        @total_price = @total_price + packages.where(:flag => p.split(':')[1]).first.price
+      end
     end
     if @total_price == 0
       user = User.create(name: session[:user][:name], email: session[:user][:email],
