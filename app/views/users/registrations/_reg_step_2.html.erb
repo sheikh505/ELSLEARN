@@ -14,9 +14,12 @@
         <div class="field">
           <%= label_tag :certification %><br />
           <select name="degree_id" id="select_degree">
-            <option value="">Select a Certification</option>
-            <% @degrees.each do |degree| %>
-              <option value="<%= degree.id %>"><%= degree.name %></option>
+            <% @degrees.each_with_index do |degree,index| %>
+                <% if index == 0 %>
+                    <option value="<%= degree.id %>", selected="selected"><%= degree.name %></option>
+                <% else %>
+                    <option value="<%= degree.id %>"><%= degree.name %></option>
+                <% end %>
             <% end %>
           </select>
           <span id="certification_error" style="display:none;color:#cc0000"></span>
@@ -104,6 +107,22 @@
 
 
 <script type="text/javascript">
+  $( document ).ready(function(){
+    degree_id = $("#select_degree").val();
+//        alert(degree_id);
+    $.ajax({
+      url: '/user/get_courses_by_degree_id?degree_id=' + degree_id,
+      type: 'get',
+      dataType: 'html',
+      processData: false,
+      success: function (data) {
+        $('#selected_course').html(data);
+      },
+      error: function (data) {
+        alert("Error Occurred");
+      }
+    });
+  })
 
     $("#select_degree").change(function(){
         degree_id = $(this).val();

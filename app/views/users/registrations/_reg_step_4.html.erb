@@ -7,11 +7,12 @@
     <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>
 <% else %>
     <div id="payment_method">
+      Total Cost: <strong>PKR <%= @total_price %>/-</strong><br>
       Payment Method
       <table>
         <tbody>
           <tr>
-            <td><input  type="radio" name="payment_method" value="1"></td>
+            <td><input  type="radio" name="payment_method" value="1" checked="checked"></td>
             <td>Credit/Debit Card</td>
           </tr>
           <tr>
@@ -23,7 +24,7 @@
 
       <br>
 
-      <div id="card" style="display:none">
+      <div id="card">
         <%= form_for :user, :remote => true, url: "#" do |f| %>
           <div class="field">
             <%= f.label :card_number %>

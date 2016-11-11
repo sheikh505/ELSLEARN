@@ -69,6 +69,19 @@ class UserController < ApplicationController
     render partial: "delete_package"
   end
 
+  def add_course
+    bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
+    course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
+    user_courses = current_user[:courses].split(',')
+    course_ids.each do |id|
+      if user_courses.include?(id.to_s)
+        course_ids.delete(id)
+      end
+    end
+    @courses = Course.find_all_by_id(course_ids)
+    render partial: "add_course"
+  end
+
   def fetch_packages
     session[:course_id] = params[:course_id]
     @course = Course.find(params[:course_id])
@@ -102,19 +115,6 @@ class UserController < ApplicationController
       package.save
     end
     render json: {success: true}
-  end
-
-  def add_course
-    bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
-    course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
-    user_courses = current_user[:courses].split(',')
-    course_ids.each do |id|
-      if user_courses.include?(id.to_s)
-        course_ids.delete(id)
-      end
-    end
-    @courses = Course.find_all_by_id(course_ids)
-    render partial: "add_course"
   end
 
   def update_courses

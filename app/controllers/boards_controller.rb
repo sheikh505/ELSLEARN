@@ -32,7 +32,7 @@ class BoardsController < ApplicationController
   def update
     params[:board][:name].upcase!
     @board.update_attributes(params[:board])
-    respond_with(@board)
+    redirect_to action: :index
   end
 
   def destroy
