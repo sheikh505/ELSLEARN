@@ -168,45 +168,103 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def registration
-    user_packages = session[:user][:packages]
-    packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
-    user = User.create(name: session[:user][:name], email: session[:user][:email],
-                        password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
-                        degree_id: session[:user][:degree_id].to_i,
-                        phone: session[:user][:phone], institute: session[:user][:institute])
-    puts "============>" + user.inspect
+    if params[:request] == "1"
+      user_packages = session[:user][:packages]
+      packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+      user = User.create(name: session[:user][:name], email: session[:user][:email],
+                         password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                         degree_id: session[:user][:degree_id].to_i,
+                         phone: session[:user][:phone], institute: session[:user][:institute])
+      puts "============>" + user.inspect
 
-    user_packages.each do |p|
-      package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
-      course = Course.find(p.split(':')[0])
-      package.name = course.name
-      package.course_id = course.id
-      package.plan = packages.where(:flag => p.split(':')[1]).first.name
-      package.save
-      if p.split(':')[1] != "1"
-        package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
-        package.validity = 30.days.from_now
+      user_packages.each do |p|
+        package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+        course = Course.find(p.split(':')[0])
+        package.name = course.name
+        package.course_id = course.id
+        package.plan = packages.where(:flag => p.split(':')[1]).first.name
         package.save
+        if p.split(':')[1] != "1"
+          package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+          package.validity = 30.days.from_now
+          package.save
+        end
       end
+
+      user.reload
+      sign_in(user)
+      user.is_active = false
+      user.test_permission_ids = "1,2,3"
+      user[:courses] = session[:user][:courses]
+      user.save
+      Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+
+      redirect_to "/user/my_profile"
+    elsif params[:request] == "2"
+      user_packages = session[:user][:packages]
+      packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+      user = User.create(name: session[:user][:name], email: session[:user][:email],
+                         password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                         degree_id: session[:user][:degree_id].to_i,
+                         phone: session[:user][:phone], institute: session[:user][:institute])
+      puts "============>" + user.inspect
+
+      user_packages.each do |p|
+        package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+        course = Course.find(p.split(':')[0])
+        package.name = course.name
+        package.course_id = course.id
+        package.plan = packages.where(:flag => p.split(':')[1]).first.name
+        package.save
+        if p.split(':')[1] != "1"
+          package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+          package.validity = 30.days.from_now
+          package.save
+        end
+      end
+
+      user.reload
+      sign_in(user)
+      user.is_active = false
+      user.test_permission_ids = "1,2,3"
+      user[:courses] = session[:user][:courses]
+      user.save
+      Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+
+      redirect_to "/"
+    else
+      user_packages = session[:user][:packages]
+      packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+      user = User.create(name: session[:user][:name], email: session[:user][:email],
+                         password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                         degree_id: session[:user][:degree_id].to_i,
+                         phone: session[:user][:phone], institute: session[:user][:institute])
+      puts "============>" + user.inspect
+
+      user_packages.each do |p|
+        package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
+        course = Course.find(p.split(':')[0])
+        package.name = course.name
+        package.course_id = course.id
+        package.plan = packages.where(:flag => p.split(':')[1]).first.name
+        package.save
+        if p.split(':')[1] != "1"
+          package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
+          package.validity = 30.days.from_now
+          package.save
+        end
+      end
+
+      user.reload
+      sign_in(user)
+      user.is_active = true
+      user.test_permission_ids = "1,2,3"
+      user[:courses] = session[:user][:courses]
+      user.save
+      Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
+
+      render :json => {success: true}
     end
-
-    user.reload
-    sign_in(user)
-    user.is_active = true
-    user.test_permission_ids = "1,2,3"
-    user[:courses] = session[:user][:courses]
-    user.save
-    Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
-
-    # user_packages.each do |p|
-    #   package = UserPackage.create(user_id: @user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
-    #   if p.split(':')[1] != 1
-    #     package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
-    #     package.validity = 30.days.from_now
-    #     package.save
-    #   end
-    # end
-    render :json => {success: true}
   end
 
   def user_exists

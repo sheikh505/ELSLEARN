@@ -1,0 +1,62 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Student Detail</h4>
+    </div>
+    <div class="modal-body">
+      <table class="table table-condensed">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Certification</th>
+          <th>Courses</th>
+        </tr>
+        <tr>
+          <td><%= @student.name %></td>
+          <td><%= @student.email %></td>
+          <td><%= @certification.name %></td>
+          <td>
+            <% @packages.each_with_index do |package, index| %>
+              <% if index == 0 %>
+                <%= package.name %>
+              <% else %>
+                <br><%= package.name %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+      <table class="table table-condensed">
+        <tr>
+          <th>Course</th>
+          <th>Package</th>
+          <th>Expires on</th>
+          <th>Credit Left</th>
+        </tr>
+        <tbody>
+          <% @packages.each do |package| %>
+              <tr>
+                <td><%= package.name %></td>
+                <td><%= package.plan.capitalize %></td>
+                <td><% if package.validity %>
+                      <%= package.validity.day %> <%= I18n.t("date.abbr_month_names")[package.validity.month] %>, <%= package.validity.year %>
+                  <% else %>
+                      ∞
+                  <% end %></td>
+                <td><% if package.validity %>
+                      PKR <%= package.credit_left %>/-
+                  <% else %>
+                      N/A
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div>

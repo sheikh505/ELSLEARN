@@ -512,6 +512,67 @@ class HomePageController < ApplicationController
     end
   end
 
+  def payments
+    @students = User.joins("INNER JOIN assignments a ON users.id = a.user_id").where("a.role_id = 5")
+    @students = @students.map do |student|
+      certification = Degree.find_by_id(student.degree_id)
+      certification = certification ? certification.name : ""
+      user_packages = student.user_packages
+      courses = 0
+      amount = 0
+      if user_packages.any?
+        user_packages.each do |package|
+          courses = courses + 1
+          amount = amount + package.package.price
+        end
+        {
+            :id => student.id,
+            :name => student.name,
+            :courses => courses,
+            :amount => amount,
+            :status => student.is_active ? "Successful" : "Pending",
+            :is_active => student.is_active,
+            :certification => certification,
+            :method => amount == 0 ? "Free" : "Credit Card"
+        }
+      else
+        {
+            :id => student.id,
+            :name => student.name,
+            :courses => courses,
+            :amount => amount,
+            :status => student.is_active ? "Successful" : "Pending",
+            :is_active => student.is_active,
+            :certification => certification,
+            :method => amount == 0 ? "Free" : "Credit Card"
+        }
+      end
+    end
+    render "payments", layout: "admin_panel_layout"
+  end
+
+  def set_access
+    @student = User.find(params[:id])
+    puts "================>" + @student.inspect, @student.is_active
+    if @student.is_active
+      @student.is_active = false
+    else
+      @student.is_active = true
+    end
+    if @student.save
+      render json: {:success => true}
+    else
+      render json: {:success => false}
+    end
+  end
+
+  def get_details
+    @student = User.find(params[:id])
+    @packages = @student.user_packages
+    @certification = Degree.find(@student.degree_id)
+    render partial: "get_details"
+  end
+
   def add_user_test
 
     user_history = UserTestHistory.new(:score=> params[:score],:total=> params[:total],:course_id=> Course.find_by_id(params[:course]).name,:user_id=> current_user.id,:code=> nil)

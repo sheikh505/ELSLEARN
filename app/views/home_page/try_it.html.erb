@@ -1,5 +1,12 @@
-
-<%= render 'uform' %>
+<% if current_user.is_active %>
+  <%= render 'uform' %>
+<% else %>
+    <br>
+    <div id="error" class="alert alert-danger" style="display: inline">
+      <strong>Your payment is still pending.</strong>
+    </div>
+    <br><br><br><br><br><br>
+<% end %>
 
 <!--<div class="field">-->
   <!--<select id="course" name="course" required>-->

@@ -175,7 +175,10 @@ ExamsSystem::Application.routes.draw do
 
   get "home_page/get_varients"
   get "home_page/get_backup"
-
+  get "home_page/payments" => "home_page#payments"
+  post "/homepage/set_access" => "home_page#set_access"
+  get "/home_page/questions/questions_detail" => "questions#questions_detail"
+  post "/home_page/get_details" => "home_page#get_details"
 
   resources :tests do
     collection do
@@ -245,6 +248,7 @@ ExamsSystem::Application.routes.draw do
     post "/save_form_2" => "users/registrations#save_form_2"
     post "/save_form_3" => "users/registrations#save_form_3"
     post "/registration" => "users/registrations#registration"
+    get "/registration" => "users/registrations#registration"
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'

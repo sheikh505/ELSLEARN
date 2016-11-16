@@ -1,0 +1,86 @@
+<div class="listing-holder listing_data_table">
+  <table class="table table-condensed">
+    <thead>
+    <th>Order #</th>
+    <th>Student</th>
+    <th>Certification</th>
+    <th>Courses</th>
+    <th>Amount</th>
+    <th>Method</th>
+    <th>Status</th>
+    <th>Access</th>
+    </thead>
+    <tbody>
+      <%@students.each do |student|  %>
+          <tr id="<%= student[:id] %>">
+            <td>
+              <a href="#" data-remote="true" onclick="get_details(<%= student[:id] %>)" >
+                <%= student[:id] %>
+              </a>
+            </td>
+            <td><%= student[:name] %></td>
+            <td><%= student[:certification ]%></td>
+            <td><%= student[:courses] %></td>
+            <td><%= student[:amount] %></td>
+            <td><%= student[:method] %></td>
+            <td><%= student[:status] %></td>
+            <td>
+              <% if student[:is_active] %>
+                <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
+                  <%= check_box_tag student[:id], "", checked: "checked" %>
+                </a>
+              <% else %>
+                <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
+                  <%= check_box_tag student[:id], "" %>
+                </a>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </tbody>
+
+
+  </table>
+</div>
+
+<div id="modal_detail" style="overflow:scroll;" class="modal fade">
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.table').dataTable({
+      "order": [[ 0, "desc" ]]
+    });
+  } );
+
+    function set_access(id){
+      $.ajax({
+        url: "/homepage/set_access?id=" + id,
+        method: "POST",
+        success: function(data){
+          $("input:checkbox[name=" + id + "]").prop("checked", !$("input:checkbox[name=" + id + "]").prop("checked"));
+        },
+        error: function(){
+          alert ("Error Occurred");
+          $("input:checkbox[name=" + id + "]").prop("checked", !$("input:checkbox[name=" + id + "]").prop("checked"));
+        }
+      })
+    }
+
+  function get_details(id){
+    $.ajax({
+      url: "/home_page/get_details?id=" + id,
+      method: "POST",
+      success: function(data){
+        $("#modal_detail").html(data);
+        $("#modal_detail").modal("show");
+        $("#modal_detail").focus();
+      },
+      error: function(data){
+        alert ("Error Occurred");
+      }
+    })
+  }
+</script>
