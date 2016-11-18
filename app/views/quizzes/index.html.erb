@@ -1,4 +1,11 @@
 <h1>Listing tests</h1>
+<%= label_tag :select_certification %>
+<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
+<div id="courses">
+  <%= label_tag :select_course %>
+  <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
+</div>
+
 <div class="listing-holder">
   <table class="table table-condensed">
     <thead>
@@ -13,15 +20,13 @@
     </tr>
     </thead>
     <tbody>
-    <% @quizzes.each do |quiz| %>
-        <tr>
-          <td ><%= quiz.name %></td>
-          <td ><%= Course.find_by_id(quiz.course_id).name%></td>
-          <td ><%= quiz.test_code%></td>
-          <td ><%= quiz.question_ids.split(',').length unless quiz.question_ids.nil? %></td>
-          <% if user_signed_in? && current_user.is_not_student? %>
-
-
+      <% @quizzes.each do |quiz| %>
+          <tr>
+            <td ><%= quiz.name %></td>
+            <td ><%= Course.find_by_id(quiz.course_id).name%></td>
+            <td ><%= quiz.test_code%></td>
+            <td ><%= quiz.question_ids.split(',').length unless quiz.question_ids.nil? %></td>
+            <% if user_signed_in? && current_user.is_not_student? %>
 
               <% if can? :update, quiz %>
                   <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
@@ -36,15 +41,37 @@
               <% else %>
                   <td></td>
               <% end %>
-          <% else %>
+            <% else %>
               <td><%= link_to 'Attempt', quizzes_path(quiz),class: 'btn btn-inverse' %></td>
-                <% end %>
-                </tr>
-          <% end %>
+            <% end %>
+          </tr>
+      <% end %>
     </tbody>
-          </table>
-          </div>
+  </table>
+</div>
 
-          <% if user_signed_in? && current_user.is_not_student? %>
-              <%= link_to 'New Quiz', new_quiz_path, class: 'btn btn-large btn-inverse' %>
-              <% end %>
+<% if user_signed_in? && current_user.is_not_student? %>
+    <%= link_to 'New Quiz', new_quiz_path, class: 'btn btn-large btn-inverse' %>
+<% end %>
+
+<script>
+  $('#degree').on("change", function(){
+    degree_id = $('#degree').val();
+    $.ajax({
+      url: "/quizzes/fetch_courses?degree_id=" + degree_id,
+      success: function(data){
+        $('#courses').html(data);
+      }
+    })
+  });
+
+  $('#course').on("change", function(){
+    course_id = $('#course').val();
+    $.ajax({
+      url: "/quizzes/fetch_quizzes?course_id=" + course_id,
+      success: function(data){
+        $('.listing-holder').html(data);
+      }
+    })
+  });
+</script>

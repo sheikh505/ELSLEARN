@@ -1,4 +1,12 @@
+<%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
+<%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
+<%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+
 <h1>Enable Question Assesment</h1>
+
+<%= label_tag :select_certification %>
+<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
+
 <div class="listing-holder">
   <table class="table table-condensed">
     <thead>
@@ -25,6 +33,17 @@
             "bFilter": false,
         });
     });
+
+    $('#degree').on("change", function(){
+      degree_id = $('#degree').val();
+      $.ajax({
+        url: "workflow_paths/fetch_reviews?degree_id=" + degree_id,
+        success: function(data){
+          $('.listing-holder').html(data);
+        }
+      })
+    })
+
     function toggle_workflow_path(degree_id,course_id,id){
         var value = 1;
         if($("#"+id).is(":checked") == true){

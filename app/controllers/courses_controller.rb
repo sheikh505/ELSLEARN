@@ -5,7 +5,11 @@ class CoursesController < ApplicationController
   respond_to :html
 
   def index
-    @courses = Course.all
+    @degrees = Degree.all
+
+    bdegree = BoardDegreeAssignment.find_by_degree_id(@degrees.first.id)
+    course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: bdegree.id).pluck(:course_id)
+    @courses = Course.find(course_ids)
 
     @degree_hash = {}
 
@@ -15,6 +19,36 @@ class CoursesController < ApplicationController
     end
 
     respond_with(@courses)
+  end
+
+  def manage_courses
+    @degrees = Degree.all
+
+    bdegree = BoardDegreeAssignment.find_by_degree_id(@degrees.first.id)
+    course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: bdegree.id).pluck(:course_id)
+    @courses = Course.find(course_ids)
+
+    @degree_hash = {}
+
+    @courses.each do |course|
+      @degree_hash["#{course.id}::#{course.name}"] = course.board_degree_assignments
+    end
+    render partial: "manage_courses"
+  end
+
+  def fetch_courses
+    bdegree = BoardDegreeAssignment.find_by_degree_id(params[:degree_id])
+    course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: bdegree.id).pluck(:course_id)
+    @courses = Course.find(course_ids)
+
+    @degree_hash = {}
+
+    @courses.each do |course|
+
+      @degree_hash["#{course.id}::#{course.name}"] = course.board_degree_assignments
+    end
+
+    render partial: "fetch_courses"
   end
 
   def show
@@ -30,7 +64,7 @@ class CoursesController < ApplicationController
      end
 
 
-    respond_with(@course)
+    render partial: "new"
   end
 
   def edit
@@ -40,11 +74,12 @@ class CoursesController < ApplicationController
     BoardDegreeAssignment.all.each do |bdgree|
       @board_hash[bdgree.id] = bdgree.board.name + "  (" + bdgree.degree.name + ")"
     end
+    render partial: "edit"
   end
 
   def create
 
-    @course = Course.new(params[:course])
+    @course = Course.new(name: params[:name], enable: params[:enable])
     @course.name.upcase!
     if @course.save
       params[:boards].each do |bDegree|
@@ -53,13 +88,13 @@ class CoursesController < ApplicationController
       end
     end
 
-    redirect_to courses_path
+    redirect_to action: :manage_courses
   end
 
   def update
 
-    params[:course][:name].upcase!
-    @course.update_attributes(params[:course])
+    params[:name].upcase!
+    @course.update_attributes(name: params[:name], enable: params[:enable])
     if params[:boards] != nil
       board = params[:boards]
       @arr = DegreeCourseAssignment.find_all_by_course_id(@course.id)
@@ -84,12 +119,18 @@ class CoursesController < ApplicationController
     end
 
 
-    redirect_to courses_path
+    redirect_to action: :manage_courses
   end
 
   def destroy
     @course.destroy
-    respond_with(@course)
+    @courses = Course.all
+    @degree_hash = {}
+
+    @courses.each do |course|
+      @degree_hash["#{course.id}::#{course.name}"] = course.board_degree_assignments
+    end
+    render partial: "manage_courses"
   end
 
   def get_courses_by_degree_id

@@ -1,0 +1,15 @@
+<h1>New degree</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', "/degrees/manage_degrees", remote: true, id: "degree_back", class: 'btn btn-large btn-inverse'%>
+
+<script>
+  $('#create_degree').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+  $('#degree_back').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+</script>

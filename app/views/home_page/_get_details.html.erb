@@ -5,6 +5,9 @@
       <h4 class="modal-title">Student Detail</h4>
     </div>
     <div class="modal-body">
+
+      <h4 class="modal-title">Student Info</h4>
+
       <table class="table table-condensed">
         <tr>
           <th>Name</th>
@@ -15,7 +18,7 @@
         <tr>
           <td><%= @student.name %></td>
           <td><%= @student.email %></td>
-          <td><%= @certification.name %></td>
+          <td><%= @certification.name if @certification %></td>
           <td>
             <% @packages.each_with_index do |package, index| %>
               <% if index == 0 %>
@@ -27,6 +30,9 @@
           </td>
         </tr>
       </table>
+
+      <h4 class="modal-title">Registered Courses</h4>
+
       <table class="table table-condensed">
         <tr>
           <th>Course</th>

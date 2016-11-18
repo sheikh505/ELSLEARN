@@ -18,8 +18,9 @@
           <td><%= get_course_name(course_linking.course_2) %></td>
           <td><%= get_course_name(course_linking.course_1) %></td>
           <td><%= get_course_name(course_linking.course_4) %></td>
-          <td><%= link_to 'Edit', edit_course_linking_path(course_linking) %></td>
-          <td><%= link_to 'Destroy', course_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Edit', edit_course_linking_path(course_linking), class: "edit_course_linking", remote: true %></td>
+          <td><%= link_to 'Destroy', course_linking, method: :delete,remote: true,
+                          class: "delete_course_linking",  data: { confirm: 'Are you sure?' } %></td>
         </tr>
     <% end %>
     </tbody>
@@ -27,4 +28,20 @@
 </div>
 <br />
 
-<%= link_to 'New Course linking', new_course_linking_path, :class => 'btn btn-large btn-inverse' %>
+<%= link_to 'New Course linking', new_course_linking_path, id: "new_course_linking", remote: true, :class => 'btn btn-large btn-inverse' %>
+
+<script>
+  $('#new_course_linking').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+  });
+
+  $('.edit_course_linking').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+  });
+
+  $('.delete_course_linking').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+    $( "<br><div id='error' class='alert alert-danger'> <strong>Course Linking successfully deleted.</strong> </div>" ).insertAfter( "h1" );
+    $('#error').fadeIn(700).focus().delay(2500).fadeOut(800);
+  });
+</script>

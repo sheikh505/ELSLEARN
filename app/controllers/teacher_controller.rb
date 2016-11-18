@@ -8,8 +8,18 @@ class TeacherController < ApplicationController
     if @user.is_proofreader?
       @users = User.where(:role => @user.id.to_s)
     else
-      @users = User.all
+      @roles = Role.all
+      @roles = @roles.select{ |role|
+        role.name != "Admin"
+      }
+      puts "===============> " + @roles.inspect
+      @users = User.joins("INNER JOIN assignments a ON users.id = a.user_id").where("a.role_id = ?", @roles.first.id)
     end
+  end
+
+  def fetch_users
+    @users = User.joins("INNER JOIN assignments a ON users.id = a.user_id").where("a.role_id = ?", params[:role_id])
+    render partial: "fetch_users"
   end
 
   def destroy

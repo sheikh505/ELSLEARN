@@ -6,7 +6,12 @@ class CourseLinkingsController < ApplicationController
 
   def index
     @course_linkings = CourseLinking.all
-    respond_with(@course_linkings)
+    respond_with(@course_linkings, layout: false)
+  end
+
+  def manage_course_linkings
+    @course_linkings = CourseLinking.all
+    render partial: "manage_course_linkings"
   end
 
   def show
@@ -59,7 +64,7 @@ class CourseLinkingsController < ApplicationController
 
     end
 
-    respond_with(@course_linking)
+    render partial: "new"
   end
 
   def edit
@@ -103,6 +108,7 @@ class CourseLinkingsController < ApplicationController
       @courses_edexcel_a_level = @courses_edexcel_a_level.reject{|x| arr.include? x.id}
 
     end
+    render partial: "edit"
   end
 
   def create
@@ -124,7 +130,8 @@ class CourseLinkingsController < ApplicationController
 
   def destroy
     @course_linking.destroy
-    respond_with(@course_linking)
+    @course_linkings = CourseLinking.all
+    render "index", layout: false
   end
 
   private

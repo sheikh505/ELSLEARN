@@ -9,6 +9,11 @@ class DegreesController < ApplicationController
     respond_with(@degrees)
   end
 
+  def manage_degrees
+    @degrees = Degree.all
+    render partial: "manage_degrees"
+  end
+
   def show
     respond_with(@degree)
   end
@@ -16,29 +21,24 @@ class DegreesController < ApplicationController
   def new
     @degree = Degree.new
     @boards = @degree.boards
-    respond_with(@degree)
+    render partial: "new"
   end
 
   def edit
 
     @boards = @degree.boards
-    
+    render partial: "edit"
   end
 
   def create
-
-
-
-    @degree = Degree.new(params[:degree])
+    @degree = Degree.new(name: params[:name], enable: params[:enable])
     @degree.name.upcase!
     if @degree.save
-       params[:boards].each do |board|
-         ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
-         ass.save
-
-       end
-
-     end
+      params[:boards].each do |board|
+        ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
+        ass.save
+      end
+    end
 
 =begin    degree_id = Degree.find_by_name(params[:degree][:name])
 
@@ -61,18 +61,18 @@ class DegreesController < ApplicationController
     end
 =end
 
-    redirect_to degrees_path
+    redirect_to action: :manage_degrees
 
   end
 
   def update
-    params[:degree][:name].upcase!
+    params[:name].upcase!
 
-    @degree.update_attributes(params[:degree])
+    @degree.update_attributes(name: params[:name], enable: params[:enable])
     if params[:boards] != nil
-    board = params[:boards]
+      board = params[:boards]
 
-    @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
+      @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
       if @arr
         @arr.each do |bDegree|
           bDegree.destroy unless board.find {|x| x == bDegree.board_id}
@@ -100,12 +100,13 @@ class DegreesController < ApplicationController
     end
 
 
-    redirect_to degrees_path
+    redirect_to action: :manage_degrees
   end
 
   def destroy
     @degree.destroy
-    respond_with(@degree)
+    @degrees = Degree.all
+    render partial: "manage_degrees"
   end
 
   private

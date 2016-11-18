@@ -38,5 +38,5 @@
 </div>
 
 <% if can? :manage, Degree %>
-    <%= link_to 'New Certification', new_degree_path , :class=> 'btn btn-large btn-inverse'%>
+    <%= link_to 'New Certification', new_degree_path, id: "new_degree", remote: true, :class=> 'btn btn-large btn-inverse'%>
 <% end %>

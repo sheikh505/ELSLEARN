@@ -1,6 +1,8 @@
 ExamsSystem::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
 
+  get "/topic_linkings/fetch_topic_linkings" => "topic_linkings#fetch_topic_linkings"
+
   resources :topic_linkings do
     collection do
       post :get_course_link
@@ -15,6 +17,15 @@ ExamsSystem::Application.routes.draw do
 
 
   resources :membership_plans
+
+  get "/questions/fetch_courses" => "questions#fetch_courses"
+  get "/questions/fetch_details" => "questions#fetch_details"
+  get "/questions/fetch_ques" => "questions#fetch_ques"
+  get "/questions/fetch_course" => "questions#fetch_course"
+  get "workflow_paths/fetch_reviews" => "workflow_paths#fetch_reviews"
+  get "/topics/fetch_courses" => "topics#fetch_courses"
+  get "/topics/fetch_table" => "topics#fetch_table"
+
 
   get "workflow_paths" => "workflow_paths#index"
   get "workflow_paths/toggle_workflow" => "workflow_paths#toggle_workflow"
@@ -33,6 +44,8 @@ ExamsSystem::Application.routes.draw do
   get "user/dashboard"
   get "user/ReTakeTest"
   get "user/manage_courses" => "user#manage_courses"
+  get "/teachers/fetch_users" => "teacher#fetch_users"
+
 
   put "/user/update_courses" => "user#update_courses"
 
@@ -44,6 +57,18 @@ ExamsSystem::Application.routes.draw do
 
   put "user/update"
   get "/courses/get_courses_by_degree_id"
+
+  get "/boards/manage_boards" => "boards#manage_boards"
+  get "/degrees/manage_degrees" => "degrees#manage_degrees"
+
+  get "/course_linkings/manage_course_linkings" => "course_linkings#manage_course_linkings"
+  get "/courses/manage_courses" => "courses#manage_courses"
+
+  get "/courses/fetch_courses" => "courses#fetch_courses"
+  get "/quizzes/fetch_courses" => "quizzes#fetch_courses"
+  get "/quizzes/fetch_quizzes" => "quizzes#fetch_quizzes"
+
+  get "/topics/fetch_topics" => 'topics#fetch_topics'
 
   resources :boards
 

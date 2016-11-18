@@ -7,12 +7,30 @@ class QuizzesController < ApplicationController
 
   def index
     if current_user.is_admin?
-      @quizzes = Quiz.all
+      @degrees = Degree.all
+
+      bdegree = BoardDegreeAssignment.find_by_degree_id(@degrees.first.id)
+      course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: bdegree.id).pluck(:course_id)
+      @courses = Course.find(course_ids)
+      @quizzes = Quiz.where(:course_id => @courses.first.id)
       respond_with(@quizzes)
     else
       @quizzes = Quiz.where(:user_id => current_user.id)
       respond_with(@quizzes)
     end
+  end
+
+  def fetch_courses
+    bdegree = BoardDegreeAssignment.find_by_degree_id(params[:degree_id])
+    course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: bdegree.id).pluck(:course_id)
+    @courses = Course.find(course_ids)
+
+    render partial: "fetch_courses"
+  end
+
+  def fetch_quizzes
+    @quizzes = Quiz.where(course_id: params[:course_id])
+    render partial: "fetch_quizzes"
   end
 
   def show

@@ -10,35 +10,42 @@ class BoardsController < ApplicationController
     respond_with(@boards)
   end
 
+  def manage_boards
+    @boards = Board.all
+    render partial: "manage_boards"
+  end
+
   def show
     respond_with(@board)
   end
 
   def new
     @board = Board.new
-    respond_with(@board)
+    render partial: "new"
   end
 
   def edit
+    render partial: "edit"
   end
 
   def create
-    @board = Board.new(params[:board])
+    @board = Board.new(name: params[:name], enable: params[:enable])
     @board.name.upcase!
     @board.save
-    redirect_to boards_path
+    redirect_to action: :manage_boards
   end
 
   def update
-    params[:board][:name].upcase!
-    @board.update_attributes(params[:board])
-    redirect_to action: :index
+    params[:name].upcase!
+    @board.update_attributes(name: params[:name], enable: params[:enable])
+    redirect_to action: :manage_boards
   end
 
   def destroy
     BoardDegreeAssignment.all.each {|bd| bd.destroy if bd.board_id.eql?(@board.id) }
     @board.destroy
-    respond_with(@board)
+    @boards = Board.all
+    render partial: "manage_boards"
   end
 
   private

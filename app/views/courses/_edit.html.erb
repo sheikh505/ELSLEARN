@@ -1,0 +1,15 @@
+<h1>Editing course</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', "/courses/manage_courses", remote: true, id: "course_back" , class: 'btn btn-large btn-inverse' %>
+
+<script>
+  $('#edit_course').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+  });
+
+  $('#course_back').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+  });
+</script>

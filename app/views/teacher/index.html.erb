@@ -1,4 +1,9 @@
+<%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
+<%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+<br><br>
 
+<%= label_tag :select_role %>
+<%= select_tag "role", options_from_collection_for_select(@roles, :id, :name) %>
 
 <div class="listing-holder listing_data_table">
 <table class="table table-condensed">
@@ -35,6 +40,16 @@
     $(document).ready(function() {
         $('.table').dataTable();
     } );
+
+    $('#role').on("change", function(){
+      role_id = $('#role').val();
+      $.ajax({
+        url: "/teachers/fetch_users?role_id=" + role_id,
+        success: function(data){
+          $('.listing-holder').html(data);
+        }
+      })
+    });
 </script>
 <% if current_user.is_proofreader? %>
     <%= link_to 'Add new operator', user_new_path, :class=> 'btn btn-large btn-inverse' %>

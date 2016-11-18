@@ -1,0 +1,15 @@
+<%= label_tag :select_course %>
+<%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
+
+<script>
+  $('#course').on("change", function(){
+    course_id = $('#course').val();
+    degree_id = $('#degree').val();
+    $.ajax({
+      url: "/questions/fetch_details?course_id=" + course_id + "&degree_id=" + degree_id,
+      success: function(data){
+        $('.listing-holder').html(data);
+      }
+    })
+  });
+</script>

@@ -672,8 +672,20 @@ class QuestionsController < ApplicationController
   def questions_approval
     respond_to do |format|
       format.html
-      format.json { render :json => QuestionsDatatable.new(view_context,params[:teacher_self_flag]) }
+      format.json { render :json => QuestionsDatatable.new(view_context,params[:teacher_self_flag], params[:course_id]) }
     end
+  end
+
+  def fetch_course
+    degree = Degree.find(params[:degree_id])
+    @courses = degree.board_degree_assignments.first.courses
+    render partial: "fetch_course"
+  end
+
+  def fetch_ques
+    @teacher_self_flag = '1'
+    @course_id = params[:course_id]
+    render partial: "questions_list"
   end
 
   def add_comment_to_question
@@ -1363,28 +1375,48 @@ class QuestionsController < ApplicationController
 
   def questions_detail
     @ques_detail_hash = {}
-    Degree.all.each do |degree|
-      ####  fetch all board_degrees of this degree ####
-      degree.board_degree_assignments.each do |bd|
-        #### fetch all courses
-        bd.courses.each do |course|
-          type_size = {
-              1 => 0,
-              2 => 0,
-              3 => 0,
-              4 => 0,
-          }
-          course.topics.each do |x|
-            type_size[1] += x.questions.select{|question| question.question_type == 1}.size
-            type_size[2] += x.questions.select{|question| question.question_type == 2}.size
-            type_size[3] += x.questions.select{|question| question.question_type == 3}.size
-            type_size[4] += x.questions.select{|question| question.question_type == 4}.size
-          end
-
-          @ques_detail_hash["#{degree.name}_#{course.name}_#{course.id}"] = type_size
-        end
-      end
+    @degrees = Degree.all
+    @courses = @degrees.first.board_degree_assignments.first.courses
+    type_size = {
+        1 => 0,
+        2 => 0,
+        3 => 0,
+        4 => 0,
+    }
+    @courses.first.topics.each do |x|
+      type_size[1] += x.questions.select{|question| question.question_type == 1}.size
+      type_size[2] += x.questions.select{|question| question.question_type == 2}.size
+      type_size[3] += x.questions.select{|question| question.question_type == 3}.size
+      type_size[4] += x.questions.select{|question| question.question_type == 4}.size
     end
+
+    @ques_detail_hash["#{@degrees.first.name}_#{@courses.first.name}_#{@courses.first.id}"] = type_size
+  end
+
+  def fetch_courses
+    degree = Degree.find(params[:degree_id])
+    @courses = degree.board_degree_assignments.first.courses
+    render partial: "fetch_courses"
+  end
+
+  def fetch_details
+    @degrees = Degree.find(params[:degree_id])
+    @courses = Course.find(params[:course_id])
+    type_size = {
+        1 => 0,
+        2 => 0,
+        3 => 0,
+        4 => 0,
+    }
+    @courses.topics.each do |x|
+      type_size[1] += x.questions.select{|question| question.question_type == 1}.size
+      type_size[2] += x.questions.select{|question| question.question_type == 2}.size
+      type_size[3] += x.questions.select{|question| question.question_type == 3}.size
+      type_size[4] += x.questions.select{|question| question.question_type == 4}.size
+    end
+    @ques_detail_hash = {}
+    @ques_detail_hash["#{@degrees.name}_#{@courses.name}_#{@courses.id}"] = type_size
+    render partial: "fetch_details"
   end
 
   def get_question_detail

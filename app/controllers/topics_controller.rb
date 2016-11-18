@@ -13,12 +13,10 @@ class TopicsController < ApplicationController
       @topics = Topic.all
       # @topics = Topic.all.paginate(page: params[:page], per_page: 10)
       # respond_with(@topics)
-
       format.html
       format.json { render json: TopicsDatatable.new(view_context) }
     end
   end
-
 
   def show
     respond_with(@topic)
@@ -28,6 +26,25 @@ class TopicsController < ApplicationController
     @topic = Topic.new
     @topics = []
     respond_with(@topic)
+  end
+
+  def fetch_courses
+    degree = Degree.find(params[:degree_id])
+    @courses = degree.board_degree_assignments.first.courses
+    render partial: "fetch_courses"
+  end
+
+  def fetch_table
+    session[:course_id] = params[:course_id]
+    render partial: "fetch_table"
+  end
+
+  def fetch_topics
+    respond_to do |format|
+      
+      format.html
+      format.json { render json: TopicsDatatable.new(view_context, session[:course_id]) }
+    end
   end
 
   def edit

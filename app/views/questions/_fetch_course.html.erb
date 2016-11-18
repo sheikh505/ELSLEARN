@@ -1,0 +1,14 @@
+<%= label_tag :select_course %>
+<%= select_tag "fetch_ques", options_from_collection_for_select(@courses, :id, :name) %>
+
+<script>
+  $('#fetch_ques').on("change", function(){
+    course_id = $('#fetch_ques').val();
+    $.ajax({
+      url: "/questions/fetch_ques?course_id=" + course_id,
+      success: function(data){
+        $('#ques_container').html(data);
+      }
+    })
+  });
+</script>

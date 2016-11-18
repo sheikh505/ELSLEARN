@@ -1,6 +1,8 @@
-<h1 class="title-edit-user">Editing role</h1>
+<%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
+<%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+
+<h1 class="title-edit-user" style="margin-top: 20px">Editing role</h1>
 <div class="listing-holder listing-holder-edit-user">
     <%= render 'form' %>
 </div>
-<%= link_to 'Show', @role, :class=>'btn btn-inverse' %> |
 <%= link_to 'Back', roles_path, :class=>'btn btn-inverse' %>

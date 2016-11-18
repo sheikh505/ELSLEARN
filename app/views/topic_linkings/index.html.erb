@@ -1,4 +1,9 @@
+<%= link_to "Manage Topics", "/topics", class: "btn btn-primary" %> |
+<%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-primary" %>
+
 <h1>Listing topic links</h1>
+<%= label_tag :select_course %>
+<%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
 <div class="listing-holder">
   <table class="table table-condensed">
     <thead>
@@ -28,3 +33,18 @@
 <br />
 
 <%= link_to 'New Topic linking', new_topic_linking_path,class: "btn btn-inverse" %>
+
+<script>
+
+  $('#course').on("change", function(){
+    course_id = $('#course').val();
+    $.ajax({
+      url: "/topic_linkings/fetch_topic_linkings?course_id=" + course_id,
+      method: "GET",
+      success: function(data){
+        $('.listing-holder').html(data);
+      }
+    })
+  });
+
+</script>

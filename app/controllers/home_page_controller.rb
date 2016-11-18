@@ -569,7 +569,7 @@ class HomePageController < ApplicationController
   def get_details
     @student = User.find(params[:id])
     @packages = @student.user_packages
-    @certification = Degree.find(@student.degree_id)
+    @certification = Degree.find_by_id(@student.degree_id)
     render partial: "get_details"
   end
 

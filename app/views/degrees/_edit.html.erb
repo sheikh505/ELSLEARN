@@ -1,0 +1,65 @@
+<h1>Editing Certification</h1>
+
+<div class="container">
+  <div class="row  listing-holder-p">
+    <div class="col-md-8 mrgr32 listing-holder">
+      <table class="table table-condensed">
+        <th>List of Certifications</th>
+        <th>Board</th>
+        <%BoardDegreeAssignment.all.each do |bDegree| %>
+            <tr><td><%=bDegree.degree.name%></td>
+              <td><%=bDegree.board.name %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="col-md-3 pd17 listing-holder">
+      <%= form_tag degree_path, method: :put, remote: true, id: "edit_degree" do |f| %>
+
+          <% Board.all.each do |board| %>
+              <%if @boards.find {|x| x.id == board.id} %>
+                  <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%= board.name %>
+              <%else %>
+                  <%= check_box_tag 'boards[]', board.id,false %><%= board.name %>
+              <%end %>
+          <% end %>
+
+          <div class="field">
+            <%= label_tag :name %>
+            <%= text_field_tag :name, @degree.name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+          </div>
+          <div class="field">
+            <% if @degree.enable %>
+              <%= label_tag :enable %>
+              <%= radio_button_tag :enable, true, checked: :checked  %>
+              <%= label_tag "Disable"  %>
+              <%= radio_button_tag :enable, false  %>
+            <% else %>
+              <%= label_tag :enable %>
+              <%= radio_button_tag :enable, true  %>
+              <%= label_tag "Disable"  %>
+              <%= radio_button_tag :enable, false, checked: :checked  %>
+            <% end %>
+
+          </div>
+          <div class="actions">
+            <%= submit_tag "Update Certification", class: 'btn btn-large btn-inverse'%>
+          </div>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>
+
+<%= link_to 'Back', "/degrees/manage_degrees", remote: true, id: "degree_back", class: 'btn btn-large btn-inverse'%>
+
+<script>
+  $('#edit_degree').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+  $('#degree_back').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+</script>

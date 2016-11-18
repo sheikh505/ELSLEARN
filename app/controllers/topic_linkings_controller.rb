@@ -1,16 +1,29 @@
 class TopicLinkingsController < ApplicationController
   load_and_authorize_resource
-  before_filter :set_topic_linking, only: [:show, :edit, :update, :destroy]
+  before_filter :set_topic_linking, only: [:edit, :update, :destroy]
   layout "admin_panel_layout"
   respond_to :html
 
   def index
-    @topic_linkings = TopicLinking.all
+    @courses = Course.all
+    clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", @courses.first.id,
+                                @courses.first.id, @courses.first.id, @courses.first.id)
+    @topic_linkings = TopicLinking.where(course_linking_id: clink.first.id)
     respond_with(@topic_linkings)
   end
 
+  def fetch_topic_linkings
+    clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", params[:course_id],
+                                params[:course_id], params[:course_id], params[:course_id])
+    @topic_linkings = TopicLinking.where(course_linking_id: clink.first.id)
+    render partial: "fetch_topic_linkings"
+  end
+
   def show
-    respond_with(@topic_linking)
+    clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", params[:course_id],
+                                params[:course_id], params[:course_id], params[:course_id])
+    @topic_linkings = TopicLinking.where(course_linking_id: clink.first.id)
+    render partial: "fetch_topic_linkings"
   end
 
 

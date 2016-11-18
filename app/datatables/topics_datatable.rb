@@ -3,8 +3,9 @@
 class TopicsDatatable < ApplicationController
   delegate :params, :h, :link_to, :number_to_currency, to: :@view
 
-  def initialize(view)
+  def initialize(view, course_id = Course.first.id)
     @view = view
+    @course_id = course_id
   end
 
   def as_json(options = {})
@@ -47,7 +48,8 @@ class TopicsDatatable < ApplicationController
   end
 
   def fetch_topics
-    topics = Topic.order("#{sort_column} #{sort_direction}")
+    topics = Topic.where(course_id: @course_id)
+    topics = topics.order("#{sort_column} #{sort_direction}")
     topics = topics.page(page).per_page(per_page)
     if params[:sSearch].present?
       # topics = topics.where("name like :search or parent_topic_id like :search", search: "%#{params[:sSearch]}%")

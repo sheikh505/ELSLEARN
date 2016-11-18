@@ -1,36 +1,68 @@
-<h1>Listing boards</h1>
+<%= link_to "Manage Boards", "/boards/manage_boards", remote: true, id: "board_link", class: "btn btn-primary" %> |
+<%= link_to "Manage Certifications", "/degrees/manage_degrees", remote: true, id: "degree_link", class: "btn btn-primary" %>
 
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Action</th>
-      <th>Action</th>
+<div id="bdegree_container">
+  <h1>Listing boards</h1>
 
-    </tr>
-    </thead>
-    <tbody>
-    <% @boards.each do |board| %>
-        <tr>
-          <td><%= board.name %></td>
-          <% if can? :manage, board %>
-              <td><%= link_to 'Edit', edit_board_path(board) %></td>
-          <% else %>
-              <td></td>
-          <% end %>
-          <% if can? :manage, board %>
-              <td><%= link_to 'Destroy', board, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% else %>
-              <td></td>
-          <% end %>
+  <div class="listing-holder">
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Action</th>
+        <th>Action</th>
 
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+      </tr>
+      </thead>
+      <tbody>
+      <% @boards.each do |board| %>
+          <tr>
+            <td><%= board.name %></td>
+            <% if can? :manage, board %>
+                <td><%= link_to 'Edit', edit_board_path(board), class: "edit_board", remote: true %></td>
+            <% else %>
+                <td></td>
+            <% end %>
+            <% if can? :manage, board %>
+                <td><%= link_to 'Delete', board, method: :delete, remote: true,
+                                class: "delete_board", data: { confirm: 'Are you sure?' } %></td>
+            <% else %>
+                <td></td>
+            <% end %>
+
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if can? :manage, Board %>
+      <%= link_to 'New Board', new_board_path, id: "new_board", remote: true, :class=> 'btn btn-large btn-inverse' %>
+  <% end %>
 </div>
 
-<% if can? :manage, Board %>
-    <%= link_to 'New Board', new_board_path, :class=> 'btn btn-large btn-inverse' %>
-<% end %>
+<script>
+  $('#board_link').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+  $('#degree_link').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+  $('#new_board').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+  $('.delete_board').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+    $( "<br><div id='error' class='alert alert-danger'> <strong>Board successfully deleted.</strong> </div>" ).insertAfter( "h1" );
+    $('#error').fadeIn(700).delay(2500).fadeOut(800);
+  });
+
+  $('.edit_board').on("ajax:success", function(e, data, status, xhr){
+    $('#bdegree_container').html(data);
+  });
+
+
+</script>

@@ -1,9 +1,21 @@
+<%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
+<%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
+<%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+
 <h1>Questions Detail</h1>
+
+<%= label_tag :select_certification %>
+<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
+<div id="courses">
+  <%= label_tag :select_course %>
+  <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
+</div>
+
 <div class="listing-holder">
   <table class="table table-condensed">
     <tr>
       <th>Certification</th>
-      <th>Subject</th>
+      <th>Course</th>
       <th>Question Type</th>
       <th>Action</th>
     </tr>
@@ -47,4 +59,25 @@
       });
 
   }
+
+  $('#degree').on("change", function(){
+    degree_id = $('#degree').val();
+    $.ajax({
+      url: "/questions/fetch_courses?degree_id=" + degree_id,
+      success: function(data){
+        $('#courses').html(data);
+      }
+    })
+  });
+
+  $('#course').on("change", function(){
+    course_id = $('#course').val();
+    degree_id = $('#degree').val();
+    $.ajax({
+      url: "/questions/fetch_details?course_id=" + course_id + "&degree_id=" + degree_id,
+      success: function(data){
+        $('.listing-holder').html(data);
+      }
+    })
+  });
 </script>

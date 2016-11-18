@@ -1,0 +1,37 @@
+<table class="table table-condensed">
+  <thead>
+  <th>Emails</th>
+  <th>Name</th>
+  <th>Contact number</th>
+  <th>Role</th>
+  <th>Action</th>
+  </thead>
+  <tbody>
+  <%@users.each do |user|  %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.name %></td>
+        <td><%= user.phone %></td>
+        <td><%= user.roles.first.name unless user.roles.first.nil? %></td>
+        <td><%= link_to 'Edit', edit_teacher_path(user) %>/
+          <%= link_to 'Delete', user, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
+
+
+
+      </tr>
+
+
+
+  <% end %>
+  </tbody>
+
+
+</table>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.table').dataTable();
+  } );
+
+
+</script>

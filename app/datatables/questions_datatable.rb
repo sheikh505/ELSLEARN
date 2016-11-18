@@ -2,9 +2,12 @@ class QuestionsDatatable
   delegate :raw, :label_tag, :params, :h, :link_to, :best_in_place, :to=> :@view
 
 
-  def initialize(view,teacher_self_flag = false)
+  def initialize(view,teacher_self_flag = false, course_id = Course.first.id)
     @view = view
     @teacher_self_flag = teacher_self_flag
+
+    @course_linking_id = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", course_id,
+                                             course_id, course_id, course_id)
   end
 
   def as_json(options = {})
@@ -58,7 +61,7 @@ class QuestionsDatatable
   end
 
   def fetch_questions
-      questions = Question.where("id > 0 AND deleted = 'FALSE'").order("#{sort_helper}")
+      questions = Question.where("id > 0 AND deleted = 'FALSE' AND course_linking_id = ?", @course_linking_id).order("#{sort_helper}")
       questions = questions.page(page).per_page(per_page)
     if params[:sSearch].present?
       questions = questions.where("LOWER(statement) like LOWER(:search)", :search=> "%#{params[:sSearch]}%")
