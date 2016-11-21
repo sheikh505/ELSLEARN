@@ -1,6 +1,8 @@
-<%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
-<%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
-<%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+<% if current_user.is_admin? %>
+    <%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
+    <%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
+    <%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+<% end %>
 
 <%=form_tag url_for(:controller => 'questions', :action => 'add_questions'),
             :onsubmit => "return checkForm(this)", :method => 'get' do %>
@@ -90,12 +92,15 @@
 <% end %>
 <br /><br />
 
-<%= label_tag :select_certification %>
-<%= select_tag "degree", options_from_collection_for_select(Degree.all, :id, :name) %>
-<div id="courses">
-  <%= label_tag :select_course %>
-  <%= select_tag "fetch_ques", options_from_collection_for_select(Course.all, :id, :name) %>
-</div>
+<% if current_user.is_admin? %>
+    <%= label_tag :select_certification %>
+    <%= select_tag "degree", options_from_collection_for_select(Degree.all, :id, :name) %>
+    <div id="courses">
+      <%= label_tag :select_course %>
+      <%= select_tag "fetch_ques", options_from_collection_for_select(Course.all, :id, :name) %>
+    </div>
+<% end %>
+
 
 <% if current_user.is_admin? || current_user.is_teacher? %>
 

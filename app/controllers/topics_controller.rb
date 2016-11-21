@@ -41,7 +41,7 @@ class TopicsController < ApplicationController
 
   def fetch_topics
     respond_to do |format|
-      
+
       format.html
       format.json { render json: TopicsDatatable.new(view_context, session[:course_id]) }
     end
