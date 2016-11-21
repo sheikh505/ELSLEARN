@@ -12,6 +12,30 @@
 
 
 
+          <% if current_user.is_admin? %>
+              <div class="col">
+                <div class="header_col">
+                  <p class="tabs_holde">Boards</p>
+                  <i class="arrow_right fa fa-caret-right"></i>
+                  <i class="arrow_down fa fa-caret-down"></i>
+                </div>
+                <div id="boards_holder">
+                  <%= render "bdc_list" %>
+
+                </div>
+
+                <div class="header_col">
+                  <p class="tabs_holde">Degrees</p>
+                  <i class="arrow_right fa fa-caret-right"></i>
+                  <i class="arrow_down fa fa-caret-down"></i>
+                </div>
+
+                <div id="degree_holder">
+                  <%= render "d_list" %>
+                </div>
+              </div>
+          <% end %>
+
 
 
       <div class="col">
@@ -143,7 +167,7 @@
 
           </div>
 
-          <div class="row_custom">
+          <div class="row_custom" style="display: block">
             <label class=""><span>Time required for your quiz</span></label>
             <label class="">
               <select id="quiz_time" name="quiz_time">
@@ -175,8 +199,13 @@
 
 
           <input type="hidden" id="course_id" name="course_id" value="" >
-          <%= hidden_field_tag :b_id, @boards %>
-          <%= hidden_field_tag :degree_id, @degrees %>
+          <% if current_user.is_admin? %>
+              <input type="hidden" id="b_id" name="b_id" value="" >
+              <input type="hidden" id="degree_id" name="degree_id" value="" >
+          <% else %>
+              <%= hidden_field_tag :b_id, @boards %>
+              <%= hidden_field_tag :degree_id, @degrees %>
+          <% end %>
           <input type="hidden" id="mcq" name="mcq" value="" >
           <input type="hidden" id="fill" name="fill" value="" >
           <input type="hidden" id="true_false" name="true_false" value="" >
@@ -524,7 +553,11 @@
             async:false,
             success:function (response) {
                 if (response.success) {
-                    returnValue = true;
+                  returnValue = true;
+                  $('#mcq').val($('#question_type_1').val());
+                  $('#fill').val($('#question_type_2').val());
+                  $('#true_false').val($('#question_type_4').val());
+                  $('#descriptive').val($('#question_type_3').val());
                 }
                 else {
                     returnValue = false;
@@ -693,22 +726,25 @@
         }
 
     }
+
+
     function selectDegreeList(id,degree_id)
     {
-        if ($('#'+id).hasClass('sdegree')){
+      if ($('#'+id).hasClass('sdegree')){
 
         $('#'+id).css("color","#52CC52");
 
 
-    }
-    else {
+      }
+      else {
         $('.sdegree').css("color","#000000");
         $('.sdegree').removeClass('sdegree');
 
         $('#'+id).css("color","#52CC52");
         $('#'+id).addClass('sdegree');
 
-            board_id = $('.sboard').children('li').val();
+        $('#degree_id').val(degree_id);
+        board_id = $('.sboard').children('li').val();
 
         $.ajax({
             url:'/home_page/get_courses?degree_id='+degree_id+'&board_id='+board_id,
@@ -725,24 +761,25 @@
             }
         });
 
-     }
+      }
    }
 
     function selectBoardList(id,board_id){
 
-    if ($('#'+id).hasClass('sboard')){
+      if ($('#'+id).hasClass('sboard')){
 
         $('#'+id).css("color","#52CC52");
 
 
-    }
-        else {
+      }
+      else {
         $('.sboard').css("color","#000000");
         $('.sboard').removeClass('sboard');
 
         $('#'+id).css("color","#52CC52");
         $('#'+id).addClass('sboard');
 
+        $('#b_id').val(board_id);
 
         $.ajax({
             url:'/home_page/get_degrees?board_ids='+board_id,
@@ -762,7 +799,7 @@
             }
         });
 
-    }
+      }
 
 
     }

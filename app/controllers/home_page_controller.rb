@@ -146,16 +146,24 @@ class HomePageController < ApplicationController
   end
 
   def get_courses
-    @courses = []
-    degree_id = params[:degree_id]
-    board_id = params[:board_id]
+    if current_user.is_admin?
+      degree_id = params[:degree_id]
+      board_id = params[:board_id]
+      bdgree = BoardDegreeAssignment.find_all_by_board_id_and_degree_id(board_id,degree_id)
+      course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => bdgree.first.id).pluck(:course_id)
+      @courses = Course.find(course_ids)
+      render :partial => 'home_page/c_list'
+    else
+      @courses = []
+      degree_id = params[:degree_id]
+      board_id = params[:board_id]
 
-    @courses = BoardDegreeAssignment.find_all_by_board_id_and_degree_id(board_id,degree_id)
-    course_ids = UserPackage.where(user_id: current_user.id).pluck(:course_id)
-    @courses = Course.where("id IN (?)", course_ids)
-    @flag = false
-    render :partial => 'home_page/c_list'
-
+      @courses = BoardDegreeAssignment.find_all_by_board_id_and_degree_id(board_id,degree_id)
+      course_ids = UserPackage.where(user_id: current_user.id).pluck(:course_id)
+      @courses = Course.where("id IN (?)", course_ids)
+      @flag = false
+      render :partial => 'home_page/c_list'
+    end
   end
 
   def get_degrees
@@ -776,7 +784,19 @@ class HomePageController < ApplicationController
       @user = User.new
     end
 
-    if UserPackage.where(:user_id => current_user.id).any?
+    if current_user.is_admin?
+      @boards = Board.all
+      # @boards = Array.new
+      # boards.each do |board|
+      #   @boards << board.id
+      # end
+      @degrees = Degree.all
+      # @degrees = Array.new
+      # degrees.each do |degree|
+      #   @degrees << degree.id
+      # end
+      @courses = []
+    elsif UserPackage.where(:user_id => current_user.id).any?
       course_ids = UserPackage.where(:user_id => current_user.id).pluck(:course_id)
       @courses = Course.where("id IN (?) AND enable=true", course_ids)
       if @courses.any?
@@ -807,13 +827,13 @@ class HomePageController < ApplicationController
     @question_stats = connection.execute(sql2)
 
     sql_top_user = 'SELECT SUM(score) as user_score,SUM(total) as total,c.name as course,u.name as name,u.id as user_id FROM
-                user_test_histories as h JOIN users as u
-                ON h.user_id = u.id
-                JOIN courses as c
-                ON c.id = h.course_id
-                GROUP BY u.id,c.name
-                ORDER BY user_score DESC
-                LIMIT 5'
+                    user_test_histories as h JOIN users as u
+                    ON h.user_id = u.id
+                    JOIN courses as c
+                    ON c.id = h.course_id
+                    GROUP BY u.id,c.name
+                    ORDER BY user_score DESC
+                    LIMIT 5'
     @top_scorer_users = connection.execute(sql_top_user)
 
     @flag = true
@@ -821,24 +841,33 @@ class HomePageController < ApplicationController
 
 
   def get_topic
-    a = params[:course_id]
-    package = UserPackage.where(:user_id => current_user, :course_id => params[:course_id]).firstdef
-    if package.plan == "free"
-      @plan = false
+    if current_user.is_admin?
+      a = params[:course_id]
+      @topics = Topic.where("course_id = ?",a).order(:created_at)
+      render :partial => 'home_page/topic_list'
     else
-      @plan = true
+      a = params[:course_id]
+      package = UserPackage.where(:user_id => current_user, :course_id => params[:course_id]).first
+      if package.plan == "free"
+        @plan = false
+      else
+        @plan = true
+      end
+      puts "=======alert===>>>>>>",a.inspect
+      @topics = Topic.where("course_id = ?",a).order(:created_at)
+      puts "----=-=======-",@topics.inspect
+      render :partial => 'home_page/topic_list'
     end
-    puts "=======alert===>>>>>>",a.inspect
-    @topics = Topic.where("course_id = ?",a).order(:created_at)
-    puts "----=-=======-",@topics.inspect
-    render :partial => 'home_page/topic_list'
   end
+
   def how_it_works
 
   end
+
   def testimonials
 
   end
+
   def assign_member_ship_plan
     ###### find current user
     respond_to do |format|

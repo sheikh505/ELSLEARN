@@ -1,9 +1,11 @@
-  <ul class="tabs collapsed">
+<ul class="tabs collapsed" style="display: none">
 
-    <% @boards.each_with_index do |board,index| %>
+  <% @boards.each_with_index do |board,index| %>
 
-        <a href="javascript:void(0)" id="board_<%=index%>" onclick="selectBoardList('board_<%=index %>',<%=board.id%>)" ><li value="<%=board.id%>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=board.name%></li></a>
+      <a href="javascript:void(0)" id="board_<%=index%>" onclick="selectBoardList('board_<%=index %>',<%=board.id%>)" >
+        <li value="<%=board.id%>" class="<%=index % 2 == 0 ? 'even':'odd' %>"><%=board.name%></li>
+      </a>
 
-    <% end %>
+  <% end %>
 
-  </ul>
+</ul>

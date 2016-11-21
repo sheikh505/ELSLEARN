@@ -424,6 +424,9 @@ class ServicesController < ApplicationController
 
   def verify_answers_web
     puts "===========================>", params.inspect
+
+    test_history = UserTestHistory.find(params[:test_history_id])
+
     @score = 0
     @questions = Hash.new
     @questions[:mcq] = Hash.new
@@ -435,6 +438,17 @@ class ServicesController < ApplicationController
 
     array = params[:array].split(",")
 
+    quotas = QuestionQuota.all
+    quota_hash = Hash.new
+    quotas.each do |quota|
+      quota_hash[quota.question_type] = quota.quota
+    end
+
+    puts "===========================>", quota_hash.inspect
+
+    userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
+    credit_left = userpackage.credit_left
+
     @total = @total_questions = @total_wrong = array.length
     @total_correct = 0
 
@@ -443,6 +457,7 @@ class ServicesController < ApplicationController
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
         @questions[:mcq][:total] += 1
+        credit_left = credit_left - quota_hash[1]
         if ques.split(":")[1]
           @questions[:mcq][:attempted] += 1
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
@@ -460,6 +475,7 @@ class ServicesController < ApplicationController
         end
       elsif @question.question_type == 4
         @questions[:truefalse][:total] += 1
+        credit_left = credit_left - quota_hash[4]
         @option = @question.options.first
         if ques.split(":")[1]
           @questions[:truefalse][:attempted] += 1
@@ -474,6 +490,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 3
+        credit_left = credit_left - quota_hash[3]
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
@@ -490,8 +507,12 @@ class ServicesController < ApplicationController
             end
           end
         end
+      elsif @question.question_type == 2
+        credit_left = credit_left - quota_hash[2]
       end
     end
+
+    userpackage.update_attributes(:credit_left => credit_left)
 
     @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
     if @questions[:mcq][:percentage].nan?
@@ -605,7 +626,7 @@ class ServicesController < ApplicationController
 
     topic_ids.uniq!
     puts "======================================>"+topic_ids.inspect
-    @topics = Topic.find(topic_ids.split(','))
+    @topics = Topic.find_all_by_id(topic_ids.split(','))
     @sub_topics = @topics.reject{|t|
       !t.parent_topic_id.present?
     }
@@ -651,7 +672,6 @@ class ServicesController < ApplicationController
     # end
 
 
-    test_history = UserTestHistory.find(params[:test_history_id])
     if test_history.code
       quiz = Quiz.find_by_test_code(test_history.code)
       unless quiz.attempted

@@ -1,4 +1,6 @@
-<% if @courses.length == 0 %>
+<% if @courses.length == 0 && current_user.is_admin? %>
+    <label>Select board and degree first</label>
+<% elsif @courses.length == 0 && !current_user.is_admin? %>
     <label style="color:darkblue;font-size:18px"><strong>You are not registered with any course.</strong></label>
 <% else %>
     <select id="course" name="course" onchange="selectCourse(this.value)">
@@ -14,6 +16,7 @@
     var serializedData = $form.serialize();
     $("#course").change(function(){
       course_id = $('#course').val();
+      $("#course_id").val(course_id);
       $.ajax({
         url:'/home_page/get_topic?course_id='+course_id,
         type:'post',
@@ -21,6 +24,12 @@
         async:false,
         success:function (data) {
           $("#course_lists").html(data);
+          if ($("#plan").val() == "false")
+          {
+            $('#descriptive').hide();
+          }
+          else
+            $('#descriptive').show();
         },
         error:function (data) {
         }

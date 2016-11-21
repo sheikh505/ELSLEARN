@@ -54,41 +54,43 @@ class QuizzesController < ApplicationController
     students = TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL')
 
     @students = Array.new
-    if students.present?
+    if students.first != nil
       students.each do |student|
         s = Hash.new
         s[:student_name] = student.student_name
         test = User.find(student.student_id).user_test_histories.where(:code => @quiz.test_code).last
-        if test.score == nil
-          test.score = 0
-          test.save
+        if test
+          if test.score == nil
+            test.score = 0
+            test.save
+          end
+          if test.total == nil
+            test.total = 0
+            test.save
+          end
+          s[:score] = test.score
+          s[:total] = test.total
+          s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
+          if s[:percentage].nan?
+            s[:percentage] = 0.0
+          end
+          if s[:percentage] >= 90
+            s[:grade] = "A*"
+          elsif s[:percentage] >=85 && s[:percentage] < 90
+            s[:grade] = "A"
+          elsif s[:percentage] >=75 && s[:percentage] < 85
+            s[:grade] = "B"
+          elsif s[:percentage] >=65 && s[:percentage] < 75
+            s[:grade] = "C"
+          elsif s[:percentage] >=55 && s[:percentage] < 65
+            s[:grade] = "D"
+          elsif s[:percentage] >=45 && s[:percentage] < 55
+            s[:grade] = "E"
+          elsif s[:percentage] < 45
+            s[:grade] = "F"
+          end
+          @students << s
         end
-        if test.total == nil
-          test.total = 0
-          test.save
-        end
-        s[:score] = test.score
-        s[:total] = test.total
-        s[:percentage] = (((test.score+0.0)/test.total)*100).round(2)
-        if s[:percentage].nan?
-          s[:percentage] = 0.0
-        end
-        if s[:percentage] >= 90
-          s[:grade] = "A*"
-        elsif s[:percentage] >=85 && s[:percentage] < 90
-          s[:grade] = "A"
-        elsif s[:percentage] >=75 && s[:percentage] < 85
-          s[:grade] = "B"
-        elsif s[:percentage] >=65 && s[:percentage] < 75
-          s[:grade] = "C"
-        elsif s[:percentage] >=55 && s[:percentage] < 65
-          s[:grade] = "D"
-        elsif s[:percentage] >=45 && s[:percentage] < 55
-          s[:grade] = "E"
-        elsif s[:percentage] < 45
-          s[:grade] = "F"
-        end
-        @students << s
       end
     end
     render 'show', :layout => "application2" and return
@@ -135,7 +137,7 @@ class QuizzesController < ApplicationController
     @course_id = params[:course_id]
     @questions = Question.select("questions.*").
         joins(:course_linking).
-        where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author != ? and workflow_state = 'accepted'", @course_id, @course_id, @course_id, @course_id,current_user.email)
+        where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?)) and author = ? and workflow_state = 'accepted'", @course_id, @course_id, @course_id, @course_id,current_user.email)
     render :partial => 'quizzes/questions_list'
   end
 

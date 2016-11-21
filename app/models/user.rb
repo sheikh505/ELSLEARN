@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :question_histories
   belongs_to :membership_plan
   has_many :teacher_requests,foreign_key: 'student_id'
-  has_many :user_packages, dependent: :delete_all
+  has_many :user_packages, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

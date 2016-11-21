@@ -1,7 +1,7 @@
 <% $ques_id = 0 %>
 <% $ques_id_array = Array.new %>
 <% $arr.each do |ques| %>
-    <% $ques_id_array << ques.id %>
+<% $ques_id_array << ques.id %>
 <% end %>
 <div class="modal_left">
   <div class="box_modal">
@@ -46,7 +46,14 @@
       </li>
     </ul>
 
-    <% end %>
+    <%elsif $arr[@index].question_type == 2 %>
+        <% $ques_id = $arr[@index].id %>
+
+        <%= cktext_area_tag :descriptive %>
+
+        <br>
+
+  <% end %>
 
   </div>
     <input type="hidden" id="answer_selected" name="answer_selected" value="1" >
@@ -56,9 +63,13 @@
         <a class="modal_btn" id="modal_btn_new" onclick="previous_question()">Previos</a>
     <% end %>
     <%if @index+1 < $size%>
-        <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
-        <a class="modal_btn" id="modal_btn_new" onclick="next_quiz()">Next</a>
-
+        <% if $arr[@index].question_type == 2 %>
+            <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
+            <a class="modal_btn" id="modal_btn_new" onclick="next_descriptive(<%= $ques_id %>)">Next</a>
+        <% else %>
+            <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
+            <a class="modal_btn" id="modal_btn_new" onclick="next_quiz()">Next</a>
+        <% end %>
     <% else %>
         <a class="modal_btn" href="#myModal" class="modal_btn" onclick="finish_quiz()">Finish</a>
     <% end %>
@@ -110,11 +121,14 @@
             dataType:'json',
             processData:false,
             success:function (data) {
-                <!--<% if $arr[@index].question_type == 3 %>-->
-                    var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
-                <!--<% else %>-->
-                    $("#"+data.option_index).addClass('correct_answer');
-                <!--<% end %>-->
+              <% if $arr[@index].question_type == 3 %>
+              var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
+              <% elsif $arr[@index].question_type == 2 %>
+              CKEDITOR.replace('descriptive');
+              CKEDITOR.instances['descriptive'].setData(data.option_index);
+              <% else %>
+              $("#"+data.option_index).addClass('correct_answer');
+              <% end %>
             },
             error:function (data) {
                 alert ('Error Occurred!!!!');
@@ -138,6 +152,25 @@
             }
         });
 
+    }
+
+    function next_descriptive(ques_id){
+      var answer = CKEDITOR.instances['descriptive'].getData();
+
+      $.ajax({
+        url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + encodeURIComponent(answer) + '&ques_id=' + ques_id + '&choice=' + encodeURIComponent(answer),
+        type:'get',
+        dataType:'json',
+        processData:false,
+        success:function (data) {
+
+        },
+        error:function (data) {
+          alert ('Error Occurred!!!!');
+        }
+      });
+
+      next_quiz();
     }
 
     function next_question_type_true_false(id,id_2,option, ques_id, choice){

@@ -47,7 +47,8 @@ CKEDITOR.editorConfig = function( config )
             { name: 'links', groups: [ 'links' ] },
             { name: 'tools', groups: [ 'tools' ] },
             { name: 'others', groups: [ 'others' ] },
-            { name: 'about', groups: [ 'about' ] }
+            { name: 'about', groups: [ 'about' ] },
+            { name: 'smiley', groups: [ 'smiley' ] }
         ];
 
         config.skin = 'office2013';
