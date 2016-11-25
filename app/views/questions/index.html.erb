@@ -99,10 +99,14 @@
       <%= label_tag :select_course %>
       <%= select_tag "fetch_ques", options_from_collection_for_select(Course.all, :id, :name) %>
     </div>
+    <div id="ques_container" class=''>
+      <%= render 'questions_list',teacher_self_flag: '1', course_id: Course.first.id %>
+
+    </div>
 <% end %>
 
 
-<% if current_user.is_admin? || current_user.is_teacher? %>
+<% if current_user.is_teacher? %>
 
     <div id="ques_container" class=''>
       <%= render 'question_list',teacher_self_flag: '1', course_id: Course.first.id %>

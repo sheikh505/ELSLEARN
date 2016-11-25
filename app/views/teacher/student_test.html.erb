@@ -1,0 +1,25 @@
+<h2>Questions</h2>
+<div class="listing-holder listing_data_table">
+  <table class="table table-condensed">
+    <thead>
+      <th>Statement</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @questions.each do |question|  %>
+        <tr>
+          <td><%= raw question.statement %></td>
+          <td><%= link_to 'Review', "/student/review_question?id=#{question.id}&test_id=#{@test.id}" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+
+
+  </table>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.table').dataTable();
+  });
+</script>

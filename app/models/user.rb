@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role, :name, :phone, :device_token, :test_permission_ids,
-                  :role_id, :provider, :uid,:institute,:degree_id,:student_amount,:courses,:degrees,:teacher_token
+                  :role_id, :provider, :uid,:institute,:degree_id,:student_amount,:courses,:degrees,:teacher_token,
+                  :review_question_permission_ids
   # attr_accessible :title, :body
 
   attr_accessible :avatar

@@ -1,0 +1,33 @@
+<div class="page-content-wrapper">
+  <h1>Questions</h1>
+
+  <div class="listing-holder listing_data_table">
+    <table class="table table-condensed">
+      <thead>
+      <th>Statement</th>
+      <th></th>
+      </thead>
+      <tbody>
+      <% @questions.each do |question|  %>
+          <tr>
+            <td><%= raw question.statement %></td>
+            <td><%= link_to 'Show', "/student/show_answer?question_id=#{question.id}&test_id=#{@test.id}" %></td>
+          </tr>
+      <% end %>
+      </tbody>
+
+
+    </table>
+  </div>
+  <%= link_to "Back", "/user/test_reviews", class: "btn btn-primary" %>
+</div>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.table').dataTable({
+      bFilter : false
+    });
+  } );
+</script>

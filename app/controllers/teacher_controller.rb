@@ -22,6 +22,85 @@ class TeacherController < ApplicationController
     render partial: "fetch_users"
   end
 
+  def check_quiz
+    @tests = UserTestHistory.where(:teacher_id => current_user.id, :reviewed => false, :video_review => true)
+    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+    # making array of tests to reverse the sequence
+    tests = []
+    @tests.each do |test|
+      tests << test
+    end
+    @tests = tests.reverse!
+  end
+
+  def student_test
+    @test = UserTestHistory.find(params[:test_id])
+    session[:user_test_history_id] = @test.id
+    #@questions = Question.where("id IN (?)", @test.descriptive.split(','))
+
+    # descriptive question ids
+    question_ids = @test.descriptive.split(',')
+
+    session[:question_ids] = question_ids
+    redirect_to student_review_question_path
+  end
+
+  def save_remarks
+    answer = Answer.find(params[:answer_id])
+    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
+    redirect_to student_test_path(test_id: session[:user_test_history_id])
+  end
+
+  def review_question
+    @question = Question.find(session[:question_ids].pop)
+    @finish_flag = session[:question_ids].count == 0 ? true : false
+    @option = @question.options.first
+    @test = UserTestHistory.find(session[:user_test_history_id])
+    if @finish_flag
+      @test.update_attributes(:reviewed => true)
+    end
+    @answer = Answer.where(question_id: @question.id, user_test_history_id: @test.id).first
+    session[:answer_id] = @answer.id
+    # @image = IMGKit.new(@answer.answer_detail, quality: 50)
+    # @image = @image.to_img(:jpeg)
+    # file  = Tempfile.new(["template_#{@answer.id}", 'png'], 'tmp',
+    #                      :encoding => 'ascii-8bit')
+    # file.write(@image)
+    # file.flush
+    # @answer.image = file
+    # @answer.save
+    # file.unlink
+    # puts "==========================>"+@image.inspect
+  end
+
+  def comment_feedback
+    @tests = UserTestHistory.where(:teacher_id => current_user.id, :reviewed => false, :video_review => false)
+    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+    # making array of tests to reverse the sequence
+    tests = []
+    @tests.each do |test|
+      tests << test
+    end
+    @tests = tests.reverse!
+  end
+
+  def upload_video
+    answer = Answer.find(params[:id])
+    answer.video = params[:record][:video]
+    answer.save
+    render json: {success: true}
+  end
+
+  # def fetch_image
+  #   @answer = Answer.find(params[:answer_id])
+  #   @image = IMGKit.new(@answer.detail)
+  #   format.jpg do
+  #     send_data(@image.to_jpg, :type => "image/jpeg", :disposition => 'inline')
+  #   end
+  # end
+
   def destroy
     @user.destroy
     redirect_to "/user"
@@ -144,6 +223,7 @@ class TeacherController < ApplicationController
         if @user.is_teacher?
 
           @user.teacher_token = "#{@user.name.split(" ").map{|x| x[0]}.join("")}_#{(10_000 + Random.rand(100_000 - 10_000)).to_s}"
+          @user.review_permission_ids = params[:review_permission_ids].values.join(',')
           @user.save
           @degrees = Degree.all
           if @degrees.present?
@@ -158,6 +238,8 @@ class TeacherController < ApplicationController
               end unless course_id.nil?
             end
           end
+
+
         elsif @user.is_hod?
           course_list = params[:course]
           if course_list.present?
@@ -219,6 +301,8 @@ class TeacherController < ApplicationController
       @user.update_attributes(:role => 0)
     end
     if @user.is_teacher?
+      @user.update_attribute(:review_permission_ids, params[:review_permission_ids].values.join(','))
+      puts "==============================>" + @user.inspect
       degrees = params[:degree]
       course_id = params[:course]
       if degrees.present?

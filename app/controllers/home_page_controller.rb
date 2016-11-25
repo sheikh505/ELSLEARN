@@ -200,49 +200,58 @@ class HomePageController < ApplicationController
       session[:course_id] = @quiz.course_id
       session[:year] = ""
       session[:session] = ""
-      if UserPackage.where(course_id: @quiz.course_id).first.plan == "free"
-        @mcq = @fill = @truefalse = 0
+      # if UserPackage.where(course_id: @quiz.course_id, user_id: current_user.id).first.plan == "free"
+      #   @mcq = @fill = @descriptive = []
+      #   @quiz.question_ids.split(",").each do |id|
+      #     question = Question.find(id)
+      #     if question.question_type == 1
+      #       @mcq += 1
+      #     elsif question.question_type == 4
+      #       @truefalse += 1
+      #     elsif question.question_type == 3
+      #       @fill += 1
+      #     else
+      #
+      #     end
+      #   end
+      #   session[:mcq] = @mcq
+      #   session[:fill] = @fill
+      #   session[:true_false] = @truefalse
+      #
+      #
+      #   if user_signed_in?
+      #     user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
+      #                          :truefalse=> @truefalse,:fill=> @fill,
+      #                          :quiz_name => @quiz.name,
+      #                          :code => params[:test_code],
+      #                          :user_id=> current_user.id, :is_live => true}
+      #     puts "new puts===>>>",user_test_history.inspect
+      #     user_history = UserTestHistory.new(user_test_history)
+      #     puts "new userhistory------",user_history.inspect
+      #     user_history.save
+      #     @user_test_history_id = user_history.id
+      #   end
+      # else
+        @mcq = []
+        @fill = []
+        @descriptive = []
+        @truefalse = []
         @quiz.question_ids.split(",").each do |id|
           question = Question.find(id)
           if question.question_type == 1
-            @mcq += 1
+            @mcq << question.id
           elsif question.question_type == 4
-            @truefalse += 1
+            @truefalse << question.id
           elsif question.question_type == 3
-            @fill += 1
-          end
-        end
-        session[:mcq] = @mcq
-        session[:fill] = @fill
-        session[:true_false] = @truefalse
-
-
-        if user_signed_in?
-          user_test_history = {:course_id=> @quiz.course_id,:mcq=> @mcq,
-                               :truefalse=> @truefalse,:fill=> @fill,
-                               :quiz_name => @quiz.name,
-                               :code => params[:test_code],
-                               :user_id=> current_user.id, :is_live => true}
-          puts "new puts===>>>",user_test_history.inspect
-          user_history = UserTestHistory.new(user_test_history)
-          puts "new userhistory------",user_history.inspect
-          user_history.save
-          @user_test_history_id = user_history.id
-        end
-      else
-        @mcq = @fill = @descriptive = @truefalse = 0
-        @quiz.question_ids.split(",").each do |id|
-          question = Question.find(id)
-          if question.question_type == 1
-            @mcq += 1
-          elsif question.question_type == 4
-            @truefalse += 1
-          elsif question.question_type == 3
-            @fill += 1
+            @fill << question.id
           else
-            @descriptive += 1
+            @descriptive << question.id
           end
         end
+        @mcq = @mcq.join(',') == "" ? nil : @mcq.join(',')
+        @fill = @fill.join(',') == "" ? nil : @fill.join(',')
+        @truefalse = @truefalse.join(',') == "" ? nil : @truefalse.join(',')
+        @descriptive = @descriptive.join(',') == "" ? nil : @descriptive.join(',')
         session[:mcq] = @mcq
         session[:fill] = @fill
         session[:true_false] = @truefalse
@@ -261,7 +270,7 @@ class HomePageController < ApplicationController
           user_history.save
           @user_test_history_id = user_history.id
         end
-      end
+      # end
 
 
     elsif params[:uthid].present?
@@ -317,30 +326,10 @@ class HomePageController < ApplicationController
       session[:year] = @year
       @session = params[:session]
       session[:session] = @session
-      if params[:mcq].blank?
-        @mcq = 0
-      else
-        @mcq = params[:mcq]
-      end
-      session[:mcq] = @mcq
-      if params[:fill].blank?
-        @fill = 0
-      else
-        @fill = params[:fill]
-      end
-      session[:mcq] = @mcq
-      if params[:true_false].blank?
-        @true_false = 0
-      else
-        @true_false = params[:true_false]
-      end
-      session[:true_false] = @true_false
-      if params[:descriptive].blank?
-        @descriptive = 0
-      else
-        @descriptive = params[:descriptive]
-      end
-      session[:descriptive] = @descriptive
+      @msq = params[:mcq]
+      @fill = params[:fill]
+      @true_false = params[:true_false]
+      @descriptive = params[:descriptive]
       if user_signed_in?
         @user = current_user
       else
@@ -349,9 +338,9 @@ class HomePageController < ApplicationController
 
       if user_signed_in?
         user_test_history = {:board_id=> @board_id,:degree_id=> @degree_id,
-                             :course_id=> @course_id,:mcq=> @mcq, :quiz_name => "Own Test",
-                             :truefalse=> @true_false,:fill=> @fill,
-                             :descriptive=> @descriptive, :pastpaperflag=> @past_paper_flag,
+                             :course_id=> @course_id, :quiz_name => "Own Test",
+                             :mcq => @mcq, :truefalse => @true_false, :fill => @fill, :descriptive => @descriptive,
+                             :pastpaperflag=> @past_paper_flag,
                              :year=> @year, :session=> @session, :user_id=>current_user.id, :topic_ids => list.join(",")}
         puts "new puts===>>>",user_test_history.inspect
         user_history = UserTestHistory.new(user_test_history)
@@ -411,23 +400,42 @@ class HomePageController < ApplicationController
         k = 0
         l = 0
 
+        mcq = []
+        fill = []
+        truefalse = []
+        descriptive = []
         list.each do |question|
           if question.question_type == 1 && i < @mcq.to_i
             @questions << question
+            mcq << question.id
+            puts "=================>mcq" + question.id
             i += 1
           elsif question.question_type == 4 && j < @true_false.to_i
             @questions << question
+            truefalse << question.id
+            puts "=================>truefalse" + question.id.inspect
             j += 1
           elsif question.question_type == 3 && k < @fill.to_i
             @questions << question
+            fill << question.id
+            puts "=================>fill" + question.id.inspect
             k += 1
-          elsif question.question_type == 9 && l < @descriptive.to_i
+          elsif question.question_type == 2 && l < @descriptive.to_i
             @questions << question
+            descriptive << question.id
+            puts "=================>descriptive" + question.id
             l += 1
           end
-
-
         end
+
+        mcq = mcq.join(',') == "" ? nil : mcq.join(',')
+        fill = fill.join(',') == "" ? nil : fill.join(',')
+        truefalse = truefalse.join(',') == "" ? nil : truefalse.join(',')
+        descriptive = descriptive.join(',') == "" ? nil : descriptive.join(',')
+
+        user_test_history.update_attributes(mcq: mcq, fill: fill, truefalse: truefalse, descriptive: descriptive)
+
+
       elsif @past_paper_flag.to_i == 1
         @varient = session[:varient]
         questions_data = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where(
@@ -462,6 +470,31 @@ class HomePageController < ApplicationController
         # puts "^^^^^^^^%%%%%%",list.inspect
         # @questions = list.shuffle
         puts "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",@questions.inspect,@questions.count
+
+        @mcq = []
+        @fill = []
+        @descriptive = []
+        @truefalse = []
+
+        @questions.each do |ques|
+          if ques.question_type == 1
+            @mcq << ques.id
+          elsif ques.question_type == 4
+            @true_false << ques.id
+          elsif ques.question_type == 3
+            @fill << ques.id
+          else
+            @descriptive << ques.id
+          end
+        end
+
+        @mcq = @mcq.join(',') == "" ? nil : @mcq.join(',')
+        @fill = @fill.join(',') == "" ? nil : @fill.join(',')
+        @truefalse = @truefalse.join(',') == "" ? nil : @truefalse.join(',')
+        @descriptive = @descriptive.join(',') == "" ? nil : @descriptive.join(',')
+
+        user_test_history.update_attributes(mcq: @mcq, fill: @fill, truefalse: @true_false, descriptive: @descriptive)
+
         @size = @questions.length
         @quiz_time = @size * 1.5
         @index = 0
@@ -518,6 +551,35 @@ class HomePageController < ApplicationController
       }
       render :layout=> "quiz_layout"
     end
+  end
+
+  def check_student_package
+    user_test_history = UserTestHistory.find(params[:user_test_history_id])
+    user_package = current_user.user_packages.where(:course_id => user_test_history.course_id).first
+    # teacher_tokens = TeacherRequest.where(:student_id => current_user.id).pluck(:teacher_token)
+    @teacher_ids = TeacherCourse.where(course_id: user_test_history.course_id).pluck(:user_id)
+    session[:course_id] = user_test_history.course_id
+    @teacher_ids << User.where(:email => "admin@els.com").first.id
+    puts "================>"
+    render json: {success: true, teacher_ids: @teacher_ids.join(','), user_package: user_package ? user_package.package.flag : "1"}
+  end
+
+  def fetch_teachers
+    @els = User.find(params[:teacher_ids].split(',').pop)
+    @teachers = User.where("id IN (?)", params[:teacher_ids].split(','))
+    render partial: "fetch_teachers"
+  end
+
+  def get_teachers
+    teacher_ids = TeacherCourse.where(course_id: session[:course_id]).pluck(:user_id)
+    @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+    @teachers = @teachers.select{|teacher|
+      teacher.review_permission_ids != nil
+    }
+    @teachers = @teachers.select{|teacher|
+      teacher.review_permission_ids.split(',').include?(params[:review])
+    }
+    render partial: "get_teachers"
   end
 
   def payments

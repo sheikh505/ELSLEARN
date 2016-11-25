@@ -23,8 +23,19 @@
             <% else %>
               N/A
             <% end %></td>
-        <td><%= link_to "change package", "#" %>, <%= link_to "delete", "/user/delete_package?id=#{package.id}" %></td>
+        <td><%= link_to "delete", "/user/delete_package?id=#{package.id}" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<script>
+  $('#delete').on('ajax:success', function(e, data, status, xhr){
+    $('#refresh_packages').html(data);
+    $("#success").show();
+    $("#success").delay(2500).fadeOut();
+  }).on('ajax:error',function(e, xhr, status, error){
+    $("#error").show();
+    $("#error").delay(2500).fadeOut();
+  });
+</script>

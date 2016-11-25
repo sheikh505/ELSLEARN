@@ -119,7 +119,7 @@
         </div>
 
         <div class="actions col-md-12">
-          <%= f.submit "Register", :id => "submit", :onclick => " return register()", :class => 'btn btn-large btn-inverse' %>
+          <%= f.submit "Update", :id => "submit", :onclick => " return register()", :class => 'btn btn-large btn-inverse' %>
         </div>
 
         <div id="student" style="display: none;" class="field col-md-12" >
@@ -199,6 +199,48 @@
           <% end %>
         </div>
 
+        <div style="margin-top: 15px">
+          <div class="field col-md-12" >
+            <br>
+            <%= label_tag :question_review_permissions %>
+            <% if @user.review_permission_ids %>
+                <% if @user.review_permission_ids.split(',').include?("1") %>
+                    <%= check_box_tag "review_permission_ids[0]",  "1", checked: true %>
+                    Can Review Questions for Publishing
+                <% else %>
+                    <%= check_box_tag "review_permission_ids[0]",  "1" %>
+                    Can Review Questions for Publishing
+                <% end %>
+
+                <% if @user.review_permission_ids.split(',').include?("2") %>
+                    <%= check_box_tag "review_permission_ids[1]",  "2", checked: true %>
+                    Can Provide Assessment for Students Exams
+                <% else %>
+                    <%= check_box_tag "review_permission_ids[1]",  "2" %>
+                    Can Provide Assessment for Students Exams
+                <% end %>
+
+                <% if @user.review_permission_ids.split(',').include?("3") %>
+                    <%= check_box_tag "review_permission_ids[2]",  "3", checked: true %>
+                    Can Provide Video Reviews for Students Exams
+                <% else %>
+                    <%= check_box_tag "review_permission_ids[2]",  "3" %>
+                    Can Provide Video Reviews for Students Exams
+                <% end %>
+            <% else %>
+                <%= check_box_tag "review_permission_ids[0]",  "1" %>
+                Can Review Questions for Publishing
+                <%= check_box_tag "review_permission_ids[1]",  "2" %>
+                Can Provide Assessment for Students Exams
+                <%= check_box_tag "review_permission_ids[2]",  "3" %>
+                Can Provide Video Reviews for Students Exams
+            <% end %>
+
+            <br><br>
+          </div>
+
+
+        </div>
 
     <% end %>
   </div>
@@ -248,17 +290,22 @@
     });
 
     function register(){
-      $("#permission_error").hide();
-
-      if(document.getElementById('test_permission_ids_0').checked || document.getElementById('test_permission_ids_1').checked || document.getElementById('test_permission_ids_2').checked)
+      if ($("#role_id option:selected").text() == "Student")
       {
-        return true;
+        $("#permission_error").hide();
+        if(document.getElementById('test_permission_ids_0').checked || document.getElementById('test_permission_ids_1').checked || document.getElementById('test_permission_ids_2').checked)
+        {
+          return true;
+        }
+        else
+        {
+          $("#permission_error").show();
+          return false;
+        }
       }
       else
-      {
-        $("#permission_error").show();
-        return false;
-      }
+          return true;
+
     }
 
     function show_degrees() {

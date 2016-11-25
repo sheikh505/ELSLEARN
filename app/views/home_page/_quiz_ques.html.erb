@@ -64,7 +64,7 @@
     <% end %>
     <%if @index+1 < $size%>
         <% if $arr[@index].question_type == 2 %>
-            <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
+            <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="next_descriptive(<%= $ques_id %>, true)">Finish</a>
             <a class="modal_btn" id="modal_btn_new" onclick="next_descriptive(<%= $ques_id %>)">Next</a>
         <% else %>
             <a class="modal_btn" href="#myModal" id="modal_btn_finish" style="display: none" onclick="finish_quiz()">Finish</a>
@@ -76,34 +76,55 @@
   </div>
 </div>
 
-<div class="modal fade modal_custom" style="background-color: snow" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div id="myModal" style="overflow:scroll;" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Elearning System
-        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Submit Quiz</h4>
       </div>
-      <div class="modal-body test_results">
-        <div class="result_holder">
-          <h2>Here is your test result!</h2>
-          <div class="result_content">
-            <h4 id="course_name">Physics</h4>
-            <p class="bold_text">Beginner <span> (<300)</span><span id="test_score"></span></p>
-            <p>You're just starting to explore this skill.</p>
-            <h5>Whoops!</h5>
-            <p>You haven't scored high enough to display this test result on your profile. You must score Proficient level (450) or higher. Continue answering questions correctly to improve your score.</p>
-          </div>
-        </div>
+      <div class="modal-body">
+        <div id="submit_container">
 
+        </div>
       </div>
-      <div class="modal-footer m_footer_container">
-        <input type="hidden" name="score" value="" id="test_score1" >
-        <input type="hidden" name="total" value="" id="test_total" >
-        <button type="submit" class="btn btn-default" >Close</button>
+      <div class="modal-footer">
+        <a href="#" onclick="submit_quiz()" class="btn btn-default" >Close</a>
       </div>
     </div>
   </div>
 </div>
+<!--<div class="modal fade modal_custom" style="background-color: snow" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+  <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+      <!--<div class="modal-header">-->
+        <!--<h4 class="modal-title" id="myModalLabel"></h4>-->
+      <!--</div>-->
+      <!--<div class="modal-body test_results">-->
+        <!--<div class="result_holder">-->
+          <!--<span id="error" style="display: none" class="text-danger">Please select both options.</span>-->
+          <!--<div id="teacher_container" style="display: none">-->
+            <!--<label><strong>Submit this quiz to: </strong></label>-->
+            <!--<input name="submit" value="1" type="radio" checked="checked">ELS<br>-->
+            <!--<input name="submit" value="2" type="radio">Teacher-->
+          <!--</div>-->
+          <!--<div id="review_container" style="display: none">-->
+            <!--<br>-->
+            <!--<label><strong>How to assess? </strong></label>-->
+            <!--<input name="review" value="1" type="radio" checked="checked">Teacher Review<br>-->
+            <!--<input name="review" value="2" type="radio">Video Review-->
+          <!--</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+      <!--<div class="modal-footer m_footer_container">-->
+        <!--<button onclick="submit_quiz()" type="submit" class="btn btn-default" >Close</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
 <style>
     a.disabled {
         opacity: 0.5;
@@ -154,23 +175,43 @@
 
     }
 
-    function next_descriptive(ques_id){
-      var answer = CKEDITOR.instances['descriptive'].getData();
+    function next_descriptive(ques_id, finish_test){
+      if(finish_test == true)
+      {
+        var answer = CKEDITOR.instances['descriptive'].getData();
+        $.ajax({
+          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + encodeURIComponent(answer) + '&ques_id=' + ques_id + '&choice=' + encodeURIComponent(answer),
+          type:'get',
+          dataType:'json',
+          processData:false,
+          success:function (data) {
 
-      $.ajax({
-        url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + encodeURIComponent(answer) + '&ques_id=' + ques_id + '&choice=' + encodeURIComponent(answer),
-        type:'get',
-        dataType:'json',
-        processData:false,
-        success:function (data) {
+          },
+          error:function (data) {
+            alert ('Error Occurred!!!!');
+          }
+        });
 
-        },
-        error:function (data) {
-          alert ('Error Occurred!!!!');
-        }
-      });
+        finish_quiz();
+      }
+      else
+      {
+        var answer = CKEDITOR.instances['descriptive'].getData();
+        $.ajax({
+          url:'/home_page/save_answer?index='+<%=@index%> + '&option_index=' + encodeURIComponent(answer) + '&ques_id=' + ques_id + '&choice=' + encodeURIComponent(answer),
+          type:'get',
+          dataType:'json',
+          processData:false,
+          success:function (data) {
 
-      next_quiz();
+          },
+          error:function (data) {
+            alert ('Error Occurred!!!!');
+          }
+        });
+
+        next_quiz();
+      }
     }
 
     function next_question_type_true_false(id,id_2,option, ques_id, choice){
@@ -288,50 +329,97 @@
       window.print();
     }
 
-
-
     function finish_quiz()
     {
-        var confirmText = "Are you sure you want to finish this test?";
-        if(confirm(confirmText)) {
+      var confirmText = "Are you sure you want to finish this test?";
+      if(confirm(confirmText)) {
+        $.ajax({
+          url: "/homepage/check_student_package?user_test_history_id=" + <%= $user_test_history_id %>,
+          type: 'get',
+          success: function(data){
+            if(data.user_package == 1)
+            {
+              submit_quiz();
+            }
+            else if(data.user_package == 3)
+            {
+              $('#myModal').modal('toggle');
+              $.ajax({
+                url: "/home_page/fetch_teachers?teacher_ids=" + data.teacher_ids,
+                type: 'get',
+                success: function(data){
+                  $('#submit_container').html(data);
+                  $('#review_container').show();
+                },
+                error: function(data){
+                  alert("Error Occured");
+                }
+              });
+            }
+            else if(data.user_package == 2)
+            {
+              $('#myModal').modal('toggle');
+              $.ajax({
+                url: "/home_page/fetch_teachers?teacher_ids=" + data.teacher_ids,
+                type: 'get',
+                success: function(data){
+                  $('#submit_container').html(data);
+                },
+                error: function(data){
+                  alert("Error Occured");
+                }
+              });
+            }
+          },
+          error: function(data){
+
+          }
+        });
+      }
+    }
+
+
+    function submit_quiz()
+    {
+      $('#myModal').modal('hide');
+      $.ajax({
+        url:'/home_page/get_session?ques_id_array=' + <%= $ques_id_array %>,
+        type:'get',
+        processData:false,
+        success:function (data) {
+          $array = data.array;
+          review = $("input[name='review']:checked").val();
+          teacher_id = $("[name='teacher_id']").val();
           $.ajax({
-            url:'/home_page/get_session?ques_id_array=' + <%= $ques_id_array %>,
+            url:'/services/verify_answers_web?array='+encodeURIComponent($array)+'&test_history_id='+ <%= $user_test_history_id %> +
+                '&review=' + review + '&teacher_id=' + teacher_id,
             type:'get',
             processData:false,
             success:function (data) {
-              $array = data.array;
-              $.ajax({
-                url:'/services/verify_answers_web?array='+$array+'&test_history_id='+ <%= $user_test_history_id %>,
-                type:'get',
-                processData:false,
-                success:function (data) {
-                  $('body').html(data);
+              $('body').html(data);
 
-                  //if (data.test_code_flag == 0)
-                  //{
-                  //  $("#course_name").text($("input[name$='course']").val());
-                  //  $("#test_score").text(data.result);
-                  //  $("#test_score1").val(data.result);
-                  //  $("#test_total").val(data.total);
-                  //  $('#myModal').modal('toggle');
-                  //}
-                  //else
-                  //{
-                  //  $('body').html(data);
-                  //}
-                },
-                error:function (data) {
-                  alert ("Error Occurred");
-                }
-              });
+              //if (data.test_code_flag == 0)
+              //{
+              //  $("#course_name").text($("input[name$='course']").val());
+              //  $("#test_score").text(data.result);
+              //  $("#test_score1").val(data.result);
+              //  $("#test_total").val(data.total);
+              //  $('#myModal').modal('toggle');
+              //}
+              //else
+              //{
+              //  $('body').html(data);
+              //}
             },
             error:function (data) {
               alert ("Error Occurred");
             }
           });
-
-
+        },
+        error:function (data) {
+          alert ("Error Occurred");
         }
+      });
     }
 
 </script>

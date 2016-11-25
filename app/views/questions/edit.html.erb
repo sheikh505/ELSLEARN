@@ -1,6 +1,8 @@
-<%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
-<%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
-<%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+<% if current_user.is_admin? %>
+    <%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
+    <%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
+    <%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+<% end %>
 
 <div class="row">
   <div class="span5">

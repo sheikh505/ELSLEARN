@@ -1,0 +1,7 @@
+<%= label_tag "Submit this quiz to: " %>
+<select name="teacher_id">
+  <option value="3">ELS</option>
+  <% @teachers.each do |teacher| %>
+      <option value="<%= teacher.id %>"><%= teacher.name %></option>
+  <% end %>
+</select>

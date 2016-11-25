@@ -150,17 +150,35 @@
             </table>
           </div>
           <div id="degreeList" style="display: none;" class="field col-md-12">
-            <%=label_tag :degree%>
+            <div>
+              <%=label_tag :degree%>
 
-            <%@degrees.each_with_index do |degree,index| %>
-                <div class="col_deg col-md-3">
-                  <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
-                  <div id="courseList_<%= degree.id %>" class="field courseList_post">
+              <%@degrees.each_with_index do |degree,index| %>
+                  <div class="col_deg col-md-3">
+                    <%= check_box_tag 'degree[]'+degree.id.to_s, degree.id,false, :onclick => "show_courses(this);" %><%=degree.name %>
+                    <div id="courseList_<%= degree.id %>" class="field courseList_post">
 
+                    </div>
                   </div>
-                </div>
 
-            <% end %>
+              <% end %>
+            </div>
+
+            <div style="margin-top: 15px">
+              <div class="field col-md-12" >
+                <br>
+                <%= label_tag :question_review_permissions %>
+                <%= check_box_tag "review_permission_ids[0]",  "1", :checked => "checked" %>
+                Can Review Questions for Publishing
+                <%= check_box_tag "review_permission_ids[1]",  "2", :checked => "checked" %>
+                Can Provide Assessment for Students Exams
+                <%= check_box_tag "review_permission_ids[2]",  "3", :checked => "checked" %>
+                Can Provide Video Reviews for Students Exams
+                <br><br>
+              </div>
+
+
+            </div>
 
           </div>
 

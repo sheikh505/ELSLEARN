@@ -1,0 +1,122 @@
+<div class=" stat_holder" style="margin-top: 20px">
+  <label><strong>Statement</strong></label>
+  <%= raw @question.statement %>
+</div>
+
+<div class="field stat_holder">
+  <label><strong>Submitted Answer</strong></label>
+  <%= raw @option.statement %>
+</div>
+
+<div class="field stat_holder">
+  <label><strong>Student Answer</strong></label>
+  <%= raw @answer.answer_detail %>
+</div>
+
+<%= hidden_field_tag :video_review, @test.video_review %>
+<div class="field stat_holder" id="video_container" style="display: none">
+  <label><strong>Video Review</strong></label>
+  <div class="alert alert-info">
+    <strong>Info!</strong><br>
+    <strong>1. </strong>Video review will acquire your camera and microphone.<br>
+    <strong>2. </strong>After pressing <strong>START RECORDING</strong> button, video will record only for 30 seconds .<br>
+  </div>
+  <video autoplay></video><br>
+  <button id="start" class='btn btn-primary'>Start Recording</button>
+  <button id="stop" class='btn btn-primary' disabled>Stop Recording</button>
+  <button id="preview" class='btn btn-primary' disabled>Preview Recording</button>
+</div>
+
+<%= form_tag "/save_remarks" do |f| %>
+    <div class="field stat_holder">
+      <label><strong>Remarks</strong></label>
+      <%= text_field_tag :remarks, "", size: 140 %>
+    </div>
+
+    <div class="field stat_holder">
+      <label><strong>Marks</strong></label>
+      <%= text_field_tag :marks, "" %>
+    </div>
+    <%= hidden_field_tag :answer_id, @answer.id %>
+    <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
+<% end %>
+
+<div class="field">
+  <% unless @finish_flag %>
+      <%= link_to "Next Question", student_review_question_path, class: "btn btn-primary", style: "margin-top: 15px;" %>
+  <% else %>
+      <% if @test.video_review %>
+          <%= link_to "Finish Review", check_quiz_path , class: "btn btn-primary", style: "margin-top: 15px;" %>
+      <% else %>
+          <%= link_to "Finish Review", "/comment_feedback" , class: "btn btn-primary", style: "margin-top: 15px;" %>
+      <% end %>
+
+  <% end %>
+</div>
+
+
+ <script>
+
+  $(function(){
+    if($('#video_review').val() == true)
+    {
+      $('#video_container').show();
+      function hasUserMedia() {     //check if the browser supports the WebRTC 
+        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||     navigator.mozGetUserMedia);
+      }
+      if (hasUserMedia()) {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia         || navigator.mozGetUserMedia;
+        //enabling video and audio channels 
+        var recordRTC;
+        var btnStopRecording = document.getElementById('stop');
+        var video = document.querySelector('video');
+        navigator.getUserMedia({ video: true, audio: true }, function (stream) {
+          //inserting our stream to the video tag 
+          var options = {         mimeType: 'video/webm', // or video/mp4 or audio/ogg 
+            bitsPerSecond: 128000 // if this line is provided, skip above two 
+          };
+          video.src = window.URL.createObjectURL(stream);
+          recordRTC = RecordRTC(stream, options);
+
+          $('#start').on('click', function(){
+            $('#start').prop('disabled', true);
+            $('#stop').prop('disabled', false);
+            recordRTC.startRecording();
+          })
+
+        }, function (err) {});
+        btnStopRecording.onclick = function () {
+          $('#stop').prop('disabled', true);
+          recordRTC.stopRecording(function (audioVideoWebMURL) {
+            var data = new FormData();
+            data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
+            data.append("id", <%= @answer.id %>);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "/student/upload_video");
+            oReq.send(data);
+            oReq.onload = function(oEvent) {
+              if (oReq.status == 200) {
+                console.log("Uploaded");
+              } else {
+                console.log("Error " + oReq.status + " occurred uploading your file.");
+              }
+            };
+            $('#preview').prop('disabled', false);
+            $('#preview').on('click', function(){
+              video.src = audioVideoWebMURL;
+              var recordedBlob = recordRTC.getBlob();
+            })
+
+//        recordRTC.getDataURL(function(dataURL) { }); 
+          });
+        };
+      }
+      else
+      {
+        alert("WebRTC is not supported");
+      }
+    }
+  })
+
+ </script>
+

@@ -24,6 +24,7 @@
 //= require select
 //= require jquery.steps.min
 //= require main
+//= require recordRTC
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox
 //= require ckeditor/init

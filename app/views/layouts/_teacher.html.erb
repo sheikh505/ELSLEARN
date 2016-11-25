@@ -3,20 +3,37 @@
 </li>
 
 <% unless current_user.is_hod? %>
-<li>
-  <%= link_to "New Students", "/new_students" %>
-</li>
+  <li>
+    <%= link_to "New Students", "/new_students" %>
+  </li>
 
+  <li>
+    <%= link_to "Manage Students", "/manage_students" %>
+  </li>
+<% end %>
+
+<%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("2") %>
 <li>
-  <%= link_to "Manage Students", "/manage_students" %>
+  <%= link_to "Comment Feedback", "/comment_feedback" %>
 </li>
 <% end %>
+
+<%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("3") %>
+<li>
+  <%= link_to "Video Feedback", "/check_quiz" %>
+</li>
+<% end %>
+
 <li>
   <%= link_to "Manage Tests", quizzes_path %>
 </li>
+
 <li>
   <%= link_to "Manage Questions (#{question_count_teacher})", questions_path %>
 </li>
+
+<%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("1") %>
 <li>
   <%= link_to "Approve Questions (#{approve_question_count_teacher})", questions_approval_questions_path %>
 </li>
+<% end %>

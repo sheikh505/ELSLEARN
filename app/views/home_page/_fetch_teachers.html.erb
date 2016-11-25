@@ -1,0 +1,39 @@
+
+<div id="review_container" style="display: none">
+  <label><strong>How to assess? </strong></label>
+  <input name="review" value="2" type="radio" checked="checked">Teacher Review<br>
+  <input name="review" value="3" type="radio">Video Review
+</div>
+<br>
+
+<div id="teacher_container">
+  <%= label_tag "Submit this quiz to: " %>
+  <select name="teacher_id">
+    <option value="<%= @els.id %>">ELS</option>
+    <% @teachers.each do |teacher| %>
+        <option value="<%= teacher.id %>"><%= teacher.name %></option>
+    <% end %>
+  </select>
+</div>
+
+<script>
+
+  $(function(){
+    $.ajax({
+      url: "/get_teachers?review=" + $("input[name='review']:checked").val(),
+      success: function(data){
+        $("#teacher_container").html(data);
+      }
+    })
+  })
+
+  $("input[name='review']").on('change', function(){
+    $.ajax({
+      url: "/get_teachers?review=" + $("input[name='review']:checked").val(),
+      success: function(data){
+        $("#teacher_container").html(data);
+      }
+    })
+  })
+</script>
+

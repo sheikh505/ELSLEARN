@@ -105,7 +105,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
                           password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
                           phone: params[:phone], institute: params[:institute],
                           degrees: params[:degrees])
-      user[:courses] = params[:courses]
+      if session[:role] == "8"
+        params[:courses].split(',').each do |course_id|
+          TeacherCourse.create(user_id: user.id, course_id: course_id.to_i,
+                       degree_id: Course.find(course_id.to_i).degree_course_assignments.first.board_degree_assignment.degree.id)
+        end
+      elsif session[:role] == "12"
+        user[:courses] = params[:courses]
+      end
+
       user.save
       Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
       user.reload

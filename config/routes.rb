@@ -93,8 +93,8 @@ ExamsSystem::Application.routes.draw do
 
   end
 
-  get "new_students" => "teacher#new_students"
-  get "manage_students" => "teacher#manage_students"
+
+
 
 
   resources :books do
@@ -204,6 +204,8 @@ ExamsSystem::Application.routes.draw do
   post "/homepage/set_access" => "home_page#set_access"
   get "/home_page/questions/questions_detail" => "questions#questions_detail"
   post "/home_page/get_details" => "home_page#get_details"
+  get "/homepage/check_student_package" => "home_page#check_student_package"
+  get "/home_page/fetch_teachers" => "home_page#fetch_teachers"
 
   resources :tests do
     collection do
@@ -277,6 +279,25 @@ ExamsSystem::Application.routes.draw do
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'
+
+  get "/student/fetch_image" => "teacher#fetch_image"
+  post "/student/upload_video" => "teacher#upload_video"
+  get "/student_test" => "teacher#student_test"
+
+  post "/save_remarks" => "teacher#save_remarks"
+  get "/user/test_reviews" => "user#test_reviews"
+  get "/user/quiz_answers" => "user#quiz_answers"
+  get "/student/show_answer" => "user#show_answer"
+
+  get "new_students" => "teacher#new_students"
+  get "manage_students" => "teacher#manage_students"
+  get "/check_quiz" => "teacher#check_quiz"
+
+  get "/student/review_question" => "teacher#review_question"
+  post "/student/submit_feedback" => "user#submit_feedback"
+  get "/comment_feedback" => "teacher#comment_feedback"
+  get "/get_teachers" => "home_page#get_teachers"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

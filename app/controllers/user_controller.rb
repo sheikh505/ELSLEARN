@@ -21,6 +21,44 @@ class UserController < ApplicationController
     @last_user_history = UserTestHistory.find_all_by_user_id(@user.id).last
   end
 
+  def test_reviews
+    @tests = current_user.user_test_histories.where('descriptive != ? AND descriptive != ? AND descriptive != ? AND reviewed = true', "0", "", "5")
+    @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+    # making array of tests to reverse the sequence
+    tests = []
+    @tests.each do |test|
+      tests << test
+    end
+    @tests = tests.reverse!
+  end
+
+  def quiz_answers
+    @test = UserTestHistory.find(params[:test_id])
+    session[:user_test_history_id] = @test.id
+    question_ids = @test.descriptive.split(',')
+    session[:question_ids] = question_ids
+    @questions = Question.where("id IN (?)", @test.descriptive.split(','))
+    if @questions.first
+      redirect_to student_show_answer_path
+    else
+      flash[:error] = "There are no descriptive questions in this test."
+      redirect_to action: :test_reviews
+    end
+  end
+
+  def show_answer
+    @question = Question.find(session[:question_ids].pop)
+    @finish_flag = session[:question_ids].count == 0 ? true : false
+    @test = UserTestHistory.find(session[:user_test_history_id])
+    @answer = Answer.where(user_test_history_id: @test.id, question_id: @question.id).first
+  end
+
+  def submit_feedback
+    test = UserTestHistory.find(session[:user_test_history_id])
+    test.update_attributes(:student_feedback => params[:student_feedback])
+    render partial: "submit_feedback"
+  end
+
   def update
     @user = User.find current_user.id
 

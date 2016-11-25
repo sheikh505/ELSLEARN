@@ -1,9 +1,13 @@
-<%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
-<%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+<% if current_user.is_admin? %>
+  <%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
+  <%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+<% end %>
 <br><br>
 
-<%= label_tag :select_role %>
-<%= select_tag "role", options_from_collection_for_select(@roles, :id, :name) %>
+<% if current_user.is_admin? %>
+  <%= label_tag :select_role %>
+  <%= select_tag "role", options_from_collection_for_select(@roles, :id, :name) %>
+<% end %>
 
 <div class="listing-holder listing_data_table">
 <table class="table table-condensed">

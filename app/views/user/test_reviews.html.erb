@@ -1,0 +1,29 @@
+<div class="page-content-wrapper">
+  <h1>Quizzes</h1>
+
+  <div class="listing-holder">
+    <table class="table table-condensed" style="padding-bottom:10px;border-bottom: 3px solid" >
+      <thead>
+      <tr>
+        <th>Quiz Name</th>
+        <th>Course</th>
+        <th>No. of Questions</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @tests.each do |test| %>
+          <tr>
+            <td><%= test.quiz_name %></td>
+            <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
+            <td><%= test.descriptive.split(',').count if test.descriptive %></td>
+            <td><%= link_to "Show", "/user/quiz_answers?test_id=#{test.id}" %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= link_to "Back", "/user/my_profile", class: "btn btn-primary" %>
+  <br>
+</div>

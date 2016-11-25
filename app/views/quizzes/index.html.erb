@@ -1,10 +1,12 @@
 <h1>Listing tests</h1>
-<%= label_tag :select_certification %>
-<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
-<div id="courses">
-  <%= label_tag :select_course %>
-  <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
-</div>
+<% if current_user.is_admin? %>
+  <%= label_tag :select_certification %>
+  <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
+  <div id="courses">
+    <%= label_tag :select_course %>
+    <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
+  </div>
+<% end %>
 
 <div class="listing-holder">
   <table class="table table-condensed">

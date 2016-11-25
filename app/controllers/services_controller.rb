@@ -447,7 +447,10 @@ class ServicesController < ApplicationController
     puts "===========================>", quota_hash.inspect
 
     userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
-    credit_left = userpackage.credit_left
+    credit_left = nil
+    if credit_left == nil
+      credit_left = 1000
+    end
 
     @total = @total_questions = @total_wrong = array.length
     @total_correct = 0
@@ -509,10 +512,67 @@ class ServicesController < ApplicationController
         end
       elsif @question.question_type == 2
         credit_left = credit_left - quota_hash[2]
+        answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
+                               answer_detail: ques.split(":").drop(1).join(':'))
+        # image = IMGKit.new(answer.answer_detail)
+        # image = image.to_img(:png, quality: 100)
+        # file  = Tempfile.new(["template_#{answer.id}", 'png'], 'tmp',
+        #                      :encoding => 'ascii-8bit')
+        # file.write(image)
+        # file.flush
+        # answer.image = file
+        # answer.save
+        # file.unlink
       end
     end
 
-    userpackage.update_attributes(:credit_left => credit_left)
+    unless params[:review] == "undefined"
+      if params[:review] == "2"
+        if params[:teacher_id] == "3"
+          teacher_ids = TeacherCourse.where(:course_id => test_history.course_id).pluck(:user_id)
+          @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+          @teachers = @teachers.select{|teacher|
+            teacher.review_permission_ids != nil
+          }
+          @teachers = @teachers.select{|teacher|
+            teacher.review_permission_ids.split(',').include?(params[:review])
+          }
+          @teachers.shuffle!
+          if @teachers.first
+            test_history.update_attributes(:video_review => false, teacher_id: @teachers.first.id)
+          else
+            test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
+          end
+        else
+          test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
+        end
+      elsif params[:review] == "3"
+        if params[:teacher_id] == "3"
+          teacher_ids = TeacherCourse.where(:course_id => test_history.course_id)
+          @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+          @teachers = @teachers.select{|teacher|
+            teacher.review_permission_ids != nil
+          }
+          @teachers = @teachers.select{|teacher|
+            teacher.review_permission_ids.split(',').include?(params[:review])
+          }
+          @teachers.shuffle!
+          if @teachers.first
+            test_history.update_attributes(:video_review => true, teacher_id: @teachers.first.id)
+          else
+            test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id].to_i)
+          end
+        else
+          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id].to_i)
+        end
+      end
+    end
+
+    if userpackage
+      unless userpackage.credit_left
+        userpackage.update_attributes(:credit_left => credit_left)
+      end
+    end
 
     @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
     if @questions[:mcq][:percentage].nan?

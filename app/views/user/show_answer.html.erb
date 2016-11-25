@@ -1,0 +1,62 @@
+<div class="page-content-wrapper">
+  <div class=" stat_holder" style="margin-top: 20px">
+    <label><strong>Question Statement</strong></label>
+    <%= raw @question.statement %>
+  </div>
+
+  <div class="field stat_holder">
+    <label><strong>Submitted Answer</strong></label>
+    <%= raw @answer.answer_detail %>
+  </div>
+
+  <div class="field stat_holder">
+    <label><strong>Remarks</strong></label>
+    <%= @answer.remarks %>
+  </div>
+
+  <div class="field stat_holder">
+    <label><strong>Marks</strong></label>
+    <%= @answer.marks %>
+  </div>
+
+  <% if @answer.video_file_name %>
+    <div class="field stat_holder">
+      <label><strong>Video Review</strong></label>
+      <div  style="width:800px; margin:0 auto;">
+        <video id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered"
+               controls preload="auto" width="640" height="400"
+               poster="http://video-js.zencoder.com/oceans-clip.png"
+               data-setup='{"example_option":true}'>
+          <source src="<%= @answer.video %>" type="video/webm" />
+          <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+        </video>
+      </div>
+
+    </div>
+  <% end %>
+
+  <% if @finish_flag %>
+
+      <div id="feedback">
+        <%= form_tag "/student/submit_feedback", remote: true, id: "submit_feedback" do |f| %>
+            <div class="field stat_holder">
+              <label><strong>Please Provide your feedback on ELS review</strong></label>
+              <%= text_field_tag :student_feedback, nil, size: 140 %><br>
+              <%= submit_tag "Submit Feedback", class: "btn btn-primary" %>
+            </div>
+        <% end %>
+      </div>
+
+
+    <%= link_to "Finish Review", user_test_reviews_path, class: "btn btn-primary" %>
+  <% else %>
+    <%= link_to "Next Answer", student_show_answer_path, class: "btn btn-primary" %>
+  <% end %>
+
+</div>
+
+<script type="text/javascript">
+  $('#submit_feedback').on('ajax:success', function(e, data, status, xhr){
+    $('#feedback').html(data);
+  })
+</script>
