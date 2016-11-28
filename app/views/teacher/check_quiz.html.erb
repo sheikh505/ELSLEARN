@@ -14,7 +14,7 @@
     <tbody>
     <% @tests.each do |test| %>
         <tr>
-          <td><%= @students.select{|student| test.user_id == student.id}.first.name %></td>
+          <td><%= @students.select{|student| test.user_id == student.id}.first.name if @students.select{|student| test.user_id == student.id}.first %></td>
           <td><%= test.quiz_name %></td>
           <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
           <td><%= test.descriptive.split(',').count %></td>

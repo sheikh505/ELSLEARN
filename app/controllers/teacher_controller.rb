@@ -49,7 +49,7 @@ class TeacherController < ApplicationController
   def save_remarks
     answer = Answer.find(params[:answer_id])
     answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
-    redirect_to student_test_path(test_id: session[:user_test_history_id])
+    redirect_to student_review_question_path(test_id: answer.user_test_history_id)
   end
 
   def review_question
@@ -62,6 +62,11 @@ class TeacherController < ApplicationController
     end
     @answer = Answer.where(question_id: @question.id, user_test_history_id: @test.id).first
     session[:answer_id] = @answer.id
+    if @test.video_review
+      render "video_review_question"
+    else
+      render "review_question"
+    end
     # @image = IMGKit.new(@answer.answer_detail, quality: 50)
     # @image = @image.to_img(:jpeg)
     # file  = Tempfile.new(["template_#{@answer.id}", 'png'], 'tmp',
