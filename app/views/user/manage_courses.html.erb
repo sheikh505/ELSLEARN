@@ -50,7 +50,7 @@
 
     </div>
     <%= link_to "Add Course", "/user/add_course", class: "btn btn-primary", id: "add_course", remote: true %> |
-    <%= link_to "Back", "/user/my_profile", class: "btn btn-primary" %>
+    <%= link_to "Back", "/user/my_profile", class: "btn btn-primary", id: "back" %>
   </div>
 </div>
 
@@ -68,6 +68,7 @@
     $('#add_course_container').html(data);
     $('#refresh_packages').hide();
     $('#add_course').hide();
+    $('#back').hide();
   })
 
 </script>

@@ -447,10 +447,7 @@ class ServicesController < ApplicationController
     puts "===========================>", quota_hash.inspect
 
     userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
-    credit_left = nil
-    if credit_left == nil
-      credit_left = 1000
-    end
+    credit_left = 1000
 
     @total = @total_questions = @total_wrong = array.length
     @total_correct = 0
