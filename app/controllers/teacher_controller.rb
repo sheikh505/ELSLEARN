@@ -40,22 +40,27 @@ class TeacherController < ApplicationController
     #@questions = Question.where("id IN (?)", @test.descriptive.split(','))
 
     # descriptive question ids
-    question_ids = @test.descriptive.split(',')
+    question_ids = @test.descriptive
 
-    session[:question_ids] = question_ids
-    redirect_to student_review_question_path
+    # session[:question_ids] = question_ids
+    redirect_to student_review_question_path(question_ids: question_ids)
   end
 
   def save_remarks
     answer = Answer.find(params[:answer_id])
+    question_ids = params[:question_ids]
     answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
-    redirect_to student_review_question_path(test_id: answer.user_test_history_id)
+    redirect_to student_review_question_path(test_id: answer.user_test_history_id, question_ids: question_ids)
   end
 
   def review_question
-    @question = Question.find(session[:question_ids].pop)
-    @finish_flag = session[:question_ids].count == 0 ? true : false
+    @question_ids = params[:question_ids].split(',')
+    @question = Question.find(@question_ids.pop)
+    @finish_flag = @question_ids.count == 0 ? true : false
+
+    # puts "==============>" + @question_ids.pop.inspect, @question.inspect
     @option = @question.options.first
+    @question_ids = @question_ids.join(',')
     @test = UserTestHistory.find(session[:user_test_history_id])
     if @finish_flag
       @test.update_attributes(:reviewed => true)

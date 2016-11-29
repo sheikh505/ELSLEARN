@@ -37,6 +37,7 @@
       <label><strong>Marks</strong></label>
       <%= text_field_tag :marks, "" %>
     </div>
+    <%= hidden_field_tag :question_ids, @question_ids %>
     <%= hidden_field_tag :answer_id, @answer.id %>
     <% unless @finish_flag %>
       <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
