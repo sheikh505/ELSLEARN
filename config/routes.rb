@@ -297,6 +297,7 @@ ExamsSystem::Application.routes.draw do
   post "/student/submit_feedback" => "user#submit_feedback"
   get "/comment_feedback" => "teacher#comment_feedback"
   get "/get_teachers" => "home_page#get_teachers"
+  get "/teachers/finish_review" => "teacher#finish_review"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

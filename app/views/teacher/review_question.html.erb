@@ -35,14 +35,14 @@
 
     <div class="field stat_holder">
       <label><strong>Marks</strong></label>
-      <%= text_field_tag :marks, "" %>
+      <%= text_field_tag :marks, "", size: "4x4" %><font size="6"> /<%= @question.marks %></font>
     </div>
     <%= hidden_field_tag :question_ids, @question_ids %>
     <%= hidden_field_tag :answer_id, @answer.id %>
     <% unless @finish_flag %>
       <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
     <% else %>
-        <%= link_to "Finish Review", "/comment_feedback" , class: "btn btn-primary", style: "margin-top: 15px;" %>
+        <%= link_to "Finish Review", teachers_finish_review_path(test_id: @test.id) , class: "btn btn-primary", style: "margin-top: 15px;" %>
     <% end %>
 <% end %>
 

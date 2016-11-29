@@ -449,7 +449,8 @@ class ServicesController < ApplicationController
     userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
     credit_left = 1000
 
-    @total = @total_questions = @total_wrong = array.length
+    @total = 0
+    @total_questions = @total_wrong = array.length
     @total_correct = 0
 
     question_evaluation = Hash.new
@@ -467,6 +468,7 @@ class ServicesController < ApplicationController
               @score += 1
               @questions[:mcq][:correct] += 1
               @total_correct += 1
+              @total += 1
               @total_wrong -= 1
             else
               question_evaluation[ques.split(":")[0]] = 0
@@ -484,6 +486,7 @@ class ServicesController < ApplicationController
             @score += 1
             @questions[:truefalse][:correct] += 1
             @total_correct += 1
+            @total += 1
             @total_wrong -= 1
           else
             question_evaluation[ques.split(":")[0]] = 0
@@ -502,12 +505,14 @@ class ServicesController < ApplicationController
               @score += 1
               @questions[:fill][:correct] += 1
               @total_correct += 1
+              @total += 1
               @total_wrong -= 1
               break
             end
           end
         end
       elsif @question.question_type == 2
+        @total += @question.marks
         credit_left = credit_left - quota_hash[2]
         answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
                                answer_detail: ques.split(":").drop(1).join(':'))
@@ -526,41 +531,46 @@ class ServicesController < ApplicationController
     unless params[:review] == "undefined"
       if params[:review] == "2"
         if params[:teacher_id] == "3"
-          teacher_ids = TeacherCourse.where(:course_id => test_history.course_id).pluck(:user_id)
-          @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
-          @teachers = @teachers.select{|teacher|
-            teacher.review_permission_ids != nil
-          }
-          @teachers = @teachers.select{|teacher|
-            teacher.review_permission_ids.split(',').include?(params[:review])
-          }
-          @teachers.shuffle!
-          if @teachers.first
-            test_history.update_attributes(:video_review => false, teacher_id: @teachers.first.id)
-          else
-            test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
-          end
+          # teacher_ids = TeacherCourse.where(:course_id => test_history.course_id).pluck(:user_id)
+          # @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+          # @teachers = @teachers.select{|teacher|
+          #   teacher.review_permission_ids != nil
+          # }
+          # @teachers = @teachers.select{|teacher|
+          #   teacher.review_permission_ids.split(',').include?(params[:review])
+          # }
+          # teacher_ids = []
+          # @teachers.each do |t|
+          #   teacher_ids << t.id
+          # end
+          # if teacher_ids.any?
+          #   test_history.update_attributes(:video_review => false, teacher_id: teacher_ids.join(','))
+          # else
+            test_history.update_attributes(:video_review => false, teacher_id: -1)
+          # end
         else
           test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
         end
       elsif params[:review] == "3"
         if params[:teacher_id] == "3"
-          teacher_ids = TeacherCourse.where(:course_id => test_history.course_id)
-          @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
-          @teachers = @teachers.select{|teacher|
-            teacher.review_permission_ids != nil
-          }
-          @teachers = @teachers.select{|teacher|
-            teacher.review_permission_ids.split(',').include?(params[:review])
-          }
-          @teachers.shuffle!
-          if @teachers.first
-            test_history.update_attributes(:video_review => true, teacher_id: @teachers.first.id)
-          else
-            test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id].to_i)
-          end
+          # teacher_ids = TeacherCourse.where(:course_id => test_history.course_id)
+          # @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+          # @teachers = @teachers.select{|teacher|
+          #   teacher.review_permission_ids != nil
+          # }
+          # @teachers = @teachers.select{|teacher|
+          #   teacher.review_permission_ids.split(',').include?(params[:review])
+          # }
+          # @teachers.each do |t|
+          #   teacher_ids << t.id
+          # end
+          # if teacher_ids.any?
+          #   test_history.update_attributes(:video_review => true, teacher_ids: teacher_ids.join(','))
+          # else
+            test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
+          # end
         else
-          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id].to_i)
+          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
         end
       end
     end
@@ -765,9 +775,20 @@ class ServicesController < ApplicationController
 
       @test_average = sum_of_marks/scores.length
       @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
+      if @test_average_percentage.nan?
+        @test_average_percentage = 0.0
+      end
 
       @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
+      if @test_highest_percentage.nan?
+        @test_highest_percentage = 0.0
+      end
+
       @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
+      if @test_lowest_percentage.nan?
+        @test_lowest_percentage = 0.0
+      end
+
       @time_allowed = array.length * 1.5
       @teacher_name = User.find(quiz.user_id).name
       course = quiz.course

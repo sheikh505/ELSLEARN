@@ -6,7 +6,7 @@
         <%= f.label :statement %>
         <%= f.cktext_area :statement, id:"tinymce4", rows:"9", cols:"20", value: @question.statement %>
       </div>
-    <div class="field">
+    <div class="field" style="display: none">
       <%= label_tag :answer %>
       <%= cktext_area_tag :answer,raw(@question.options.last.statement) %>
     </div>
@@ -19,6 +19,11 @@
     <div class="field">
       <%= f.label :instruction, style:"display: inline-block; vertical-align: sub;" %>
       <%= f.text_area :instruction,:value => @question.instruction, :size => '4x4' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :marks, style:"display: inline-block; vertical-align: sub;" %><br>
+      <%= f.text_field :marks, :size => 4 %>
     </div>
 
     <div class="field">

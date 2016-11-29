@@ -44,7 +44,7 @@ class Question < ActiveRecord::Base
   has_many :question_histories
   belongs_to :course_linking
 
-  attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments,
+  attr_accessible :answer, :statement, :description, :test_id, :instruction, :source, :author, :comments, :marks,
                   :difficulty, :board, :topic_id, :question_type, :deleted, :approval_status, :workflow_state,:topic_ids,
                   :difficulty_ids, :degree_ids
 

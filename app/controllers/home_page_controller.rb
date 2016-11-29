@@ -556,9 +556,11 @@ class HomePageController < ApplicationController
   def check_student_package
     user_test_history = UserTestHistory.find(params[:user_test_history_id])
     user_package = current_user.user_packages.where(:course_id => user_test_history.course_id).first
-    # teacher_tokens = TeacherRequest.where(:student_id => current_user.id).pluck(:teacher_token)
-    @teacher_ids = TeacherCourse.where(course_id: user_test_history.course_id).pluck(:user_id)
+    teacher_tokens = TeacherRequest.where(:student_id => current_user.id).pluck(:teacher_token)
+    @teacher_ids = TeacherCourse.where("course_id = ?", user_test_history.course_id).pluck(:user_id)
     session[:course_id] = user_test_history.course_id
+    puts "===========>" + teacher_tokens.inspect
+    session[:teacher_tokens] = teacher_tokens
     @teacher_ids << User.where(:email => "admin@els.com").first.id
     puts "================>"
     render json: {success: true, teacher_ids: @teacher_ids.join(','), user_package: user_package ? user_package.package.flag : "1"}
@@ -566,19 +568,35 @@ class HomePageController < ApplicationController
 
   def fetch_teachers
     @els = User.find(params[:teacher_ids].split(',').pop)
-    @teachers = User.where("id IN (?)", params[:teacher_ids].split(','))
+    if session[:teacher_tokens].any?
+      @teachers = User.where("id IN (?)", params[:teacher_ids].split(','))
+      @teachers = @teachers.select{|teacher|
+        teacher.review_permission_ids != nil &&
+        teacher.review_permission_ids.split(',').include?("2") &&
+        session[:teacher_tokens].include?(teacher.teacher_token)
+      }
+    else
+      @teachers = []
+    end
+
     render partial: "fetch_teachers"
   end
 
   def get_teachers
-    teacher_ids = TeacherCourse.where(course_id: session[:course_id]).pluck(:user_id)
-    @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
-    @teachers = @teachers.select{|teacher|
-      teacher.review_permission_ids != nil
-    }
-    @teachers = @teachers.select{|teacher|
-      teacher.review_permission_ids.split(',').include?(params[:review])
-    }
+    teacher_tokens = TeacherRequest.where(:student_id => current_user.id).pluck(:teacher_token)
+    if teacher_tokens.any?
+      teacher_ids = TeacherCourse.where("course_id = ?", session[:course_id]).pluck(:user_id)
+      teacher_ids = TeacherCourse.where(course_id: session[:course_id]).pluck(:user_id)
+      @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
+      @teachers = @teachers.select{|teacher|
+        teacher.review_permission_ids != nil &&
+        teacher.review_permission_ids.split(',').include?(params[:review]) &&
+        teacher_tokens.include?(teacher.teacher_token)
+      }
+    else
+      @teachers = []
+    end
+
     render partial: "get_teachers"
   end
 

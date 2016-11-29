@@ -10,12 +10,6 @@
   <li>
     <%= link_to "Manage Students", "/manage_students" %>
   </li>
-
-
-
-  <li>
-    <%= link_to "Approve Questions (#{approve_question_count_teacher})", questions_approval_questions_path %>
-  </li>
 <% end %>
 
 <%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("2") %>

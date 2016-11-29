@@ -23,7 +23,7 @@ class TeacherController < ApplicationController
   end
 
   def check_quiz
-    @tests = UserTestHistory.where(:teacher_id => current_user.id, :reviewed => false, :video_review => true)
+    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id)
     @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
     # making array of tests to reverse the sequence
@@ -49,8 +49,29 @@ class TeacherController < ApplicationController
   def save_remarks
     answer = Answer.find(params[:answer_id])
     question_ids = params[:question_ids]
-    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
+    unless answer.marks && answer.remarks
+      answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
+    end
     redirect_to student_review_question_path(test_id: answer.user_test_history_id, question_ids: question_ids)
+  end
+
+  def finish_review
+    test = UserTestHistory.find(params[:test_id])
+    answers = Answer.where(user_test_history_id: test.id)
+    total_marks = 0
+    answers.each do |answer|
+      if answer.marks
+        total_marks = total_marks + answer.marks
+      else
+        
+      end
+    end
+    test.update_attribute(:score, test.score + total_marks)
+    if test.video_review
+      redirect_to :check_quiz
+    else
+      redirect_to :comment_feedback
+    end
   end
 
   def review_question
@@ -85,7 +106,7 @@ class TeacherController < ApplicationController
   end
 
   def comment_feedback
-    @tests = UserTestHistory.where(:teacher_id => current_user.id, :reviewed => false, :video_review => false)
+    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", current_user.id)
     @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
     # making array of tests to reverse the sequence
@@ -93,14 +114,19 @@ class TeacherController < ApplicationController
     @tests.each do |test|
       tests << test
     end
+    puts "============>" + @tests.inspect
     @tests = tests.reverse!
   end
 
   def upload_video
     answer = Answer.find(params[:id])
-    answer.video = params[:record][:video]
-    answer.save
-    render json: {success: true}
+    unless answer.video
+      answer.video = params[:record][:video]
+      answer.save
+      render json: {success: true}
+    else
+      render json: {success: true}
+    end
   end
 
   # def fetch_image

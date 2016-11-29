@@ -30,12 +30,12 @@
 <%= form_tag "/save_remarks" do |f| %>
     <div class="field stat_holder">
       <label><strong>Remarks</strong></label>
-      <%= text_field_tag :remarks, "", size: 140 %>
+      <%= text_field_tag :remarks, "", :size => '4x4' %>
     </div>
 
     <div class="field stat_holder">
       <label><strong>Marks</strong></label>
-      <%= text_field_tag :marks, "" %>
+      <%= text_field_tag :marks, "" %><font size="6"> /<%= @question.marks %></font>
     </div>
     <%= hidden_field_tag :question_ids, @question_ids %>
     <%= hidden_field_tag :test_id, @test.id %>
@@ -43,7 +43,7 @@
     <% unless @finish_flag %>
       <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
     <% else %>
-        <%= link_to "Finish Review", check_quiz_path , class: "btn btn-primary", style: "margin-top: 15px;" %>
+        <%= link_to "Finish Review", teachers_finish_review_path(test_id: @test.id) , class: "btn btn-primary", style: "margin-top: 15px;" %>
     <% end %>
 <% end %>
 

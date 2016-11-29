@@ -1,3 +1,9 @@
+<% if current_user.is_admin? %>
+    <%= link_to "Manage Tests", quizzes_path, class: "btn btn-primary" %> |
+    <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
+    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %>
+<% end %>
+
 <h1>Student's Quizzes</h1>
 
 <div class="listing-holder">
