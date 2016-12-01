@@ -6,7 +6,11 @@
 
   <div class="field stat_holder">
     <label><strong>Submitted Answer</strong></label>
-    <%= raw @answer.answer_detail %>
+    <% unless @answer.answer_detail %>
+        <%= image_tag @answer.image.url %>
+    <% else %>
+        <%= raw @answer.answer_detail %>
+    <% end %>
   </div>
 
   <div class="field stat_holder">

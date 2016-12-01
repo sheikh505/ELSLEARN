@@ -38,6 +38,8 @@ group :assets do
   gem 'jquery-ui-rails'
 end
 
+gem 'remotipart', github: "JangoSteve/remotipart"
+
 gem 'coffee-script-source', '~> 1.8.0'
 
 gem 'bcrypt-ruby', '3.1.1.rc1', :require => 'bcrypt'

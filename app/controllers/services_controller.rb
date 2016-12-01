@@ -514,8 +514,14 @@ class ServicesController < ApplicationController
       elsif @question.question_type == 2
         @total += @question.marks
         credit_left = credit_left - quota_hash[2]
-        answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
-                               answer_detail: ques.split(":").drop(1).join(':'))
+        answer_detail = ques.split(":").drop(1).join(':')
+        if answer_detail == ""
+
+        else
+          answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
+                                 answer_detail: answer_detail)
+        end
+
         # image = IMGKit.new(answer.answer_detail)
         # image = image.to_img(:png, quality: 100)
         # file  = Tempfile.new(["template_#{answer.id}", 'png'], 'tmp',

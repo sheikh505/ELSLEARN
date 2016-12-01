@@ -1,29 +1,55 @@
-<div class="page-content-wrapper">
-  <h1>Quizzes</h1>
+<div class="user_profile_holder">
+  <div class="container">
+    <h1>User Profile Page</h1>
+    <div class="user_profile_left">
+      <ul class="u_left_holder">
+        <li><a class="avtar" href="#">
+          <% if @user.avatar.present?%>
+              <%= image_tag @user.avatar.url %>
+          <% else %>
+              <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+          <% end %>
+          <li><a  href="/user/dashboard">
+            <i class="fa fa_icon fa-tachometer"></i>
+            Dashboard </a> </li>
 
-  <div class="listing-holder">
-    <table class="table table-condensed" style="padding-bottom:10px;border-bottom: 3px solid" >
-      <thead>
-      <tr>
-        <th>Quiz Name</th>
-        <th>Course</th>
-        <th>No. of Questions</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @tests.each do |test| %>
-          <tr>
-            <td><%= test.quiz_name %></td>
-            <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
-            <td><%= test.descriptive.split(',').count if test.descriptive %></td>
-            <td><%= link_to "Show", "/user/quiz_answers?test_id=#{test.id}" %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+          <li><a  href="/user/my_profile">
+            <i class="fa fa_icon fa-users"></i>
+            Profile</a> </li>
+
+          <li><a  href="/user/manage_courses">
+            <i class="fa fa_icon fa-book"></i>
+            Manage Courses</a> </li>
+
+          </ul>
+    </div>
+    <div class="user_profile_right">
+      <h1>Quizzes</h1>
+      <table class=" pre_table_dashboard" width="100%">
+
+
+        <thead>
+        <tr class="user_profile_nav">
+          <th><h3>Quiz Name</h3></th>
+          <th><h3>Course</h3></th>
+          <th><h3>No. of Questions</h3></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <% @tests.each do |test| %>
+            <tr>
+              <td align="left"><%= test.quiz_name %></td>
+              <td align="left"><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
+              <td align="left"><%= test.descriptive.split(',').count if test.descriptive %></td>
+              <td align="left"><%= link_to "Show", "/user/quiz_answers?test_id=#{test.id}" %></td>
+            </tr>
+        <% end %>
+
+        </tbody>
+
+      </table>
+    </div>
   </div>
-
-  <%= link_to "Back", "/user/my_profile", class: "btn btn-primary" %>
-  <br>
 </div>

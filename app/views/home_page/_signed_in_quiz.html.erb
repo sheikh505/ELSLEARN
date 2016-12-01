@@ -94,7 +94,7 @@
     </script>
     <span id="countdown">60:00</span>
 
-<%= form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
+<%#= form_tag url_for(:controller => 'user', :action => 'save_result'), :method => 'post' do %>
     <input type="hidden" id="id" name="user_test_history[id]" value="<%=@user_test_history_id%>" >
     <input type="hidden" id="score" name="user_test_history[score]" value="0" >
     <input type="hidden" id="course" name="course" value="<%=@course%>" >
@@ -104,7 +104,7 @@
   <%= render 'quiz_ques' %>
 
 </div>
-<% end %>
+<%# end %>
 
 <script>
 

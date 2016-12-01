@@ -106,6 +106,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
                           phone: params[:phone], institute: params[:institute],
                           degrees: params[:degrees])
       if session[:role] == "8"
+        user.teacher_token = "#{user.name.split(" ").map{|x| x[0]}.join("")}_#{(10_000 + Random.rand(100_000 - 10_000)).to_s}"
+        user.save
         params[:courses].split(',').each do |course_id|
           TeacherCourse.create(user_id: user.id, course_id: course_id.to_i,
                        degree_id: Course.find(course_id.to_i).degree_course_assignments.first.board_degree_assignment.degree.id)

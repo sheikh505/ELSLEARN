@@ -63,7 +63,7 @@ class TeacherController < ApplicationController
       if answer.marks
         total_marks = total_marks + answer.marks
       else
-        
+
       end
     end
     test.update_attribute(:score, test.score + total_marks)
@@ -87,6 +87,7 @@ class TeacherController < ApplicationController
       @test.update_attributes(:reviewed => true)
     end
     @answer = Answer.where(question_id: @question.id, user_test_history_id: @test.id).first
+    puts "==============>" + @answer.inspect
     session[:answer_id] = @answer.id
     if @test.video_review
       render "video_review_question"
@@ -277,6 +278,7 @@ class TeacherController < ApplicationController
 
 
         elsif @user.is_hod?
+          @user.update_attribute(:review_permission_ids, "1,2,3")
           course_list = params[:course]
           if course_list.present?
             course_list.each do |course|

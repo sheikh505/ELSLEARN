@@ -600,6 +600,11 @@ class HomePageController < ApplicationController
     render partial: "get_teachers"
   end
 
+  def upload_image
+    @answer = Answer.create(params[:answer])
+    render partial: "answer_image"
+  end
+
   def payments
     @students = User.joins("INNER JOIN assignments a ON users.id = a.user_id").where("a.role_id = 5")
     @students = @students.map do |student|

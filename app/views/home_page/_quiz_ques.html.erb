@@ -48,8 +48,38 @@
 
     <%elsif $arr[@index].question_type == 2 %>
         <% $ques_id = $arr[@index].id %>
+        <%= label_tag "Submit through:" %>
+        <%= link_to "Text Editor", "#", id: "editor_btn", class:"btn btn-primary" %> | <%= link_to "Image Uploading", "#", id: "image_btn", class:"btn btn-primary" %><br><br>
+        <div id="text_editor">
+          <%= cktext_area_tag :descriptive %>
+        </div>
 
-        <%= cktext_area_tag :descriptive %>
+        <div id="image_uploading" style="display: none">
+
+          <div id="uploader">
+
+          </div>
+
+          <div class="form-group">
+          <%= form_for :answer, url: {controller: :home_page, action: :upload_image},
+                       :html => {:multipart => true, :id => "submit_image" }, remote: true do |f| %>
+              <%= f.file_field :image, class: "file-styled" %><br>
+              <%= f.hidden_field :user_test_history_id, value: $user_test_history_id %>
+              <%= f.hidden_field :question_id, value: $ques_id %>
+              <%= f.submit "Upload Image", name: "upload_image", class: "btn" %>
+          <% end %>
+          </div>
+          <div id="show_image">
+
+          </div>
+          <!--<form action="/home_page/upload_image" method="POST" id="submit_image" data-remote="true">-->
+            <!--<input type="file" name="answer[image]">-->
+            <!--<input type="hidden" name="answer[user_test_history_id]" value="<%#= @user_test_history_id %>">-->
+            <!--<input type="hidden" name="answer[question_id]" value="<%#= $ques_id %>">-->
+            <!--<button type="submit" class="btn">Upload Image</button>-->
+          <!--</form>-->
+
+        </div>
 
         <br>
 
@@ -155,6 +185,25 @@
                 alert ('Error Occurred!!!!');
             }
         });
+    });
+
+    $('#editor_btn').on('click', function(){
+      $("#text_editor").show();
+      $("#image_uploading").hide();
+    })
+
+    $('#image_btn').on('click', function(){
+      $("#text_editor").hide();
+      $("#image_uploading").show();
+    })
+
+    $('#submit_image').on('ajax:remotipartSubmit', function(e, data, status, xhr){
+      $("<div class='alert alert-info'> <strong>Info!</strong> Image is being processed. </div>").insertBefore( $( "#submit_image" ) );
+    })
+
+    $('#submit_image').on("ajax:remotipartComplete", function(e, data){
+      $(".alert-info").hide();
+      $("<div class='alert alert-success'> Image successfully uploaded! </div>").insertBefore( $( "#submit_image" ) );
     });
 
     function check_blank(ques_id){
