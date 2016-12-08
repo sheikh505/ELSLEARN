@@ -130,6 +130,13 @@ class TeacherController < ApplicationController
     end
   end
 
+  def upload_image
+    answer = Answer.find_by_id(params[:answer_id])
+    if answer
+      answer.update_attribute(:image, params[:image])
+    end
+  end
+
   # def fetch_image
   #   @answer = Answer.find(params[:answer_id])
   #   @image = IMGKit.new(@answer.detail)

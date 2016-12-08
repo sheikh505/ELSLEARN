@@ -299,6 +299,7 @@ ExamsSystem::Application.routes.draw do
   get "/get_teachers" => "home_page#get_teachers"
   get "/teachers/finish_review" => "teacher#finish_review"
   post "/home_page/upload_image" => "home_page#upload_image"
+  post "/student/upload_image" => "teacher#upload_image"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

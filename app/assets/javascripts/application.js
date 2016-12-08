@@ -27,6 +27,7 @@
 //= require jquery.steps.min
 //= require main
 //= require recordRTC
+//= require jquery.classypicozu.min.js
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox
 //= require ckeditor/init

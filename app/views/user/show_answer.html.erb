@@ -5,10 +5,12 @@
   </div>
 
   <div class="field stat_holder">
-    <label><strong>Submitted Answer</strong></label>
+
     <% unless @answer.answer_detail %>
+        <label><strong>Teacher Review</strong></label>
         <%= image_tag @answer.image.url %>
     <% else %>
+        <label><strong>Submitted Answer</strong></label>
         <%= raw @answer.answer_detail %>
     <% end %>
   </div>
