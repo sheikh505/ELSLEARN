@@ -43,7 +43,7 @@ class TeacherController < ApplicationController
     question_ids = @test.descriptive
 
     # session[:question_ids] = question_ids
-    redirect_to student_review_question_path(question_ids: question_ids)
+    redirect_to student_review_question_path(question_ids: question_ids, test_id: @test.id)
   end
 
   def save_remarks
@@ -82,7 +82,7 @@ class TeacherController < ApplicationController
     # puts "==============>" + @question_ids.pop.inspect, @question.inspect
     @option = @question.options.first
     @question_ids = @question_ids.join(',')
-    @test = UserTestHistory.find(session[:user_test_history_id])
+    @test = UserTestHistory.find(params[:test_id])
     if @finish_flag
       @test.update_attributes(:reviewed => true)
     end
