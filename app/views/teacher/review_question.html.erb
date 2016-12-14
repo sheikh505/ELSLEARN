@@ -59,21 +59,29 @@
       // always check if the origin is the Picozu domain, https included.
       if (e.origin === 'https://www.picozu.com') {
         // e.data contains the image properties, and you can construct the URL as following:
-        $('#image_url').val("https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format);
+//        $('#image_url').val("https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format);
+        $.ajax({
+          url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + <%= @answer.id %>,
+          method: "POST",
+          success: function(data){
+            alert("done");
+          }
+
+        })
       }
     }, false);
 
 
-    $('#save_remarks').on("click", function(){
-      $.ajax({
-        url: "/student/upload_image?image=" + $('#image_url').val() + "&answer_id=" + <%= @answer.id %>,
-        method: "POST",
-        success: function(data){
-          alert("done");
-        }
-
-      })
-    })
+//    $('#save_remarks').on("click", function(){
+//      $.ajax({
+//        url: "/student/upload_image?image=" + $('#image_url').val() + "&answer_id=" + <%= @answer.id %>,
+//        method: "POST",
+//        success: function(data){
+//          alert("done");
+//        }
+//
+//      })
+//    })
 
 //    $('.picozu').ClassyPicozu({
 //      key: 'Ci8Mh5lIdX1Me3kB',

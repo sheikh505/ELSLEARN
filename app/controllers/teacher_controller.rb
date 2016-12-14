@@ -135,6 +135,7 @@ class TeacherController < ApplicationController
     if answer
       answer.update_attribute(:image, params[:image])
     end
+    render :nothing => true
   end
 
   # def fetch_image
