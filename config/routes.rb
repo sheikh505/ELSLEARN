@@ -297,7 +297,7 @@ ExamsSystem::Application.routes.draw do
   post "/student/submit_feedback" => "user#submit_feedback"
   get "/comment_feedback" => "teacher#comment_feedback"
   get "/get_teachers" => "home_page#get_teachers"
-  get "/teachers/finish_review" => "teacher#finish_review"
+  post "/teachers/finish_review" => "teacher#finish_review"
   post "/home_page/upload_image" => "home_page#upload_image"
   post "/student/upload_image" => "teacher#upload_image"
 

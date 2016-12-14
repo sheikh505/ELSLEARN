@@ -34,7 +34,7 @@
     <% unless @finish_flag %>
       <%= submit_tag "Save Remarks", class: "btn btn-primary", id: "save_remarks" %>
     <% else %>
-        <%= link_to "Finish Review", teachers_finish_review_path(test_id: @test.id) , class: "btn btn-primary", style: "margin-top: 15px;" %>
+        <%= link_to "Finish Review", "#", id: "finish_review" , class: "btn btn-primary", style: "margin-top: 15px;" %>
     <% end %>
 <% end %>
 
@@ -71,6 +71,16 @@
       }
     }, false);
 
+    $('#finish_review').on('click', function(){
+      $.ajax({
+        url: "<%= teachers_finish_review_path %>" + "?test_id=" + <%= @test.id %> + "&answer_id=" + $('#answer_id').val()
+        + "&marks=" + $('#marks').val() + "&remarks=" + $('#remarks').val(),
+        method: "POST",
+        success: function(data){
+          window.location.replace("http://localhost:3000/comment_feedback");
+        }
+      })
+    })
 
 //    $('#save_remarks').on("click", function(){
 //      $.ajax({

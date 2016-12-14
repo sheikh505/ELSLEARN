@@ -49,13 +49,13 @@ class TeacherController < ApplicationController
   def save_remarks
     answer = Answer.find(params[:answer_id])
     question_ids = params[:question_ids]
-    unless answer.marks && answer.remarks
-      answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
-    end
+    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
     redirect_to student_review_question_path(test_id: answer.user_test_history_id, question_ids: question_ids)
   end
 
   def finish_review
+    answer = Answer.find(params[:answer_id])
+    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
     test = UserTestHistory.find(params[:test_id])
     answers = Answer.where(user_test_history_id: test.id)
     total_marks = 0
@@ -67,11 +67,7 @@ class TeacherController < ApplicationController
       end
     end
     test.update_attribute(:score, test.score + total_marks)
-    if test.video_review
-      redirect_to :check_quiz
-    else
-      redirect_to :comment_feedback
-    end
+    render nothing: true
   end
 
   def review_question
@@ -121,13 +117,9 @@ class TeacherController < ApplicationController
 
   def upload_video
     answer = Answer.find(params[:id])
-    unless answer.video
-      answer.video = params[:record][:video]
-      answer.save
-      render json: {success: true}
-    else
-      render json: {success: true}
-    end
+    answer.video = params[:record][:video]
+    answer.save
+    render json: {success: true}
   end
 
   def upload_image

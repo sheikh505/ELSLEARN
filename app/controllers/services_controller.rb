@@ -515,11 +515,13 @@ class ServicesController < ApplicationController
         @total += @question.marks
         credit_left = credit_left - quota_hash[2]
         answer_detail = ques.split(":").drop(1).join(':')
-        if answer_detail == ""
+        answer = Answer.where(:user_test_history_id => test_history.id, :question_id => @question.id)
+        if answer.any?
 
         else
           answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
                                  answer_detail: answer_detail)
+          puts "========================>"+answer.inspect
         end
 
         # image = IMGKit.new(answer.answer_detail)
