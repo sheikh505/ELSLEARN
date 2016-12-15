@@ -563,7 +563,11 @@ class HomePageController < ApplicationController
     session[:teacher_tokens] = teacher_tokens
     @teacher_ids << User.where(:email => "admin@els.com").first.id
     puts "================>"
-    render json: {success: true, teacher_ids: @teacher_ids.join(','), user_package: user_package ? user_package.package.flag : "1"}
+    if user_test_history.descriptive
+      render json: {success: true, teacher_ids: @teacher_ids.join(','), user_package: user_package ? user_package.package.flag : "1"}
+    else
+      render json: {success: true, teacher_ids: @teacher_ids.join(','), user_package: "1"}
+    end
   end
 
   def fetch_teachers

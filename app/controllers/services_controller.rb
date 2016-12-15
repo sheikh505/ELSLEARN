@@ -539,44 +539,13 @@ class ServicesController < ApplicationController
     unless params[:review] == "undefined"
       if params[:review] == "2"
         if params[:teacher_id] == "3"
-          # teacher_ids = TeacherCourse.where(:course_id => test_history.course_id).pluck(:user_id)
-          # @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
-          # @teachers = @teachers.select{|teacher|
-          #   teacher.review_permission_ids != nil
-          # }
-          # @teachers = @teachers.select{|teacher|
-          #   teacher.review_permission_ids.split(',').include?(params[:review])
-          # }
-          # teacher_ids = []
-          # @teachers.each do |t|
-          #   teacher_ids << t.id
-          # end
-          # if teacher_ids.any?
-          #   test_history.update_attributes(:video_review => false, teacher_id: teacher_ids.join(','))
-          # else
-            test_history.update_attributes(:video_review => false, teacher_id: -1)
-          # end
+          test_history.update_attributes(:video_review => false, teacher_id: -1)
         else
           test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
         end
       elsif params[:review] == "3"
         if params[:teacher_id] == "3"
-          # teacher_ids = TeacherCourse.where(:course_id => test_history.course_id)
-          # @teachers = User.where("id IN (?) AND review_permission_ids != ''", teacher_ids)
-          # @teachers = @teachers.select{|teacher|
-          #   teacher.review_permission_ids != nil
-          # }
-          # @teachers = @teachers.select{|teacher|
-          #   teacher.review_permission_ids.split(',').include?(params[:review])
-          # }
-          # @teachers.each do |t|
-          #   teacher_ids << t.id
-          # end
-          # if teacher_ids.any?
-          #   test_history.update_attributes(:video_review => true, teacher_ids: teacher_ids.join(','))
-          # else
-            test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
-          # end
+          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
         else
           test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
         end
