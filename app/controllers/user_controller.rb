@@ -23,14 +23,8 @@ class UserController < ApplicationController
 
   def test_reviews
     @user = current_user
-    @tests = current_user.user_test_histories.where('descriptive != ? AND descriptive != ? AND descriptive != ? AND reviewed = true', "0", "", "5")
+    @tests = current_user.user_test_histories.where('descriptive != ? AND descriptive != ? AND descriptive != ? AND reviewed = true', "0", "", "5").order('created_at DESC')
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
-    # making array of tests to reverse the sequence
-    tests = []
-    @tests.each do |test|
-      tests << test
-    end
-    @tests = tests.reverse!
   end
 
   def quiz_answers
