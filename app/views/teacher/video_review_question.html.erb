@@ -26,37 +26,100 @@
   <button id="preview" class='btn btn-primary' disabled>Preview Recording</button>
 </div>
 
-<%= form_tag "/save_remarks" do |f| %>
-    <div class="field stat_holder">
-      <label><strong>Remarks</strong></label>
-      <%= text_field_tag :remarks, "", size: 140 %>
-    </div>
+<% unless @finish_flag %>
+    <%= form_tag "/save_remarks", onsubmit: "return check_marks()" do |f| %>
+        <div class="field stat_holder">
+          <label><strong>Remarks</strong></label>
+          <%= text_field_tag :remarks, "", size: 140, required: true, autocomplete: "off" %>
+        </div>
 
-    <div class="field stat_holder">
-      <label><strong>Marks</strong></label>
-      <%= text_field_tag :marks, "", size: "4x4" %><font size="6"> /<%= @question.marks %></font>
-    </div>
-    <%= hidden_field_tag :question_ids, @question_ids %>
-    <%= hidden_field_tag :test_id, @test.id %>
-    <%= hidden_field_tag :answer_id, @answer.id %>
-    <% unless @finish_flag %>
-      <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
-    <% else %>
-        <%= link_to "Finish Review", "#", id: "finish_review", class: "btn btn-primary", style: "margin-top: 15px;" %>
+        <div class="field stat_holder">
+          <label><strong>Marks</strong></label>
+          <%= text_field_tag :marks, "", size: "4x4", required: true, autocomplete: "off" %><font size="6"> /<span id="total_marks"><%= @question.marks %></span></font><br>
+          <div id="error" class="alert alert-danger" style="display: none">
+            Cannot assign more than mentioned marks
+          </div>
+          <div id="error2" class="alert alert-danger" style="display: none">
+            Please enter a number
+          </div>
+        </div>
+        <%= hidden_field_tag :question_ids, @question_ids %>
+        <%= hidden_field_tag :test_id, @test.id %>
+        <%= hidden_field_tag :answer_id, @answer.id %>
+        <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
+    <% end %>
+<% else %>
+    <%= form_tag teachers_finish_review_path, onsubmit: "return check_marks()" do |f| %>
+        <div class="field stat_holder">
+          <label><strong>Remarks</strong></label>
+          <%= text_field_tag :remarks, "", size: 140, required: true, autocomplete: "off" %>
+        </div>
+
+        <div class="field stat_holder">
+          <label><strong>Marks</strong></label>
+          <%= text_field_tag :marks, "", size: "4x4", required: true, autocomplete: "off" %><font size="6"> /<span id="total_marks"><%= @question.marks %></span></font><br>
+          <div id="error" class="alert alert-danger" style="display: none">
+            Cannot assign more than mentioned marks
+          </div>
+          <div id="error2" class="alert alert-danger" style="display: none">
+            Please enter a number
+          </div>
+        </div>
+        <%= hidden_field_tag :question_ids, @question_ids %>
+        <%= hidden_field_tag :test_id, @test.id %>
+        <%= hidden_field_tag :answer_id, @answer.id %>
+        <%= submit_tag "Finish Review", class: "btn btn-primary" %>
     <% end %>
 <% end %>
 
 
+
  <script>
 
-
-  $('#finish_review').on('click', function(){
-    $.ajax({
-      url: "<%= teachers_finish_review_path %>" + "?test_id=" + <%= @test.id %> + "&answer_id=" + $('#answer_id').val()
-      + "&marks=" + $('#marks').val() + "&remarks=" + $('#remarks').val(),
-      method: "POST"
-    })
+  $('#marks').on("input", function(){
+    $('#error').hide();
+    $('#error2').hide();
+    if($.isNumeric($('#marks').val()))
+    {
+      if(Number($('#marks').val()) > Number($('#total_marks').text()))
+      {
+        $('#error').show();
+        return false;
+      }
+      else
+      {
+        $('#error').hide();
+        return false;
+      }
+    }
+    else
+    {
+      $('#error2').show();
+    }
   })
+
+  function check_marks() {
+    $('#error').hide();
+    $('#error2').hide();
+    if($.isNumeric($('#marks').val()))
+    {
+      if(Number($('#marks').val()) > Number($('#total_marks').text()))
+      {
+        $('#error').show();
+        return false;
+      }
+      else
+      {
+        $('#error').hide();
+        return true;
+      }
+    }
+    else
+    {
+      $('#error2').show();
+      return false;
+    }
+  }
 
   function hasUserMedia() {     //check if the browser supports the WebRTC 
     return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||     navigator.mozGetUserMedia);

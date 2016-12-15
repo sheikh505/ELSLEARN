@@ -57,6 +57,7 @@ class TeacherController < ApplicationController
     answer = Answer.find(params[:answer_id])
     answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
     test = UserTestHistory.find(params[:test_id])
+    test.update_attributes(:reviewed => true)
     answers = Answer.where(user_test_history_id: test.id)
     obtained_marks = 0
     answers.each do |answer|
@@ -68,9 +69,9 @@ class TeacherController < ApplicationController
     end
     test.update_attributes(:score => test.score + obtained_marks)
     if test.video_review
-      render :js => "window.location = '/check_quiz'"
+      redirect_to '/check_quiz'
     else
-      render :js => "window.location = '/comment_feedback'"
+      redirect_to '/comment_feedback'
     end
   end
 
@@ -83,9 +84,6 @@ class TeacherController < ApplicationController
     @option = @question.options.first
     @question_ids = @question_ids.join(',')
     @test = UserTestHistory.find(params[:test_id])
-    if @finish_flag
-      @test.update_attributes(:reviewed => true)
-    end
     @answer = Answer.where(question_id: @question.id, user_test_history_id: @test.id).first
     puts "==============>" + @answer.inspect
     session[:answer_id] = @answer.id
