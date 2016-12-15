@@ -54,10 +54,7 @@
     $.ajax({
       url: "<%= teachers_finish_review_path %>" + "?test_id=" + <%= @test.id %> + "&answer_id=" + $('#answer_id').val()
       + "&marks=" + $('#marks').val() + "&remarks=" + $('#remarks').val(),
-      method: "POST",
-      success: function(data){
-        window.location.replace("http://localhost:3000/check_quiz");
-      }
+      method: "POST"
     })
   })
 
