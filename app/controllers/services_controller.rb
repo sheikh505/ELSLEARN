@@ -457,6 +457,7 @@ class ServicesController < ApplicationController
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
+        @total += 1
         @questions[:mcq][:total] += 1
         credit_left = credit_left - quota_hash[1]
         if ques.split(":")[1]
@@ -468,7 +469,6 @@ class ServicesController < ApplicationController
               @score += 1
               @questions[:mcq][:correct] += 1
               @total_correct += 1
-              @total += 1
               @total_wrong -= 1
             else
               question_evaluation[ques.split(":")[0]] = 0
@@ -476,6 +476,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 4
+        @total += 1
         @questions[:truefalse][:total] += 1
         credit_left = credit_left - quota_hash[4]
         @option = @question.options.first
@@ -486,13 +487,13 @@ class ServicesController < ApplicationController
             @score += 1
             @questions[:truefalse][:correct] += 1
             @total_correct += 1
-            @total += 1
             @total_wrong -= 1
           else
             question_evaluation[ques.split(":")[0]] = 0
           end
         end
       elsif @question.question_type == 3
+        @total += 1
         credit_left = credit_left - quota_hash[3]
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
@@ -505,7 +506,6 @@ class ServicesController < ApplicationController
               @score += 1
               @questions[:fill][:correct] += 1
               @total_correct += 1
-              @total += 1
               @total_wrong -= 1
               break
             end
@@ -829,7 +829,7 @@ class ServicesController < ApplicationController
 
     if params[:user_test_history_id]
       test = UserTestHistory.find(params[:user_test_history_id])
-      test.score = @score
+      test.score = @total_correct
       test.total = @total
       test.is_live = false
       test.save!
@@ -962,144 +962,12 @@ class ServicesController < ApplicationController
       @grade = "F"
     end
 
-    # topic_ids = []
-    # @topic_total = Hash.new(0)
-    # @topic_correct = Hash.new(0)
-    #
-    # questions = []
-    # array.each do |ques|
-    #   questions << Question.find(ques.split(":")[0])
-    #   question = questions.last
-    #   if question.topic_ids.present?
-    #     ques_topic_ids = question.topic_ids.split(',')
-    #     if ques_topic_ids[0] != "0"
-    #       if topic_ids.include?(ques_topic_ids[0])
-    #         @topic_total[ques_topic_ids[0]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[0]] += 1
-    #         end
-    #       else
-    #         topic_ids << ques_topic_ids[0]
-    #         @topic_total[ques_topic_ids[0]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[0]] += 1
-    #         end
-    #       end
-    #     elsif ques_topic_ids[1] != "0"
-    #       if topic_ids.include?(ques_topic_ids[1])
-    #         @topic_total[ques_topic_ids[1]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[1]] += 1
-    #         end
-    #       else
-    #         topic_ids << ques_topic_ids[1]
-    #         @topic_total[ques_topic_ids[1]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[1]] += 1
-    #         end
-    #       end
-    #     elsif question.topic_ids.split(',')[2] != "0"
-    #       if topic_ids.include?(ques_topic_ids[2])
-    #         @topic_total[ques_topic_ids[2]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[2]] += 1
-    #         end
-    #       else
-    #         topic_ids << ques_topic_ids[2]
-    #         @topic_total[ques_topic_ids[2]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[2]] += 1
-    #         end
-    #       end
-    #     elsif question.topic_ids.split(',')[3] != "0"
-    #       if topic_ids.include?(ques_topic_ids[3])
-    #         @topic_total[ques_topic_ids[3]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[3]] += 1
-    #         end
-    #       else
-    #         topic_ids << ques_topic_ids[3]
-    #         @topic_total[ques_topic_ids[3]] += 1
-    #         id = question.id.to_s
-    #         if question_evaluation[id] == 1
-    #           @topic_correct[ques_topic_ids[3]] += 1
-    #         end
-    #       end
-    #     end
-    #   end
-    #
-    # end
-    #
-    # # if @topics
-    #
-    # topic_ids.uniq!
-    # puts "======================================>"+topic_ids.inspect
-    # @topics = Topic.find(topic_ids.split(','))
-    # @sub_topics = @topics.reject{|t|
-    #   !t.parent_topic_id.present?
-    # }
-    # @topics.reject!{|t|
-    #   t.parent_topic_id.present?
-    # }
-    # @sub_topics.each do |sub|
-    #   unless topic_ids.include?(sub.parent_topic_id)
-    #     @topics << Topic.find(sub.parent_topic_id)
-    #   end
-    #   @topic_total[sub.parent_topic_id.to_s] = 0
-    #   @topic_correct[sub.parent_topic_id.to_s] = 0
-    # end
-    #
-    # @topics.uniq!
-    #
-    # @topics.each do |topic|
-    #   puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    # end
-    # @sub_topics.each do |topic|
-    #   puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    # end
-    #
-    # @topics.each do |topic|
-    #   @sub_topics.each do |sub|
-    #     if sub.parent_topic_id == topic.id
-    #       @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
-    #       @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
-    #     end
-    #   end
-    # end
-    # @topics.uniq!
-    # @sub_topics.uniq!
-    #
-    # puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
-    # end
-
-    # @topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
-    # @sub_topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
-
-
     test_history = UserTestHistory.find(params[:test_history_id])
     if test_history.code
       quiz = Quiz.find_by_test_code(test_history.code)
       unless quiz.attempted
         quiz.update_attributes(:attempted => true)
       end
-
-      # user_ids = UserTestHistory.where(:code => test_history.code).uniq.pluck(:user_id)
-      # users = User.where("id IN (?)", user_ids)
-      # scores = Array.new
-      # users.each do |user|
-      #   scores << user.user_test_histories.last.score.to_i
-      # end
 
       test_history.score = @total_correct
       test_history.total = @total
@@ -1192,25 +1060,6 @@ class ServicesController < ApplicationController
                     :overall_percentage => @overall_percentage, :grade => @grade, :result => @result, :student_name => @student_name,
                     :date => @date}
 
-    # answers = params[:answer]
-    # answers.each do |answer|
-    #   questionId = answer[:questionId]
-    #   questionType = answer[:questionType]
-    #   optionId = answer[:optionId]
-    #   answer = answer[:answer]
-    #   trueFalse = answer[:trueFalse]
-    #   case (questionType)
-    #     when 1
-    #       puts "=================>", questionType.inspect
-    #     else
-    #       puts "=================>else", questionType.inspect
-    #   end
-    # end
-    # questionId;
-    # public int questionType;
-    # public int optionId;
-    # public String answer;
-    # public boolean trueFalse;
   end
 
   def get_live_score_list

@@ -59,14 +59,16 @@ class TeacherController < ApplicationController
     test = UserTestHistory.find(params[:test_id])
     answers = Answer.where(user_test_history_id: test.id)
     total_marks = 0
+    obtained_marks = 0
     answers.each do |answer|
       if answer.marks
-        total_marks = total_marks + answer.marks
+        obtained_marks = obtained_marks + answer.marks
+        total_marks = total_marks + Question.find_by_id(answer.question_id).marks
       else
 
       end
     end
-    test.update_attribute(:score, test.score + total_marks)
+    test.update_attributes(:score => test.score + obtained_marks, :total => total_marks)
     render nothing: true
   end
 
