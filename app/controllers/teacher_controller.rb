@@ -23,15 +23,9 @@ class TeacherController < ApplicationController
   end
 
   def check_quiz
-    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id)
+    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id).order('created_at DESC')
     @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
-    # making array of tests to reverse the sequence
-    tests = []
-    @tests.each do |test|
-      tests << test
-    end
-    @tests = tests.reverse!
   end
 
   def student_test
@@ -105,16 +99,9 @@ class TeacherController < ApplicationController
   end
 
   def comment_feedback
-    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", current_user.id)
+    @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", current_user.id).order('created_at DESC')
     @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
-    # making array of tests to reverse the sequence
-    tests = []
-    @tests.each do |test|
-      tests << test
-    end
-    puts "============>" + @tests.inspect
-    @tests = tests.reverse!
   end
 
   def upload_video
