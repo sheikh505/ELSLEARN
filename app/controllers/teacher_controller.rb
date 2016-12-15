@@ -69,7 +69,11 @@ class TeacherController < ApplicationController
       end
     end
     test.update_attributes(:score => test.score + obtained_marks, :total => total_marks)
-    render nothing: true
+    if test.video_review
+      render :js => "window.location = '/check_quiz'"
+    else
+      render :js => "window.location = '/comment_feedback'"
+    end
   end
 
   def review_question
