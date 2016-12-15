@@ -58,17 +58,15 @@ class TeacherController < ApplicationController
     answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
     test = UserTestHistory.find(params[:test_id])
     answers = Answer.where(user_test_history_id: test.id)
-    total_marks = 0
     obtained_marks = 0
     answers.each do |answer|
       if answer.marks
         obtained_marks = obtained_marks + answer.marks
-        total_marks = total_marks + Question.find_by_id(answer.question_id).marks
       else
 
       end
     end
-    test.update_attributes(:score => test.score + obtained_marks, :total => total_marks)
+    test.update_attributes(:score => test.score + obtained_marks)
     if test.video_review
       render :js => "window.location = '/check_quiz'"
     else
