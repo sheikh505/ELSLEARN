@@ -117,7 +117,7 @@ class UserController < ApplicationController
       end
       @courses = Course.find_all_by_id(course_ids)
     else
-      @courses = []
+      @courses = Course.find_all_by_id(course_ids)
     end
     # puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
     render partial: "add_course"
