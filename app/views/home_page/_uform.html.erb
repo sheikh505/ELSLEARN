@@ -215,25 +215,27 @@
     </div>
 
 
+          <% if @courses.any? %>
+              <div class="pull-right viual_right col">
+                <div class="visual_right_holder">
+                  <h2>Enter Code</h2>
+
+                  <fieldset>
+                    <div class="pre_header_row">
+                      <input type="text" name="test_code" class="text" placeholder="Test Code">
+                      <button type="submit" class="btn btn-default modal_btn" href="#myModal" onclick="return check_sign_in(2);">Submit</button>
+                    </div>
+
+                  </fieldset>
 
 
-    <div class="pull-right viual_right col">
-      <div class="visual_right_holder">
-        <h2>Enter Code</h2>
-
-          <fieldset>
-            <div class="pre_header_row">
-              <input type="text" name="test_code" class="text" placeholder="Test Code">
-              <button type="submit" class="btn btn-default modal_btn" href="#myModal" onclick="return check_sign_in(2);">Submit</button>
-            </div>
-
-          </fieldset>
+                </div>
 
 
-      </div>
+              </div>
+          <% end %>
 
 
-    </div>
           <input type="hidden" name="test_flag" class="text">
 
     <% end %>
