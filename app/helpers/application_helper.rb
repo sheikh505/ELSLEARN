@@ -121,7 +121,25 @@ module ApplicationHelper
     return questions.size
   end
 
+  def new_students_count_teacher
+    return TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'PENDING').count
+  end
 
+  def manage_students_count_teacher
+    return TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'SUCCESSFUL').count
+  end
+
+  def comment_feedback_count_teacher
+    return UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", current_user.id).count
+  end
+
+  def video_review_count_teacher
+    return UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id).count
+  end
+
+  def manage_tests_count_teacher
+    return Quiz.where(:user_id => current_user.id).count
+  end
 
   def question_count_operator
     questions = Question.where("author = ? and (workflow_state IN ('', 'new')) AND deleted = 'FALSE'", current_user.email)

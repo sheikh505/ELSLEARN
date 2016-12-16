@@ -108,14 +108,18 @@ class UserController < ApplicationController
   def add_course
     bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
     course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => bdgree.first.id).pluck(:course_id)
-    user_courses = current_user[:courses].split(',')
-    user_courses.each do |id|
-      if course_ids.include?(id.to_i)
-        course_ids.delete(id.to_i)
+    if current_user[:courses]
+      user_courses = current_user[:courses].split(',')
+      user_courses.each do |id|
+        if course_ids.include?(id.to_i)
+          course_ids.delete(id.to_i)
+        end
       end
+      @courses = Course.find_all_by_id(course_ids)
+    else
+      @courses = []
     end
-    @courses = Course.find_all_by_id(course_ids)
-    puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
+    # puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
     render partial: "add_course"
   end
 

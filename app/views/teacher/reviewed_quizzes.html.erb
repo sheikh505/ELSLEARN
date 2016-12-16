@@ -1,10 +1,11 @@
 <% if current_user.is_admin? %>
     <%= link_to "Manage Tests", quizzes_path, class: "btn btn-primary" %> |
     <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %>
+    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %> |
+    <%= link_to "Reviewed Quizzes", "/teachers/reviewed_quizzes", class: "btn btn-primary" %>
 <% elsif current_user.is_teacher? %>
     <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Reviewed", "/teachers/reviewed_quizzes", class: "btn btn-primary" %>
+    <%= link_to "Reviewed Quizzes", "/teachers/reviewed_quizzes", class: "btn btn-primary" %>
 <% end %>
 
 <h1>Student's Quizzes</h1>
@@ -29,7 +30,6 @@
           <td><%= test.code %></td>
           <td><%= test.descriptive.split(',').count %></td>
           <td><%= test.created_at.to_date %></td>
-          <td><%= link_to "Review Test", "/student_test?test_id=#{test.id}" %></td>
         </tr>
     <% end %>
     </tbody>

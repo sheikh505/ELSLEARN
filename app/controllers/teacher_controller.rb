@@ -51,7 +51,7 @@ class TeacherController < ApplicationController
     answer = Answer.find(params[:answer_id])
     answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
     test = UserTestHistory.find(params[:test_id])
-    test.update_attributes(:reviewed => true)
+    test.update_attributes(:reviewed => true, teacher_id: current_user.id)
     answers = Answer.where(user_test_history_id: test.id)
     obtained_marks = 0
     answers.each do |answer|
@@ -67,6 +67,18 @@ class TeacherController < ApplicationController
     else
       redirect_to '/comment_feedback'
     end
+  end
+
+  def reviewed_quizzes
+    @tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = false", current_user.id).order('created_at DESC')
+    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+  end
+
+  def video_reviewed_quizzes
+    @tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = true", current_user.id).order('created_at DESC')
+    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
   end
 
   def review_question
