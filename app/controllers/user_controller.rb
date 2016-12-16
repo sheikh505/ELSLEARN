@@ -156,10 +156,15 @@ class UserController < ApplicationController
     packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i).first
     package = UserPackage.create(user_id: current_user.id, package_id: packages.id)
     course = Course.find(session[:course_id])
-    courses = current_user[:courses].split(',')
-    courses << course.id.to_s
-    current_user[:courses] = courses.join(',')
-    current_user.save
+    if current_user[:courses]
+      courses = current_user[:courses].split(',')
+      courses << course.id.to_s
+      current_user[:courses] = courses.join(',')
+      current_user.save
+    else
+      current_user[:courses] = course.id.to_s
+      current_user.save
+    end
     package.name = course.name
     package.course_id = course.id
     package.plan = packages.name
