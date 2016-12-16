@@ -115,9 +115,9 @@ class UserController < ApplicationController
           course_ids.delete(id.to_i)
         end
       end
-      @courses = Course.find_all_by_id(course_ids)
+      @courses = Course.find_all_by_id_and_enable(course_ids, true)
     else
-      @courses = Course.find_all_by_id(course_ids)
+      @courses = Course.find_all_by_id_and_enable(course_ids, true)
     end
     # puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
     render partial: "add_course"
