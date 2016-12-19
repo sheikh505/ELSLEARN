@@ -8,9 +8,18 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    sign_in(resource_name, resource)
+    yield resource if block_given?
+    if current_user.is_student?
+      redirect_to user_my_profile_path
+      return
+    else
+      redirect_to admin_panel_path
+      return
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy

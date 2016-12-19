@@ -19,11 +19,14 @@
   <div class="alert alert-info">
     <strong>Info!</strong><br>
     <strong>1. </strong>Video review will acquire your camera and microphone.<br>
-    <strong>2. </strong>After pressing <strong>START RECORDING</strong> button, video will be recorded only for 30 seconds.<br>
+    <strong>2. </strong><strong>Recommended! </strong>Don't record video for more than 30 seconds.<br>
   </div>
   <video autoplay></video><br>
-  <button id="start" class='btn btn-primary'>Start Recording</button>
-  <button id="preview" class='btn btn-primary' disabled>Preview Recording</button>
+  <button id="start" class='btn btn-primary'><i class="fa fa_icon fa-video-camera"></i></button>
+  <button id="pause" class='btn btn-primary' disabled><i class="fa fa_icon fa-pause"></i></button>
+  <button id="resume" class='btn btn-primary' disabled><i class="fa fa_icon fa-play"></i></button>
+  <button id="stop" class='btn btn-primary' disabled><i class="fa fa_icon fa-stop"></i></button>
+  <button id="preview" class='btn btn-primary' disabled>Preview</button>
 </div>
 
 <% unless @finish_flag %>
@@ -140,35 +143,77 @@
 
       $('#start').on('click', function(){
         $('#start').prop('disabled', true);
-        $('#preview').prop('disabled', true);
+        $('#stop').prop('disabled', false);
+        $('#pause').prop('disabled', false);
         recordRTC.startRecording();
-        setTimeout(
-            function()
-            {
-              recordRTC.stopRecording(function (audioVideoWebMURL) {
-                var data = new FormData();
-                data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
-                data.append("id", <%= @answer.id %>);
-                var oReq = new XMLHttpRequest();
-                oReq.open("POST", "/student/upload_video");
-                oReq.send(data);
-                oReq.onload = function(oEvent) {
-                  if (oReq.status == 200) {
-                    console.log("Uploaded");
-                  } else {
-                    console.log("Error " + oReq.status + " occurred uploading your file.");
-                  }
-                };
-                $('#preview').prop('disabled', false);
-                $('#preview').on('click', function(){
-                  video.src = audioVideoWebMURL;
-                  var recordedBlob = recordRTC.getBlob();
-                  $('#start').prop('disabled', false);
-                })
 
-                //        recordRTC.getDataURL(function(dataURL) { }); 
-              });
-            }, 30000);
+        $('#pause').on('click', function(){
+          recordRTC.pauseRecording();
+          $('#pause').prop('disabled', true);
+          $('#resume').prop('disabled', false);
+        })
+
+        $('#resume').on('click', function(){
+          recordRTC.resumeRecording();
+          $('#resume').prop('disabled', true);
+          $('#pause').prop('disabled', false);
+        })
+
+        $('#stop').on('click', function(){
+          $('#resume').prop('disabled', true);
+          $('#pause').prop('disabled', true);
+          $('#stop').prop('disabled', true);
+          recordRTC.stopRecording(function (audioVideoWebMURL) {
+            var data = new FormData();
+            data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
+            data.append("id", <%= @answer.id %>);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "/student/upload_video");
+            oReq.send(data);
+            oReq.onload = function(oEvent) {
+              if (oReq.status == 200) {
+                console.log("Uploaded");
+              } else {
+                console.log("Error " + oReq.status + " occurred uploading your file.");
+              }
+            };
+            $('#preview').prop('disabled', false);
+            $('#preview').on('click', function(){
+              video.src = audioVideoWebMURL;
+              var recordedBlob = recordRTC.getBlob();
+              $('#start').prop('disabled', false);
+            })
+
+            //        recordRTC.getDataURL(function(dataURL) { }); 
+          });
+        })
+//        setTimeout(
+//            function()
+//            {
+//              recordRTC.stopRecording(function (audioVideoWebMURL) {
+//                var data = new FormData();
+//                data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
+//                data.append("id", <%#= @answer.id %>);
+//                var oReq = new XMLHttpRequest();
+//                oReq.open("POST", "/student/upload_video");
+//                oReq.send(data);
+//                oReq.onload = function(oEvent) {
+//                  if (oReq.status == 200) {
+//                    console.log("Uploaded");
+//                  } else {
+//                    console.log("Error " + oReq.status + " occurred uploading your file.");
+//                  }
+//                };
+//                $('#preview').prop('disabled', false);
+//                $('#preview').on('click', function(){
+//                  video.src = audioVideoWebMURL;
+//                  var recordedBlob = recordRTC.getBlob();
+//                  $('#start').prop('disabled', false);
+//                })
+//
+//                //        recordRTC.getDataURL(function(dataURL) { }); 
+//              });
+//            }, 30000);
       })
 
     }, function (err) {});

@@ -747,6 +747,7 @@ class HomePageController < ApplicationController
       render :json => {:success => false}
     end
   end
+
   def save_answer_to_session
     puts "------------------>", session.inspect
     session[params[:index]] = params[:option_index]

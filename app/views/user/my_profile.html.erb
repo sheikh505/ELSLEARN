@@ -17,6 +17,9 @@
                 <i class="fa fa_icon fa-book"></i>
                 Test Reviews</a> </li>
 
+              <li><a  href="#" id="test_code">
+                <i class="fa fa_icon fa-book"></i>
+                Attempt Test Code</a> </li>
               <!--<li><a  href="/user/manage_courses">-->
                 <!--<i class="fa fa_icon fa-book"></i>-->
                 <!--Manage Courses</a> </li>-->
@@ -25,6 +28,46 @@
 
           </ul>
     </div>
+
+    <div id="myModal" style="overflow:scroll;" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Attempt Test Code</h4>
+          </div>
+          <div class="modal-body">
+            <div class="pull-left viual_right col">
+
+              <div class="visual_right_holder">
+
+                <h2>Enter Code</h2>
+
+                <fieldset>
+
+                  <div class="pre_header_row">
+                    <form method="post" action="<%= home_page_instructions_url %>" >
+                      <input type="text" name="test_code" class="text" placeholder="Test Code">
+                      <input type="hidden" name="test_flag" value="2" >
+                      <button type="submit" class="btn btn-default modal_btn">Submit</button>
+                    </form>
+                  </div>
+
+                </fieldset>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="user_profile_right">
 
       <ul class="user_profile_nav">
@@ -133,6 +176,10 @@
         /* Activating Best In Place */
         jQuery(".best_in_place").best_in_place();
     });
+
+    $('#test_code').on('click', function(){
+      $('#myModal').modal('toggle');
+    })
     //    function update_image() {
     //
     //        $.post($("form.edit_user").attr("action"), $("form.edit_user").serialize(), function (response) {
