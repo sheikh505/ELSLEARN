@@ -23,14 +23,15 @@
             <% else %>
               N/A
             <% end %></td>
-        <td><%= link_to "delete", "/user/delete_package?id=#{package.id}" %></td>
+        <td><%= link_to "delete", "/user/delete_package?id=#{package.id}", class: "delete",
+                        remote: true, method: :delete %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <script>
-  $('#delete').on('ajax:success', function(e, data, status, xhr){
+  $('.delete').on('ajax:success', function(e, data, status, xhr){
     $('#refresh_packages').html(data);
     $("#success").show();
     $("#success").delay(2500).fadeOut();
