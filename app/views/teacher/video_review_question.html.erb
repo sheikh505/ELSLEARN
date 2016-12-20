@@ -40,12 +40,13 @@
           <label><strong>Marks</strong></label>
           <%= text_field_tag :marks, "", size: "4x4", required: true, autocomplete: "off" %><font size="6"> /<span id="total_marks"><%= @question.marks %></span></font><br>
           <div id="error" class="alert alert-danger" style="display: none">
-            Cannot assign more than mentioned marks
+            Sorry, cannot assign more than mentioned marks
           </div>
           <div id="error2" class="alert alert-danger" style="display: none">
             Please enter a number
           </div>
         </div>
+
         <%= hidden_field_tag :question_ids, @question_ids %>
         <%= hidden_field_tag :test_id, @test.id %>
         <%= hidden_field_tag :answer_id, @answer.id %>
