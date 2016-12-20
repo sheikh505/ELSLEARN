@@ -50,7 +50,7 @@
         <%= hidden_field_tag :question_ids, @question_ids %>
         <%= hidden_field_tag :test_id, @test.id %>
         <%= hidden_field_tag :answer_id, @answer.id %>
-        <%= submit_tag "Save Remarks", class: "btn btn-primary" %>
+        <%= submit_tag "Save Remarks", class: "btn btn-primary" %> | <%= link_to "Close", check_quiz_path, class: "btn btn-primary" %>
     <% end %>
 <% else %>
     <%= form_tag teachers_finish_review_path, onsubmit: "return check_marks()" do |f| %>
@@ -72,7 +72,7 @@
         <%= hidden_field_tag :question_ids, @question_ids %>
         <%= hidden_field_tag :test_id, @test.id %>
         <%= hidden_field_tag :answer_id, @answer.id %>
-        <%= submit_tag "Finish Review", class: "btn btn-primary" %>
+        <%= submit_tag "Finish Review", class: "btn btn-primary" %> | <%= link_to "Close", check_quiz_path, class: "btn btn-primary" %>
     <% end %>
 <% end %>
 
