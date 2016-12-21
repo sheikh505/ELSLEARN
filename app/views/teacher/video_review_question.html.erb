@@ -80,6 +80,10 @@
 
  <script>
 
+  $(function(){
+
+  })
+
   $('#marks').on("input", function(){
     $('#error').hide();
     $('#error2').hide();
@@ -131,7 +135,24 @@
   if (hasUserMedia()) {
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia         || navigator.mozGetUserMedia;
     //enabling video and audio channels 
+    function Timer(callback, delay) {
+      var timerId, start, remaining = delay;
+
+      this.pause = function() {
+        window.clearTimeout(timerId);
+        remaining -= new Date() - start;
+      };
+
+      this.resume = function() {
+        start = new Date();
+        window.clearTimeout(timerId);
+        timerId = window.setTimeout(callback, remaining);
+      };
+
+      this.resume();
+    }
     var recordRTC;
+    var timer;
     var btnStopRecording = document.getElementById('stop');
     var video = document.querySelector('video');
     navigator.getUserMedia({ video: true, audio: true }, function (stream) {
@@ -142,20 +163,55 @@
       video.src = window.URL.createObjectURL(stream);
       recordRTC = RecordRTC(stream, options);
 
+      timer = new Timer(function() {
+        $('#resume').prop('disabled', true);
+        $('#pause').prop('disabled', true);
+        $('#stop').prop('disabled', true);
+        recordRTC.stopRecording(function (audioVideoWebMURL) {
+          var data = new FormData();
+          data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
+          data.append("id", <%= @answer.id %>);
+          var oReq = new XMLHttpRequest();
+          oReq.open("POST", "/student/upload_video");
+          oReq.send(data);
+          oReq.onload = function(oEvent) {
+            if (oReq.status == 200) {
+              console.log("Uploaded");
+            } else {
+              console.log("Error " + oReq.status + " occurred uploading your file.");
+            }
+          };
+          $('#preview').prop('disabled', false);
+          $('#preview').on('click', function(){
+            video.src = audioVideoWebMURL;
+            var recordedBlob = recordRTC.getBlob();
+            $('#start').prop('disabled', false);
+          })
+
+          //        recordRTC.getDataURL(function(dataURL) { }); 
+        });
+      }, 30000);
+
+      timer.pause();
+
       $('#start').on('click', function(){
         $('#start').prop('disabled', true);
         $('#stop').prop('disabled', false);
         $('#pause').prop('disabled', false);
         recordRTC.startRecording();
+        timer.resume();
+      })
 
         $('#pause').on('click', function(){
           recordRTC.pauseRecording();
+          timer.pause();
           $('#pause').prop('disabled', true);
           $('#resume').prop('disabled', false);
         })
 
         $('#resume').on('click', function(){
           recordRTC.resumeRecording();
+          timer.resume();
           $('#resume').prop('disabled', true);
           $('#pause').prop('disabled', false);
         })
@@ -165,6 +221,7 @@
           $('#pause').prop('disabled', true);
           $('#stop').prop('disabled', true);
           recordRTC.stopRecording(function (audioVideoWebMURL) {
+            timer.pause();
             var data = new FormData();
             data.append("record[video]", recordRTC.getBlob(), (new Date()).getTime() + ".webm");
             data.append("id", <%= @answer.id %>);
@@ -215,7 +272,6 @@
 //                //        recordRTC.getDataURL(function(dataURL) { }); 
 //              });
 //            }, 30000);
-      })
 
     }, function (err) {});
   }
