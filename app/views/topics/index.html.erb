@@ -1,46 +1,71 @@
-<%= link_to "Manage Topics", "/topics", class: "btn btn-primary" %> |
-<%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-primary" %>
-
-<div id="topic_container">
-  <h1>Listing topics</h1>
-
-  <%= label_tag :select_certification %>
-  <%= select_tag "degree", options_from_collection_for_select(Degree.all, :id, :name) %>
-  <div id="courses">
-    <%= label_tag :select_course %>
-    <%= select_tag "course", options_from_collection_for_select(Course.all, :id, :name) %>
+<div class="row wrapper page-heading border-bottom white-bg">
+  <div class="col-md-6">
+    <%= link_to "Manage Topics", "/topics", class: "btn  btn-inverse" %>
   </div>
-
-  <div class="listing-holder listing_data_table">
-
-    <table id = "all_topics" class="table table-condensed" data-source="<%= topics_url(format: "json") %>">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Parent Topic</th>
-          <th>Course</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-
-
-      </tbody>
-
-    </table>
-
+  <div class="col-md-6 pull-right text-right">
+    <%= link_to "Topic Linkings", "/topic_linkings", class: "btn  btn-inverse" %>
   </div>
-
-  <% if flash[:notice] %>
-      <div class="notice"><%= flash[:notice] %></div>
-  <% end %>
-
-  <% if can? :manage, Topic %>
-      <%= link_to 'New Topic', new_topic_path ,:class=> 'btn btn-inverse'%>
-  <% end %>
 </div>
+
+<div class="row wrapper white-bg wrapper-content">
+  <div class="col-lg-6">
+    <%= label_tag :select_certification %>
+    <%= select_tag "degree", options_from_collection_for_select(Degree.all, :id, :name) , {:class => 'form-control'} %>
+  </div>
+  <div class="col-lg-6">
+    <div id="courses" class="form-group">
+      <%= label_tag :select_course %>
+      <%= select_tag "course", options_from_collection_for_select(Course.all, :id, :name) , {:class => 'form-control'} %>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="wrapper-content wrapper">
+    <div class="col-lg-6">
+      <div class="ibox listing-holder float-e-margins">
+        <div class="ibox-title">
+          <h5>Listing topics </h5>
+
+          <div ibox-tools></div>
+        </div>
+        <div class="ibox-content">
+
+          <table id = "all_topics" class="table table-condensed" data-source="<%= topics_url(format: "json") %>">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Parent Topic</th>
+              <th>Course</th>
+              <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <% if flash[:notice] %>
+          <div class="notice"><%= flash[:notice] %></div>
+      <% end %>
+
+      <% if can? :manage, Topic %>
+          <%= link_to 'New Topic', new_topic_path ,:class=> 'btn btn-inverse'%>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
 
 
 <script>
@@ -50,6 +75,7 @@
       url: "/topics/fetch_courses?degree_id=" + degree_id,
       success: function(data){
         $('#courses').html(data);
+          $('#courses').find('select').addClass('form-control');
       }
     })
   });

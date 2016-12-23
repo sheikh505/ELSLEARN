@@ -1,27 +1,55 @@
 <li>
-  <%= link_to "Boards/Certifications", boards_path %>
+  <%= link_to boards_path  , id:"" do %>
+      <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+
+      Boards/Certifications
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Manage Courses", courses_path%>
+  <%= link_to courses_path  , id:"" do %>
+      <i class="fa fa-book" aria-hidden="true"></i>
+
+      Manage Courses
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Manage Topics", topics_path %>
+  <%= link_to topics_path  , id:"" do %>
+      <i class="fa fa-list-alt" aria-hidden="true"></i>
+      Manage Topics
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Manage Tests", quizzes_path %>
+  <%= link_to quizzes_path  , id:"" do %>
+      <i class="fa fa-bug" aria-hidden="true"></i>
+
+      Manage Tests
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Manage Questions", questions_path %>
+  <%= link_to questions_path  , id:"" do %>
+      <i class="fa fa-question" aria-hidden="true"></i>
+      Manage Questions
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Manage Users", user_path %>
+  <%= link_to user_path  , id:"" do %>
+      <i class="fa fa-user" aria-hidden="true"></i>
+
+
+      Manage Users
+  <% end %>
 </li>
 
 <li>
-  <%= link_to "Payments", "home_page/payments" %>
+  <%= link_to  'home_page/payments' , id:"" do %>
+      <i class="fa fa-credit-card" aria-hidden="true"></i>
+
+
+      Payments
+  <% end %>
 </li>

@@ -1,38 +1,57 @@
-<%= link_to "Manage Topics", "/topics", class: "btn btn-primary" %> |
-<%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-primary" %>
-
-<h1>Listing topic links</h1>
-<%= label_tag :select_course %>
-<%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <thead>
-    <tr>
-      <th>Topic 1</th>
-      <th>Topic 2</th>
-      <th>Topic 3</th>
-      <th>Topic 4</th>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @topic_linkings.each do |topic_linking| %>
-        <tr>
-          <td><%= get_topic_name(topic_linking.topic_3) %></td>
-          <td><%= get_topic_name(topic_linking.topic_2) %></td>
-          <td><%= get_topic_name(topic_linking.topic_1) %></td>
-          <td><%= get_topic_name(topic_linking.topic_4) %></td>
-          <td><%= link_to 'Edit', edit_topic_linking_path(topic_linking) %></td>
-          <td><%= link_to 'Destroy', topic_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+<div class="row page-heading white-bg border-bottom wrapper">
+  <%= link_to "Manage Topics", "/topics", class: "btn btn-inverse pull-left" %>
+  <%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-inverse pull-right" %>
 </div>
-<br />
 
-<%= link_to 'New Topic linking', new_topic_linking_path,class: "btn btn-inverse" %>
+<div class="row wrapper wrapper-content white-bg border-bottom">
+  <div class="col-lg-6">
+    <h1>Listing topic links</h1>
+    <%= label_tag :select_course %>
+    <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) ,{:class=>'form-control'} %>
+  </div>
+</div>
+<div class="row wrapper wrapper-content">
+  <div class="col-lg-12">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>Topics</h5>
+    </div>
+    <div class="ibox-content">
+      <table class="table table-stripe">
+        <thead>
+        <tr>
+          <th>Topic 1</th>
+          <th>Topic 2</th>
+          <th>Topic 3</th>
+          <th>Topic 4</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @topic_linkings.each do |topic_linking| %>
+            <tr>
+              <td><%= get_topic_name(topic_linking.topic_3) %></td>
+              <td><%= get_topic_name(topic_linking.topic_2) %></td>
+              <td><%= get_topic_name(topic_linking.topic_1) %></td>
+              <td><%= get_topic_name(topic_linking.topic_4) %></td>
+              <td><%= link_to 'Edit', edit_topic_linking_path(topic_linking) %></td>
+              <td><%= link_to 'Destroy', topic_linking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  <div class="col-lg-12">
+    <%= link_to 'New Topic linking', new_topic_linking_path,class: "btn btn-inverse" %>
+
+  </div>
+</div>
+
+
+
 
 <script>
 

@@ -1,38 +1,60 @@
-<%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
-<%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
-<%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
-
-<h1>Questions Detail</h1>
-
-<%= label_tag :select_certification %>
-<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
-<div id="courses">
-  <%= label_tag :select_course %>
-  <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
+<div class="row wrapper page-heading border-bottom white-bg">
+  <%= link_to "Manage Questions", "/questions", class: "btn btn-inverse" %>
+  <%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-inverse" %>
+  <%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-inverse"  %>
 </div>
 
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <tr>
-      <th>Certification</th>
-      <th>Course</th>
-      <th>Question Type</th>
-      <th>Action</th>
-    </tr>
-
-    <% @ques_detail_hash.each do |k,v| %>
-        <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
-            <tr>
-              <% degree,course,course_id = k.split("_") %>
-              <td><%= degree %></td>
-              <td><%= course %></td>
-              <td><%= "#{ques_type}(#{v[index+1]})" %></td>
-              <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
-            </tr>
-        <% end %>
-    <% end %>
-  </table>
+<div class="row wrapper wrapper-content white-bg border-bottom">
+  <div class="col-lg-6">
+    <%= label_tag :select_certification %>
+    <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) , {:class=>'form-control'} %>
+  </div>
+  <div class="col-lg-6">
+    <div id="courses">
+      <%= label_tag :select_course %>
+      <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) , {:class=>'form-control'} %>
+    </div>
+  </div>
 </div>
+
+<div class="row wrapper wrapper-content">
+    <div class="col-lg-12">
+
+        <div class="ibox listing-holder">
+
+            <div class="ibox-title">
+              <h5>Questions Detail</h5>
+            </div>
+
+            <div class="ibox-content">
+              <table class="table table-striped">
+                <tr>
+                  <th>Certification</th>
+                  <th>Course</th>
+                  <th>Question Type</th>
+                  <th>Action</th>
+                </tr>
+
+                <% @ques_detail_hash.each do |k,v| %>
+                    <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
+                        <tr>
+                          <% degree,course,course_id = k.split("_") %>
+                          <td><%= degree %></td>
+                          <td><%= course %></td>
+                          <td><%= "#{ques_type}(#{v[index+1]})" %></td>
+                          <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
+                        </tr>
+                    <% end %>
+                <% end %>
+              </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
 <!-------------------------------------modal pop up-->
 
 <div id="modal_ques" style="overflow:scroll;" class="modal fade">

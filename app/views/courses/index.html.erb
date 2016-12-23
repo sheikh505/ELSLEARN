@@ -1,60 +1,76 @@
-<%= link_to "Manage Courses", "/courses/manage_courses", remote: true, id: "course_link", class: "btn btn-primary" %> |
-<%= link_to "Course Linkings", "/course_linkings", remote: true, id: "course_linking_link", class: "btn btn-primary" %>
+<div class="row border-bottom white-bg page-heading wrapper">
+  <%= link_to "Manage Courses", "/courses/manage_courses", remote: true, id: "course_link", class: "btn btn-inverse" %>
+  <%= link_to "Course Linkings", "/course_linkings", remote: true, id: "course_linking_link", class: "btn btn-inverse" %>
 
-<div id="course_container">
-  <h1>Listing courses</h1>
+</div>
+
+<div class="row page-heading wrapper wrapper-content" id="course_container">
   <%= label_tag :select_certification %>
-  <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
-  <div class="listing-holder">
-    <table class="table table-condensed">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Certification  ( Board )</th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @degree_hash.each do |k,v| %>
-          <tr>
-            <td><%= k.split("::").last  %></td>
-            <td>
+  <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) , {:class =>'form-control'} %>
+    <div class="ibox listing-holder">
 
-              <%v.each_with_index do |bdgree, index| %>
-                  <% if index == v.size - 1 %>
-                      <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
+      <div class="ibox-title">
+            <h5>Listing courses</h5>
+        </div>
+
+        <div class="ibox-content">
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Certification  ( Board )</th>
+              <th></th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @degree_hash.each do |k,v| %>
+                <tr>
+                  <td><%= k.split("::").last  %></td>
+                  <td>
+
+                    <%v.each_with_index do |bdgree, index| %>
+                        <% if index == v.size - 1 %>
+                            <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
+                        <% else %>
+                            <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
+                        <% end %>
+                    <% end %>
+
+
+
+                  </td>
+                  <% if can? :update, Course %>
+                      <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i), class: "edit_course", remote: true %></td>
                   <% else %>
-                      <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
+                      <td></td>
                   <% end %>
-              <% end %>
+                  <% if can? :update, Course %>
+                      <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, remote: true,
+                                      class: "delete_course", data: { confirm: 'Are you sure?' } %></td>
+                  <% else %>
+                      <td></td>
+                  <% end %>
 
 
-
-            </td>
-            <% if can? :update, Course %>
-                <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i), class: "edit_course", remote: true %></td>
-            <% else %>
-                <td></td>
+                </tr>
             <% end %>
-            <% if can? :update, Course %>
-                <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, remote: true,
-                                class: "delete_course", data: { confirm: 'Are you sure?' } %></td>
-            <% else %>
-                <td></td>
-            <% end %>
+            </tbody>
+          </table>
 
+        </div>
 
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-
+    </div>
   <% if can? :manage, Course %>
       <%= link_to 'New Course', new_course_path, id: "new_course", remote: true, :class=> 'btn btn-large btn-inverse' %>
   <% end %>
 </div>
+
+
+
+
+
 
 <script>
   $('#course_link').on("ajax:success", function(e, data, status, xhr){

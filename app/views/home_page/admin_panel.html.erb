@@ -20,99 +20,129 @@
   </ul>
 <% if current_user.is_admin? %>
 <section class="dashboard-main">
-  <div class="row">
-    <div class="container-fluid">
+  <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-ld-12">
       <h1 class="title">Dashboard</h1>
     </div>
   </div>
-    <div class="row">
-        <div class="container-fluid">
-            <div class="listing-holder mrgr32 col-md-6 listing">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Questions</th>
-                      <th>Published</th>
-                      <th>Not-Published</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>MCQs</td>
-                      <td><%= @questions_mcq_publish %></td>
-                      <td><%= @questions_mcq_not_publish %></td>
-                      <td><%= @total_questions_mcq %></td>
-                    </tr>
-                    <tr>
-                      <td>True/False</td>
-                      <td><%= @questions_truefalse_publish %></td>
-                      <td><%= @questions_truefalse_not_publish %></td>
-                      <td><%= @total_questions_truefalse %></td>
-                    </tr>
-                    <tr>
-                      <td>Fill in the Blanks</td>
-                      <td><%= @questions_blank_publish %></td>
-                      <td><%= @questions_blank_not_publish %></td>
-                      <td><%= @total_questions_blank %></td>
-                    </tr>
-                    <tr>
-                      <td>Descriptive Questions</td>
-                      <td><%= @questions_descriptive_publish %></td>
-                      <td><%= @questions_descriptive_not_publish %></td>
-                      <td><%= @total_questions_descriptive %></td>
-                    </tr>
-                    <tr>
-                      <td>TOTAL</td>
-                      <td><%= @total_publish %></td>
-                      <td><%= @total_not_publish %></td>
-                      <td><%= @total_questions %></td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-          <div class="listing-holder col-md-5 listing">
-            <table class="table">
+  <div class="wrapper wrapper-content">
+
+    <div class="row ">
+
+      <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Total Questions </h5>
+
+            <div ibox-tools></div>
+          </div>
+          <div class="ibox-content">
+
+            <table class="table table-striped">
               <thead>
               <tr>
-                <th>Users</th>
-                <th>Active</th>
-
+                <th>Questions</th>
+                <th>Published</th>
+                <th>Not-Published</th>
+                <th>Total</th>
               </tr>
               </thead>
               <tbody>
               <tr>
-                <td>Admin</td>
-                <td><%= @admin_users %></td>
+                <td>MCQs</td>
+                <td><%= @questions_mcq_publish %></td>
+                <td><%= @questions_mcq_not_publish %></td>
+                <td><%= @total_questions_mcq %></td>
               </tr>
               <tr>
-                <td>Students</td>
-                <td><%= @student_users %></td>
+                <td>True/False</td>
+                <td><%= @questions_truefalse_publish %></td>
+                <td><%= @questions_truefalse_not_publish %></td>
+                <td><%= @total_questions_truefalse %></td>
               </tr>
               <tr>
-                <td>HODs</td>
-                <td><%= @hod_users%></td>
+                <td>Fill in the Blanks</td>
+                <td><%= @questions_blank_publish %></td>
+                <td><%= @questions_blank_not_publish %></td>
+                <td><%= @total_questions_blank %></td>
               </tr>
               <tr>
-                <td>Teachers</td>
-                <td><%= @teacher_users %></td>
+                <td>Descriptive Questions</td>
+                <td><%= @questions_descriptive_publish %></td>
+                <td><%= @questions_descriptive_not_publish %></td>
+                <td><%= @total_questions_descriptive %></td>
               </tr>
               <tr>
-                <td>Proofreaders</td>
-                <td><%= @proofreader_users %></td>
-              </tr>
-              <tr>
-                <td>Operators</td>
-                <td><%= @operator_users %></td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td><%= @total_users %></td>
+                <td>TOTAL</td>
+                <td><%= @total_publish %></td>
+                <td><%= @total_not_publish %></td>
+                <td><%= @total_questions %></td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Total Questions </h5>
+
+            <div ibox-tools></div>
+          </div>
+          <div class="ibox-content">
+
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Questions</th>
+                <th>Published</th>
+                <th>Not-Published</th>
+                <th>Total</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>MCQs</td>
+                <td><%= @questions_mcq_publish %></td>
+                <td><%= @questions_mcq_not_publish %></td>
+                <td><%= @total_questions_mcq %></td>
+              </tr>
+              <tr>
+                <td>True/False</td>
+                <td><%= @questions_truefalse_publish %></td>
+                <td><%= @questions_truefalse_not_publish %></td>
+                <td><%= @total_questions_truefalse %></td>
+              </tr>
+              <tr>
+                <td>Fill in the Blanks</td>
+                <td><%= @questions_blank_publish %></td>
+                <td><%= @questions_blank_not_publish %></td>
+                <td><%= @total_questions_blank %></td>
+              </tr>
+              <tr>
+                <td>Descriptive Questions</td>
+                <td><%= @questions_descriptive_publish %></td>
+                <td><%= @questions_descriptive_not_publish %></td>
+                <td><%= @total_questions_descriptive %></td>
+              </tr>
+              <tr>
+                <td>TOTAL</td>
+                <td><%= @total_publish %></td>
+                <td><%= @total_not_publish %></td>
+                <td><%= @total_questions %></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+
+
+  </div>
 </section>
     <% end %>

@@ -1,23 +1,32 @@
-<%= link_to "Manage Topics", "/topics", class: "btn btn-primary" %> |
-<%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-primary" %>
+<div class="row page-heading wrapper white-bg border-bottom">
+  <%= link_to "Manage Topics", "/topics", class: "btn btn-inverse pull-left" %>
+  <%= link_to "Topic Linkings", "/topic_linkings", class: "btn btn-inverse pull-right" %>
 
-<div class="container">
-<div class="row  listing-holder-p">
+</div>
+
+
+<div class="row wrapper wrapper-content white-bg">
   <div class="col-md-12 course_link_cont">
     <h3>Select Course</h3>
       <%=form_tag "/topic_linkings/get_course_link",remote: true,id: "course_form" do %>
           <%=select_tag :course_id,options_for_select(@course_arr.map{|x| [x.name,x.id]} ),prompt: "SELECT COURSE" %>
       <% end %>
 
-    <div id="topic_table_container" class="course_link_container listing-holder">
+        <div id="topic_table_container" class="course_link_container listing-holder">
 
-    </div>
+        </div>
 
 
   </div>
 </div>
+<div class="row wrapper wrapper-content">
+
+  <div class="col-lg-12">
+    <%= link_to 'Back', topic_linkings_path, :class=>'btn btn-inverse' %>
+
+  </div>
+
 </div>
-<%= link_to 'Back', topic_linkings_path, :class=>'btn btn-inverse' %>
 
 
 

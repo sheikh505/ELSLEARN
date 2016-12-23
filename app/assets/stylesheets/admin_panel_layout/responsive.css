@@ -1,0 +1,441 @@
+@media only screen and (max-width:1250px){
+    .container{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .col .row_custom{
+        margin: 0 12px 0 0;
+        width: 45%;
+    }
+    .col > #question_type_container, .col > .pre_question_holder{
+        padding: 14px 0 8px 12px;
+    }
+    .col .row_custom select{
+        width: 100%;
+    }
+    .col .pre_question_holder{
+        right: -143%;
+        top: -25%;
+        width: 100%;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_left span{
+        font-size: 12px;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_right select{
+        width: 43px;
+        padding: 0;
+    }
+    #question_type_container .row_custom{
+        margin: 0 2px 0 0;
+        width: 48%;
+    }
+    .user_profile_holder .container{
+        overflow: hidden;
+    }
+    .animated_number{
+        min-height: 440px;
+        height: auto;
+    }
+
+}
+@media only screen and (max-width: 850px){
+    .header_holder .nav ul li{
+        margin: 0 5px 0 5px;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_right select{
+        width: 43px;
+        padding: 0;
+    }
+    .col > #question_type_container{
+        padding: 14px 0 8px 4px;
+    }
+    .col > #question_type_container .row_custom label input[type="checkbox"]{
+        margin: 0 2px 0 0;
+    }
+    .col #question_type_container .row_custom .lablel_check_box_left span{
+        width: 60px;
+        display: inline-block;
+    }
+}
+@media only screen and (min-width: 769px){
+    .mobil_btn{
+        display: none;
+    }
+}
+@media only screen and (max-width: 768px){
+    .header_holder .nav{
+        margin: 0;
+    }
+    .header_left .nav.nav_mobile{
+        display: none;
+        top: 100%;
+        background: #fff;
+        width: 100%;
+        left: 0;
+        position: absolute;
+    }
+    .header_left .nav ul li{
+        display: block;
+        margin: 0;
+    }
+    .header_left .nav ul li a{
+        display: block;
+        border-bottom: 1px solid #f1f1f3;
+        padding: 10px 30px;
+    }
+    .mobil_btn {
+        background: #fff;
+        cursor: pointer;
+        display: block !important;
+        float: right;
+        margin: 9px 10px 0;
+        padding: 9px 6px 6px;
+        width: 32px;
+    }
+    .mobil_btn span {
+        background: none repeat scroll 0 0 #354251;
+        border-radius: 1px;
+        display: block;
+        margin-bottom: 4px;
+        padding: 1px 9px;
+    }
+    .header.header_h .header_holder .nav ul li a{
+        color: #999 !important;
+    }
+    .header.header_h .header_left .nav ul li a:hover{
+        color: #fff !important;
+        background: #0CA9E2;
+    }
+    .header,
+    .sub_menu{
+        position: relative;
+    }
+    .sub_menu{
+        width: 100%;
+        border: none;
+        left: 0;
+        box-shadow: none;
+        border: none;
+    }
+    .header_holder .nav ul li .sub_menu li a{
+        padding: 6px 50px;
+    }
+    .visual_holder{
+        overflow: hidden;
+    }
+    .viual{
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .col .row_custom{
+        margin: 0 8px 0 0;
+    }
+    .main_holder .box{
+        width: 100%;
+    }
+    .user_profile_holder .user_profile_left ul li a{
+        padding: 8px 5px;
+    }
+    .user_profile_holder .user_profile_right{
+        margin: 0 0 0 40px;
+    }
+}
+@media only screen and (max-width: 730px){
+    .col .pre_question_holder{
+        width: 300px;
+    }
+}
+@media only screen and (max-width: 640px){
+    .col .row_custom{
+        width: 43%;
+    }
+    .flexslider{
+        text-align: center;
+    }
+    .col > #question_type_container, .col > .pre_question_holder{
+        padding: 14px 0 8px 7px;
+    }
+    .col .pre_question_holder{
+        position: relative;
+        left: 0;
+        top: 10px;
+    }
+    .footer_holder .footer_box{
+        width: 45%;
+    }
+    .footer_holder .footer_box .text{
+        width: 120px;
+    }
+}
+@media only screen and (max-width: 480px){
+    .header_top p{
+        font-size: 10px;
+    }
+    .h_student_holder .flexslider .slides p.pre_bg_none{
+        font-size: 16px;
+    }
+    .header_holder .header_right ul li a{
+        height: 40px;
+        line-height: 40px;
+        width: 31px;
+    }
+    .mobil_btn{
+        float: right;
+        margin: 9px 10px 0;
+    }
+    .header_right input[type="text"], .header_right input[type="password"]{
+        width: 115px;
+        padding: 2px 5px;
+    }
+    .visual_holder .viual_left,
+    .visual_holder .viual_right,
+    .col .pre_question_holder{
+        width: 100%;
+        margin: 0 auto 20px;
+        float: none;
+    }
+    .visual_holder .col{
+        width: 96%;
+        margin: 0 auto 20px;
+    }
+    .main_holder .box{
+        width: 90%;
+    }
+    .footer_holder .footer_box{
+        width: 90%;
+        text-align: left;
+    }
+    .user_profile_holder .user_profile_left{
+        display: block;
+        width: 80%;
+        margin-bottom: 20px;
+    }
+    .user_profile_holder .user_profile_right{
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 360px){
+    .header_right input[type="text"], .header_right input[type="password"]{
+        width: 95px;
+    }
+    .main_holder .box{
+        width: 100%;
+    }
+    .flexslider{
+        width: 100%;
+    }
+    .flexslider .slides img {
+        width: 280px;
+    }
+    .user_profile_holder .user_profile_left{
+        width: 100%;
+        margin: 0 auto 20px;
+    }
+}
+/*-------------------------------------------------------
+Admin  Strat
+---------------------------------------------------------*/
+@media only screen and (min-width:801px ) {
+    #sidebar-wrapper{
+        display: block !important;
+    }
+}
+@media only screen and (max-width:1110px){
+    .offset1{
+        margin-left: 20px !important;
+        width: 100% !important;
+    }
+    .header_holder .nav ul li{
+        margin: 0 5px;
+    }
+}
+@media only screen and (max-width:800px){
+    #page-content-wrapper h1{
+        font-size: 25px;
+    }
+    .navbar.navbar-default.navbar-fixed-top .collapse{
+        display: block;
+        visibility: visible;
+    }
+    #quiz_container.modal_content .modal_left{
+        padding-left: 0;
+    }
+    .modal_content .modal_left .question_p_section > ul{
+        padding-left: 24px;
+    }
+    .modal_content .modal_left .question_p_section ul li a{
+        width: 100%;
+    }
+    #wrapper{
+        padding-left: 0;
+    }
+    #sidebar-wrapper{
+        display: none;
+    }
+    .admin_main{
+        margin: 0;
+    }
+    .span5.offset1.listing-holder{
+        width: 100%;
+    }
+    .header .admin-header-right{
+        float: none;
+        margin: 14px 0 0 17px  ;
+    }
+    .admin-header{
+        position: relative;
+    }
+    .admin-header .collapse.navbar-collapse{
+        float: none;
+    }
+    #countdown{
+        top:10%;
+    }
+    .admin-header .mobil_btn{
+        float: right;
+        margin: 33px 4px 20px 7px;
+    }
+    .btn-large {
+        border-radius: 6px;
+        font-size: 12.5px;
+        padding: 11px 13px;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+        padding: 8px 5px !important;
+    }
+    .admin-header #sidebar-wrapper{
+        background: #fff none repeat scroll 0 0;
+        height: auto;
+        overflow-y: auto;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        z-index: 999999999;
+    }
+    .admin-header .sidebar-nav{
+        width: 100%;
+    }
+    .sidebar-nav li a{
+        color: #222;
+        display: block;
+    }
+    .sidebar-nav li a:hover,
+    .sidebar-nav > .sidebar-brand a:hover{
+        background: #6AB4D1;
+        color: #fff;
+    }
+    .header .navbar{
+        padding: 4px !important;
+    }
+
+    .header.admin-header .collapse.navbar-collapse img{
+        margin: 0 !important;
+        width: 120px;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .header .admin-header-right{
+        margin: 14px 0 0 6px !important;
+    }
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
+        display: block;
+        width: 100%;
+    }
+    table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled{
+        background-position: 90% center;
+    }
+    table tbody tr:nth-child(2n+1){
+        background-color: #f7f8fa;
+    }
+    table thead th, table thead td{
+        border-bottom: 1px solid #f7f8fa;
+        height: 33px;
+        line-height: 19px !important;
+    }
+    table{
+        width: 100%;
+        border: 1px solid #eee;
+    }
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter{
+        float: left;
+    }
+    #ques_container h3{
+        line-height: 12px;
+        margin: 0;
+        font-size: 20px;
+        padding: 0;
+    }
+    .ques_inner_bar_left #search_bar{
+        width: 180px !important;
+    }
+    #page-content-wrapper .field_holder{
+        margin: 0 5px 15px 0 !important;
+        width: 100% !important;
+    }
+    #page-content-wrapper .btn_holder a.btn, .btn_holder a.btn{
+        margin: 0 10px 0 !important;
+    }
+    .table tr td a.btn{
+        width: 100%;
+        text-align: left;
+    }
+    .listing-holder-p .offset1{
+        margin-left: 0 !important;
+    }
+    table.dataTable thead th, table.dataTable thead td{
+        border-bottom:1px solid #f7f8fa;
+    }
+    .dataTables_wrapper .dataTables_length{
+        margin-bottom: 5px;
+    }
+    table.table tr th{
+        height: 33px !important;
+        line-height: 19px !important;
+    }
+    .listing-holder-p h4{
+        padding-left: 20px;
+    }
+    .table.table-bordered img{
+        max-width: 250px !important;
+        width: auto;
+    }
+    .pagination a{
+        margin: 0 -2px !important;
+        padding: 4px !important;
+    }
+    .pagination span{
+        padding: 5px 2px !important;
+    }
+    .pagination em{
+        padding: 5px 6px !important;
+    }
+    .stat_holder img{
+        width: auto;
+        height: auto;
+        max-width: 200px;
+    }
+    #ques_container p{
+        font-size: 14px;
+    }
+    #ques_container .table-bordered{
+        margin-bottom: 20px;
+    }
+    .ques_inner_bar_right{
+        float: left !important;
+    }
+    .ques_inner_bar_right .select_div{
+        float: none !important;
+    }
+    #page-content-wrapper h1{
+        font-size: 22px !important;
+    }
+ }
+@media only screen and (max-width: 360px) {
+    .header .admin-header-right{
+        font-size: 11px;
+    }
+}

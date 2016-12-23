@@ -12,62 +12,115 @@
 </head>
 <body>
 
-<div class="wrapper">
+<div id="page-preloader"><span class="spinner"></span></div>
+<!-- Loader end -->
+
+<div class="layout-theme animated-css"  data-header="sticky" data-header-top="200">
+
+  <div class="wrapper" >
 
 
       <%= render 'shared/header' %>
       <%= render 'shared/errors' %>
         <%= yield %>
 
-  <footer class="footer">
-    <div class="footer_holder container">
-      <div class="footer_box box_top">
-        <h3>About Us</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <a href="">Learn more</a>
-      </div>
-      <div class="footer_box box_top">
-        <h3> Links</h3>
-        <ul class="footer_links">
-          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
-          <li><i class="fa fa-angle-right"></i>Lorem Ipsum lorem</li>
-          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
-          <li><i class="fa fa-angle-right"></i>Lorem Ipsum</li>
-          <li><i class="fa fa-angle-right"></i>Lorem Ipsum lorem</li>
+    <footer class="footer wow fadeInUp" data-wow-duration="2s">
+      <div class="container">
+        <div class="footer-inner border-decor_top">
+          <div class="row">
+            <div class="col-lg-3 col-sm-3">
+              <section class="footer-section">
+                <h3 class="footer-title">ABOUT US</h3>
+                <a href="javascript:void(0);"><img class="footer-logo img-responsive" src="/assets/logo_white.png" height="50" width="195" alt="Logo"></a>
+                <div class="footer-info">Fusce eleifend. Donec sapien sed pha seah lusa. Pellentesque lu amus lorem arcu sem per duiac. Vivamus porta. Sed at nisl praesnt blandit mauris vel erat.</div>
+                <div class="footer-contacts footer-contacts_mod-a"> <i class="icon stroke icon-Pointer"></i>
+                  <address class="footer-contacts__inner">
+                    370 Hill Park, Florida, USA
+                  </address>
+                </div>
+                <div class="footer-contacts"> <i class="icon stroke icon-Phone2"></i> <span class="footer-contacts__inner">Call us 0800 12345</span> </div>
+                <div class="footer-contacts"> <i class="icon stroke icon-Mail"></i> <a class="footer-contacts__inner" href="mailto:Info@academica.com">Info@academica.com</a> </div>
+              </section>
+              <!-- end footer-section -->
+            </div>
+            <!-- end col -->
 
-        </ul>
-      </div>
-      <div class="footer_box ">
-        <h3>Get in Touch</h3>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum.</p>
-        <ul class="footer_social_media">
-          <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a class="twitter"  href="#"><i class="fa fa-tumblr"></i></a></li>
-          <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-          <li><a class="youtube"  href="#"><i class="fa fa-youtube"></i></a></li>
-        </ul>
-      </div>
-      <div class="footer_box">
-        <h3 class="footer_logo">Latest Tweets</h3>
-        <ul class="latest_tweet">
-          <li><i class="fa fa-twitter"></i> How to Work Both Creatively And Productively http://t.co/OkIWb1VZlf http://t.co/qROP4wUSSn </li>
-          <li><i class="fa fa-twitter"></i>What You Can Learn From Some of the Web's Most Creative People http://t.co/8VabHc2Rvg #MadeBySeries</li>
-        </ul>
+            <div class="col-lg-2 col-sm-3">
+              <section class="footer-section">
+                <h3 class="footer-title">USEFUL LINKS</h3>
+                <ul class="footer-list list-unstyled">
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Teachers & Staff</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Our Latest Courses</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Who We Are</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Get In Touch</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Courses Categories</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Support & FAQ’s</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Terms & Conditions</a></li>
+                  <li class="footer-list__item"><a class="footer-list__link" href="javascript:void(0);">Privacy Policy</a></li>
+                </ul>
+              </section>
+              <!-- end footer-section -->
+            </div>
+            <!-- end col -->
 
+            <div class="col-lg-3 col-sm-3">
+              <section class="footer-section">
+                <h3 class="footer-title">LATEST TWEETS</h3>
+                <div class="tweets">
+                  <div class="tweets__text">What is the enemy of #creativity?</div>
+                  <div><a href="javascript:void(0);">http://enva.to/hVl5G</a></div>
+                  <span class="tweets__time">9 hours ago</span> </div>
+                <div class="tweets">
+                  <div class="tweets__text">An agile framework can produce the type of lean marketing essential for the digital age <a href="javascript:void(0);">@aholmes360 #IMDS15</a></div>
+                  <span class="tweets__time">9 hours ago</span> </div>
+                <a class="tweets__link" href="javascript:void(0);">Follow @Academica</a> </section>
+              <!-- end footer-section -->
+            </div>
+            <!-- end col -->
+
+            <div class="col-lg-4 col-sm-3">
+              <section class="footer-section">
+                <h3 class="footer-title">QUICK CONTACT</h3>
+                <form class="form">
+                  <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Your Name">
+                    <input class="form-control" type="email" placeholder="Email address">
+                    <textarea class="form-control" rows="7" placeholder="Message"></textarea>
+                    <button class="btn btn-primary btn-effect">SEND MESSSAGE</button>
+                  </div>
+                </form>
+              </section>
+              <!-- end footer-section -->
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end footer-inner -->
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="footer-bottom">
+              <div class="copyright">Copyright © 2015 <a href="javascript:void(0);">Academica</a>, Online Learning  |  Created by <a href="javascript:void(0);">Templines</a></div>
+              <ul class="social-links list-unstyled">
+                <li><a class="icon fa fa-facebook" href="javascript:void(0);"></a></li>
+                <li><a class="icon fa fa-twitter" href="javascript:void(0);"></a></li>
+                <li><a class="icon fa fa-google-plus" href="javascript:void(0);"></a></li>
+                <li><a class="icon fa fa-instagram" href="javascript:void(0);"></a></li>
+                <li><a class="icon fa fa-linkedin" href="javascript:void(0);"></a></li>
+                <li><a class="icon fa fa-youtube-play" href="javascript:void(0);"></a></li>
+              </ul>
+            </div>
+            <!-- end footer-bottom -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
       </div>
+      <!-- end container -->
+    </footer>
 
     </div>
-    <div class="footer_bottom container">
-      <p class="pull_left">© All rights reserved, elslearn.com, 2014</p>
-      <ul class="pull_right">
-        <li><a href="">home</a></li>
-        <li><a href="">Test Center</a></li>
-        <li><a href="">about</a></li>
-        <li><a href="">contact</a></li>
-      </ul>
-    </div>
-  </footer>
-
 </div>
 
 </body>

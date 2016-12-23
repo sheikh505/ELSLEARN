@@ -1,5 +1,4 @@
-<div class="row listing-holder listing-holder-p">
-  <div class="span5">
+<div class="row wrapper wrapper-content border-bottom white-bg">
     <%= form_for(@topic) do |f| %>
         <% if @topic.errors.any? %>
             <div id="error_explanation">
@@ -15,9 +14,9 @@
 
 
 
-        <div class="field">
+        <div class="field col-md-4">
           <%=f.label :course %>
-          <select id="course" name="course" required>
+          <select id="course" name="course" required class="form-control">
             <option value="">Select Course</option>
 
             <% Course.all.each do |course| %>
@@ -36,24 +35,23 @@
 
 
 
-        <div class="field">
+        <div class="field col-md-4">
           <%= f.label :name %>
-          <%= f.text_field :name,required: true %>
+          <%= f.text_field :name,required: true , class: "form-control" %>
         </div>
 
         <%= hidden_field_tag :status, '1' %>
 
-        <div id="parent_topic_container" class="field">
+        <div id="parent_topic_container" class="field col-md-4">
           <%= render 'parent_topic_select' %>
         </div>
 
-        <div class="actions">
-          <%= f.submit "Save and move next", class: 'btn btn-inverse', onclick:"set_status()"%> | <%= f.submit @topic.new_record? ? "Save and exit": "Update and exit", class: 'btn btn-inverse' %>
+        <div class="actions col-md-12">
+          <%= f.submit "Save and move next", class: 'btn btn-inverse', onclick:"set_status()"%>  <%= f.submit @topic.new_record? ? "Save and exit": "Update and exit", class: 'btn btn-inverse' %>
         </div>
     <% end %>
 
 
-  </div>
 
   <!--<div class="span5 offset1">-->
     <!--<h4>List of courses</h4>-->
