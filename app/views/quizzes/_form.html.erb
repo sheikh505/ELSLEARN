@@ -31,7 +31,7 @@
 
       <select id="quiz_course_id" name="quiz[course_id]" onchange="fetch_topics(this.value)" required>
         <option value="" selected>Select Course</option>
-        <% Course.all.each do |course| %>
+        <% @courses.each do |course| %>
             <option value="<%= course.id %>"><%= course.name %></option>
         <% end %>
       </select>

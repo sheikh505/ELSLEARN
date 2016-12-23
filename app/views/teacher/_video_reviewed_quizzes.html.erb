@@ -1,13 +1,3 @@
-<% if current_user.is_admin? %>
-    <%= link_to "Manage Tests", quizzes_path, class: "btn btn-primary" %> |
-    <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %>
-<% elsif current_user.is_teacher? %>
-    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %> |
-    <%= link_to "Reviewed Quizzes", "/teachers/video_reviewed_quizzes", class: "btn btn-primary" %>
-<% end %>
-
-<h1>Student's Quizzes</h1>
 
 <div class="listing-holder">
   <table class="table table-condensed">
@@ -23,14 +13,15 @@
     </tr>
     </thead>
     <tbody>
-    <% @tests.each do |test| %>
+    <% @reviewed_tests.each do |test| %>
         <tr>
           <!--<td><%#= @students.select{|student| test.user_id == student.id}.first.name if @students.select{|student| test.user_id == student.id}.first %></td>-->
           <td><%= test.quiz_name %></td>
-          <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
+          <td><%= @reviewed_test_courses.select{|course| test.course_id == course.id}.first.name %></td>
           <td><%= test.code %></td>
           <td><%= test.descriptive.split(',').count %></td>
           <td><%= test.created_at.to_date %></td>
+          <td><%= link_to "Review", teachers_preview_reviewed_quiz_path(test_id: test.id) %></td>
         </tr>
     <% end %>
     </tbody>

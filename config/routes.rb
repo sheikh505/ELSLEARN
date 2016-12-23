@@ -302,6 +302,10 @@ ExamsSystem::Application.routes.draw do
   post "/student/upload_image" => "teacher#upload_image"
   get "/teachers/reviewed_quizzes" => "teacher#reviewed_quizzes"
   get "/teachers/video_reviewed_quizzes" => "teacher#video_reviewed_quizzes"
+  get "/teachers/preview_reviewed_quiz" => "teacher#preview_reviewed_quiz"
+  get "/teachers/preview_question" => "teacher#preview_question"
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -41,7 +41,7 @@
 
         <%= hidden_field_tag :answer_id, @answer.id %>
 
-        <%= submit_tag "Save Remarks", class: "btn btn-primary", id: "save_remarks" %>
+        <%= submit_tag "Save Remarks", class: "btn btn-primary", id: "save_remarks" %> | <%= link_to "Close", comment_feedback_path, class: "btn btn-primary" %>
     <% end %>
 <% else %>
     <%= form_tag teachers_finish_review_path, onsubmit: "return check_marks()" do |f| %>
@@ -65,7 +65,7 @@
         <%= hidden_field_tag :test_id, @test.id %>
         <%= hidden_field_tag :answer_id, @answer.id %>
 
-        <%= submit_tag "Finish Review", class: "btn btn-primary", id: "save_remarks" %>
+        <%= submit_tag "Finish Review", class: "btn btn-primary", id: "save_remarks" %> | <%= link_to "Close", comment_feedback_path, class: "btn btn-primary" %>
     <% end %>
 <% end %>
 

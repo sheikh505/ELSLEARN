@@ -50,10 +50,11 @@
 </table>
 <br>
 <div id="add_error" class="alert alert-danger" style="display:none">No course selected!</div>
-<%= link_to "Add", "#", class: "btn btn-primary", id: "fetch_packages", remote: true %>
+<%= button_tag "Add", class: "btn btn-primary", id: "fetch_packages" %>
 
 <script>
   $('#fetch_packages').click(function(){
+    $('#fetch_packages').prop('disabled', true);
     $.ajax({
       url: "/user/fetch_packages?course_id=" + $('input[name="course_id"]:checked').val(),
       method: "GET",

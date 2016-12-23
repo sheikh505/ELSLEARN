@@ -1,0 +1,27 @@
+
+<div class="listing-holder">
+  <table class="table table-condensed">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Course</th>
+      <th>Test Code</th>
+      <th>No. of Questions</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @reviewed_tests.each do |test| %>
+        <tr>
+          <td><%= test.quiz_name %></td>
+          <td><%= @reviewed_test_courses.select{|course| test.course_id == course.id}.first.name %></td>
+          <td><%= test.code %></td>
+          <td><%= test.descriptive.split(',').count %></td>
+          <td><%= test.created_at.to_date %></td>
+          <td><%= link_to "Review", teachers_preview_reviewed_quiz_path(test_id: test.id) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

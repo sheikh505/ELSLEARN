@@ -24,8 +24,12 @@ class TeacherController < ApplicationController
 
   def check_quiz
     @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id).order('created_at DESC')
-    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    # @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+
+    #reviewed quizzes
+    @reviewed_tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = true", current_user.id).order('created_at DESC')
+    @reviewed_test_courses = Course.where("id IN (?)", @reviewed_tests.pluck(:course_id))
   end
 
   def student_test
@@ -43,13 +47,13 @@ class TeacherController < ApplicationController
   def save_remarks
     answer = Answer.find(params[:answer_id])
     question_ids = params[:question_ids]
-    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
+    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks], :reviewed => true)
     redirect_to student_review_question_path(test_id: answer.user_test_history_id, question_ids: question_ids)
   end
 
   def finish_review
     answer = Answer.find(params[:answer_id])
-    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks])
+    answer.update_attributes(:marks => params[:marks].to_i , :remarks => params[:remarks], :reviewed => true)
     test = UserTestHistory.find(params[:test_id])
     test.update_attributes(:reviewed => true, teacher_id: current_user.id)
     answers = Answer.where(user_test_history_id: test.id)
@@ -71,13 +75,13 @@ class TeacherController < ApplicationController
 
   def reviewed_quizzes
     @tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = false", current_user.id).order('created_at DESC')
-    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    # @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
   end
 
   def video_reviewed_quizzes
     @tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = true", current_user.id).order('created_at DESC')
-    @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    # @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
   end
 
@@ -91,6 +95,10 @@ class TeacherController < ApplicationController
     @question_ids = @question_ids.join(',')
     @test = UserTestHistory.find(params[:test_id])
     @answer = Answer.where(question_id: @question.id, user_test_history_id: @test.id).first
+    if @answer.reviewed
+      redirect_to student_review_question_path(test_id: @test.id, question_ids: @question_ids)
+      return
+    end
     puts "==============>" + @answer.inspect
     session[:answer_id] = @answer.id
     if @test.video_review
@@ -114,6 +122,32 @@ class TeacherController < ApplicationController
     @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", current_user.id).order('created_at DESC')
     @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+
+    #reviewed quizzes
+    @reviewed_tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = false", current_user.id).order('created_at DESC')
+    # @students = User.where("id IN (?)", @tests.pluck(:user_id))
+    @reviewed_test_courses = Course.where("id IN (?)", @reviewed_tests.pluck(:course_id))
+  end
+
+  def preview_reviewed_quiz
+    @test = UserTestHistory.find(params[:test_id])
+    session[:user_test_history_id] = @test.id
+    question_ids = @test.descriptive.split(',')
+    session[:question_ids] = question_ids
+    @questions = Question.where("id IN (?)", @test.descriptive.split(','))
+    if @questions.first
+      redirect_to teachers_preview_question_path
+    else
+      flash[:error] = "There are no descriptive questions in this test."
+      redirect_to :back
+    end
+  end
+
+  def preview_question
+    @question = Question.find(session[:question_ids].pop)
+    @finish_flag = session[:question_ids].count == 0 ? true : false
+    @test = UserTestHistory.find(session[:user_test_history_id])
+    @answer = Answer.where(user_test_history_id: @test.id, question_id: @question.id).first
   end
 
   def upload_video
