@@ -48,6 +48,7 @@
                 </li>
                 <% if current_user.is_admin? %>
                     <%= render 'layouts/admin' %>
+
                 <% elsif current_user.is_operator? %>
                     <%= render 'layouts/operator' %>
                 <% elsif current_user.is_proofreader? %>

@@ -1,67 +1,85 @@
+<div class="row wrapper border-bottom white-bg page-heading">
 <% if current_user.is_admin? %>
-    <%= link_to "Manage Tests", quizzes_path, class: "btn btn-primary" %> |
-    <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %>
+    <%= link_to "Manage Tests", quizzes_path, class: "btn btn-inverse" %>
+    <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-inverse" %>
+    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-inverse" %>
 <% end %>
-
-
-<h1>Listing tests</h1>
-<% if current_user.is_admin? %>
-  <%= label_tag :select_certification %>
-  <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
-  <div id="courses">
-    <%= label_tag :select_course %>
-    <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) %>
-  </div>
-<% end %>
-
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <thead>
-    <tr>
-      <th>Title</th>
-      <th>Course</th>
-      <th>Test Code</th>
-      <th>No. of Questions</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-      <% @quizzes.each do |quiz| %>
-          <tr>
-            <td ><%= quiz.name %></td>
-            <td ><%= Course.find_by_id(quiz.course_id).name%></td>
-            <td ><%= quiz.test_code%></td>
-            <td ><%= quiz.question_ids.split(',').length unless quiz.question_ids.nil? %></td>
-            <% if user_signed_in? && current_user.is_not_student? %>
-
-              <% if can? :update, quiz %>
-                  <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
-              <% else %>
-                  <td></td>
-              <% end %>
-              <% if current_user.is_teacher? || current_user.is_admin? %>
-                  <td><%= link_to 'Show', "quizzes/#{quiz.id}" %></td>
-              <% end %>
-              <% if can? :update, quiz %>
-                  <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              <% else %>
-                  <td></td>
-              <% end %>
-            <% else %>
-              <td><%= link_to 'Attempt', quizzes_path(quiz),class: 'btn btn-inverse' %></td>
-            <% end %>
-          </tr>
-      <% end %>
-    </tbody>
-  </table>
 </div>
 
-<% if user_signed_in? && current_user.is_not_student? %>
-    <%= link_to 'New Quiz', new_quiz_path, class: 'btn btn-large btn-inverse' %>
-<% end %>
+<div class="row wrapper wrapper-content white-bg">
+  <% if current_user.is_admin? %>
+    <div class="col-md-6">
+      <%= label_tag :select_certification %>
+      <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) , {:class=>'form-control'} %>
+    </div>
+      <div class="col-md-6">
+      <div id="courses">
+        <%= label_tag :select_course %>
+        <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) , {:class=>'form-control'} %>
+      </div>
+      </div>
+  <% end %>
+</div>
+<div class="row wrapper-content wrapper">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>
+        Listing tests
+      </h5>
+    </div>
+    <div class="ibox-content listing-holder">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Course</th>
+          <th>Test Code</th>
+          <th>No. of Questions</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @quizzes.each do |quiz| %>
+            <tr>
+              <td ><%= quiz.name %></td>
+              <td ><%= Course.find_by_id(quiz.course_id).name%></td>
+              <td ><%= quiz.test_code%></td>
+              <td ><%= quiz.question_ids.split(',').length unless quiz.question_ids.nil? %></td>
+              <% if user_signed_in? && current_user.is_not_student? %>
+
+                  <% if can? :update, quiz %>
+                      <td><%= link_to 'Edit', edit_quiz_path(quiz) %></td>
+                  <% else %>
+                      <td></td>
+                  <% end %>
+                  <% if current_user.is_teacher? || current_user.is_admin? %>
+                      <td><%= link_to 'Show', "quizzes/#{quiz.id}" %></td>
+                  <% end %>
+                  <% if can? :update, quiz %>
+                      <td><%= link_to 'Delete', quiz, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <% else %>
+                      <td></td>
+                  <% end %>
+              <% else %>
+                  <td><%= link_to 'Attempt', quizzes_path(quiz),class: 'btn btn-inverse' %></td>
+              <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row wrapper wrapper-content">
+
+  <% if user_signed_in? && current_user.is_not_student? %>
+      <%= link_to 'New Quiz', new_quiz_path, class: 'btn btn-large btn-inverse' %>
+  <% end %>
+
+</div>
 
 <script>
   $('#degree').on("change", function(){
