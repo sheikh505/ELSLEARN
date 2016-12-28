@@ -104,18 +104,30 @@ class TeacherController < ApplicationController
     if @test.video_review
       render "video_review_question"
     else
+      if @answer.answer_images.any?
+        @image = @answer.answer_images.first
+        @images = @answer.answer_images
+        session[:image_ids] = @answer.answer_images.pluck(:id)
+        @image_ids = session[:image_ids]
+        puts "==============>" + @image.inspect, @image_ids.inspect
+      end
       render "review_question"
     end
-    # @image = IMGKit.new(@answer.answer_detail, quality: 50)
-    # @image = @image.to_img(:jpeg)
-    # file  = Tempfile.new(["template_#{@answer.id}", 'png'], 'tmp',
-    #                      :encoding => 'ascii-8bit')
-    # file.write(@image)
-    # file.flush
-    # @answer.image = file
-    # @answer.save
-    # file.unlink
-    # puts "==========================>"+@image.inspect
+  end
+
+  def next_image
+    session[:image_ids] = session[:image_ids] - [session[:image_ids][0]]
+    puts "==============>" + session[:image_ids].inspect, session[:image_ids].class.inspect
+    @image = AnswerImage.find_by_id(session[:image_ids])
+    @image_ids = session[:image_ids]
+    answer = @image.answer
+    @images = answer.answer_images
+    puts "==============>" + @image.inspect, @image_ids.inspect
+
+    respond_to do |format|
+      format.html {  render partial: "edit_image", locals: {imagee: @image, imagee_ids: @image_ids, imagees: @images} }
+      format.js
+    end
   end
 
   def comment_feedback
@@ -158,9 +170,9 @@ class TeacherController < ApplicationController
   end
 
   def upload_image
-    answer = Answer.find_by_id(params[:answer_id])
-    if answer
-      answer.update_attribute(:image, params[:image])
+    answer_image = AnswerImage.find_by_id(params[:answer_id])
+    if answer_image
+      answer_image.update_attribute(:image, params[:image])
     end
     render :nothing => true
   end

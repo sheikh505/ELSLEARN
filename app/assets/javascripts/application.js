@@ -26,7 +26,6 @@
 //= require jquery.steps.min
 //= require main
 //= require recordRTC
-//= require jquery.classypicozu.min.js
 //= require jquery-bootstrap-pagination
 //= require jquery.bootstrap-duallistbox
 //= require ckeditor/init
@@ -148,3 +147,26 @@ $(document).ready(function() {
         }
     });
 });
+
+function save_image(){
+    image_id = $('#image_id').val();
+  
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    eventer(messageEvent, function(e) {
+        // always check if the origin is the Picozu domain, https included.
+        if (e.origin === 'https://www.picozu.com') {
+            // e.data contains the image properties, and you can construct the URL as following:
+            $.ajax({
+                url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + image_id,
+                method: "POST",
+                success: function(data){
+                    window.unbind()
+                    window.removeEventListener("addEventListener", eventer);
+                }
+
+            })
+        }
+    }, false);
+}

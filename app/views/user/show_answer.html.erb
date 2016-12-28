@@ -7,8 +7,12 @@
   <div class="field stat_holder">
 
     <% unless @answer.answer_detail %>
-        <label><strong>Teacher Review</strong></label>
-        <%= image_tag @answer.image.url %>
+        <label><strong>Teacher Review</strong></label><br>
+        <%  if @answer.answer_images.any? %>
+            <%  @answer.answer_images.each do |image| %>
+                <%= image_tag image.image.url %><br><br>
+            <% end %>
+        <% end %>
     <% else %>
         <label><strong>Submitted Answer</strong></label>
         <%= raw @answer.answer_detail %>
@@ -43,15 +47,18 @@
 
   <% if @finish_flag %>
 
-      <div id="feedback">
-        <%= form_tag "/student/submit_feedback", remote: true, id: "submit_feedback" do |f| %>
-            <div class="field stat_holder">
-              <label><strong>Please Provide your feedback on ELS review</strong></label>
-              <%= text_field_tag :student_feedback, nil, size: 140 %><br>
-              <%= submit_tag "Submit Feedback", class: "btn btn-primary" %>
-            </div>
-        <% end %>
-      </div>
+      <% if !@test.student_feedback %>
+          <div id="feedback">
+            <%= form_tag "/student/submit_feedback", remote: true, id: "submit_feedback" do |f| %>
+                <div class="field stat_holder">
+                  <label><strong>Please Provide your feedback on ELS review</strong></label>
+                  <%= text_field_tag :student_feedback, nil, size: 140 %><br>
+                  <%= submit_tag "Submit Feedback", class: "btn btn-primary" %>
+                </div>
+            <% end %>
+          </div>
+      <% end %>
+
 
 
     <%= link_to "Finish Review", user_test_reviews_path, class: "btn btn-primary" %>

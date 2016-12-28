@@ -1,0 +1,18 @@
+<br><br><font size="6"><span id="current_image"><%= ((imagees.size - imagee_ids.size) + 1) %></span>/<span id="total_images"><%= imagees.size %></span></font><br>
+<iframe src="https://www.picozu.com/editor/?i=<%= imagee.image.url.gsub("http", "https").split("?")[0] %>&workspace=0&theme=galaxy&key=Ci8Mh5lIdX1Me3kB" width="900" height="600"></iframe>
+<%= hidden_field_tag :image_id, imagee.id %>
+
+<script>
+
+  $(document).ready(function() {
+//    var h =  $('iframe').contents().find('.accept-button')
+//    console.dir(h)
+//    $('iframe').contents().find('.accept-button').click(function()
+//    {
+//      alert("Functionality defined by def");
+//    });
+
+//    save_image();
+
+  });
+</script>
