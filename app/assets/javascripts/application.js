@@ -159,7 +159,7 @@ function save_image(){
         if (e.origin === 'https://www.picozu.com') {
             // e.data contains the image properties, and you can construct the URL as following:
             $.ajax({
-                url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + image_id,
+                url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + $('#image_id').val(),
                 method: "POST",
                 success: function(data){
                     window.unbind()
