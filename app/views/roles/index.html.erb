@@ -1,27 +1,37 @@
-<%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
-<%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
-
-<h1>Listing roles</h1>
-<div class="listing-holder">
-<table class="table">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-<tbody>
-  <% @roles.each do |role| %>
-  <tr>
-    <td><%= role.name %></td>
-    <td><%= link_to 'Edit', edit_role_path(role) %></td>
-    <td><%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</tbody>
-</table>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <%= link_to "Manage Users", user_path, class: "btn btn-inverse" %>
+    <%= link_to "Manage Roles", roles_path, class: "btn btn-inverse" %>
 </div>
 
+<h1></h1>
+<div class="row wrapper wrapper-content">
+  <div class="ibox">
+    <div class="ibox-title">
+        <h5>Listing roles</h5>
+    </div>
+    <div class="ibox-content listing-holder">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @roles.each do |role| %>
+            <tr>
+              <td><%= role.name %></td>
+              <td><%= link_to 'Edit', edit_role_path(role) %></td>
+              <td><%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row wrapper wrapper-content">
 
 <%= link_to 'New Role', new_role_path, :class=>'btn btn-inverse' %>
+</div>

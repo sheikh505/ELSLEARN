@@ -1,50 +1,63 @@
-<%= link_to "Payments", "/home_page/payments", class: "btn btn-primary" %> |
-<%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-primary" %>
 
-<div class="listing-holder listing_data_table">
-  <table class="table table-condensed">
-    <thead>
-    <th>Order #</th>
-    <th>Student</th>
-    <th>Certification</th>
-    <th>Courses</th>
-    <th>Amount</th>
-    <th>Method</th>
-    <th>Status</th>
-    <th>Access</th>
-    </thead>
-    <tbody>
-      <%@students.each do |student|  %>
-          <tr id="<%= student[:id] %>">
-            <td>
-              <a href="#" data-remote="true" onclick="get_details(<%= student[:id] %>)" >
-                <%= student[:id] %>
-              </a>
-            </td>
-            <td><%= student[:name] %></td>
-            <td><%= student[:certification ]%></td>
-            <td><%= student[:courses] %></td>
-            <td><%= student[:amount] %></td>
-            <td><%= student[:method] %></td>
-            <td><%= student[:status] %></td>
-            <td>
-              <% if student[:is_active] %>
-                <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
-                  <%= check_box_tag student[:id], "", checked: "checked" %>
-                </a>
-              <% else %>
-                <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
-                  <%= check_box_tag student[:id], "" %>
-                </a>
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-    </tbody>
-
-
-  </table>
+<div class="row wrapper page-heading border-bottom white-bg">
+  <%= link_to "Payments", "/home_page/payments", class: "btn btn-inverse" %>
+  <%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-inverse" %>
 </div>
+<div class="wrapper row wrapper-content">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>Membership Plans</h5>
+    </div>
+    <div class="ibox-content listing-holder listing_data_table">
+      <table class="table table-striped">
+        <thead>
+        <th>Order #</th>
+        <th>Student</th>
+        <th>Certification</th>
+        <th>Courses</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Status</th>
+        <th>Access</th>
+        </thead>
+        <tbody>
+        <% if @students %>
+            <%@students.each do |student|  %>
+                <tr id="<%= student[:id] %>">
+                  <td>
+                    <a href="#" data-remote="true" onclick="get_details(<%= student[:id] %>)" >
+                      <%= student[:id] %>
+                    </a>
+                  </td>
+                  <td><%= student[:name] %></td>
+                  <td><%= student[:certification ]%></td>
+                  <td><%= student[:courses] %></td>
+                  <td><%= student[:amount] %></td>
+                  <td><%= student[:method] %></td>
+                  <td><%= student[:status] %></td>
+                  <td>
+                    <% if student[:is_active] %>
+                        <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
+                          <%= check_box_tag student[:id], "", checked: "checked" %>
+                        </a>
+                    <% else %>
+                        <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
+                          <%= check_box_tag student[:id], "" %>
+                        </a>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+        <% end %>
+
+        </tbody>
+
+
+      </table>
+    </div>
+  </div>
+</div>
+
 
 <div id="modal_detail" style="overflow:scroll;" class="modal fade">
 

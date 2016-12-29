@@ -389,7 +389,7 @@ img.pull-left {
 }
 .header-cart {
     position: relative;
-    display: inline-block;
+    display: none;
     margin-top: -5px;
     float: right;
     vertical-align: middle;
@@ -2161,7 +2161,7 @@ transform: rotate(360deg);
 
 #search-open{
     float: right;
-    margin: 3px 15px;
+    margin: 3px 0;
 		text-decoration:none !important;
 		position:relative;
 		   z-index: 778;
@@ -2877,4 +2877,153 @@ body {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.2),0 1px 5px 0 rgba(0,0,0,0.12);
     font-family: "Open Sans", sans-serif;
     text-shadow: none;
+}
+.user-links-holder li{
+    list-style: none;
+    padding: 0;
+    margin: 5px 5px 0;
+    display: inline-block;
+
+}
+.user-links-holder li a{
+    color:#000
+}
+.user_profile_holder li {
+    list-style: none;
+    margin: 0 ;
+    padding: 0;
+}
+/*==================================================*/
+/* User_profile start */
+/*==================================================*/
+.user_profile_holder{
+    margin: 20px 0;
+}
+.user_profile_holder .user_profile_left{
+    display: inline-block;
+    width: 21%;
+}
+.user_profile_holder h1{
+    font-size: 24px;
+    padding-bottom: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+.user_profile_holder p{
+    margin-bottom: 15px;
+}
+.user_profile_holder .user_profile_left ul {
+    background: none repeat scroll 0 0 #fff;
+    border-top: 2px solid #0095D9;
+    padding: 10px;
+}
+.user_profile_holder .user_profile_left ul li a {
+    color:#9197a3;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    font-size: 13px;
+    padding: 8px 20px;
+    transition: all 0.5;
+}
+.user_profile_holder .user_profile_left .u_left_holder > li {
+    background: none repeat scroll 0 0 #f7f7f7;
+    margin-bottom: 6px;
+}
+.user_profile_holder .user_profile_left ul li a.avtar{
+    padding: 0;
+    width: 100%;
+}
+.user_profile_holder .user_profile_left ul li a.avtar img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.user_profile_holder .user_profile_left .u_left_holder > li:hover {
+    background: rgba(204,204, 204, 0.6);
+}
+.user_profile_holder .user_profile_left .u_left_holder > li:hover a{
+    color: #333;
+}
+.user_profile_holder .user_profile_left .u_left_holder > li:hover a .fa.fa_icon.fa-tachometer,
+.user_profile_holder .user_profile_left .u_left_holder > li:hover a .fa.fa_icon.fa-users{ color: #333}
+.user_profile_holder .user_profile_right{
+    display: inline-block;
+    width: 70%;
+    vertical-align: top;
+    background: #fff;
+    margin: 0 0 0 50px;
+    border-bottom: 2px solid #ccc;
+    border-radius: 5px;
+}
+.user_profile_holder .user_profile_right li:after{
+    clear: both;
+    display: block;
+    content: '';
+}
+.user_profile_holder .user_profile_right li {
+    border-bottom: 1px solid #ccc;
+    padding: 8px 20px;
+}
+.user_profile_holder .user_profile_right li h3{
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    width: 200px;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: inline-block;
+}
+.user_profile_holder .user_profile_right li span{
+    width: 400px;
+    color: #9197a3;
+    font-size: 13px;
+    text-transform: capitalize;
+    font-weight: 600;
+    display: inline-block;
+}
+.user_profile_holder .user_profile_right li  a{
+    float: right;
+    color: #0095d9;
+    font-size: 14px;
+}
+.user_profile_holder .user_profile_nav{ background: #0095d9; padding-left: 0}
+.user_profile_holder .user_profile_nav li:after{
+    clear: both;
+    display: block;
+    content: '';
+}
+.user_profile_holder .user_profile_nav li  a{ color: #fff; float: left; position: relative;}
+.user_profile_holder .user_profile_nav li  a .menu_active{
+    position: absolute;
+    bottom: -17px;
+    left: 10px;
+    font-size: 20px;
+    color: #fff;
+}
+.fa.fa_icon.fa-tachometer,
+.fa.fa_icon.fa-users{
+    font-size: 17px;
+    padding: 0 5px 0 0;
+    color: #9197a3;
+}
+.user_profile_holder .user_profile_right .u_right_holder li:hover{
+    background: #f7f7f7;
+}
+.u_right_holder{
+    padding: 0;
+    margin-left: 0;
+}
+video {
+    width: 400px !important;
+    display: block !important;
+    max-width: 100% !important;
+    height: 100% !important;
+}
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
 }

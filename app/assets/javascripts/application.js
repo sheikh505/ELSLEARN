@@ -34,12 +34,12 @@
 //= require waypoints.min.js
 //= require cssua.min.js
 //= require wow.min.js
-//= require custom.min.js
 //= require jquery.sliderPro.min.js
 //= require owl.carousel.min.js
 //= require jquery.isotope.min.js
 //= require jquery.easypiechart.min.js
 //= require jquery.jelect.js
+//= require custom.js
 //= require_tree .
 
 

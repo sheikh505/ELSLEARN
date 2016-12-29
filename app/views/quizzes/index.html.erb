@@ -1,13 +1,15 @@
-<div class="row wrapper border-bottom white-bg page-heading">
 <% if current_user.is_admin? %>
+<div class="row wrapper border-bottom white-bg page-heading">
+
     <%= link_to "Manage Tests", quizzes_path, class: "btn btn-inverse" %>
     <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-inverse" %>
     <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-inverse" %>
-<% end %>
-</div>
 
+</div>
+<% end %>
+<% if current_user.is_admin? %>
 <div class="row wrapper wrapper-content white-bg">
-  <% if current_user.is_admin? %>
+
     <div class="col-md-6">
       <%= label_tag :select_certification %>
       <%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) , {:class=>'form-control'} %>
@@ -18,8 +20,9 @@
         <%= select_tag "course", options_from_collection_for_select(@courses, :id, :name) , {:class=>'form-control'} %>
       </div>
       </div>
-  <% end %>
+
 </div>
+<% end %>
 <div class="row wrapper-content wrapper">
   <div class="ibox">
     <div class="ibox-title">

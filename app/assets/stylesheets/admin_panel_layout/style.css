@@ -2765,3 +2765,13 @@ ul.admin-opt-dashboard.admin-opt li a{
     background: #1ab394;
     color: #fff;
 }
+.teacher-nav{
+    margin-left: 20px;
+}
+.hr-line-dashed {
+    background-color: #ffffff;
+    border-top: 1px dashed #e7eaec;
+    color: #ffffff;
+    height: 1px;
+    margin: 20px 0;
+}

@@ -1,37 +1,46 @@
-<%= link_to "Payments", "home_page/payments", class: "btn btn-primary" %> |
-<%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-primary" %>
+<div class="row wrapper page-heading border-bottom white-bg">
+<%= link_to "Payments", "home_page/payments", class: "btn btn-inverse" %>
+<%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-inverse" %>
+</div>
+<div class="row wrapper-content wrapper">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>Listing membership plans</h5>
+    </div>
+    <div class="ibox-content listing-holder listing_data_table">
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Paper</th>
+          <th>Max questions allowed</th>
+          <th>Result type</th>
+          <th>Validity</th>
+          <th>Other course amount</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
 
-<h1 style="margin-top: 20px">Listing membership plans</h1>
-<div class="listing-holder listing_data_table">
-<table class="table table-condensed">
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Paper</th>
-    <th>Max questions allowed</th>
-    <th>Result type</th>
-    <th>Validity</th>
-    <th>Other course amount</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @membership_plans.each do |membership_plan| %>
-  <tr>
-    <td><%= membership_plan.name %></td>
-    <td><%= membership_plan.price %></td>
-    <td><%= membership_plan.paper %></td>
-    <td><%= membership_plan.max_questions_allowed %></td>
-    <td><%= membership_plan.result_type %></td>
-    <td><%= membership_plan.validity %></td>
-    <td><%= membership_plan.other_course_amount %></td>
-    <td><%= link_to 'Show', membership_plan %></td>
-    <td><%= link_to 'Edit', edit_membership_plan_path(membership_plan) %></td>
-    <td><%= link_to 'Destroy', membership_plan, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+        <% @membership_plans.each do |membership_plan| %>
+            <tr>
+              <td><%= membership_plan.name %></td>
+              <td><%= membership_plan.price %></td>
+              <td><%= membership_plan.paper %></td>
+              <td><%= membership_plan.max_questions_allowed %></td>
+              <td><%= membership_plan.result_type %></td>
+              <td><%= membership_plan.validity %></td>
+              <td><%= membership_plan.other_course_amount %></td>
+              <td><%= link_to 'Show', membership_plan %></td>
+              <td><%= link_to 'Edit', edit_membership_plan_path(membership_plan) %></td>
+              <td><%= link_to 'Destroy', membership_plan, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row  wrapper-content">
+  <%= link_to 'New Membership plan', new_membership_plan_path, :class=>'btn btn-inverse' %>
 
 </div>
-<%= link_to 'New Membership plan', new_membership_plan_path, :class=>'btn btn-inverse' %>

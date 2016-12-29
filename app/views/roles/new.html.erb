@@ -1,8 +1,13 @@
-<%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
-<%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+<div class="row page-heading border-bottom white-bg">
+  <%= link_to "Manage Users", user_path, class: "btn btn-inverse" %>
+  <%= link_to "Manage Roles", roles_path, class: "btn btn-inverse" %>
 
-<h1>New role</h1>
+</div>
 
+<div class="row wrapper wrapper-content">
 <%= render 'form' %>
+</div>
+<div class="row wrapper wrapper-content">
+  <%= link_to 'Back', roles_path, :class=>'btn  btn-inverse' %>
+</div>
 
-<%= link_to 'Back', roles_path, :class=>'btn  btn-inverse' %>
