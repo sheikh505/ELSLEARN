@@ -77,23 +77,21 @@
 
 
  <script>
+  save_image();
 
-  $(document).ready(function(){
-    save_image();
-
-    $("#next_image").on('click', function(){
-      $.ajax({
-        url: "/teachers/next_image",
-        success: function(data){
-          $('#edit_image').html(data);
-          if(Number($('#current_image').text()) == Number($('#total_images').text()))
-          {
-            $("#next_image").hide();
-          }
+  $("#next_image").on('click', function(){
+    $.ajax({
+      url: "/teachers/next_image",
+      success: function(data){
+        $('#edit_image').html(data);
+        if(Number($('#current_image').text()) == Number($('#total_images').text()))
+        {
+          $("#next_image").hide();
         }
-      })
+      }
     })
   })
+
 
   $('#marks').on("input", function(){
     $('#error').hide();
