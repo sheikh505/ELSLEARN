@@ -11,7 +11,10 @@
 <div class="field stat_holder">
   <label><strong>Student Answer</strong></label>
   <% unless @answer.answer_detail %>
-      <iframe src="https://www.picozu.com/editor/?i=<%= @answer.image.url.gsub("http", "https").split("?")[0] %>&workspace=0&theme=galaxy&key=Ci8Mh5lIdX1Me3kB" width="900" height="600"></iframe>
+      <div id="edit_image">
+        <%= render partial: "edit_image" ,locals: {imagee: @image, imagee_ids: @image_ids, imagees: @images}%>
+      </div>
+      <br><%= link_to "Next Image", "javascript:void(0)", id: "next_image", class: "btn btn-primary" %>
   <% else %>
       <%= raw @answer.answer_detail %>
   <% end %>
@@ -75,6 +78,43 @@
 
  <script>
 
+  var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+  var eventer = window[eventMethod];
+  var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+  eventer(messageEvent, function(e) {
+    // always check if the origin is the Picozu domain, https included.
+    if (e.origin === 'https://www.picozu.com') {
+      // e.data contains the image properties, and you can construct the URL as following:
+      $.ajax({
+        url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + $('#image_id').val(),
+        method: "POST",
+        success: function(data){
+          window.unbind()
+          window.removeEventListener("addEventListener", eventer);
+        }
+
+      })
+    }
+  }, false);
+
+  if(Number($('#current_image').text()) == Number($('#total_images').text()))
+  {
+    $("#next_image").hide();
+  }
+
+  $("#next_image").on('click', function(){
+    $.ajax({
+      url: "/teachers/next_image",
+      success: function(data){
+        $('#edit_image').html(data);
+        if(Number($('#current_image').text()) == Number($('#total_images').text()))
+        {
+          $("#next_image").hide();
+        }
+      }
+    })
+  })
+
 
   $('#marks').on("input", function(){
     $('#error').hide();
@@ -120,57 +160,6 @@
       return false;
     }
   }
-
-
-
-
-
-  $(function(){
-
-    var $image_url = "";
-    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-    eventer(messageEvent, function(e) {
-      // always check if the origin is the Picozu domain, https included.
-      if (e.origin === 'https://www.picozu.com') {
-        // e.data contains the image properties, and you can construct the URL as following:
-//        $('#image_url').val("https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format);
-        $.ajax({
-          url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + <%= @answer.id %>,
-          method: "POST",
-          success: function(data){
-            alert("done");
-          }
-
-        })
-      }
-    }, false);
-
-//    $('#save_remarks').on("click", function(){
-//      $.ajax({
-//        url: "/student/upload_image?image=" + $('#image_url').val() + "&answer_id=" + <%= @answer.id %>,
-//        method: "POST",
-//        success: function(data){
-//          alert("done");
-//        }
-//
-//      })
-//    })
-
-//    $('.picozu').ClassyPicozu({
-//      key: 'Ci8Mh5lIdX1Me3kB',
-//      width: 900,
-//      height: 600,
-//      onOpen: function(){
-//
-//      }
-//    });
-
-
-
-
-  })
 
  </script>
 

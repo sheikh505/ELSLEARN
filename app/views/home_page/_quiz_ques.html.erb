@@ -56,22 +56,31 @@
 
         <div id="image_uploading" style="display: none">
 
-          <div id="uploader">
+          <!--<div id="uploader">-->
 
+          <!--</div>-->
+
+          <div id="show_image">
+            <% @ans = Answer.where(question_id: $arr[@index].id, user_test_history_id: $user_test_history_id).first %>
+            <% if @ans %>
+                <% if @ans.answer_images.any? %>
+                    <% @ans.answer_images.each do |image| %>
+                        <%= image_tag image.image.url.split('?')[0], size: "200x200", display: "inline" %>
+                    <% end %>
+                <% end %>
+            <% end %>
           </div>
 
           <div class="form-group">
-          <%= form_for :answer, url: {controller: :home_page, action: :upload_image},
-                       :html => {:multipart => true, :id => "submit_image" }, remote: true do |f| %>
-              <%= f.file_field :image, class: "file-styled" %><br>
-              <%= f.hidden_field :user_test_history_id, value: $user_test_history_id %>
-              <%= f.hidden_field :question_id, value: $ques_id %>
-              <%= f.submit "Upload Image", name: "upload_image", class: "btn" %>
-          <% end %>
+            <%= form_for :answer, url: {controller: :home_page, action: :upload_image},
+                         :html => {:multipart => true, :id => "submit_image" }, remote: true do |f| %>
+                <%= f.file_field :image, class: "file-styled" %><br>
+                <%= f.hidden_field :user_test_history_id, value: $user_test_history_id %>
+                <%= f.hidden_field :question_id, value: $ques_id %>
+                <%= f.submit "Upload Image", name: "upload_image", class: "btn" %>
+            <% end %>
           </div>
-          <div id="show_image">
 
-          </div>
           <!--<form action="/home_page/upload_image" method="POST" id="submit_image" data-remote="true">-->
             <!--<input type="file" name="answer[image]">-->
             <!--<input type="hidden" name="answer[user_test_history_id]" value="<%#= @user_test_history_id %>">-->
@@ -166,7 +175,8 @@
         cursor: default;
     }
 </style>
-
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+<!--<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>-->
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -202,12 +212,14 @@
     })
 
     $('#submit_image').on('ajax:remotipartSubmit', function(e, data, status, xhr){
+      console.dir('here')
+
       $("<div class='alert alert-info'> <strong>Info!</strong> Image is being processed. </div>").insertBefore( $( "#submit_image" ) );
     })
 
-    $('#submit_image').on("ajax:remotipartComplete", function(e, data){
+    $('#submit_image').on("ajax:remotipartComplete", function(e, data, status, xhr){
       $(".alert-info").hide();
-      $("<div class='alert alert-success'> Image successfully uploaded! </div>").insertBefore( $( "#submit_image" ) );
+      $("#show_image").append(data.responseText);
     });
 
     function check_blank(ques_id){

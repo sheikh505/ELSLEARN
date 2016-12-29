@@ -605,7 +605,13 @@ class HomePageController < ApplicationController
   end
 
   def upload_image
-    @answer = Answer.create(params[:answer])
+    @answer = Answer.where(question_id: params[:answer][:question_id], user_test_history_id: params[:answer][:user_test_history_id]).first
+    if @answer
+      @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:answer][:image])
+    else
+      @answer = Answer.create(question_id: params[:answer][:question_id], user_test_history_id: params[:answer][:user_test_history_id])
+      @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:answer][:image])
+    end
     render partial: "answer_image"
   end
 
@@ -755,6 +761,7 @@ class HomePageController < ApplicationController
     puts "========================>@@@@@@" + params[:ques_id].inspect + params[:choice].inspect
     render :json => {:success => true}
   end
+
   def get_answer_from_session
     puts "------------------>", session.inspect
     if session[params[:index]].present?
