@@ -81,7 +81,26 @@
  <script>
 
   $(document).ready(function(){
-    
+
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    eventer(messageEvent, function(e) {
+      // always check if the origin is the Picozu domain, https included.
+      if (e.origin === 'https://www.picozu.com') {
+        // e.data contains the image properties, and you can construct the URL as following:
+        $.ajax({
+          url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + $('#image_id').val(),
+          method: "POST",
+          success: function(data){
+            window.unbind()
+            window.removeEventListener("addEventListener", eventer);
+          }
+
+        })
+      }
+    }, false);
+
     $("#next_image").on('click', function(){
       $.ajax({
         url: "/teachers/next_image",
@@ -95,7 +114,6 @@
       })
     })
 
-    save_image();
   })
 
   $('#marks').on("input", function(){
