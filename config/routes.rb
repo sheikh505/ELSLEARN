@@ -305,7 +305,7 @@ ExamsSystem::Application.routes.draw do
   get "/teachers/preview_reviewed_quiz" => "teacher#preview_reviewed_quiz"
   get "/teachers/preview_question" => "teacher#preview_question"
   get "/teachers/next_image" => "teacher#next_image"
-
+  get "/home_page/remove_image" => "home_page#remove_image"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -65,7 +65,11 @@
             <% if @ans %>
                 <% if @ans.answer_images.any? %>
                     <% @ans.answer_images.each do |image| %>
-                        <%= image_tag image.image.url.split('?')[0], size: "200x200", display: "inline" %>
+                        <div id="answer_image_<%= image.id %>">
+                          <%= image_tag image.image.url.split('?')[0], size: "200x200", display: "inline" %><br>
+                          <%= link_to "Remove", "/home_page/remove_image?answer_image_id=#{image.id}", class: "btn",
+                                      remote: true, onclick: "return remove_image(#{image.id})" %>
+                        </div>
                     <% end %>
                 <% end %>
             <% end %>
@@ -175,30 +179,27 @@
         cursor: default;
     }
 </style>
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 <!--<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>-->
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $.ajax({
-            url:'/home_page/get_answer?index='+<%=@index%>,
-            type:'get',
-            dataType:'json',
-            processData:false,
-            success:function (data) {
-              <% if $arr[@index].question_type == 3 %>
-              var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
-              <% elsif $arr[@index].question_type == 2 %>
-              CKEDITOR.replace('descriptive');
-              CKEDITOR.instances['descriptive'].setData(data.option_index);
-              <% else %>
-              $("#"+data.option_index).addClass('correct_answer');
-              <% end %>
-            },
-            error:function (data) {
-                alert ('Error Occurred!!!!');
-            }
-        });
+    $.ajax({
+      url:'/home_page/get_answer?index='+<%=@index%>,
+      type:'get',
+      dataType:'json',
+      processData:false,
+      success:function (data) {
+        <% if $arr[@index].question_type == 3 %>
+        var str_comp = $("#fill_in_the_blank_field").val(data.option_index);
+        <% elsif $arr[@index].question_type == 2 %>
+        CKEDITOR.replace('descriptive');
+        CKEDITOR.instances['descriptive'].setData(data.option_index);
+        <% else %>
+        $("#"+data.option_index).addClass('correct_answer');
+        <% end %>
+      },
+      error:function (data) {
+        alert ('Error Occurred!!!!');
+      }
     });
 
     $('#editor_btn').on('click', function(){
@@ -221,6 +222,11 @@
       $(".alert-info").hide();
       $("#show_image").append(data.responseText);
     });
+
+    function remove_image(image_id){
+      $('#answer_image_' + image_id).remove();
+      return true;
+    }
 
     function check_blank(ques_id){
         var str_comp = $("#fill_in_the_blank_field").val();
