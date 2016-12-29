@@ -81,8 +81,7 @@
  <script>
 
   $(document).ready(function(){
-    save_image();
-
+    
     $("#next_image").on('click', function(){
       $.ajax({
         url: "/teachers/next_image",
@@ -95,6 +94,8 @@
         }
       })
     })
+
+    save_image();
   })
 
   $('#marks').on("input", function(){
