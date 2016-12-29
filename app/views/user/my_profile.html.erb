@@ -1,16 +1,17 @@
 
-<div class="user_profile_holder">
+
+
+<div class="user_profile_holder" style="padding-top: 60px">
   <div class="container">
     <h1>User Profile Page</h1>
-    <div class="user_profile_left">
+    <div class="user_profile_left ">
       <ul class="u_left_holder">
         <li><a class="avtar" href="#">
           <% if @user.avatar.present?%>
-              <%= image_tag @user.avatar.url %>
+              <%= image_tag @user.avatar.url , :class=>'avatar img-circle img-thumbnail' , :width => '200' , :height => '200' %>
           <% else %>
-              <img src="/assets/FB-profile-avatar.jpg" alt=""> </a> </li>
+              <img src="/assets/FB-profile-avatar.jpg" class="avatar img-circle img-thumbnail"  width="200" height="200" alt=""></a></li>
           <% end %>
-
           <% if current_user.is_student? %>
 
               <li><a  href="/user/manage_courses">
@@ -72,19 +73,17 @@
       </div>
     </div>
 
-    <div class="user_profile_right">
+    <div class="user_profile_right ">
 
       <ul class="user_profile_nav">
         <li>
           <a href="javascript:void(0)">Profile
-                  <span class="menu_active">
-                    <i class="fa fa-caret-up"></i>
-                </span>
+
           </a>
         </li>
       </ul>
       <ul class="u_right_holder">
-        <li>
+        <li class="form-group">
           <h3>Email</h3>
           <span><%= @user.email%></span>
         </li>
@@ -105,7 +104,7 @@
             <li>
               <h3>Picture</h3>
               <%= f.file_field :avatar %>
-              <%= f.submit "Update Picture", :class=>'btn btn-inverse'%>
+              <%= f.submit "Update Picture", :class=>'btn btn-primary'%>
 
             </li>
         <% end %>
@@ -127,7 +126,7 @@
             </li>
             <li>
               <h3></h3>
-              <%= f.submit "Change Password", :class=>'btn btn-inverse' %>
+              <%= f.submit "Change Password", :class=>'btn btn-primary' %>
             </li>
         <% end %>
       </ul>

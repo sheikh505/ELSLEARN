@@ -1,39 +1,40 @@
-<li>
+<li >
   <%= current_user.teacher_token || "No TOken" %>
 </li>
 
 <% unless current_user.is_hod? %>
-  <li>
-    <%= link_to "New Students (#{new_students_count_teacher})", "/new_students" %>
+  <li class="teacher-nav">
+    <%= link_to "  New Students (#{new_students_count_teacher})", "/new_students" %>
+
   </li>
 
-  <li>
+  <li class="teacher-nav">
     <%= link_to "Manage Students (#{manage_students_count_teacher})", "/manage_students" %>
   </li>
 <% end %>
 
 <%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("2") %>
-<li>
+<li class="teacher-nav">
   <%= link_to "Comment Feedback (#{comment_feedback_count_teacher})", "/comment_feedback" %>
 </li>
 <% end %>
 
 <%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("3") %>
-<li>
+<li class="teacher-nav">
   <%= link_to "Video Feedback (#{video_review_count_teacher})", "/check_quiz" %>
 </li>
 <% end %>
 
-<li>
+<li class="teacher-nav">
   <%= link_to "Manage Tests (#{manage_tests_count_teacher})", quizzes_path %>
 </li>
 
-<li>
+<li class="teacher-nav">
   <%= link_to "Manage Questions (#{question_count_teacher})", questions_path %>
 </li>
 
 <%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("1") %>
-<li>
+<li class="teacher-nav">
   <%= link_to "Approve Questions (#{approve_question_count_teacher})", questions_approval_questions_path %>
 </li>
 <% end %>

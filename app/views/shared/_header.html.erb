@@ -95,7 +95,8 @@
             <% if user_signed_in? %>
                 <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %> |
             <% else %>
-                <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %> |
+               <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>  |
+                <a class="register" href="users/sign_up">Register</a>
             <% end %>
             <% if user_signed_in? && current_user.is_not_student? %>
                 <%= link_to "Admin Panel", "/admin_panel", :class => 'navbar-link' %>
@@ -112,7 +113,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-xs-12"> <a class="header-logo" href="javascript:void(0);"><img class="header-logo__img" src="assets/logo.png"  alt="Logo"></a>
+      <div class="col-xs-12"> <a class="header-logo" href="javascript:void(0);"><img class="header-logo__img" src="/assets/logo.png"  alt="Logo"></a>
         <div class="header-inner">
           <div class="header-search">
             <div class="navbar-search">
@@ -132,21 +133,36 @@
             </div>
             <div id="navbar-collapse-1" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="dropdown"><a href="javascript:void(0)">Home<span class="nav-subtitle">OUR World</span></a>
+                <li class="dropdown"><a href="/">Home<span class="nav-subtitle">OUR World</span></a>
                 </li>
-                <li class="dropdown"> <a href="javascript:void(0)">COURSES<span class="nav-subtitle">What We Offers</span></a>
-                  <ul role="menu" class="dropdown-menu">
-                    <li><a href="javascript:void(0)">courses category</a>
+                <li class="dropdown"> <a href="/how_it_works">How it Works
+                  <span class="nav-subtitle">What We Offers</span></a>
 
-                    </li>
-                    <li><a href="javascript:void(0)">course details</a></li>
-                  </ul>
                 </li>
-                <li class="dropdown"> <a href="javascript:void(0);">PAGES<span class="nav-subtitle">Information</span></a>
+                <li class="dropdown"> <a href="/pricing">Users<span class="nav-subtitle">Users</span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a>Students</a></li>
+                      <li><a>Teachers</a></li>
+                      <li><a>Institutions</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"> <a href="/pricing">Institutions<span class="nav-subtitle">Portals</span></a>
+                    <ul class="dropdown-menu">
+                      <li><a>Onsite Testing</a></li>
+                      <li><a>Onsite Portals</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"> <a href="/pricing">What’s Next<span class="nav-subtitle">Portals</span></a>
+
+                </li>
+                <li class="dropdown"> <a href="/pricing">Pricing<span class="nav-subtitle">Information</span></a>
+
+                </li>
+                <li class="dropdown"> <a href="/pricing">Contact<span class="nav-subtitle">Information</span></a>
 
                 </li>
                 <% if user_signed_in? %>
-                    <li class="dropdown"><a href="javascript:void(0)">My Account <span class="nav-subtitle">Our World</span></a>
+                    <li class="dropdown"><a href="javascript:void(0)">My Account <span class="nav-subtitle">say us hi</span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li>
                         <% if user_signed_in? %>
@@ -165,14 +181,12 @@
                         <% end %>
                       </ul>
                     </li>
-                <% else %>
-                    <li><a href="users/sign_in">Log in</a></li>
-                    <li><a class="register" href="users/sign_up">Register</a></li>
-                <% end %>
-                <li class="dropdown"> <a href="javascript:void(0);">BLOG<span class="nav-subtitle">Latest News</span></a>
 
-                </li>
-                <li><a href="javascript:void(0)">CONTACT<span class="nav-subtitle">say us hi</span></a></li>
+                <% end %>
+                <!--<li class="dropdown"> <a href="javascript:void(0);">BLOG<span class="nav-subtitle">Latest News</span></a>-->
+
+                <!--</li>-->
+                <!--<li><a href="javascript:void(0)">CONTACT<span class="nav-subtitle">say us hi</span></a></li>-->
               </ul>
             </div>
           </nav>

@@ -1,51 +1,62 @@
 
-<div class="pricing">
-  <div class="pricing_holder container">
-    <div  class="container_holder_post">
-      <!--<div class="whole custom-whole">-->
-        <!--<div class="plan">-->
-          <!--<div class="content">-->
-            <!--<ul>-->
-              <!--<li>Number of Courses:</li>-->
-              <!--<li>Papers:</li>-->
-              <!--<li>Max Questions Allowed:</li>-->
-              <!--<li class="pre_auto_height">Result Type:</li>-->
-              <!--<li>Validity:</li>-->
-              <!--<li class="last">Add Other Courses:</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <% @membership_plans.each do |plan| %>
-          <div class="whole">
-            <div class="type">
-              <p><%=plan.name || ""%></p>
-            </div>
-            <div class="plan">
 
-              <div class="header-post">
-                <span>$</span><%=plan.price %>
-                <p class="month">per month</p>
-              </div>
-              <div class="content">
-                <ul>
-                  <li><%=plan.paper%></li>
-                  <li><%=plan.max_questions_allowed%></li>
-                  <li><%=plan.result_type%></li>
-                  <li><%=plan.validity %></li>
-                </ul>
-              </div>
-              <div class="price">
-                <%=link_to "BUY","home_page/checkout_form?mm_plan_id=#{plan.id}",class: 'bottom btn btn-primary' %>
+<section class="section-default">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="wrap-title">
+          <h2 class="ui-title-block">Our <strong>Pricing Plans </strong></h2>
+          <div class="ui-subtitle-block">Pricing details are very simple and affordable for every student</div>
+        </div>
+        <!-- end wrap-title -->
 
-              </div>
-            </div>
-          </div>
-
-      <% end %>
+        <ul class="list-pricing list-unstyled">
+          <% @membership_plans.each do |plan| %>
+          <li class="list-pricing__item wow zoomIn" data-wow-duration="2s"> <i class="icon stroke icon-Umbrella"></i>
+            <div class="list-pricing__name"><%=plan.name || ""%></div>
+            <span class="list-pricing__currency">$</span> <span class="list-pricing__value"><%=plan.price %></span> <span class="list-pricing__month">/  Month</span>
+            <div class="list-pricing__inner">
+              <ul class="list-pricing__description list-unstyled">
+                <li><%=plan.paper%></li>
+                <li><%=plan.max_questions_allowed%></li>
+                <li><%=plan.result_type%></li>
+                <li><%=plan.validity %></li>
+              </ul>
+              <a class="list-pricing__link" href="javascript:void(0);">REGISTER</a> </div>
+          </li>
+          <% end %>
+          <!--<li class="list-pricing__item wow zoomIn" data-wow-duration="2s" data-wow-delay=".5s"> <i class="icon stroke icon-Planet"></i>-->
+            <!--<div class="list-pricing__name">STANDARD</div>-->
+            <!--<span class="list-pricing__currency">$</span> <span class="list-pricing__value">24</span> <span class="list-pricing__month">/  Month</span>-->
+            <!--<div class="list-pricing__inner">-->
+              <!--<ul class="list-pricing__description list-unstyled">-->
+                <!--<li>Six Months <strong>full Access</strong></li>-->
+                <!--<li>Lilimited Courses</li>-->
+                <!--<li>Free Course Support</li>-->
+              <!--</ul>-->
+              <!--<a class="list-pricing__link" href="javascript:void(0);">REGISTER</a> </div>-->
+          <!--</li>-->
+          <!--<li class="list-pricing__item wow zoomIn" data-wow-duration="2s" data-wow-delay="1s"> <i class="icon stroke icon-TeaMug"></i>-->
+            <!--<div class="list-pricing__name">PREMIUM</div>-->
+            <!--<span class="list-pricing__currency">$</span> <span class="list-pricing__value">69</span> <span class="list-pricing__month">/  Month</span>-->
+            <!--<div class="list-pricing__inner">-->
+              <!--<ul class="list-pricing__description list-unstyled">-->
+                <!--<li>1 Year <strong>full Access</strong></li>-->
+                <!--<li>Lilimited Courses</li>-->
+                <!--<li>Free Course Support</li>-->
+              <!--</ul>-->
+              <!--<a class="list-pricing__link" href="javascript:void(0);">REGISTER</a> </div>-->
+          <!--</li>-->
+        </ul>
+      </div>
+      <!-- end col -->
     </div>
-
+    <!-- end row -->
   </div>
+  <!-- end container -->
+</section>
+<!-- end section-default -->
 
-</div>
+
+
 

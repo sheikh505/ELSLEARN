@@ -1,8 +1,14 @@
-<%= link_to "Payments", "home_page/payments", class: "btn btn-primary" %> |
-<%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-primary" %>
+<div class="row wrapper page-heading border-bottom white-bg">
+  <%= link_to "Payments", "home_page/payments", class: "btn btn-inverse" %>
+  <%= link_to "Manage Membership Plans", membership_plans_path, class: "btn btn-inverse" %>
 
-<h1 style="margin-top: 20px">New membership plan</h1>
+</div>
+<div class="row wrapper wrapper-content ">
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
+</div>
+
+<div class="row wrapper-content wrapper">
 <%= link_to 'Back', membership_plans_path, :class=>'btn btn-inverse' %>
+</div>

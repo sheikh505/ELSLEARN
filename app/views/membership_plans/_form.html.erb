@@ -1,55 +1,84 @@
-<div class="container">
-  <div class="row">
 
-<%= form_for(@membership_plan) do |f| %>
-  <% if @membership_plan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@membership_plan.errors.count, "error") %> prohibited this membership_plan from being saved:</h2>
+<div class="ibox">
+  <div class="ibox-title">
+    <h5>Membership Plans</h5>
+  </div>
+  <div class="ibox-content">
+    <%= form_for(@membership_plan , :html => {:class => "form-horizontal"}) do |f|  %>
+        <% if @membership_plan.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@membership_plan.errors.count, "error") %> prohibited this membership_plan from being saved:</h2>
 
-      <ul>
-      <% @membership_plan.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+              <ul>
+                <% @membership_plan.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div class="field form-group">
+          <%= f.label :name , :class=>'col-sm-2 control-label' %>
+          <div class="col-sm-10">
+            <%= f.text_field :name , :class=>'form-control'%>
+          </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+        <div class="field form-group">
+          <%= f.label :price , :class=>'col-sm-2 control-label' %>
+          <div class="col-sm-10">
+              <%= f.text_field :price , :class=>'form-control' %>
+          </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+        <div class="field form-group">
+          <%= f.label :paper , :class=>'col-sm-2 control-label' %>
+          <div class="col-sm-10">
+            <%= f.text_field :paper , :class=>"form-control" %>
+          </div>
+        </div>
+
+        <div class="hr-line-dashed"></div>
+
+          <div class="field form-group">
+            <%= f.label :max_questions_allowed , :class=>'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= f.text_field :max_questions_allowed , :class=>"form-control"  %>
+            </div>
+          </div>
+        <div class="hr-line-dashed"></div>
+          <div class="field form-group">
+            <%= f.label :result_type , :class=>'col-sm-2 control-label'  %>
+            <div class="col-sm-10">
+                <%= f.text_field :result_type , :class=>"form-control"  %>
+            </div>
+          </div>
+        <div class="hr-line-dashed"></div>
+          <div class="field form-group">
+            <%= f.label :validity , :class=>'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= f.text_field :validity , :class=>"form-control" %>
+            </div>
+          </div>
+        <div class="hr-line-dashed"></div>
+          <div class="field form-group">
+            <%= f.label :other_course_amount , :class=>'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= f.text_field :other_course_amount , :class=>"form-control" %>
+
+            </div>
+          </div>
+        <div class="hr-line-dashed"></div>
+          <div class="actions mrtb10">
+            <%= f.submit :class=>'btn btn-inverse' %>
+          </div>
+
+    <% end %>
+        </div>
     </div>
-  <% end %>
-<div class="listing-holder col-md-12">
-  <div class="row">
-    <div class="field col-md-4 mrtb10">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div>
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :price %>
-    <%= f.text_field :price %>
-  </div>
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :paper %>
-    <%= f.text_field :paper %>
-  </div>
-  </div>
-  <div class="row">
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :max_questions_allowed %>
-    <%= f.text_field :max_questions_allowed %>
-  </div>
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :result_type %>
-    <%= f.text_field :result_type %>
-  </div>
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :validity %>
-    <%= f.text_field :validity %>
-  </div>
-  <div class="field col-md-4 mrtb10">
-    <%= f.label :other_course_amount %>
-    <%= f.text_field :other_course_amount %>
-  </div>
-  </div>
-  <div class="actions mrtb10">
-    <%= f.submit :class=>'btn btn-inverse' %>
-  </div>
-    </div>
-<% end %>
-  </div>
+
 </div>
+
+
+
+
