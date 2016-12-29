@@ -1,5 +1,3 @@
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-
 <div class=" stat_holder" style="margin-top: 20px">
   <label><strong>Statement</strong></label>
   <%= raw @question.statement %>
@@ -81,25 +79,7 @@
  <script>
 
   $(document).ready(function(){
-
-    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-    eventer(messageEvent, function(e) {
-      // always check if the origin is the Picozu domain, https included.
-      if (e.origin === 'https://www.picozu.com') {
-        // e.data contains the image properties, and you can construct the URL as following:
-        $.ajax({
-          url: "/student/upload_image?image=" + "https://www.picozu.com/v/" + e.data.dir + e.data.code + '.' + e.data.format + "&answer_id=" + $('#image_id').val(),
-          method: "POST",
-          success: function(data){
-            window.unbind()
-            window.removeEventListener("addEventListener", eventer);
-          }
-
-        })
-      }
-    }, false);
+    save_image();
 
     $("#next_image").on('click', function(){
       $.ajax({
@@ -113,7 +93,6 @@
         }
       })
     })
-
   })
 
   $('#marks').on("input", function(){
