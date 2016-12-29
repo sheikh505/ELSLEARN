@@ -77,7 +77,7 @@
 
 
  <script>
-  
+
   var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
   var eventer = window[eventMethod];
   var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
@@ -96,6 +96,11 @@
       })
     }
   }, false);
+
+  if(Number($('#current_image').text()) == Number($('#total_images').text()))
+  {
+    $("#next_image").hide();
+  }
 
   $("#next_image").on('click', function(){
     $.ajax({
