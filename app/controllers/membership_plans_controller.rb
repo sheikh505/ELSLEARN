@@ -6,6 +6,7 @@ class MembershipPlansController < ApplicationController
   def index
     @membership_plans = MembershipPlan.all
     respond_with(@membership_plans)
+
   end
 
   def show

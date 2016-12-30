@@ -18,6 +18,7 @@ class UserController < ApplicationController
 
   def my_profile
     @user = User.find(current_user.id)
+    @news_feed = NewsFeed.last
     @last_user_history = UserTestHistory.find_all_by_user_id(@user.id).last
   end
 

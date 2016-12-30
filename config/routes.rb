@@ -1,4 +1,7 @@
 ExamsSystem::Application.routes.draw do
+  resources :news_feeds
+
+
   mount Ckeditor::Engine => '/ckeditor'
 
   get "/topic_linkings/fetch_topic_linkings" => "topic_linkings#fetch_topic_linkings"
@@ -12,7 +15,7 @@ ExamsSystem::Application.routes.draw do
 
 
   resources :course_linkings
-
+  resources :news_feeds
   resources :ckeditor, controller: 'ckeditor/'
 
 

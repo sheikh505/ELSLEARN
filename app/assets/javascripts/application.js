@@ -38,6 +38,7 @@
 //= require jquery.isotope.min.js
 //= require jquery.easypiechart.min.js
 //= require jquery.jelect.js
+//= require jquery.prettyPhoto.js
 //= require custom.js
 //= require_tree .
 

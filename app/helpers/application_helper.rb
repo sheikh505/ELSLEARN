@@ -19,6 +19,10 @@ module ApplicationHelper
     end
   end
 
+  def news_feed
+    @news_feed = NewsFeed.last
+  end
+
   def get_avatar(user_id)
     url = User.find(user_id).avatar.url(:thumb)
 

@@ -88,7 +88,14 @@
           <div class="top-header__contacts"><i class="icon stroke icon-Mail"></i><a href="mailto:Info@academica.com">contact@elslearn.com</a></div>
           <div class="top-header__link">
             <button class="btn-header btn-effect">LATEST</button>
-            <span>We have added new courses today ...</span> </div>
+
+            <span>
+
+                <%= news_feed.title %>
+
+
+                  </span>
+          </div>
           <div class="header-login">
             <!--<a class="header-login__item" href="javascript:void(0);"><i class="icon stroke icon-User"></i>Sign In</a>-->
             <!--<a class="header-login__item" href="javascript:void(0);">Register</a>-->
@@ -100,7 +107,11 @@
             <% end %>
             <% if user_signed_in? && current_user.is_not_student? %>
                 <%= link_to "Admin Panel", "/admin_panel", :class => 'navbar-link' %>
+           
             <% end %>
+
+
+
           </div>
         </div>
         <!-- end col  -->
@@ -139,26 +150,26 @@
                   <span class="nav-subtitle">What We Offers</span></a>
 
                 </li>
-                <li class="dropdown"> <a href="/pricing">Users<span class="nav-subtitle">Users</span></a>
+                <li class="dropdown"> <a href="javascript:void(0)"">Users<span class="nav-subtitle">Users</span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a>Students</a></li>
                       <li><a>Teachers</a></li>
                       <li><a>Institutions</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"> <a href="/pricing">Institutions<span class="nav-subtitle">Portals</span></a>
+                <li class="dropdown"> <a href="#">Institutions<span class="nav-subtitle">Portals</span></a>
                     <ul class="dropdown-menu">
                       <li><a>Onsite Testing</a></li>
                       <li><a>Onsite Portals</a></li>
                     </ul>
                 </li>
-                <li class="dropdown"> <a href="/pricing">What’s Next<span class="nav-subtitle">Portals</span></a>
+                <li class="dropdown"> <a href="javascript:void(0)"">What’s Next<span class="nav-subtitle">Portals</span></a>
 
                 </li>
                 <li class="dropdown"> <a href="/pricing">Pricing<span class="nav-subtitle">Information</span></a>
 
                 </li>
-                <li class="dropdown"> <a href="/pricing">Contact<span class="nav-subtitle">Information</span></a>
+                <li class="dropdown"> <a href="javascript:void(0)"">Contact<span class="nav-subtitle">Information</span></a>
 
                 </li>
                 <% if user_signed_in? %>

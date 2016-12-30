@@ -6,7 +6,7 @@ class HomePageController < ApplicationController
     else
       @user = User.new
     end
-
+    @news_feed = NewsFeed.last
     @boards = Board.all
     @degrees = []
     @degrees << 'select board first'
@@ -865,6 +865,7 @@ class HomePageController < ApplicationController
 
   def pricing
     @membership_plans = MembershipPlan.order(:price)
+    @news_feed = NewsFeed.last
   end
   def try_it
     @past_papers = PastPaperHistory.all
@@ -958,7 +959,6 @@ class HomePageController < ApplicationController
   end
 
   def how_it_works
-
   end
 
   def testimonials
