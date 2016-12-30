@@ -1,1 +1,5 @@
-<%= image_tag @answer_image.image.url.split('?')[0], size: "200x200", display: "inline" %>
+<div id="answer_image_<%= @answer_image.id %>">
+  <%= image_tag @answer_image.image.url.split('?')[0], size: "200x200", display: "inline" %><br>
+  <%= link_to "Remove", "/home_page/remove_image?answer_image_id=#{@answer_image.id}", class: "btn",
+              remote: true, onclick: "return remove_image(#{@answer_image.id})" %>
+</div>

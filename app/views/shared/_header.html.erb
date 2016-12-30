@@ -148,7 +148,6 @@
                 </li>
                 <li class="dropdown"> <a href="/how_it_works">How it Works
                   <span class="nav-subtitle">What We Offers</span></a>
-
                 </li>
                 <li class="dropdown"> <a href="javascript:void(0)"">Users<span class="nav-subtitle">Users</span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -166,6 +165,10 @@
                 <li class="dropdown"> <a href="javascript:void(0)"">What’s Next<span class="nav-subtitle">Portals</span></a>
 
                 </li>
+
+                <li class="dropdown"> <a href="/pricing">What’s Next<span class="nav-subtitle">Portals</span></a>
+
+                </li>
                 <li class="dropdown"> <a href="/pricing">Pricing<span class="nav-subtitle">Information</span></a>
 
                 </li>
@@ -179,6 +182,10 @@
                         <% if user_signed_in? %>
                             <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %>
                             <%= link_to "Profile" , "/user/my_profile" %>
+                              <% if current_user.is_student? %>
+                                  <%= link_to "Attempt Test" , "/try_it" %>
+                              <% end %>
+
                         <% else %>
                             <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>
                         <% end %>

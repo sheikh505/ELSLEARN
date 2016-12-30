@@ -39,7 +39,7 @@ class TeacherController < ApplicationController
 
     # descriptive question ids
     question_ids = @test.descriptive
-
+    puts "===============> " + question_ids.inspect
     # session[:question_ids] = question_ids
     redirect_to student_review_question_path(question_ids: question_ids, test_id: @test.id)
   end

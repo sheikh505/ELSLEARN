@@ -99,12 +99,17 @@ class QuizzesController < ApplicationController
   def new
     @quiz = Quiz.new
     @test_code = Devise.friendly_token.first(8)
-    if current_user.teacher_courses.any?
-      course_ids = current_user.teacher_courses.pluck(:course_id)
-      @courses = Course.find_all_by_id(course_ids)
+    if current_user.is_admin?
+      @courses = Course.all
     else
-      @courses = []
+      if current_user.teacher_courses.any?
+        course_ids = current_user.teacher_courses.pluck(:course_id)
+        @courses = Course.find_all_by_id(course_ids)
+      else
+        @courses = []
+      end
     end
+
     respond_with(@quiz, @test_code)
   end
 

@@ -166,6 +166,12 @@ class HomePageController < ApplicationController
     end
   end
 
+  def remove_image
+    @answer_image = AnswerImage.find_by_id(params[:answer_image_id])
+    @answer_image.delete
+    render nothing: true
+  end
+
   def get_degrees
     board_ids = params[:board_ids]
     ids = board_ids.split('-')

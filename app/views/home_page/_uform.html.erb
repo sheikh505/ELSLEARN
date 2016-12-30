@@ -215,25 +215,25 @@
     </div>
 
 
-          <% if @courses.any? %>
-              <div class="pull-right viual_right col">
-                <div class="visual_right_holder">
-                  <h2>Enter Code</h2>
+          <%# if @courses.any? %>
+              <!--<div class="pull-right viual_right col">-->
+                <!--<div class="visual_right_holder">-->
+                  <!--<h2>Enter Code</h2>-->
 
-                  <fieldset>
-                    <div class="pre_header_row">
-                      <input type="text" name="test_code" class="text" placeholder="Test Code">
-                      <button type="submit" class="btn btn-default modal_btn" href="#myModal" onclick="return check_sign_in(2);">Submit</button>
-                    </div>
+                  <!--<fieldset>-->
+                    <!--<div class="pre_header_row">-->
+                      <!--<input type="text" name="test_code" class="text" placeholder="Test Code">-->
+                      <!--<button type="submit" class="btn btn-default modal_btn" href="#myModal" onclick="return check_sign_in(2);">Submit</button>-->
+                    <!--</div>-->
 
-                  </fieldset>
-
-
-                </div>
+                  <!--</fieldset>-->
 
 
-              </div>
-          <% end %>
+                <!--</div>-->
+
+
+              <!--</div>-->
+          <%# end %>
 
 
           <input type="hidden" name="test_flag" class="text">
@@ -390,100 +390,97 @@
 <script>
 
 
-    $(document).ready(function() {
-                $('#question_type_1').val(10);
-                $('#question_type_2').val(10);
-                $('#question_type_3').val(10);
-                $('#question_type_4').val(10);
+  $('#question_type_1').val(10);
+  $('#question_type_2').val(10);
+  $('#question_type_3').val(10);
+  $('#question_type_4').val(10);
 
-                $("input[name$='pre_Past']").click(function() {
-                    var test = $(this).val();
-                    if (test == "1") {
-                        if (!$("div#past_paper_question_container").is(":visible")) {
-                            $("div#question_type_container").hide();
-                            $("div#past_paper_question_container").toggle("slide");
-                        }
-                    }
-                    else
-                    {
-                        $("div#past_paper_question_container").hide();
-                        $("div#question_type_container").toggle("slide");
-                    }
-                });
+  $("input[name$='pre_Past']").click(function() {
+    var test = $(this).val();
+    if (test == "1") {
+      if (!$("div#past_paper_question_container").is(":visible")) {
+        $("div#question_type_container").hide();
+        $("div#past_paper_question_container").toggle("slide");
+      }
+    }
+    else
+    {
+      $("div#past_paper_question_container").hide();
+      $("div#question_type_container").toggle("slide");
+    }
+  });
 
-        $('#course_lists').hide();
-                $('#facebook-connect').click(function(e) {
-                    e.preventDefault();
+  $('#course_lists').hide();
+  $('#facebook-connect').click(function(e) {
+    e.preventDefault();
 
-                    FB.login(function(response) {
-                        if (response.authResponse) {
-                            $.getJSON('<%=user_omniauth_callback_path(:facebook)%>', function(data) {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        $.getJSON('<%=user_omniauth_callback_path(:facebook)%>', function(data) {
 
-                                if ($("input[name$='test_flag']").val() == 1) {
-                                    $.get("home_page/save_data", $("form#create_test").serialize(), function (saveResponse) {
-                                        if (saveResponse.success) {
-                                            window.location = 'home_page/instructions?uthid=' + saveResponse.user_test_history_id;
-                                        }
-                                        else {
-                                                $('#register_message').html(response.message);
-                                                flag = false;
-                                            }
+          if ($("input[name$='test_flag']").val() == 1) {
+            $.get("home_page/save_data", $("form#create_test").serialize(), function (saveResponse) {
+              if (saveResponse.success) {
+                window.location = 'home_page/instructions?uthid=' + saveResponse.user_test_history_id;
+              }
+              else {
+                $('#register_message').html(response.message);
+                flag = false;
+              }
 
-                                        }, "json")
-                                }
-                                else {
-                                    var test_code = $("input[name$='test_code']").val();
-                                    window.location = 'home_page/instructions?test_code=' + test_code
-                                }
-                                flag = true;
-                            });
-                        }
-                    });
-                });
-            }
-
-    );
-
-
-    $(document).ready(function(){
-        $('#create_test input').on('click', function() {
-
-            var year = $("#year").val();
-            var session = $('input[name=session]:checked', '#create_test').val();
-            $.ajax({
-                url: "home_page/get_varients?year="+year+"&session="+session,
-                type: 'get',
-                dataType: 'html',
-                success:function(response){
-                    $("#option_populate").html(response);
-
-                }
-            });
+            }, "json")
+          }
+          else {
+            var test_code = $("input[name$='test_code']").val();
+            window.location = 'home_page/instructions?test_code=' + test_code
+          }
+          flag = true;
         });
-
-      $('input[name=pre_Past]').on('change', function() {
-        value = $('input[name=pre_Past]:checked').val();
-        if (value == 2)
-          $('#course_lists').show();
-        else
-          $('#course_lists').hide();
-
-      })
-
-        $('#year').on('change', function() {
-
-            var year = $("#year").val();
-            var session = $('input[name=session]:checked', '#create_test').val();
-            $.ajax({
-                url: "home_page/get_varients?year="+year+"&session="+session,
-                type: 'get',
-                dataType: 'html',
-                success:function(response){
-                    $("#option_populate").html(response);
-                }
-            });
-        });
+      }
     });
+  });
+
+
+  $('#create_test input').on('click', function() {
+
+    var year = $("#year").val();
+    var session = $('input[name=session]:checked', '#create_test').val();
+    $.ajax({
+      url: "home_page/get_varients?year="+year+"&session="+session,
+      type: 'get',
+      dataType: 'html',
+      success:function(response){
+        $("#option_populate").html(response);
+
+      }
+    });
+  });
+
+  $('input[name=pre_Past]').on('change', function() {
+    value = $('input[name=pre_Past]:checked').val();
+    if (value == 2)
+      $('#course_lists').show();
+    else
+      $('#course_lists').hide();
+
+  })
+
+  $('#year').on('change', function() {
+
+    var year = $("#year").val();
+    var session = $('input[name=session]:checked', '#create_test').val();
+    $.ajax({
+      url: "home_page/get_varients?year="+year+"&session="+session,
+      type: 'get',
+      dataType: 'html',
+      success:function(response){
+        $("#option_populate").html(response);
+      }
+    });
+  });
+
+
+
 
 
     function create_user()
