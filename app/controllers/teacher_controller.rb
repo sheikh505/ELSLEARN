@@ -267,6 +267,7 @@ class TeacherController < ApplicationController
     @courses = Course.all
     @teacher_courses = @user.teacher_courses.select("course_id, degree_id")
     @proofreaders = User.joins(:roles).where('roles.name' => 'Proof Reader')
+    @user_packages = @user.user_packages
   end
 
   def show
@@ -367,6 +368,15 @@ class TeacherController < ApplicationController
         params[:test_permission_ids] = params[:test_permission_ids].join(",")
         @user.test_permission_ids = params[:test_permission_ids]
         @user.save
+      end
+      if params[:package]
+        params[:package].each do |key, value|
+          package = UserPackage.find_by_id(key)
+          if package
+            package.update_attribute(:credit_left, value.to_i)
+          end
+        end
+
       end
       @user.update_attributes(params[:user])
     end

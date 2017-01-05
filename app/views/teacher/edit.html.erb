@@ -160,6 +160,27 @@
               Create your own test
           <% end %>
           <br><br>
+
+          <% if @user_packages.any? %>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Credit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @user_packages.each do |package| %>
+                    <tr>
+                      <td><span><%= package.name %></span></td>
+                      <td><%= text_field_tag "package[#{package.id}]", package.credit_left %></td>
+
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+          <% end %>
+
         </div>
 
 
@@ -199,10 +220,11 @@
           <% end %>
         </div>
 
-        <div style="margin-top: 15px">
+        <div style="margin-top: 15px;display: none" id="teacher_features">
           <div class="field col-md-12" >
             <br>
             <%= label_tag :question_review_permissions %>
+            <br><br>
             <% if @user.review_permission_ids %>
                 <% if @user.review_permission_ids.split(',').include?("1") %>
                     <%= check_box_tag "review_permission_ids[0]",  "1", checked: true %>
@@ -253,6 +275,7 @@
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
+            $("#teacher_features").show();
             $('.degree').each(function( index ) {
                 var object = this;
                 var user_id = $("#id").val();
@@ -278,14 +301,17 @@
         {
             $("#degreeList").hide();
             $("#courseList_all").show();
+          $("#teacher_features").hide();
         }
         else if ($("#role_id option:selected").text() == "Operator")
         {
             $("#proofreader_all").show();
+          $("#teacher_features").hide();
         }
         else if ($("#role_id option:selected").text() == "Student")
         {
           $("#student").show();
+          $("#teacher_features").hide();
         }
     });
 
@@ -312,6 +338,7 @@
         if ($("#role_id option:selected").text() == "Teacher")
         {
             $("#degreeList").show();
+            $("#teacher_features").show();
             $("#student").hide();
             $(".courseList_post").hide();
             $("#courseList_all").hide();
@@ -321,6 +348,7 @@
         else if ($("#role_id option:selected").text() == "Hod")
         {
             $("#courseList_all").show();
+            $("#teacher_features").hide();
             $("#student").hide();
             $("#degreeList").hide();
             $("#proofreader_all").hide();
@@ -329,6 +357,7 @@
         {
             $("#proofreader_all").show();
             $("#student").hide();
+            $("#teacher_features").hide();
         }
         else if ($("#role_id option:selected").text() == "Student")
         {
@@ -336,6 +365,7 @@
           $("#courseList").hide();
           $("#degreeList").hide();
           $("#proofreader_all").hide();
+          $("#teacher_features").hide();
           $("#student").show();
         }
         else

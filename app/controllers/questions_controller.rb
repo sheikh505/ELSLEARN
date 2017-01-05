@@ -785,6 +785,7 @@ class QuestionsController < ApplicationController
     course_id = params[:course_id]
     past_paper_flag = params[:pre_Past]
     varient = params[:varient]
+
     if params[:selected_topic_ids]
       selected_topic_ids = params[:selected_topic_ids].split(",")
     else
@@ -876,11 +877,35 @@ class QuestionsController < ApplicationController
       #     q.workflow_state == 'accepted' }
       puts "=--=-=-=-question select-=-=-=-=",@questions.inspect,@questions.count
 
+
+
     end
     if (@questions.length > 0)
+      user_package = current_user.user_packages.where(course_id: course_id).first
+      if user_package.plan != "free"
+        credit = user_package.credit_left
+        count = 0
+        @questions.each do |question|
+          if question.question_type == 2
+            count += 1
+          end
+        end
+        credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
+        if credit < 0
+          render json: {
+              success: false,
+              flag: "credit_limit"
+          }
+          return
+        end
+      end
+
       render :json => {:success => true}
     else
-      render :json => {:success => false}
+      render :json => {
+          :success => false,
+          :flag => "no_question"
+      }
     end
   end
 
