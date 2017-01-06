@@ -1,10 +1,14 @@
+
 <% if current_user.is_admin? %>
-  <%= link_to "Manage Questions", "/questions", class: "btn btn-primary" %> |
-  <%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-primary" %> |
-  <%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-primary"  %>
+    <div class="wrapper page-heading border-bottom white-bg">
+        <%= link_to "Manage Questions", "/questions", class: "btn btn-inverse" %>
+        <%= link_to "Questions Details", "/questions/questions_detail", class: "btn btn-inverse" %>
+        <%= link_to "Enable Question Review", '/workflow_paths', class: "btn btn-inverse"  %>
+    </div>
+
 <% end %>
 
-<div id="ques_container" class=''  style="margin-top: 20px">
+<div id="ques_container" class='wrapper wrapper-content white-bg'  style="margin-top: 20px">
     <%= render 'question_list',teacher_self_flag: '0' %>
 </div>
 

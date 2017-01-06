@@ -3,7 +3,7 @@
 <% elsif @courses.length == 0 && !current_user.is_admin? %>
     <label style="color:darkblue;font-size:18px"><strong>You are not registered with any course.</strong></label>
 <% else %>
-    <select id="course" name="course" onchange="selectCourse(this.value)">
+    <select id="course" class="form-control" name="course" onchange="selectCourse(this.value)">
       <option value="">select course</option>
       <% @courses.each do |course| %>
         <option value="<%= course.id%>"><%= course.name%></option>

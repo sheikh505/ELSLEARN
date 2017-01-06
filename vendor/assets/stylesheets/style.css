@@ -42,6 +42,7 @@ a {
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 a img {
@@ -2671,5 +2672,27 @@ ul.admin-opt-dashboard.admin-opt li a{
     margin: 0 !important;
 }
 
+.user_profile_right .pre_table_dashboard tr th{
+    text-transform: uppercase;
+}
+.user_profile_right .pre_table_dashboard tr th,
+.user_profile_right .pre_table_dashboard tr td{
+    padding: 5px 10px;
+}
+.user_profile_right table.pre_table_dashboard{
+    text-align: center;
+}
+.user_profile_right .pre_table_dashboard tr th h3{
+    font-size: 14px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+.user_profile_right .pre_table_dashboard tbody tr:nth-child(2n+1){
+    background: #f1f1f3;
+}
+.user_profile_right .pre_table_dashboard tbody tr:nth-child(2n){
+    background: #fff;
+}
 
 

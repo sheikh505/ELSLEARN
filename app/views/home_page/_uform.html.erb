@@ -64,7 +64,7 @@
         <div id="past_paper_question_container" class="pre_question_holder" style="display: none">
           <div class="row_custom">
             <%= label_tag :year %>
-            <select id="year" name="year">
+            <select id="year" class="form-control" name="year">
               <% @years.each do |year| %>
               <option value="<%= year %>"><%= year %></option>
               <% end %>
@@ -79,7 +79,7 @@
           </div>
 
           <div class="row_custom">
-            <select id="paper" name="paper">
+            <select id="paper" class="form-control" name="paper">
               <option value="">[PLEASE SELECT PAPER]</option>
               <option value="mcq" selected >Paper P1</option>
             </select>
@@ -92,7 +92,7 @@
 
 
           <div class="row_custom" id="test_container_1">
-            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" onclick="return check_sign_in(1);"  class="btn">
+            <input type="submit" value="Proceed" id="past_paper_container" name="test_btn" onclick="return check_sign_in(1);"  class="btn btn-primary">
           </div>
         </div>
         <div id="question_type_container"  style="margin-top:30px;display: none;">
@@ -170,7 +170,7 @@
           <div class="row_custom" style="display: block">
             <label class=""><span>Time required for your quiz</span></label>
             <label class="">
-              <select id="quiz_time" name="quiz_time">
+              <select id="quiz_time" class="form-control" name="quiz_time">
                 <option value="-1">Default</option>
                 <option value="5">5 minutes</option>
                 <option value="10">10 minutes</option>
@@ -191,7 +191,7 @@
           </div>
 
           <div style="display: block;" id="test_containerr">
-            <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" onclick="return check_sign_in(1);" class="btn">
+            <input type="submit" act value="Proceed" id="test_btn_1" name="test_btn_1" onclick="return check_sign_in(1);" class="btn btn-primary">
           </div>
         </div>
       </div>

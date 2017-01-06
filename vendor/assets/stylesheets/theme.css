@@ -646,7 +646,8 @@ img.pull-left {
 	color: #fff;
 }
 .find-course_mod-b .find-course__form {
-	display: inline-block;
+	display: block;
+    text-align: center;
 	vertical-align: middle;
 }
 
@@ -697,6 +698,7 @@ img.pull-left {
 }
 .find-course_mod-b .find-course__wrap-btn {
 	display: inline-block;
+    margin: 20px;
 	margin-left: 85px;
 }
 .find-course .form-control,
@@ -1191,7 +1193,7 @@ li.advantages__item {
 }
 .staff__inner {
 	margin-top: 2px;
-	padding: 40px 25px 0;
+	padding: 40px 23px 10px;
 	border-top: 2px solid #3b99d7;
 	background-color: #fff;
 }
@@ -3026,4 +3028,192 @@ video {
 }
 .morelink {
     display: block;
+}
+.dataTables_wrapper{
+    overflow: hidden;
+}
+.dataTables_wrapper .dataTables_length{
+    float: left;
+    margin-bottom: 15px;
+}
+.dataTables_wrapper .dataTables_length select{
+    margin-bottom: 0 !important;
+    height: 35px;
+    width: 80px;
+}
+.dataTables_wrapper .dataTables_filter{
+    float: right;
+}
+.dataTables_wrapper .dataTables_filter input[type="search"]{
+    height: 35px;
+    margin-left: 10px;
+    margin-bottom:0 !important;
+}
+#page-content-wrapper .listing-holder.listing_data_table{
+    background: #fff;
+    padding: 20px;
+
+}
+#page-content-wrapper .listing-holder.listing_data_table table{
+    background: #fff;
+}
+.dataTables_paginate.paging_simple_numbers a{
+    border: 1px solid #f1f3f3;
+    background: #fff;
+    padding: 8px 10px ;
+    margin:0 -2px;
+    color: #555f68;
+}
+.dataTables_paginate.paging_simple_numbers{
+    overflow: hidden;
+    color: #555f68;
+}
+.modal-body .comments_holder{
+    margin: 0;
+}
+.modal-body .comments_holder textarea{
+    height: 120px;
+    width: 100%;
+    resize: none;
+}
+.modal-body .comments_holder .m_footer_container{
+    padding-top: 0;
+    margin: 0;
+}
+.modal-body .comments_holder .btn{
+    background: #3da7d9;
+    color: #fff;
+    text-shadow: none;
+}
+
+#commentsModal .modal-dialog{
+    width: 400px;
+}
+
+#commentsModal .modal-header {
+    padding: 5px;
+}
+
+#commentsModal .modal-body{
+    padding: 10px;
+}
+
+.question_status{
+    font-size: 100%;
+}
+#questions tbody tr td span.best_in_place{
+    padding: 0 2px !important;
+    position: relative;
+    overflow: hidden;
+}
+
+#questions tbody tr td:nth-child(2) {
+    padding: 10px !important;
+}
+
+#questions tbody tr td  select{
+    height: 25px !important;
+    width:85px;
+    margin:0 !important;
+    margin: 0 auto;
+    padding: 0px !important;
+
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    position: absolute;
+}
+.dataTables_wrapper h3{
+    font-size: 12px;
+    color: #fff;
+}
+table.dataTable thead th, table.dataTable thead td{
+    border-bottom: none;
+    color: #fff;
+}
+.user_profile_holder .user_profile_right.test-reviews{
+    width: 73%;
+    margin: 0 0 0 30px;
+    padding: 20px;
+}
+.user_profile_holder .user_profile_right.test-reviews input[type='search']{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+/*-------------------------------------------------------
+Viual Start
+---------------------------------------------------------*/
+.viual{
+    width:100%;
+    background: #fff;
+}
+.visual_holder{
+    padding:40px 0 110px !important;
+}
+
+.visual_holder .viual0_left,
+.visual_holder .viual_right{
+    margin:0 20px 0 7px;
+}
+.visual_holder .col {
+    margin: 0 0 20px 0;
+    width:90%;
+    vertical-align: top;
+}
+.visual_holder .viual_right{
+    width: 39%;
+}
+.visual_holder .viual_left{width: 46%;}
+.visual_holder .col .header_col{
+    background:#e6e6e6;
+    cursor:pointer;
+    overflow:hidden;
+}
+.visual_holder .col  ul{ margin: 0;}
+.visual_holder .col .header_col p{
+    padding:0 20px;
+    float:left;
+    margin: 0;
+    line-height:28px;
+    color:#555;
+}
+.visual_holder .col .header_col .arrow_right{
+    color:#fff;
+    background:#373739;
+    font-size:25px;
+    padding:2px 10px;
+    float:right;
+}
+.visual_holder .col .header_col .arrow_down{
+    color:#fff;
+    background:#0093ec;
+    font-size:25px;
+    padding:2px 8px;
+    float:right;
+}
+
+.visual_holder .col .tabs li{ padding:2px 20px;}
+.visual_holder .col .tabs li.odd{
+    background:#f1f1f3;
+}
+.visual_holder .col .tabs li.even{
+    background:#fafafc;
+}
+#courses_holder .form-control,
+#year.form-control,
+#paper.form-control{
+    height: 38px;
+}
+.lablel_check_box_right .select2-container{
+    width: 150px !important;
+}
+.viual input[type="radio"],
+.viual input[type="checkbox"]{
+    margin: 4px 9px 0 0px;
+}
+.user_profile_right  .fa.fa-pencil-square-o{
+    display: none;
 }

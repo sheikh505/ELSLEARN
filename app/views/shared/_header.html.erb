@@ -101,6 +101,10 @@
             <!--<a class="header-login__item" href="javascript:void(0);">Register</a>-->
             <% if user_signed_in? %>
                 <%= link_to "sign out", "/sign_out" ,method: :delete, :class => 'navbar-link' %> |
+                  <% if current_user.is_student? %>
+                      <%= link_to "Attempt Test" , "/try_it" %> |
+                    <%= link_to "Profile" , "/user/my_profile" %>
+                  <% end %>
             <% else %>
                <%= link_to "Login", new_user_session_path, :class => 'navbar-link' %>  |
                 <a class="register" href="users/sign_up">Register</a>
@@ -166,9 +170,7 @@
 
                 </li>
 
-                <li class="dropdown"> <a href="/pricing">What’s Next<span class="nav-subtitle">Portals</span></a>
 
-                </li>
                 <li class="dropdown"> <a href="/pricing">Pricing<span class="nav-subtitle">Information</span></a>
 
                 </li>
@@ -176,6 +178,7 @@
 
                 </li>
                 <% if user_signed_in? %>
+
                     <li class="dropdown"><a href="javascript:void(0)">My Account <span class="nav-subtitle">say us hi</span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li>
@@ -193,6 +196,7 @@
                         <% if user_signed_in? && current_user.is_not_student? %>
                             <li><%= link_to "Admin Panel", "/admin_panel", :class => 'navbar-link' %></li>
                         <% end %>
+
                       </ul>
                     </li>
 

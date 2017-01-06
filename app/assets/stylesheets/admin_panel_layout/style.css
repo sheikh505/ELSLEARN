@@ -57,6 +57,7 @@ a {
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 a img {
     border: none;
