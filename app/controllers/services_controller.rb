@@ -422,6 +422,27 @@ class ServicesController < ApplicationController
     end
   end
 
+  def upload_image
+    if params[:question_id] and params[:user_test_history_id] and params[:image]
+      @answer = Answer.where(question_id: params[:question_id], user_test_history_id: params[:user_test_history_id]).first
+      if @answer
+        @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:image])
+      else
+        @answer = Answer.create(question_id: params[:question_id], user_test_history_id: params[:user_test_history_id])
+        @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:image])
+      end
+      render json: {
+          success: true,
+          message: "Image Successfully uploaded"
+      }
+    else
+      render json: {
+          success: false,
+          message: "Insufficient parameters"
+      }
+    end
+  end
+
   def verify_answers_web
     puts "===========================>", params.inspect
 
