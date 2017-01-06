@@ -3216,3 +3216,6 @@ Viual Start
 .user_profile_right  .fa.fa-pencil-square-o{
     display: none;
 }
+#courses_holder .form-control, #year.form-control, #paper.form-control{
+	padding: 2px 15px;
+}
