@@ -1,50 +1,72 @@
 <% if current_user.is_admin? %>
-    <%= link_to "Manage Tests", quizzes_path, class: "btn btn-primary" %> |
-    <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-primary" %>
+    <div class="wrapper page-heading border-bottom white-bg">
+      <%= link_to "Manage Tests", quizzes_path, class: "btn btn-inverse" %>
+      <%= link_to "Comment Feedback", "/comment_feedback", class: "btn btn-inverse" %>
+      <%= link_to "Video Feedback", "/check_quiz", class: "btn btn-inverse" %>
+    </div>
+
 <% elsif current_user.is_teacher? %>
-    <%= link_to "Video Feedback", "#", id: "video_feedback", class: "btn btn-primary" %> |
-    <%= link_to "Reviewed", "#", id: "reviewed_quizzes", class: "btn btn-primary" %>
+    <div class="wrapper page-heading border-bottom white-bg">
+    <%= link_to "Video Feedback", "#", id: "video_feedback", class: "btn btn-inverse" %>
+    <%= link_to "Reviewed", "#", id: "reviewed_quizzes", class: "btn btn-inverse" %>
+    </div>
 <% end %>
-
-<h1>Student's Quizzes</h1>
-
-<div id="check">
-  <div class="listing-holder">
-    <table class="table table-condensed">
-      <thead>
-      <tr>
-        <!--<th>Student name</th>-->
-        <th>Name</th>
-        <th>Course</th>
-        <th>Test Code</th>
-        <th>No. of Questions</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @tests.each do |test| %>
-          <tr>
-            <!--<td><%#= @students.select{|student| test.user_id == student.id}.first.name if @students.select{|student| test.user_id == student.id}.first %></td>-->
-            <td><%= test.quiz_name %></td>
-            <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
-            <td><%= test.code %></td>
-            <td><%= test.descriptive.split(',').count %></td>
-            <td><%= test.created_at.to_date %></td>
-            <td><%= test.answers.where(:reviewed => true).count %></td>
-            <td><%= link_to "Review Test", "/student_test?test_id=#{test.id}" %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+<div class="wrapper wrapper-content">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>Student's Quizzes</h5>
+    </div>
+    <div class="ibox-content">
+      <div id="check">
+        <div class="listing-holder">
+          <table class="table table-condensed">
+            <thead>
+            <tr>
+              <!--<th>Student name</th>-->
+              <th>Name</th>
+              <th>Course</th>
+              <th>Test Code</th>
+              <th>No. of Questions</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @tests.each do |test| %>
+                <tr>
+                  <!--<td><%#= @students.select{|student| test.user_id == student.id}.first.name if @students.select{|student| test.user_id == student.id}.first %></td>-->
+                  <td><%= test.quiz_name %></td>
+                  <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
+                  <td><%= test.code %></td>
+                  <td><%= test.descriptive.split(',').count %></td>
+                  <td><%= test.created_at.to_date %></td>
+                  <td><%= test.answers.where(:reviewed => true).count %></td>
+                  <td><%= link_to "Review Test", "/student_test?test_id=#{test.id}" %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div id="reviewed" style="display:none;">
-  <%= render "video_reviewed_quizzes" %>
+<div class="wrapper  wrapper-content">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>Student's Quizzes</h5>
+    </div>
+    <div class="ibox-content">
+      <div id="reviewed" style="display:none;">
+        <%= render "video_reviewed_quizzes" %>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <script>
   $('#video_feedback').on('click', function(){
