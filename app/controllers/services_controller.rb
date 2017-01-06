@@ -422,6 +422,27 @@ class ServicesController < ApplicationController
     end
   end
 
+  def upload_image
+    if params[:question_id] and params[:user_test_history_id] and params[:image]
+      @answer = Answer.where(question_id: params[:question_id], user_test_history_id: params[:user_test_history_id]).first
+      if @answer
+        @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:image])
+      else
+        @answer = Answer.create(question_id: params[:question_id], user_test_history_id: params[:user_test_history_id])
+        @answer_image = AnswerImage.create(answer_id: @answer.id, image: params[:image])
+      end
+      render json: {
+          success: true,
+          message: "Image Successfully uploaded"
+      }
+    else
+      render json: {
+          success: false,
+          message: "Insufficient parameters"
+      }
+    end
+  end
+
   def verify_answers_web
     puts "===========================>", params.inspect
 
@@ -438,16 +459,12 @@ class ServicesController < ApplicationController
 
     array = params[:array].split(",")
 
-    quotas = QuestionQuota.all
-    quota_hash = Hash.new
-    quotas.each do |quota|
-      quota_hash[quota.question_type] = quota.quota
-    end
+    quota = QuestionQuota.find_by_question_type(2).quota
 
-    puts "===========================>", quota_hash.inspect
+
 
     userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
-    credit_left = 1000
+    credit_left = userpackage.credit_left
 
     @total = 0
     @total_questions = @total_wrong = array.length
@@ -459,7 +476,6 @@ class ServicesController < ApplicationController
       if @question.question_type == 1
         @total += 1
         @questions[:mcq][:total] += 1
-        credit_left = credit_left - quota_hash[1]
         if ques.split(":")[1]
           @questions[:mcq][:attempted] += 1
           if ques.split(":")[1] != 'ref_0' && ques.split(":")[1] != 'ref_1' && ques.split(":")[1] != 'ref_2' && ques.split(":")[1] != 'ref_3'
@@ -478,7 +494,6 @@ class ServicesController < ApplicationController
       elsif @question.question_type == 4
         @total += 1
         @questions[:truefalse][:total] += 1
-        credit_left = credit_left - quota_hash[4]
         @option = @question.options.first
         if ques.split(":")[1]
           @questions[:truefalse][:attempted] += 1
@@ -494,7 +509,6 @@ class ServicesController < ApplicationController
         end
       elsif @question.question_type == 3
         @total += 1
-        credit_left = credit_left - quota_hash[3]
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
@@ -513,7 +527,7 @@ class ServicesController < ApplicationController
         end
       elsif @question.question_type == 2
         @total += @question.marks
-        credit_left = credit_left - quota_hash[2]
+        credit_left = credit_left - quota
         answer_detail = ques.split(":").drop(1).join(':')
         answer = Answer.where(:user_test_history_id => test_history.id, :question_id => @question.id)
         if answer.any?
@@ -553,9 +567,7 @@ class ServicesController < ApplicationController
     end
 
     if userpackage
-      unless userpackage.credit_left
-        userpackage.update_attributes(:credit_left => credit_left)
-      end
+      userpackage.update_attributes(:credit_left => credit_left)
     end
 
     @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)

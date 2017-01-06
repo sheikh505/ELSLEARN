@@ -634,8 +634,16 @@
                         returnValue = 1;
                     }
                     else {
+                      if (response.flag == "no_question")
+                      {
                         alert("Currently, there are no questions in it");
                         returnValue = 0;
+                      }
+                      else if (response.flag == "credit_limit")
+                      {
+                        alert("Your package's credit has reached it's limit");
+                        returnValue = 0;
+                      }
                     }
 
                 },
@@ -679,8 +687,16 @@
                         returnValue = 1;
                     }
                     else {
-                        alert("Currently, there are no questions in it");
-                        returnValue = 0;
+                        if (response.flag == "no_question")
+                        {
+                          alert("Currently, there are no questions in it");
+                          returnValue = 0;
+                        }
+                        else if (response.flag == "credit_limit")
+                        {
+                          alert("Your package's credit has reached it's limit");
+                          returnValue = 0;
+                        }
                     }
 
                 },

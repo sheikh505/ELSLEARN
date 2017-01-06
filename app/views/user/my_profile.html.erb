@@ -44,35 +44,39 @@
           <div class="modal-body">
             <div class=" viual_right col">
 
-              <div class="visual_right_holder">
+            <h2>Enter Code</h2>
 
-                <h2>Enter Code</h2>
+            <fieldset>
 
-                <fieldset>
+              <div class="pre_header_row">
+                <div id="not_present" class='alert alert-error' style='color:red;display: none'>
+                  <strong>Sorry!</strong> There is no test against this test code.
+                </div>
 
-                  <div class="pre_header_row">
-                    <form method="post" action="<%= home_page_instructions_url %>" >
-                      <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
-                      <input type="hidden" name="test_flag" value="2" >
-                      <button type="submit" class="btn btn-primary modal_btn">Submit</button>
-                    </form>
-                  </div>
+                <div id="not_registered" class='alert alert-error' style='color:red;display: none'>
+                  <strong>Sorry!</strong> You are not registered with this course.
+                </div>
 
-                </fieldset>
+                <div id="credit_limit" class='alert alert-error' style='color:red;display: none'>
+                  <strong>Sorry!</strong> Your package's credit has reached it's limit.
+                </div>
 
+                <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
+                  <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
+                  <input type="hidden" name="test_flag" value="2" >
+                  <button type="submit" class="btn btn-primary modal_btn">Submit</button>
+                </form>
               </div>
 
-            </div>
+            </fieldset>
 
           </div>
 
-          <div class="modal-footer">
-
-          </div>
+        
         </div>
       </div>
     </div>
-
+</div>
     <div class="user_profile_right ">
 
       <ul class="user_profile_nav">
@@ -173,16 +177,39 @@
     </div>
   </div>
 </div>
-
 <script type="text/javascript">
+
     $(document).ready(function() {
         /* Activating Best In Place */
         jQuery(".best_in_place").best_in_place();
     });
 
-    $('#test_code').on('click', function(){
-      $('#myModal').modal('toggle');
+    $('#attempt_test_code').bind('ajax:success', function(e, data){
+        $('body').html(data);
     })
+
+    $('#attempt_test_code').bind('ajax:error', function(e, data, status, xhr){
+        if (data.responseJSON.flag == "not_present")
+        {
+            $('#not_present').show();
+            $("#not_present").delay(2500).fadeOut();
+        }
+        else if (data.responseJSON.flag == "not_registered")
+        {
+            $('#not_registered').show();
+            $("#not_registered").delay(2500).fadeOut();
+        }
+        else if (data.responseJSON.flag == "credit_limit")
+        {
+            $('#credit_limit').show();
+            $("#credit_limit").delay(2500).fadeOut();
+        }
+
+    })
+
+    $('#test_code').on('click', function(){
+        $('#myModal').modal('toggle');
+    });
     //    function update_image() {
     //
     //        $.post($("form.edit_user").attr("action"), $("form.edit_user").serialize(), function (response) {

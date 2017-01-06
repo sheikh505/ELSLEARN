@@ -195,12 +195,45 @@ class HomePageController < ApplicationController
 
   end
 
+  def check_package
+    @quiz = Quiz.find_by_test_code(params[:test_code])
+    if !@quiz.present?
+      render json: {
+          success: false,
+          flag: "not_present"
+      }, status: 500
+      return
+    elsif !current_user.user_packages.where(course_id: @quiz.course_id).any?
+      render json: {
+          success: false,
+          flag: "not_registered"
+      }, status: 500
+      return
+    end
+
+    user_package = current_user.user_packages.where(course_id: @quiz.course_id).first
+    if user_package.plan != "free"
+      credit = user_package.credit_left
+      count = @quiz.question_ids.split(",").count
+      credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
+      if credit < 0
+        render json: {
+            success: false,
+            flag: "credit_limit"
+        }, status: 500
+        return
+      end
+    end
+    redirect_to home_page_instructions_path(test_code: params[:test_code], test_flag: params[:test_flag])
+  end
+
   def instructions
     puts "new puts===>>>>>>>>>>>>>>>>>>>>>>>",params[:quiz_time].inspect
     session[:quiz_time] = params[:quiz_time]
     if params[:test_flag] == "2"
       @test_code = params[:test_code]
       @quiz = Quiz.find_by_test_code(params[:test_code])
+
       session[:board_id] = ""
       session[:degree_id] = ""
       session[:course_id] = @quiz.course_id
@@ -527,11 +560,6 @@ class HomePageController < ApplicationController
       if quiz.present?
         question_ids = quiz.question_ids
         @questions = Question.find(question_ids.split(','))
-        if UserPackage.where(course_id: @quiz.course_id).first.plan == "free"
-          @questions.select!{ |q|
-            q.question_type != 2
-          }
-        end
         @size = @questions.length
         @quiz_time = @size * 1.5
       else

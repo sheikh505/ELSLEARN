@@ -130,6 +130,7 @@ ExamsSystem::Application.routes.draw do
       get :get_topics
       get :verify_answers_web
       get :show_quiz
+      get :upload_image
     end
   end
 
@@ -208,6 +209,7 @@ ExamsSystem::Application.routes.draw do
   get "/home_page/questions/questions_detail" => "questions#questions_detail"
   post "/home_page/get_details" => "home_page#get_details"
   get "/homepage/check_student_package" => "home_page#check_student_package"
+  post "/homepage/check_package" => "home_page#check_package"
   get "/home_page/fetch_teachers" => "home_page#fetch_teachers"
 
   resources :tests do
