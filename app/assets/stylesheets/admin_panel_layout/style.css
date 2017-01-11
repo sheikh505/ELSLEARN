@@ -1277,7 +1277,7 @@ select, input[type="file"] {
     text-align: center;
 }
 #ques_form_container .mce-panel{ width: 600px;}
-#ques_form_container .actions{ margin-top: 20px 0 0;}
+#ques_form_container .actions{ margin-top: 20px ;}
 #ques_form_container #question_instruction{ resize: none; height: 150px; width: 100%}
 .listing-holder.new_pre .new_test .field{ text-align: left; width: 29%; margin: 14px 26px 0 0 ;}
 .listing-holder.new_pre .new_test .actions{ text-align: left; margin:15px 0;}
@@ -2775,4 +2775,22 @@ ul.admin-opt-dashboard.admin-opt li a{
     color: #ffffff;
     height: 1px;
     margin: 20px 0;
+}
+.open>.dropdown-menu{
+    right: 0;
+    left: auto;
+}
+#ques_form_container .field{
+    margin-bottom: 20px;
+}
+#ques_form_container .field label{
+    margin-bottom: 10px;
+}
+#ques_form_container input[type=radio]{
+    margin: 0 6px;
+}
+.form-group:after{
+    clear: both;
+    display: block;
+    content: '';
 }

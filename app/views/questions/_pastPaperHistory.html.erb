@@ -1,8 +1,11 @@
 
 <div id="past_paper_history_div" class="row padding-custom">
-  <div class="col-md-12" id="courses">
-    <%= label_tag :course_id %>
-    <select id="course_id" name="course_id" >
+  <div class="form-group" id="courses">
+    <div class="col-xs-1 text-right">
+        <%= label_tag :course_id%>
+    </div>
+    <div class="col-xs-11">
+    <select id="course_id" class="form-control" name="course_id" >
       <%unless @courses.nil? %>
           <% @courses.each do |course| %>
               <% if @question.past_paper_history && @question.past_paper_history.course_id == course.id.to_s %>
@@ -13,37 +16,50 @@
           <% end %>
       <% end %>
     </select>
+    </div>
   </div>
-  <div class="row padding-custom" style="margin-left: 0px">
-    <div class="field col-md-3">
-      <%= label_tag :paper %>
-      <%= text_field_tag :paper %>
+    <div class="form-group">
+      <div class="text-right col-xs-1">
+        <%= label_tag :paper %>
+      </div>
+      <div class="col-xs-11">
+        <%= text_field_tag :paper ,"", :class=>'form-control' %>
+      </div>
+    </div>
+
+  <div class="form-group">
+    <div class="text-right col-xs-1">
+        <%= label_tag "question#" %>
+    </div>
+    <div class="col-xs-11">
+        <%= text_field_tag :ques_no, @question_no, :class=>'aaa form-control' %>
     </div>
   </div>
 
-  <div class="field col-md-3">
-    <%= label_tag "question #" %>
-    <%= text_field_tag :ques_no, @question_no, :class=>'aaa' %>
-  </div>
-
-  <div class="field col-md-2">
-    <%= label_tag :session %>
+  <div class="form-group">
+    <div class="text-right col-xs-1">
+        <%= label_tag :session %>
+    </div>
+    <div class="col-xs-11">
     <% if @question.past_paper_history && @question.past_paper_history.session == 'Nov/Dec' %>
-        <input type="radio" name="session" value="May/June">May/June</br>
+        <input type="radio" name="session" value="May/June">May/June
         <input type="radio" name="session" value="Oct/Nov" checked>Oct/Nov
 
     <%else %>
-        <input type="radio" name="session" value="May/June" checked>May/June</br>
+        <input type="radio" name="session" value="May/June" checked>May/June
         <input type="radio" name="session" value="Oct/Nov" >Oct/Nov
 
     <% end %>
-
+    </div>
   </div>
 
 
-  <div class="field col-md-3">
-    <%= label_tag :year %>
-    <select id="year" name="year">
+  <div class="form-group">
+    <div class="text-right col-xs-1">
+        <%= label_tag :year %>
+    </div>
+    <div class="col-xs-11">
+    <select id="year" name="year" class="form-control">
       <% i = Time.new.year.inspect.to_i %>
       <% 25.times{ %>
           <% if @question.past_paper_history && @question.past_paper_history.year == i.to_s %>
@@ -54,14 +70,18 @@
       <% i-=1
          } %>
     </select>
-
+    </div>
 
 
   </div>
 
-  <div class="field col-md-3">
-    <%= label_tag :variant %>
-        <%= text_field_tag :varient, @question.varient %>
+  <div class="form-group">
+    <div class="col-xs-1 text-right">
+        <%= label_tag :variant %>
+    </div>
+    <div class="col-xs-11">
+      <%= text_field_tag :varient, @question.varient , :class=>'form-control'%>
+    </div>
   </div>
 
 

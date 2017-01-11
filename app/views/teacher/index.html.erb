@@ -1,45 +1,57 @@
+<div class="wrapper page-heading white-bg border-bottom">
 <% if current_user.is_admin? %>
-  <%= link_to "Manage Users", user_path, class: "btn btn-primary" %> |
-  <%= link_to "Manage Roles", roles_path, class: "btn btn-primary" %>
+  <%= link_to "Manage Users", user_path, class: "btn btn-inverse" %>
+  <%= link_to "Manage Roles", roles_path, class: "btn btn-inverse" %>
 <% end %>
-<br><br>
-
-<% if current_user.is_admin? %>
-  <%= label_tag :select_role %>
-  <%= select_tag "role", options_from_collection_for_select(@roles, :id, :name) %>
-<% end %>
-
-<div class="listing-holder listing_data_table">
-<table class="table table-condensed">
-  <thead>
-  <th>Emails</th>
-  <th>Name</th>
-  <th>Contact number</th>
-  <th>Role</th>
-  <th>Action</th>
-  </thead>
-<tbody>
-  <%@users.each do |user|  %>
-<tr>
-  <td><%= user.email %></td>
-  <td><%= user.name %></td>
-  <td><%= user.phone %></td>
-  <td><%= user.roles.first.name unless user.roles.first.nil? %></td>
-  <td><%= link_to 'Edit', edit_teacher_path(user) %>/
-    <%= link_to 'Delete', user, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
-
-
-
-</tr>
-
-
-
-  <% end %>
-</tbody>
-
-
-</table>
 </div>
+<div class="wrapper wrapper-content ">
+  <% if current_user.is_admin? %>
+      <%= label_tag :select_role %>
+      <%= select_tag "role", options_from_collection_for_select(@roles, :id, :name), :class=>'form-control' %>
+  <% end %>
+
+</div>
+<div class="wrapper wrapper-content">
+  <div class="ibox">
+    <div class="ibox-title">
+      <h5>Users</h5>
+    </div>
+    <div class="ibox-content">
+      <div class="listing-holder listing_data_table">
+        <table class="table table-condensed">
+          <thead>
+          <th>Emails</th>
+          <th>Name</th>
+          <th>Contact number</th>
+          <th>Role</th>
+          <th>Action</th>
+          </thead>
+          <tbody>
+          <%@users.each do |user|  %>
+              <tr>
+                <td><%= user.email %></td>
+                <td><%= user.name %></td>
+                <td><%= user.phone %></td>
+                <td><%= user.roles.first.name unless user.roles.first.nil? %></td>
+                <td><%= link_to 'Edit', edit_teacher_path(user) %>/
+                  <%= link_to 'Delete', user, :method=> :delete, :data=> { :confirm=> 'Are you sure?' } %></td>
+
+
+
+              </tr>
+
+
+
+          <% end %>
+          </tbody>
+
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('.table').dataTable();
@@ -55,8 +67,10 @@
       })
     });
 </script>
+<div class="wrapper wrapper-content">
 <% if current_user.is_proofreader? %>
     <%= link_to 'Add new operator', user_new_path, :class=> 'btn btn-large btn-inverse' %>
 <% else %>
     <%= link_to 'Add new user', user_new_path, :class=> 'btn btn-large btn-inverse' %>
 <% end %>
+</div>

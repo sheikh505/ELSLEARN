@@ -1,10 +1,13 @@
-<% if current_user.is_proofreader? %>
- <h2>Register Operator</h2>
-<% else %>
-    <h2>Register User</h2>
+<div class="wapper wrapper-content">
+    <div class="ibox">
+      <div class="ibox-title">
+          <% if current_user.is_proofreader? %>
+         <h5>Register Operator</h5>
+                <% else %>
+        <h5>Register User</h5>
+    </div>
     <% end %>
-<div class="row">
-  <div class="">
+  <div class="ibox">
 <%= form_for @user, :url => {:controller => 'teacher', :action => 'create'} do |f| %>
         <% if @user.errors.any? %>
             <div id="error_explanation">
@@ -15,38 +18,51 @@
               </ul>
             </div>
         <% end %>
-<div class="span5">
-    <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email,:required => true, :autofocus=> true ,:class=>'row_field' %>
+        <div class="ibox-content">
+
+
+    <div class="form-group">
+      <%= f.label :email , :class=>'col-xs-1 text-right' %>
+      <div class="col-xs-11">
+        <%= f.email_field :email,:required => true, :autofocus=> true ,:class=>'row_field form-control' %>
+      </div>
     </div>
 
-     <div class="field">
-          <%= f.label :name %>
-          <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field' %>
+     <div class="form-group">
+          <%= f.label :name , :class=>'col-xs-1 text-right' %>
+            <div class="col-xs-11">
+            <%= f.text_field :name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$' ,:class=>'row_field form-control' %>
+            </div>
      </div>
 
-        <div class="field">
-          <%= f.label :phone %>
-          <%= f.phone_field :phone ,:required => true,:class=>'row_field' %>
+        <div class="form-group">
+          <%= f.label :phone , :class=>'col-xs-1 text-right' %>
+          <div class="col-xs-11">
+            <%= f.phone_field :phone ,:required => true,:class=>'row_field form-control' %>
+          </div>
         </div>
 
-    <div class="field">
-      <%= f.label :password %>
+    <div class="form-group">
+      <%= f.label :password , :class=>'col-xs-1 text-right' %>
       <% if @validatable %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>
       <% end %>
-      <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+      <div class="col-xs-11">
+        <%= f.password_field :password, autocomplete: "off" ,:required => true,:class=>'row_field form-control' %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field' %>
+    <div class="form-group">
+      <%= f.label :password_confirmation , :class=>'col-xs-1 text-right' %>
+      <div class="col-xs-11">
+        <%= f.password_field :password_confirmation, autocomplete: "off" ,:required => true,:class=>'row_field form-control' %>
+      </div>
 
     </div>
-    <div class="field">
-      <%= f.label :role %>
-      <select id="role_id" name="role_id" class="row_field"  onchange="on_roll_change();">
+    <div class="form-group">
+      <%= f.label :role , :class=>'col-xs-1 text-right' %>
+      <div class="col-xs-11">
+      <select id="role_id" name="role_id" class="row_field form-control"  onchange="on_roll_change();">
         <option value="0">Please select role for User</option>
         <%@roles.each do |x| %>
             <% if current_user.is_proofreader? %>
@@ -61,15 +77,15 @@
             <% end %>
         <% end %>
       </select>
-
+      </div>
     </div>
-</div>
 
 
 
-    <div id="proofreader_all" class="field" style="display: none;">
-      <%= f.label "Proof Reader" %>
-      <select id="user_role" name="user[role]" class="row_field">
+    <div id="proofreader_all" class="form-group" style="display: none;">
+      <%= f.label "Proof Reader" , :class=>'col-xs-1 text-right' %>
+      <div class="col-xs-11">
+      <select id="user_role" name="user[role]" class="row_field form-control">
         <option value="0">Please select Proof Reader</option>
         <%@proofreaders.each do |proofreader| %>
             <% if current_user.is_proofreader? && current_user.id == proofreader.id %>
@@ -79,7 +95,7 @@
             <% end %>
         <% end %>
       </select>
-
+      </div>
     </div>
         <div class="span5 offset1">
           <% if current_user.is_proofreader? %>
@@ -104,11 +120,11 @@
         </div>
 
 
-
+<div class="wrapper wrapper-content">
     <div class="actions mrtb10 col-md-12">
       <%= f.submit "Register", :id => "submit", :onclick => " return register()", :class => 'btn btn-large btn-inverse' %>
     </div>
-
+</div>
         <!-- 1. Attempt test by code
              2. Attempt past papers
              3. Create your own test  -->
@@ -185,10 +201,9 @@
 
   <% end %>
 </div>
+  </div>
 </div>
-
-
-
+</div>
 
 
 

@@ -19,9 +19,8 @@
 
 
 
-<div class="row listing-holder listing-holder-p">
-  <div class="span5">
-<div class="container">
+<div class="wrapper wrapper-content listing-holder listing-holder-p">
+
 
   <!--<h5 class="labelquestions">Boards</h5>-->
   <!--<p>-->
@@ -40,8 +39,8 @@
     <!--<%# end %>-->
   <!--</p>-->
 
+  <div class="white-bg wrapper-content">
 
-  <div class="row">
     <div id="ques_form_container" class="span9">
 
     <%= render 'mcq' if @view == '1' %>
@@ -50,11 +49,9 @@
       <%= render 'blank' if @view == '3' %>
 
     </div>
+  </div>
 
 
-  </div>
-</div>
-  </div>
 
 </div>
 
