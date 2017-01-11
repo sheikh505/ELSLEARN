@@ -130,7 +130,7 @@ ExamsSystem::Application.routes.draw do
       get :get_topics
       get :verify_answers_web
       get :show_quiz
-      get :upload_image
+      post :upload_image
     end
   end
 
