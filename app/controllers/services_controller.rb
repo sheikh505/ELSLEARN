@@ -175,9 +175,30 @@ class ServicesController < ApplicationController
     test_code = params["test_code"]
     quiz = Quiz.find_by_test_code(test_code)
     if (quiz.present? && quiz.question_ids.present? )
+      if current_user.user_packages.where(course_id: quiz.course_id).any?
+        user_package = current_user.user_packages.where(course_id: quiz.course_id).first
+        if user_package.plan != "free"
+          credit = user_package.credit_left
+          count = quiz.question_ids.split(",").count
+          credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
+          if credit < 0
+            render json: {
+                success: false,
+                message: "Your credit has reached its limit"
+            }
+            return
+          end
+        end
+      else
+        render json: {
+            success: false,
+            message: "Your are not registered with this course"
+        }
+        return
+      end
       render :json => {:success => true}
     else
-      render :json => {:success => false}
+      render :json => {:success => false, message: "Quiz does not exist"}
     end
   end
 
@@ -205,8 +226,8 @@ class ServicesController < ApplicationController
           end
         }
       end
-
-      render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist, :time_allowed => @time_allowed}
+      user_package = current_user.user_packages.where(course_id: quiz.course_id).first
+      render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist, :time_allowed => @time_allowed, plan: user_package.package.flag}
     else
       render :json => {:success => false}
     end
@@ -841,6 +862,9 @@ class ServicesController < ApplicationController
 
   def verify_answers
     puts "===========================>", params.inspect
+
+    test_history = UserTestHistory.find(params[:test_history_id])
+
     @score = 0
     @questions = Hash.new
     @questions[:mcq] = Hash.new
@@ -852,6 +876,11 @@ class ServicesController < ApplicationController
 
     array = params[:array].split(",")
 
+    quota = QuestionQuota.find_by_question_type(2).quota
+
+    userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
+    credit_left = userpackage.credit_left
+
     @total = @total_questions = @total_wrong = array.length
     @total_correct = 0
 
@@ -859,6 +888,7 @@ class ServicesController < ApplicationController
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
+        @total += 1
         @questions[:mcq][:total] += 1
         if ques.split(":")[1]
           @questions[:mcq][:attempted] += 1
@@ -876,6 +906,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 4
+        @total += 1
         @questions[:truefalse][:total] += 1
         @option = @question.options.first
         if ques.split(":")[1]
@@ -891,6 +922,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 3
+        @total += 1
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
         if ques.split(":")[1]
@@ -907,7 +939,39 @@ class ServicesController < ApplicationController
             end
           end
         end
+      elsif @question.question_type == 2
+        @total += @question.marks
+        credit_left = credit_left - quota
+        answer_detail = ques.split(":").drop(1).join(':')
+        answer = Answer.where(:user_test_history_id => test_history.id, :question_id => @question.id)
+        if answer.any?
+
+        else
+          answer = Answer.create(user_test_history_id: test_history.id, question_id: @question.id,
+                                 answer_detail: answer_detail)
+          puts "========================>"+answer.inspect
+        end
       end
+    end
+
+    unless params[:review] == nil
+      if params[:review] == "2"
+        if params[:teacher_id] == "3"
+          test_history.update_attributes(:video_review => false, teacher_id: -1)
+        else
+          test_history.update_attributes(:video_review => false, teacher_id: params[:teacher_id].to_i)
+        end
+      elsif params[:review] == "3"
+        if params[:teacher_id] == "3"
+          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
+        else
+          test_history.update_attributes(:video_review => true, teacher_id: params[:teacher_id])
+        end
+      end
+    end
+
+    if userpackage
+      userpackage.update_attributes(:credit_left => credit_left)
     end
 
     @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
@@ -943,7 +1007,7 @@ class ServicesController < ApplicationController
       @grade = "F"
     end
 
-    test_history = UserTestHistory.find(params[:test_history_id])
+
     if test_history.code
       quiz = Quiz.find_by_test_code(test_history.code)
       unless quiz.attempted
