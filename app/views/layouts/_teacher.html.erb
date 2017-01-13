@@ -32,9 +32,14 @@
 <li class="teacher-nav">
   <%= link_to "Manage Questions (#{question_count_teacher})", questions_path %>
 </li>
-
-<%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("1") %>
-<li class="teacher-nav">
-  <%= link_to "Approve Questions (#{approve_question_count_teacher})", questions_approval_questions_path %>
-</li>
+<% if current_user.is_hod? %>
+    <li class="teacher-nav">
+      <%= link_to "Approve Questions (#{approve_question_count_hod})", questions_approval_questions_path %>
+    </li>
+<% else %>
+    <%if current_user.review_permission_ids && current_user.review_permission_ids.split(',').include?("1") %>
+        <li class="teacher-nav">
+          <%= link_to "Approve Questions (#{approve_question_count_teacher})", questions_approval_questions_path %>
+        </li>
+    <% end %>
 <% end %>

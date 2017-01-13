@@ -13,6 +13,7 @@
               <thead>
               <tr>
                 <th>Name</th>
+                <th>Status</th>
                 <th>Action</th>
                 <th>Action</th>
 
@@ -22,6 +23,13 @@
               <% @boards.each do |board| %>
                   <tr>
                     <td><%= board.name %></td>
+                    <td>
+                      <% if board.enable %>
+                          <span class="label label-success">ENABLE</span>
+                      <% else %>
+                          <span class="label label-danger">DISABLE</span>
+                      <% end %>
+                    </td>
                     <% if can? :manage, board %>
                         <td><%= link_to 'Edit', edit_board_path(board), class: "edit_board", remote: true %></td>
                     <% else %>

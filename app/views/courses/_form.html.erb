@@ -38,15 +38,16 @@
       </div>
       <div class="field">
         <% if @course.enable %>
+            <label>Enable</label>
             <%= radio_button_tag :enable, true, checked: :checked  %>
             <label>Disable</label>
             <%= radio_button_tag :enable, false  %>
         <% else %>
+            <label>Enable</label>
             <%= radio_button_tag :enable, true  %>
             <label>Disable</label>
             <%= radio_button_tag :enable, false, checked: :checked  %>
         <% end %>
-        <label>Enable</label>
 
       </div>
       <div class="actions">

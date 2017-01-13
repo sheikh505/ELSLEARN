@@ -69,29 +69,52 @@ class DegreesController < ApplicationController
     params[:name].upcase!
 
     @degree.update_attributes(name: params[:name], enable: params[:enable])
+
+
     if params[:boards] != nil
-      board = params[:boards]
+      boards = params[:boards]
+      puts "===================>>>>boards", boards.inspect
+      boards.each_with_index do |board, index|
+        boards[index] = board.to_i
+      end
+      puts "===================>>>>boards", boards.inspect
 
-      @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
-      if @arr
-        @arr.each do |bDegree|
-          bDegree.destroy unless board.find {|x| x == bDegree.board_id}
-
+      bdegree = @degree.board_degree_assignments
+      if bdegree.any?
+        old_boards = bdegree.pluck(:board_id)
+        puts "===================>>>>old_boards", old_boards.inspect
+        new_boards = boards - old_boards
+        puts "===================>>>>new_boards", new_boards.inspect
+        if new_boards.any?
+          new_boards.each do |new|
+            BoardDegreeAssignment.create(:degree_id => @degree.id, :board_id => new)
+          end
+        end
+        delete_boards = old_boards - boards
+        puts "===================>>>>delete_boards", delete_boards.inspect
+        if delete_boards.any?
+          delete_boards.each do |delete|
+            bd = BoardDegreeAssignment.where(board_id: delete, degree_id: @degree.id)
+            if bd.any?
+              bd.destroy_all
+            end
+          end
+        end
+      else
+        boards.each do |board|
+          BoardDegreeAssignment.create(:degree_id => @degree.id, :board_id => board)
         end
       end
 
-
-
-      params[:boards].each do |board|
-        unless @arr.find {|x| x.board_id == board }
-          ass = BoardDegreeAssignment.new(:degree_id => @degree.id, :board_id => board)
-          ass.save
-        end
-
+      if !@degree.enable and @degree.board_degree_assignments.any?
+        course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: @degree.board_degree_assignments.first.id).pluck(:course_id)
+        puts "===================>>>>", course_ids.inspect
+        Course.where(id: course_ids).update_all(:enable => false)
       end
+
     else
-      @arr = BoardDegreeAssignment.find_all_by_degree_id(@degree.id)
-      if @arr
+      @arr = BoardDegreeAssignment.where(degree_id: @degree.id)
+      if @arr.any?
         @arr.each do |bDegree|
           bDegree.destroy
 

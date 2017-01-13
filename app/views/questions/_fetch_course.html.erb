@@ -1,5 +1,5 @@
 <%= label_tag :select_course %>
-<%= select_tag "fetch_ques", options_from_collection_for_select(@courses, :id, :name) %>
+<%= select_tag "fetch_ques", options_from_collection_for_select(@courses, :id, :name), {:class=>'form-control'} %>
 
 <script>
   $('#fetch_ques').on("change", function(){

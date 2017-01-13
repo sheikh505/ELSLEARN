@@ -34,7 +34,7 @@
                   <td><%= student[:courses] %></td>
                   <td><%= student[:amount] %></td>
                   <td><%= student[:method] %></td>
-                  <td><%= student[:status] %></td>
+                  <td id="status_<%= student[:id] %>"><%= student[:status] %></td>
                   <td>
                     <% if student[:is_active] %>
                         <a href="#" data-remote="true" onclick="set_access(<%= student[:id] %>)" >
@@ -77,6 +77,15 @@
         method: "POST",
         success: function(data){
           $("input:checkbox[name=" + id + "]").prop("checked", !$("input:checkbox[name=" + id + "]").prop("checked"));
+          if ($('#status_' + id).text() == "Successful")
+          {
+            $('#status_' + id).text("Pending");
+          }
+          else
+          {
+            $('#status_' + id).text("Successful");
+          }
+
         },
         error: function(){
           alert ("Error Occurred");

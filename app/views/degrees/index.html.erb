@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Boards</th>
+    <th>Status</th>
     <th></th>
     <th></th>
   </tr>
@@ -21,6 +22,13 @@
 
 
           </td>
+    <td>
+      <% if degree.enable %>
+          <span class="label label-success">ENABLE</span>
+      <% else %>
+          <span class="label label-danger">DISABLE</span>
+      <% end %>
+    </td>
     <% if can? :update, degree %>
         <td><%= link_to 'Edit', edit_degree_path(degree) %></td>
     <% else %>

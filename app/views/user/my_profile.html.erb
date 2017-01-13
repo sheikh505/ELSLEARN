@@ -151,8 +151,17 @@
         <%@user.teacher_requests.each do |request| %>
 
             <li>
-              <h3><%=request.teacher_token %></h3>
-              <span><%=request.status %></span>
+              <div class="row">
+                <div class="col-md-4">
+                  <strong><font color="black"><%= User.where(teacher_token: request.teacher_token).first.name %></font></strong>
+                </div>
+                <div class="col-md-4">
+                  <strong><font color="black"><%=request.teacher_token %></font></strong>
+                </div>
+                <div class="col-md-4">
+                  <span><%=request.status %></span>
+                </div>
+              </div>
             </li>
 
         <% end %>

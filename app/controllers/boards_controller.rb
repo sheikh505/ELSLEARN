@@ -38,6 +38,20 @@ class BoardsController < ApplicationController
   def update
     params[:name].upcase!
     @board.update_attributes(name: params[:name], enable: params[:enable])
+
+    if !@board.enable and @board.degrees.any?
+      degrees = @board.degrees
+      degrees.each do |degree|
+        degree.update_attribute(:enable, false)
+        course_ids = DegreeCourseAssignment.where(board_degree_assignment_id: degree.board_degree_assignments.first.id).pluck(:course_id)
+        puts "===================>>>>", course_ids.inspect
+        if course_ids.any?
+          Course.where(id: course_ids).update_all(:enable => false)
+        end
+      end
+
+    end
+
     redirect_to action: :manage_boards
   end
 

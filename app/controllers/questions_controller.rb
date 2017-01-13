@@ -451,6 +451,8 @@ class QuestionsController < ApplicationController
     puts "---session----",c.inspect
     puts "---year----",d.inspect
     puts "---varient----",e.inspect
+    puts "---id----",params[:id].inspect
+
 
     @past_paper_history = Question.joins("INNER JOIN past_paper_histories p ON questions.id = p.question_id").where("p.course_id = ?
                                                                                               and p.ques_no = ?
@@ -459,8 +461,9 @@ class QuestionsController < ApplicationController
                                                                                               and varient = ? and deleted =false" , a,b,c,d,e)
 
 
+
     puts "-------------->", @past_paper_history.count
-    if @past_paper_history.count!=0
+    if @past_paper_history.count > 1
       respond_to do |format|
         format.json { render :json =>   result = true }
 
@@ -471,6 +474,7 @@ class QuestionsController < ApplicationController
       end
     end
   end
+
   def create
 
 
@@ -961,11 +965,25 @@ class QuestionsController < ApplicationController
                              "difficulty_ids" => difficulti.to_s}
         @question.update_attributes(question_data)
         @question.accept!
-        @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
-            joins(:topic => :course).
-            where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).first
-      end
+        # @question = Question.select("questions.*,topics.name as topic_name,courses.name as course_name").
+        #     joins(:topic => :course).
+        #     where("workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher') and course_id IN (?)", course_ids).first
 
+
+      end
+      questions = Question.select("questions.*")
+                      .joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))
+                  AND workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher', 'pending_for_hod_approval') AND deleted = 'FALSE'",
+                course_ids, course_ids, course_ids, course_ids,)
+      question = nil
+      questions.each do |ques|
+        if ques.id < @question.id
+          question = ques
+          break
+        end
+      end
+      @question = question
     else
       if @question.current_state.to_s == "being_reviewed" && @question.question_histories.count == 2
         @question_histories1 = @question.question_histories.first
@@ -1112,7 +1130,7 @@ class QuestionsController < ApplicationController
       ##### fetch the course
       # @course = @question.topic.course.id
       @course = @question.course_linking_id
-      puts "===================>>>>>",@course.inspect
+
       ####### check if any entry is present in workflow with a false
       flag_path = true
       WorkflowPath.all.each do |workflow_path|
@@ -1122,8 +1140,10 @@ class QuestionsController < ApplicationController
         end
         if course_linking_id == @course
           flag_path = false if workflow_path.is_complete == false
+          puts "===================>>>>>",workflow_path.inspect,course_linking_id.inspect,@course.inspect,flag_path.inspect,'','',''
         end
       end
+      die
       if flag_path == true
         @question.submit!
       else

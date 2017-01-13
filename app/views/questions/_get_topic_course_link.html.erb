@@ -59,7 +59,11 @@
             <option value="">select topic</option>
             <%@topics_3.each do |x| %>
                 <% if x.parent_topic_id.nil? %>
-                    <option value="<%=x.id%>"><%=x.name%></option>
+                    <% if @topics_3.where(parent_topic_id: x.id).any? %>
+                      <option value="<%=x.id%>" disabled><%=x.name%></option>
+                    <% else %>
+                        <option value="<%=x.id%>"><%=x.name%></option>
+                    <% end %>
                 <% else %>
                     <option value="<%=x.id%>">--- <%=x.name%></option>
                 <% end %>
@@ -74,7 +78,11 @@
             <option value="">select topic</option>
             <%@topics_2.each do |x| %>
                 <% if x.parent_topic_id.nil? %>
-                    <option value="<%=x.id%>"><%=x.name%></option>
+                    <% if @topics_2.where(parent_topic_id: x.id).any? %>
+                        <option value="<%=x.id%>" disabled><%=x.name%></option>
+                    <% else %>
+                        <option value="<%=x.id%>"><%=x.name%></option>
+                    <% end %>
                 <% else %>
                     <option value="<%=x.id%>">--- <%=x.name%></option>
                 <% end %>
@@ -89,7 +97,11 @@
             <option value="">select topic</option>
             <%@topics_1.each do |x| %>
                 <% if x.parent_topic_id.nil? %>
-                    <option value="<%=x.id%>"><%=x.name%></option>
+                    <% if @topics_1.where(parent_topic_id: x.id).any? %>
+                        <option value="<%=x.id%>" disabled><%=x.name%></option>
+                    <% else %>
+                        <option value="<%=x.id%>"><%=x.name%></option>
+                    <% end %>
                 <% else %>
                     <option value="<%=x.id%>">--- <%=x.name%></option>
                 <% end %>
@@ -104,7 +116,11 @@
             <option value="">select topic</option>
             <%@topics_4.each do |x| %>
                 <% if x.parent_topic_id.nil? %>
-                    <option value="<%=x.id%>"><%=x.name%></option>
+                    <% if @topics_4.where(parent_topic_id: x.id).any? %>
+                        <option value="<%=x.id%>" disabled><%=x.name%></option>
+                    <% else %>
+                        <option value="<%=x.id%>"><%=x.name%></option>
+                    <% end %>
                 <% else %>
                     <option value="<%=x.id%>">--- <%=x.name%></option>
                 <% end %>

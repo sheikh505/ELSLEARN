@@ -11,11 +11,13 @@
 <div class="field stat_holder">
   <label><strong>Student Answer</strong></label>
   <% unless @answer.answer_detail %>
-      <div id="edit_image">
-        <%= render partial: "edit_image" ,locals: {imagee: @image, imagee_ids: @image_ids, imagees: @images}%>
-      </div>
-      <br><%= link_to "Next Image", "javascript:void(0)", id: "next_image", class: "btn btn-primary" %>
-  <% else %>
+      <% if @answer.answer_images.any? %>
+        <div id="edit_image">
+          <%= render partial: "edit_image" ,locals: {imagee: @image, imagee_ids: @image_ids, imagees: @images}%>
+        </div>
+        <br><%= link_to "Next Image", "javascript:void(0)", id: "next_image", class: "btn btn-primary" %>
+      <% end %>
+    <% else %>
       <%= raw @answer.answer_detail %>
   <% end %>
 </div>

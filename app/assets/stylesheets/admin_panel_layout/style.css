@@ -2794,3 +2794,6 @@ ul.admin-opt-dashboard.admin-opt li a{
     display: block;
     content: '';
 }
+#create_board input[type=radio]{
+        margin: -2px 6px 0;
+}

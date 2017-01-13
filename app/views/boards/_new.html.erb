@@ -1,16 +1,28 @@
-<h1>New board</h1>
+<div class="wrapper page-heading white-bg border-bottom">
+  <h2>New board</h2>
 
-<div class="container">
-  <div class="row  listing-holder-p">
-    <div class="col-md-8 mrgr32 listing-holder">
-      <table class="table table-condensed">
-        <th>List of Boards</th>
+</div>
+<div class="wrapper-content wrapper">
+
+
+  <div class="row  listing-holder-p ibox">
+    <div class="col-md-8 mrgr32 listing-holder ibox-content">
+      <table class="table  table-striped">
+        <thead>
+          <tr>
+            <th>List of Boards</th>
+          </tr>
+        </thead>
+        <tbody>
         <%Board.all.each do |board| %>
             <tr><td><%=board.name%></td></tr>
         <% end %>
+        </tbody>
+
       </table>
     </div>
-    <div class="col-md-3 pd17 listing-holder">
+    <div class="col-md-3   listing-holder">
+      <div class="ibox-content">
       <%= form_tag boards_path, remote: true, id: "create_board" do |f| %>
 
           <div class="field">
@@ -30,15 +42,17 @@
                 <%= radio_button_tag :enable, false, checked: :checked  %>
             <% end %>
           </div>
-          <div class="actions">
+          <div class="actions" style="margin-top: 15px;">
             <%= submit_tag "Create Board", class: 'btn btn-large btn-inverse'%>
           </div>
       <% end %>
+      </div>
     </div>
   </div>
 </div>
-
+<div class="wrapper wrapper-content">
 <%= link_to 'Back', "/boards/manage_boards", remote: true, id: "board_back" , class: 'btn btn-large btn-inverse' %>
+</div>
 
 <script>
   $('#create_board').on("ajax:success", function(e, data, status, xhr){

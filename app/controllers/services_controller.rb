@@ -514,11 +514,13 @@ class ServicesController < ApplicationController
     @questions[:mcq][:attempted] = @questions[:fill][:attempted] = @questions[:truefalse][:attempted] = 0
     @questions[:mcq][:correct] = @questions[:fill][:correct] = @questions[:truefalse][:correct] = 0
 
-    array = params[:array].split(",")
+    array = params[:array].split('#')
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
-
+    mcq = []
+    truefalse = []
+    fill = []
 
     userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
     credit_left = userpackage.credit_left
@@ -531,6 +533,7 @@ class ServicesController < ApplicationController
     array.each do |ques|
       @question = Question.find(ques.split(":")[0])
       if @question.question_type == 1
+        mcq << ques
         @total += 1
         @questions[:mcq][:total] += 1
         if ques.split(":")[1]
@@ -549,6 +552,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 4
+        truefalse << ques
         @total += 1
         @questions[:truefalse][:total] += 1
         @option = @question.options.first
@@ -565,6 +569,8 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 3
+        fill << ques
+        puts "===========================>", fill.inspect
         @total += 1
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
@@ -798,6 +804,9 @@ class ServicesController < ApplicationController
         scores << user.user_test_histories.last.score.to_i
       end
 
+      test_history.mcq = mcq.join(',') if mcq.any?
+      test_history.truefalse = truefalse.join(',')  if truefalse.any?
+      test_history.fill = fill.join(',') if fill.any?
       test_history.score = @total_correct
       test_history.total = @total
       test_history.is_live = false

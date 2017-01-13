@@ -1,41 +1,62 @@
-<h1>Listing certifications</h1>
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <tr>
-      <th>Name</th>
-      <th>Boards</th>
-      <th></th>
-      <th></th>
-    </tr>
+<div class="wrapper-content warpper">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Listing certifications </h5>
 
-    <% @degrees.each do |degree| %>
-        <tr id="<%= degree.id %>">
-          <td><%= degree.name %></td>
-          <td><% degree.boards.each_with_index do |board, index| %>
-                <% if index == degree.boards.size - 1 %>
-                    <%= board.name %>
-                <% else %>
-                    <%= board.name + ', ' %>
-                <% end %>
-            <% end %>
+          <div ibox-tools></div>
+        </div>
+
+        <div class="ibox-content">
+            <table class="table table-striped">
+              <tr>
+                <th>Name</th>
+                <th>Boards</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+              </tr>
+
+              <% @degrees.each do |degree| %>
+                  <tr id="<%= degree.id %>">
+                    <td><%= degree.name %></td>
+                    <td><% degree.boards.each_with_index do |board, index| %>
+                          <% if index == degree.boards.size - 1 %>
+                              <%= board.name %>
+                          <% else %>
+                              <%= board.name + ', ' %>
+                          <% end %>
+                      <% end %>
 
 
-          </td>
-          <% if can? :update, degree %>
-              <td><%= link_to 'Edit', edit_degree_path(degree), class: "edit_degree", remote: true %></td>
-          <% else %>
-              <td></td>
-          <% end %>
-          <% if can? :update, degree %>
-              <td><%= link_to 'Destroy', degree, :method=> :delete, remote: true,
-                              class: "delete_degree", :data=> { :confirm=> 'Are you sure?' } %></td>
-          <% else %>
-              <td></td>
-          <% end %>
+                    </td>
+                    <td>
+                      <% if degree.enable %>
+                          <span class="label label-success">ENABLE</span>
+                      <% else %>
+                          <span class="label label-danger">DISABLE</span>
+                      <% end %>
+                    </td>
+                    <% if can? :update, degree %>
+                        <td><%= link_to 'Edit', edit_degree_path(degree), class: "edit_degree", remote: true %></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
+                    <% if can? :update, degree %>
+                        <td><%= link_to 'Destroy', degree, :method=> :delete, remote: true,
+                                        class: "delete_degree", :data=> { :confirm=> 'Are you sure?' } %></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
 
-        </tr>
-    <% end %>
-  </table>
+                  </tr>
+              <% end %>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <% if can? :manage, Degree %>

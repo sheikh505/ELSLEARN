@@ -815,6 +815,7 @@ class HomePageController < ApplicationController
       @array << str
       puts "========================>@@@@@@" + str.inspect
     end
+    @array = @array.join('#')
     puts "========================>" + @array.inspect
     render :json => {:array => @array}
   end

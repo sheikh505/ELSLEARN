@@ -1,20 +1,29 @@
-<table class="table table-condensed">
-  <tr>
-    <th>Certification</th>
-    <th>Course</th>
-    <th>Question Type</th>
-    <th>Action</th>
-  </tr>
+<div class="ibox listing-holder">
 
-  <% @ques_detail_hash.each do |k,v| %>
-      <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
-          <tr>
-            <% degree,course,course_id = k.split("_") %>
-            <td><%= degree %></td>
-            <td><%= course %></td>
-            <td><%= "#{ques_type}(#{v[index+1]})" %></td>
-            <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
-          </tr>
+  <div class="ibox-title">
+    <h5>Questions Detail</h5>
+  </div>
+
+  <div class="ibox-content">
+    <table class="table table-striped">
+      <tr>
+        <th>Certification</th>
+        <th>Course</th>
+        <th>Question Type</th>
+        <th>Action</th>
+      </tr>
+
+      <% @ques_detail_hash.each do |k,v| %>
+          <% ['MCQs','Structured Questions','Fill in the Blanks','True/False'].each_with_index do |ques_type,index| %>
+              <tr>
+                <% degree,course,course_id = k.split("_") %>
+                <td><%= degree %></td>
+                <td><%= course %></td>
+                <td><%= "#{ques_type}(#{v[index+1]})" %></td>
+                <td><a href="javascript:void(0)" onclick="show_pop_up('<%=course_id%>','<%= index + 1 %>')">Details</a></td>
+              </tr>
+          <% end %>
       <% end %>
-  <% end %>
-</table>
+    </table>
+  </div>
+</div>

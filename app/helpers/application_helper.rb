@@ -125,6 +125,24 @@ module ApplicationHelper
     return questions.size
   end
 
+  def approve_question_count_hod
+    if current_user.teacher_courses.present?
+      course_list = current_user.teacher_courses
+      course_ids = []
+      course_list.each do |course|
+        course_ids << course.course_id
+      end
+      questions = Question.select("questions.*")
+                      .joins(:course_linking).
+          where("(course_1  IN (?) OR course_2  IN (?) OR course_3  IN (?) OR course_4  IN (?))
+                  AND workflow_state IN ('reviewed_by_proofreader', 'being_reviewed', 'rejected_by_teacher', 'pending_for_hod_approval') AND deleted = 'FALSE'",
+                course_ids, course_ids, course_ids, course_ids)
+    else
+      questions = Question.where(:id => 0)
+    end
+    return questions.size
+  end
+
   def new_students_count_teacher
     return TeacherRequest.where(teacher_token: current_user.teacher_token,status: 'PENDING').count
   end

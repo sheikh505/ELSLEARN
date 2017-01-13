@@ -42,3 +42,9 @@
   </tbody>
 </table>
 
+<script>
+  $('.edit_course').on("ajax:success", function(e, data, status, xhr){
+    $('#course_container').html(data);
+  });
+</script>
+

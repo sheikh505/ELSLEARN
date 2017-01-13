@@ -31,6 +31,51 @@
 
       </ul>
     </div>
+
+    <div id="myModal" style="overflow:scroll;" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Attempt Test Code</h4>
+          </div>
+          <div class="modal-body">
+            <div class=" viual_right col">
+
+              <h2>Enter Code</h2>
+
+              <fieldset>
+
+                <div class="pre_header_row">
+                  <div id="not_present" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> There is no test against this test code.
+                  </div>
+
+                  <div id="not_registered" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> You are not registered with this course.
+                  </div>
+
+                  <div id="credit_limit" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> Your package's credit has reached it's limit.
+                  </div>
+
+                  <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
+                    <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
+                    <input type="hidden" name="test_flag" value="2" >
+                    <button type="submit" class="btn btn-primary modal_btn">Submit</button>
+                  </form>
+                </div>
+
+              </fieldset>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
         <div class="user_profile_right test-reviews ">
       <h1>Quizzes</h1>
       <table class=" pre_table_dashboard" width="100%">
@@ -77,4 +122,32 @@
   $(document).ready(function() {
     $('.pre_table_dashboard').dataTable();
   } );
+
+  $('#attempt_test_code').bind('ajax:success', function(e, data){
+    $('body').html(data);
+  })
+
+  $('#attempt_test_code').bind('ajax:error', function(e, data, status, xhr){
+    if (data.responseJSON.flag == "not_present")
+    {
+      $('#not_present').show();
+      $("#not_present").delay(2500).fadeOut();
+    }
+    else if (data.responseJSON.flag == "not_registered")
+    {
+      $('#not_registered').show();
+      $("#not_registered").delay(2500).fadeOut();
+    }
+    else if (data.responseJSON.flag == "credit_limit")
+    {
+      $('#credit_limit').show();
+      $("#credit_limit").delay(2500).fadeOut();
+    }
+
+  })
+
+  $('#test_code').on('click', function(){
+    $('#myModal').modal('toggle');
+  });
+
 </script>
