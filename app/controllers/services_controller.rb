@@ -180,7 +180,7 @@ class ServicesController < ApplicationController
         if user_package.plan != "free"
           credit = user_package.credit_left
           question_ids = quiz.question_ids.split(",")
-          questions = Question.find(question_ids.split(','))
+          questions = Question.where(id: question_ids.split(','))
           count = questions.where(question_type: 2).count
           credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
           if credit < 0
@@ -193,7 +193,7 @@ class ServicesController < ApplicationController
           end
         else
           question_ids = quiz.question_ids.split(",")
-          questions = Question.find(question_ids.split(','))
+          questions = Question.where(id: question_ids.split(','))
           if questions.where(question_type: 2).any?
             render json: {
                 success: false,
