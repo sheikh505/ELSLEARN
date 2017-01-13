@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
   respond_to :json
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
-  before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :verify_answers, :get_lookup_data, :get_courses_by_teacher,
+  before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher,
                                             :get_topics, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
@@ -175,8 +175,8 @@ class ServicesController < ApplicationController
     test_code = params["test_code"]
     quiz = Quiz.find_by_test_code(test_code)
     if (quiz.present? && quiz.question_ids.present? )
-      if current_user.user_packages.where(course_id: quiz.course_id).any?
-        user_package = current_user.user_packages.where(course_id: quiz.course_id).first
+      if @user.user_packages.where(course_id: quiz.course_id).any?
+        user_package = @user.user_packages.where(course_id: quiz.course_id).first
         if user_package.plan != "free"
           credit = user_package.credit_left
           count = quiz.question_ids.split(",").count
@@ -226,7 +226,7 @@ class ServicesController < ApplicationController
           end
         }
       end
-      user_package = current_user.user_packages.where(course_id: quiz.course_id).first
+      user_package = @user.user_packages.where(course_id: quiz.course_id).first
       render :json => {:success => true, :user_test_history_id => user_history.id, :questions => @questionlist, :time_allowed => @time_allowed, plan: user_package.package.flag}
     else
       render :json => {:success => false}
@@ -878,7 +878,7 @@ class ServicesController < ApplicationController
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
-    userpackage = UserPackage.where(:user_id => current_user.id, :course_id => test_history.course_id).first
+    userpackage = UserPackage.where(:user_id => @user.id, :course_id => test_history.course_id).first
     credit_left = userpackage.credit_left
 
     @total = @total_questions = @total_wrong = array.length
