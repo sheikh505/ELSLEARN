@@ -106,7 +106,7 @@ ExamsSystem::Application.routes.draw do
     end
   end
 
-  resources :services do
+  resources :services, except: [:show] do
     collection do
       post :sign_in
       get :get_all_boards
@@ -131,6 +131,7 @@ ExamsSystem::Application.routes.draw do
       get :verify_answers_web
       get :show_quiz
       post :upload_image
+      get :fetch_teacher_list
     end
   end
 
