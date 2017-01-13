@@ -219,7 +219,7 @@ class ServicesController < ApplicationController
     quiz = Quiz.find_by_test_code(test_code)
     @time_allowed = quiz.time_allowed
     user = User.find_by_email(params[:email])
-    user_test_history = {:quiz_name => quiz.name,
+    user_test_history = {:quiz_name => quiz.name, course_id: quiz.course_id,
                          :code => params[:test_code],
                          :user_id=> user.id, :is_live => true}
     user_history = UserTestHistory.new(user_test_history)
@@ -910,7 +910,7 @@ class ServicesController < ApplicationController
     @questions[:mcq][:attempted] = @questions[:fill][:attempted] = @questions[:truefalse][:attempted] = 0
     @questions[:mcq][:correct] = @questions[:fill][:correct] = @questions[:truefalse][:correct] = 0
 
-    array = params[:array].split(",")
+    array = params[:array].split("#")
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
