@@ -179,14 +179,28 @@ class ServicesController < ApplicationController
         user_package = @user.user_packages.where(course_id: quiz.course_id).first
         if user_package.plan != "free"
           credit = user_package.credit_left
-          count = quiz.question_ids.split(",").count
+          question_ids = quiz.question_ids.split(",")
+          questions = Question.find(question_ids.split(','))
+          count = questions.where(question_type: 2).count
           credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
           if credit < 0
             render json: {
                 success: false,
                 message: "Your credit has reached its limit"
             }
-            return
+          else
+            render :json => {:success => true}
+          end
+        else
+          question_ids = quiz.question_ids.split(",")
+          questions = Question.find(question_ids.split(','))
+          if questions.where(question_type: 2).any?
+            render json: {
+                success: false,
+                message: "You can not attempt a descriptive test with free plan"
+            }
+          else
+            render :json => {:success => true}
           end
         end
       else
@@ -194,9 +208,7 @@ class ServicesController < ApplicationController
             success: false,
             message: "Your are not registered with this course"
         }
-        return
       end
-      render :json => {:success => true}
     else
       render :json => {:success => false, message: "Quiz does not exist"}
     end
