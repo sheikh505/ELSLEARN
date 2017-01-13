@@ -233,6 +233,30 @@ class ServicesController < ApplicationController
     end
   end
 
+  def fetch_teacher_list
+    user_test_history = UserTestHistory.find(params[:user_test_history_id])
+    teacher_tokens = TeacherRequest.where(:student_id => @user.id).pluck(:teacher_token)
+    teacher_ids = TeacherCourse.where("course_id = ?", user_test_history.course_id).pluck(:user_id)
+    teacher_ids << User.where(:email => "admin@els.com").first.id
+    teachers = User.where("id IN (?)", teacher_ids)
+    teachers = teachers.select{|teacher|
+      (teacher.review_permission_ids != nil &&
+          teacher.review_permission_ids.split(',').include?(params[:review]) &&
+          teacher_tokens.include?(teacher.teacher_token)) || teacher.email == "admin@els.com"
+    }
+    teachers = teachers.map{ |teacher|
+      {
+          id: teacher.id,
+          name: teacher.email == "admin@els.com" ? "ELS" : teacher.name,
+          email: teacher.email
+      }
+    }
+    render json: {
+        success: true,
+        teacher_list: teachers
+    }
+  end
+
   def live_score_details
     tests = UserTestHistory.where(:code => params[:test_code])
     user_ids = tests.uniq.pluck(:user_id)
