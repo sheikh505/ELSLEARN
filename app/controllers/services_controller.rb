@@ -910,6 +910,7 @@ class ServicesController < ApplicationController
     puts "===========================>", params.inspect
 
     test_history = UserTestHistory.find(params[:test_history_id])
+    @user = User.find_by_id(test_history.user_id)
 
     @score = 0
     @questions = Hash.new
