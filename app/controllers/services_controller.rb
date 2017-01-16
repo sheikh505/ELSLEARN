@@ -570,7 +570,6 @@ class ServicesController < ApplicationController
         end
       elsif @question.question_type == 3
         fill << ques
-        puts "===========================>", fill.inspect
         @total += 1
         @questions[:fill][:total] += 1
         @options = @question.options.last.statement.split("/")
@@ -809,7 +808,9 @@ class ServicesController < ApplicationController
       test_history.fill = fill.join(',') if fill.any?
       test_history.score = @total_correct
       test_history.total = @total
+      test_history.total_questions = @total_questions
       test_history.is_live = false
+      test_history.reviewed = true unless test_history.descriptive
       test_history.save!
       test_total_marks = test_history.total
 
@@ -919,7 +920,7 @@ class ServicesController < ApplicationController
     @questions[:mcq][:attempted] = @questions[:fill][:attempted] = @questions[:truefalse][:attempted] = 0
     @questions[:mcq][:correct] = @questions[:fill][:correct] = @questions[:truefalse][:correct] = 0
 
-    array = params[:array].split("#")
+    array = params[:array].split("~")
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
