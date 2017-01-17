@@ -4,46 +4,78 @@
     <%= raw @question.statement %>
   </div>
 
-  <div class="field stat_holder">
-
-    <% unless @answer.answer_detail %>
-        <label><strong>Teacher Review</strong></label><br>
-        <%  if @answer.answer_images.any? %>
-            <%  @answer.answer_images.each do |image| %>
-                <%= image_tag image.image.url %><br><br>
-            <% end %>
-        <% end %>
-    <% else %>
-        <label><strong>Submitted Answer</strong></label>
-        <%= raw @answer.answer_detail %>
-    <% end %>
-  </div>
-
-  <div class="field stat_holder">
-    <label><strong>Remarks</strong></label>
-    <%= @answer.remarks %>
-  </div>
-
-  <div class="field stat_holder">
-    <label><strong>Marks</strong></label>
-    <%= @answer.marks %> / <%= @question.marks %>
-  </div>
-
-  <% if @answer.video_file_name %>
-    <div class="field stat_holder">
-      <label><strong>Video Review</strong></label>
-      <div  style="width:800px; margin:0 auto;">
-        <video id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered"
-               controls preload="auto" width="640" height="400"
-               poster="http://video-js.zencoder.com/oceans-clip.png"
-               data-setup='{"example_option":true}'>
-          <source src="<%= @answer.video %>" type="video/webm" />
-          <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-        </video>
+  <% if @question.question_type == 1 %>
+      <div class="question_p_section">
+        <ul class="pre_question_options" style="list-style-type: upper-alpha;">
+          <% @options.each do |option| %>
+              <li class='option_question'><%=option.statement %></li>
+          <% end %>
+        </ul>
       </div>
 
-    </div>
+  <% elsif @question.question_type == 4 %>
+
+      <ul>
+        <li class='option_question'>True</li>
+
+        <li class='option_question'>False</li>
+
+      </ul>
+
+  <% elsif @question.question_type == 3 %>
+
+      <ul>
+        <li>
+          <strong>Your answer: </strong><%= @student_choice %>
+        </li>
+        <li>
+          <strong>Correct answer: </strong><%= @options.first.statement %>
+        </li>
+      </ul>
+
+  <% elsif @question.question_type == 2 %>
+      <div class="field stat_holder">
+
+        <% unless @answer.answer_detail %>
+            <label><strong>Teacher Review</strong></label><br>
+            <%  if @answer.answer_images.any? %>
+                <%  @answer.answer_images.each do |image| %>
+                    <%= image_tag image.image.url %><br><br>
+                <% end %>
+            <% end %>
+        <% else %>
+            <label><strong>Submitted Answer</strong></label>
+            <%= raw @answer.answer_detail %>
+        <% end %>
+      </div>
+
+      <div class="field stat_holder">
+        <label><strong>Remarks</strong></label>
+        <%= @answer.remarks %>
+      </div>
+
+      <div class="field stat_holder">
+        <label><strong>Marks</strong></label>
+        <%= @answer.marks %> / <%= @question.marks %>
+      </div>
+
+      <% if @answer.video_file_name %>
+          <div class="field stat_holder">
+            <label><strong>Video Review</strong></label>
+            <div  style="width:800px; margin:0 auto;">
+              <video id="example_video_1" class="video-js vjs-default-skin vjs-big-play-centered"
+                     controls preload="auto" width="640" height="400"
+                     poster="http://video-js.zencoder.com/oceans-clip.png"
+                     data-setup='{"example_option":true}'>
+                <source src="<%= @answer.video %>" type="video/webm" />
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+              </video>
+            </div>
+
+          </div>
+      <% end %>
   <% end %>
+
 
   <% if @finish_flag %>
 

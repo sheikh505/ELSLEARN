@@ -11,13 +11,13 @@
           <% end %>
           <% if current_user.is_student? %>
 
+              <li><a  href="/user/my_profile">
+                <i class="fa fa_icon fa-book"></i>
+                My Profile</a> </li>
+
               <li><a  href="/user/manage_courses">
                 <i class="fa fa_icon fa-book"></i>
                 Manage Courses</a> </li>
-
-              <li><a  href="/user/test_reviews">
-                <i class="fa fa_icon fa-book"></i>
-                Test Reviews</a> </li>
 
               <li><a  href="#" id="test_code">
                 <i class="fa fa_icon fa-book"></i>
@@ -57,6 +57,10 @@
 
                   <div id="credit_limit" class='alert alert-error' style='color:red;display: none'>
                     <strong>Sorry!</strong> Your package's credit has reached it's limit.
+                  </div>
+
+                  <div id="free_package" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> You can not attempt a descriptive test with a <strong>FREE PACKAGE</strong>.
                   </div>
 
                   <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
@@ -99,12 +103,18 @@
             <tr>
               <% user = User.find_by_id(test.teacher_id) %>
               <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
-              <td><%= test.code %></td>
-              <td><%= test.descriptive.split(',').count if test.descriptive %></td>
+              <td><%= test.code + " " + test.id.to_s %></td>
+              <td><%= test.total_questions.to_s %></td>
               <td><%= test.created_at.to_date %></td>
               <td><%= test.total %></td>
               <td><%= test.score %></td>
-              <td><%= (test.score.to_f / test.total) * 100 %> %</td>
+              <td>
+                <% if test.score %>
+                  <%= ((test.score.to_f / test.total) * 100).round(2) %> %
+                <% else %>
+                   0.0 %
+                <% end %>
+              </td>
               <td><%= user.name if user %></td>
               <td><%= link_to "Show", "/user/quiz_answers?test_id=#{test.id}" %></td>
             </tr>
@@ -139,6 +149,11 @@
       $("#not_registered").delay(2500).fadeOut();
     }
     else if (data.responseJSON.flag == "credit_limit")
+    {
+      $('#credit_limit').show();
+      $("#credit_limit").delay(2500).fadeOut();
+    }
+    else if (data.responseJSON.flag == "free_package")
     {
       $('#credit_limit').show();
       $("#credit_limit").delay(2500).fadeOut();

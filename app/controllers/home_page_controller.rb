@@ -214,12 +214,24 @@ class HomePageController < ApplicationController
     user_package = current_user.user_packages.where(course_id: @quiz.course_id).first
     if user_package.plan != "free"
       credit = user_package.credit_left
-      count = @quiz.question_ids.split(",").count
+      question_ids = @quiz.question_ids.split(",")
+      puts "++++====================>>>", Question.where(id: question_ids.split(','), question_type: 2).inspect
+      count = Question.where(id: question_ids.split(','), question_type: 2).count
       credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
       if credit < 0
         render json: {
             success: false,
             flag: "credit_limit"
+        }, status: 500
+        return
+      end
+    else
+      question_ids = @quiz.question_ids.split(",")
+      questions = Question.where(id: question_ids.split(','), question_type: 2)
+      if questions.any?
+        render json: {
+            success: false,
+            flag: "free_package"
         }, status: 500
         return
       end
