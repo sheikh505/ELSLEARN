@@ -306,9 +306,9 @@ class ServicesController < ApplicationController
               quiz_name: test.quiz_name,
               video_review: test.video_review,
               total_questions: test.total_questions,
-              student_name: @students.where(id: test.user_id).first.name,
-              course: @courses.where(id: test.course_id).first.name
-          }
+              student_name: @students.where(id: test.user_id).first ? @students.where(id: test.user_id).first.name : nil,
+              course: @courses.where(id: test.course_id).first ? @courses.where(id: test.course_id).first.name : nil
+           }
         }
         render json: {
             success: true,
