@@ -342,7 +342,6 @@ class ServicesController < ApplicationController
             question_ids << answer.question_id
           end
           @questions = Question.where(id: question_ids)
-          puts "=================>", @questions.inspect
           @answers = @answers.map{ |answer|
             {
                 id: answer.id,
@@ -350,9 +349,10 @@ class ServicesController < ApplicationController
                 user_test_history_id: answer.user_test_history_id,
                 question_id: answer.question_id,
                 question: @questions.where(id: answer.question_id).first,
-                images: answer.answer_images
+                images: answer.answer_images.as_json(:only => [:id, :image], :methods => [:answer_image_url])
             }
           }
+          puts "=================>", @answers.inspect
           render json: {
               success: true,
               answers: @answers
