@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -289,6 +289,45 @@ class ServicesController < ApplicationController
     end
   end
 
+  def fetch_quizzes
+    if params[:user_id] and params[:permission_id]
+      if params[:permission_id] == "2"
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", params[:user_id]).order('created_at DESC')
+      else
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", params[:user_id]).order('created_at DESC')
+      end
+      if @tests.any?
+        @students = User.where("id IN (?)", @tests.pluck(:user_id))
+        @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+        @tests = @tests.map{ |test|
+          {
+              id: test.id,
+              code: test.code,
+              quiz_name: test.quiz_name,
+              video_review: test.video_review,
+              total_questions: test.total_questions,
+              student_name: @students.where(id: test.user_id).first.name,
+              course: @courses.where(id: test.course_id).first.name
+          }
+        }
+        render json: {
+            success: true,
+            tests: @tests
+        }
+      else
+        render json: {
+            success: false,
+            error: "No tests found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          error: "Insufficient parameters"
+      }
+    end
+  end
+
   def fetch_questions
     puts "=============================>", params.inspect
     year = params[:year]
@@ -478,6 +517,7 @@ class ServicesController < ApplicationController
       render :json => {:success => true, :quiz_list => @quizzes}
     end
   end
+
 
   def upload_image
     if params[:question_id] and params[:user_test_history_id] and params[:image]
