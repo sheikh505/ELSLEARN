@@ -132,6 +132,7 @@ ExamsSystem::Application.routes.draw do
       get :show_quiz
       post :upload_image
       get :fetch_teacher_list
+      get :fetch_quizzes
     end
   end
 
