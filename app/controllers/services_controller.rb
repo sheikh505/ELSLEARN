@@ -290,11 +290,11 @@ class ServicesController < ApplicationController
   end
 
   def fetch_quizzes
-    if params[:user_id] and params[:permission_id]
+    if params[:teacher_id] and params[:permission_id]
       if params[:permission_id] == "2"
-        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", params[:user_id]).order('created_at DESC')
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", params[:teacher_id]).order('created_at DESC')
       else
-        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", params[:user_id]).order('created_at DESC')
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", params[:teacher_id]).order('created_at DESC')
       end
       if @tests.any?
         @students = User.where("id IN (?)", @tests.pluck(:user_id))
