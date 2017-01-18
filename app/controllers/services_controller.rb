@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics , :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -299,6 +299,7 @@ class ServicesController < ApplicationController
       if @tests.any?
         @students = User.where("id IN (?)", @tests.pluck(:user_id))
         @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+        puts "===================> " + @tests.inspect,
         @tests = @tests.map{ |test|
           {
               id: test.id,
@@ -306,9 +307,9 @@ class ServicesController < ApplicationController
               quiz_name: test.quiz_name,
               video_review: test.video_review,
               total_questions: test.total_questions,
-              student_name: @students.where(id: test.user_id).first.name,
-              course: @courses.where(id: test.course_id).first.name
-          }
+              student_name: @students.where(id: test.user_id).first ? @students.where(id: test.user_id).first.name : "",
+              course: @courses.where(id: test.course_id).first ? @courses.where(id: test.course_id).first.name : ""
+        }
         }
         render json: {
             success: true,
@@ -325,6 +326,119 @@ class ServicesController < ApplicationController
           success: false,
           error: "Insufficient parameters"
       }
+    end
+  end
+
+  def fetch_answers
+    if params[:user_test_history_id]
+      @test = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if @test.present?
+        @answers = @test.answers
+        if @answers.any?
+          @answers = @answers.select{ |answer|
+            !answer.reviewed
+          }
+          question_ids = []
+          @answers.each do |answer|
+            question_ids << answer.question_id
+          end
+          @questions = Question.where(id: question_ids)
+          @answers = @answers.map{ |answer|
+            {
+                id: answer.id,
+                answer_detail: answer.answer_detail,
+                user_test_history_id: answer.user_test_history_id,
+                question_id: answer.question_id,
+                question: @question.where(id: answer.question_id).first,
+                images: answer.answer_images
+            }
+          }
+          render json: {
+                     success: true,
+                     answers: @answers
+                 }
+        else
+          render json: {
+                     success: false,
+                     error: "No answers found"
+                 }
+        end
+      else
+        render json: {
+                   success: false,
+                   error: "Test not found"
+               }
+      end
+    else
+      render json: {
+                 success: false,
+                 error: "Insufficient parameters"
+             }
+    end
+  end
+
+def save_remarks
+  if params[:answer_id] and params[:marks]
+    @answer = Answer.find_by_id(params[:answer_id])
+    if @answer.present?
+      @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
+      render json: {
+          success: true
+       }
+    else
+      render json: {
+         success: false
+       }
+    end
+  else
+    render json: {
+         success: false,
+         error: "Insufficient parameters"
+       }
+  end
+end
+
+
+  def upload_video
+    if params[:answer_id] and params[:video]
+      @answer = Answer.find_by_id(params[:answer_id])
+      if @answer.present?
+        @answer.update_attribute(:video, params[:video])
+        render json: {
+         success: true
+         }
+      else
+        render json: {
+         success: false
+         }
+      end
+
+    else
+      render json: {
+      success: false,
+      error: "Insufficient parameters"
+    }
+    end
+  end
+
+  def comment_feedback
+    if params[:answer_image_id] and params[:image]
+      @answer_image = Answer_image.find_by_id(params[:answer_image_id])
+      if @answer_image.present?
+        @answer = @answer.update_attribute(:image , params[:image])
+        render json: {
+        success: true
+       }
+      else
+        render json: {
+         success: false
+         }
+      end
+    else
+      render json: {
+                 success: false,
+                 error: "Insufficient parameters"
+       }
     end
   end
 
