@@ -378,26 +378,26 @@ class ServicesController < ApplicationController
     end
   end
 
-def save_remarks
-  if params[:answer_id] and params[:marks]
-    @answer = Answer.find_by_id(params[:answer_id])
-    if @answer.present?
-      @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
-      render json: {
-          success: true
-       }
+  def save_remarks
+    if params[:answer_id] and params[:marks]
+      @answer = Answer.find_by_id(params[:answer_id])
+      if @answer.present?
+        @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
+        render json: {
+            success: true
+         }
+      else
+        render json: {
+           success: false
+         }
+      end
     else
       render json: {
-         success: false
-       }
+           success: false,
+           error: "Insufficient parameters"
+         }
     end
-  else
-    render json: {
-         success: false,
-         error: "Insufficient parameters"
-       }
   end
-end
 
 
   def upload_video
@@ -424,9 +424,9 @@ end
 
   def comment_feedback
     if params[:answer_image_id] and params[:image]
-      @answer_image = Answer_image.find_by_id(params[:answer_image_id])
+      @answer_image = AnswerImage.find_by_id(params[:answer_image_id])
       if @answer_image.present?
-        @answer = @answer.update_attribute(:image , params[:image])
+        @answer_image = @answer_image.update_attribute(:image , params[:image])
         render json: {
         success: true
        }
