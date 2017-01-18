@@ -290,11 +290,11 @@ class ServicesController < ApplicationController
   end
 
   def fetch_quizzes
-    if params[:user_id] and params[:permission_id]
+    if params[:teacher_id] and params[:permission_id]
       if params[:permission_id] == "2"
-        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", params[:user_id]).order('created_at DESC')
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = false", params[:teacher_id]).order('created_at DESC')
       else
-        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", params[:user_id]).order('created_at DESC')
+        @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", params[:teacher_id]).order('created_at DESC')
       end
       if @tests.any?
         @students = User.where("id IN (?)", @tests.pluck(:user_id))
@@ -307,9 +307,9 @@ class ServicesController < ApplicationController
               quiz_name: test.quiz_name,
               video_review: test.video_review,
               total_questions: test.total_questions,
-              student_name: @students.where(id: test.user_id).first ? @students.where(id: test.user_id).first.name : "",
-              course: @courses.where(id: test.course_id).first ? @courses.where(id: test.course_id).first.name : ""
-        }
+              student_name: @students.where(id: test.user_id).first ? @students.where(id: test.user_id).first.name : nil,
+              course: @courses.where(id: test.course_id).first ? @courses.where(id: test.course_id).first.name : nil
+          }
         }
         render json: {
             success: true,
@@ -349,10 +349,11 @@ class ServicesController < ApplicationController
                 answer_detail: answer.answer_detail,
                 user_test_history_id: answer.user_test_history_id,
                 question_id: answer.question_id,
-                question: @question.where(id: answer.question_id).first,
-                images: answer.answer_images
+                question: @questions.where(id: answer.question_id).first,
+                images: answer.answer_images.as_json(:only => [:id, :image], :methods => [:answer_image_url])
             }
           }
+          puts "=================>", @answers.inspect
           render json: {
                      success: true,
                      answers: @answers

@@ -24,28 +24,47 @@ class UserController < ApplicationController
 
   def test_reviews
     @user = current_user
-    @tests = current_user.user_test_histories.where('descriptive != ? AND descriptive != ? AND descriptive != ? AND reviewed = true', "0", "", "5").order('created_at DESC')
+    @tests = current_user.user_test_histories.where('reviewed = true').order('created_at DESC')
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
   end
 
   def quiz_answers
     @test = UserTestHistory.find(params[:test_id])
     session[:user_test_history_id] = @test.id
-    question_ids = @test.descriptive.split(',')
-    session[:question_ids] = question_ids
-    @questions = Question.where("id IN (?)", @test.descriptive.split(','))
-    if @questions.first
-      redirect_to student_show_answer_path
-    else
-      flash[:error] = "There are no descriptive questions in this test."
-      redirect_to action: :test_reviews
+    question_ids = []
+    if @test.mcq
+      question_ids = @test.mcq.split(',')
     end
+    if @test.fill
+      @test.fill.split(',').each do |ques|
+        question_ids << ques
+      end
+    end
+    if @test.truefalse
+      @test.truefalse.split(',').each do |ques|
+        question_ids << ques
+      end
+    end
+    if @test.descriptive
+      @test.descriptive.split(',').each do |ques|
+        question_ids << ques
+      end
+    end
+    session[:question_ids] = question_ids
+    redirect_to student_show_answer_path
   end
 
   def show_answer
-    @question = Question.find(session[:question_ids].pop)
-    @finish_flag = session[:question_ids].count == 0 ? true : false
+    question_id = session[:question_ids].pop
+    @student_choice = question_id.split(':')[1]
     @test = UserTestHistory.find(session[:user_test_history_id])
+    if @student_choice
+      @question = Question.find(question_id.split(':')[0])
+      @options = @question.options
+    else
+      @question = Question.find(question_id)
+    end
+    @finish_flag = session[:question_ids].count == 0 ? true : false
     @answer = Answer.where(user_test_history_id: @test.id, question_id: @question.id).first
   end
 

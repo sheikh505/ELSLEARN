@@ -61,6 +61,10 @@
                   <strong>Sorry!</strong> Your package's credit has reached it's limit.
                 </div>
 
+                <div id="free_package" class='alert alert-error' style='color:red;display: none'>
+                  <strong>Sorry!</strong> You can not attempt a descriptive test with a <strong>FREE PACKAGE</strong>.
+                </div>
+
                 <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
                   <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
                   <input type="hidden" name="test_flag" value="2" >
@@ -212,6 +216,11 @@
         {
             $('#credit_limit').show();
             $("#credit_limit").delay(2500).fadeOut();
+        }
+        else if (data.responseJSON.flag == "free_package")
+        {
+          $('#credit_limit').show();
+          $("#credit_limit").delay(2500).fadeOut();
         }
 
     })

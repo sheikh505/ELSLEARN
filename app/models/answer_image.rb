@@ -11,4 +11,8 @@ class AnswerImage < ActiveRecord::Base
                     :s3_host_alias => 'elslearning.s3-website-us-east-1.amazonaws.com',
                     :s3_credentials => File.join(Rails.root, 'config', 's3.yml')
 
+  def answer_image_url
+    self.image.url(:medium)
+  end
+
 end
