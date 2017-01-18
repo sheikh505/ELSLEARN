@@ -1,8 +1,9 @@
 <h1>New degree</h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', "/degrees/manage_degrees", remote: true, id: "degree_back", class: 'btn btn-large btn-inverse'%>
+<div class="wrapper wrapper-content">
+  <%= link_to 'Back', "/degrees/manage_degrees", remote: true, id: "degree_back", class: 'btn btn-large btn-inverse'%>
+</div>
 
 <script>
   $('#create_degree').on("ajax:success", function(e, data, status, xhr){

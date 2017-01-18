@@ -1,46 +1,62 @@
-<div class="container">
-  <div class="row  listing-holder-p">
-    <div class="col-md-8 mrgr32 listing-holder">
-      <table class="table table-condensed">
-        <th>List of Certifications</th>
-        <th>Board</th>
-        <%BoardDegreeAssignment.all.each do |bDegree| %>
-            <tr><td><%=bDegree.degree.name%></td>
-              <td><%=bDegree.board.name %></td>
-            </tr>
-        <% end %>
+<div class="wrapper page-heading white-bg border-bottom">
+  <h2>New Certification</h2>
+
+</div>
+
+<div class="wrapper-content wrapper">
+  <div class="row  listing-holder-p ibox">
+    <div class="col-md-8 mrgr32 listing-holder ibox-content">
+      <table class="table  table-striped">
+        <thead>
+        <tr>
+          <th>List of Certifications</th>
+          <th>Board</th>
+        </tr>
+        </thead>
+        <tbody>
+          <%BoardDegreeAssignment.all.each do |bDegree| %>
+              <tr>
+                <td><%=bDegree.degree.name%></td>
+                <td><%=bDegree.board.name %></td>
+              </tr>
+          <% end %>
+        </tbody>
       </table>
     </div>
-    <div class="col-md-3 pd17 listing-holder">
-      <%= form_tag degrees_path, remote: true, id: "create_degree" do |f| %>
+    <div class="col-md-3   listing-holder">
+      <div class="ibox-content">
+        <%= form_tag degrees_path, remote: true, id: "create_degree" do |f| %>
 
-        <% Board.all.each do |board| %>
-          <%if @boards.find {|x| x.id == board.id} %>
-            <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%= board.name %>
-          <%else %>
-            <%= check_box_tag 'boards[]', board.id,false %><%= board.name %>
-          <%end %>
+          <% Board.all.each do |board| %>
+            <%if @boards.find {|x| x.id == board.id} %>
+              <%= check_box_tag 'boards[]', board.id,true, :class => 'checkboxes' %><%= board.name %>
+            <%else %>
+              <%= check_box_tag 'boards[]', board.id,false %><%= board.name %>
+            <%end %>
+          <% end %>
+
+          <div class="field">
+            <%= label_tag :name %>
+            <%= text_field_tag :name, "",:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+          </div>
+          <div class="field">
+            <%= label_tag :enable %>
+            <%= radio_button_tag :enable, true  %>
+            <%= label_tag "Disable"  %>
+            <%= radio_button_tag :enable, false, checked: :checked  %>
+          </div>
+          <div class="actions" style="margin-top: 15px;">
+            <%= submit_tag "Create Certification", class: 'btn btn-large btn-inverse'%>
+          </div>
         <% end %>
-
-        <div class="field">
-          <%= label_tag :name %>
-          <%= text_field_tag :name, "",:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
-        </div>
-        <div class="field">
-          <%= label_tag :enable %>
-          <%= radio_button_tag :enable, true  %>
-          <%= label_tag "Disable"  %>
-          <%= radio_button_tag :enable, false, checked: :checked  %>
-        </div>
-        <div class="actions">
-          <%= submit_tag "Create Certification", class: 'btn btn-large btn-inverse'%>
-        </div>
-      <% end %>
+      </div>
     </div>
 
   </div>
 
 </div>
+
+
 <script type="text/javascript">
   function check_boxes(){
 

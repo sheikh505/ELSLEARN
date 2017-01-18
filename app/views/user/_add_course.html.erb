@@ -65,6 +65,7 @@
       error: function(data){
         $("#add_error").show();
         $("#add_error").delay(2500).fadeOut();
+        $('#fetch_packages').prop('disabled', false);
       }
     })
   })

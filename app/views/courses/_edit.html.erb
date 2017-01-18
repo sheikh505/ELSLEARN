@@ -1,8 +1,14 @@
-<h1>Editing course</h1>
+<div class="wrapper page-heading white-bg border-bottom">
+  <h2>Editing course</h2>
+
+</div>
+
 
 <%= render 'form' %>
 
-<%= link_to 'Back', "/courses/manage_courses", remote: true, id: "course_back" , class: 'btn btn-large btn-inverse' %>
+<div class="wrapper wrapper-content">
+  <%= link_to 'Back', "/courses/manage_courses", remote: true, id: "course_back" , class: 'btn btn-large btn-inverse' %>
+</div>
 
 <script>
   $('#edit_course').on("ajax:success", function(e, data, status, xhr){

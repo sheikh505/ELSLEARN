@@ -1,7 +1,8 @@
-<div class="row border-bottom white-bg page-heading wrapper">
-  <%= link_to "Manage Courses", "/courses/manage_courses", remote: true, id: "course_link", class: "btn btn-inverse" %>
-  <%= link_to "Course Linkings", "/course_linkings", remote: true, id: "course_linking_link", class: "btn btn-inverse" %>
-
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <%= link_to "Manage Courses", "/courses/manage_courses", remote: true, id: "course_link", class: "btn pull-left btn-inverse" %>
+    <%= link_to "Course Linkings", "/course_linkings", remote: true, id: "course_linking_link", class: "btn btn-inverse pull-right" %>
+  </div>
 </div>
 
 <div class="row page-heading wrapper wrapper-content" id="course_container">

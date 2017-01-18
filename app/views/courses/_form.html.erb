@@ -1,61 +1,63 @@
-<div class="container">
-<div class="row  listing-holder-p">
+<div class="wrapper-content wrapper">
+  <div class="row  listing-holder-p ibox">
 
-  <div class="col-md-8 mrgr32 listing-holder">
-    <table class="table table-condensed">
-      <thead>
-      <tr>
-        <th>Courses</th>
-        <th>Certification</th>
-        <th>Board</th>
-      </tr>
-      </thead>
-      <tbody>
-      <%DegreeCourseAssignment.all.each do |dc| %>
-          <tr><td><%=dc.course.name unless dc.course.nil? %></td>
-            <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
-            <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-  <div class="col-md-3 pd17 listing-holder">
-    <%= form_tag course_path, method: :put, remote: true, id: "edit_course" do |f| %>
+    <div class="col-md-8 mrgr32 listing-holder ibox-content">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Courses</th>
+          <th>Certification</th>
+          <th>Board</th>
+        </tr>
+        </thead>
+        <tbody>
+          <%DegreeCourseAssignment.all.each do |dc| %>
+              <tr><td><%=dc.course.name unless dc.course.nil? %></td>
+                <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
+                <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
+              </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3   listing-holder">
+      <div class="ibox-content">
+        <%= form_tag course_path, method: :put, remote: true, id: "edit_course" do |f| %>
 
-      <% @board_hash.each do |id,value| %>
-        <% if @boards.find {|x| x.id == id} %>
-          <label><%= radio_button_tag 'boards[]', id,true %><%=value %></label>
-        <% else %>
-          <label><%= radio_button_tag 'boards[]', id,false %><%=value %></label>
+          <% @board_hash.each do |id,value| %>
+            <% if @boards.find {|x| x.id == id} %>
+              <label><%= radio_button_tag 'boards[]', id,true %><%=value %></label>
+            <% else %>
+              <label><%= radio_button_tag 'boards[]', id,false %><%=value %></label>
+            <% end %>
+          <% end %>
+
+
+          <div class="field">
+            <%= label_tag :name %>
+            <%= text_field_tag :name, @course.name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+          </div>
+          <div class="field">
+            <% if @course.enable %>
+                <label>Enable</label>
+                <%= radio_button_tag :enable, true, checked: :checked  %>
+                <label>Disable</label>
+                <%= radio_button_tag :enable, false  %>
+            <% else %>
+                <label>Enable</label>
+                <%= radio_button_tag :enable, true  %>
+                <label>Disable</label>
+                <%= radio_button_tag :enable, false, checked: :checked  %>
+            <% end %>
+
+          </div>
+          <div class="actions">
+            <%= submit_tag "Update Course", class: 'btn btn-inverse' %>
+          </div>
         <% end %>
-      <% end %>
+      </div>
+    </div>
 
 
-      <div class="field">
-        <%= label_tag :name %>
-        <%= text_field_tag :name, @course.name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
-      </div>
-      <div class="field">
-        <% if @course.enable %>
-            <label>Enable</label>
-            <%= radio_button_tag :enable, true, checked: :checked  %>
-            <label>Disable</label>
-            <%= radio_button_tag :enable, false  %>
-        <% else %>
-            <label>Enable</label>
-            <%= radio_button_tag :enable, true  %>
-            <label>Disable</label>
-            <%= radio_button_tag :enable, false, checked: :checked  %>
-        <% end %>
-
-      </div>
-      <div class="actions">
-        <%= submit_tag "Update Course", class: 'btn btn-inverse' %>
-      </div>
-    <% end %>
   </div>
-
-
-</div>
 </div>

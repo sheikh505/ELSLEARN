@@ -1,58 +1,65 @@
-<h1>Listing courses</h1>
 <%= label_tag :select_certification %>
-<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) %>
-<div class="listing-holder">
-  <table class="table table-condensed">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Certification  ( Board )</th>
-      <th>Status</th>
-      <th></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @degree_hash.each do |k,v| %>
-        <tr>
-          <td><%= k.split("::").last  %></td>
-          <td>
+<%= select_tag "degree", options_from_collection_for_select(@degrees, :id, :name) , {:class =>'form-control'} %>
+<div class="ibox listing-holder">
 
-            <%v.each_with_index do |bdgree, index| %>
-                <% if index == v.size - 1 %>
-                    <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
-                <% else %>
-                    <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
-                <% end %>
-            <% end %>
+  <div class="ibox-title">
+    <h5>Listing courses</h5>
+  </div>
+
+  <div class="ibox-content">
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Certification  ( Board )</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @degree_hash.each do |k,v| %>
+          <tr>
+            <td><%= k.split("::").last  %></td>
+            <td>
+
+              <%v.each_with_index do |bdgree, index| %>
+                  <% if index == v.size - 1 %>
+                      <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
+                  <% else %>
+                      <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
+                  <% end %>
+              <% end %>
 
 
 
-          </td>
-          <td>
-            <% if @courses.select{ |course| course if course.id == k.split("::").first.to_i}.first.enable %>
-                <span class="label label-success">ENABLE</span>
+            </td>
+            <td>
+              <% if @courses.select{ |course| course if course.id == k.split("::").first.to_i}.first.enable %>
+                  <span class="label label-success">ENABLE</span>
+              <% else %>
+                  <span class="label label-danger">DISABLE</span>
+              <% end %>
+            </td>
+            <% if can? :update, Course %>
+                <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i), class: "edit_course", remote: true %></td>
             <% else %>
-                <span class="label label-danger">DISABLE</span>
+                <td></td>
             <% end %>
-          </td>
-          <% if can? :update, Course %>
-              <td><%= link_to 'Edit', edit_course_path(k.split("-").first.to_i), class: "edit_course", remote: true %></td>
-          <% else %>
-              <td></td>
-          <% end %>
-          <% if can? :update, Course %>
-              <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, remote: true,
-                              class: "delete_course", data: { confirm: 'Are you sure?' } %></td>
-          <% else %>
-              <td></td>
-          <% end %>
+            <% if can? :update, Course %>
+                <td><%= link_to 'Delete',course_path(k.split("-").first.to_i), method: :delete, remote: true,
+                                class: "delete_course", data: { confirm: 'Are you sure?' } %></td>
+            <% else %>
+                <td></td>
+            <% end %>
 
 
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <% if can? :manage, Course %>

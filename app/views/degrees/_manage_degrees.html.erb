@@ -60,7 +60,9 @@
 </div>
 
 <% if can? :manage, Degree %>
-    <%= link_to 'New Certification', new_degree_path, id: "new_degree", remote: true, :class=> 'btn btn-large btn-inverse'%>
+    <div class="wrapper wrapper-content">
+      <%= link_to 'New Certification', new_degree_path, id: "new_degree", remote: true, :class=> 'btn btn-large btn-inverse'%>
+    </div>
 <% end %>
 
 <script>

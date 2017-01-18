@@ -103,7 +103,7 @@
             <tr>
               <% user = User.find_by_id(test.teacher_id) %>
               <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
-              <td><%= test.code + " " + test.id.to_s %></td>
+              <td><%= test.code %></td>
               <td><%= test.total_questions.to_s %></td>
               <td><%= test.created_at.to_date %></td>
               <td><%= test.total %></td>
@@ -155,8 +155,8 @@
     }
     else if (data.responseJSON.flag == "free_package")
     {
-      $('#credit_limit').show();
-      $("#credit_limit").delay(2500).fadeOut();
+      $('#free_package').show();
+      $("#free_package").delay(2500).fadeOut();
     }
 
   })

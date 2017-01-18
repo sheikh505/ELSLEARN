@@ -6,9 +6,20 @@
 
   <% if @question.question_type == 1 %>
       <div class="question_p_section">
-        <ul class="pre_question_options" style="list-style-type: upper-alpha;">
-          <% @options.each do |option| %>
-              <li class='option_question'><%=option.statement %></li>
+        <ul>
+          <% if @student_choice and @student_choice != "ref_3"  %>
+              <li class='option_question'>
+                <%= @options.where(id: @student_choice.to_i).first.statement %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <% if @options.where(id: @student_choice.to_i).first.is_answer == 1 %>
+                  <span class="label label-success">Right</span>
+                <% else %>
+                    <span class="label label-danger">Wrong</span>
+                <% end %>
+              </li>
+          <% else %>
+              <li class='option_question'>
+                No attempted
+              </li>
           <% end %>
         </ul>
       </div>
@@ -16,21 +27,40 @@
   <% elsif @question.question_type == 4 %>
 
       <ul>
-        <li class='option_question'>True</li>
-
-        <li class='option_question'>False</li>
-
+          <% if @student_choice and @student_choice != "ref_3" %>
+            <li class='option_question'>
+              <%= @student_choice + "  " %>
+              <% if @student_choice == @options.first.statement %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span class="label label-success">Right</span>
+              <% else %>
+                  <span class="label label-danger">Wrong</span>
+              <% end %>
+            </li>
+          <% else %>
+            <li class='option_question'>
+              No attempted
+            </li>
+          <% end %>
       </ul>
 
   <% elsif @question.question_type == 3 %>
 
       <ul>
-        <li>
-          <strong>Your answer: </strong><%= @student_choice %>
-        </li>
-        <li>
-          <strong>Correct answer: </strong><%= @options.first.statement %>
-        </li>
+        <% if @student_choice and @student_choice != "ref_3" %>
+          <li>
+            <strong>Your answer: </strong><%= @student_choice %>
+            <% if @options.first.statement.split('/').include?(@student_choice) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="label label-success">Right</span>
+            <% else %>
+                <span class="label label-danger">Wrong</span>
+            <% end %>
+          </li>
+        <% else %>
+            <li>
+              No attempted
+            </li>
+        <% end %>
+
       </ul>
 
   <% elsif @question.question_type == 2 %>
