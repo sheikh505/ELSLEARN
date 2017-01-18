@@ -607,6 +607,7 @@ class ServicesController < ApplicationController
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
+    descriptive = false
     mcq = []
     truefalse = []
     fill = []
@@ -677,6 +678,7 @@ class ServicesController < ApplicationController
           end
         end
       elsif @question.question_type == 2
+        descriptive = true
         @total += @question.marks
         credit_left = credit_left - quota
         answer_detail = ques.split(":").drop(1).join(':')
@@ -721,162 +723,165 @@ class ServicesController < ApplicationController
       userpackage.update_attributes(:credit_left => credit_left)
     end
 
-    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
-    if @questions[:mcq][:percentage].nan?
-      @questions[:mcq][:percentage] = 0.0
-    end
-    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
-    if @questions[:fill][:percentage].nan?
-      @questions[:fill][:percentage] = 0.0
-    end
-    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
-    if @questions[:truefalse][:percentage].nan?
-      @questions[:truefalse][:percentage] = 0.0
-    end
-    @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
-    if @overall_percentage.nan?
-      @overall_percentage = 0.0
-    end
+    if !descriptive
+      @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
+      if @questions[:mcq][:percentage].nan?
+        @questions[:mcq][:percentage] = 0.0
+      end
+      @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
+      if @questions[:fill][:percentage].nan?
+        @questions[:fill][:percentage] = 0.0
+      end
+      @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
+      if @questions[:truefalse][:percentage].nan?
+        @questions[:truefalse][:percentage] = 0.0
+      end
+      @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
+      if @overall_percentage.nan?
+        @overall_percentage = 0.0
+      end
 
-    if @overall_percentage >= 90
-      @grade = "A*"
-    elsif @overall_percentage >=85 && @overall_percentage < 90
-      @grade = "A"
-    elsif @overall_percentage >=75 && @overall_percentage < 85
-      @grade = "B"
-    elsif @overall_percentage >=65 && @overall_percentage < 75
-      @grade = "C"
-    elsif @overall_percentage >=55 && @overall_percentage < 65
-      @grade = "D"
-    elsif @overall_percentage >=45 && @overall_percentage < 55
-      @grade = "E"
-    elsif @overall_percentage < 45
-      @grade = "F"
-    end
+      if @overall_percentage >= 90
+        @grade = "A*"
+      elsif @overall_percentage >=85 && @overall_percentage < 90
+        @grade = "A"
+      elsif @overall_percentage >=75 && @overall_percentage < 85
+        @grade = "B"
+      elsif @overall_percentage >=65 && @overall_percentage < 75
+        @grade = "C"
+      elsif @overall_percentage >=55 && @overall_percentage < 65
+        @grade = "D"
+      elsif @overall_percentage >=45 && @overall_percentage < 55
+        @grade = "E"
+      elsif @overall_percentage < 45
+        @grade = "F"
+      end
 
-    topic_ids = []
-    @topic_total = Hash.new(0)
-    @topic_correct = Hash.new(0)
+      topic_ids = []
+      @topic_total = Hash.new(0)
+      @topic_correct = Hash.new(0)
 
-    questions = []
-    array.each do |ques|
-      questions << Question.find(ques.split(":")[0])
-      question = questions.last
-      if question.topic_ids.present?
-        ques_topic_ids = question.topic_ids.split(',')
-        if ques_topic_ids[0] != "0"
-          if topic_ids.include?(ques_topic_ids[0])
-            @topic_total[ques_topic_ids[0]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[0]] += 1
+      questions = []
+      array.each do |ques|
+        questions << Question.find(ques.split(":")[0])
+        question = questions.last
+        if question.topic_ids.present?
+          ques_topic_ids = question.topic_ids.split(',')
+          if ques_topic_ids[0] != "0"
+            if topic_ids.include?(ques_topic_ids[0])
+              @topic_total[ques_topic_ids[0]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[0]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[0]
+              @topic_total[ques_topic_ids[0]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[0]] += 1
+              end
             end
-          else
-            topic_ids << ques_topic_ids[0]
-            @topic_total[ques_topic_ids[0]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[0]] += 1
+          elsif ques_topic_ids[1] != "0"
+            if topic_ids.include?(ques_topic_ids[1])
+              @topic_total[ques_topic_ids[1]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[1]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[1]
+              @topic_total[ques_topic_ids[1]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[1]] += 1
+              end
             end
-          end
-        elsif ques_topic_ids[1] != "0"
-          if topic_ids.include?(ques_topic_ids[1])
-            @topic_total[ques_topic_ids[1]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[1]] += 1
+          elsif question.topic_ids.split(',')[2] != "0"
+            if topic_ids.include?(ques_topic_ids[2])
+              @topic_total[ques_topic_ids[2]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[2]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[2]
+              @topic_total[ques_topic_ids[2]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[2]] += 1
+              end
             end
-          else
-            topic_ids << ques_topic_ids[1]
-            @topic_total[ques_topic_ids[1]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[1]] += 1
-            end
-          end
-        elsif question.topic_ids.split(',')[2] != "0"
-          if topic_ids.include?(ques_topic_ids[2])
-            @topic_total[ques_topic_ids[2]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[2]] += 1
-            end
-          else
-            topic_ids << ques_topic_ids[2]
-            @topic_total[ques_topic_ids[2]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[2]] += 1
-            end
-          end
-        elsif question.topic_ids.split(',')[3] != "0"
-          if topic_ids.include?(ques_topic_ids[3])
-            @topic_total[ques_topic_ids[3]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[3]] += 1
-            end
-          else
-            topic_ids << ques_topic_ids[3]
-            @topic_total[ques_topic_ids[3]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[3]] += 1
+          elsif question.topic_ids.split(',')[3] != "0"
+            if topic_ids.include?(ques_topic_ids[3])
+              @topic_total[ques_topic_ids[3]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[3]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[3]
+              @topic_total[ques_topic_ids[3]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[3]] += 1
+              end
             end
           end
         end
+
       end
 
-    end
+      # if @topics
 
-    # if @topics
-
-    topic_ids.uniq!
-    puts "======================================>"+topic_ids.inspect
-    @topics = Topic.find_all_by_id(topic_ids.split(','))
-    @sub_topics = @topics.reject{|t|
-      !t.parent_topic_id.present?
-    }
-    @topics.reject!{|t|
-      t.parent_topic_id.present?
-    }
-    @sub_topics.each do |sub|
-      unless topic_ids.include?(sub.parent_topic_id)
-        @topics << Topic.find(sub.parent_topic_id)
-      end
-      @topic_total[sub.parent_topic_id.to_s] = 0
-      @topic_correct[sub.parent_topic_id.to_s] = 0
-    end
-
-    @topics.uniq!
-
-    @topics.each do |topic|
-      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    end
-    @sub_topics.each do |topic|
-      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    end
-
-    @topics.each do |topic|
+      topic_ids.uniq!
+      puts "======================================>"+topic_ids.inspect
+      @topics = Topic.find_all_by_id(topic_ids.split(','))
+      @sub_topics = @topics.reject{|t|
+        !t.parent_topic_id.present?
+      }
+      @topics.reject!{|t|
+        t.parent_topic_id.present?
+      }
       @sub_topics.each do |sub|
-        if sub.parent_topic_id == topic.id
-          @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
-          @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+        unless topic_ids.include?(sub.parent_topic_id)
+          @topics << Topic.find(sub.parent_topic_id)
+        end
+        @topic_total[sub.parent_topic_id.to_s] = 0
+        @topic_correct[sub.parent_topic_id.to_s] = 0
+      end
+
+      @topics.uniq!
+
+      @topics.each do |topic|
+        puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+      end
+      @sub_topics.each do |topic|
+        puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+      end
+
+      @topics.each do |topic|
+        @sub_topics.each do |sub|
+          if sub.parent_topic_id == topic.id
+            @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
+            @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+          end
         end
       end
+      @topics.uniq!
+      @sub_topics.uniq!
+
+      puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
+      # end
+
+      # @topics.each do |topic|
+      #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+      # end
+      # @sub_topics.each do |topic|
+      #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+      # end
+
     end
-    @topics.uniq!
-    @sub_topics.uniq!
-
-    puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
-    # end
-
-    # @topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
-    # @sub_topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
 
 
     if test_history.code
@@ -903,47 +908,51 @@ class ServicesController < ApplicationController
       test_history.save!
       test_total_marks = test_history.total
 
-      @test_highest = scores[0]
-      @test_lowest = scores[0]
-      sum_of_marks = 0
-      scores.each do|score|
-        sum_of_marks += score
-        if score > @test_highest
-          @test_highest = score
+      if !descriptive
+        @test_highest = scores[0]
+        @test_lowest = scores[0]
+        sum_of_marks = 0
+        scores.each do|score|
+          sum_of_marks += score
+          if score > @test_highest
+            @test_highest = score
+          end
         end
-      end
-      scores.each do|score|
-        if score < @test_lowest
-          @test_lowest = score
+        scores.each do|score|
+          if score < @test_lowest
+            @test_lowest = score
+          end
         end
+
+        @test_average = sum_of_marks/scores.length
+        @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
+        if @test_average_percentage.nan?
+          @test_average_percentage = 0.0
+        end
+
+        @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
+        if @test_highest_percentage.nan?
+          @test_highest_percentage = 0.0
+        end
+
+        @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
+        if @test_lowest_percentage.nan?
+          @test_lowest_percentage = 0.0
+        end
+
+        @time_allowed = array.length * 1.5
+        @teacher_name = User.find(quiz.user_id).name
+        course = quiz.course
+        @course_name = course.name
+        bdgree = course.board_degree_assignments.first
+        @board_name = bdgree.board.name
+        @degree_name = bdgree.degree.name
+
+        @test_code = test_history.code
+        @test_name = quiz.name
       end
 
-      @test_average = sum_of_marks/scores.length
-      @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
-      if @test_average_percentage.nan?
-        @test_average_percentage = 0.0
-      end
 
-      @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
-      if @test_highest_percentage.nan?
-        @test_highest_percentage = 0.0
-      end
-
-      @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
-      if @test_lowest_percentage.nan?
-        @test_lowest_percentage = 0.0
-      end
-
-      @time_allowed = array.length * 1.5
-      @teacher_name = User.find(quiz.user_id).name
-      course = quiz.course
-      @course_name = course.name
-      bdgree = course.board_degree_assignments.first
-      @board_name = bdgree.board.name
-      @degree_name = bdgree.degree.name
-
-      @test_code = test_history.code
-      @test_name = quiz.name
 
     else
       test_history.score = @total_correct
@@ -952,13 +961,15 @@ class ServicesController < ApplicationController
       test_history.save!
       test_total_marks = test_history.total
 
-      @course_name = Course.find(test_history.course_id).name
-      @board_name = Board.find(test_history.board_id).name
-      @degree_name = Degree.find(test_history.degree_id).name
-      if session[:quiz_time] == '-1'
-        @time_allowed = @total * 1.5
-      else
-        @time_allowed = session[:quiz_time]
+      if !descriptive
+        @course_name = Course.find(test_history.course_id).name
+        @board_name = Board.find(test_history.board_id).name
+        @degree_name = Degree.find(test_history.degree_id).name
+        if session[:quiz_time] == '-1'
+          @time_allowed = @total * 1.5
+        else
+          @time_allowed = session[:quiz_time]
+        end
       end
     end
 
@@ -972,7 +983,14 @@ class ServicesController < ApplicationController
       test.save!
     end
 
-    render "home_page/result", layout: "application2"
+    if !descriptive
+      render "home_page/result", layout: "application2"
+    else
+      render json: {
+          success: true
+      }
+    end
+
 
     # answers = params[:answer]
     # answers.each do |answer|
