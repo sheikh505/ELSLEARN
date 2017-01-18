@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics , :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -299,6 +299,7 @@ class ServicesController < ApplicationController
       if @tests.any?
         @students = User.where("id IN (?)", @tests.pluck(:user_id))
         @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
+        puts "===================> " + @tests.inspect,
         @tests = @tests.map{ |test|
           {
               id: test.id,
@@ -308,7 +309,7 @@ class ServicesController < ApplicationController
               total_questions: test.total_questions,
               student_name: @students.where(id: test.user_id).first ? @students.where(id: test.user_id).first.name : nil,
               course: @courses.where(id: test.course_id).first ? @courses.where(id: test.course_id).first.name : nil
-           }
+          }
         }
         render json: {
             success: true,
@@ -354,26 +355,91 @@ class ServicesController < ApplicationController
           }
           puts "=================>", @answers.inspect
           render json: {
-              success: true,
-              answers: @answers
-          }
+                     success: true,
+                     answers: @answers
+                 }
         else
           render json: {
-              success: false,
-              error: "No answers found"
-          }
+                     success: false,
+                     error: "No answers found"
+                 }
         end
       else
         render json: {
-            success: false,
-            error: "Test not found"
-        }
+                   success: false,
+                   error: "Test not found"
+               }
       end
     else
       render json: {
-          success: false,
-          error: "Insufficient parameters"
-      }
+                 success: false,
+                 error: "Insufficient parameters"
+             }
+    end
+  end
+
+def save_remarks
+  if params[:answer_id] and params[:marks]
+    @answer = Answer.find_by_id(params[:answer_id])
+    if @answer.present?
+      @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
+      render json: {
+          success: true
+       }
+    else
+      render json: {
+         success: false
+       }
+    end
+  else
+    render json: {
+         success: false,
+         error: "Insufficient parameters"
+       }
+  end
+end
+
+
+  def upload_video
+    if params[:answer_id] and params[:video]
+      @answer = Answer.find_by_id(params[:answer_id])
+      if @answer.present?
+        @answer.update_attribute(:video, params[:video])
+        render json: {
+         success: true
+         }
+      else
+        render json: {
+         success: false
+         }
+      end
+
+    else
+      render json: {
+      success: false,
+      error: "Insufficient parameters"
+    }
+    end
+  end
+
+  def comment_feedback
+    if params[:answer_image_id] and params[:image]
+      @answer_image = Answer_image.find_by_id(params[:answer_image_id])
+      if @answer_image.present?
+        @answer = @answer.update_attribute(:image , params[:image])
+        render json: {
+        success: true
+       }
+      else
+        render json: {
+         success: false
+         }
+      end
+    else
+      render json: {
+                 success: false,
+                 error: "Insufficient parameters"
+       }
     end
   end
 

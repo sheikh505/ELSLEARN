@@ -134,6 +134,9 @@ ExamsSystem::Application.routes.draw do
       get :fetch_teacher_list
       get :fetch_quizzes
       get :fetch_answers
+      post :save_remarks
+      post :upload_video
+      post :comment_feedback
     end
   end
 
