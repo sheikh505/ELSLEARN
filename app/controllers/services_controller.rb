@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics, :reviewed_quiz, :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :submit_feedback, :reviewed_quiz, :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -86,6 +86,28 @@ class ServicesController < ApplicationController
     # variants = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     render :json => {:success => "true", :boards => boards, :degrees => degrees, :courses => courses, :sessions => sessions,
                                          :variants => variants, :years => years }
+  end
+
+  def submit_feedback
+    if params[:user_test_history_id]
+      user_test_history = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if user_test_history
+        user_test_history.update_attribute(:student_feedback, params[:feedback])
+        render json: {
+            success: true
+        }
+      else
+        render json: {
+            success: false,
+            message: "Test not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          message: "Insufficient parameters"
+      }
+    end
   end
 
   def get_all_boards
