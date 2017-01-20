@@ -15,6 +15,7 @@
           <th>Package</th>
           <th>Expires on</th>
           <th>Credit Left</th>
+          <th>Status</th>
           <th>Option</th>
         </tr>
         </thead>
@@ -32,6 +33,15 @@
                     PKR <%= package.credit_left %>/-
                 <% else %>
                     N/A
+                <% end %></td>
+              <td><% if package.validity %>
+                    <% if package.validity > Time.now %>
+                        <span class="label label-success">VALID</span>
+                    <% else %>
+                        <span class="label label-danger">EXPIRED</span>
+                    <% end %>
+                <% else %>
+                    <span class="label label-success">VALID</span>
                 <% end %></td>
               <td><%= link_to "delete", "/user/delete_package?id=#{package.id}", class: "delete",
                               remote: true, method: :delete %></td>
