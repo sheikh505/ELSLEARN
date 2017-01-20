@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics, :submit_feedback, :reviewed_quiz, :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :quizzes_list, :finish_review, :submit_feedback, :reviewed_quiz, :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -36,7 +36,7 @@ class ServicesController < ApplicationController
         if courses.any?
           d_c_assignment = courses.first.degree_course_assignments.first
           bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
-          boards = Board.find_by_id(bdgree.board_id)
+          boards = Board.where(id: [bdgree.board_id])
           degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id").where("degrees.id IN (?)", [bdgree.degree_id])
 
           question_ids = []
@@ -473,11 +473,34 @@ class ServicesController < ApplicationController
     end
   end
 
+  def quizzes_list
+    if params[:user_id]
+      user = User.find_by_id(params[:user_id])
+      if user
+        tests = user.user_test_histories.where('reviewed = true').order('created_at DESC')
+        render json: {
+            success: true,
+            tests: tests,
+        }
+      else
+        render json: {
+            success: false,
+            error: "User not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          error: "Insufficient parameters"
+      }
+    end
+  end
+
   def save_remarks
     if params[:answer_id] and params[:marks]
       @answer = Answer.find_by_id(params[:answer_id])
       if @answer.present?
-        @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
+        @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks], reviewed: true)
         render json: {
             success: true
          }
@@ -491,6 +514,28 @@ class ServicesController < ApplicationController
            success: false,
            error: "Insufficient parameters"
          }
+    end
+  end
+
+  def finish_review
+    if params[:user_test_history_id]
+      @test = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if @test.present?
+        @test.update_attributes(reviewed: true)
+        render json: {
+            success: true
+        }
+      else
+        render json: {
+            success: false,
+            message: "Test not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          error: "Insufficient parameters"
+      }
     end
   end
 
