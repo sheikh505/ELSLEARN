@@ -19,4 +19,14 @@ class Answer < ActiveRecord::Base
                     :s3_credentials => File.join(Rails.root, 'config', 's3.yml'),
                     :path => "/files/original/:id_:filename",
                     :use_timestamp => false
+
+  def video_url
+    if self.video
+      self.video.url
+    else
+      nil
+    end
+
+  end
+
 end
