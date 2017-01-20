@@ -27,34 +27,60 @@ class ServicesController < ApplicationController
   end
 
   def get_lookup_data
-    boards = Board.all
-    degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id")
-    courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
-    question_ids = []
-    past_papers = PastPaperHistory.all
-    sessions = []
-    past_papers.uniq{|x| x.session}.each do |uniqueItems|
-      sessions << uniqueItems.session
-    end
-    years = []
-    past_papers.uniq{|x| x.year}.each do |uniqueItems|
-      years << uniqueItems.year
-    end
-    years.sort!
-    years.reverse!
+    if params[:user_id]
+      if UserPackage.where(:user_id => params[:user_id]).any?
+        puts "========================>>>>",params[:user_id].inspect
+        course_ids = UserPackage.where(:user_id => params[:user_id]).pluck(:course_id)
+        puts "========================>>>>",UserPackage.where(:user_id => params[:user_id]).inspect
+        courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id").where("courses.id IN (?) AND courses.enable=true", course_ids)
+        if courses.any?
+          d_c_assignment = courses.first.degree_course_assignments.first
+          bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
+          boards = Board.find_by_id(bdgree.board_id)
+          degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id").where("degrees.id IN (?)", [bdgree.degree_id])
 
-    past_papers.each do |paper|
-      question_ids << paper.question_id
+          question_ids = []
+          past_papers = PastPaperHistory.all
+          sessions = []
+          past_papers.uniq{|x| x.session}.each do |uniqueItems|
+            sessions << uniqueItems.session
+          end
+          years = []
+          past_papers.uniq{|x| x.year}.each do |uniqueItems|
+            years << uniqueItems.year
+          end
+          years.sort!
+          years.reverse!
+
+          past_papers.each do |paper|
+            question_ids << paper.question_id
+          end
+          all_questions_with_fetched_ids = Question.find_all_by_id(question_ids)
+          variants = []
+          all_questions_with_fetched_ids.each do |question_varient|
+            variants << question_varient.varient
+          end
+          variants.compact!
+          variants = variants.reject { |c| c.empty? }
+          variants.uniq!
+          variants.sort!
+
+        else
+          courses = nil
+          degrees = nil
+          boards = nil
+        end
+      else
+        courses = nil
+        degrees = nil
+        boards = nil
+      end
+    else
+      courses = nil
+      degrees = nil
+      boards = nil
     end
-    all_questions_with_fetched_ids = Question.find_all_by_id(question_ids)
-    variants = []
-    all_questions_with_fetched_ids.each do |question_varient|
-      variants << question_varient.varient
-    end
-    variants.compact!
-    variants = variants.reject { |c| c.empty? }
-    variants.uniq!
-    variants.sort!
+
     # years = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # sessions = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # variants = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")

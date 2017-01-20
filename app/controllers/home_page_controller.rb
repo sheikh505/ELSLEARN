@@ -914,6 +914,7 @@ class HomePageController < ApplicationController
     @membership_plans = MembershipPlan.order(:price)
     @news_feed = NewsFeed.last
   end
+
   def try_it
     @past_papers = PastPaperHistory.all
     @years = []

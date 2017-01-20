@@ -6,7 +6,7 @@
     <h1>User Profile Page</h1>
     <div class="user_profile_left ">
       <ul class="u_left_holder">
-        <li><a class="avtar" href="#">
+        <li><a class="avtar" href="javascript:void(0)">
           <% if @user.avatar.present?%>
               <%= image_tag @user.avatar.url , :class=>'avatar img-circle img-thumbnail' , :width => '200' , :height => '200' %>
           <% else %>
