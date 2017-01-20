@@ -138,6 +138,7 @@ ExamsSystem::Application.routes.draw do
       post :upload_video
       post :comment_feedback
       get :reviewed_quiz
+      get :submit_feedback
     end
   end
 

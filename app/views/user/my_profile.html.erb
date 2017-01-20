@@ -65,6 +65,10 @@
                     <strong>Sorry!</strong> You can not attempt a descriptive test with a <strong>FREE PACKAGE</strong>.
                   </div>
 
+                  <div id="package_expired" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> Your package has expired.
+                  </div>
+
                   <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
                     <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
                     <input type="hidden" name="test_flag" value="2" >
@@ -221,6 +225,11 @@
         {
           $('#free_package').show();
           $("#free_package").delay(2500).fadeOut();
+        }
+        else if (data.responseJSON.flag == "package_expired")
+        {
+          $('#package_expired').show();
+          $("#package_expired").delay(2500).fadeOut();
         }
 
     })

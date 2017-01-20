@@ -1118,6 +1118,7 @@ class ServicesController < ApplicationController
     else
       test_history.score = @total_correct
       test_history.total = @total
+      test_history.total_questions = @total_questions
       test_history.is_live = false
       test_history.save!
       test_total_marks = test_history.total

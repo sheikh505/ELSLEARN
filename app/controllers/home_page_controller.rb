@@ -213,17 +213,25 @@ class HomePageController < ApplicationController
 
     user_package = current_user.user_packages.where(course_id: @quiz.course_id).first
     if user_package.plan != "free"
-      credit = user_package.credit_left
-      question_ids = @quiz.question_ids.split(",")
-      puts "++++====================>>>", Question.where(id: question_ids.split(','), question_type: 2).inspect
-      count = Question.where(id: question_ids.split(','), question_type: 2).count
-      credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
-      if credit < 0
+      if user_package.validity < Time.now
         render json: {
             success: false,
-            flag: "credit_limit"
+            flag: "package_expired"
         }, status: 500
         return
+      else
+        credit = user_package.credit_left
+        question_ids = @quiz.question_ids.split(",")
+        puts "++++====================>>>", Question.where(id: question_ids.split(','), question_type: 2).inspect
+        count = Question.where(id: question_ids.split(','), question_type: 2).count
+        credit = credit - (QuestionQuota.find_by_question_type(2).quota * count)
+        if credit < 0
+          render json: {
+              success: false,
+              flag: "credit_limit"
+          }, status: 500
+          return
+        end
       end
     else
       question_ids = @quiz.question_ids.split(",")
@@ -942,8 +950,8 @@ class HomePageController < ApplicationController
       #   @degrees << degree.id
       # end
       @courses = []
-    elsif UserPackage.where(:user_id => current_user.id).any?
-      course_ids = UserPackage.where(:user_id => current_user.id).pluck(:course_id)
+    elsif valid_packages(current_user.id).any?
+      course_ids = valid_packages(current_user.id).pluck(:course_id)
       @courses = Course.where("id IN (?) AND enable=true", course_ids)
       if @courses.any?
         d_c_assignment = @courses.first.degree_course_assignments.first
