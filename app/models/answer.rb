@@ -24,7 +24,7 @@ class Answer < ActiveRecord::Base
     if self.video
       self.video.url
     else
-      nil
+      ""
     end
 
   end
