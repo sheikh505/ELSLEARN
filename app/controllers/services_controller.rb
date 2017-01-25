@@ -441,7 +441,7 @@ class ServicesController < ApplicationController
             {
                 id: answer.id,
                 answer_detail: answer.answer_detail,
-                video: answer.as_json(:only => [:video], :methods => [:video_url]),
+                video: answer.video.present? ? answer.video.to_s : "",
                 remarks: answer.remarks.to_s,
                 user_test_history_id: answer.user_test_history_id,
                 question_id: answer.question_id,
