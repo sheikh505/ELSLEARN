@@ -428,7 +428,7 @@ end
       if @answer_image.present?
         @answer = @answer.update_attribute(:image , params[:image])
         render json: {
-        success: true
+        success: true , :image => params[:image]
        }
       else
         render json: {
