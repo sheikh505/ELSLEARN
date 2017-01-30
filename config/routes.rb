@@ -137,6 +137,10 @@ ExamsSystem::Application.routes.draw do
       post :save_remarks
       post :upload_video
       post :comment_feedback
+      get :reviewed_quiz
+      get :submit_feedback
+      get :finish_review
+      get :quizzes_list
     end
   end
 

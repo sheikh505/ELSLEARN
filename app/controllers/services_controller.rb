@@ -3,7 +3,7 @@ class ServicesController < ApplicationController
   skip_before_filter :authenticate_user!
   skip_before_filter :verify_authenticity_token,:only => :sign_in
   before_filter :check_session, :except => [:sign_in, :upload_image,:show_quiz, :get_lookup_data, :get_courses_by_teacher, :verify_answers,
-                                            :get_topics , :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
+                                            :get_topics, :quizzes_list, :finish_review, :submit_feedback, :reviewed_quiz, :upload_video , :comment_feedback , :save_remarks, :fetch_answers, :fetch_quizzes, :verify_answers_web, :get_student_quiz_list, :live_score_details, :get_live_score_list, :get_questions, :get_quiz_list, :create_quiz, :quiz, :get_els_questions]
 
   def sign_in
     user = User.find_by_email(params[:user][:email])
@@ -27,39 +27,87 @@ class ServicesController < ApplicationController
   end
 
   def get_lookup_data
-    boards = Board.all
-    degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id")
-    courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
-    question_ids = []
-    past_papers = PastPaperHistory.all
-    sessions = []
-    past_papers.uniq{|x| x.session}.each do |uniqueItems|
-      sessions << uniqueItems.session
-    end
-    years = []
-    past_papers.uniq{|x| x.year}.each do |uniqueItems|
-      years << uniqueItems.year
-    end
-    years.sort!
-    years.reverse!
+    if params[:user_id]
+      if UserPackage.where(:user_id => params[:user_id]).any?
+        puts "========================>>>>",params[:user_id].inspect
+        course_ids = UserPackage.where(:user_id => params[:user_id]).pluck(:course_id)
+        puts "========================>>>>",UserPackage.where(:user_id => params[:user_id]).inspect
+        courses = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id").where("courses.id IN (?) AND courses.enable=true", course_ids)
+        if courses.any?
+          d_c_assignment = courses.first.degree_course_assignments.first
+          bdgree = BoardDegreeAssignment.find(d_c_assignment.board_degree_assignment_id)
+          boards = Board.where(id: [bdgree.board_id])
+          degrees = Degree.joins(:board_degree_assignments).select("degrees.id, degrees.name, board_degree_assignments.board_id").where("degrees.id IN (?)", [bdgree.degree_id])
 
-    past_papers.each do |paper|
-      question_ids << paper.question_id
+          question_ids = []
+          past_papers = PastPaperHistory.all
+          sessions = []
+          past_papers.uniq{|x| x.session}.each do |uniqueItems|
+            sessions << uniqueItems.session
+          end
+          years = []
+          past_papers.uniq{|x| x.year}.each do |uniqueItems|
+            years << uniqueItems.year
+          end
+          years.sort!
+          years.reverse!
+
+          past_papers.each do |paper|
+            question_ids << paper.question_id
+          end
+          all_questions_with_fetched_ids = Question.find_all_by_id(question_ids)
+          variants = []
+          all_questions_with_fetched_ids.each do |question_varient|
+            variants << question_varient.varient
+          end
+          variants.compact!
+          variants = variants.reject { |c| c.empty? }
+          variants.uniq!
+          variants.sort!
+
+        else
+          courses = nil
+          degrees = nil
+          boards = nil
+        end
+      else
+        courses = nil
+        degrees = nil
+        boards = nil
+      end
+    else
+      courses = nil
+      degrees = nil
+      boards = nil
     end
-    all_questions_with_fetched_ids = Question.find_all_by_id(question_ids)
-    variants = []
-    all_questions_with_fetched_ids.each do |question_varient|
-      variants << question_varient.varient
-    end
-    variants.compact!
-    variants = variants.reject { |c| c.empty? }
-    variants.uniq!
-    variants.sort!
+
     # years = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # sessions = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     # variants = Course.joins(degree_course_assignments: :board_degree_assignment).select("courses.id, courses.name, board_id, degree_id")
     render :json => {:success => "true", :boards => boards, :degrees => degrees, :courses => courses, :sessions => sessions,
                                          :variants => variants, :years => years }
+  end
+
+  def submit_feedback
+    if params[:user_test_history_id]
+      user_test_history = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if user_test_history
+        user_test_history.update_attribute(:student_feedback, params[:feedback])
+        render json: {
+            success: true
+        }
+      else
+        render json: {
+            success: false,
+            message: "Test not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          message: "Insufficient parameters"
+      }
+    end
   end
 
   def get_all_boards
@@ -378,26 +426,119 @@ class ServicesController < ApplicationController
     end
   end
 
-def save_remarks
-  if params[:answer_id] and params[:marks]
-    @answer = Answer.find_by_id(params[:answer_id])
-    if @answer.present?
-      @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks])
-      render json: {
-          success: true
-       }
+  def reviewed_quiz
+    if params[:user_test_history_id]
+      @test = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if @test.present?
+        @answers = @test.answers
+        if @answers.any?
+          question_ids = []
+          @answers.each do |answer|
+            question_ids << answer.question_id
+          end
+          @questions = Question.where(id: question_ids)
+          @answers = @answers.map{ |answer|
+            {
+                id: answer.id,
+                answer_detail: answer.answer_detail,
+                video: answer.video.present? ? answer.video.to_s : "",
+                remarks: answer.remarks.to_s,
+                user_test_history_id: answer.user_test_history_id,
+                question_id: answer.question_id,
+                question: @questions.where(id: answer.question_id).first,
+                images: answer.answer_images.as_json(:only => [:id, :image], :methods => [:answer_image_url])
+            }
+          }
+          puts "=================>", @answers.inspect
+          render json: {
+              success: true,
+              answers: @answers
+          }
+        else
+          render json: {
+              success: false,
+              error: "No answers found"
+          }
+        end
+      else
+        render json: {
+            success: false,
+            error: "Test not found"
+        }
+      end
     else
       render json: {
-         success: false
-       }
+          success: false,
+          error: "Insufficient parameters"
+      }
     end
-  else
-    render json: {
-         success: false,
-         error: "Insufficient parameters"
-       }
   end
-end
+
+  def quizzes_list
+    if params[:user_id]
+      user = User.find_by_id(params[:user_id])
+      if user
+        tests = user.user_test_histories.where('reviewed = true').order('created_at DESC')
+        render json: {
+            success: true,
+            tests: tests,
+        }
+      else
+        render json: {
+            success: false,
+            error: "User not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          error: "Insufficient parameters"
+      }
+    end
+  end
+
+  def save_remarks
+    if params[:answer_id] and params[:marks]
+      @answer = Answer.find_by_id(params[:answer_id])
+      if @answer.present?
+        @answer.update_attributes(marks: params[:marks] , remarks: params[:remarks], reviewed: true)
+        render json: {
+            success: true
+         }
+      else
+        render json: {
+           success: false
+         }
+      end
+    else
+      render json: {
+           success: false,
+           error: "Insufficient parameters"
+         }
+    end
+  end
+
+  def finish_review
+    if params[:user_test_history_id]
+      @test = UserTestHistory.find_by_id(params[:user_test_history_id])
+      if @test.present?
+        @test.update_attributes(reviewed: true)
+        render json: {
+            success: true
+        }
+      else
+        render json: {
+            success: false,
+            message: "Test not found"
+        }
+      end
+    else
+      render json: {
+          success: false,
+          error: "Insufficient parameters"
+      }
+    end
+  end
 
 
   def upload_video
@@ -424,9 +565,9 @@ end
 
   def comment_feedback
     if params[:answer_image_id] and params[:image]
-      @answer_image = Answer_image.find_by_id(params[:answer_image_id])
+      @answer_image = AnswerImage.find_by_id(params[:answer_image_id])
       if @answer_image.present?
-        @answer = @answer.update_attribute(:image , params[:image])
+        @answer_image = @answer_image.update_attribute(:image , params[:image])
         render json: {
         success: true , :image => params[:image]
        }
@@ -673,6 +814,7 @@ end
 
     quota = QuestionQuota.find_by_question_type(2).quota
 
+    descriptive = false
     mcq = []
     truefalse = []
     fill = []
@@ -743,6 +885,7 @@ end
           end
         end
       elsif @question.question_type == 2
+        descriptive = true
         @total += @question.marks
         credit_left = credit_left - quota
         answer_detail = ques.split(":").drop(1).join(':')
@@ -787,162 +930,165 @@ end
       userpackage.update_attributes(:credit_left => credit_left)
     end
 
-    @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
-    if @questions[:mcq][:percentage].nan?
-      @questions[:mcq][:percentage] = 0.0
-    end
-    @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
-    if @questions[:fill][:percentage].nan?
-      @questions[:fill][:percentage] = 0.0
-    end
-    @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
-    if @questions[:truefalse][:percentage].nan?
-      @questions[:truefalse][:percentage] = 0.0
-    end
-    @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
-    if @overall_percentage.nan?
-      @overall_percentage = 0.0
-    end
+    if !descriptive
+      @questions[:mcq][:percentage] = (( (@questions[:mcq][:correct]+0.0) / @questions[:mcq][:total] )*100).round(2)
+      if @questions[:mcq][:percentage].nan?
+        @questions[:mcq][:percentage] = 0.0
+      end
+      @questions[:fill][:percentage] = (( (@questions[:fill][:correct]+0.0) / @questions[:fill][:total] )*100).round(2)
+      if @questions[:fill][:percentage].nan?
+        @questions[:fill][:percentage] = 0.0
+      end
+      @questions[:truefalse][:percentage] = (( (@questions[:truefalse][:correct]+0.0) / @questions[:truefalse][:total] )*100).round(2)
+      if @questions[:truefalse][:percentage].nan?
+        @questions[:truefalse][:percentage] = 0.0
+      end
+      @overall_percentage = (( (@total_correct+0.0) / @total_questions )*100).round(2)
+      if @overall_percentage.nan?
+        @overall_percentage = 0.0
+      end
 
-    if @overall_percentage >= 90
-      @grade = "A*"
-    elsif @overall_percentage >=85 && @overall_percentage < 90
-      @grade = "A"
-    elsif @overall_percentage >=75 && @overall_percentage < 85
-      @grade = "B"
-    elsif @overall_percentage >=65 && @overall_percentage < 75
-      @grade = "C"
-    elsif @overall_percentage >=55 && @overall_percentage < 65
-      @grade = "D"
-    elsif @overall_percentage >=45 && @overall_percentage < 55
-      @grade = "E"
-    elsif @overall_percentage < 45
-      @grade = "F"
-    end
+      if @overall_percentage >= 90
+        @grade = "A*"
+      elsif @overall_percentage >=85 && @overall_percentage < 90
+        @grade = "A"
+      elsif @overall_percentage >=75 && @overall_percentage < 85
+        @grade = "B"
+      elsif @overall_percentage >=65 && @overall_percentage < 75
+        @grade = "C"
+      elsif @overall_percentage >=55 && @overall_percentage < 65
+        @grade = "D"
+      elsif @overall_percentage >=45 && @overall_percentage < 55
+        @grade = "E"
+      elsif @overall_percentage < 45
+        @grade = "F"
+      end
 
-    topic_ids = []
-    @topic_total = Hash.new(0)
-    @topic_correct = Hash.new(0)
+      topic_ids = []
+      @topic_total = Hash.new(0)
+      @topic_correct = Hash.new(0)
 
-    questions = []
-    array.each do |ques|
-      questions << Question.find(ques.split(":")[0])
-      question = questions.last
-      if question.topic_ids.present?
-        ques_topic_ids = question.topic_ids.split(',')
-        if ques_topic_ids[0] != "0"
-          if topic_ids.include?(ques_topic_ids[0])
-            @topic_total[ques_topic_ids[0]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[0]] += 1
+      questions = []
+      array.each do |ques|
+        questions << Question.find(ques.split(":")[0])
+        question = questions.last
+        if question.topic_ids.present?
+          ques_topic_ids = question.topic_ids.split(',')
+          if ques_topic_ids[0] != "0"
+            if topic_ids.include?(ques_topic_ids[0])
+              @topic_total[ques_topic_ids[0]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[0]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[0]
+              @topic_total[ques_topic_ids[0]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[0]] += 1
+              end
             end
-          else
-            topic_ids << ques_topic_ids[0]
-            @topic_total[ques_topic_ids[0]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[0]] += 1
+          elsif ques_topic_ids[1] != "0"
+            if topic_ids.include?(ques_topic_ids[1])
+              @topic_total[ques_topic_ids[1]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[1]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[1]
+              @topic_total[ques_topic_ids[1]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[1]] += 1
+              end
             end
-          end
-        elsif ques_topic_ids[1] != "0"
-          if topic_ids.include?(ques_topic_ids[1])
-            @topic_total[ques_topic_ids[1]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[1]] += 1
+          elsif question.topic_ids.split(',')[2] != "0"
+            if topic_ids.include?(ques_topic_ids[2])
+              @topic_total[ques_topic_ids[2]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[2]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[2]
+              @topic_total[ques_topic_ids[2]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[2]] += 1
+              end
             end
-          else
-            topic_ids << ques_topic_ids[1]
-            @topic_total[ques_topic_ids[1]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[1]] += 1
-            end
-          end
-        elsif question.topic_ids.split(',')[2] != "0"
-          if topic_ids.include?(ques_topic_ids[2])
-            @topic_total[ques_topic_ids[2]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[2]] += 1
-            end
-          else
-            topic_ids << ques_topic_ids[2]
-            @topic_total[ques_topic_ids[2]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[2]] += 1
-            end
-          end
-        elsif question.topic_ids.split(',')[3] != "0"
-          if topic_ids.include?(ques_topic_ids[3])
-            @topic_total[ques_topic_ids[3]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[3]] += 1
-            end
-          else
-            topic_ids << ques_topic_ids[3]
-            @topic_total[ques_topic_ids[3]] += 1
-            id = question.id.to_s
-            if question_evaluation[id] == 1
-              @topic_correct[ques_topic_ids[3]] += 1
+          elsif question.topic_ids.split(',')[3] != "0"
+            if topic_ids.include?(ques_topic_ids[3])
+              @topic_total[ques_topic_ids[3]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[3]] += 1
+              end
+            else
+              topic_ids << ques_topic_ids[3]
+              @topic_total[ques_topic_ids[3]] += 1
+              id = question.id.to_s
+              if question_evaluation[id] == 1
+                @topic_correct[ques_topic_ids[3]] += 1
+              end
             end
           end
         end
+
       end
 
-    end
+      # if @topics
 
-    # if @topics
-
-    topic_ids.uniq!
-    puts "======================================>"+topic_ids.inspect
-    @topics = Topic.find_all_by_id(topic_ids.split(','))
-    @sub_topics = @topics.reject{|t|
-      !t.parent_topic_id.present?
-    }
-    @topics.reject!{|t|
-      t.parent_topic_id.present?
-    }
-    @sub_topics.each do |sub|
-      unless topic_ids.include?(sub.parent_topic_id)
-        @topics << Topic.find(sub.parent_topic_id)
-      end
-      @topic_total[sub.parent_topic_id.to_s] = 0
-      @topic_correct[sub.parent_topic_id.to_s] = 0
-    end
-
-    @topics.uniq!
-
-    @topics.each do |topic|
-      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    end
-    @sub_topics.each do |topic|
-      puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
-    end
-
-    @topics.each do |topic|
+      topic_ids.uniq!
+      puts "======================================>"+topic_ids.inspect
+      @topics = Topic.find_all_by_id(topic_ids.split(','))
+      @sub_topics = @topics.reject{|t|
+        !t.parent_topic_id.present?
+      }
+      @topics.reject!{|t|
+        t.parent_topic_id.present?
+      }
       @sub_topics.each do |sub|
-        if sub.parent_topic_id == topic.id
-          @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
-          @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+        unless topic_ids.include?(sub.parent_topic_id)
+          @topics << Topic.find(sub.parent_topic_id)
+        end
+        @topic_total[sub.parent_topic_id.to_s] = 0
+        @topic_correct[sub.parent_topic_id.to_s] = 0
+      end
+
+      @topics.uniq!
+
+      @topics.each do |topic|
+        puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+      end
+      @sub_topics.each do |topic|
+        puts "$$$$$$$$$$$$$$$$$$$$$$$$$$"+topic.name,@topic_total[topic.id.to_s]
+      end
+
+      @topics.each do |topic|
+        @sub_topics.each do |sub|
+          if sub.parent_topic_id == topic.id
+            @topic_total[topic.id.to_s] += @topic_total[sub.id.to_s]
+            @topic_correct[topic.id.to_s] += @topic_correct[sub.id.to_s]
+          end
         end
       end
+      @topics.uniq!
+      @sub_topics.uniq!
+
+      puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
+      # end
+
+      # @topics.each do |topic|
+      #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+      # end
+      # @sub_topics.each do |topic|
+      #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
+      # end
+
     end
-    @topics.uniq!
-    @sub_topics.uniq!
-
-    puts "========================>"+@topic_correct.inspect,@topic_total.inspect,question_evaluation.inspect
-    # end
-
-    # @topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
-    # @sub_topics.each do |topic|
-    #   puts "========================>"+topic.name+"-----"+topic_correct[topic.id].inspect+"/"+topic_total[topic.id].inspect
-    # end
 
 
     if test_history.code
@@ -969,62 +1115,69 @@ end
       test_history.save!
       test_total_marks = test_history.total
 
-      @test_highest = scores[0]
-      @test_lowest = scores[0]
-      sum_of_marks = 0
-      scores.each do|score|
-        sum_of_marks += score
-        if score > @test_highest
-          @test_highest = score
+      if !descriptive
+        @test_highest = scores[0]
+        @test_lowest = scores[0]
+        sum_of_marks = 0
+        scores.each do|score|
+          sum_of_marks += score
+          if score > @test_highest
+            @test_highest = score
+          end
         end
-      end
-      scores.each do|score|
-        if score < @test_lowest
-          @test_lowest = score
+        scores.each do|score|
+          if score < @test_lowest
+            @test_lowest = score
+          end
         end
+
+        @test_average = sum_of_marks/scores.length
+        @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
+        if @test_average_percentage.nan?
+          @test_average_percentage = 0.0
+        end
+
+        @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
+        if @test_highest_percentage.nan?
+          @test_highest_percentage = 0.0
+        end
+
+        @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
+        if @test_lowest_percentage.nan?
+          @test_lowest_percentage = 0.0
+        end
+
+        @time_allowed = array.length * 1.5
+        @teacher_name = User.find(quiz.user_id).name
+        course = quiz.course
+        @course_name = course.name
+        bdgree = course.board_degree_assignments.first
+        @board_name = bdgree.board.name
+        @degree_name = bdgree.degree.name
+
+        @test_code = test_history.code
+        @test_name = quiz.name
       end
 
-      @test_average = sum_of_marks/scores.length
-      @test_average_percentage = (( (@test_average+0.0) / test_total_marks ) * 100).round(2)
-      if @test_average_percentage.nan?
-        @test_average_percentage = 0.0
-      end
 
-      @test_highest_percentage = (( (@test_highest+0.0) / test_total_marks ) * 100).round(2)
-      if @test_highest_percentage.nan?
-        @test_highest_percentage = 0.0
-      end
-
-      @test_lowest_percentage = (( (@test_lowest+0.0) / test_total_marks ) * 100).round(2)
-      if @test_lowest_percentage.nan?
-        @test_lowest_percentage = 0.0
-      end
-
-      @time_allowed = array.length * 1.5
-      @teacher_name = User.find(quiz.user_id).name
-      course = quiz.course
-      @course_name = course.name
-      bdgree = course.board_degree_assignments.first
-      @board_name = bdgree.board.name
-      @degree_name = bdgree.degree.name
-
-      @test_code = test_history.code
-      @test_name = quiz.name
 
     else
       test_history.score = @total_correct
       test_history.total = @total
+      test_history.total_questions = @total_questions
       test_history.is_live = false
       test_history.save!
       test_total_marks = test_history.total
 
-      @course_name = Course.find(test_history.course_id).name
-      @board_name = Board.find(test_history.board_id).name
-      @degree_name = Degree.find(test_history.degree_id).name
-      if session[:quiz_time] == '-1'
-        @time_allowed = @total * 1.5
-      else
-        @time_allowed = session[:quiz_time]
+      if !descriptive
+        @course_name = Course.find(test_history.course_id).name
+        @board_name = Board.find(test_history.board_id).name
+        @degree_name = Degree.find(test_history.degree_id).name
+        if session[:quiz_time] == '-1'
+          @time_allowed = @total * 1.5
+        else
+          @time_allowed = session[:quiz_time]
+        end
       end
     end
 
@@ -1038,7 +1191,14 @@ end
       test.save!
     end
 
-    render "home_page/result", layout: "application2"
+    if !descriptive
+      render "home_page/result", layout: "application2"
+    else
+      render json: {
+          success: true
+      }
+    end
+
 
     # answers = params[:answer]
     # answers.each do |answer|

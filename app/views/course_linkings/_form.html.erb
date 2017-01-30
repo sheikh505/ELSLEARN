@@ -1,30 +1,33 @@
-<div class="row listing-holder listing-holder-p">
-  <div class="course_link_cont", style="margin-left: 25px">
-    <%= form_tag course_linking_path, method: :put, remote: true, id: "edit_course_linking" do |f| %>
+<div class="wrapper-content wrapper">
+  <div class="row  listing-holder-p ibox">
+    <div class="col-md-12 mrgr32 listing-holder ibox-content">
+      <div class="course_link_cont", style="margin-left: 25px">
+        <%= form_tag course_linking_path, method: :put, remote: true, id: "edit_course_linking" do |f| %>
 
-      <div class="field inline_form_fields", style="margin-right: 10px">
-        <label for="course_linking_course_3">GCE  A & AS Level</label>
-        <%= select_tag "course_linking[course_3]",options_for_select(@courses_gce_a_level.map{|x| [x.name,x.id]},@course_linking.course_3),prompt: "COURSE" %>
-      </div>
+          <div class="field inline_form_fields", style="margin-right: 10px">
+            <label for="course_linking_course_3">GCE  A & AS Level</label>
+            <%= select_tag "course_linking[course_3]",options_for_select(@courses_gce_a_level.map{|x| [x.name,x.id]},@course_linking.course_3),prompt: "COURSE" %>
+          </div>
 
-      <div class="field inline_form_fields", style="margin-right: 10px">
-        <label for="course_linking_course_2">GCE O Level</label>
-        <%= select_tag "course_linking[course_2]",options_for_select(@courses_gce_o_level.map{|x| [x.name,x.id]},@course_linking.course_2),prompt: "COURSE" %>
-      </div>
-      <div class="field inline_form_fields", style="margin-right: 10px">
-        <label for="course_linking_course_1">GCE  IGCSE</label>
-        <%= select_tag "course_linking[course_1]",options_for_select(@courses_gce_igcse.map{|x| [x.name,x.id]},@course_linking.course_1),prompt: "COURSE" %>
-      </div>
-      <div class="field inline_form_fields", style="margin-right: 10px">
-        <label for="course_linking_course_4">EdExcel A & AS Level </label>
-        <%= select_tag "course_linking[course_4]",options_for_select(@courses_edexcel_a_level.map{|x| [x.name,x.id]},@course_linking.course_4),prompt: "COURSE" %>
-      </div>
-      <div class="actions mrtb10">
-        <%= submit_tag "Update", class: 'btn btn-inverse'%>
-      </div>
+          <div class="field inline_form_fields", style="margin-right: 10px">
+            <label for="course_linking_course_2">GCE O Level</label>
+            <%= select_tag "course_linking[course_2]",options_for_select(@courses_gce_o_level.map{|x| [x.name,x.id]},@course_linking.course_2),prompt: "COURSE" %>
+          </div>
+          <div class="field inline_form_fields", style="margin-right: 10px">
+            <label for="course_linking_course_1">GCE  IGCSE</label>
+            <%= select_tag "course_linking[course_1]",options_for_select(@courses_gce_igcse.map{|x| [x.name,x.id]},@course_linking.course_1),prompt: "COURSE" %>
+          </div>
+          <div class="field inline_form_fields", style="margin-right: 10px">
+            <label for="course_linking_course_4">EdExcel A & AS Level </label>
+            <%= select_tag "course_linking[course_4]",options_for_select(@courses_edexcel_a_level.map{|x| [x.name,x.id]},@course_linking.course_4),prompt: "COURSE" %>
+          </div>
+          <div class="actions mrtb10">
+            <%= submit_tag "Update", class: 'btn btn-inverse'%>
+          </div>
 
-    <% end %>
+        <% end %>
+      </div>
+    </div>
+
   </div>
-
-
 </div>

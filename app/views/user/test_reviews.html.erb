@@ -3,7 +3,7 @@
     <h1>Test Reviews</h1>
     <div class="user_profile_left">
       <ul class="u_left_holder">
-        <li><a class="avtar" href="#">
+        <li><a class="avtar" href="javascript:void(0)">
           <% if @user.avatar.present?%>
               <%= image_tag @user.avatar.url %>
           <% else %>
@@ -63,6 +63,10 @@
                     <strong>Sorry!</strong> You can not attempt a descriptive test with a <strong>FREE PACKAGE</strong>.
                   </div>
 
+                  <div id="package_expired" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> Your package has expired.
+                  </div>
+
                   <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
                     <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
                     <input type="hidden" name="test_flag" value="2" >
@@ -103,7 +107,7 @@
             <tr>
               <% user = User.find_by_id(test.teacher_id) %>
               <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
-              <td><%= test.code + " " + test.id.to_s %></td>
+              <td><%= test.code %></td>
               <td><%= test.total_questions.to_s %></td>
               <td><%= test.created_at.to_date %></td>
               <td><%= test.total %></td>
@@ -155,8 +159,13 @@
     }
     else if (data.responseJSON.flag == "free_package")
     {
-      $('#credit_limit').show();
-      $("#credit_limit").delay(2500).fadeOut();
+      $('#free_package').show();
+      $("#free_package").delay(2500).fadeOut();
+    }
+    else if (data.responseJSON.flag == "package_expired")
+    {
+      $('#package_expired').show();
+      $("#package_expired").delay(2500).fadeOut();
     }
 
   })

@@ -1,10 +1,13 @@
-<h1>New course</h1>
+<div class="wrapper page-heading white-bg border-bottom">
+  <h2>New course</h2>
 
-<div class="container">
-  <div class="row  listing-holder-p">
+</div>
 
-    <div class="col-md-8 mrgr32 listing-holder">
-      <table class="table table-condensed">
+<div class="wrapper-content wrapper">
+  <div class="row  listing-holder-p ibox">
+
+    <div class="col-md-8 mrgr32 listing-holder ibox-content">
+      <table class="table table-striped">
         <thead>
         <tr>
           <th>Courses</th>
@@ -13,47 +16,50 @@
         </tr>
         </thead>
         <tbody>
-        <%DegreeCourseAssignment.all.each do |dc| %>
-            <tr><td><%=dc.course.name unless dc.course.nil? %></td>
-              <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
-              <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
-            </tr>
-        <% end %>
+          <%DegreeCourseAssignment.all.each do |dc| %>
+              <tr><td><%=dc.course.name unless dc.course.nil? %></td>
+                <td><%=dc.board_degree_assignment.degree.name unless dc.board_degree_assignment.nil?  %></td>
+                <td><%=dc.board_degree_assignment.board.name unless dc.board_degree_assignment.nil? %></td>
+              </tr>
+          <% end %>
         </tbody>
       </table>
     </div>
-    <div class="col-md-3 pd17 listing-holder">
-      <%= form_tag courses_path, remote: true, id: "create_course" do |f| %>
+    <div class="col-md-3   listing-holder">
+      <div class="ibox-content">
+        <%= form_tag courses_path, remote: true, id: "create_course" do |f| %>
 
-          <% @board_hash.each do |id,value| %>
-            <% if @boards.find {|x| x.id == id} %>
-              <label><%= radio_button_tag 'boards[]', id,true %><%=value %></label>
-            <% else %>
-              <label><%= radio_button_tag 'boards[]', id,false %><%=value %></label>
+            <% @board_hash.each do |id,value| %>
+              <% if @boards.find {|x| x.id == id} %>
+                <label><%= radio_button_tag 'boards[]', id,true %><%=value %></label>
+              <% else %>
+                <label><%= radio_button_tag 'boards[]', id,false %><%=value %></label>
+              <% end %>
             <% end %>
-          <% end %>
 
-          <div class="field">
-            <%= label_tag :name %>
-            <%= text_field_tag :name, @course.name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
-          </div>
-          <div class="field">
-            <label>Enable</label>
-            <%= radio_button_tag :enable, true  %>
-            <label>Disable</label>
-            <%= radio_button_tag :enable, false, checked: :checked  %>
-          </div>
-          <div class="actions">
-            <%= submit_tag "Create Course", class: 'btn btn-inverse' %>
-          </div>
-      <% end %>
+            <div class="field">
+              <%= label_tag :name %>
+              <%= text_field_tag :name, @course.name,:required => true, :pattern => '^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$'  %>
+            </div>
+            <div class="field">
+              <label>Enable</label>
+              <%= radio_button_tag :enable, true  %>
+              <label>Disable</label>
+              <%= radio_button_tag :enable, false, checked: :checked  %>
+            </div>
+            <div class="actions">
+              <%= submit_tag "Create Course", class: 'btn btn-inverse' %>
+            </div>
+        <% end %>
+      </div>
     </div>
 
 
   </div>
 </div>
-
-<%= link_to 'Back', "/courses/manage_courses", remote: true, id: "course_back" , class: 'btn btn-large btn-inverse' %>
+<div class="wrapper wrapper-content">
+  <%= link_to 'Back', "/courses/manage_courses", remote: true, id: "course_back" , class: 'btn btn-large btn-inverse' %>
+</div>
 
 <script>
   $('#create_course').on("ajax:success", function(e, data, status, xhr){

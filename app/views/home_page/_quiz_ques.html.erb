@@ -467,7 +467,15 @@
             type:'get',
             processData:false,
             success:function (data) {
-              $('body').html(data);
+              if (data.success == true)
+              {
+                $('#descriptive_modal').modal('toggle');
+              }
+              else
+              {
+                $('body').html(data);
+              }
+
 
               //if (data.test_code_flag == 0)
               //{

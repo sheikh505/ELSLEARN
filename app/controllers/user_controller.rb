@@ -56,9 +56,10 @@ class UserController < ApplicationController
 
   def show_answer
     question_id = session[:question_ids].pop
-    @student_choice = question_id.split(':')[1]
     @test = UserTestHistory.find(session[:user_test_history_id])
-    if @student_choice
+    puts "==============>"+question_id.inspect
+    if question_id.include? ":"
+      @student_choice = question_id.split(':')[1]
       @question = Question.find(question_id.split(':')[0])
       @options = @question.options
     else

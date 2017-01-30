@@ -1,19 +1,27 @@
-<table class="table table-condensed">
-  <thead>
-  <th>Certification</th>
-  <th>Subject</th>
-  <th>Enable</th>
-  </thead>
 
-  <% @course_degree_hash.each_with_index do |(degree,course),index| %>
-      <% degree_id,degree_name,course_id = degree.split("_") %>
-      <tr>
-        <td><%= degree_name %></td>
-        <td><%= course.name %></td>
-        <td><input type="checkbox" <%='checked=checked' if WorkflowPath.check_state(degree_id,course_id) %> id="checkbox_<%=index%>" value="1" onclick="toggle_workflow_path(<%=degree_id%>,<%= course_id %>,'checkbox_<%=index%>')"></td>
-      </tr>
-  <% end %>
-</table>
+  <div class="ibox-title">
+
+    <h5>Enable Question Assesment</h5>
+
+  </div>
+  <div class="ibox-content">
+    <table class="table table-striped">
+      <thead>
+      <th>Certification</th>
+      <th>Subject</th>
+      <th>Enable</th>
+      </thead>
+
+      <% @course_degree_hash.each_with_index do |(degree,course),index| %>
+          <% degree_id,degree_name,course_id = degree.split("_") %>
+          <tr>
+            <td><%= degree_name %></td>
+            <td><%= course.name %></td>
+            <td><input type="checkbox" <%='checked=checked' if WorkflowPath.check_state(degree_id,course_id) %> id="checkbox_<%=index%>" value="1" onclick="toggle_workflow_path(<%=degree_id%>,<%= course_id %>,'checkbox_<%=index%>')"></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
 
 <script>
 
