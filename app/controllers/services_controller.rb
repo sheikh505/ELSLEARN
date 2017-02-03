@@ -381,7 +381,7 @@ class ServicesController < ApplicationController
     if params[:user_test_history_id]
       @test = UserTestHistory.find_by_id(params[:user_test_history_id])
       if @test.present?
-        @answers = @test.answers
+        @answers = @test.answers.order(id: :asc)
         if @answers.any?
           @answers = @answers.select{ |answer|
             !answer.reviewed
