@@ -569,7 +569,7 @@ class ServicesController < ApplicationController
       if @answer_image.present?
         @answer_image = @answer_image.update_attribute(:image , params[:image])
         render json: {
-        success: true , :image => @answer_image.image.url.to_s
+        success: true , :image => AnswerImage.find_by_id(params[:answer_image_id]).image.url.to_s
        }
       else
         render json: {
