@@ -1584,6 +1584,7 @@ class ServicesController < ApplicationController
     @quiz.user_id = User.find_by_email(params[:email]).id if params[:email]
     @quiz.question_ids = params[:question_ids] if params[:question_ids]
     @quiz.course_id = params[:course_id] if params[:course_id]
+    @quiz.topic_ids = params[:topic_ids]
     if params[:time_allowed]
       @quiz.time_allowed = params[:time_allowed].to_f
     else
