@@ -1428,11 +1428,15 @@ class ServicesController < ApplicationController
       test_history.is_live = false
       test_history.save!
       test_total_marks = test_history.total
+      user = User.find_by_id(test_history.user_id)
+      course = Course.find_by_id(test_history.course_id)
+      board = Board.find_by_id(test_history.board_id)
+      degree = Degree.find_by_id(test_history.degree_id)
 
-      @student_name = User.find(test_history.user_id).name
-      @course_name = Course.find(test_history.course_id).name
-      @board_name = Board.find(test_history.board_id).name
-      @degree_name = Degree.find(test_history.degree_id).name
+      @student_name = user.name if user
+      @course_name = course.name if course
+      @board_name = board.name if board
+      @degree_name = degree.name if degree
       if session[:quiz_time] == '-1'
         @time_allowed = @total * 1.5
       else
