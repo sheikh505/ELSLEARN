@@ -141,6 +141,7 @@ ExamsSystem::Application.routes.draw do
       get :submit_feedback
       get :finish_review
       get :quizzes_list
+      get :get_test_history_details
     end
   end
 
