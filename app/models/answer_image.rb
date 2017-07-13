@@ -8,7 +8,7 @@ class AnswerImage < ActiveRecord::Base
                     :default_url => "/images/:style/missing.png",
                     :storage => :s3,
                     :url => 's3_domain_url',
-                    :s3_host_alias => 'elslearning.s3-website-us-east-1.amazonaws.com',
+                    :s3_host_alias => 'elslearnsystem.s3-website-us-east-1.amazonaws.com',
                     :s3_credentials => File.join(Rails.root, 'config', 's3.yml')
 
   def answer_image_url
