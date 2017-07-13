@@ -1143,7 +1143,6 @@ class QuestionsController < ApplicationController
           puts "===================>>>>>",workflow_path.inspect,course_linking_id.inspect,@course.inspect,flag_path.inspect,'','',''
         end
       end
-      die
       if flag_path == true
         @question.submit!
       else
