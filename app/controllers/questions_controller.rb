@@ -481,7 +481,7 @@ class QuestionsController < ApplicationController
     puts "===================>>>params.inspect="+params.inspect
 
     @boards = params[:boards]
-    @degrees = params[:degrees]
+    @degrees = "4,5,6,7"
 
     @boards = @boards.split(" ")
     @degrees = @degrees.split(" ")
@@ -492,6 +492,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:statement] if params[:statement]
     @question.description = params[:detail_answer]
+    @question.degree_ids = "4,5,6,7"
 
     @question.course_linking_id = params[:course_linking_id]
 
