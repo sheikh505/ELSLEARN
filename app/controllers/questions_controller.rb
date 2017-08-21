@@ -845,7 +845,7 @@ class QuestionsController < ApplicationController
         elsif question.question_type == 3 && k < fill.to_i
           @questions << question
           k += 1
-        elsif question.question_type == 9 && l < descriptive.to_i
+        elsif question.question_type == 2 && l < descriptive.to_i
           @questions << question
           l += 1
         end
