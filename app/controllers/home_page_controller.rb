@@ -461,6 +461,7 @@ class HomePageController < ApplicationController
         fill = []
         truefalse = []
         descriptive = []
+
         list.each do |question|
           if question.question_type == 1 && i < @mcq.to_i
             @questions << question
