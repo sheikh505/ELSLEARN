@@ -244,7 +244,10 @@ class HomePageController < ApplicationController
         return
       end
     end
-    redirect_to home_page_instructions_path(test_code: params[:test_code], test_flag: params[:test_flag])
+    render json: {
+        success: true,
+        url: url_for(home_page_instructions_path(test_code: params[:test_code], test_flag: params[:test_flag]))
+    }, status: 200
   end
 
   def instructions
