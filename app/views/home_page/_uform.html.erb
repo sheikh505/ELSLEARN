@@ -209,7 +209,7 @@
           <input type="hidden" id="mcq" name="mcq" value="" >
           <input type="hidden" id="fill" name="fill" value="" >
           <input type="hidden" id="true_false" name="true_false" value="" >
-          <input type="hidden" id="descriptive" name="descriptive" value="" >
+          <input type="hidden" id="descriptivee" name="descriptive" value="" >
 
 
     </div>
@@ -554,9 +554,9 @@
                 if (response.success) {
                   returnValue = true;
                   $('#mcq').val($('#question_type_1').val());
-                  $('#fill').val($('#question_type_2').val());
+                  $('#fill').val($('#question_type_3').val());
                   $('#true_false').val($('#question_type_4').val());
-                  $('#descriptive').val($('#question_type_3').val());
+                  $('#descriptivee').val($('#question_type_2').val());
                 }
                 else {
                     returnValue = false;
@@ -663,19 +663,18 @@
              mcq = $('#mcq').val($('#question_type_1').val()).val();
             }
             if ($("#true_checkbox").is(":checked")){
-             true_false = $('#true_false').val($('#question_type_2').val()).val();
+             true_false = $('#true_false').val($('#question_type_4').val()).val();
             }
             if ($("#fill_checkbox").is(":checked")){
              fill = $('#fill').val($('#question_type_3').val()).val();
             }
             if ($("#des_checkbox").is(":checked")){
-             //descriptive = $('#question_type_4').val();
-             descriptive = 0;
+             descriptive = $('#descriptivee').val($('#question_type_2').val()).val();
             }
           $topics = $('#first_new').val();
             $.ajax({
                 url:'/questions/questions_exits?&mcq='+mcq + "&true_false="+true_false +
-                        "&fill="+fill +"&descriptive="+descriptive +
+                        "&fill="+fill +"&descriptive="+ descriptive +
                         "&course_id="+course_id+
                         "&degree_id="+degree_id+ "&board_id="+board_id+
                         "&pre_Past="+ past_paper_flag+"&selected_topic_ids="+$topics,

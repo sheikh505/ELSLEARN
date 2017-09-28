@@ -196,16 +196,19 @@
 </div>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        /* Activating Best In Place */
-        jQuery(".best_in_place").best_in_place();
+//    $(document).ready(function() {
+//        /* Activating Best In Place */
+//        jQuery(".best_in_place").best_in_place();
+//    });
+
+
+    $('#attempt_test_code').on('ajax:complete', function(e, data){
+        if (data.responseJSON.success){
+            window.location.replace(data.responseJSON.url);
+        }
     });
 
-    $('#attempt_test_code').bind('ajax:success', function(e, data){
-        $('body').html(data);
-    })
-
-    $('#attempt_test_code').bind('ajax:error', function(e, data, status, xhr){
+    $('#attempt_test_code').on('ajax:error', function(e, data, status, xhr){
         if (data.responseJSON.flag == "not_present")
         {
             $('#not_present').show();

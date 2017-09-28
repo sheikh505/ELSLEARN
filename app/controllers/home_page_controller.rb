@@ -244,7 +244,10 @@ class HomePageController < ApplicationController
         return
       end
     end
-    redirect_to home_page_instructions_path(test_code: params[:test_code], test_flag: params[:test_flag])
+    render json: {
+        success: true,
+        url: url_for(home_page_instructions_path(test_code: params[:test_code], test_flag: params[:test_flag]))
+    }, status: 200
   end
 
   def instructions
@@ -385,7 +388,7 @@ class HomePageController < ApplicationController
       session[:year] = @year
       @session = params[:session]
       session[:session] = @session
-      @msq = params[:mcq]
+      @mcq = params[:mcq]
       @fill = params[:fill]
       @true_false = params[:true_false]
       @descriptive = params[:descriptive]
@@ -417,7 +420,6 @@ class HomePageController < ApplicationController
         @user_test_history_id = params[:user_test_history_id]
       end
 
-
       user_test_history = UserTestHistory.find(@user_test_history_id)
       @board_id = user_test_history[:board_id]
       @degree_id = user_test_history[:degree_id]
@@ -431,7 +433,6 @@ class HomePageController < ApplicationController
       @true_false = user_test_history[:truefalse]
       @descriptive = user_test_history[:descriptive]
       @past_paper_flag = user_test_history[:pastpaperflag]
-      puts "-=-=-=-=-=-=-=----====<><>>>>>",@past_paper_flag.inspect
       @year = user_test_history[:year]
       @session = user_test_history[:session]
       bd = BoardDegreeAssignment.find_by_board_id_and_degree_id(@board_id,@degree_id)
@@ -463,11 +464,12 @@ class HomePageController < ApplicationController
         fill = []
         truefalse = []
         descriptive = []
+
         list.each do |question|
           if question.question_type == 1 && i < @mcq.to_i
             @questions << question
             mcq << question.id
-            puts "=================>mcq" + question.id
+            puts "=================>mcq" + question.id.inspect
             i += 1
           elsif question.question_type == 4 && j < @true_false.to_i
             @questions << question
@@ -482,7 +484,7 @@ class HomePageController < ApplicationController
           elsif question.question_type == 2 && l < @descriptive.to_i
             @questions << question
             descriptive << question.id
-            puts "=================>descriptive" + question.id
+            puts "=================>descriptive" + question.id.inspect
             l += 1
           end
         end
@@ -593,6 +595,8 @@ class HomePageController < ApplicationController
       puts "%%%%%%%%%%% if question present ? %%%%%%%",@questions.inspect
       @size = @questions.length
       @questions.shuffle!
+      # puts "%%%%%%%%%%% if question present ? %%%%%%%",@size.inspect
+      # die
 
       @index = 0
       @answer = Hash.new
