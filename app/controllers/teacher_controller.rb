@@ -86,7 +86,7 @@ class TeacherController < ApplicationController
   end
 
   def review_question
-    @question_ids = params[:question_ids].split(',')
+    @question_ids = params[:question_ids].nil? ? []:params[:question_ids].split(',')
     @question = Question.find(@question_ids.pop)
     @finish_flag = @question_ids.count == 0 ? true : false
 
