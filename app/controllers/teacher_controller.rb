@@ -104,7 +104,7 @@ class TeacherController < ApplicationController
     if @test.video_review
       render "video_review_question"
     else
-      if @answer.answer_images.any?
+      if @answer.answer_images.present?
         @image = @answer.answer_images.first
         @images = @answer.answer_images
         session[:image_ids] = @answer.answer_images.pluck(:id)
