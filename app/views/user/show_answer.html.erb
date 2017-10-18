@@ -68,7 +68,7 @@
 
         <% unless @answer.answer_detail %>
             <label><strong>Teacher Review</strong></label><br>
-            <%  if @answer.answer_images.any? %>
+            <%  if @answer.answer_images.present? %>
                 <%  @answer.answer_images.each do |image| %>
                     <%= image_tag image.image.url %><br><br>
                 <% end %>

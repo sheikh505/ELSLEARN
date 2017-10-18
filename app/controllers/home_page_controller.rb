@@ -197,7 +197,31 @@ class HomePageController < ApplicationController
 
   def check_package
     @quiz = Quiz.find_by_test_code(params[:test_code])
-    if !@quiz.present?
+    isStudentAllowed = true
+    if !current_user.teacher_requests.present?
+      isStudentAllowed = false
+    end
+
+    if @quiz.present?
+      teacher_token = User.find(@quiz.user_id).teacher_token
+      if teacher_token.present?
+        if !current_user.teacher_requests.where(:teacher_token => teacher_token).present?
+          isStudentAllowed = false
+        end
+      else
+        isStudentAllowed = false
+      end
+    end
+
+    if !isStudentAllowed
+      render json: {
+          success: false,
+          flag: "student_not_allowed"
+      }, status: 500
+      return
+    end
+
+    if !@quiz.present? && isStudentAllowed
       render json: {
           success: false,
           flag: "not_present"

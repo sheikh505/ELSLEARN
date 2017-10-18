@@ -102,7 +102,7 @@ class QuizzesController < ApplicationController
     if current_user.is_admin?
       @courses = Course.all
     else
-      if current_user.teacher_courses.any?
+      if current_user.teacher_courses.present?
         course_ids = current_user.teacher_courses.pluck(:course_id)
         @courses = Course.find_all_by_id(course_ids)
       else
@@ -120,9 +120,21 @@ class QuizzesController < ApplicationController
     @quiz = Quiz.new(params[:quiz])
     @quiz.user_id = current_user.id
     @quiz.time_allowed = @quiz.question_ids.split(',').count * 1.5
-
-    @quiz.save
-    redirect_to quizzes_path
+    if @quiz.save
+      redirect_to quizzes_path
+    else
+      if current_user.is_admin?
+        @courses = Course.all
+      else
+        if current_user.teacher_courses.any?
+          course_ids = current_user.teacher_courses.pluck(:course_id)
+          @courses = Course.find_all_by_id(course_ids)
+        else
+          @courses = []
+        end
+      end
+      respond_with(@quiz)
+    end
   end
 
   def generate_token

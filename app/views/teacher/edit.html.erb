@@ -106,16 +106,7 @@
                     <%=opertaor.email %>
                   </li>
               <% end %>
-          <% else %>
-              <h3>Listed Users</h3>
-              <div class="usersList">
-                <% User.all.each do |teacher| %>
-                    <li>
-                      <%=teacher.email %>
-                    </li>
-                <% end %>
           <% end %>
-          </div>
         </div>
 
         <div class="actions col-md-12">
@@ -161,7 +152,7 @@
           <% end %>
           <br><br>
 
-          <% if @user_packages.any? %>
+          <% if @user_packages.present? %>
               <table class="table">
                 <thead>
                 <tr>

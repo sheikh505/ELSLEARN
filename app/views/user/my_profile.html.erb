@@ -69,6 +69,10 @@
                     <strong>Sorry!</strong> Your package has expired.
                   </div>
 
+                  <div id="student_not_allowed" class='alert alert-error' style='color:red;display: none'>
+                    <strong>Sorry!</strong> Your are not allowed to attempt this test.
+                  </div>
+
                   <form method="post" action="/homepage/check_package" data-remote="true" id="attempt_test_code" >
                     <input type="text" name="test_code" class="text form-control" placeholder="Test Code">
                     <input type="hidden" name="test_flag" value="2" >
@@ -233,6 +237,11 @@
         {
           $('#package_expired').show();
           $("#package_expired").delay(2500).fadeOut();
+        }
+        else if (data.responseJSON.flag == "student_not_allowed")
+        {
+            $('#student_not_allowed').show();
+            $("#student_not_allowed").delay(2500).fadeOut();
         }
 
     })

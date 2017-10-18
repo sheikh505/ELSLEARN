@@ -22,7 +22,7 @@
                   <tr id="<%= degree.id %>">
                     <td><%= degree.name %></td>
                     <td><% degree.boards.each_with_index do |board, index| %>
-                          <% if index == degree.boards.size - 1 %>
+                          <% if index == degree.boards.count - 1 %>
                               <%= board.name %>
                           <% else %>
                               <%= board.name + ', ' %>

@@ -31,8 +31,10 @@
 
       <select id="quiz_course_id" name="quiz[course_id]" onchange="fetch_topics(this.value)" required>
         <option value="" selected>Select Course</option>
-        <% @courses.each do |course| %>
-            <option value="<%= course.id %>"><%= course.name %></option>
+        <% if @courses.present? %>
+            <% @courses.each do |course| %>
+                <option value="<%= course.id %>"><%= course.name %></option>
+            <% end %>
         <% end %>
       </select>
 
@@ -58,7 +60,7 @@
 
       <div class="row_custom">
         <label class="lablel_check_box_left">
-          <input class="ques_type_checkbox" id="true_checkbox" type="checkbox" name="question_types[]" value="2"><span>True False</span></label>
+          <input class="ques_type_checkbox" id="true_checkbox" type="checkbox" name="question_types[]" value="4"><span>True False</span></label>
 
 
       </div>
@@ -71,7 +73,7 @@
 
       <div class="row_custom">
         <label class="lablel_check_box_left">
-          <input class="ques_type_checkbox" id="des_checkbox" type="checkbox" name="question_types[]" value="4"><span>Descriptive</span></label>
+          <input class="ques_type_checkbox" id="des_checkbox" type="checkbox" name="question_types[]" value="2"><span>Descriptive</span></label>
       </div>
       <div style="display: block;" id="test_containerr">
         <a href="javascript:void(0)" onclick="get_els_questions()" class="btn">Proceed</a>

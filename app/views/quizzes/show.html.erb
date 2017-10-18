@@ -30,7 +30,7 @@
   </div>
     <div class="row mrtp30">
       <div class="col-md-4">
-        <span>     <i><%= @user.name %></i></span>
+        <span>     <i><%= @user.present? ? @user.name : "" %></i></span>
       </div>
       <div class="col-md-4">
         <span><i><%= @bdgree.board.name %> / <%= @bdgree.degree.name %> / <%= @quiz.course.name %></i></span>

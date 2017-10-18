@@ -39,7 +39,7 @@
                   <td><%= test.quiz_name %></td>
                   <td><%= @courses.select{|course| test.course_id == course.id}.first.name %></td>
                   <td><%= test.code %></td>
-                  <td><%= test.descriptive.split(',').count %></td>
+                  <td><%= test.descriptive.present? ? test.descriptive.split(',').count : 0 %></td>
                   <td><%= test.created_at.to_date %></td>
                   <td><%= test.answers.where(:reviewed => true).count %></td>
                   <td><%= link_to "Review Test", "/student_test?test_id=#{test.id}" %></td>

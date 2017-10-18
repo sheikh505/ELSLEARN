@@ -47,10 +47,12 @@
     $("#next_question_btn").click(function(){
 
         ids = $("#question_ids_els").val();
-
-        id = ids.substr(0,ids.indexOf(',')); // "72"
+        var id = ids; // "72"
+        if (ids.includes(','))
+        {
+            id = ids.substr(0,ids.indexOf(',')); // "72"
+        }
         ids = ids.substr(ids.indexOf(',')+1); // "tocirah sneab"
-
         $("#question_ids_els").val(ids);
         $.ajax({
             url:'/quizzes/get_next_question?question_id='+id,
@@ -61,7 +63,7 @@
                 $("#myModal").html(data);
             },
             error:function (data) {
-                alert ('nae chalaa');
+                alert ('Error Occured: Please try again');
                 //    window.location.reload();
             }
         });

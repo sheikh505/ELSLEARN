@@ -19,14 +19,20 @@
           <td>
 
             <%v.each_with_index do |bdgree, index| %>
-                <% if index == v.size - 1 %>
+                <% if index == v.count - 1 %>
                     <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
                 <% else %>
                     <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
                 <% end %>
             <% end %>
 
-
+          <td>
+            <% if @courses.select{ |course| course if course.id == k.split("::").first.to_i}.first.enable %>
+                <span class="label label-success">ENABLE</span>
+            <% else %>
+                <span class="label label-danger">DISABLE</span>
+            <% end %>
+          </td>
 
           </td>
           <% if can? :update, Course %>

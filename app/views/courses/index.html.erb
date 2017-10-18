@@ -33,7 +33,7 @@
                   <td>
 
                     <%v.each_with_index do |bdgree, index| %>
-                        <% if index == v.size - 1 %>
+                        <% if index == v.count - 1 %>
                             <%= bdgree.board.name + "(" + bdgree.degree.name + ")" %>
                         <% else %>
                             <%= bdgree.board.name + "(" + bdgree.degree.name + "), " %>
