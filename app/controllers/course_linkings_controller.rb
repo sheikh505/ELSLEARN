@@ -5,6 +5,9 @@ class CourseLinkingsController < ApplicationController
   respond_to :html
 
   def index
+
+
+    debugger
     @course_linkings = CourseLinking.all
     respond_with(@course_linkings, layout: false)
   end

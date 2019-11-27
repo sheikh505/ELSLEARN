@@ -1,6 +1,6 @@
 
-
 <%= form_tag remote: true, :url=> '/users/save_form_3',html: {id: 'sign_up_form_2'} do |f| %>
+
     <div class="field">
       <%= label_tag :institute %><br />
       <%= email_field_tag :institute %>
@@ -10,11 +10,16 @@
       <%= label_tag :phone %><br />
       <%= text_field_tag :phone  %>
     </div>
-    <% if @role.name.downcase == 'student' %>
+
+
+    <% if @role.name.downcase == 'student'  && @degrees.present? %>
         <div class="field">
           <%= label_tag :certification %><br />
-          <select name="degree_id" id="select_degree">
-            <% @degrees.each_with_index do |degree,index| %>
+
+
+          <select name="degrees"  id="select_degree">
+            <%= @degrees.each_with_index do |degree,index| %>
+
                 <% if index == 0 %>
                     <option value="<%= degree.id %>", selected="selected"><%= degree.name %></option>
                 <% else %>
@@ -22,6 +27,7 @@
                 <% end %>
             <% end %>
           </select>
+
           <span id="certification_error" style="display:none;color:#cc0000"></span>
           <div id="courses_container" class="field">
             <div id = "selected_course"></div>
@@ -29,6 +35,7 @@
           </div>
           <br>
           <div>
+
             Please note that most of the testing tools are FREE for all students.
             To make a student's learning experience more valuable, certain features are charged as follows:
 
@@ -62,9 +69,12 @@
         </div>
     <% else %>
         <div class="field">
-          <% if @degrees.any? %>
+
+
+          <% if @degrees.any?  %>
               <% @degrees.each do |degree| %>
                   <%= check_box_tag 'degrees[]', degree.id -%><%=degree.name %><br>
+
                   <div id="<%=degree.id %>" style="display: none">
                     <table class="table">
                       <thead>
@@ -74,8 +84,8 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <% @courses[degree.id].each do |course| %>
 
+                      <% @courses[degree.id].each do |course| %>
                           <tr>
                             <td> <%=course.name %></td>
                             <td> <%= check_box_tag 'courses[]', course.id -%></td>
@@ -99,7 +109,6 @@
     <% end %>
 
 
-
     <div class="actions">
       <%#= f.submit "Sign up", class: 'btn btn-inverse' %>
     </div>
@@ -109,7 +118,7 @@
 <script type="text/javascript">
   $( document ).ready(function(){
     degree_id = $("#select_degree").val();
-//        alert(degree_id);
+       // alert(degree_id);
     $.ajax({
       url: '/user/get_courses_by_degree_id?degree_id=' + degree_id,
       type: 'get',
@@ -126,7 +135,7 @@
 
     $("#select_degree").change(function(){
         degree_id = $(this).val();
-//        alert(degree_id);
+       // alert(degree_id);
         $.ajax({
             url: '/user/get_courses_by_degree_id?degree_id=' + degree_id,
             type: 'get',
@@ -144,6 +153,7 @@
 //      $(".course_"+$this.attr("id")).show();
     });
 
+
     $('input[value="<%= get_degrees[0].id %>"').change(function(){
       $('#<%= get_degrees[0].id %>').toggle();
     });
@@ -156,5 +166,6 @@
     $('input[value="<%= get_degrees[3].id %>"').change(function(){
       $('#<%= get_degrees[3].id %>').toggle();
     });
+
 
 </script>

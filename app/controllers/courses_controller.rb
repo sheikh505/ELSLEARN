@@ -5,6 +5,7 @@ class CoursesController < ApplicationController
   respond_to :html
 
   def index
+      debugger
     @degrees = Degree.all
 
     bdegree = BoardDegreeAssignment.find_by_degree_id(@degrees.first.id)
@@ -14,12 +15,13 @@ class CoursesController < ApplicationController
     @degree_hash = {}
 
     @courses.each do |course|
-
       @degree_hash["#{course.id}::#{course.name}"] = course.board_degree_assignments
+
     end
 
     respond_with(@courses)
   end
+
 
   def manage_courses
     @degrees = Degree.all
@@ -74,7 +76,9 @@ class CoursesController < ApplicationController
     BoardDegreeAssignment.all.each do |bdgree|
       @board_hash[bdgree.id] = bdgree.board.name + "  (" + bdgree.degree.name + ")"
     end
+
     render partial: "edit"
+
   end
 
   def create

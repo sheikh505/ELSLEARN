@@ -8,8 +8,8 @@ class TopicsController < ApplicationController
     # @topics = Topic.all
 
 
-    respond_to do |format|
 
+    respond_to do |format|
       @topics = Topic.all
       # @topics = Topic.all.paginate(page: params[:page], per_page: 10)
       # respond_with(@topics)
@@ -29,6 +29,7 @@ class TopicsController < ApplicationController
   end
 
   def fetch_courses
+    debugger
     degree = Degree.find(params[:degree_id])
     @courses = degree.board_degree_assignments.first.courses
     render partial: "fetch_courses"

@@ -2,12 +2,18 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.19
+-- Dumped by pg_dump version 9.5.19
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -23,17 +29,15 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: answer_images; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: answer_images; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE answer_images (
+CREATE TABLE public.answer_images (
     id integer NOT NULL,
     answer_id integer,
     image_file_name character varying(255),
@@ -45,13 +49,13 @@ CREATE TABLE answer_images (
 );
 
 
-ALTER TABLE public.answer_images OWNER TO postgres;
+ALTER TABLE public.answer_images OWNER TO elslearn;
 
 --
--- Name: answer_images_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: answer_images_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE answer_images_id_seq
+CREATE SEQUENCE public.answer_images_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -59,20 +63,20 @@ CREATE SEQUENCE answer_images_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.answer_images_id_seq OWNER TO postgres;
+ALTER TABLE public.answer_images_id_seq OWNER TO elslearn;
 
 --
--- Name: answer_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: answer_images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE answer_images_id_seq OWNED BY answer_images.id;
+ALTER SEQUENCE public.answer_images_id_seq OWNED BY public.answer_images.id;
 
 
 --
--- Name: answers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: answers; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE answers (
+CREATE TABLE public.answers (
     id integer NOT NULL,
     user_test_history_id integer,
     question_id integer,
@@ -93,13 +97,13 @@ CREATE TABLE answers (
 );
 
 
-ALTER TABLE public.answers OWNER TO postgres;
+ALTER TABLE public.answers OWNER TO elslearn;
 
 --
--- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE answers_id_seq
+CREATE SEQUENCE public.answers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -107,20 +111,20 @@ CREATE SEQUENCE answers_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.answers_id_seq OWNER TO postgres;
+ALTER TABLE public.answers_id_seq OWNER TO elslearn;
 
 --
--- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE answers_id_seq OWNED BY answers.id;
+ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
 
 
 --
--- Name: assignments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: assignments; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE assignments (
+CREATE TABLE public.assignments (
     id integer NOT NULL,
     user_id integer,
     role_id integer,
@@ -129,13 +133,13 @@ CREATE TABLE assignments (
 );
 
 
-ALTER TABLE public.assignments OWNER TO postgres;
+ALTER TABLE public.assignments OWNER TO elslearn;
 
 --
--- Name: assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE assignments_id_seq
+CREATE SEQUENCE public.assignments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -143,20 +147,20 @@ CREATE SEQUENCE assignments_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.assignments_id_seq OWNER TO postgres;
+ALTER TABLE public.assignments_id_seq OWNER TO elslearn;
 
 --
--- Name: assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE assignments_id_seq OWNED BY assignments.id;
+ALTER SEQUENCE public.assignments_id_seq OWNED BY public.assignments.id;
 
 
 --
--- Name: board_degree_assignments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: board_degree_assignments; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE board_degree_assignments (
+CREATE TABLE public.board_degree_assignments (
     id integer NOT NULL,
     degree_id integer,
     board_id integer,
@@ -165,13 +169,13 @@ CREATE TABLE board_degree_assignments (
 );
 
 
-ALTER TABLE public.board_degree_assignments OWNER TO postgres;
+ALTER TABLE public.board_degree_assignments OWNER TO elslearn;
 
 --
--- Name: board_degree_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: board_degree_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE board_degree_assignments_id_seq
+CREATE SEQUENCE public.board_degree_assignments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -179,20 +183,20 @@ CREATE SEQUENCE board_degree_assignments_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.board_degree_assignments_id_seq OWNER TO postgres;
+ALTER TABLE public.board_degree_assignments_id_seq OWNER TO elslearn;
 
 --
--- Name: board_degree_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: board_degree_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE board_degree_assignments_id_seq OWNED BY board_degree_assignments.id;
+ALTER SEQUENCE public.board_degree_assignments_id_seq OWNED BY public.board_degree_assignments.id;
 
 
 --
--- Name: board_question_assignments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: board_question_assignments; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE board_question_assignments (
+CREATE TABLE public.board_question_assignments (
     id integer NOT NULL,
     question_id integer,
     board_degree_assignment_id integer,
@@ -201,13 +205,13 @@ CREATE TABLE board_question_assignments (
 );
 
 
-ALTER TABLE public.board_question_assignments OWNER TO postgres;
+ALTER TABLE public.board_question_assignments OWNER TO elslearn;
 
 --
--- Name: board_question_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: board_question_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE board_question_assignments_id_seq
+CREATE SEQUENCE public.board_question_assignments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -215,20 +219,20 @@ CREATE SEQUENCE board_question_assignments_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.board_question_assignments_id_seq OWNER TO postgres;
+ALTER TABLE public.board_question_assignments_id_seq OWNER TO elslearn;
 
 --
--- Name: board_question_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: board_question_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE board_question_assignments_id_seq OWNED BY board_question_assignments.id;
+ALTER SEQUENCE public.board_question_assignments_id_seq OWNED BY public.board_question_assignments.id;
 
 
 --
--- Name: boards; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: boards; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE boards (
+CREATE TABLE public.boards (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -237,13 +241,13 @@ CREATE TABLE boards (
 );
 
 
-ALTER TABLE public.boards OWNER TO postgres;
+ALTER TABLE public.boards OWNER TO elslearn;
 
 --
--- Name: boards_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: boards_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE boards_id_seq
+CREATE SEQUENCE public.boards_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -251,20 +255,20 @@ CREATE SEQUENCE boards_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.boards_id_seq OWNER TO postgres;
+ALTER TABLE public.boards_id_seq OWNER TO elslearn;
 
 --
--- Name: boards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: boards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE boards_id_seq OWNED BY boards.id;
+ALTER SEQUENCE public.boards_id_seq OWNED BY public.boards.id;
 
 
 --
--- Name: bookrequests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: bookrequests; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE bookrequests (
+CREATE TABLE public.bookrequests (
     id integer NOT NULL,
     name character varying(255),
     author character varying(255),
@@ -277,13 +281,13 @@ CREATE TABLE bookrequests (
 );
 
 
-ALTER TABLE public.bookrequests OWNER TO postgres;
+ALTER TABLE public.bookrequests OWNER TO elslearn;
 
 --
--- Name: bookrequests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: bookrequests_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE bookrequests_id_seq
+CREATE SEQUENCE public.bookrequests_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -291,20 +295,20 @@ CREATE SEQUENCE bookrequests_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.bookrequests_id_seq OWNER TO postgres;
+ALTER TABLE public.bookrequests_id_seq OWNER TO elslearn;
 
 --
--- Name: bookrequests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: bookrequests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE bookrequests_id_seq OWNED BY bookrequests.id;
+ALTER SEQUENCE public.bookrequests_id_seq OWNED BY public.bookrequests.id;
 
 
 --
--- Name: books; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: books; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE books (
+CREATE TABLE public.books (
     id integer NOT NULL,
     name character varying(255),
     price character varying(255),
@@ -321,13 +325,13 @@ CREATE TABLE books (
 );
 
 
-ALTER TABLE public.books OWNER TO postgres;
+ALTER TABLE public.books OWNER TO elslearn;
 
 --
--- Name: books_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: books_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE books_id_seq
+CREATE SEQUENCE public.books_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -335,20 +339,20 @@ CREATE SEQUENCE books_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.books_id_seq OWNER TO postgres;
+ALTER TABLE public.books_id_seq OWNER TO elslearn;
 
 --
--- Name: books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE books_id_seq OWNED BY books.id;
+ALTER SEQUENCE public.books_id_seq OWNED BY public.books.id;
 
 
 --
--- Name: ckeditor_assets; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ckeditor_assets; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE ckeditor_assets (
+CREATE TABLE public.ckeditor_assets (
     id integer NOT NULL,
     data_file_name character varying(255) NOT NULL,
     data_content_type character varying(255),
@@ -364,13 +368,13 @@ CREATE TABLE ckeditor_assets (
 );
 
 
-ALTER TABLE public.ckeditor_assets OWNER TO postgres;
+ALTER TABLE public.ckeditor_assets OWNER TO elslearn;
 
 --
--- Name: ckeditor_assets_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: ckeditor_assets_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE ckeditor_assets_id_seq
+CREATE SEQUENCE public.ckeditor_assets_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -378,20 +382,20 @@ CREATE SEQUENCE ckeditor_assets_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.ckeditor_assets_id_seq OWNER TO postgres;
+ALTER TABLE public.ckeditor_assets_id_seq OWNER TO elslearn;
 
 --
--- Name: ckeditor_assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: ckeditor_assets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE ckeditor_assets_id_seq OWNED BY ckeditor_assets.id;
+ALTER SEQUENCE public.ckeditor_assets_id_seq OWNED BY public.ckeditor_assets.id;
 
 
 --
--- Name: course_linkings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: course_linkings; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE course_linkings (
+CREATE TABLE public.course_linkings (
     id integer NOT NULL,
     course_1 integer,
     course_2 integer,
@@ -402,13 +406,13 @@ CREATE TABLE course_linkings (
 );
 
 
-ALTER TABLE public.course_linkings OWNER TO postgres;
+ALTER TABLE public.course_linkings OWNER TO elslearn;
 
 --
--- Name: course_linkings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: course_linkings_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE course_linkings_id_seq
+CREATE SEQUENCE public.course_linkings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -416,20 +420,20 @@ CREATE SEQUENCE course_linkings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.course_linkings_id_seq OWNER TO postgres;
+ALTER TABLE public.course_linkings_id_seq OWNER TO elslearn;
 
 --
--- Name: course_linkings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: course_linkings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE course_linkings_id_seq OWNED BY course_linkings.id;
+ALTER SEQUENCE public.course_linkings_id_seq OWNED BY public.course_linkings.id;
 
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: courses; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE courses (
+CREATE TABLE public.courses (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -438,13 +442,13 @@ CREATE TABLE courses (
 );
 
 
-ALTER TABLE public.courses OWNER TO postgres;
+ALTER TABLE public.courses OWNER TO elslearn;
 
 --
--- Name: courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: courses_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE courses_id_seq
+CREATE SEQUENCE public.courses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -452,20 +456,20 @@ CREATE SEQUENCE courses_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.courses_id_seq OWNER TO postgres;
+ALTER TABLE public.courses_id_seq OWNER TO elslearn;
 
 --
--- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE courses_id_seq OWNED BY courses.id;
+ALTER SEQUENCE public.courses_id_seq OWNED BY public.courses.id;
 
 
 --
--- Name: degree_course_assignments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: degree_course_assignments; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE degree_course_assignments (
+CREATE TABLE public.degree_course_assignments (
     id integer NOT NULL,
     board_degree_assignment_id integer,
     course_id integer,
@@ -474,13 +478,13 @@ CREATE TABLE degree_course_assignments (
 );
 
 
-ALTER TABLE public.degree_course_assignments OWNER TO postgres;
+ALTER TABLE public.degree_course_assignments OWNER TO elslearn;
 
 --
--- Name: degree_course_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: degree_course_assignments_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE degree_course_assignments_id_seq
+CREATE SEQUENCE public.degree_course_assignments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -488,20 +492,20 @@ CREATE SEQUENCE degree_course_assignments_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.degree_course_assignments_id_seq OWNER TO postgres;
+ALTER TABLE public.degree_course_assignments_id_seq OWNER TO elslearn;
 
 --
--- Name: degree_course_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: degree_course_assignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE degree_course_assignments_id_seq OWNED BY degree_course_assignments.id;
+ALTER SEQUENCE public.degree_course_assignments_id_seq OWNED BY public.degree_course_assignments.id;
 
 
 --
--- Name: degrees; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: degrees; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE degrees (
+CREATE TABLE public.degrees (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -510,13 +514,13 @@ CREATE TABLE degrees (
 );
 
 
-ALTER TABLE public.degrees OWNER TO postgres;
+ALTER TABLE public.degrees OWNER TO elslearn;
 
 --
--- Name: degrees_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: degrees_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE degrees_id_seq
+CREATE SEQUENCE public.degrees_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -524,20 +528,20 @@ CREATE SEQUENCE degrees_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.degrees_id_seq OWNER TO postgres;
+ALTER TABLE public.degrees_id_seq OWNER TO elslearn;
 
 --
--- Name: degrees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: degrees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE degrees_id_seq OWNED BY degrees.id;
+ALTER SEQUENCE public.degrees_id_seq OWNED BY public.degrees.id;
 
 
 --
--- Name: images; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: images; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE images (
+CREATE TABLE public.images (
     id integer NOT NULL,
     alt character varying(255) DEFAULT ''::character varying,
     hint character varying(255) DEFAULT ''::character varying,
@@ -554,13 +558,13 @@ CREATE TABLE images (
 );
 
 
-ALTER TABLE public.images OWNER TO postgres;
+ALTER TABLE public.images OWNER TO elslearn;
 
 --
--- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE images_id_seq
+CREATE SEQUENCE public.images_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -568,20 +572,20 @@ CREATE SEQUENCE images_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.images_id_seq OWNER TO postgres;
+ALTER TABLE public.images_id_seq OWNER TO elslearn;
 
 --
--- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE images_id_seq OWNED BY images.id;
+ALTER SEQUENCE public.images_id_seq OWNED BY public.images.id;
 
 
 --
--- Name: membership_plans; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: membership_plans; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE membership_plans (
+CREATE TABLE public.membership_plans (
     id integer NOT NULL,
     price integer,
     paper character varying(255),
@@ -595,13 +599,13 @@ CREATE TABLE membership_plans (
 );
 
 
-ALTER TABLE public.membership_plans OWNER TO postgres;
+ALTER TABLE public.membership_plans OWNER TO elslearn;
 
 --
--- Name: membership_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: membership_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE membership_plans_id_seq
+CREATE SEQUENCE public.membership_plans_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -609,20 +613,20 @@ CREATE SEQUENCE membership_plans_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.membership_plans_id_seq OWNER TO postgres;
+ALTER TABLE public.membership_plans_id_seq OWNER TO elslearn;
 
 --
--- Name: membership_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: membership_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE membership_plans_id_seq OWNED BY membership_plans.id;
+ALTER SEQUENCE public.membership_plans_id_seq OWNED BY public.membership_plans.id;
 
 
 --
--- Name: news_feeds; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: news_feeds; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE news_feeds (
+CREATE TABLE public.news_feeds (
     id integer NOT NULL,
     title text,
     created_at timestamp without time zone NOT NULL,
@@ -630,13 +634,13 @@ CREATE TABLE news_feeds (
 );
 
 
-ALTER TABLE public.news_feeds OWNER TO postgres;
+ALTER TABLE public.news_feeds OWNER TO elslearn;
 
 --
--- Name: news_feeds_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: news_feeds_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE news_feeds_id_seq
+CREATE SEQUENCE public.news_feeds_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -644,20 +648,20 @@ CREATE SEQUENCE news_feeds_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.news_feeds_id_seq OWNER TO postgres;
+ALTER TABLE public.news_feeds_id_seq OWNER TO elslearn;
 
 --
--- Name: news_feeds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: news_feeds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE news_feeds_id_seq OWNED BY news_feeds.id;
+ALTER SEQUENCE public.news_feeds_id_seq OWNED BY public.news_feeds.id;
 
 
 --
--- Name: options; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: options; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE options (
+CREATE TABLE public.options (
     id integer NOT NULL,
     statement character varying(255),
     question_id integer,
@@ -672,13 +676,13 @@ CREATE TABLE options (
 );
 
 
-ALTER TABLE public.options OWNER TO postgres;
+ALTER TABLE public.options OWNER TO elslearn;
 
 --
--- Name: options_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: options_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE options_id_seq
+CREATE SEQUENCE public.options_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -686,20 +690,20 @@ CREATE SEQUENCE options_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.options_id_seq OWNER TO postgres;
+ALTER TABLE public.options_id_seq OWNER TO elslearn;
 
 --
--- Name: options_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: options_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE options_id_seq OWNED BY options.id;
+ALTER SEQUENCE public.options_id_seq OWNED BY public.options.id;
 
 
 --
--- Name: packages; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: packages; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE packages (
+CREATE TABLE public.packages (
     id integer NOT NULL,
     name character varying(255),
     price integer,
@@ -718,13 +722,13 @@ CREATE TABLE packages (
 );
 
 
-ALTER TABLE public.packages OWNER TO postgres;
+ALTER TABLE public.packages OWNER TO elslearn;
 
 --
--- Name: packages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: packages_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE packages_id_seq
+CREATE SEQUENCE public.packages_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -732,20 +736,20 @@ CREATE SEQUENCE packages_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.packages_id_seq OWNER TO postgres;
+ALTER TABLE public.packages_id_seq OWNER TO elslearn;
 
 --
--- Name: packages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: packages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE packages_id_seq OWNED BY packages.id;
+ALTER SEQUENCE public.packages_id_seq OWNED BY public.packages.id;
 
 
 --
--- Name: past_paper_histories; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: past_paper_histories; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE past_paper_histories (
+CREATE TABLE public.past_paper_histories (
     id integer NOT NULL,
     flag integer,
     session character varying(255),
@@ -759,13 +763,13 @@ CREATE TABLE past_paper_histories (
 );
 
 
-ALTER TABLE public.past_paper_histories OWNER TO postgres;
+ALTER TABLE public.past_paper_histories OWNER TO elslearn;
 
 --
--- Name: past_paper_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: past_paper_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE past_paper_histories_id_seq
+CREATE SEQUENCE public.past_paper_histories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -773,20 +777,20 @@ CREATE SEQUENCE past_paper_histories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.past_paper_histories_id_seq OWNER TO postgres;
+ALTER TABLE public.past_paper_histories_id_seq OWNER TO elslearn;
 
 --
--- Name: past_paper_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: past_paper_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE past_paper_histories_id_seq OWNED BY past_paper_histories.id;
+ALTER SEQUENCE public.past_paper_histories_id_seq OWNED BY public.past_paper_histories.id;
 
 
 --
--- Name: question_histories; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: question_histories; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE question_histories (
+CREATE TABLE public.question_histories (
     id integer NOT NULL,
     user_id integer,
     question_id integer,
@@ -802,13 +806,13 @@ CREATE TABLE question_histories (
 );
 
 
-ALTER TABLE public.question_histories OWNER TO postgres;
+ALTER TABLE public.question_histories OWNER TO elslearn;
 
 --
--- Name: question_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: question_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE question_histories_id_seq
+CREATE SEQUENCE public.question_histories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -816,20 +820,20 @@ CREATE SEQUENCE question_histories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.question_histories_id_seq OWNER TO postgres;
+ALTER TABLE public.question_histories_id_seq OWNER TO elslearn;
 
 --
--- Name: question_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: question_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE question_histories_id_seq OWNED BY question_histories.id;
+ALTER SEQUENCE public.question_histories_id_seq OWNED BY public.question_histories.id;
 
 
 --
--- Name: question_quota; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: question_quota; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE question_quota (
+CREATE TABLE public.question_quota (
     id integer NOT NULL,
     question_type integer,
     quota integer,
@@ -838,13 +842,13 @@ CREATE TABLE question_quota (
 );
 
 
-ALTER TABLE public.question_quota OWNER TO postgres;
+ALTER TABLE public.question_quota OWNER TO elslearn;
 
 --
--- Name: question_quota_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: question_quota_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE question_quota_id_seq
+CREATE SEQUENCE public.question_quota_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -852,20 +856,20 @@ CREATE SEQUENCE question_quota_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.question_quota_id_seq OWNER TO postgres;
+ALTER TABLE public.question_quota_id_seq OWNER TO elslearn;
 
 --
--- Name: question_quota_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: question_quota_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE question_quota_id_seq OWNED BY question_quota.id;
+ALTER SEQUENCE public.question_quota_id_seq OWNED BY public.question_quota.id;
 
 
 --
--- Name: questions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: questions; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE questions (
+CREATE TABLE public.questions (
     id integer NOT NULL,
     statement text,
     deleted boolean,
@@ -891,13 +895,13 @@ CREATE TABLE questions (
 );
 
 
-ALTER TABLE public.questions OWNER TO postgres;
+ALTER TABLE public.questions OWNER TO elslearn;
 
 --
--- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE questions_id_seq
+CREATE SEQUENCE public.questions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -905,20 +909,20 @@ CREATE SEQUENCE questions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.questions_id_seq OWNER TO postgres;
+ALTER TABLE public.questions_id_seq OWNER TO elslearn;
 
 --
--- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
 
 
 --
--- Name: quizzes; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: quizzes; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE quizzes (
+CREATE TABLE public.quizzes (
     id integer NOT NULL,
     name character varying(255),
     test_code character varying(255),
@@ -933,13 +937,13 @@ CREATE TABLE quizzes (
 );
 
 
-ALTER TABLE public.quizzes OWNER TO postgres;
+ALTER TABLE public.quizzes OWNER TO elslearn;
 
 --
--- Name: quizzes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: quizzes_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE quizzes_id_seq
+CREATE SEQUENCE public.quizzes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -947,20 +951,20 @@ CREATE SEQUENCE quizzes_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.quizzes_id_seq OWNER TO postgres;
+ALTER TABLE public.quizzes_id_seq OWNER TO elslearn;
 
 --
--- Name: quizzes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: quizzes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE quizzes_id_seq OWNED BY quizzes.id;
+ALTER SEQUENCE public.quizzes_id_seq OWNED BY public.quizzes.id;
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: roles; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE roles (
+CREATE TABLE public.roles (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -968,13 +972,13 @@ CREATE TABLE roles (
 );
 
 
-ALTER TABLE public.roles OWNER TO postgres;
+ALTER TABLE public.roles OWNER TO elslearn;
 
 --
--- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE roles_id_seq
+CREATE SEQUENCE public.roles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -982,31 +986,31 @@ CREATE SEQUENCE roles_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.roles_id_seq OWNER TO postgres;
+ALTER TABLE public.roles_id_seq OWNER TO elslearn;
 
 --
--- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying(255) NOT NULL
 );
 
 
-ALTER TABLE public.schema_migrations OWNER TO postgres;
+ALTER TABLE public.schema_migrations OWNER TO elslearn;
 
 --
--- Name: teacher_courses; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: teacher_courses; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE teacher_courses (
+CREATE TABLE public.teacher_courses (
     id integer NOT NULL,
     user_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -1016,13 +1020,13 @@ CREATE TABLE teacher_courses (
 );
 
 
-ALTER TABLE public.teacher_courses OWNER TO postgres;
+ALTER TABLE public.teacher_courses OWNER TO elslearn;
 
 --
--- Name: teacher_courses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: teacher_courses_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE teacher_courses_id_seq
+CREATE SEQUENCE public.teacher_courses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1030,20 +1034,20 @@ CREATE SEQUENCE teacher_courses_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.teacher_courses_id_seq OWNER TO postgres;
+ALTER TABLE public.teacher_courses_id_seq OWNER TO elslearn;
 
 --
--- Name: teacher_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: teacher_courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE teacher_courses_id_seq OWNED BY teacher_courses.id;
+ALTER SEQUENCE public.teacher_courses_id_seq OWNED BY public.teacher_courses.id;
 
 
 --
--- Name: teacher_requests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: teacher_requests; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE teacher_requests (
+CREATE TABLE public.teacher_requests (
     id integer NOT NULL,
     teacher_code integer,
     student_id integer,
@@ -1056,13 +1060,13 @@ CREATE TABLE teacher_requests (
 );
 
 
-ALTER TABLE public.teacher_requests OWNER TO postgres;
+ALTER TABLE public.teacher_requests OWNER TO elslearn;
 
 --
--- Name: teacher_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: teacher_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE teacher_requests_id_seq
+CREATE SEQUENCE public.teacher_requests_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1070,20 +1074,20 @@ CREATE SEQUENCE teacher_requests_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.teacher_requests_id_seq OWNER TO postgres;
+ALTER TABLE public.teacher_requests_id_seq OWNER TO elslearn;
 
 --
--- Name: teacher_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: teacher_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE teacher_requests_id_seq OWNED BY teacher_requests.id;
+ALTER SEQUENCE public.teacher_requests_id_seq OWNED BY public.teacher_requests.id;
 
 
 --
--- Name: tests; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: tests; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE tests (
+CREATE TABLE public.tests (
     id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1096,13 +1100,13 @@ CREATE TABLE tests (
 );
 
 
-ALTER TABLE public.tests OWNER TO postgres;
+ALTER TABLE public.tests OWNER TO elslearn;
 
 --
--- Name: tests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: tests_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE tests_id_seq
+CREATE SEQUENCE public.tests_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1110,20 +1114,20 @@ CREATE SEQUENCE tests_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tests_id_seq OWNER TO postgres;
+ALTER TABLE public.tests_id_seq OWNER TO elslearn;
 
 --
--- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE tests_id_seq OWNED BY tests.id;
+ALTER SEQUENCE public.tests_id_seq OWNED BY public.tests.id;
 
 
 --
--- Name: topic_linkings; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: topic_linkings; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE topic_linkings (
+CREATE TABLE public.topic_linkings (
     id integer NOT NULL,
     topic_1 integer,
     topic_2 integer,
@@ -1135,13 +1139,13 @@ CREATE TABLE topic_linkings (
 );
 
 
-ALTER TABLE public.topic_linkings OWNER TO postgres;
+ALTER TABLE public.topic_linkings OWNER TO elslearn;
 
 --
--- Name: topic_linkings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: topic_linkings_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE topic_linkings_id_seq
+CREATE SEQUENCE public.topic_linkings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1149,20 +1153,20 @@ CREATE SEQUENCE topic_linkings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.topic_linkings_id_seq OWNER TO postgres;
+ALTER TABLE public.topic_linkings_id_seq OWNER TO elslearn;
 
 --
--- Name: topic_linkings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: topic_linkings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE topic_linkings_id_seq OWNED BY topic_linkings.id;
+ALTER SEQUENCE public.topic_linkings_id_seq OWNED BY public.topic_linkings.id;
 
 
 --
--- Name: topics; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: topics; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE topics (
+CREATE TABLE public.topics (
     id integer NOT NULL,
     name character varying(255),
     course_id integer,
@@ -1172,13 +1176,13 @@ CREATE TABLE topics (
 );
 
 
-ALTER TABLE public.topics OWNER TO postgres;
+ALTER TABLE public.topics OWNER TO elslearn;
 
 --
--- Name: topics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: topics_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE topics_id_seq
+CREATE SEQUENCE public.topics_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1186,20 +1190,20 @@ CREATE SEQUENCE topics_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.topics_id_seq OWNER TO postgres;
+ALTER TABLE public.topics_id_seq OWNER TO elslearn;
 
 --
--- Name: topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE topics_id_seq OWNED BY topics.id;
+ALTER SEQUENCE public.topics_id_seq OWNED BY public.topics.id;
 
 
 --
--- Name: user_addresses; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_addresses; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE user_addresses (
+CREATE TABLE public.user_addresses (
     id integer NOT NULL,
     address character varying(255),
     state character varying(255),
@@ -1212,13 +1216,13 @@ CREATE TABLE user_addresses (
 );
 
 
-ALTER TABLE public.user_addresses OWNER TO postgres;
+ALTER TABLE public.user_addresses OWNER TO elslearn;
 
 --
--- Name: user_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: user_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE user_addresses_id_seq
+CREATE SEQUENCE public.user_addresses_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1226,20 +1230,20 @@ CREATE SEQUENCE user_addresses_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.user_addresses_id_seq OWNER TO postgres;
+ALTER TABLE public.user_addresses_id_seq OWNER TO elslearn;
 
 --
--- Name: user_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: user_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE user_addresses_id_seq OWNED BY user_addresses.id;
+ALTER SEQUENCE public.user_addresses_id_seq OWNED BY public.user_addresses.id;
 
 
 --
--- Name: user_packages; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_packages; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE user_packages (
+CREATE TABLE public.user_packages (
     id integer NOT NULL,
     package_id integer,
     validity timestamp without time zone,
@@ -1253,13 +1257,13 @@ CREATE TABLE user_packages (
 );
 
 
-ALTER TABLE public.user_packages OWNER TO postgres;
+ALTER TABLE public.user_packages OWNER TO elslearn;
 
 --
--- Name: user_packages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: user_packages_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE user_packages_id_seq
+CREATE SEQUENCE public.user_packages_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1267,20 +1271,20 @@ CREATE SEQUENCE user_packages_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.user_packages_id_seq OWNER TO postgres;
+ALTER TABLE public.user_packages_id_seq OWNER TO elslearn;
 
 --
--- Name: user_packages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: user_packages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE user_packages_id_seq OWNED BY user_packages.id;
+ALTER SEQUENCE public.user_packages_id_seq OWNED BY public.user_packages.id;
 
 
 --
--- Name: user_test_histories; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_test_histories; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE user_test_histories (
+CREATE TABLE public.user_test_histories (
     id integer NOT NULL,
     course character varying(255),
     score integer,
@@ -1310,13 +1314,13 @@ CREATE TABLE user_test_histories (
 );
 
 
-ALTER TABLE public.user_test_histories OWNER TO postgres;
+ALTER TABLE public.user_test_histories OWNER TO elslearn;
 
 --
--- Name: user_test_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: user_test_histories_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE user_test_histories_id_seq
+CREATE SEQUENCE public.user_test_histories_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1324,20 +1328,20 @@ CREATE SEQUENCE user_test_histories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.user_test_histories_id_seq OWNER TO postgres;
+ALTER TABLE public.user_test_histories_id_seq OWNER TO elslearn;
 
 --
--- Name: user_test_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: user_test_histories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE user_test_histories_id_seq OWNED BY user_test_histories.id;
+ALTER SEQUENCE public.user_test_histories_id_seq OWNED BY public.user_test_histories.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -1375,13 +1379,13 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
+ALTER TABLE public.users OWNER TO elslearn;
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1389,20 +1393,20 @@ CREATE SEQUENCE users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO postgres;
+ALTER TABLE public.users_id_seq OWNER TO elslearn;
 
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: workflow_paths; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+-- Name: workflow_paths; Type: TABLE; Schema: public; Owner: elslearn
 --
 
-CREATE TABLE workflow_paths (
+CREATE TABLE public.workflow_paths (
     id integer NOT NULL,
     course_id integer,
     degree_id integer,
@@ -1412,13 +1416,13 @@ CREATE TABLE workflow_paths (
 );
 
 
-ALTER TABLE public.workflow_paths OWNER TO postgres;
+ALTER TABLE public.workflow_paths OWNER TO elslearn;
 
 --
--- Name: workflow_paths_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: workflow_paths_id_seq; Type: SEQUENCE; Schema: public; Owner: elslearn
 --
 
-CREATE SEQUENCE workflow_paths_id_seq
+CREATE SEQUENCE public.workflow_paths_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1426,258 +1430,258 @@ CREATE SEQUENCE workflow_paths_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.workflow_paths_id_seq OWNER TO postgres;
+ALTER TABLE public.workflow_paths_id_seq OWNER TO elslearn;
 
 --
--- Name: workflow_paths_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: workflow_paths_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: elslearn
 --
 
-ALTER SEQUENCE workflow_paths_id_seq OWNED BY workflow_paths.id;
+ALTER SEQUENCE public.workflow_paths_id_seq OWNED BY public.workflow_paths.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY answer_images ALTER COLUMN id SET DEFAULT nextval('answer_images_id_seq'::regclass);
+ALTER TABLE ONLY public.answer_images ALTER COLUMN id SET DEFAULT nextval('public.answer_images_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY answers ALTER COLUMN id SET DEFAULT nextval('answers_id_seq'::regclass);
+ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answers_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY assignments ALTER COLUMN id SET DEFAULT nextval('assignments_id_seq'::regclass);
+ALTER TABLE ONLY public.assignments ALTER COLUMN id SET DEFAULT nextval('public.assignments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY board_degree_assignments ALTER COLUMN id SET DEFAULT nextval('board_degree_assignments_id_seq'::regclass);
+ALTER TABLE ONLY public.board_degree_assignments ALTER COLUMN id SET DEFAULT nextval('public.board_degree_assignments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY board_question_assignments ALTER COLUMN id SET DEFAULT nextval('board_question_assignments_id_seq'::regclass);
+ALTER TABLE ONLY public.board_question_assignments ALTER COLUMN id SET DEFAULT nextval('public.board_question_assignments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY boards ALTER COLUMN id SET DEFAULT nextval('boards_id_seq'::regclass);
+ALTER TABLE ONLY public.boards ALTER COLUMN id SET DEFAULT nextval('public.boards_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY bookrequests ALTER COLUMN id SET DEFAULT nextval('bookrequests_id_seq'::regclass);
+ALTER TABLE ONLY public.bookrequests ALTER COLUMN id SET DEFAULT nextval('public.bookrequests_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY books ALTER COLUMN id SET DEFAULT nextval('books_id_seq'::regclass);
+ALTER TABLE ONLY public.books ALTER COLUMN id SET DEFAULT nextval('public.books_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY ckeditor_assets ALTER COLUMN id SET DEFAULT nextval('ckeditor_assets_id_seq'::regclass);
+ALTER TABLE ONLY public.ckeditor_assets ALTER COLUMN id SET DEFAULT nextval('public.ckeditor_assets_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY course_linkings ALTER COLUMN id SET DEFAULT nextval('course_linkings_id_seq'::regclass);
+ALTER TABLE ONLY public.course_linkings ALTER COLUMN id SET DEFAULT nextval('public.course_linkings_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY courses ALTER COLUMN id SET DEFAULT nextval('courses_id_seq'::regclass);
+ALTER TABLE ONLY public.courses ALTER COLUMN id SET DEFAULT nextval('public.courses_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY degree_course_assignments ALTER COLUMN id SET DEFAULT nextval('degree_course_assignments_id_seq'::regclass);
+ALTER TABLE ONLY public.degree_course_assignments ALTER COLUMN id SET DEFAULT nextval('public.degree_course_assignments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY degrees ALTER COLUMN id SET DEFAULT nextval('degrees_id_seq'::regclass);
+ALTER TABLE ONLY public.degrees ALTER COLUMN id SET DEFAULT nextval('public.degrees_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::regclass);
+ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.images_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY membership_plans ALTER COLUMN id SET DEFAULT nextval('membership_plans_id_seq'::regclass);
+ALTER TABLE ONLY public.membership_plans ALTER COLUMN id SET DEFAULT nextval('public.membership_plans_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY news_feeds ALTER COLUMN id SET DEFAULT nextval('news_feeds_id_seq'::regclass);
+ALTER TABLE ONLY public.news_feeds ALTER COLUMN id SET DEFAULT nextval('public.news_feeds_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY options ALTER COLUMN id SET DEFAULT nextval('options_id_seq'::regclass);
+ALTER TABLE ONLY public.options ALTER COLUMN id SET DEFAULT nextval('public.options_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY packages ALTER COLUMN id SET DEFAULT nextval('packages_id_seq'::regclass);
+ALTER TABLE ONLY public.packages ALTER COLUMN id SET DEFAULT nextval('public.packages_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY past_paper_histories ALTER COLUMN id SET DEFAULT nextval('past_paper_histories_id_seq'::regclass);
+ALTER TABLE ONLY public.past_paper_histories ALTER COLUMN id SET DEFAULT nextval('public.past_paper_histories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY question_histories ALTER COLUMN id SET DEFAULT nextval('question_histories_id_seq'::regclass);
+ALTER TABLE ONLY public.question_histories ALTER COLUMN id SET DEFAULT nextval('public.question_histories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY question_quota ALTER COLUMN id SET DEFAULT nextval('question_quota_id_seq'::regclass);
+ALTER TABLE ONLY public.question_quota ALTER COLUMN id SET DEFAULT nextval('public.question_quota_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.questions_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY quizzes ALTER COLUMN id SET DEFAULT nextval('quizzes_id_seq'::regclass);
+ALTER TABLE ONLY public.quizzes ALTER COLUMN id SET DEFAULT nextval('public.quizzes_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY teacher_courses ALTER COLUMN id SET DEFAULT nextval('teacher_courses_id_seq'::regclass);
+ALTER TABLE ONLY public.teacher_courses ALTER COLUMN id SET DEFAULT nextval('public.teacher_courses_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY teacher_requests ALTER COLUMN id SET DEFAULT nextval('teacher_requests_id_seq'::regclass);
+ALTER TABLE ONLY public.teacher_requests ALTER COLUMN id SET DEFAULT nextval('public.teacher_requests_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY tests ALTER COLUMN id SET DEFAULT nextval('tests_id_seq'::regclass);
+ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY topic_linkings ALTER COLUMN id SET DEFAULT nextval('topic_linkings_id_seq'::regclass);
+ALTER TABLE ONLY public.topic_linkings ALTER COLUMN id SET DEFAULT nextval('public.topic_linkings_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY topics ALTER COLUMN id SET DEFAULT nextval('topics_id_seq'::regclass);
+ALTER TABLE ONLY public.topics ALTER COLUMN id SET DEFAULT nextval('public.topics_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_addresses ALTER COLUMN id SET DEFAULT nextval('user_addresses_id_seq'::regclass);
+ALTER TABLE ONLY public.user_addresses ALTER COLUMN id SET DEFAULT nextval('public.user_addresses_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_packages ALTER COLUMN id SET DEFAULT nextval('user_packages_id_seq'::regclass);
+ALTER TABLE ONLY public.user_packages ALTER COLUMN id SET DEFAULT nextval('public.user_packages_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_test_histories ALTER COLUMN id SET DEFAULT nextval('user_test_histories_id_seq'::regclass);
+ALTER TABLE ONLY public.user_test_histories ALTER COLUMN id SET DEFAULT nextval('public.user_test_histories_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY workflow_paths ALTER COLUMN id SET DEFAULT nextval('workflow_paths_id_seq'::regclass);
+ALTER TABLE ONLY public.workflow_paths ALTER COLUMN id SET DEFAULT nextval('public.workflow_paths_id_seq'::regclass);
 
 
 --
--- Data for Name: answer_images; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: answer_images; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY answer_images (id, answer_id, image_file_name, image_content_type, image_file_size, image_updated_at, created_at, updated_at) FROM stdin;
+COPY public.answer_images (id, answer_id, image_file_name, image_content_type, image_file_size, image_updated_at, created_at, updated_at) FROM stdin;
 4	49	images_(3).jpeg	image/jpeg	15228	2016-12-29 10:19:43.733451	2016-12-29 10:19:43.815432	2016-12-29 10:19:43.815432
 5	49	images_(3).jpeg	image/jpeg	15228	2016-12-29 10:19:53.093562	2016-12-29 10:19:53.181973	2016-12-29 10:19:53.181973
 6	50	images_(3).jpeg	image/jpeg	15228	2016-12-29 10:23:48.727117	2016-12-29 10:23:48.818062	2016-12-29 10:23:48.818062
@@ -1824,21 +1828,31 @@ COPY answer_images (id, answer_id, image_file_name, image_content_type, image_fi
 146	209	1495211320155.jpg	application/octet-stream	73762	2017-05-19 16:28:43.375259	2017-05-19 16:28:43.692895	2017-05-19 16:28:43.692895
 145	208	img_20170524_213638.png	application/octet-stream	341920	2017-05-24 16:36:47.625855	2017-05-19 16:28:17.831367	2017-05-24 16:36:47.858231
 125	187	img_20170524_214109.png	application/octet-stream	82688	2017-05-24 16:41:11.862884	2017-02-28 16:37:03.931675	2017-05-24 16:41:12.087296
+147	210	_12969EFAD3FF0493D730CA0877DA06609F2C120A2346DFDCD7_pimgpsh_fullsize_distr.png	image/png	245856	2017-10-09 18:14:40.061891	2017-10-09 18:14:40.387326	2017-10-09 18:14:40.387326
+148	210	AR.PNG	image/png	20273	2017-10-09 18:15:20.407792	2017-10-09 18:15:20.553366	2017-10-09 18:15:20.553366
+149	212	_12969EFAD3FF0493D730CA0877DA06609F2C120A2346DFDCD7_pimgpsh_fullsize_distr.png	image/png	245856	2017-10-09 18:24:42.416491	2017-10-09 18:24:42.680409	2017-10-09 18:24:42.680409
+150	214	images_(2).jpg	image/jpeg	7422	2019-10-30 11:14:01.946477	2019-10-30 11:14:02.110846	2019-10-30 11:14:02.110846
+152	215	images_(1).jpg	image/jpeg	7413	2019-10-30 11:35:40.284906	2019-10-30 11:35:40.427313	2019-10-30 11:35:40.427313
+153	225	images_(2).jpg	image/jpeg	7422	2019-11-01 11:43:09.086475	2019-11-01 11:43:09.222021	2019-11-01 11:43:09.222021
+154	225	images_(1).jpg	image/jpeg	7413	2019-11-01 11:43:19.100966	2019-11-01 11:43:19.218303	2019-11-01 11:43:19.218303
+155	236	photo-1542397284385-6010376c5337.jfif	image/jpeg	104906	2019-11-01 14:03:47.608509	2019-11-01 14:03:47.802494	2019-11-01 14:03:47.802494
+156	241	images_(2).jpg	image/jpeg	7422	2019-11-02 09:42:51.890298	2019-11-02 09:42:52.154664	2019-11-02 09:42:52.154664
+157	246	images_(1).jpg	image/jpeg	7413	2019-11-26 12:51:36.823485	2019-11-26 12:51:37.006509	2019-11-26 12:51:37.006509
 \.
 
 
 --
--- Name: answer_images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: answer_images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('answer_images_id_seq', 146, true);
+SELECT pg_catalog.setval('public.answer_images_id_seq', 157, true);
 
 
 --
--- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY answers (id, user_test_history_id, question_id, answer_detail, marks, remarks, created_at, updated_at, image_file_name, image_content_type, image_file_size, image_updated_at, video_file_name, video_content_type, video_file_size, video_updated_at, reviewed) FROM stdin;
+COPY public.answers (id, user_test_history_id, question_id, answer_detail, marks, remarks, created_at, updated_at, image_file_name, image_content_type, image_file_size, image_updated_at, video_file_name, video_content_type, video_file_size, video_updated_at, reviewed) FROM stdin;
 1	532	1443		\N	\N	2016-11-28 18:21:07.372448	2016-11-28 18:21:07.372448	\N	\N	\N	\N	\N	\N	\N	\N	f
 2	532	1442		\N	\N	2016-11-28 18:21:07.407844	2016-11-28 18:21:07.407844	\N	\N	\N	\N	\N	\N	\N	\N	f
 3	533	1443	<p>dgfghggjgh</p>\n	\N	\N	2016-11-28 20:17:34.869541	2016-11-28 20:17:34.869541	\N	\N	\N	\N	\N	\N	\N	\N	f
@@ -2043,21 +2057,58 @@ COPY answers (id, user_test_history_id, question_id, answer_detail, marks, remar
 207	846	1443	\N	\N	\N	2017-05-19 16:14:53.283241	2017-05-19 16:14:53.283241	\N	\N	\N	\N	\N	\N	\N	\N	f
 208	847	1442	\N	\N	\N	2017-05-19 16:28:17.561827	2017-05-19 16:28:17.561827	\N	\N	\N	\N	\N	\N	\N	\N	f
 209	847	1443	\N	\N	\N	2017-05-19 16:28:43.371832	2017-05-19 16:28:43.371832	\N	\N	\N	\N	\N	\N	\N	\N	f
+210	872	1442	\N	1	good	2017-10-09 18:14:40.042427	2017-10-09 18:20:50.459947	\N	\N	\N	\N	\N	\N	\N	\N	t
+211	872	1443	<p>thid is answer</p>\n	1	bad	2017-10-09 18:16:04.504815	2017-10-09 18:21:14.140953	\N	\N	\N	\N	\N	\N	\N	\N	t
+212	873	1442	\N	\N	\N	2017-10-09 18:24:42.411194	2017-10-09 18:24:42.411194	\N	\N	\N	\N	\N	\N	\N	\N	f
+213	873	1443	<p>woooooooowwwwww<img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/13_15541118_10155227882076840_2160685306741624221_n.jpg" style="width: 428px; height: 960px;" /></p>\n	\N	\N	2017-10-09 18:25:38.385928	2017-10-09 18:25:38.385928	\N	\N	\N	\N	\N	\N	\N	\N	f
+219	877	1451	<p>.mlvmldfm;vldkf</p>\n\n<p>vdfmvmdf;vmd;f&	\N	\N	2019-10-30 11:46:59.485363	2019-10-30 11:46:59.485363	\N	\N	\N	\N	\N	\N	\N	\N	f
+220	878	1452	<p>kdfjfkdfjkldfjvkldfklgdf</p>\n\n<p>gdfmvd;fvmdfm</p>\n	\N	\N	2019-10-30 11:52:03.611256	2019-10-30 11:52:03.611256	\N	\N	\N	\N	\N	\N	\N	\N	f
+221	878	1441	<p>df dfmvdflkvm;ldfvm;dfv</p>\n	\N	\N	2019-10-30 11:52:03.621367	2019-10-30 11:52:03.621367	\N	\N	\N	\N	\N	\N	\N	\N	f
+222	878	1445	<p>hjhjhj hjhjhjh hjhjh hj hj</p>\n	\N	\N	2019-10-30 11:52:03.630821	2019-10-30 11:52:03.630821	\N	\N	\N	\N	\N	\N	\N	\N	f
+223	878	1451	<p>ref_2nnlknklnl</p>\n	\N	\N	2019-10-30 11:52:03.642828	2019-10-30 11:52:03.642828	\N	\N	\N	\N	\N	\N	\N	\N	f
+224	878	1459	<p>ref_1 kkj jnjh</p>\n	\N	\N	2019-10-30 11:52:03.650534	2019-10-30 11:52:03.650534	\N	\N	\N	\N	\N	\N	\N	\N	f
+218	876	1451	<p>hjkhksdhfcksf&	3	what is the answer	2019-10-30 11:39:13.52459	2019-10-30 12:03:15.427438	\N	\N	\N	\N	\N	\N	\N	\N	t
+216	876	1445	<p>this is the answer</p>\n\n<p>hhh</p>\n	12	jkhkhkhkh bbbbbbb	2019-10-30 11:39:13.500288	2019-10-30 12:03:27.387896	\N	\N	\N	\N	\N	\N	\N	\N	t
+214	876	1452	\N	3	ghdfggffgh	2019-10-30 11:14:01.926876	2019-10-30 12:06:46.160783	\N	\N	\N	\N	\N	\N	\N	\N	t
+215	876	1459	\N	1	cdcsdvsdvdsc	2019-10-30 11:35:11.364864	2019-10-30 12:07:09.406535	\N	\N	\N	\N	\N	\N	\N	\N	t
+217	876	1441	<p>kljkljljkbjhgyu</p>\n\n<p>bjhgjgjhg jgjgjh khhb&nbsp; hkhjkn ihjk kh&nbsp; khkhk<img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/26_images_2.jpg" style="width: 331px; height: 152px;" /></p>\n	1	vvxvv	2019-10-30 11:39:13.510406	2019-10-30 12:07:31.194779	\N	\N	\N	\N	\N	\N	\N	\N	t
+229	880	1452		10	This is correct	2019-11-01 11:45:34.6016	2019-11-01 11:48:29.143482	\N	\N	\N	\N	\N	\N	\N	\N	t
+226	880	1451		3	Correct	2019-11-01 11:45:34.573776	2019-11-01 11:48:39.807101	\N	\N	\N	\N	\N	\N	\N	\N	t
+228	880	1441	<p>bnm</p>\n	1	sahi	2019-11-01 11:45:34.594419	2019-11-01 11:48:49.196904	\N	\N	\N	\N	\N	\N	\N	\N	t
+225	880	1459	\N	1	qwerty	2019-11-01 11:43:09.068375	2019-11-01 11:49:07.016531	\N	\N	\N	\N	\N	\N	\N	\N	t
+227	880	1445		15	Fahad	2019-11-01 11:45:34.581707	2019-11-01 11:49:15.631927	\N	\N	\N	\N	\N	\N	\N	\N	t
+230	881	1451	<p>jjkhkhk</p>\n	\N	\N	2019-11-01 11:52:45.345213	2019-11-01 11:52:45.345213	\N	\N	\N	\N	\N	\N	\N	\N	f
+236	884	1451	\N	\N	\N	2019-11-01 14:03:47.604504	2019-11-01 14:03:47.604504	\N	\N	\N	\N	\N	\N	\N	\N	f
+237	884	1441		\N	\N	2019-11-01 14:11:40.874916	2019-11-01 14:11:40.874916	\N	\N	\N	\N	\N	\N	\N	\N	f
+238	884	1459		\N	\N	2019-11-01 14:11:40.881116	2019-11-01 14:11:40.881116	\N	\N	\N	\N	\N	\N	\N	\N	f
+239	884	1452	<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/31_photo-1541890289-b86df5bafd81.jfif" style="width: 500px; height: 344px;" /></p>\n\n<p>&nbsp;</p>\n\n<p>jhsdjhbcjmsdvkdnvsdvvbjsdcbsdcsn</p>\n	\N	\N	2019-11-01 14:11:40.903274	2019-11-01 14:11:40.903274	\N	\N	\N	\N	\N	\N	\N	\N	f
+240	884	1445		\N	\N	2019-11-01 14:11:40.913177	2019-11-01 14:11:40.913177	\N	\N	\N	\N	\N	\N	\N	\N	f
+235	882	1445	<p>bmbmb</p>\n	15	sdjkfhkdfvhmscbvjkasdnjk	2019-11-01 11:57:18.003373	2019-11-01 14:44:11.267243	\N	\N	\N	\N	\N	\N	\N	\N	t
+242	885	1445		\N	\N	2019-11-02 09:45:59.34021	2019-11-02 09:45:59.34021	\N	\N	\N	\N	\N	\N	\N	\N	f
+243	885	1451		\N	\N	2019-11-02 09:45:59.358214	2019-11-02 09:45:59.358214	\N	\N	\N	\N	\N	\N	\N	\N	f
+244	885	1459		\N	\N	2019-11-02 09:45:59.367003	2019-11-02 09:45:59.367003	\N	\N	\N	\N	\N	\N	\N	\N	f
+245	885	1441		\N	\N	2019-11-02 09:45:59.372798	2019-11-02 09:45:59.372798	\N	\N	\N	\N	\N	\N	\N	\N	f
+233	882	1441	<p>.jljkljl</p>\n	0	ddgchthcykyhkyh	2019-11-01 11:57:17.973274	2019-11-02 09:54:28.652797	\N	\N	\N	\N	\N	\N	\N	\N	t
+232	882	1452	<p>m.m,.m.</p>\n	0	0	2019-11-01 11:57:17.967329	2019-11-16 10:28:48.52185	\N	\N	\N	\N	\N	\N	\N	\N	t
+234	882	1459	<p>ref_1bjhgjhghjg</p>\n	0	0	2019-11-01 11:57:17.992677	2019-11-16 10:28:39.090879	\N	\N	\N	\N	\N	\N	\N	\N	t
+231	882	1451	<p>m,n,mn</p>\n	3	3	2019-11-01 11:57:17.961035	2019-11-16 10:29:04.482918	\N	\N	\N	\N	\N	\N	\N	\N	t
+241	885	1452	\N	2	2	2019-11-02 09:42:51.875189	2019-11-16 14:06:08.915435	\N	\N	\N	\N	\N	\N	\N	\N	t
+246	894	1445	\N	\N	\N	2019-11-26 12:51:36.807918	2019-11-26 12:51:36.807918	\N	\N	\N	\N	\N	\N	\N	\N	f
 \.
 
 
 --
--- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('answers_id_seq', 209, true);
+SELECT pg_catalog.setval('public.answers_id_seq', 246, true);
 
 
 --
--- Data for Name: assignments; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: assignments; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY assignments (id, user_id, role_id, created_at, updated_at) FROM stdin;
+COPY public.assignments (id, user_id, role_id, created_at, updated_at) FROM stdin;
 1	2	4	2015-03-27 15:12:20.216889	2015-03-27 15:12:20.216889
 2	3	4	2015-03-27 15:12:20.233076	2015-03-27 15:12:20.233076
 3	5	5	2015-03-28 15:46:16.283495	2015-03-28 15:46:16.283495
@@ -2115,102 +2166,130 @@ COPY assignments (id, user_id, role_id, created_at, updated_at) FROM stdin;
 88	94	5	2017-01-11 06:43:05.527673	2017-01-11 06:43:05.527673
 89	95	8	2017-02-04 05:59:55.333493	2017-02-04 05:59:55.333493
 90	96	5	2017-02-04 06:02:47.286439	2017-02-04 06:02:47.286439
+91	97	5	2017-07-17 17:48:41.238224	2017-07-17 17:48:41.238224
+92	98	5	2017-10-09 18:09:57.13791	2017-10-09 18:09:57.13791
+94	100	6	2019-10-16 11:43:39.011915	2019-10-16 11:43:39.011915
+95	101	8	2019-10-27 14:36:35.738508	2019-10-27 14:36:35.738508
+96	102	5	2019-10-27 15:10:42.284262	2019-10-27 15:10:42.284262
+97	103	5	2019-10-27 15:42:15.967286	2019-10-27 15:42:15.967286
+98	104	6	2019-10-27 15:56:07.447386	2019-10-27 15:56:07.447386
+99	105	5	2019-10-28 19:48:55.891037	2019-10-28 19:48:55.891037
+100	106	5	2019-10-28 19:53:50.93746	2019-10-28 19:53:50.93746
+101	107	5	2019-10-30 10:46:14.763004	2019-10-30 10:46:14.763004
+102	108	5	2019-11-14 14:53:18.642572	2019-11-14 14:53:18.642572
+103	109	5	2019-11-15 15:10:24.39631	2019-11-15 15:10:24.39631
+104	110	5	2019-11-15 15:31:49.696666	2019-11-15 15:31:49.696666
+105	111	8	2019-11-16 10:25:45.11844	2019-11-16 10:25:45.11844
+106	112	5	2019-11-16 11:34:38.630935	2019-11-16 11:34:38.630935
+107	113	5	2019-11-18 14:27:08.15057	2019-11-18 14:27:08.15057
+108	114	5	2019-11-18 20:23:29.269908	2019-11-18 20:23:29.269908
+109	115	5	2019-11-18 21:18:37.085744	2019-11-18 21:18:37.085744
+110	116	5	2019-11-19 09:41:46.853714	2019-11-19 09:41:46.853714
+111	117	5	2019-11-19 22:05:41.740453	2019-11-19 22:05:41.740453
+112	118	5	2019-11-20 07:27:09.721983	2019-11-20 07:27:09.721983
+113	119	5	2019-11-20 17:17:41.025501	2019-11-20 17:17:41.025501
+114	120	8	2019-11-27 10:36:37.755128	2019-11-27 10:36:37.755128
 \.
 
 
 --
--- Name: assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('assignments_id_seq', 90, true);
+SELECT pg_catalog.setval('public.assignments_id_seq', 114, true);
 
 
 --
--- Data for Name: board_degree_assignments; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: board_degree_assignments; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY board_degree_assignments (id, degree_id, board_id, created_at, updated_at) FROM stdin;
+COPY public.board_degree_assignments (id, degree_id, board_id, created_at, updated_at) FROM stdin;
 36	4	3	2016-11-11 10:34:27.52671	2016-11-11 10:34:27.52671
 37	5	3	2016-11-23 04:44:32.499224	2016-11-23 04:44:32.499224
 38	6	3	2017-01-09 10:31:18.652391	2017-01-09 10:31:18.652391
 39	7	4	2017-01-11 06:36:32.51253	2017-01-11 06:36:32.51253
+40	12	5	2018-06-27 20:40:46.708234	2018-06-27 20:40:46.708234
+42	14	7	2019-10-16 11:25:28.98261	2019-10-16 11:25:28.98261
 \.
 
 
 --
--- Name: board_degree_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: board_degree_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('board_degree_assignments_id_seq', 39, true);
+SELECT pg_catalog.setval('public.board_degree_assignments_id_seq', 42, true);
 
 
 --
--- Data for Name: board_question_assignments; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: board_question_assignments; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY board_question_assignments (id, question_id, board_degree_assignment_id, created_at, updated_at) FROM stdin;
+COPY public.board_question_assignments (id, question_id, board_degree_assignment_id, created_at, updated_at) FROM stdin;
 \.
 
 
 --
--- Name: board_question_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: board_question_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('board_question_assignments_id_seq', 2827, true);
+SELECT pg_catalog.setval('public.board_question_assignments_id_seq', 2827, true);
 
 
 --
--- Data for Name: boards; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: boards; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY boards (id, name, created_at, updated_at, enable) FROM stdin;
+COPY public.boards (id, name, created_at, updated_at, enable) FROM stdin;
 3	GCE	2015-01-17 17:56:04.486925	2016-11-11 10:31:01.924165	t
 4	EDEXCEL	2015-01-17 17:57:02.496485	2017-01-09 10:30:37.340929	f
+5	PRIMARY SCHOOL	2018-06-27 20:40:21.474697	2018-08-09 06:19:23.927221	t
+6	BOARD	2019-10-15 15:06:39.036469	2019-10-15 15:06:39.036469	t
+7	CAMBRIDGE	2019-10-16 11:09:58.179037	2019-10-16 11:24:45.916383	t
 \.
 
 
 --
--- Name: boards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: boards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('boards_id_seq', 4, true);
+SELECT pg_catalog.setval('public.boards_id_seq', 7, true);
 
 
 --
--- Data for Name: bookrequests; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: bookrequests; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY bookrequests (id, name, author, edition, status, reason, user_id, created_at, updated_at) FROM stdin;
+COPY public.bookrequests (id, name, author, edition, status, reason, user_id, created_at, updated_at) FROM stdin;
 \.
 
 
 --
--- Name: bookrequests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: bookrequests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('bookrequests_id_seq', 1, false);
+SELECT pg_catalog.setval('public.bookrequests_id_seq', 1, false);
 
 
 --
--- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY books (id, name, price, description, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, author, course_id, degree_id) FROM stdin;
+COPY public.books (id, name, price, description, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, author, course_id, degree_id) FROM stdin;
 \.
 
 
 --
--- Name: books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('books_id_seq', 1, false);
+SELECT pg_catalog.setval('public.books_id_seq', 1, false);
 
 
 --
--- Data for Name: ckeditor_assets; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: ckeditor_assets; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY ckeditor_assets (id, data_file_name, data_content_type, data_file_size, data_fingerprint, assetable_id, assetable_type, type, width, height, created_at, updated_at) FROM stdin;
+COPY public.ckeditor_assets (id, data_file_name, data_content_type, data_file_size, data_fingerprint, assetable_id, assetable_type, type, width, height, created_at, updated_at) FROM stdin;
 1	avatar.jpg	image/jpeg	86811	c2c351363c86176c8508298da4fc8361	3	User	Ckeditor::Picture	600	720	2016-09-21 15:09:26.713037	2016-09-21 15:09:26.713037
 2	68747470733a2f2f6431337961637572716a676172612e636c6f756466726f6e742e6e65742f75736572732f3132353035362f73637265656e73686f74732f313638393932322f6576656e74732d6d656e755f312d312d362e676966.gif	image/gif	562931	970ea4c01dd1e9c9c883e998d257afd2	3	User	Ckeditor::Picture	800	600	2016-09-27 19:02:44.680096	2016-09-27 19:02:44.680096
 3	fullscreen_capture_14-jun-16_20823_pm_bmp.jpg	image/jpeg	139266	72b2c684c640b80b3e164b88e3fdd0ef	3	User	Ckeditor::Picture	681	505	2016-10-07 10:32:07.378939	2016-10-07 10:32:07.378939
@@ -2221,21 +2300,45 @@ COPY ckeditor_assets (id, data_file_name, data_content_type, data_file_size, dat
 8	16298559_1374860759218711_1119982693376626510_n.jpg	image/jpeg	26710	1b3d8802ae87906cbc4a509786f3290b	36	User	Ckeditor::Picture	500	333	2017-03-06 05:17:31.285755	2017-03-06 05:17:31.285755
 9	fullscreen_capture_06-mar-17_102859_am_bmp.jpg	image/jpeg	71060	f9bb434f12830fff46f8c32ffaeff1fb	36	User	Ckeditor::Picture	396	317	2017-03-06 05:29:28.56862	2017-03-06 05:29:28.56862
 10	fullscreen_capture_06-mar-17_103647_am_bmp.jpg	image/jpeg	25070	d60258d11582a6c394a1c61fafb2cf0a	36	User	Ckeditor::Picture	460	243	2017-03-06 05:37:02.40674	2017-03-06 05:37:02.40674
+11	workin-process_-_copy.jpg	image/jpeg	204972	e3827ff6e39e34b215ea42fcc75511dc	3	User	Ckeditor::Picture	896	1535	2017-07-13 15:40:05.325165	2017-07-13 15:40:05.325165
+12	workin-process.jpg	image/jpeg	204972	e3827ff6e39e34b215ea42fcc75511dc	3	User	Ckeditor::Picture	896	1535	2017-07-16 21:43:44.771284	2017-07-16 21:43:44.771284
+13	15541118_10155227882076840_2160685306741624221_n.jpg	image/jpeg	59189	12c769d1331a7858ef7de86a225f546c	98	User	Ckeditor::Picture	428	960	2017-10-09 18:25:12.767917	2017-10-09 18:25:12.767917
+14	img_n_2.jpg	image/jpeg	179262	972145d9dfd3342b0a6a802641b7cef4	24	User	Ckeditor::Picture	1280	960	2017-10-11 09:08:01.221011	2017-10-11 09:08:01.221011
+15	img_8447.jpg	image/jpeg	43036	9f91e428280a4d780d6a84e7b47830e3	104	User	Ckeditor::Picture	1329	555	2019-10-27 16:53:22.219622	2019-10-27 16:53:22.219622
+16	img_8448.jpg	image/jpeg	41914	106b8abdaa911619db0af0e7834733fa	104	User	Ckeditor::Picture	1329	495	2019-10-27 16:57:58.929262	2019-10-27 16:57:58.929262
+17	img_8449.jpg	image/jpeg	68830	80c92288be38d02b468c57f31ed41636	104	User	Ckeditor::Picture	750	965	2019-10-27 16:59:29.418888	2019-10-27 16:59:29.418888
+18	img_8450.jpg	image/jpeg	33906	703aaec49cff2a203b8985a6ddd31b78	104	User	Ckeditor::Picture	750	552	2019-10-27 17:02:07.655041	2019-10-27 17:02:07.655041
+19	img_8451.jpg	image/jpeg	30015	de789be0a3ceefca7381dcc5d618478a	104	User	Ckeditor::Picture	750	435	2019-10-27 17:03:30.824799	2019-10-27 17:03:30.824799
+20	img_8452.jpg	image/jpeg	55615	a3357bbd8a6bb8a0a274342e9684642e	104	User	Ckeditor::Picture	1331	587	2019-10-27 17:08:48.306314	2019-10-27 17:08:48.306314
+21	img_8453.jpg	image/jpeg	62073	869e0798c725e4c843d3137556afeb82	104	User	Ckeditor::Picture	1331	593	2019-10-27 17:11:04.878285	2019-10-27 17:11:04.878285
+22	img_8454.jpg	image/jpeg	50589	ce66eaabccd2c27f382ee9b667c05c12	104	User	Ckeditor::Picture	1273	582	2019-10-27 17:14:40.097915	2019-10-27 17:14:40.097915
+23	img_8455.jpg	image/jpeg	51233	0f41010c3a08bc2606ff92df5df9f269	104	User	Ckeditor::Picture	1284	579	2019-10-27 17:19:27.107465	2019-10-27 17:19:27.107465
+24	img_8445.jpg	image/jpeg	60475	0039d349c98739e9c717af0e021b399c	104	User	Ckeditor::Picture	1301	504	2019-10-27 17:27:01.092052	2019-10-27 17:27:01.092052
+25	img_8446.jpg	image/jpeg	34879	c64715058ff6a4a8b842a3f09d8ccd24	104	User	Ckeditor::Picture	1039	574	2019-10-27 17:29:27.828137	2019-10-27 17:29:27.828137
+26	images_2.jpg	image/jpeg	7422	99a7001b6e1459c48eba4a2621167173	107	User	Ckeditor::Picture	331	152	2019-10-30 10:51:19.118791	2019-10-30 10:51:19.118791
+27	images_2.jpg	image/jpeg	7422	99a7001b6e1459c48eba4a2621167173	98	User	Ckeditor::Picture	331	152	2019-11-01 11:41:09.214516	2019-11-01 11:41:09.214516
+28	images_1.jpg	image/jpeg	7413	0741838f2cd295278e4cb6f347d2dd53	104	User	Ckeditor::Picture	267	189	2019-11-01 12:19:57.658505	2019-11-01 12:19:57.658505
+29	images_1.jpg	image/jpeg	7413	0741838f2cd295278e4cb6f347d2dd53	104	User	Ckeditor::Picture	267	189	2019-11-01 12:21:16.94402	2019-11-01 12:21:16.94402
+30	justin-novello-pl01sxcojmm-unsplash.jpg	image/jpeg	965126	1bb4249cbae41378ebe00ad34471cee7	98	User	Ckeditor::Picture	5472	3648	2019-11-01 12:31:33.918618	2019-11-01 12:31:33.918618
+31	photo-1541890289-b86df5bafd81.jfif	image/jpeg	68279	69bb26873d1bc25303b0a2ffef2e371b	98	User	Ckeditor::Picture	500	344	2019-11-01 14:06:09.441587	2019-11-01 14:06:09.441587
+32	img_8445.jpg	image/jpeg	60475	0039d349c98739e9c717af0e021b399c	100	User	Ckeditor::Picture	1301	504	2019-11-19 15:54:43.54946	2019-11-19 15:54:43.54946
+33	img_8445.jpg	image/jpeg	60475	0039d349c98739e9c717af0e021b399c	100	User	Ckeditor::Picture	1301	504	2019-11-19 16:11:50.002348	2019-11-19 16:11:50.002348
+34	images_2.jpg	image/jpeg	7422	99a7001b6e1459c48eba4a2621167173	98	User	Ckeditor::Picture	331	152	2019-11-19 18:16:54.761513	2019-11-19 18:16:54.761513
 \.
 
 
 --
--- Name: ckeditor_assets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: ckeditor_assets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('ckeditor_assets_id_seq', 10, true);
+SELECT pg_catalog.setval('public.ckeditor_assets_id_seq', 34, true);
 
 
 --
--- Data for Name: course_linkings; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: course_linkings; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY course_linkings (id, course_1, course_2, course_3, course_4, created_at, updated_at) FROM stdin;
+COPY public.course_linkings (id, course_1, course_2, course_3, course_4, created_at, updated_at) FROM stdin;
 1	51	28	40	63	2016-01-05 04:36:42.896586	2016-01-06 05:27:34.867924
 2	21	4	23	65	2016-01-05 04:37:17.916553	2016-01-06 05:27:47.696725
 3	24	3	26	69	2016-01-05 04:37:36.255734	2016-01-06 05:28:03.386783
@@ -2246,23 +2349,21 @@ COPY course_linkings (id, course_1, course_2, course_3, course_4, created_at, up
 8	57	32	44	67	2016-01-06 05:34:26.109215	2016-01-06 05:34:26.109215
 9	58	33	45	68	2016-01-06 05:34:56.925468	2016-01-06 05:34:56.925468
 10	60	34	46	\N	2016-01-06 05:35:25.231993	2016-01-06 05:35:25.231993
-11	61	37	\N	\N	2016-01-06 05:37:15.25584	2016-01-06 05:37:15.25584
-12	\N	36	47	\N	2016-01-06 05:37:44.580006	2016-01-06 05:37:44.580006
 \.
 
 
 --
--- Name: course_linkings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: course_linkings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('course_linkings_id_seq', 12, true);
+SELECT pg_catalog.setval('public.course_linkings_id_seq', 16, true);
 
 
 --
--- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY courses (id, name, created_at, updated_at, enable) FROM stdin;
+COPY public.courses (id, name, created_at, updated_at, enable) FROM stdin;
 3	PHYSICS - 5054	2015-01-17 17:58:31.418224	2016-11-11 10:37:00.467256	t
 21	CHEMISTRY - 0620	2015-11-21 20:06:09.204315	2016-12-20 08:32:20.605037	t
 23	CHEMISTRY - 9701	2015-11-21 20:07:22.280168	2016-12-20 08:32:20.609548	t
@@ -2306,21 +2407,48 @@ COPY courses (id, name, created_at, updated_at, enable) FROM stdin;
 67	MATHEMATICS - 9371	2016-01-06 05:25:48.516285	2016-12-20 08:32:20.676163	t
 68	FURTHER MATHEMATICS - 9372	2016-01-06 05:26:01.071966	2016-12-20 08:32:20.677683	t
 69	PHYSICS - 9PH0	2016-01-06 05:26:16.798331	2016-12-20 08:32:20.679608	t
+70	GENERAL KNOWLEDGE	2018-06-27 20:47:39.373305	2018-06-27 20:47:39.373305	t
+71	ISLAMIYAT	2018-06-27 20:48:07.053841	2018-06-27 20:48:07.053841	t
+72	MATH	2019-10-15 15:09:10.911594	2019-10-15 15:09:10.911594	t
+73	IELTS ACADEMIC	2019-10-16 11:11:25.353263	2019-10-16 11:11:25.353263	t
+74	IELTS ACADEMIC	2019-10-16 11:11:33.783531	2019-10-16 11:11:33.783531	t
+75	IELTS ACADEMIC	2019-10-16 11:11:57.467101	2019-10-16 11:11:57.467101	t
+76	IELTS ACADEMIC	2019-10-16 11:11:59.236864	2019-10-16 11:11:59.236864	t
+77	IELTS ACADEMIC	2019-10-16 11:11:59.590677	2019-10-16 11:11:59.590677	t
+78	ACADEMIC	2019-10-16 11:12:07.168364	2019-10-16 11:12:07.168364	t
+79	ACADEMIC	2019-10-16 11:12:09.005994	2019-10-16 11:12:09.005994	t
+80	ACADEMIC	2019-10-16 11:12:09.181136	2019-10-16 11:12:09.181136	t
+81	ACADEMIC	2019-10-16 11:12:09.386113	2019-10-16 11:12:09.386113	t
+82	ACADEMIC	2019-10-16 11:12:09.563627	2019-10-16 11:12:09.563627	t
+83	ACADEMIC	2019-10-16 11:12:09.757399	2019-10-16 11:12:09.757399	t
+84	ACADEMIC	2019-10-16 11:12:09.918524	2019-10-16 11:12:09.918524	t
+85	ACADEMIC	2019-10-16 11:12:10.128675	2019-10-16 11:12:10.128675	t
+86	ACADEMIC	2019-10-16 11:12:10.349214	2019-10-16 11:12:10.349214	t
+87	ACADEMIC	2019-10-16 11:13:30.644536	2019-10-16 11:13:30.644536	t
+88	ACADEMIC	2019-10-16 11:13:30.905395	2019-10-16 11:13:30.905395	t
+89	ACADEMIC	2019-10-16 11:13:31.014197	2019-10-16 11:13:31.014197	t
+90	ACADEMIC	2019-10-16 11:13:31.276625	2019-10-16 11:13:31.276625	t
+91	ACADEMIC	2019-10-16 11:13:31.474352	2019-10-16 11:13:31.474352	t
+92	ACADEMIC	2019-10-16 11:13:31.66512	2019-10-16 11:13:31.66512	t
+93	ACADEMIC	2019-10-16 11:13:32.130687	2019-10-16 11:13:32.130687	t
+94	IELTS ACADEMIC	2019-10-16 11:26:00.485855	2019-10-16 11:26:00.485855	t
+95	IELTS ACADEMIC	2019-10-16 11:26:07.926601	2019-10-16 11:26:07.926601	t
+96	IELTS GENERAL	2019-10-16 11:26:43.934059	2019-10-16 11:26:43.934059	t
 \.
 
 
 --
--- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('courses_id_seq', 69, true);
+SELECT pg_catalog.setval('public.courses_id_seq', 96, true);
 
 
 --
--- Data for Name: degree_course_assignments; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: degree_course_assignments; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY degree_course_assignments (id, board_degree_assignment_id, course_id, created_at, updated_at) FROM stdin;
+COPY public.degree_course_assignments (id, board_degree_assignment_id, course_id, created_at, updated_at) FROM stdin;
 167	37	23	2016-12-01 16:38:07.652544	2016-12-01 16:38:07.652544
 168	37	26	2016-12-01 16:38:40.689779	2016-12-01 16:38:40.689779
 169	37	39	2016-12-01 16:39:13.295955	2016-12-01 16:39:13.295955
@@ -2350,7 +2478,6 @@ COPY degree_course_assignments (id, board_degree_assignment_id, course_id, creat
 193	39	67	2017-01-12 13:12:14.324048	2017-01-12 13:12:14.324048
 194	39	68	2017-01-12 13:12:14.325899	2017-01-12 13:12:14.325899
 195	39	69	2017-01-12 13:12:14.327774	2017-01-12 13:12:14.327774
-141	36	3	2016-11-11 10:38:07.946534	2016-11-11 10:38:07.946534
 155	36	28	2016-11-11 12:36:57.633736	2016-11-11 12:36:57.633736
 156	36	29	2016-11-11 12:37:09.940685	2016-11-11 12:37:09.940685
 157	36	4	2016-11-11 12:37:33.320596	2016-11-11 12:37:33.320596
@@ -2363,40 +2490,47 @@ COPY degree_course_assignments (id, board_degree_assignment_id, course_id, creat
 164	36	36	2016-11-11 12:53:40.329144	2016-11-11 12:53:40.329144
 165	36	37	2016-11-11 12:54:24.061824	2016-11-11 12:54:24.061824
 166	36	38	2016-11-11 12:54:47.600979	2016-11-11 12:54:47.600979
+196	40	70	2018-06-27 20:47:39.381335	2018-06-27 20:47:39.381335
+197	40	71	2018-06-27 20:48:07.057514	2018-06-27 20:48:07.057514
+205	42	96	2019-10-16 13:38:48.20906	2019-10-16 13:38:48.20906
+206	36	95	2019-10-26 13:16:27.343782	2019-10-26 13:16:27.343782
+207	36	3	2019-11-14 21:20:22.442063	2019-11-14 21:20:22.442063
 \.
 
 
 --
--- Name: degree_course_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: degree_course_assignments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('degree_course_assignments_id_seq', 195, true);
+SELECT pg_catalog.setval('public.degree_course_assignments_id_seq', 207, true);
 
 
 --
--- Data for Name: degrees; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: degrees; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY degrees (id, name, created_at, updated_at, enable) FROM stdin;
+COPY public.degrees (id, name, created_at, updated_at, enable) FROM stdin;
 4	O LEVEL	2015-01-17 17:58:15.296675	2016-11-11 10:34:27.515196	t
 5	GCE - A & AS LEVEL	2015-03-10 02:04:42.624929	2016-11-23 04:44:32.477586	t
 6	IGCSE	2015-11-18 05:07:03.742717	2017-01-09 10:31:18.595811	f
 7	EDEXCEL - A & AS LEVEL	2015-11-18 05:07:53.679107	2017-01-11 06:36:32.497445	f
+12	GRADE-2	2018-06-27 20:40:46.700671	2018-06-27 20:41:44.124619	t
+14	IELTS	2019-10-16 11:25:28.978652	2019-10-16 11:25:28.978652	t
 \.
 
 
 --
--- Name: degrees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: degrees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('degrees_id_seq', 11, true);
+SELECT pg_catalog.setval('public.degrees_id_seq', 14, true);
 
 
 --
--- Data for Name: images; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: images; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY images (id, alt, hint, file_file_name, file_content_type, file_file_size, file_updated_at, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at) FROM stdin;
+COPY public.images (id, alt, hint, file_file_name, file_content_type, file_file_size, file_updated_at, created_at, updated_at, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at) FROM stdin;
 1			1421554123Fullscreen_capture_18-Jan-15_84640_AM.bmp.jpg	image/jpeg	49213	2015-01-18 04:08:43.377294	2015-01-18 04:08:43.948653	2015-01-18 04:08:43.948653	\N	\N	\N	\N
 2			1421554488Fullscreen_capture_18-Jan-15_84643_AM.bmp.jpg	image/jpeg	12270	2015-01-18 04:14:48.011213	2015-01-18 04:14:48.566133	2015-01-18 04:14:48.566133	\N	\N	\N	\N
 3			1421554567Fullscreen_capture_18-Jan-15_84647_AM.bmp.jpg	image/jpeg	30008	2015-01-18 04:16:06.947003	2015-01-18 04:16:07.521955	2015-01-18 04:16:07.521955	\N	\N	\N	\N
@@ -3382,48 +3516,48 @@ COPY images (id, alt, hint, file_file_name, file_content_type, file_file_size, f
 
 
 --
--- Name: images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('images_id_seq', 981, true);
+SELECT pg_catalog.setval('public.images_id_seq', 981, true);
 
 
 --
--- Data for Name: membership_plans; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: membership_plans; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY membership_plans (id, price, paper, max_questions_allowed, result_type, validity, other_course_amount, created_at, updated_at, name) FROM stdin;
+COPY public.membership_plans (id, price, paper, max_questions_allowed, result_type, validity, other_course_amount, created_at, updated_at, name) FROM stdin;
 1	15	P1	2000	Instant Result after Test	3	10	2015-08-10 12:08:07.610378	2016-06-16 10:39:52.069247	MCQs Only
 \.
 
 
 --
--- Name: membership_plans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: membership_plans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('membership_plans_id_seq', 4, true);
+SELECT pg_catalog.setval('public.membership_plans_id_seq', 4, true);
 
 
 --
--- Data for Name: news_feeds; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: news_feeds; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY news_feeds (id, title, created_at, updated_at) FROM stdin;
+COPY public.news_feeds (id, title, created_at, updated_at) FROM stdin;
 \.
 
 
 --
--- Name: news_feeds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: news_feeds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('news_feeds_id_seq', 1, true);
+SELECT pg_catalog.setval('public.news_feeds_id_seq', 1, true);
 
 
 --
--- Data for Name: options; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: options; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY options (id, statement, question_id, created_at, updated_at, is_answer, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, flag) FROM stdin;
+COPY public.options (id, statement, question_id, created_at, updated_at, is_answer, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, flag) FROM stdin;
 1	option1	1	2015-01-16 18:29:14.059748	2015-01-16 18:29:14.059748	0	\N	\N	\N	\N	\N
 2	option2	1	2015-01-16 18:29:14.078428	2015-01-16 18:29:14.078428	1	\N	\N	\N	\N	\N
 3	option3	1	2015-01-16 18:29:14.090604	2015-01-16 18:29:14.090604	0	\N	\N	\N	\N	\N
@@ -7462,6 +7596,7 @@ COPY options (id, statement, question_id, created_at, updated_at, is_answer, ava
 4049	True	1018	2016-04-13 10:26:03.457925	2016-04-13 12:24:33.189125	\N	\N	\N	\N	\N	\N
 4047	<p>answer</p>	1016	2016-04-13 10:08:44.146011	2016-04-13 12:25:26.878151	1	\N	\N	\N	\N	\N
 4050		1019	2016-04-13 18:00:15.918596	2016-04-13 18:00:15.918596	0	1460570415_Fullscreen_capture_11152015_13245_AM.bmp.jpg	image/jpeg	15964	2016-04-13 18:00:15.807016	1
+4136	C	1040	2016-04-14 06:04:31.492584	2016-04-14 06:04:31.492584	1	\N	\N	\N	\N	\N
 4051		1019	2016-04-13 18:00:16.886593	2016-04-13 18:00:16.886593	0	1460570416_Fullscreen_capture_11152015_13247_AM.bmp.jpg	image/jpeg	16039	2016-04-13 18:00:16.803814	1
 4052		1019	2016-04-13 18:00:17.080573	2016-04-13 18:00:17.080573	0	1460570417_Fullscreen_capture_11152015_13249_AM.bmp.jpg	image/jpeg	16547	2016-04-13 18:00:17.001988	1
 4053		1019	2016-04-13 18:00:17.270961	2016-04-13 18:00:17.270961	1	1460570417_Fullscreen_capture_11152015_13252_AM.bmp.jpg	image/jpeg	17171	2016-04-13 18:00:17.191283	1
@@ -7547,7 +7682,6 @@ COPY options (id, statement, question_id, created_at, updated_at, is_answer, ava
 4133	stomach	1039	2016-04-14 06:03:55.41349	2016-04-14 06:03:55.41349	0	\N	\N	\N	\N	\N
 4134	A	1040	2016-04-14 06:04:31.487729	2016-04-14 06:04:31.487729	0	\N	\N	\N	\N	\N
 4135	B	1040	2016-04-14 06:04:31.490185	2016-04-14 06:04:31.490185	0	\N	\N	\N	\N	\N
-4136	C	1040	2016-04-14 06:04:31.492584	2016-04-14 06:04:31.492584	1	\N	\N	\N	\N	\N
 4137	D	1040	2016-04-14 06:04:31.494991	2016-04-14 06:04:31.494991	0	\N	\N	\N	\N	\N
 4138	milk proteins becoming solid	1041	2016-04-14 06:05:21.206367	2016-04-14 06:05:21.206367	0	\N	\N	\N	\N	\N
 4139	the changing of lactose to lactic acid	1041	2016-04-14 06:05:21.208724	2016-04-14 06:05:21.208724	1	\N	\N	\N	\N	\N
@@ -8719,6 +8853,7 @@ COPY options (id, statement, question_id, created_at, updated_at, is_answer, ava
 5309	the resistor heating up	1333	2016-04-17 14:51:05.320692	2016-04-17 14:51:05.320692	0	\N	\N	\N	\N	\N
 5310		1334	2016-04-17 14:51:53.533433	2016-04-17 14:51:53.533433	1	1460904713_Fullscreen_capture_15-Apr-16_63215_PM.bmp.jpg	image/jpeg	16322	2016-04-17 14:51:53.459223	1
 5311		1334	2016-04-17 14:51:53.861582	2016-04-17 14:51:53.861582	0	1460904713_Fullscreen_capture_15-Apr-16_63218_PM.bmp.jpg	image/jpeg	16940	2016-04-17 14:51:53.753217	1
+5617	18 Ω	1410	2016-04-23 19:13:31.880923	2016-04-23 19:13:31.880923	0	\N	\N	\N	\N	\N
 5312		1334	2016-04-17 14:51:54.09466	2016-04-17 14:51:54.09466	0	1460904714_Fullscreen_capture_15-Apr-16_63221_PM.bmp.jpg	image/jpeg	16942	2016-04-17 14:51:54.024998	1
 5313		1334	2016-04-17 14:51:54.325715	2016-04-17 14:51:54.325715	0	1460904714_Fullscreen_capture_15-Apr-16_63224_PM.bmp.jpg	image/jpeg	17188	2016-04-17 14:51:54.255999	1
 5314	X only	1335	2016-04-17 14:53:24.100303	2016-04-17 14:53:24.100303	0	\N	\N	\N	\N	\N
@@ -9024,7 +9159,6 @@ COPY options (id, statement, question_id, created_at, updated_at, is_answer, ava
 5614	0.5 Ω	1410	2016-04-23 19:13:31.873925	2016-04-23 19:13:31.873925	0	\N	\N	\N	\N	\N
 5615	2 Ω	1410	2016-04-23 19:13:31.876336	2016-04-23 19:13:31.876336	1	\N	\N	\N	\N	\N
 5616	6 Ω	1410	2016-04-23 19:13:31.878639	2016-04-23 19:13:31.878639	0	\N	\N	\N	\N	\N
-5617	18 Ω	1410	2016-04-23 19:13:31.880923	2016-04-23 19:13:31.880923	0	\N	\N	\N	\N	\N
 5618	A	1411	2016-04-23 19:14:41.940027	2016-04-23 19:14:41.940027	0	\N	\N	\N	\N	\N
 5619	B	1411	2016-04-23 19:14:41.94234	2016-04-23 19:14:41.94234	1	\N	\N	\N	\N	\N
 5620	C	1411	2016-04-23 19:14:41.944625	2016-04-23 19:14:41.944625	0	\N	\N	\N	\N	\N
@@ -9141,21 +9275,76 @@ COPY options (id, statement, question_id, created_at, updated_at, is_answer, ava
 5747		1451	2017-03-06 05:34:53.513713	2017-03-06 05:34:53.513713	1	\N	\N	\N	\N	\N
 5748		1452	2017-03-06 05:39:49.833803	2017-03-06 05:39:49.833803	1	\N	\N	\N	\N	\N
 5749	greater/larger/bigger	1453	2017-03-10 05:15:02.778424	2017-03-10 05:15:02.778424	1	\N	\N	\N	\N	\N
+5750		1454	2017-07-13 15:40:43.793199	2017-07-13 15:40:43.793199	0	1499960443_unnamed.png	image/png	3144	2017-07-13 15:40:43.643051	1
+5751	A	1454	2017-07-13 15:40:44.01636	2017-07-13 15:40:44.01636	0	\N	\N	\N	\N	\N
+5752	B	1454	2017-07-13 15:40:44.021374	2017-07-13 15:40:44.021374	0	\N	\N	\N	\N	\N
+5753	C	1454	2017-07-13 15:40:44.025898	2017-07-13 15:40:44.025898	1	\N	\N	\N	\N	\N
+5754	A	1455	2017-07-16 21:44:34.254094	2017-07-16 21:44:34.254094	0	\N	\N	\N	\N	\N
+5755	B	1455	2017-07-16 21:44:34.25987	2017-07-16 21:44:34.25987	1	\N	\N	\N	\N	\N
+5756	C	1455	2017-07-16 21:44:34.263534	2017-07-16 21:44:34.263534	0	\N	\N	\N	\N	\N
+5757	D	1455	2017-07-16 21:44:34.484486	2017-07-16 21:44:34.484486	0	1500241474_10407191_1128933907131003_3447024025938213551_n.jpg	image/jpeg	40596	2017-07-16 21:44:34.266747	1
+5758	A	1456	2017-07-17 17:33:33.830564	2017-07-17 17:33:33.830564	0	\N	\N	\N	\N	\N
+5759	B	1456	2017-07-17 17:33:33.834465	2017-07-17 17:33:33.834465	0	\N	\N	\N	\N	\N
+5760	C	1456	2017-07-17 17:33:33.837804	2017-07-17 17:33:33.837804	1	\N	\N	\N	\N	\N
+5761	D	1456	2017-07-17 17:33:33.840776	2017-07-17 17:33:33.840776	0	\N	\N	\N	\N	\N
+5762	blank/blank/blank	1457	2017-08-17 12:47:06.936406	2017-08-17 12:47:06.936406	1	\N	\N	\N	\N	\N
+5763	True	1458	2017-08-17 12:47:46.689845	2017-08-17 12:47:46.689845	1	\N	\N	\N	\N	\N
+5764		1459	2017-08-17 12:48:59.935917	2017-08-17 12:48:59.935917	1	\N	\N	\N	\N	\N
+5765	one/1/01	1460	2019-10-27 14:52:58.172815	2019-10-27 14:52:58.172815	1	\N	\N	\N	\N	\N
+5766	one/1/01	1461	2019-10-27 14:53:16.253574	2019-10-27 14:53:16.253574	1	\N	\N	\N	\N	\N
+5767	True	1462	2019-10-27 14:53:23.31951	2019-10-27 14:53:23.31951	1	\N	\N	\N	\N	\N
+5768	two/2/02	1463	2019-10-27 14:57:29.899404	2019-10-27 14:57:29.899404	1	\N	\N	\N	\N	\N
+5769	three/3/03	1464	2019-10-27 14:58:30.618939	2019-10-27 14:58:30.618939	1	\N	\N	\N	\N	\N
+5770	four	1465	2019-10-27 14:59:32.018319	2019-10-27 14:59:32.018319	1	\N	\N	\N	\N	\N
+5771	Meter rule/Vernier calipers/Micrometer	1466	2019-10-27 16:10:17.057308	2019-10-27 16:10:17.057308	1	\N	\N	\N	\N	\N
+5772	Scalar/Vector	1467	2019-10-27 16:14:46.85769	2019-10-27 16:14:46.85769	1	\N	\N	\N	\N	\N
+5773	2	1468	2019-10-27 16:46:38.674845	2019-10-27 16:46:38.674845	1	\N	\N	\N	\N	\N
+5774	Decreasing	1469	2019-10-27 16:48:00.112916	2019-10-27 16:48:00.112916	1	\N	\N	\N	\N	\N
+5775	Downwards/Larger	1470	2019-10-27 16:49:03.563998	2019-10-27 16:49:03.563998	1	\N	\N	\N	\N	\N
+5776	3380	1471	2019-10-27 16:50:15.571414	2019-10-27 16:50:15.571414	1	\N	\N	\N	\N	\N
+5777	2N	1472	2019-10-27 16:56:45.891418	2019-10-27 16:56:45.891418	1	\N	\N	\N	\N	\N
+5778	B	1473	2019-10-27 16:58:54.747965	2019-10-27 16:58:54.747965	1	\N	\N	\N	\N	\N
+5779	39.7	1474	2019-10-27 17:00:07.196158	2019-10-27 17:00:07.196158	1	\N	\N	\N	\N	\N
+5780	Weight	1475	2019-10-27 17:01:21.924942	2019-10-27 17:01:21.924942	1	\N	\N	\N	\N	\N
+5781	54400	1476	2019-10-27 17:02:43.217821	2019-10-27 17:02:43.217821	1	\N	\N	\N	\N	\N
+5782	Decreases/Increases	1477	2019-10-27 17:04:13.485432	2019-10-27 17:04:13.485432	1	\N	\N	\N	\N	\N
+5783	potential/kinetic/heat/potential/heat	1478	2019-10-27 17:09:40.179246	2019-10-27 17:09:40.179246	1	\N	\N	\N	\N	\N
+5784	0.91	1479	2019-10-27 17:11:46.252151	2019-10-27 17:11:46.252151	1	\N	\N	\N	\N	\N
+5785	faster	1480	2019-10-27 17:13:35.203533	2019-10-27 17:13:35.203533	1	\N	\N	\N	\N	\N
+5786	D	1481	2019-10-27 17:15:53.179244	2019-10-27 17:15:53.179244	1	\N	\N	\N	\N	\N
+5787	electrons	1482	2019-10-27 17:16:34.567502	2019-10-27 17:16:34.567502	1	\N	\N	\N	\N	\N
+5788	Thermocouple	1483	2019-10-27 17:18:32.330931	2019-10-27 17:18:32.330931	1	\N	\N	\N	\N	\N
+5789	Q/R	1484	2019-10-27 17:23:58.269218	2019-10-27 17:23:58.269218	1	\N	\N	\N	\N	\N
+5790	Gas/Solid	1485	2019-10-27 17:24:44.699639	2019-10-27 17:24:44.699639	1	\N	\N	\N	\N	\N
+5791	a	1486	2019-11-16 22:58:49.640441	2019-11-16 22:58:49.640441	1	\N	\N	\N	\N	\N
+5792		1487	2019-11-16 23:02:00.197999	2019-11-16 23:02:00.197999	1	\N	\N	\N	\N	\N
+5793	constant and equal to 10	1488	2019-11-19 16:02:06.115979	2019-11-19 16:02:06.115979	0	\N	\N	\N	\N	\N
+5794	constant and equal to 10	1488	2019-11-19 16:02:06.119617	2019-11-19 16:02:06.119617	0	\N	\N	\N	\N	\N
+5796	increasing	1488	2019-11-19 16:02:06.677116	2019-11-19 16:02:06.677116	1	\N	\N	\N	\N	\N
+5795	\N	1488	2019-11-19 16:02:06.321375	2019-11-19 16:05:02.618322	0	1574179326_IMG_8450.jpg	image/jpeg	33906	2019-11-19 16:02:06.122817	1
+5797	constant and equal to 10	1489	2019-11-19 16:05:48.056106	2019-11-19 16:05:48.056106	0	\N	\N	\N	\N	\N
+5798	constant and equal to 10	1489	2019-11-19 16:05:48.059423	2019-11-19 16:05:48.059423	0	\N	\N	\N	\N	\N
+5799	increasing	1489	2019-11-19 16:05:48.062509	2019-11-19 16:05:48.062509	1	\N	\N	\N	\N	\N
+5800	four/4/04,this/that, 	1490	2019-11-19 16:20:24.179759	2019-11-19 16:20:24.179759	1	\N	\N	\N	\N	\N
+5801	1w	1491	2019-11-27 11:19:30.168039	2019-11-27 11:19:30.168039	0	\N	\N	\N	\N	\N
+5802	hourse power	1491	2019-11-27 11:19:30.173485	2019-11-27 11:19:30.173485	0	\N	\N	\N	\N	\N
+5803	joule	1491	2019-11-27 11:19:30.176461	2019-11-27 11:19:30.176461	1	\N	\N	\N	\N	\N
+5804	All are true	1491	2019-11-27 11:19:30.179401	2019-11-27 11:19:30.179401	0	\N	\N	\N	\N	\N
 \.
 
 
 --
--- Name: options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('options_id_seq', 5749, true);
+SELECT pg_catalog.setval('public.options_id_seq', 5804, true);
 
 
 --
--- Data for Name: packages; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: packages; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY packages (id, name, price, degree_id, mcq, fill, true_false, descriptive, past_paper, instant_result, teacher_review, video_review, created_at, updated_at, flag) FROM stdin;
+COPY public.packages (id, name, price, degree_id, mcq, fill, true_false, descriptive, past_paper, instant_result, teacher_review, video_review, created_at, updated_at, flag) FROM stdin;
 5	value	2750	6	t	t	t	t	t	t	t	f	2016-11-10 17:43:44.23696	2016-11-10 17:43:44.23696	2
 6	value	3850	5	t	t	t	t	t	t	t	f	2016-11-10 17:44:57.560584	2016-11-10 17:44:57.560584	2
 7	value	2750	4	t	t	t	t	t	t	t	f	2016-11-10 17:45:47.640394	2016-11-10 17:45:47.640394	2
@@ -9172,17 +9361,17 @@ COPY packages (id, name, price, degree_id, mcq, fill, true_false, descriptive, p
 
 
 --
--- Name: packages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: packages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('packages_id_seq', 12, true);
+SELECT pg_catalog.setval('public.packages_id_seq', 12, true);
 
 
 --
--- Data for Name: past_paper_histories; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: past_paper_histories; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY past_paper_histories (id, flag, session, year, paper, ques_no, question_id, created_at, updated_at, course_id) FROM stdin;
+COPY public.past_paper_histories (id, flag, session, year, paper, ques_no, question_id, created_at, updated_at, course_id) FROM stdin;
 1	1	May/June	2013	\N	1	1	2015-01-16 18:29:13.998682	2015-01-16 18:29:13.998682	\N
 1405	1	May/June	2014	\N	12	1429	2016-09-05 14:00:13.43258	2016-09-05 14:00:13.43258	3
 1406	1	May/June	2014	\N	155	1430	2016-09-05 14:51:30.101296	2016-09-05 14:51:30.101296	3
@@ -10585,21 +10774,44 @@ COPY past_paper_histories (id, flag, session, year, paper, ques_no, question_id,
 1402	1	Oct/Nov	2012	\N	38	1419	2016-04-23 19:20:37.820522	2016-10-07 16:11:33.47244	3
 1403	1	Oct/Nov	2012	\N	39	1420	2016-04-23 19:21:30.933396	2016-10-07 16:11:33.474259	3
 1404	1	Oct/Nov	2012	\N	40	1421	2016-04-23 19:22:13.027384	2016-10-07 16:11:33.475912	3
+1412	1	May/June	2012		1	1466	2019-10-27 16:10:17.052331	2019-10-27 16:10:17.052331	3
+1413	1	May/June	2012		2	1467	2019-10-27 16:14:46.854851	2019-10-27 16:14:46.854851	3
+1414	1	May/June	2012		3	1468	2019-10-27 16:46:38.672054	2019-10-27 16:46:38.672054	3
+1415	1	May/June	2012		4	1469	2019-10-27 16:48:00.109975	2019-10-27 16:48:00.109975	3
+1416	1	May/June	2012		5	1470	2019-10-27 16:49:03.561325	2019-10-27 16:49:03.561325	3
+1417	1	May/June	2012		6	1471	2019-10-27 16:50:15.568712	2019-10-27 16:50:15.568712	3
+1418	1	May/June	2012		7	1472	2019-10-27 16:56:45.888442	2019-10-27 16:56:45.888442	3
+1419	1	May/June	2012		8	1473	2019-10-27 16:58:54.744567	2019-10-27 16:58:54.744567	3
+1420	1	May/June	2012		9	1474	2019-10-27 17:00:07.193324	2019-10-27 17:00:07.193324	3
+1421	1	May/June	2012		10	1475	2019-10-27 17:01:21.921938	2019-10-27 17:01:21.921938	3
+1422	1	May/June	2012		11	1476	2019-10-27 17:02:43.214901	2019-10-27 17:02:43.214901	3
+1423	1	May/June	2012		12	1477	2019-10-27 17:04:13.482448	2019-10-27 17:04:13.482448	3
+1424	1	May/June	2012		13	1478	2019-10-27 17:09:40.176373	2019-10-27 17:09:40.176373	3
+1425	1	May/June	2012		14	1479	2019-10-27 17:11:46.249188	2019-10-27 17:11:46.249188	3
+1426	1	May/June	2012		15	1480	2019-10-27 17:13:35.200478	2019-10-27 17:13:35.200478	3
+1427	1	May/June	2012		16	1481	2019-10-27 17:15:53.176358	2019-10-27 17:15:53.176358	3
+1428	1	May/June	2012		17	1482	2019-10-27 17:16:34.564858	2019-10-27 17:16:34.564858	3
+1429	1	May/June	2012		18	1483	2019-10-27 17:18:32.328118	2019-10-27 17:18:32.328118	3
+1430	1	May/June	2012		19	1484	2019-10-27 17:23:58.266066	2019-10-27 17:23:58.266066	3
+1431	1	May/June	2012		20	1485	2019-10-27 17:24:44.697075	2019-10-27 17:24:44.697075	3
+1432	1	May/June	2004	1	8	1488	2019-11-19 16:02:06.110988	2019-11-19 16:02:06.110988	3
+1433	1	May/June	2004		9	1489	2019-11-19 16:05:48.052913	2019-11-19 16:05:48.052913	3
+1434	1	May/June	2004	1	5	1490	2019-11-19 16:20:24.176643	2019-11-19 16:20:24.176643	3
 \.
 
 
 --
--- Name: past_paper_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: past_paper_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('past_paper_histories_id_seq', 1411, true);
+SELECT pg_catalog.setval('public.past_paper_histories_id_seq', 1434, true);
 
 
 --
--- Data for Name: question_histories; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: question_histories; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY question_histories (id, user_id, question_id, board_ids, degree_ids, difficulty, topic_id, is_approved, created_at, updated_at, topic_ids, difficulty_str) FROM stdin;
+COPY public.question_histories (id, user_id, question_id, board_ids, degree_ids, difficulty, topic_id, is_approved, created_at, updated_at, topic_ids, difficulty_str) FROM stdin;
 12	7	942	1,3,	4,5,	3	10	t	2015-07-16 20:12:54.345176	2015-07-16 20:12:54.345176	\N	\N
 13	25	942	1,3,4,	4,5,	2	3	t	2015-07-16 20:18:25.159214	2015-07-16 20:18:25.159214	\N	\N
 14	28	942	1,3,4,	4,5,	2	3	t	2015-07-16 20:20:22.388549	2015-07-16 20:20:22.388549	\N	\N
@@ -10670,21 +10882,34 @@ COPY question_histories (id, user_id, question_id, board_ids, degree_ids, diffic
 79	24	1446		0,0,0,0	\N	\N	t	2017-01-11 06:40:20.490094	2017-01-11 06:40:20.490094	0,93,0,0	undefined,undefined,undefined,undefined
 80	24	1448		0,0,0,0	\N	\N	t	2017-02-04 08:49:36.843885	2017-02-04 08:49:36.843885	0,112,207,0	undefined,undefined,undefined,undefined
 81	24	1449		0,0,0,0	\N	\N	t	2017-02-04 08:54:07.031026	2017-02-04 08:54:07.031026	0,113,0,0	undefined,undefined,undefined,undefined
+82	3	1454		0,0,0,0	\N	\N	t	2017-07-13 15:51:04.749566	2017-07-13 15:51:04.749566	21,93,201,0	undefined,undefined,undefined,undefined
+83	24	1456		0,0,0,0	\N	\N	t	2017-07-17 17:40:38.340391	2017-07-17 17:40:38.340391	21,93,201,0	undefined,undefined,undefined,undefined
+84	3	1452		0,4,0,0	\N	\N	t	2017-07-26 09:41:26.189137	2017-07-26 09:41:26.189137	0,104,0,0	undefined,undefined,undefined,undefined
+85	3	1451		0,4,0,0	\N	\N	t	2017-07-26 09:42:05.796137	2017-07-26 09:42:05.796137	0,96,0,0	undefined,undefined,undefined,undefined
+86	24	1459		0,0,0,0	\N	\N	t	2017-08-17 12:54:18.460423	2017-08-17 12:54:18.460423	21,93,201,0	undefined,undefined,undefined,undefined
+87	24	1458		0,0,0,0	\N	\N	t	2017-08-17 12:54:27.852164	2017-08-17 12:54:27.852164	21,93,201,0	undefined,undefined,undefined,undefined
+88	24	1457		0,0,0,0	\N	\N	t	2017-08-17 12:54:38.861956	2017-08-17 12:54:38.861956	21,93,201,0	undefined,undefined,undefined,undefined
+89	3	1465		0,0,0,0	\N	\N	t	2019-10-27 15:02:35.643918	2019-10-27 15:02:35.643918	0,1260,0,0	undefined,undefined,undefined,undefined
+90	3	1464		0,0,0,0	\N	\N	t	2019-10-27 15:03:23.597337	2019-10-27 15:03:23.597337	0,1260,0,0	undefined,undefined,undefined,undefined
+91	3	1460		0,0,0,0	\N	\N	t	2019-10-27 15:04:13.832115	2019-10-27 15:04:13.832115	0,1260,0,0	undefined,undefined,undefined,undefined
+92	3	1463		0,0,0,0	\N	\N	t	2019-10-27 15:04:46.633187	2019-10-27 15:04:46.633187	0,1260,0,0	undefined,undefined,undefined,undefined
+93	3	1462		0,0,0,0	\N	\N	t	2019-10-27 15:05:22.922589	2019-10-27 15:05:22.922589	0,1260,0,0	undefined,undefined,undefined,undefined
+94	3	1461		0,0,0,0	\N	\N	t	2019-10-27 15:05:51.907155	2019-10-27 15:05:51.907155	0,1260,0,0	undefined,undefined,undefined,undefined
 \.
 
 
 --
--- Name: question_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: question_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('question_histories_id_seq', 81, true);
+SELECT pg_catalog.setval('public.question_histories_id_seq', 94, true);
 
 
 --
--- Data for Name: question_quota; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: question_quota; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY question_quota (id, question_type, quota, created_at, updated_at) FROM stdin;
+COPY public.question_quota (id, question_type, quota, created_at, updated_at) FROM stdin;
 1	2	4	2016-11-28 18:20:56.078926	2016-11-28 18:20:56.078926
 2	1	1	2016-12-15 11:57:34.909491	2016-12-15 11:57:34.909491
 3	3	1	2016-12-15 11:57:54.844481	2016-12-15 11:57:54.844481
@@ -10693,17 +10918,17 @@ COPY question_quota (id, question_type, quota, created_at, updated_at) FROM stdi
 
 
 --
--- Name: question_quota_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: question_quota_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('question_quota_id_seq', 4, true);
+SELECT pg_catalog.setval('public.question_quota_id_seq', 4, true);
 
 
 --
--- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY questions (id, statement, deleted, test_id, topic_id, approval_status, created_at, updated_at, description, question_type, instruction, source, author, difficulty, workflow_state, comments, course_linking_id, varient, topic_ids, difficulty_ids, degree_ids, marks) FROM stdin;
+COPY public.questions (id, statement, deleted, test_id, topic_id, approval_status, created_at, updated_at, description, question_type, instruction, source, author, difficulty, workflow_state, comments, course_linking_id, varient, topic_ids, difficulty_ids, degree_ids, marks) FROM stdin;
 932	<p>A rectangular coil is placed between the poles of a magnet. A current passes through the coil, as&nbsp;shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/637_1425096609Fullscreen_capture_26-Feb-15_112216_AM.bmp.jpg?1425096609" alt="" width="397" height="146" /></p>\r\n<p>What happens to the coil?</p>	f	\N	3	0	2015-02-28 04:10:46.144383	2015-02-28 04:10:46.144383		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	pending_for_hod_approval	\N	3	1	\N	\N	\N	1
 118	<p>The table shows the results of two tests carried out on separate portions of a solution of salt X.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/123_1422505699Fullscreen_capture_29-Jan-15_71548_AM.bmp.jpg?1422505698" alt="" width="816" height="206" /></p>\r\n<p>What is X?</p>	f	\N	7	0	2015-01-29 04:29:00.659208	2015-01-29 04:29:00.659208		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 119	<p>Why is cryolite, <img src="http://s3.amazonaws.com/elslearning/files/original/124_1422505764Fullscreen_capture_29-Jan-15_71552_AM.bmp.jpg?1422505764" alt="" width="59" height="20" />&nbsp;used in the extraction of aluminium from aluminium oxide?</p>	f	\N	7	0	2015-01-29 04:30:27.230836	2015-01-29 04:30:27.230836		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -10795,7 +11020,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 191	<p>A substance consists of particles that are close together and moving past each other at random.<br />The average speed of the particles is gradually increasing.<br />What best describes the substance?</p>	f	\N	3	0	2015-02-07 05:20:57.280625	2015-02-07 05:20:57.280625		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 833	<p>According to the kinetic theory, matter is made up of very small particles in a constant state of&nbsp;motion.<br />Which row best describes the particle behaviour in the liquid state?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/566_1424609240Fullscreen_capture_22-Feb-15_104048_AM.bmp.jpg?1424609239" alt="" width="512" height="353" /></p>	f	\N	3	0	2015-02-22 12:48:23.398703	2015-02-22 12:48:23.398703		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 966	<p>A manufacturer needs to measure accurately the dimensions of a wooden floor tile.<br />The approximate dimensions of the tile are shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/652_1460395771Fullscreen_capture_19-Feb-16_90006_AM.bmp.jpg?1460395771" alt="" width="548" height="207" /></p>\r\n<p>Which instruments measure each of these dimensions accurately?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/653_1460395789Fullscreen_capture_19-Feb-16_90010_AM.bmp.jpg?1460395789" alt="" width="537" height="194" /></p>	f	\N	\N	0	2016-04-11 17:30:41.537327	2016-04-11 17:30:41.537327		1		UCLES 2008 - 5054/01/O/N/08	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
-1444	<p>Descriptive #1</p>\r\n	f	\N	\N	0	2016-11-28 18:11:50.362205	2016-11-28 18:11:50.362205		2			admin@els.com	\N	new	\N	3		\N	\N	\N	1
 967	<p>A car takes 1 hour to travel 100 km along a main road and then &frac12; hour to travel 20 km along a&nbsp;side road.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/654_1460395871Fullscreen_capture_19-Feb-16_90013_AM.bmp.jpg?1460395870" alt="" width="740" height="267" /></p>\r\n<p>What is the average speed of the car for the whole journey?</p>	f	\N	\N	0	2016-04-11 17:32:21.009036	2016-04-11 17:32:21.009036		1		UCLES 2008 - 5054/01/O/N/08	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 968	<p>How is the motion of a body affected by balanced and unbalanced forces acting on it?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/655_1460395961Fullscreen_capture_19-Feb-16_90016_AM.bmp.jpg?1460395961" alt="" width="437" height="185" /></p>	f	\N	\N	0	2016-04-11 17:33:07.001658	2016-04-11 17:33:07.001658		1		UCLES 2008 - 5054/01/O/N/08	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 969	<p>The diagram represents the Moon in its orbit around the Earth.<br />Which arrow represents the direction of the resultant force acting on the Moon at the instant&nbsp;shown?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/656_1460396008Fullscreen_capture_19-Feb-16_90019_AM.bmp.jpg?1460396007" alt="" width="602" height="483" /></p>	f	\N	\N	0	2016-04-11 17:33:47.456029	2016-04-11 17:33:47.456029		1		UCLES 2008 - 5054/01/O/N/08	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
@@ -10854,6 +11078,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 39	<p>Two types of emission from a radioactive source are separated by passing them through a<br />magnetic field.<br />The deflections are shown in the diagram.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/73_1422411914Fullscreen_capture_18-Jan-15_84939_AM.bmp.jpg?1422411912" alt="" width="785" height="237" /></p>\r\n<p>What are the emissions P and Q?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/74_1422411928Fullscreen_capture_18-Jan-15_84942_AM.bmp.jpg?1422411928" alt="" width="490" height="251" /></p>	f	\N	3	0	2015-01-18 05:10:23.945959	2015-01-28 02:25:35.623426		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 839	<p>A ray of light strikes a plane mirror and is reflected.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/570_1424667777Fullscreen_capture_22-Feb-15_104100_AM.bmp.jpg?1424667777" alt="" width="386" height="186" /></p>\r\n<p>Which pair of angles must be equal in value?</p>	f	\N	3	0	2015-02-23 05:03:28.539263	2015-02-23 05:03:28.539263		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 922	<p>A man is short-sighted.</p>\r\n<p>Which ray diagram shows what happens in his eye when he looks at a distant object?</p>	f	\N	3	0	2015-02-28 03:47:02.810381	2015-02-28 03:47:02.810381		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+853	<p>The electromotive force (e.m.f.) induced in a conductor moving at right-angles to a magnetic field&nbsp;does not depend upon</p>	f	\N	3	0	2015-02-23 05:15:09.430979	2015-02-23 05:15:09.430979		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 882	<p>In a short-sighted eye, light from distant objects is not focused on the retina.</p>\r\n<p>Where is this light focused and what type of lens is needed to correct the problem?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/600_1424928227Fullscreen_capture_25-Feb-15_92720_AM.bmp.jpg?1424928226" alt="" width="525" height="217" /></p>	f	\N	3	0	2015-02-26 05:24:09.611477	2015-02-26 05:24:09.611477		1		UCLES 2012 - 5054/11/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 834	<p>A balloon filled with air is gently heated.<br />What happens to the mass and the density of the air inside the balloon?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/567_1424667416Fullscreen_capture_22-Feb-15_104050_AM.bmp.jpg?1424667416" alt="" width="485" height="220" /></p>	f	\N	3	0	2015-02-23 04:57:26.374669	2015-02-23 04:57:26.374669		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 316	<p>Which diagram correctly represents water waves travelling from deep water to shallow water?</p>	f	\N	3	0	2015-02-10 05:09:47.361707	2015-02-10 05:09:47.361707		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -10872,6 +11097,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 17	<p>A substance consists of particles that are close together and moving past each other at<br />random. The average speed of the particles is gradually increasing.<br />What best describes the substance?</p>	f	\N	3	0	2015-01-18 04:38:41.108103	2015-01-18 05:18:47.915404		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 937	<p>What is the safest way to dispose of a large quantity of highly radioactive waste?</p>	f	\N	3	0	2015-02-28 04:16:22.419344	2015-05-15 00:41:28.312637		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	rejected	\N	3	1	\N	\N	\N	1
 319	<p>When white light is dispersed by a prism, compared with blue light, the red light is</p>	f	\N	3	0	2015-02-10 05:11:54.890794	2015-02-10 05:11:54.890794		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+74	<p>In which diagram is the path of the light ray not correct?</p>	f	\N	3	0	2015-01-28 05:15:25.381071	2015-01-28 05:15:25.381071		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 567	<p>A student tests the circuit of a press-button telephone with a lamp and a battery.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/419_1424151178Fullscreen_capture_17-Feb-15_72806_AM.bmp.jpg?1424151177" alt="" width="505" height="401" /></p>\r\n<p>Which single switch can be pressed to make the lamp light?</p>	f	\N	3	0	2015-02-17 05:33:34.467281	2015-02-17 05:33:34.467281		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 563	<p>Two metal spheres P and Q are mounted on insulating stands and are touching each other. They&nbsp;are uncharged.<br />A positively-charged metal sphere on an insulating handle is brought close to P but does not&nbsp;touch it. This induces charges on P and Q.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/414_1424150964Fullscreen_capture_17-Feb-15_72751_AM.bmp.jpg?1424150963" alt="" width="464" height="284" /></p>\r\n<p>The positively-charged metal sphere is held in this position and sphere Q is moved to the right,&nbsp;away from sphere P.<br />What are the signs of the induced charges on P and Q and how do the sizes of these charges&nbsp;compare?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/415_1424150984Fullscreen_capture_17-Feb-15_72754_AM.bmp.jpg?1424150983" alt="" width="556" height="248" /></p>	f	\N	3	0	2015-02-17 05:30:03.147548	2015-02-17 05:30:03.147548		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 66	<p>Which factors increase the rate of evaporation of a liquid?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/82_1422421414Fullscreen_capture_28-Jan-15_73151_AM.bmp.jpg?1422421412" alt="" width="600" height="264" /></p>	f	\N	3	0	2015-01-28 05:04:03.228486	2015-01-28 05:04:03.228486		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	reviewed_by_proofreader	\N	3	1	\N	\N	\N	1
@@ -10903,6 +11129,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 914	<p>Four wet towels are hung out to dry as shown.</p>\r\n<p>Which towel dries most quickly?</p>	f	\N	3	0	2015-02-28 03:36:16.906924	2015-02-28 03:36:16.906924		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 288	<p>The diagram shows the components of a lighter for a gas cooker.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/253_1423535195Fullscreen_capture_09-Feb-15_102316_AM.bmp.jpg?1423535195" alt="" width="757" height="206" /></p>\r\n<p>Which circuit diagram is correct for this lighter?</p>	f	\N	3	0	2015-02-10 02:27:31.959961	2015-02-10 02:27:31.959961		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 31	<p>In order to turn off both lamps, which is the safest switch position?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/67_1422411527Fullscreen_capture_18-Jan-15_84906_AM.bmp.jpg?1422411527" alt="" width="497" height="294" /></p>	f	\N	3	0	2015-01-18 05:00:32.89474	2015-01-28 02:18:55.30642		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1070	<p>The diagram shows energy transfer through a machine.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/725_1460657040Fullscreen_capture_14-Apr-16_41856_PM.bmp.jpg?1460657040" alt="" width="498" height="104" /></p>\r\n<p>What is the efficiency of the machine?</p>	f	\N	\N	0	2016-04-14 18:04:31.314993	2016-04-14 18:04:31.314993		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 76	<p>The graph shows, at one instant, the pressure variation along a sound wave.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/88_1422422229Fullscreen_capture_28-Jan-15_85339_AM.bmp.jpg?1422422228" alt="" width="673" height="307" /></p>\r\n<p>Which point on the diagram represents a rarefaction and what is the wavelength of the sound&nbsp;wave?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/89_1422422250Fullscreen_capture_28-Jan-15_85341_AM.bmp.jpg?1422422250" alt="" width="456" height="241" /></p>	f	\N	3	0	2015-01-28 05:17:58.03408	2015-01-28 05:17:58.03408		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 52	<p>A simple a.c. generator produces an alternating e.m.f. as shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/70_1422411674Fullscreen_capture_18-Jan-15_84917_AM.bmp.jpg?1422411673" alt="" width="721" height="144" /></p>\r\n<p>The speed of the generator is doubled.<br />Which graph best represents the new output?</p>	f	\N	3	0	2015-01-28 02:22:26.50777	2015-01-28 02:22:26.50777		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 317	<p>Which characteristics describe an image formed by a plane mirror?</p>	f	\N	3	0	2015-02-10 05:10:28.291274	2015-02-10 05:10:28.291274		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -10919,6 +11146,8 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 557	<p>A student holds a sheet of paper with letters on it facing a plane mirror.<br />The letters on the paper are shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/411_1424150574Fullscreen_capture_17-Feb-15_72717_AM.bmp.jpg?1424150573" alt="" width="162" height="102" /></p>\r\n<p>What does the student see in the mirror?</p>	f	\N	3	0	2015-02-17 05:23:27.450145	2015-02-17 05:23:27.450145		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 32	<p>The diagram shows a beam of electrons entering a magnetic field.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/68_1422411569Fullscreen_capture_18-Jan-15_84910_AM.bmp.jpg?1422411568" alt="" width="531" height="246" /></p>\r\n<p>What is the effect of the magnetic field on the electrons?</p>	f	\N	3	0	2015-01-18 05:01:46.874047	2015-01-28 02:19:39.181574		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 264	<p>An extension-load graph for a wire is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/234_1423533727Fullscreen_capture_09-Feb-15_102144_AM.bmp.jpg?1423533725" alt="" width="670" height="443" /></p>\r\n<p>What is the load at the limit of proportionality for the wire?</p>	f	\N	3	0	2015-02-10 02:02:36.456375	2015-02-10 02:02:36.456375		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1071	<p>A man weighs 600 N. He runs up a staircase of total height 4.0 metres in 3.0 seconds.</p>\r\n<p>How much useful power is needed to do this?</p>	f	\N	\N	0	2016-04-14 18:05:07.181638	2016-04-14 18:05:07.181638		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
+1189	<p>Which chair is the <strong>least</strong> stable if the child moves?</p>	f	\N	\N	0	2016-04-16 02:16:23.6361	2016-04-16 02:16:23.6361		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 270	<p>An airtight container holds a fixed quantity of gas. Its pressure and volume are measured on four&nbsp;occasions when the temperature is 20 &deg;C.<br />The results are shown in the table.<br />Which set of readings is incorrect?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/239_1423534093Fullscreen_capture_09-Feb-15_102200_AM.bmp.jpg?1423534091" alt="" width="401" height="226" /></p>	f	\N	3	0	2015-02-10 02:08:25.857164	2015-02-10 02:08:25.857164		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 296	<p>In the treatment of brain cancer, a patient&rsquo;s head is enclosed in a helmet containing a number of&nbsp;radioactive sources. The radiation from each source is directed towards the cancer.<br />Which nuclide is the most suitable for these sources?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/258_1423535691Fullscreen_capture_09-Feb-15_102402_AM.bmp.jpg?1423535690" alt="" width="616" height="222" /></p>	f	\N	3	0	2015-02-10 02:35:03.50335	2015-02-10 02:35:03.50335		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 273	<p>At regular intervals along a railway line there is a gap between the rail sections.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/241_1423534250Fullscreen_capture_09-Feb-15_102206_AM.bmp.jpg?1423534249" alt="" width="525" height="309" /></p>\r\n<p>What is the reason for the gap between the rail sections?</p>	f	\N	3	0	2015-02-10 02:11:36.096559	2015-02-10 02:11:36.096559		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -10958,7 +11187,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 299	<p>Which statement about scalars and vectors is correct?</p>	f	\N	3	0	2015-02-10 04:51:03.849667	2015-02-10 04:51:03.849667		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 295	<p>Which travels in a straight line across a magnetic field?</p>	f	\N	3	0	2015-02-10 02:34:29.048226	2015-02-10 02:34:29.048226		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 308	<p>A water manometer is connected to a gas supply. One end of the manometer is open to the&nbsp;atmosphere.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/268_1423544402Fullscreen_capture_10-Feb-15_92734_AM.bmp.jpg?1423544402" alt="" width="364" height="320" /></p>\r\n<p>Which statement about the pressure of the gas supply is true?</p>	f	\N	3	0	2015-02-10 05:00:46.694705	2015-02-10 05:00:46.694705		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-853	<p>The electromotive force (e.m.f.) induced in a conductor moving at right-angles to a magnetic field&nbsp;does not depend upon</p>	f	\N	3	0	2015-02-23 05:15:09.430979	2015-02-23 05:15:09.430979		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1191	<p>Four beakers contain the same liquid.</p>\r\n<p>At which point is the pressure greatest?</p>	f	\N	\N	0	2016-04-16 02:17:46.892792	2016-04-16 02:17:46.892792		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 926	<p>The current / voltage graphs are for different electrical components.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/632_1425096170Fullscreen_capture_26-Feb-15_112159_AM.bmp.jpg?1425096170" alt="" width="526" height="149" /></p>\r\n<p>Which graph is for a resistor at constant temperature and which is for a filament lamp?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/633_1425096283Fullscreen_capture_26-Feb-15_112202_AM.bmp.jpg?1425096282" alt="" width="338" height="219" /></p>	f	\N	3	0	2015-02-28 04:04:55.960751	2015-02-28 04:04:55.960751		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 892	<p>A simple d.c. motor consists of a coil that rotates between the poles of a permanent magnet. The&nbsp;turning effect is increased by winding the coil on a metal cylinder.&nbsp;</p>\r\n<p>Which metals are used to make the magnet and the cylinder?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/608_1424931117Fullscreen_capture_25-Feb-15_92753_AM.bmp.jpg?1424931116" alt="" width="310" height="219" /></p>	f	\N	3	0	2015-02-26 06:12:07.59824	2015-02-26 06:12:07.59824		1		UCLES 2012 - 5054/11/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 331	<p>A simple a.c. generator produces a voltage that varies with time as shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/275_1423545837Fullscreen_capture_10-Feb-15_92843_AM.bmp.jpg?1423545837" alt="" width="618" height="211" /></p>\r\n<p>Which graph shows how the voltage varies with time when the generator rotates at twice the&nbsp;original speed?</p>	f	\N	3	0	2015-02-10 05:24:46.704141	2015-02-10 05:24:46.704141		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -10981,6 +11210,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 318	<p>The diagram shows four rays of light from a lamp below the surface of some water.<br />What is the critical angle for light in water?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/269_1423545049Fullscreen_capture_10-Feb-15_92806_AM.bmp.jpg?1423545049" alt="" width="645" height="363" /></p>	f	\N	3	0	2015-02-10 05:11:06.848228	2015-02-10 05:11:06.848228		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 312	<p>What makes a liquid-in-glass thermometer sensitive to a small change of temperature?</p>	f	\N	3	0	2015-02-10 05:05:25.194972	2015-02-10 05:05:25.194972		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 309	<p>Which process in the Sun produces energy?</p>	f	\N	3	0	2015-02-10 05:03:12.601668	2015-02-10 05:03:12.601668		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+35	<p>A step-down transformer changes 240 V a.c. to 12 V a.c. There are 600 turns on the primary coil.<br />How many turns are on the secondary coil?</p>	f	\N	3	0	2015-01-18 05:05:41.80494	2015-01-18 05:05:41.80494		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 235	<p>The diagram shows a water wave in a ripple tank.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/211_1423457236Fullscreen_capture_09-Feb-15_71356_AM.bmp.jpg?1423457235" alt="" width="599" height="255" /></p>\r\n<p>The wave has a speed of 12 cm / s at R.<br />The wave crosses a boundary PQ where the distance between crests changes from 3.0 cm to&nbsp;1.5 cm.<br />What is the speed of the wave at S?</p>	f	\N	3	0	2015-02-09 04:48:10.790127	2015-02-09 04:48:10.790127		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 55	<p>A car takes 1 hour to travel 100 km along a main road and then &frac12; hour to travel 20 km along a&nbsp;side road.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/77_1422420448Fullscreen_capture_28-Jan-15_73108_AM.bmp.jpg?1422420448" alt="" width="911" height="344" /></p>\r\n<p>What is the average speed of the car for the whole journey?</p>	f	\N	3	0	2015-01-28 04:48:19.617123	2015-01-28 04:48:19.617123		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 68	<p>In an experiment to find the specific heat capacity of a metal, it is found that 5200 J is needed to&nbsp;raise the temperature of a 2 kg block by 20 &deg;C.<br />What value for the specific heat capacity is given by these results?</p>	f	\N	3	0	2015-01-28 05:07:16.533061	2015-01-28 05:07:16.533061		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11014,6 +11244,8 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1026	<p>What is the correct route for blood flow in a human?</p>	f	\N	\N	0	2016-04-14 05:47:31.351652	2016-04-14 05:47:31.351652		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1027	<p>The diagram shows the liver and its blood supply.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/696_1460612887Fullscreen_capture_11152015_13329_AM.bmp.jpg?1460612887" alt="" width="472" height="296" /></p>\r\n<p>What is the name of blood vessel X and which substance increases in concentration between&nbsp;vessels W and X?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/697_1460612904Fullscreen_capture_11152015_13332_AM.bmp.jpg?1460612904" alt="" width="426" height="188" /></p>	f	\N	\N	0	2016-04-14 05:48:39.139095	2016-04-14 05:48:39.139095		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	pending_for_hod_approval	\N	1	1	\N	\N	\N	1
 1028	<p>The diagram shows the investigation of blood flow in the veins of the lower arm.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/698_1460612941Fullscreen_capture_11152015_13335_AM.bmp.jpg?1460612941" alt="" width="410" height="246" /></p>\r\n<p>A cloth is tightly wrapped round the arm at point Z and the veins stand out clearly. One finger&nbsp;presses on the vein at W.</p>\r\n<p>When another finger strokes the vein, as shown in the diagram, the vein lies flat between points&nbsp;W and Y.&nbsp;</p>\r\n<p>Some possible explanations are listed.</p>\r\n<ol>\r\n<li>The bandage at Z prevents backflow of blood.</li>\r\n<li>The finger pressed at W prevents more blood entering the vein</li>\r\n<li>A valve at Y prevents backflow.</li>\r\n<li>A valve at Z prevents more blood from entering the vein.</li>\r\n</ol>\r\n<p>Which explanations of the vein lying flat are correct?</p>	t	\N	\N	0	2016-04-14 05:50:39.81272	2016-04-14 05:54:19.630077		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
+1047	<p>The diagram shows a section through a fruit containing a seed.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/710_1460614132Fullscreen_capture_11152015_13425_AM.bmp.jpg?1460614132" alt="" width="279" height="246" /></p>\r\n<p>What are the labelled parts?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/711_1460614143Fullscreen_capture_11152015_13428_AM.bmp.jpg?1460614143" alt="" width="618" height="183" /></p>	f	\N	\N	0	2016-04-14 06:09:17.720086	2016-04-14 06:09:17.720086		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
+1048	<p>Which statement about sexual reproduction is correct?</p>	f	\N	\N	0	2016-04-14 06:09:56.309167	2016-04-14 06:09:56.309167		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1029	<p>The diagram shows the investigation of blood flow in the veins of the lower arm.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/699_1460613296Fullscreen_capture_11152015_13335_AM.bmp.jpg?1460613295" alt="" width="410" height="246" /></p>\r\n<p>A cloth is tightly wrapped round the arm at point Z and the veins stand out clearly. One finger&nbsp;presses on the vein at W.</p>\r\n<p>When another finger strokes the vein, as shown in the diagram, the vein lies flat between points&nbsp;W and Y.</p>\r\n<p>Some possible explanations are listed.</p>\r\n<p>1. The bandage at Z prevents backflow of blood.<br />2. The finger pressed at W prevents more blood entering the vein<br />3. A valve at Y prevents backflow.<br />4. A valve at Z prevents more blood from entering the vein.</p>\r\n<p>Which explanations of the vein lying flat are correct?</p>	f	\N	\N	0	2016-04-14 05:55:50.161483	2016-04-14 05:55:50.161483		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1030	<p>After muscular exercise, which blood vessel carries the most carbon dioxide?</p>	f	\N	\N	0	2016-04-14 05:56:51.100173	2016-04-14 05:56:51.100173		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1031	<p>Which process, occurring in the human body, does not involve energy from respiration?</p>	f	\N	\N	0	2016-04-14 05:57:19.406678	2016-04-14 05:57:19.406678		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
@@ -11034,8 +11266,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1044	<p>The diagram shows the flow of substances within an ecosystem.&nbsp;</p>\r\n<p>The circles represent trophic levels.</p>\r\n<p>Which circle represents herbivores?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/708_1460614031Fullscreen_capture_11152015_13420_AM.bmp.jpg?1460614031" alt="" width="600" height="246" /></p>	f	\N	\N	0	2016-04-14 06:07:27.706204	2016-04-14 06:07:27.706204		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1045	<p>The single-celled organism that causes malaria is transmitted by mosquitoes.</p>\r\n<p>How is a mosquito best described?</p>	f	\N	\N	0	2016-04-14 06:08:03.863227	2016-04-14 06:08:03.863227		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1046	<p>Which shows a result of deforestation and the effect it has on the environment?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/709_1460614102Fullscreen_capture_11152015_13423_AM.bmp.jpg?1460614102" alt="" width="520" height="183" /></p>	f	\N	\N	0	2016-04-14 06:08:33.303303	2016-04-14 06:08:33.303303		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
-1047	<p>The diagram shows a section through a fruit containing a seed.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/710_1460614132Fullscreen_capture_11152015_13425_AM.bmp.jpg?1460614132" alt="" width="279" height="246" /></p>\r\n<p>What are the labelled parts?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/711_1460614143Fullscreen_capture_11152015_13428_AM.bmp.jpg?1460614143" alt="" width="618" height="183" /></p>	f	\N	\N	0	2016-04-14 06:09:17.720086	2016-04-14 06:09:17.720086		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
-1048	<p>Which statement about sexual reproduction is correct?</p>	f	\N	\N	0	2016-04-14 06:09:56.309167	2016-04-14 06:09:56.309167		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1049	<p>The diagram shows the life cycle of a species of plant.</p>\r\n<p>During which of the stages does reduction division occur?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/712_1460614227Fullscreen_capture_11152015_13430_AM.bmp.jpg?1460614227" alt="" width="380" height="206" /></p>	f	\N	\N	0	2016-04-14 06:10:35.40102	2016-04-14 06:10:35.40102		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1050	<p>The diagram shows the arrangement of blood vessels in the uterus wall and placenta of a&nbsp;pregnant woman.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/713_1460614285Fullscreen_capture_11152015_13433_AM.bmp.jpg?1460614285" alt="" width="583" height="426" /></p>\r\n<p>Which will increase in concentration in the blood as it flows from 1 to 2?</p>	f	\N	\N	0	2016-04-14 06:11:52.059064	2016-04-14 06:11:52.059064		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
 1051	<p>Which statement describes an example of artificial selection?</p>	f	\N	\N	0	2016-04-14 06:12:23.879611	2016-04-14 06:12:23.879611		1		UCLES 2004 - 5090/01/M/J/04	deo1@els.com	\N	new	\N	1	1	\N	\N	\N	1
@@ -11058,9 +11288,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1067	<p>A load L is suspended from two springs that are in parallel. The extension of each spring is x.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/721_1460656853Fullscreen_capture_14-Apr-16_41846_PM.bmp.jpg?1460656853" alt="" width="175" height="211" /></p>\r\n<p>The springs are then arranged to hang vertically, one below the other.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/722_1460656862Fullscreen_capture_14-Apr-16_41848_PM.bmp.jpg?1460656862" alt="" width="167" height="329" /></p>\r\n<p>In this new arrangement, what is the total extension of the two springs?</p>	f	\N	\N	0	2016-04-14 18:01:54.139894	2016-04-14 18:01:54.139894		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 1068	<p>A long tube full of mercury is inverted in a small dish of mercury.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/723_1460656933Fullscreen_capture_14-Apr-16_41851_PM.bmp.jpg?1460656933" alt="" width="131" height="313" /></p>\r\n<p>The mercury level in the tube falls, leaving a vacuum at the top.</p>\r\n<p>When the atmospheric pressure falls, which length decreases?</p>	f	\N	\N	0	2016-04-14 18:02:44.281863	2016-04-14 18:02:44.281863		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 1069	<p>Some gas is trapped in a large syringe by a piston. The atmospheric pressure is 100 kPa.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/724_1460656979Fullscreen_capture_14-Apr-16_41853_PM.bmp.jpg?1460656978" alt="" width="502" height="145" /></p>\r\n<p>The pressure gauge indicates that the gas pressure is 200 kPa above atmospheric pressure. The&nbsp;piston moves outwards and the volume of the trapped gas doubles. The temperature remains&nbsp;constant.</p>\r\n<p>What is the new gas pressure?</p>	f	\N	\N	0	2016-04-14 18:03:35.961028	2016-04-14 18:03:35.961028		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
-1070	<p>The diagram shows energy transfer through a machine.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/725_1460657040Fullscreen_capture_14-Apr-16_41856_PM.bmp.jpg?1460657040" alt="" width="498" height="104" /></p>\r\n<p>What is the efficiency of the machine?</p>	f	\N	\N	0	2016-04-14 18:04:31.314993	2016-04-14 18:04:31.314993		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
-1071	<p>A man weighs 600 N. He runs up a staircase of total height 4.0 metres in 3.0 seconds.</p>\r\n<p>How much useful power is needed to do this?</p>	f	\N	\N	0	2016-04-14 18:05:07.181638	2016-04-14 18:05:07.181638		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
-35	<p>A step-down transformer changes 240 V a.c. to 12 V a.c. There are 600 turns on the primary coil.<br />How many turns are on the secondary coil?</p>	f	\N	3	0	2015-01-18 05:05:41.80494	2015-01-18 05:05:41.80494		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1230	<p>A car is designed to be stable.</p>\r\n<p>To achieve good stability, where is the centre of mass of the car?</p>	f	\N	\N	0	2016-04-16 02:55:02.166074	2016-04-16 02:55:02.166074		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1072	<p>The diagrams show four cans in a cool room. They are painted as shown. One pair is filled with&nbsp;hot water and left to cool down. The other pair is filled with cold water and placed near&nbsp;infra-red heaters.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/726_1460657126Fullscreen_capture_14-Apr-16_41910_PM.bmp.jpg?1460657126" alt="" width="799" height="299" /></p>\r\n<p>The hot water in the black can cools more quickly than the hot water in the white can. The cold&nbsp;water in the black can heats up more quickly than the cold water in the white can.</p>\r\n<p>Which row shows the reasons for this?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/727_1460657142Fullscreen_capture_14-Apr-16_41913_PM.bmp.jpg?1460657142" alt="" width="406" height="220" /></p>	f	\N	\N	0	2016-04-14 18:05:57.452595	2016-04-14 18:05:57.452595		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 1073	<p>To calibrate a thermometer, without using another thermometer, fixed points are required.</p>\r\n<p>Which statement is correct?</p>	f	\N	\N	0	2016-04-14 18:06:32.033988	2016-04-14 18:06:32.033988		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
 1075	<p>A quantity of gas is trapped in a container by a piston exerting a force F.&nbsp;</p>\r\n<p>The temperature of the gas is raised while F remains unchanged.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/728_1460657275Fullscreen_capture_14-Apr-16_42027_PM.bmp.jpg?1460657275" alt="" width="357" height="95" /></p>\r\n<p>Which statement is correct?</p>	f	\N	\N	0	2016-04-14 18:08:26.61568	2016-04-14 18:08:26.61568		1		UCLES 2009 - 5054/01/O/N/09	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	1
@@ -11095,6 +11323,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1103	<p>An aircraft, flying at a constant height, is gaining speed.</p>\r\n<p>The four forces acting are</p>\r\n<p>L &nbsp; lift due to the wings<br />R &nbsp; air resistance<br />T &nbsp; the thrust due to the engines<br />W &nbsp; the weight</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/749_1460682930Fullscreen_capture_15-Apr-16_54456_AM.bmp.jpg?1460682929" alt="" width="520" height="258" /></p>\r\n<p>Which row is correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/750_1460682942Fullscreen_capture_15-Apr-16_54458_AM.bmp.jpg?1460682942" alt="" width="377" height="174" /></p>	f	\N	\N	0	2016-04-15 01:15:51.969861	2016-04-15 01:15:51.969861		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1104	<p>A car travels along a road. The driver stops the car by pushing his foot down on the brake pedal.&nbsp;What does not change if he pushes harder on the brake pedal?</p>	f	\N	\N	0	2016-04-15 01:16:33.091341	2016-04-15 01:16:33.091341		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1105	<p>A person of weight 600 N at the bottom of a mountain climbs to the top. The gravitational field&nbsp;strength changes from 10.00 N / kg at the bottom to 9.97 N / kg at the top. His mass is unchanged&nbsp;as he climbs.</p>\r\n<p>What are his mass and his weight at the top of the mountain?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/751_1460683025Fullscreen_capture_15-Apr-16_54501_AM.bmp.jpg?1460683025" alt="" width="394" height="198" /></p>	f	\N	\N	0	2016-04-15 01:17:19.627014	2016-04-15 01:17:19.627014		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+198	<p>A lens forms a blurred image of an object on a screen.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/185_1423286952Fullscreen_capture_07-Feb-15_92450_AM.bmp.jpg?1423286951" alt="" width="579" height="152" /></p>\r\n<p>How can the image be focussed on the screen?</p>	f	\N	3	0	2015-02-07 05:30:03.764763	2015-02-07 05:30:03.764763		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1106	<p>A box has an internal volume of 1000 cm^3. When a solid object is placed in the closed box, the&nbsp;volume of air in the box is 520 cm^3.&nbsp;</p>\r\n<p>The density of the object is 8.00 g/cm^3.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/752_1460683080Fullscreen_capture_15-Apr-16_54503_AM.bmp.jpg?1460683080" alt="" width="205" height="121" /></p>\r\n<p>What is the mass of the object?</p>	t	\N	\N	0	2016-04-15 01:18:37.708732	2016-04-15 01:19:13.593726		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1107	<p>A box has an internal volume of 1000 cm^3. When a solid object is placed in the closed box, the&nbsp;volume of air in the box is 520 cm^3.</p>\r\n<p>The density of the object is 8.00 g/cm^3.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/753_1460683192Fullscreen_capture_15-Apr-16_54503_AM.bmp.jpg?1460683192" alt="" width="205" height="121" /></p>\r\n<p>What is the mass of the object?</p>	f	\N	\N	0	2016-04-15 01:20:17.480291	2016-04-15 01:20:17.480291		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1108	<p>What affects the stability of an object?</p>	f	\N	\N	0	2016-04-15 01:20:47.660742	2016-04-15 01:20:47.660742		1		UCLES 2010 - 5054/11/O/N/10	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11130,8 +11359,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 283	<p>Waveforms are shown on a cathode-ray oscilloscope for a flute and a guitar playing the same&nbsp;note. The oscilloscope settings are the same for both waveforms.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/249_1423534918Fullscreen_capture_09-Feb-15_102253_AM.bmp.jpg?1423534917" alt="" width="739" height="251" /></p>\r\n<p>What is the difference between the two sounds?</p>	f	\N	3	0	2015-02-10 02:22:33.736771	2015-02-10 02:22:33.736771		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 207	<p>Diagram 1 shows a resistor connected to a battery, an ammeter and a voltmeter.<br />The ammeter reading is 0.5 A and the voltmeter reading is 3.0 V.<br />A second identical resistor is now connected in parallel with the first resistor, as shown in&nbsp;diagram 2.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/192_1423287704Fullscreen_capture_07-Feb-15_92617_AM.bmp.jpg?1423287704" alt="" width="668" height="332" /></p>\r\n<p>What are the ammeter and voltmeter readings in the circuit shown in diagram 2?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/193_1423287728Fullscreen_capture_07-Feb-15_92620_AM.bmp.jpg?1423287728" alt="" width="528" height="223" /></p>	f	\N	3	0	2015-02-07 05:42:37.38683	2015-02-07 05:42:37.38683		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 928	<p>In the circuit shown, the potential difference (p.d.) across the 4 &Omega; resistor is 8 V.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/635_1425096393Fullscreen_capture_26-Feb-15_112207_AM.bmp.jpg?1425096393" alt="" width="282" height="213" /></p>\r\n<p>What is the p.d. across the 2 &Omega; resistor?</p>	f	\N	3	0	2015-02-28 04:07:01.375855	2015-02-28 04:07:01.375855		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-198	<p>A lens forms a blurred image of an object on a screen.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/185_1423286952Fullscreen_capture_07-Feb-15_92450_AM.bmp.jpg?1423286951" alt="" width="579" height="152" /></p>\r\n<p>How can the image be focussed on the screen?</p>	f	\N	3	0	2015-02-07 05:30:03.764763	2015-02-07 05:30:03.764763		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-74	<p>In which diagram is the path of the light ray not correct?</p>	f	\N	3	0	2015-01-28 05:15:25.381071	2015-01-28 05:15:25.381071		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 548	<p>Five blocks have the same mass but different base areas. They all rest on a horizontal table.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/405_1424150081Fullscreen_capture_17-Feb-15_72613_AM.bmp.jpg?1424150079" alt="" width="708" height="207" /></p>\r\n<p>A graph is plotted to show the relationship between the pressure exerted on the table and the&nbsp;base area of the block.<br />Which graph shows this relationship?</p>	f	\N	3	0	2015-02-17 05:15:06.804519	2015-02-17 05:15:06.804519		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 231	<p>A thermocouple thermometer uses a voltmeter to measure the e.m.f. generated between two&nbsp;junctions. The junctions are at temperatures t1 and t2. To calibrate the thermometer, fixed points&nbsp;are needed.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/208_1423456992Fullscreen_capture_09-Feb-15_71340_AM.bmp.jpg?1423456992" alt="" width="336" height="209" /></p>\r\n<p>What are the values of t1 and t2 when the thermometer is calibrated at the steam point?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/209_1423457015Fullscreen_capture_09-Feb-15_71344_AM.bmp.jpg?1423457014" alt="" width="421" height="229" /></p>	f	\N	3	0	2015-02-09 04:43:54.669329	2015-02-09 04:43:54.669329		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 542	<p>Two men jump out of an aeroplane at the same time. One of the men opens his parachute and&nbsp;the other man remains in free-fall.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/399_1424149373Fullscreen_capture_17-Feb-15_72603_AM.bmp.jpg?1424149372" alt="" width="369" height="479" /></p>\r\n<p>Why is the man in free-fall moving faster than the parachutist?</p>	f	\N	3	0	2015-02-17 05:03:36.535494	2015-02-17 05:03:36.535494		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11149,6 +11376,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 29	<p>The diagram shows two resistors connected in series with a cell.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/65_1422411365Fullscreen_capture_18-Jan-15_84859_AM.bmp.jpg?1422411365" alt="" width="460" height="240" /></p>\r\n<p>Which statement defines the potential difference across XY?</p>	f	\N	3	0	2015-01-18 04:58:23.530371	2015-01-28 02:16:25.808247		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 2	<p>A student has been asked to determine, as accurately as possible, the volume of a piece of wire.<br />The wire is about 80 cm long and about 0.2 cm in diameter.<br />Which measuring instruments should the student use?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/42_1422255094Fullscreen_capture_18-Jan-15_84640_AM.bmp.jpg?1422255093" alt="" width="482" height="241" /></p>	f	\N	3	0	2015-01-18 04:13:22.694438	2015-01-26 06:51:43.151149		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	reviewed_by_proofreader	\N	3	1	\N	\N	\N	1
 267	<p>A workman rolls a barrel of weight 2000 N up a plank of length 2.00 m and on to a lorry. The back&nbsp;of the lorry is 0.80 m above the horizontal surface of the road.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/237_1423533911Fullscreen_capture_09-Feb-15_102154_AM.bmp.jpg?1423533910" alt="" width="728" height="231" /></p>\r\n<p>What is the work done on the barrel against gravity?</p>	f	\N	3	0	2015-02-10 02:05:50.179904	2015-02-10 02:05:50.179904		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1231	<p>A force is applied to a body.</p>\r\n<p>Which property of the body cannot be changed by the force?</p>	f	\N	\N	0	2016-04-16 02:55:46.643754	2016-04-16 02:55:46.643754		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 256	<p>A nuclide has the notation&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/228_1423458843Fullscreen_capture_09-Feb-15_71644_AM.bmp.jpg?1423458843" alt="" width="32" height="20" /></p>\r\n<p>Which line in the table describes a different isotope of this nuclide?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/229_1423458874Fullscreen_capture_09-Feb-15_71648_AM.bmp.jpg?1423458873" alt="" width="470" height="232" /></p>	f	\N	3	0	2015-02-09 05:14:49.14966	2015-02-09 05:14:49.14966		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 72	<p>The diagram shows part of a spring that is shaken from side to side to produce a wave.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/86_1422421924Fullscreen_capture_28-Jan-15_85323_AM.bmp.jpg?1422421924" alt="" width="819" height="184" /></p>\r\n<p>The distance between successive peaks is 0.60 m and the frequency is 2.5 Hz.<br />How long does it take for a wave to travel 3.0 m along the spring?</p>	f	\N	3	0	2015-01-28 05:12:51.086681	2015-01-28 05:12:51.086681		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 41	<p>Ra decays with a half-life of 1600 s.<br />Rn decays with a half-life of 52 s.<br />Po decays with a half-life of 9.1 s.<br />Pb decays with a half-life of 10.6 h.<br />The changing count rate for one of these radioactive nuclides is shown in the graph.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/76_1422412036Fullscreen_capture_18-Jan-15_84951_AM.bmp.jpg?1422412035" alt="" width="923" height="843" /></p>\r\n<p>From the half-life shown by the graph, which was the decaying radioactive nuclide?</p>	f	\N	3	0	2015-01-18 05:12:25.891893	2015-01-28 02:27:29.022356		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11184,6 +11412,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1151	<p>The diagram shows a girl lifting a box of weight 50 N from a low shelf to a high shelf.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/789_1460770491Fullscreen_capture_15-Apr-16_70843_AM.bmp.jpg?1460770491" alt="" width="372" height="244" /></p>\r\n<p>How much work is done on the box?</p>	f	\N	\N	0	2016-04-16 01:35:22.421383	2016-04-16 01:35:22.421383		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1152	<p>The diagram shows the energy transfer through a machine.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/790_1460770545Fullscreen_capture_15-Apr-16_70846_AM.bmp.jpg?1460770545" alt="" width="547" height="95" /></p>\r\n<p>The machine is 50% efficient.</p>\r\n<p>Which equation is correct?</p>	f	\N	\N	0	2016-04-16 01:36:24.267769	2016-04-16 01:36:24.267769		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1153	<p>A glass beaker contains water. When the centre of the base of the beaker is heated, a convection&nbsp;current is set up.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/791_1460770605Fullscreen_capture_15-Apr-16_70849_AM.bmp.jpg?1460770605" alt="" width="428" height="267" /></p>\r\n<p>Which statement explains this?</p>	f	\N	\N	0	2016-04-16 01:37:20.459955	2016-04-16 01:37:20.459955		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+547	<p>Which part of the graph shows the limit of proportionality for an elastic solid?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/404_1424150025Fullscreen_capture_17-Feb-15_100637_AM.bmp.jpg?1424150024" alt="" width="418" height="346" /></p>	f	\N	3	0	2015-02-17 05:14:08.938177	2015-02-17 05:14:08.938177		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1154	<p>Two identical metal plates are painted, one matt (dull) white and the other matt black. These are&nbsp;placed at equal distances from a radiant heater as shown. The heater is turned on for five&nbsp;minutes.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/792_1460770661Fullscreen_capture_15-Apr-16_70851_AM.bmp.jpg?1460770661" alt="" width="338" height="171" /></p>\r\n<p>Which metal plate absorbs more energy and which plate emits more energy in this time?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/793_1460770683Fullscreen_capture_15-Apr-16_70854_AM.bmp.jpg?1460770683" alt="" width="365" height="180" /></p>	f	\N	\N	0	2016-04-16 01:38:17.611309	2016-04-16 01:38:17.611309		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1155	<p>Using an electric kettle, 200 g of water at 100 &deg;C is converted into steam at 100 &deg;C in 300 seconds.</p>\r\n<p>The specific latent heat of steam is 2250 J / g.</p>\r\n<p>What is the average electrical power used?</p>	f	\N	\N	0	2016-04-16 01:39:12.304731	2016-04-16 01:39:12.304731		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1156	<p>When a gas in a container of fixed volume is heated, the pressure of the gas increases.</p>\r\n<p>Which statement explains this?</p>	f	\N	\N	0	2016-04-16 01:39:55.067127	2016-04-16 01:39:55.067127		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11202,6 +11431,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1168	<p>A positively-charged rod is held close to, but not touching, an isolated metal sphere.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/803_1460771473Fullscreen_capture_15-Apr-16_70943_AM.bmp.jpg?1460771473" alt="" width="147" height="170" /></p>\r\n<p>Which diagram shows the charges that are induced on the sphere?</p>	f	\N	\N	0	2016-04-16 01:51:56.203205	2016-04-16 01:51:56.203205		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1169	<p>A lightning flash carries 40 C of charge and lasts for 5.0 ms.</p>\r\n<p>What is the average current in the flash?</p>	f	\N	\N	0	2016-04-16 01:52:31.429118	2016-04-16 01:52:31.429118		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1170	<p>Which of the following is equivalent to 1 V?</p>	f	\N	\N	0	2016-04-16 01:53:07.409563	2016-04-16 01:53:07.409563		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+1190	<p>The graph shows extension-load curves for four fibres.</p>\r\n<p>Which fibre is the hardest to stretch over the range of loads shown?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/817_1460773003Fullscreen_capture_15-Apr-16_25357_PM.bmp.jpg?1460773003" alt="" width="411" height="314" /></p>	f	\N	\N	0	2016-04-16 02:16:58.475207	2016-04-16 02:16:58.475207		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1171	<p>The electrical resistance of a metal wire varies with temperature as shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/804_1460771608Fullscreen_capture_15-Apr-16_70956_AM.bmp.jpg?1460771607" alt="" width="262" height="244" /></p>\r\n<p>The resistance of the wire at 0 &deg;C is 1.00 &Omega; and at 100 &deg;C is 1.40 &Omega;.</p>\r\n<p>What is the resistance of the wire at 200 &deg;C?</p>	f	\N	\N	0	2016-04-16 01:54:14.532217	2016-04-16 01:54:14.532217		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1172	<p>A cell is connected in series with an ammeter and a lamp. The reading on the ammeter is 1 A.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/805_1460771680Fullscreen_capture_15-Apr-16_70959_AM.bmp.jpg?1460771680" alt="" width="200" height="155" /></p>\r\n<p>In which circuit, using identical lamps, ammeters and cells, is the reading on the ammeter 2 A?</p>	f	\N	\N	0	2016-04-16 01:55:36.681831	2016-04-16 01:55:36.681831		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1173	<p>The diagram represents part of a household circuit containing an electric kettle.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/806_1460771839Fullscreen_capture_15-Apr-16_71014_AM.bmp.jpg?1460771839" alt="" width="414" height="186" /></p>\r\n<p>Which row correctly identifies the wires W, X and Y?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/807_1460771860Fullscreen_capture_15-Apr-16_71017_AM.bmp.jpg?1460771860" alt="" width="416" height="183" /></p>	f	\N	\N	0	2016-04-16 01:58:12.923911	2016-04-16 01:58:12.923911		1		UCLES 2013 - 5054/11/M/J/13	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11222,9 +11452,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1186	<p>Balanced forces are acting on a moving body.</p>\r\n<p>What happens to the direction of movement and to the speed of the body?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/814_1460772619Fullscreen_capture_15-Apr-16_23829_PM.bmp.jpg?1460772619" alt="" width="527" height="203" /></p>	f	\N	\N	0	2016-04-16 02:10:34.710637	2016-04-16 02:10:34.710637		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1187	<p>A particle P is moving in a horizontal circle about O. P moves at constant speed.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/815_1460772652Fullscreen_capture_15-Apr-16_23832_PM.bmp.jpg?1460772652" alt="" width="349" height="255" /></p>\r\n<p>Which statement is true?</p>	f	\N	\N	0	2016-04-16 02:11:32.376385	2016-04-16 02:11:32.376385		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1188	<p>A measuring cylinder contains 20 cm^3 of water. A stone is placed in the water and the water level&nbsp;rises to 38 cm^3.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/816_1460772905Fullscreen_capture_15-Apr-16_23954_PM.bmp.jpg?1460772905" alt="" width="296" height="230" /></p>\r\n<p>What is the volume of the stone?</p>	f	\N	\N	0	2016-04-16 02:15:43.812888	2016-04-16 02:15:43.812888		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
-1189	<p>Which chair is the <strong>least</strong> stable if the child moves?</p>	f	\N	\N	0	2016-04-16 02:16:23.6361	2016-04-16 02:16:23.6361		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
-1190	<p>The graph shows extension-load curves for four fibres.</p>\r\n<p>Which fibre is the hardest to stretch over the range of loads shown?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/817_1460773003Fullscreen_capture_15-Apr-16_25357_PM.bmp.jpg?1460773003" alt="" width="411" height="314" /></p>	f	\N	\N	0	2016-04-16 02:16:58.475207	2016-04-16 02:16:58.475207		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
-1191	<p>Four beakers contain the same liquid.</p>\r\n<p>At which point is the pressure greatest?</p>	f	\N	\N	0	2016-04-16 02:17:46.892792	2016-04-16 02:17:46.892792		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1192	<p>An airtight container holds a fixed mass of gas. Its pressure and volume are measured on four&nbsp;occasions when the temperature is 20 &deg;C.</p>\r\n<p>The results are shown in the table. Three sets of readings are correct.</p>\r\n<p>Which set of readings is <strong>not</strong> correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/818_1460773104Fullscreen_capture_15-Apr-16_25410_PM.bmp.jpg?1460773104" alt="" width="357" height="200" /></p>	f	\N	\N	0	2016-04-16 02:18:38.889713	2016-04-16 02:18:38.889713		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1193	<p>A swimmer dives into a very deep pool at high speed. He slows down as he moves towards the&nbsp;bottom of the pool.</p>\r\n<p>What is the overall energy transformation as the diver moves downwards through the water?</p>	f	\N	\N	0	2016-04-16 02:19:30.720684	2016-04-16 02:19:30.720684		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1194	<p>A lorry of mass 10 000 kg takes 5000 kg of sand to the top of a hill 50 m high, unloads the sand&nbsp;and then returns to the bottom of the hill.</p>\r\n<p>The gravitational field strength is 10 N / kg.</p>\r\n<p>What is the overall gain in potential energy?</p>	f	\N	\N	0	2016-04-16 02:20:15.067426	2016-04-16 02:20:15.067426		1		UCLES 2013 - 5054/12/M/J/13	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
@@ -11264,8 +11491,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1227	<p>A satellite is orbiting the Earth.</p>\r\n<p>What is the direction of the force on the satellite causing this circular motion?</p>	f	\N	\N	0	2016-04-16 02:52:42.344501	2016-04-16 02:52:42.344501		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1228	<p>Four objects are situated in places with different gravitational field strengths.</p>\r\n<p>Which object has the greatest weight?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/839_1460775183Fullscreen_capture_15-Apr-16_51652_PM.bmp.jpg?1460775183" alt="" width="543" height="216" /></p>	f	\N	\N	0	2016-04-16 02:53:17.15876	2016-04-16 02:53:17.15876		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1229	<p>A beam of length 40 cm is pivoted at one end.</p>\r\n<p>The weight of the beam is 4.0 N and acts at a point 20 cm from the pivot. A 2.0 N weight hangs&nbsp;10 cm from the pivot.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/840_1460775219Fullscreen_capture_15-Apr-16_51654_PM.bmp.jpg?1460775219" alt="" width="552" height="205" /></p>\r\n<p>An upward force <em>U</em> is needed to keep the beam horizontal.</p>\r\n<p>What is the size of <em>U</em>?</p>	f	\N	\N	0	2016-04-16 02:54:19.096902	2016-04-16 02:54:19.096902		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1230	<p>A car is designed to be stable.</p>\r\n<p>To achieve good stability, where is the centre of mass of the car?</p>	f	\N	\N	0	2016-04-16 02:55:02.166074	2016-04-16 02:55:02.166074		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1231	<p>A force is applied to a body.</p>\r\n<p>Which property of the body cannot be changed by the force?</p>	f	\N	\N	0	2016-04-16 02:55:46.643754	2016-04-16 02:55:46.643754		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1232	<p>The graph shows the extension of a piece of copper wire as the load on it is increased.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/841_1460775389Fullscreen_capture_15-Apr-16_51658_PM.bmp.jpg?1460775389" alt="" width="306" height="226" /></p>\r\n<p>What does the graph show?</p>	f	\N	\N	0	2016-04-16 02:56:56.891046	2016-04-16 02:56:56.891046		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 202	<p>The diagrams show an iron nail in four different situations.<br />In which diagram will the nail become an induced magnet?</p>	f	\N	3	0	2015-02-07 05:36:12.657489	2015-02-07 05:36:12.657489		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1233	<p>The diagram shows a manometer containing mercury that is sealed at one end.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/842_1460775431Fullscreen_capture_15-Apr-16_51701_PM.bmp.jpg?1460775431" alt="" width="228" height="238" /></p>\r\n<p>What happens to the distance <em>h</em> when the manometer is taken to the top of a mountain?</p>	f	\N	\N	0	2016-04-16 02:57:45.583897	2016-04-16 02:57:45.583897		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11286,6 +11511,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1248	<p>Which statement about the speed of sound is correct?</p>	f	\N	\N	0	2016-04-16 03:08:43.70821	2016-04-16 03:08:43.70821		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1249	<p>A piece of electrical equipment is sensitive to magnetic fields and is screened from them. To do&nbsp;this, it is enclosed in a box.</p>\r\n<p>Which material should be used to make the box?</p>	f	\N	\N	0	2016-04-16 03:09:41.217891	2016-04-16 03:09:41.217891		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1250	<p>A piece of wire has a resistance of 16 &Omega;.</p>\r\n<p>Another wire made from the same metal has four times the length and twice the cross-sectional&nbsp;area.</p>\r\n<p>What is the resistance of the wire?</p>	f	\N	\N	0	2016-04-16 03:10:16.927074	2016-04-16 03:10:16.927074		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+233	<p>Fillings in teeth should be made from a material which</p>	f	\N	3	0	2015-02-09 04:45:35.589823	2015-02-09 04:45:35.589823		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1251	<p>A battery of e.m.f. <em>E</em> is connected in a circuit containing three resistors.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/851_1460776242Fullscreen_capture_15-Apr-16_51743_PM.bmp.jpg?1460776242" alt="" width="542" height="330" /></p>\r\n<p>The readings of two ammeters and a voltmeter are shown.</p>\r\n<p>Which readings are shown on ammeter X and on voltmeter Y?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/852_1460776259Fullscreen_capture_15-Apr-16_51745_PM.bmp.jpg?1460776259" alt="" width="345" height="190" /></p>	f	\N	\N	0	2016-04-16 03:11:15.538446	2016-04-16 03:11:15.538446		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1252	<p>One kilowatt-hour of energy costs $0.24.</p>\r\n<p>How much does it cost to run a 2 kW heater for three hours?</p>	f	\N	\N	0	2016-04-16 03:12:14.087903	2016-04-16 03:12:14.087903		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1253	<p>A single electrical component is placed inside a box. Two leads from the component emerge from&nbsp;the box. These leads are connected in series to an open switch S, a battery and an ammeter.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/853_1460776354Fullscreen_capture_15-Apr-16_51749_PM.bmp.jpg?1460776354" alt="" width="421" height="151" /></p>\r\n<p>The switch S is closed and the ammeter registers a current. For a few minutes, the size of the&nbsp;current gradually increases.</p>\r\n<p>What is the component inside the box?</p>	f	\N	\N	0	2016-04-16 03:13:11.833482	2016-04-16 03:13:11.833482		1		UCLES 2014 - 5054/11/M/J/14	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11300,6 +11526,8 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1262	<p>What is the size of the resultant of the two forces shown in the diagram?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/864_1460832506Fullscreen_capture_15-Apr-16_54337_PM.bmp.jpg?1460832506" alt="" width="257" height="182" /></p>	f	\N	\N	0	2016-04-16 18:48:48.429014	2016-04-16 18:48:48.429014		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1263	<p>A student measures, as <strong>accurately</strong> as possible, the length and internal diameter of a straight&nbsp;glass tube.</p>\r\n<p>The length is approximately 25 cm and the internal diameter is approximately 2 cm.</p>\r\n<p>What is the best combination of instruments for the student to use?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/865_1460832555Fullscreen_capture_15-Apr-16_54350_PM.bmp.jpg?1460832555" alt="" width="375" height="191" /></p>	f	\N	\N	0	2016-04-16 18:49:28.950531	2016-04-16 18:49:28.950531		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1264	<p>An object falls from rest through the air. Its velocity increases until it reaches terminal velocity.</p>\r\n<p>Which quantity <strong>increases</strong> until its terminal velocity is reached?</p>	f	\N	\N	0	2016-04-16 18:50:03.238013	2016-04-16 18:50:03.238013		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
+904	<p>The diagram shows a motorcyclist leaning over in order to move around a corner.</p>\r\n<p>Which force causes him to move around the corner?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/617_1425093743Fullscreen_capture_26-Feb-15_111821_AM.bmp.jpg?1425093742" alt="" width="409" height="306" /></p>	f	\N	3	0	2015-02-28 03:22:36.809968	2015-02-28 03:22:36.809968		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+562	<p>Which properties make materials suitable for use as a core in an electromagnet?</p>	f	\N	3	0	2015-02-17 05:28:55.656248	2015-02-17 05:28:55.656248		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1265	<p>The diagram shows a block of stone on a rough horizontal surface.</p>\r\n<p>Force <em>P</em> acts on the block as shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/866_1460832623Fullscreen_capture_15-Apr-16_54353_PM.bmp.jpg?1460832623" alt="" width="334" height="71" /></p>\r\n<p>The block is at rest. A frictional force <em>F</em> acts on the block.</p>\r\n<p>Which row shows the direction and size of <em>F</em>?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/867_1460832649Fullscreen_capture_15-Apr-16_54356_PM.bmp.jpg?1460832649" alt="" width="389" height="190" /></p>	f	\N	\N	0	2016-04-16 18:51:01.958405	2016-04-16 18:51:01.958405		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1266	<p>The distance travelled by a car is increasing uniformly as it is driven along a straight road up a&nbsp;hill.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/868_1460832678Fullscreen_capture_15-Apr-16_54358_PM.bmp.jpg?1460832678" alt="" width="481" height="244" /></p>\r\n<p>Which quantity for the car is constant but not zero?</p>	f	\N	\N	0	2016-04-16 18:52:01.513707	2016-04-16 18:52:01.513707		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 1267	<p>Four rocks on different planets have masses and weights as shown.</p>\r\n<p>Which planet has the greatest gravitational field strength?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/869_1460832742Fullscreen_capture_15-Apr-16_54408_PM.bmp.jpg?1460832742" alt="" width="345" height="192" /></p>	f	\N	\N	0	2016-04-16 18:52:36.87217	2016-04-16 18:52:36.87217		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
@@ -11320,7 +11548,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 843	<p>Sound travels at different speeds in air, water and steel.<br />For these materials, which row is correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/572_1424667988Fullscreen_capture_22-Feb-15_104115_AM.bmp.jpg?1424667988" alt="" width="399" height="246" /></p>	f	\N	3	0	2015-02-23 05:06:43.576641	2015-02-23 05:06:43.576641		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 823	<p>Which vehicle has an acceleration of 5 m/s^2?</p>	f	\N	3	0	2015-02-22 12:35:59.594351	2015-02-22 12:35:59.594351		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 7	<p>Which is a statement of Newton&rsquo;s third law of motion?</p>	f	\N	3	0	2015-01-18 04:21:21.696777	2015-01-18 05:15:27.891853		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-904	<p>The diagram shows a motorcyclist leaning over in order to move around a corner.</p>\r\n<p>Which force causes him to move around the corner?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/617_1425093743Fullscreen_capture_26-Feb-15_111821_AM.bmp.jpg?1425093742" alt="" width="409" height="306" /></p>	f	\N	3	0	2015-02-28 03:22:36.809968	2015-02-28 03:22:36.809968		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 539	<p>The following statements are about motion.</p>\r\n<ol>\r\n<li>A plane flies due East for 600 km.</li>\r\n<li>A runner&rsquo;s average speed in a race around a track is 5 m / s.</li>\r\n<li>A snail crawls at 3 mm / s in a straight line towards a lettuce.</li>\r\n<li>A tourist travels 500 km on a journey.</li>\r\n</ol>\r\n<p>Which statements describe vector quantities?</p>	f	\N	3	0	2015-02-17 04:59:21.610731	2015-02-17 04:59:21.610731		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	reviewed_by_proofreader	\N	3	1	\N	\N	\N	1
 254	<p>Which statement is true for all three types of radioactive emission (alpha-particles, beta-particles&nbsp;and gamma-rays)?</p>	f	\N	3	0	2015-02-09 05:12:37.627576	2015-02-09 05:12:37.627576		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 1278	<p>A crane lifts a load of 6000 N through a vertical distance of 15 m in 30 s.</p>\r\n<p>What is the average useful power during this operation?</p>	f	\N	\N	0	2016-04-16 19:05:32.631935	2016-04-16 19:05:32.631935		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
@@ -11339,6 +11566,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 190	<p>Some of the more energetic molecules in a liquid leave the surface, leaving the rest of the liquid&nbsp;slightly cooler.<br />What is the name given to this process?</p>	f	\N	3	0	2015-02-07 05:19:44.292581	2015-02-07 05:19:44.292581		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 16	<p>The diagram shows the levels X and Y in a liquid manometer when the gas tap is opened.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/53_1422379127Fullscreen_capture_18-Jan-15_84742_AM.bmp.jpg?1422379127" alt="" width="675" height="358" /></p>\r\n<p>What is the pressure of the gas in the cylinder?</p>	f	\N	3	0	2015-01-18 04:37:10.428644	2015-01-27 17:18:56.126205		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 893	<p>A current is produced when a wire is moved between two magnets as shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/609_1424931150Fullscreen_capture_25-Feb-15_92757_AM.bmp.jpg?1424931149" alt="" width="453" height="345" /></p>\r\n<p>Which device uses this effect?</p>	f	\N	3	0	2015-02-26 06:12:56.263821	2015-02-26 06:12:56.263821		1		UCLES 2012 - 5054/11/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+229	<p>A liquid is heated.<br />Which statement is incorrect?</p>	f	\N	3	0	2015-02-09 04:41:53.366961	2015-02-09 04:41:53.366961		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 274	<p>Ice is taken from a freezer and left in a room. The ice melts and eventually the water reaches&nbsp;room temperature.<br />Which energy transfers take place?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/242_1423534330Fullscreen_capture_09-Feb-15_102210_AM.bmp.jpg?1423534329" alt="" width="802" height="219" /></p>	f	\N	3	0	2015-02-10 02:12:28.369571	2015-02-10 02:12:28.369571		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 54	<p>Which graph represents the motion of a body falling vertically that reaches a terminal velocity?</p>	f	\N	3	0	2015-01-28 04:46:48.010235	2015-01-28 04:46:48.010235		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 574	<p>A capacitor C charges when it is connected to a d.c. power supply.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/427_1424151641Fullscreen_capture_17-Feb-15_72841_AM.bmp.jpg?1424151640" alt="" width="696" height="260" /></p>\r\n<p>Which arrows show the direction of the conventional current when the capacitor is charging?</p>	f	\N	3	0	2015-02-17 05:41:28.205479	2015-02-17 05:41:28.205479		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11356,6 +11584,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 211	<p>Why is a transformer used to connect a generator in a power station to a long distance&nbsp;transmission line?</p>	f	\N	3	0	2015-02-07 05:48:35.049829	2015-02-07 05:48:35.049829		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 857	<p>A radioactive nuclide&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/584_1424669204Fullscreen_capture_22-Feb-15_104158_AM.bmp.jpg?1424669203" alt="" width="33" height="19" />&nbsp;decays into thorium by emitting an alpha-particle.<br />The thorium then decays into protactinium by emitting a beta-particle.<br />What is the symbol for protactinium?</p>	f	\N	3	0	2015-02-23 05:27:25.339805	2015-02-23 05:27:53.938044		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 294	<p>The diagram shows a thermistor connected in a potential divider circuit.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/257_1423535594Fullscreen_capture_09-Feb-15_102359_AM.bmp.jpg?1423535593" alt="" width="224" height="286" /></p>\r\n<p>The resistance of the thermistor decreases when its temperature rises. The thermistor is heated.<br />What happens to the potential difference across the thermistor as it is heated?</p>	f	\N	3	0	2015-02-10 02:33:45.473338	2015-02-10 02:33:45.473338		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+176	<p>Which graph shows the motion of a heavy, steel ball falling from a height of 2 m?</p>	f	\N	3	0	2015-02-07 05:01:32.306411	2015-02-07 05:01:32.306411		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 83	<p>An alternating current is passed through a wire stretched between the poles of a magnet.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/95_1422423117Fullscreen_capture_28-Jan-15_90255_AM.bmp.jpg?1422423117" alt="" width="622" height="340" /></p>\r\n<p>Which way will the wire move?</p>	f	\N	3	0	2015-01-28 05:33:49.713412	2015-01-28 05:33:49.713412		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 919	<p>A wave has a frequency of 2 Hz.</p>\r\n<p>How many waves are produced in one minute?</p>	f	\N	3	0	2015-02-28 03:43:35.346637	2015-02-28 03:43:35.346637		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 36	<p>Why are high voltages and low currents used to transmit electrical energy over long distances?</p>	f	\N	3	0	2015-01-18 05:06:41.362956	2015-01-18 05:06:41.362956		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11394,9 +11623,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 290	<p>The diagram shows a simple electric motor.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/254_1423535366Fullscreen_capture_09-Feb-15_102340_AM.bmp.jpg?1423535365" alt="" width="507" height="286" /></p>\r\n<p>The split-ring commutator reverses the current in the coil as the coil rotates.<br />The coil is rotated 360&deg; from the position shown.<br />How many times is the current in the coil reversed?</p>	f	\N	3	0	2015-02-10 02:29:47.598045	2015-02-10 02:29:47.598045		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 569	<p>The metal case of an electric heater is earthed. The plug to the heater contains a 5 A fuse. There&nbsp;is a current of 4 A when the heater works normally.<br />The cable to the heater becomes so worn that the live wire makes electrical contact with the&nbsp;case.<br />What happens?</p>	f	\N	3	0	2015-02-17 05:35:18.905958	2015-02-17 05:35:18.905958		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 923	<p>Which device uses ultra-violet radiation?</p>	f	\N	3	0	2015-02-28 03:47:42.454847	2015-02-28 03:47:42.454847		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-547	<p>Which part of the graph shows the limit of proportionality for an elastic solid?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/404_1424150025Fullscreen_capture_17-Feb-15_100637_AM.bmp.jpg?1424150024" alt="" width="418" height="346" /></p>	f	\N	3	0	2015-02-17 05:14:08.938177	2015-02-17 05:14:08.938177		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-233	<p>Fillings in teeth should be made from a material which</p>	f	\N	3	0	2015-02-09 04:45:35.589823	2015-02-09 04:45:35.589823		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-562	<p>Which properties make materials suitable for use as a core in an electromagnet?</p>	f	\N	3	0	2015-02-17 05:28:55.656248	2015-02-17 05:28:55.656248		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 206	<p>The diagram shows the current I / voltage V graph for a length of resistance wire.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/191_1423287614Fullscreen_capture_07-Feb-15_92613_AM.bmp.jpg?1423287613" alt="" width="513" height="342" /></p>\r\n<p>Where can Ohm&rsquo;s law be applied to the wire?</p>	f	\N	3	0	2015-02-07 05:41:11.971459	2015-02-07 05:41:11.971459		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 578	<p>Proton number is another name for atomic number. Nucleon number is another name for mass&nbsp;number.<br />What are isotopes?</p>	f	\N	3	0	2015-02-17 05:44:36.097395	2015-02-17 05:44:36.097395		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 237	<p>What happens to light as it passes from glass into air?</p>	f	\N	3	0	2015-02-09 04:50:32.69334	2015-02-09 04:50:32.69334		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11418,6 +11644,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 906	<p>The diagram shows four shapes, cut from the same piece of card.&nbsp;</p>\r\n<p>Which shape has its centre of mass nearest to the base line?</p>	f	\N	3	0	2015-02-28 03:24:46.324737	2015-02-28 03:24:46.324737		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 199	<p>Light rays are deviated by a prism.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/186_1423287028Fullscreen_capture_07-Feb-15_92458_AM.bmp.jpg?1423287027" alt="" width="460" height="213" /></p>\r\n<p>The deviation angle d is measured for light rays of different frequency, including blue light and red&nbsp;light.<br />Which graph is correct?</p>	f	\N	3	0	2015-02-07 05:32:06.684364	2015-02-07 05:32:06.684364		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 829	<p>Four identical measuring cylinders contain liquid.<br />Two contain water of density 1000 kg/m^3.<br />Two contain paraffin of density 800 kg/m^3.<br />Which cylinder has the least pressure exerted on its base by the liquid it contains?</p>	f	\N	3	0	2015-02-22 12:43:22.09345	2015-02-22 12:43:22.09345		1		UCLES 2011 - 5054/11/M/J/11	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
+1355	<p>When a gas is rapidly compressed to a smaller volume, its temperature increases.&nbsp;</p>\r\n<p>What happens to the gas molecules?</p>	f	\N	\N	0	2016-04-19 04:50:27.92897	2016-04-19 04:50:27.92897		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 303	<p>A particle P is moving in a horizontal circle about O. P moves at constant speed v.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/263_1423544091Fullscreen_capture_10-Feb-15_92644_AM.bmp.jpg?1423544090" alt="" width="312" height="285" /></p>\r\n<p>Which statement is true?</p>	f	\N	3	0	2015-02-10 04:55:29.271326	2015-02-10 04:55:29.271326		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 293	<p>Which transformer arrangement produces an output voltage that is larger than the input voltage?</p>	f	\N	3	0	2015-02-10 02:32:54.320225	2015-02-10 02:32:54.320225		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 543	<p>The diagram shows an aeroplane turning in a horizontal circle at constant speed.<br />In which direction is there a resultant force?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/400_1424149475Fullscreen_capture_17-Feb-15_72606_AM.bmp.jpg?1424149474" alt="" width="463" height="367" /></p>	f	\N	3	0	2015-02-17 05:04:46.794175	2015-02-17 05:04:46.794175		1		UCLES 2010 - 5054/11/M/J/10	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11438,7 +11665,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 281	<p>A man is short-sighted.<br />Which ray diagram shows what happens when he looks at a distant object?</p>	f	\N	3	0	2015-02-10 02:20:30.208349	2015-02-10 02:20:30.208349		1		UCLES 2008 - 5054/01/M/J/08	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 5	<p>Which relationship defines gravitational field strength?</p>	f	\N	3	0	2015-01-18 04:18:40.113085	2015-01-18 05:14:50.315643		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 301	<p>The graph shows the speed of a runner during a race.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/261_1423543950Fullscreen_capture_10-Feb-15_92623_AM.bmp.jpg?1423543950" alt="" width="683" height="325" /></p>\r\n<p>What is the distance travelled by the runner during the race?</p>	f	\N	3	0	2015-02-10 04:53:09.353962	2015-02-10 04:53:09.353962		1		UCLES 2009 - 5054/01/M/J/09	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-229	<p>A liquid is heated.<br />Which statement is incorrect?</p>	f	\N	3	0	2015-02-09 04:41:53.366961	2015-02-09 04:41:53.366961		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 245	<p>At which point in the circuit is the current the smallest?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/219_1423457895Fullscreen_capture_09-Feb-15_71507_AM.bmp.jpg?1423457895" alt="" width="457" height="312" /></p>	f	\N	3	0	2015-02-09 04:58:33.676667	2015-02-09 04:58:33.676667		1		UCLES 2007 - 5054/01/M/J/07	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 181	<p>The inertia of a body is its resistance to changes in motion.<br />Which property is a measure of the body&rsquo;s inertia?</p>	f	\N	3	0	2015-02-07 05:07:40.710654	2015-02-07 05:07:40.710654		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 43	<p>Forces of 3 N and 4 N are acting as shown in the diagram.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/47_1422333665Fullscreen_capture_18-Jan-15_84711_AM.bmp.jpg?1422333665" alt="" width="289" height="217" /></p>\r\n<p>Which diagram may be used to find the resultant R of these two forces?</p>	t	\N	3	0	2015-01-18 05:24:35.089065	2015-01-27 17:00:26.30049		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11458,7 +11684,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 3	<p>Which quantity X is calculated using this equation?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/39_1422254797Fullscreen_capture_18-Jan-15_84643_AM.bmp.jpg?1422254796" alt="" width="246" height="88" /></p>	f	\N	3	0	2015-01-18 04:15:40.583739	2015-01-26 06:46:48.010957		1		UCLES 2004 - 5054/01/M/J/04	admin@els.com	2	reviewed_by_proofreader	\N	3	1	\N	\N	\N	1
 201	<p>A boy strikes a rigid metal fence with a stick to create a sound along the fence. A girl listens with&nbsp;her ear against the fence. One second after the fence is struck, the girl hears a sound through the&nbsp;air.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/188_1423287225Fullscreen_capture_07-Feb-15_92532_AM.bmp.jpg?1423287224" alt="" width="925" height="278" /></p>\r\n<p>How long will it take for the sound to reach the girl through the fence?</p>	f	\N	3	0	2015-02-07 05:34:20.881527	2015-02-07 05:34:20.881527		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 61	<p>Which is the correct statement about force and velocity?</p>	f	\N	3	0	2015-01-28 04:56:32.361669	2015-01-28 04:56:32.361669		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
-176	<p>Which graph shows the motion of a heavy, steel ball falling from a height of 2 m?</p>	f	\N	3	0	2015-02-07 05:01:32.306411	2015-02-07 05:01:32.306411		1		UCLES 2006 - 5054/01/M/J/06	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 901	<p>A cyclist travels along a hilly road without using the pedals or brakes. Air resistance and friction&nbsp;are negligible. The speed / time graph of the cyclist is shown.</p>\r\n<p>At which point did he reach the bottom of the first hill?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/613_1425093608Fullscreen_capture_26-Feb-15_111810_AM.bmp.jpg?1425093608" alt="" width="624" height="274" /></p>	f	\N	3	0	2015-02-28 03:20:24.419534	2015-02-28 03:20:24.419534		1		UCLES 2012 - 5054/12/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 863	<p>A hard stone hits the ground and comes to rest almost immediately.<br />As the stone hits the ground, what is the direction and the size of the force acting on the ground?</p>	f	\N	3	0	2015-02-25 07:25:34.917467	2015-02-25 07:25:34.917467		1		UCLES 2012 - 5054/11/M/J/12	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
 87	<p>Electrical energy is transmitted at high alternating voltages.<br />What is not a valid reason for doing this?</p>	f	\N	3	0	2015-01-28 05:43:21.06199	2015-01-28 05:43:21.06199		1		UCLES 2005 - 5054/01/M/J/05	admin@els.com	2	\N	\N	3	1	\N	\N	\N	1
@@ -11481,6 +11706,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 96	<p>Methylamine, <img src="http://s3.amazonaws.com/elslearning/files/original/105_1422503822Fullscreen_capture_29-Jan-15_71343_AM.bmp.jpg?1422503822" alt="" width="82" height="17" />, and hydrogen chloride, <img src="http://s3.amazonaws.com/elslearning/files/original/106_1422503845Fullscreen_capture_29-Jan-15_71351_AM.bmp.jpg?1422503844" alt="" width="74" height="17" />&nbsp;are both gases which are&nbsp;soluble in water.<br />The gases react together to form a white solid, methylammonium chloride.<br />In an experiment to demonstrate rates of diffusion the following apparatus is set up.<br />Where will the white solid form?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/107_1422503890Fullscreen_capture_29-Jan-15_71354_AM.bmp.jpg?1422503890" alt="" width="975" height="248" /></p>	f	\N	7	0	2015-01-29 03:58:38.82201	2015-01-29 03:58:38.82201		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 944	<p>delete it question</p>	t	\N	\N	0	2016-01-15 18:59:21.34393	2016-04-01 10:12:38.102745	<p>delete it question</p>	2	delete it question		admin@els.com	2	new	\N	2	\N	\N	\N	\N	1
 943	<p>delete it question</p>	t	\N	\N	0	2016-01-15 18:58:16.004151	2016-04-01 10:12:50.776818	<p>delete it question</p>	1			admin@els.com	2	new	\N	2	\N	\N	\N	\N	1
+1439	<p>testing</p>\r\n	f	\N	\N	0	2016-11-21 06:49:54.631402	2016-11-23 04:26:53.977078	<p>mnark scehem</p>\r\n	2		fahad	deo1@els.com	\N	pending_for_hod_approval	what is error?	3		\N	\N	\N	1
 1282	<p>Thermal energy is transferred to a solid. First it melts and then it boils to produce a gas.</p>\r\n<p>Which statement about the temperature is correct?</p>	f	\N	\N	0	2016-04-16 19:09:55.876991	2016-04-16 19:09:55.876991		1		UCLES 2014 - 5054/12/M/J/14	deo1@els.com	\N	new	\N	3	12	\N	\N	\N	1
 98	<p>For which of the following can graphite be used?</p>	f	\N	7	0	2015-01-29 04:01:06.583499	2015-01-29 04:01:06.583499		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 397	<p>Which cation, on reaction with aqueous sodium hydroxide, forms a precipitate that dissolves in&nbsp;excess sodium hydroxide?</p>	f	\N	7	0	2015-02-11 05:46:06.175978	2015-02-11 05:46:06.175978		1		UCLES 2006 - 5070/01/M/J/06	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11528,6 +11754,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1306	<p>An engine pulls a truck at constant speed on a level track.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/889_1460899800Fullscreen_capture_15-Apr-16_62948_PM.bmp.jpg?1460899800" alt="" width="634" height="197" /></p>\r\n<p>The link between the truck and the engine breaks. The driving force on the engine remains&nbsp;constant.</p>\r\n<p>What effect does this have on the truck and on the engine?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/890_1460899816Fullscreen_capture_15-Apr-16_62955_PM.bmp.jpg?1460899816" alt="" width="463" height="191" /></p>	f	\N	\N	0	2016-04-17 13:30:26.013613	2016-04-17 13:30:26.013613		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1307	<p>The weight of a stone is found using a newton meter, and its mass is found using a pan balance.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/891_1460899842Fullscreen_capture_15-Apr-16_63018_PM.bmp.jpg?1460899842" alt="" width="554" height="256" /></p>\r\n<p>The experiment is carried out on the Earth and on the Moon.</p>\r\n<p>For each meter, is its reading the same or different on the Earth and on the Moon?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/892_1460899854Fullscreen_capture_15-Apr-16_63024_PM.bmp.jpg?1460899854" alt="" width="395" height="218" /></p>	f	\N	\N	0	2016-04-17 13:31:06.369016	2016-04-17 13:31:06.369016		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1308	<p>The extension of a spring is measured as weights are added. The graph shows the results.</p>\r\n<p>Which point is the spring&rsquo;s limit of proportionality?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/893_1460899886Fullscreen_capture_15-Apr-16_63026_PM.bmp.jpg?1460899885" alt="" width="365" height="254" /></p>	f	\N	\N	0	2016-04-17 13:31:36.227732	2016-04-17 13:31:36.227732		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+1359	<p>Less heat is needed to raise the temperature of 1 kg of copper by 1 &deg;C than is needed to raise the&nbsp;temperature of 1 kg of water by 1 &deg;C.</p>\r\n<p>Which statement explains this?</p>	f	\N	\N	0	2016-04-19 04:52:59.079459	2016-04-19 04:52:59.079459		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1309	<p>A metal cone with a circular base is placed on a flat surface.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/894_1460899912Fullscreen_capture_15-Apr-16_63029_PM.bmp.jpg?1460899912" alt="" width="294" height="153" /></p>\r\n<p>The stability of the cone depends on</p>	f	\N	\N	0	2016-04-17 13:32:17.854001	2016-04-17 13:32:17.854001		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1310	<p>The efficiency of an electrical generator is 65 %.</p>\r\n<p>The energy input to the generator is 12 kJ.</p>\r\n<p>What is the useful energy output?</p>	f	\N	\N	0	2016-04-17 13:32:48.159844	2016-04-17 13:32:48.159844		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1311	<p>Coal is burned as fuel to heat water in a boiler, producing steam. The steam drives a turbine,&nbsp;which is connected to an electric generator.</p>\r\n<p>In which order do the major energy transformations take place?</p>	f	\N	\N	0	2016-04-17 13:33:29.522284	2016-04-17 13:33:29.522284		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
@@ -11544,10 +11771,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1322	<p>A boy stands beside a girl in front of a large plane mirror. They are both the same distance from&nbsp;the mirror, as shown.</p>\r\n<p>Where does the boy see the girl&rsquo;s image?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/903_1460903926Fullscreen_capture_15-Apr-16_63112_PM.bmp.jpg?1460903926" alt="" width="295" height="249" /></p>	f	\N	\N	0	2016-04-17 14:39:00.46224	2016-04-17 14:39:00.46224		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1323	<p>A student uses a spring to demonstrate waves. He moves the spring with his hand.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/904_1460903961Fullscreen_capture_15-Apr-16_63115_PM.bmp.jpg?1460903961" alt="" width="467" height="89" /></p>\r\n<p>Which diagram demonstrates the type of wave produced by a source of sound?</p>	f	\N	\N	0	2016-04-17 14:40:11.000352	2016-04-17 14:40:11.000352		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
 1324	<p>The diagram shows the main sections of the electromagnetic spectrum in order of increasing&nbsp;frequency. Some of the sections are labelled.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/905_1460904038Fullscreen_capture_15-Apr-16_63128_PM.bmp.jpg?1460904038" alt="" width="546" height="133" /></p>\r\n<p>The section R has a frequency just below that of light.</p>\r\n<p>Which application uses the section R?</p>	f	\N	\N	0	2016-04-17 14:41:03.792622	2016-04-17 14:41:03.792622		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1325	<p>The diagram shows an alarm system.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/906_1460904083Fullscreen_capture_15-Apr-16_63132_PM.bmp.jpg?1460904082" alt="" width="508" height="394" /></p>\r\n<p>What happens when battery P is disconnected?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/907_1460904096Fullscreen_capture_15-Apr-16_63135_PM.bmp.jpg?1460904096" alt="" width="376" height="191" /></p>	f	\N	\N	0	2016-04-17 14:41:46.652206	2016-04-17 14:41:46.652206		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1326	<p>Waveforms are shown on a cathode-ray oscilloscope for a flute and for a guitar, each playing the&nbsp;same note. The oscilloscope settings are the same for both waveforms.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/908_1460904133Fullscreen_capture_15-Apr-16_63137_PM.bmp.jpg?1460904133" alt="" width="637" height="211" /></p>\r\n<p>What is the difference between the two sounds?</p>	f	\N	\N	0	2016-04-17 14:42:44.036464	2016-04-17 14:42:44.036464		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1327	<p>Two metal spheres X and Y are on insulating bases. Both spheres are negatively charged.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/909_1460904182Fullscreen_capture_15-Apr-16_63140_PM.bmp.jpg?1460904182" alt="" width="661" height="199" /></p>\r\n<p>Sphere X is moved towards sphere Y until they almost touch.</p>\r\n<p>Which diagram shows the final pattern of charges?</p>	f	\N	\N	0	2016-04-17 14:43:40.960407	2016-04-17 14:43:40.960407		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
-1328	<p>The resistance of a cylindrical wire P is 80 &Omega;. A second wire Q is made from the same material.</p>\r\n<p>The cross-sectional area of Q is four times that of P. The length of Q is twice the length of P.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/910_1460904247Fullscreen_capture_15-Apr-16_63152_PM.bmp.jpg?1460904247" alt="" width="365" height="200" /></p>\r\n<p>What is the resistance of Q?</p>	f	\N	\N	0	2016-04-17 14:44:36.950491	2016-04-17 14:44:36.950491		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	\N	3	11	\N	\N	\N	1
+1358	<p>What is the reason for the constriction in a clinical thermometer?</p>	f	\N	\N	0	2016-04-19 04:52:27.681595	2016-04-19 04:52:27.681595		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1340	<p>In a laboratory experiment, particles from a radioactive source are deviated by a magnetic field&nbsp;and reach a detector.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/921_1460905015Fullscreen_capture_15-Apr-16_63241_PM.bmp.jpg?1460905014" alt="" width="411" height="179" /></p>\r\n<p>Which particles are deviated and reach the detector?</p>	f	\N	\N	0	2016-04-17 14:57:19.880943	2016-04-17 14:57:19.880943		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1339	<p>The isotope barium-140 has a half-life of 13 days. A sample of this isotope is kept for 13 days.</p>\r\n<p>Which quantity halves during this time?</p>	f	\N	\N	0	2016-04-17 14:56:33.761327	2016-04-17 14:56:33.761327		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1338	<p>One isotope of carbon is&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/919_1460904913Fullscreen_capture_15-Apr-16_63235_PM.bmp.jpg?1460904913" alt="" width="31" height="20" /></p>\r\n<p>How many neutrons and protons does each atom of this isotope contain?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/920_1460904943Fullscreen_capture_15-Apr-16_63238_PM.bmp.jpg?1460904943" alt="" width="297" height="217" /></p>	f	\N	\N	0	2016-04-17 14:55:53.354592	2016-04-17 14:55:53.354592		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
@@ -11562,9 +11786,8 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1330	<p>The current in a filament lamp is 0.25 A when working normally. The lamp is connected to a plug&nbsp;and the mains a.c. supply.</p>\r\n<p>When the lamp is switched on, it does not light.</p>\r\n<p>What is a possible cause for this?</p>	f	\N	\N	0	2016-04-17 14:48:51.755684	2016-04-17 14:48:51.755684		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1356	<p>On a hot day, the drink in a bottle can be kept cool by standing the bottle in a bowl of water and&nbsp;placing a wet cloth over it.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/931_1461041446Fullscreen_capture_17-Apr-16_75316_PM.bmp.jpg?1461041446" alt="" width="373" height="226" /></p>\r\n<p>Why is the drink kept cool?</p>	f	\N	\N	0	2016-04-19 04:51:16.403165	2016-04-19 04:51:16.403165		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1350	<p>The diagram shows two cubes made from the same material. One cube has sides that are twice&nbsp;as long as the sides of the other cube.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/929_1461041211Fullscreen_capture_17-Apr-16_75306_PM.bmp.jpg?1461041211" alt="" width="327" height="195" /></p>\r\n<p>The weight of the small cube is <em>W</em>.</p>\r\n<p>What is the weight of the larger cube?</p>	f	\N	\N	0	2016-04-19 04:47:26.597588	2016-04-19 04:47:26.597588		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
-1359	<p>Less heat is needed to raise the temperature of 1 kg of copper by 1 &deg;C than is needed to raise the&nbsp;temperature of 1 kg of water by 1 &deg;C.</p>\r\n<p>Which statement explains this?</p>	f	\N	\N	0	2016-04-19 04:52:59.079459	2016-04-19 04:52:59.079459		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
-1358	<p>What is the reason for the constriction in a clinical thermometer?</p>	f	\N	\N	0	2016-04-19 04:52:27.681595	2016-04-19 04:52:27.681595		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
-1355	<p>When a gas is rapidly compressed to a smaller volume, its temperature increases.&nbsp;</p>\r\n<p>What happens to the gas molecules?</p>	f	\N	\N	0	2016-04-19 04:50:27.92897	2016-04-19 04:50:27.92897		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
+1327	<p>Two metal spheres X and Y are on insulating bases. Both spheres are negatively charged.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/909_1460904182Fullscreen_capture_15-Apr-16_63140_PM.bmp.jpg?1460904182" alt="" width="661" height="199" /></p>\r\n<p>Sphere X is moved towards sphere Y until they almost touch.</p>\r\n<p>Which diagram shows the final pattern of charges?</p>	f	\N	\N	0	2016-04-17 14:43:40.960407	2016-04-17 14:43:40.960407		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
+1326	<p>Waveforms are shown on a cathode-ray oscilloscope for a flute and for a guitar, each playing the&nbsp;same note. The oscilloscope settings are the same for both waveforms.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/908_1460904133Fullscreen_capture_15-Apr-16_63137_PM.bmp.jpg?1460904133" alt="" width="637" height="211" /></p>\r\n<p>What is the difference between the two sounds?</p>	f	\N	\N	0	2016-04-17 14:42:44.036464	2016-04-17 14:42:44.036464		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1354	<p>A builder lifts eight slabs from the ground on to the back of a lorry 1.5 m high.</p>\r\n<p>The total time taken is 48 s and each slab weighs 20 N.</p>\r\n<p>How much useful power does the builder produce?</p>	f	\N	\N	0	2016-04-19 04:49:56.866419	2016-04-19 04:49:56.866419		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1353	<p>Which is a non-renewable source of energy?</p>	f	\N	\N	0	2016-04-19 04:49:21.902893	2016-04-19 04:49:21.902893		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
 1352	<p>Four syringes contain air at atmospheric pressure.</p>\r\n<p>The air in all four syringes is slowly compressed. The results are given in the table.</p>\r\n<p>Which syringe shows the smallest pressure change?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/930_1461041313Fullscreen_capture_17-Apr-16_75312_PM.bmp.jpg?1461041313" alt="" width="419" height="199" /></p>	f	\N	\N	0	2016-04-19 04:48:46.185616	2016-04-19 04:48:46.185616		1		UCLES 2012 - 5054/11/O/N/12	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
@@ -11660,6 +11883,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 1432	<p>testing a Q on 3-10-2016</p>\r\n	t	\N	\N	0	2016-10-02 21:46:31.279134	2016-10-02 21:51:09.374413		1			deo1@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	0,0,0,0	1
 1433	<p>testing enable function</p>\r\n	t	\N	\N	0	2016-10-02 21:52:28.75302	2016-10-02 21:54:02.573328		1			deo1@els.com	\N	accepted	\N	3		21,93,206,0	undefined,undefined,undefined,undefined	0,0,0,0	1
 684	<p>An atom of which element gains three electrons when it forms an ion?</p>	f	\N	7	0	2015-02-19 04:12:51.870272	2015-02-19 04:12:51.870272		1		UCLES 2012 - 5070/11/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+707	<p>Which substance conducts an electric current but remains chemically unchanged?</p>	f	\N	7	0	2015-02-19 05:00:28.714636	2015-02-19 05:00:28.714636		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 686	<p>Which pair of metals are not oxidised when added to water?<br />1. calcium &nbsp; 2. copper &nbsp; 3. potassium &nbsp; 4. silver</p>	f	\N	7	0	2015-02-19 04:15:11.76241	2015-02-19 04:15:11.76241		1		UCLES 2012 - 5070/11/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 939	<p>this question is being used to test the workability of new functions</p>	t	\N	7	0	2015-05-11 07:26:28.179169	2016-04-01 10:12:15.643653		1		test sources	operator1@els.com	2	reviewed_by_proofreader	\N	2	\N	\N	\N	\N	1
 102	<p>Elements X and Y combine to form the gas&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/109_1422504358Fullscreen_capture_29-Jan-15_71419_AM.bmp.jpg?1422504358" alt="" width="20" height="13" /><br />What are X and Y?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/111_1422504447Fullscreen_capture_29-Jan-15_71417_AM.bmp.jpg?1422504447" alt="" width="348" height="241" /></p>	f	\N	7	0	2015-01-29 04:08:04.723052	2015-01-29 04:08:04.723052		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11680,7 +11904,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 115	<p>The results of three halogen displacement experiments are shown.<br />The table shows the results.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/121_1422505491Fullscreen_capture_29-Jan-15_71539_AM.bmp.jpg?1422505490" alt="" width="829" height="250" /></p>\r\n<p>What are halogens X, Y and Z?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/122_1422505506Fullscreen_capture_29-Jan-15_71544_AM.bmp.jpg?1422505505" alt="" width="410" height="242" /></p>	f	\N	7	0	2015-01-29 04:25:47.095474	2015-01-29 04:25:47.095474		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 116	<p>Which statement about the Periodic Table is correct?</p>	f	\N	7	0	2015-01-29 04:26:41.650061	2015-01-29 04:26:41.650061		1		CIE 2003 - 5070/01/M/J/03	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 710	<p>What is the concentration of a solution containing 1.0 g of sodium hydroxide in 250 cm^3 of&nbsp;solution?</p>	f	\N	7	0	2015-02-19 05:06:09.832222	2015-02-19 05:06:09.832222		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-1439	<p>testing</p>\r\n	f	\N	\N	0	2016-11-21 06:49:54.631402	2016-11-23 04:26:53.977078	<p>mnark scehem</p>\r\n	2		fahad	deo1@els.com	\N	pending_for_hod_approval	what is error?	3		\N	\N	\N	1
 156	<p>Dilute hydrochloric acid was reacted with magnesium ribbon and the volume of hydrogen gas&nbsp;evolved was measured for the first 80 s.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/162_1423280577Fullscreen_capture_06-Feb-15_103810_PM.bmp.jpg?1423280576" alt="" width="640" height="303" /></p>\r\n<p>What was the average rate of production of hydrogen?</p>	f	\N	7	0	2015-02-07 03:43:43.735723	2015-02-07 03:43:43.735723		1		UCLES 2004 - 5070/01/M/J/04	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 142	<p>An element X has two isotopes, <img src="http://s3.amazonaws.com/elslearning/files/original/142_1423278816Fullscreen_capture_06-Feb-15_103610_PM.bmp.jpg?1423278815" alt="" width="84" height="16" /></p>\r\n<p>How does <img src="http://s3.amazonaws.com/elslearning/files/original/143_1423278844Fullscreen_capture_06-Feb-15_103617_PM.bmp.jpg?1423278843" alt="" width="23" height="18" />&nbsp;differ from&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/144_1423278863Fullscreen_capture_06-Feb-15_103619_PM.bmp.jpg?1423278863" alt="" width="23" height="18" />?</p>	f	\N	7	0	2015-02-07 03:15:26.686767	2015-02-07 03:15:26.686767		1		UCLES 2004 - 5070/01/M/J/04	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 143	<p>The formulae of the ions of four elements are shown below.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/145_1423278971Fullscreen_capture_06-Feb-15_103623_PM.bmp.jpg?1423278970" alt="" width="268" height="34" /></p>\r\n<p>Which statement about these ions is correct?</p>\r\n<p>They all have:</p>	f	\N	7	0	2015-02-07 03:16:54.225614	2015-02-07 03:16:54.225614		1		UCLES 2004 - 5070/01/M/J/04	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11715,6 +11938,8 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 415	<p>In which pair of macromolecules are the linkages the same?</p>	f	\N	7	0	2015-02-11 06:05:09.957652	2015-02-11 06:05:09.957652		1		UCLES 2006 - 5070/01/M/J/06	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 417	<p>Which polymer would hydrolyse to amino acids?</p>	f	\N	7	0	2015-02-11 06:07:06.552004	2015-02-11 06:07:06.552004		1		UCLES 2006 - 5070/01/M/J/06	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 418	<p>Which property of a gas affects the rate at which it spreads throughout a laboratory?</p>	f	\N	7	0	2015-02-12 04:21:44.764521	2015-02-12 04:21:44.764521		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+352	<p>A colourless gas is passed into each of three different solutions. The results are shown in the&nbsp;table.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/293_1423620504Fullscreen_capture_10-Feb-15_103638_AM.bmp.jpg?1423620503" alt="" width="871" height="118" /></p>\r\n<p>What is the colourless gas?</p>	f	\N	7	0	2015-02-11 02:08:53.226351	2015-02-11 02:08:53.226351		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+452	<p>Which pair of statements about the combustion of a carbohydrate and its formation by&nbsp;photosynthesis is not correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/349_1423716715Fullscreen_capture_12-Feb-15_72717_AM.bmp.jpg?1423716714" alt="" width="616" height="251" /></p>	f	\N	7	0	2015-02-12 04:52:11.375326	2015-02-12 04:52:11.375326		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 139	<p>The relative molecular mass, <img src="http://s3.amazonaws.com/elslearning/files/original/133_1423247966Fullscreen_capture_06-Feb-15_103519_PM.bmp.jpg?1423247966" alt="" width="22" height="16" />&nbsp;of copper(II) sulphate, <img src="http://s3.amazonaws.com/elslearning/files/original/134_1423247980Fullscreen_capture_06-Feb-15_103522_PM.bmp.jpg?1423247979" alt="" width="50" height="18" />&nbsp;is 160.<br />The relative molecular mass, <img src="http://s3.amazonaws.com/elslearning/files/original/135_1423247992Fullscreen_capture_06-Feb-15_103531_PM.bmp.jpg?1423247991" alt="" width="22" height="21" />&nbsp;of water is 18.<br />What is the percentage by mass of water in copper(II) sulphate crystals,&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/136_1423248006Fullscreen_capture_06-Feb-15_103534_PM.bmp.jpg?1423248005" alt="" width="101" height="18" /></p>	t	\N	7	0	2015-02-06 18:40:56.509772	2015-02-09 13:33:08.629822		1		UCLES 2004 - 5070/01/M/J/04	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 344	<p>The diagrams show the structures of two forms of carbon.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/287_1423619961Fullscreen_capture_10-Feb-15_103551_AM.bmp.jpg?1423619960" alt="" width="603" height="243" /></p>\r\n<p>Which set of data is correct for these two structures?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/288_1423619972Fullscreen_capture_10-Feb-15_103555_AM.bmp.jpg?1423619971" alt="" width="800" height="219" /></p>	f	\N	7	0	2015-02-11 01:59:56.916092	2015-02-11 01:59:56.916092		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 527	<p>Which gas reacts with sulfuric acid to form a fertiliser?</p>	f	\N	7	0	2015-02-16 02:32:19.234763	2015-02-16 02:32:19.234763		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11732,7 +11957,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 349	<p>The reaction <img src="http://s3.amazonaws.com/elslearning/files/original/291_1423620285Fullscreen_capture_10-Feb-15_103607_AM.bmp.jpg?1423620284" alt="" width="169" height="16" />&nbsp;is exothermic because</p>	f	\N	7	0	2015-02-11 02:05:38.752713	2015-02-11 02:05:38.752713		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 350	<p>Which reaction profile shows the fastest exothermic reaction?</p>	f	\N	7	0	2015-02-11 02:06:36.502628	2015-02-11 02:06:36.502628		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 351	<p>In two separate experiments, a substance is decomposed and the gas evolved is collected.<br />The graph shows the total volume of gas collected against time for each experiment.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/292_1423620417Fullscreen_capture_10-Feb-15_103626_AM.bmp.jpg?1423620416" alt="" width="412" height="232" /></p>\r\n<p>Which graph shows how the speed of reaction varies with time in each experiment?</p>	f	\N	7	0	2015-02-11 02:07:36.034408	2015-02-11 02:07:36.034408		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-352	<p>A colourless gas is passed into each of three different solutions. The results are shown in the&nbsp;table.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/293_1423620504Fullscreen_capture_10-Feb-15_103638_AM.bmp.jpg?1423620503" alt="" width="871" height="118" /></p>\r\n<p>What is the colourless gas?</p>	f	\N	7	0	2015-02-11 02:08:53.226351	2015-02-11 02:08:53.226351		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+429	<p>Which substance has the highest percentage by mass of nitrogen?</p>	f	\N	7	0	2015-02-12 04:32:14.800427	2015-02-12 04:32:14.800427		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 353	<p>Chlorine can be manufactured by using the reversible reaction between hydrogen chloride and&nbsp;oxygen.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/294_1423621193Fullscreen_capture_10-Feb-15_103641_AM.bmp.jpg?1423621193" alt="" width="602" height="32" /></p>\r\n<p>A mixture in dynamic equilibrium is present at 450&nbsp;oC.<br />Which change to the mixture will increase the amount of chlorine at equilibrium?</p>	f	\N	7	0	2015-02-11 02:20:34.957467	2015-02-11 02:20:34.957467		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 356	<p>Element X is a solid at room temperature.<br />It needs one electron per atom to gain the electronic structure of a noble gas.<br />It is the least reactive element in its group.<br />What is the element X?</p>	f	\N	7	0	2015-02-11 02:22:49.452342	2015-02-11 02:22:49.452342		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 357	<p>Elements X and Y are in Group VII of the Periodic Table.<br />X is a liquid at room temperature. Y is a solid at room temperature.</p>\r\n<ol>\r\n<li>Atoms of Y have more protons than atoms of X.</li>\r\n<li>Molecules of Y have more atoms than molecules of X.</li>\r\n<li>Y displaces X from aqueous solutions of X&minus; ions.</li>\r\n</ol>\r\n<p>Which statements are correct?</p>	f	\N	7	0	2015-02-11 02:23:56.386858	2015-02-11 02:23:56.386858		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11751,6 +11976,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 369	<p>Which graph shows the changes in pH as an excess of hydrochloric acid is added to aqueous&nbsp;sodium hydroxide?</p>	f	\N	7	0	2015-02-11 04:53:00.029824	2015-02-11 04:53:00.029824		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 370	<p>Two tests are carried out on a solution of compound X.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/304_1423630409Fullscreen_capture_10-Feb-15_103750_AM.bmp.jpg?1423630409" alt="" width="572" height="189" /></p>\r\n<p>What is compound X?</p>	f	\N	7	0	2015-02-11 04:54:04.102435	2015-02-11 04:54:04.102435		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 371	<p>Which property of the alkanes does not increase as relative molecular mass increases?</p>	f	\N	7	0	2015-02-11 04:55:16.92765	2015-02-11 04:55:16.92765		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+758	<p>Which element is most likely to be used as an industrial catalyst?</p>	f	\N	7	0	2015-02-20 04:42:28.34689	2015-02-20 04:42:28.34689		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 372	<p>What is the structure of the product of the reaction between butene, <img src="http://s3.amazonaws.com/elslearning/files/original/305_1423630542Fullscreen_capture_10-Feb-15_103755_AM.bmp.jpg?1423630541" alt="" width="116" height="15" />&nbsp;and&nbsp;bromine,&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/306_1423630564Fullscreen_capture_10-Feb-15_103923_AM.bmp.jpg?1423630563" alt="" width="28" height="16" /></p>	f	\N	7	0	2015-02-11 04:56:55.298089	2015-02-11 04:56:55.298089		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 373	<p>Which formula represents a compound that will react with sodium carbonate to give off carbon&nbsp;dioxide?</p>	f	\N	7	0	2015-02-11 04:57:48.909981	2015-02-11 04:57:48.909981		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 374	<p>The displayed formulae of two compounds are shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/307_1423630699Fullscreen_capture_10-Feb-15_103944_AM.bmp.jpg?1423630699" alt="" width="593" height="163" /></p>\r\n<p>What are the similarities and differences between the two compounds?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/308_1423630716Fullscreen_capture_10-Feb-15_103947_AM.bmp.jpg?1423630715" alt="" width="689" height="224" /></p>	f	\N	7	0	2015-02-11 04:58:56.591359	2015-02-11 04:58:56.591359		1		UCLES 2005 - 5070/01/M/J/05	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11795,8 +12021,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 427	<p>Metals have positive ions in a &lsquo;sea of electrons&rsquo;.<br />Which metal atom provides most electrons for the sea?</p>	f	\N	7	0	2015-02-12 04:30:01.702495	2015-02-12 04:30:01.702495		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 654	<p>Which bond is present in both nylon and Terylene?</p>	f	\N	7	0	2015-02-18 05:30:47.853758	2015-02-18 05:30:47.853758		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 428	<p>The element X forms a gaseous molecule <img src="http://s3.amazonaws.com/elslearning/files/original/337_1423715431Fullscreen_capture_12-Feb-15_72355_AM.bmp.jpg?1423715430" alt="" width="20" height="18" />&nbsp;One volume of <img src="http://s3.amazonaws.com/elslearning/files/original/338_1423715441Fullscreen_capture_12-Feb-15_72355_AM.bmp.jpg?1423715440" alt="" width="20" height="18" />&nbsp;combines with one volume of&nbsp;hydrogen to form two volumes of a gaseous hydride.<br />What is the formula for the hydride of X?</p>	f	\N	7	0	2015-02-12 04:31:25.910273	2015-02-12 04:31:25.910273		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-429	<p>Which substance has the highest percentage by mass of nitrogen?</p>	f	\N	7	0	2015-02-12 04:32:14.800427	2015-02-12 04:32:14.800427		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-758	<p>Which element is most likely to be used as an industrial catalyst?</p>	f	\N	7	0	2015-02-20 04:42:28.34689	2015-02-20 04:42:28.34689		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 430	<p>The diagram shows the electrolysis of aqueous copper(II) sulphate using copper electrodes.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/339_1423715559Fullscreen_capture_12-Feb-15_72421_AM.bmp.jpg?1423715558" alt="" width="586" height="259" /></p>\r\n<p>Which graph shows how the mass of the cathode changes during electrolysis?</p>	f	\N	7	0	2015-02-12 04:33:15.249921	2015-02-12 04:33:15.249921		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 431	<p>The energy diagram for the reaction between sodium hydroxide and hydrochloric acid is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/340_1423715620Fullscreen_capture_12-Feb-15_72450_AM.bmp.jpg?1423715620" alt="" width="485" height="262" /></p>\r\n<p>What can be deduced from the diagram?</p>	f	\N	7	0	2015-02-12 04:34:19.434203	2015-02-12 04:34:19.434203		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 432	<p>A student adds marble chips to hydrochloric acid.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/341_1423715679Fullscreen_capture_12-Feb-15_72453_AM.bmp.jpg?1423715679" alt="" width="567" height="316" /></p>\r\n<p>The mass of flask and contents is measured at regular time intervals.<br />Which graph shows the result?</p>	f	\N	7	0	2015-02-12 04:35:20.5373	2015-02-12 04:35:20.5373		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11821,7 +12045,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 450	<p>The table shows pollutants which cause eutrophication, sources of these pollutants and a&nbsp;problem that eutrophication causes.<br />Which entry in the table is correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/348_1423716623Fullscreen_capture_12-Feb-15_72714_AM.bmp.jpg?1423716622" alt="" width="727" height="220" /></p>	f	\N	7	0	2015-02-12 04:50:55.12247	2015-02-12 04:50:55.12247		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 451	<p>Which gas burns in air to form a single product?</p>	f	\N	7	0	2015-02-12 04:51:34.544295	2015-02-12 04:51:34.544295		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 759	<p>Which compound when reacted with sulfuric acid produces a product which is used as a&nbsp;fertiliser?</p>	f	\N	7	0	2015-02-20 04:43:04.07255	2015-02-20 04:43:04.07255		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-452	<p>Which pair of statements about the combustion of a carbohydrate and its formation by&nbsp;photosynthesis is not correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/349_1423716715Fullscreen_capture_12-Feb-15_72717_AM.bmp.jpg?1423716714" alt="" width="616" height="251" /></p>	f	\N	7	0	2015-02-12 04:52:11.375326	2015-02-12 04:52:11.375326		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 453	<p>Which of the following has not been prepared by reacting a carboxylic acid with an alcohol?</p>	f	\N	7	0	2015-02-12 04:53:01.758535	2015-02-12 04:53:01.758535		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 454	<p>Which compound is obtained by the oxidation of ethanol,&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/350_1423716807Fullscreen_capture_12-Feb-15_72733_AM.bmp.jpg?1423716806" alt="" width="57" height="15" /></p>	f	\N	7	0	2015-02-12 04:54:18.747812	2015-02-12 04:54:18.747812		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 455	<p>Which statement applies to all three of the compounds ethane, ethene and ethanol?</p>	f	\N	7	0	2015-02-12 04:55:17.066413	2015-02-12 04:55:17.066413		1		UCLES 2007 - 5070/01/M/J/07	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11842,6 +12065,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 468	<p>In which oxide does X have the same oxidation state as in the chloride,&nbsp;<img src="http://s3.amazonaws.com/elslearning/files/original/360_1423802978Fullscreen_capture_13-Feb-15_90609_AM.bmp.jpg?1423802977" alt="" width="40" height="25" /></p>	f	\N	7	0	2015-02-13 04:50:29.995462	2015-02-13 04:50:29.995462		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 725	<p>Aluminium and copper are often used to make coins but iron is not.<br />Which statement explains this?</p>	f	\N	7	0	2015-02-19 05:19:22.578254	2015-02-19 05:19:22.578254		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 469	<p>A sample of copper contains a metal impurity which is below copper in the reactivity series.<br />The diagram shows the apparatus used for refining the sample.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/361_1423803066Fullscreen_capture_13-Feb-15_90624_AM.bmp.jpg?1423803065" alt="" width="468" height="298" /></p>\r\n<p>The loss in mass of the anode (positive electrode) is 50 g and the gain in mass of the cathode&nbsp;(negative electrode) is 45 g.<br />What is the percentage purity of this sample of copper?</p>	f	\N	7	0	2015-02-13 04:51:51.602321	2015-02-13 04:51:51.602321		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+708	<p>Which statement most clearly indicates that diamond and graphite are forms of carbon?</p>	f	\N	7	0	2015-02-19 05:01:14.323757	2015-02-19 05:01:14.323757		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 471	<p>The diagram shows the electrolytic production of aluminium.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/362_1423803210Fullscreen_capture_13-Feb-15_90641_AM.bmp.jpg?1423803209" alt="" width="879" height="338" /></p>\r\n<p>What are the products at the electrodes?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/363_1423803222Fullscreen_capture_13-Feb-15_90644_AM.bmp.jpg?1423803222" alt="" width="527" height="218" /></p>	f	\N	7	0	2015-02-13 04:53:57.38547	2015-02-13 04:53:57.38547		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 752	<p>Which change always takes place when an aqueous solution of copper(II) sulfate is&nbsp;electrolysed?</p>	f	\N	7	0	2015-02-20 04:38:12.892464	2015-02-20 04:38:12.892464		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 472	<p>When dilute sulphuric acid is electrolysed between platinum electrodes, which statements are&nbsp;correct?</p>\r\n<ol>\r\n<li>Hydrogen is released at the cathode.</li>\r\n<li>Oxygen is released at the anode.</li>\r\n<li>Sulphur is released at the anode.</li>\r\n<li>The acid becomes more dilute.</li>\r\n</ol>	f	\N	7	0	2015-02-13 04:55:01.97515	2015-02-13 04:55:01.97515		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11862,6 +12086,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 489	<p>The diagram shows the apparatus used in an experiment to reduce substance Q with the gas&nbsp;generated in the flask.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/370_1423804969Fullscreen_capture_13-Feb-15_90839_AM.bmp.jpg?1423804968" alt="" width="623" height="350" /></p>\r\n<p>What are substances P and Q?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/371_1423804984Fullscreen_capture_13-Feb-15_90842_AM.bmp.jpg?1423804983" alt="" width="467" height="220" /></p>	f	\N	7	0	2015-02-13 05:23:24.07694	2015-02-13 05:23:24.07694		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 490	<p>The flow chart shows how impure water can be treated to produce drinkable water.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/372_1423805029Fullscreen_capture_13-Feb-15_90846_AM.bmp.jpg?1423805029" alt="" width="920" height="130" /></p>\r\n<p>What is not removed from the water by this process?</p>	f	\N	7	0	2015-02-13 05:24:23.068997	2015-02-13 05:24:23.068997		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 491	<p>A solid substance Z burns in air to form a product that is gaseous at 20 &deg;C.<br />What is Z?</p>	f	\N	7	0	2015-02-13 05:25:08.992998	2015-02-13 05:25:08.992998		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+709	<p>In an experiment, 1 cm^3 of a gaseous hydrocarbon X required 4 cm^3 of oxygen for complete&nbsp;combustion to give 3 cm^3 of carbon dioxide. All gas volumes are measured at r.t.p.<br />Which formula represents X?</p>	f	\N	7	0	2015-02-19 05:02:53.102498	2015-02-19 05:02:53.102498		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 512	<p>The energy diagram for the reaction between sodium hydroxide and hydrochloric acid is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/385_1424052928Fullscreen_capture_14-Feb-15_80653_AM.bmp.jpg?1424052928" alt="" width="476" height="239" /></p>\r\n<p>Which quantity of heat is liberated when 100 cm^3 of 1 mol/dm^3 hydrochloric acid reacts with&nbsp;100 cm^3 of 1 mol/dm^3 sodium hydroxide?</p>	f	\N	7	0	2015-02-16 02:16:19.58595	2015-02-16 02:16:19.58595		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 492	<p>A section of a polymer is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/373_1423805136Fullscreen_capture_13-Feb-15_90849_AM.bmp.jpg?1423805136" alt="" width="736" height="139" /></p>\r\n<p>The structure of its monomer is</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/374_1423805149Fullscreen_capture_13-Feb-15_90852_AM.bmp.jpg?1423805148" alt="" width="322" height="72" /></p>\r\n<p>The monomer undergoes condensation polymerisation to form the polymer.<br />What is made each time a monomer adds to the polymer?</p>	f	\N	7	0	2015-02-13 05:26:37.511208	2015-02-13 05:26:37.511208		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 493	<p>Carboxylic acids react with alcohols to form esters.<br />Which acid and alcohol react together to form the following ester?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/375_1423805231Fullscreen_capture_13-Feb-15_90922_AM.bmp.jpg?1423805230" alt="" width="206" height="122" /></p>	f	\N	7	0	2015-02-13 05:27:46.476319	2015-02-13 05:27:46.476319		1		UCLES 2008 - 5070/01/M/J/08	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11902,6 +12127,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 530	<p>Methane is a greenhouse gas.<br />Which process releases methane into the air?</p>	f	\N	7	0	2015-02-16 02:34:25.548717	2015-02-16 02:34:25.548717		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 531	<p>Carbon dioxide and carbon monoxide are both</p>	f	\N	7	0	2015-02-16 02:35:06.378711	2015-02-16 02:35:06.378711		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 532	<p>Which hydrocarbon will burn completely in oxygen to give equal numbers of moles of carbon&nbsp;dioxide and water?</p>	f	\N	7	0	2015-02-16 05:02:10.556903	2015-02-16 05:02:10.556903		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+652	<p>Useful fractions are obtained by the fractional distillation of petroleum.<br />Which fraction is matched by its use?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/476_1424237348Fullscreen_capture_18-Feb-15_92333_AM.bmp.jpg?1424237347" alt="" width="626" height="218" /></p>	f	\N	7	0	2015-02-18 05:29:29.419615	2015-02-18 05:29:29.419615		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 533	<p>The diagram shows the breakdown of an alkane to ethene.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/394_1424062960Fullscreen_capture_14-Feb-15_80829_AM.bmp.jpg?1424062959" alt="" width="878" height="443" /></p>\r\n<p>The ethene is then tested with aqueous bromine.<br />Which information about ethene is correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/395_1424062973Fullscreen_capture_14-Feb-15_80832_AM.bmp.jpg?1424062973" alt="" width="427" height="248" /></p>	f	\N	7	0	2015-02-16 05:03:05.317154	2015-02-16 05:03:05.317154		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 534	<p>Carbohydrates, proteins, fats and Terylene are macromolecules.<br />Which element is found in only one of these macromolecules?</p>	f	\N	7	0	2015-02-16 05:03:51.365288	2015-02-16 05:03:51.365288		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 535	<p>Which structure is not an isomer of the structure shown?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/396_1424063057Fullscreen_capture_14-Feb-15_80836_AM.bmp.jpg?1424063055" alt="" width="342" height="30" /></p>	f	\N	7	0	2015-02-16 05:04:54.882051	2015-02-16 05:04:54.882051		1		UCLES 2009 - 5070/01/M/J/09	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11922,6 +12148,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 591	<p>A student performs two reactions.</p>\r\n<ul>\r\n<li>reaction 1: &nbsp; 10 g of magnesium ribbon with excess 2.0 mol/dm^3 dilute hydrochloric acid</li>\r\n<li>reaction 2: &nbsp; 5 g of magnesium powder with excess 2.0 mol/dm^3 dilute hydrochloric acid</li>\r\n</ul>\r\n<p>In both experiments, the volume of hydrogen produced, V, is measured against time, t, and the&nbsp;results plotted graphically.<br />Which set of graphs is correct?</p>	f	\N	7	0	2015-02-18 03:42:43.482298	2015-02-18 03:42:43.482298		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 592	<p>Which statement about catalysts is correct for a typical equilibrium reaction?</p>	f	\N	7	0	2015-02-18 03:43:54.412817	2015-02-18 03:43:54.412817		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 656	<p>Four hydrocarbon structures are shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/478_1424237517Fullscreen_capture_18-Feb-15_92343_AM.bmp.jpg?1424237516" alt="" width="625" height="613" /></p>\r\n<p>Which hydrocarbons are isomers of each other?</p>	f	\N	7	0	2015-02-18 05:32:42.277575	2015-02-18 05:32:42.277575		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+653	<p>Which statement about ethanoic acid is correct?</p>	f	\N	7	0	2015-02-18 05:30:10.168222	2015-02-18 05:30:10.168222		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 593	<p>When a solution containing silver ions is added to a solution containing iron(II) ions, an&nbsp;equilibrium is set up.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/439_1424231054Fullscreen_capture_18-Feb-15_65252_AM.bmp.jpg?1424231053" alt="" width="396" height="32" /></p>\r\n<p>The addition of which substance would not affect the amount of silver precipitated?</p>	f	\N	7	0	2015-02-18 03:45:02.537259	2015-02-18 03:45:02.537259		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 594	<p>Which reaction does not involve either oxidation or reduction?</p>	f	\N	7	0	2015-02-18 03:46:04.856507	2015-02-18 03:46:04.856507		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 595	<p>Which pair of compounds could be used in the preparation of calcium sulfate?</p>	f	\N	7	0	2015-02-18 03:47:17.415719	2015-02-18 03:47:17.415719		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11943,6 +12170,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 610	<p>The diagram shows apparatus for measuring the volume of hydrogen given off when an excess of&nbsp;dilute hydrochloric acid is added to powdered metal. The volume of gas is measured at room&nbsp;temperature and pressure.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/449_1424231882Fullscreen_capture_18-Feb-15_65343_AM.bmp.jpg?1424231882" alt="" width="741" height="393" /></p>\r\n<p>The experiment is carried out three times, using the same mass of powder each time but with&nbsp;different powders:</p>\r\n<ul>\r\n<li>pure magnesium</li>\r\n<li>pure zinc</li>\r\n<li>a mixture of magnesium and zinc</li>\r\n</ul>\r\n<p>Which powder gives the greatest volume of hydrogen and which the least volume?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/450_1424231918Fullscreen_capture_18-Feb-15_65346_AM.bmp.jpg?1424231917" alt="" width="570" height="220" /></p>	f	\N	7	0	2015-02-18 03:59:08.403374	2015-02-18 03:59:08.403374		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 611	<p>The list shows three chemical reactions.</p>\r\n<ol>\r\n<li>combustion of ethanol</li>\r\n<li>fermentation of glucose</li>\r\n<li>reaction of ethanol with ethanoic acid to give an ester</li>\r\n</ol>\r\n<p>In which reactions is water a product?</p>	f	\N	7	0	2015-02-18 04:00:04.004917	2015-02-18 04:00:04.004917		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 612	<p>The diagram shows a reaction scheme.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/451_1424232026Fullscreen_capture_18-Feb-15_65351_AM.bmp.jpg?1424232026" alt="" width="985" height="89" /></p>\r\n<p>What is the final compound, Z?</p>	f	\N	7	0	2015-02-18 04:00:58.137417	2015-02-18 04:00:58.137417		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+704	<p>What can be deduced about two gases that have the same relative molecular mass?</p>	f	\N	7	0	2015-02-19 04:57:27.453614	2015-02-19 04:57:27.453614		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 613	<p>How does the number of carbon, hydrogen and oxygen atoms in an ester differ from the total&nbsp;number of carbon, hydrogen and oxygen atoms in the alcohol and carboxylic acid from which the&nbsp;compound was derived?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/452_1424232103Fullscreen_capture_18-Feb-15_65354_AM.bmp.jpg?1424232102" alt="" width="586" height="219" /></p>	f	\N	7	0	2015-02-18 04:01:59.853563	2015-02-18 04:01:59.853563		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 657	<p>With which substance will ethene react to form more than one product?</p>	f	\N	7	0	2015-02-18 05:33:39.124384	2015-02-18 05:33:39.124384		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 614	<p>The two statements are about the fractional distillation of crude oil. The statements may or may&nbsp;not be correct. They may or may not be linked.</p>\r\n<ul>\r\n<li>statement 1: &nbsp; Fractional distillation is used to separate crude oil into useful fractions.</li>\r\n<li>statement 2: &nbsp; The fractions with lower boiling points are found at the top of the fractionating&nbsp;column.</li>\r\n</ul>\r\n<p>What is correct about these two statements?</p>	f	\N	7	0	2015-02-18 04:03:12.283673	2015-02-18 04:03:12.283673		1		UCLES 2010 - 5070/11/M/J/10	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -11984,8 +12212,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 649	<p>The gases coming from a car&rsquo;s exhaust contain oxides of nitrogen.<br />How are these oxides formed?</p>	f	\N	7	0	2015-02-18 05:26:30.017202	2015-02-18 05:26:30.017202		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 650	<p>When a volcano erupts, which gas is produced in significant amounts?</p>	f	\N	7	0	2015-02-18 05:27:47.118148	2015-02-18 05:27:47.118148		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 651	<p>Compound X is a hydrocarbon. It reacts with steam to form an alcohol.<br />Which type of compound is X and what would be its effect on bromine water?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/475_1424237303Fullscreen_capture_18-Feb-15_92331_AM.bmp.jpg?1424237302" alt="" width="698" height="217" /></p>	f	\N	7	0	2015-02-18 05:28:37.901305	2015-02-18 05:28:37.901305		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-652	<p>Useful fractions are obtained by the fractional distillation of petroleum.<br />Which fraction is matched by its use?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/476_1424237348Fullscreen_capture_18-Feb-15_92333_AM.bmp.jpg?1424237347" alt="" width="626" height="218" /></p>	f	\N	7	0	2015-02-18 05:29:29.419615	2015-02-18 05:29:29.419615		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-653	<p>Which statement about ethanoic acid is correct?</p>	f	\N	7	0	2015-02-18 05:30:10.168222	2015-02-18 05:30:10.168222		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 655	<p>Compounds X and Y are both alkanes. Compound X has a higher boiling point than compound Y.<br />What could be the formulae of compounds X and Y?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/477_1424237471Fullscreen_capture_18-Feb-15_92339_AM.bmp.jpg?1424237470" alt="" width="408" height="215" /></p>	f	\N	7	0	2015-02-18 05:31:30.202825	2015-02-18 05:31:30.202825		1		UCLES 2011 - 5070/11/M/J/11	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 729	<p>Which aqueous reagent liberates ammonia from ammonium nitrate on warming?</p>	f	\N	7	0	2015-02-19 05:22:22.383103	2015-02-19 05:22:22.383103		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 659	<p>A student measured the rate of reaction between calcium carbonate and dilute hydrochloric acid.<br />A graph showing the volume of gas produced against time is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/479_1424312008Fullscreen_capture_18-Feb-15_115140_AM.bmp.jpg?1424312008" alt="" width="438" height="294" /></p>\r\n<p>Which apparatus was used to measure the variables shown on the graph?</p>	f	\N	7	0	2015-02-19 02:14:04.228466	2015-02-19 02:14:04.228466		1		UCLES 2012 - 5070/11/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12031,10 +12257,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 700	<p>The diagrams show the arrangement of particles in three solids: krypton, potassium and sodium&nbsp;chloride.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/498_1424321615Fullscreen_capture_19-Feb-15_93335_AM.bmp.jpg?1424321615" alt="" width="822" height="160" /></p>\r\n<p>In which order are the solids shown?</p>	f	\N	7	0	2015-02-19 04:54:15.844535	2015-02-19 04:54:15.844535		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 702	<p>Naturally-occurring bromine has a relative atomic mass of 80 and consists entirely of two&nbsp;isotopes of relative atomic masses 79 and 81.<br />What can be deduced about naturally-occurring bromine from this information only?</p>	f	\N	7	0	2015-02-19 04:55:47.142523	2015-02-19 04:55:47.142523		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 703	<p>Which compound has molecules each of which contains only two covalent bonds?</p>	f	\N	7	0	2015-02-19 04:56:42.47175	2015-02-19 04:56:42.47175		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-704	<p>What can be deduced about two gases that have the same relative molecular mass?</p>	f	\N	7	0	2015-02-19 04:57:27.453614	2015-02-19 04:57:27.453614		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-707	<p>Which substance conducts an electric current but remains chemically unchanged?</p>	f	\N	7	0	2015-02-19 05:00:28.714636	2015-02-19 05:00:28.714636		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-708	<p>Which statement most clearly indicates that diamond and graphite are forms of carbon?</p>	f	\N	7	0	2015-02-19 05:01:14.323757	2015-02-19 05:01:14.323757		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-709	<p>In an experiment, 1 cm^3 of a gaseous hydrocarbon X required 4 cm^3 of oxygen for complete&nbsp;combustion to give 3 cm^3 of carbon dioxide. All gas volumes are measured at r.t.p.<br />Which formula represents X?</p>	f	\N	7	0	2015-02-19 05:02:53.102498	2015-02-19 05:02:53.102498		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 706	<p>Both magnesium oxide, MgO, and aluminium oxide, <img src="http://s3.amazonaws.com/elslearning/files/original/499_1424321915Fullscreen_capture_19-Feb-15_93352_AM.bmp.jpg?1424321914" alt="" width="39" height="13" />&nbsp;are solids at room temperature, 25 &deg;C.</p>\r\n<p>MgO has a melting point of 2852 &deg;C and a boiling point of 3600 &deg;C.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/500_1424322223Fullscreen_capture_19-Feb-15_93357_AM.bmp.jpg?1424322222" alt="" width="35" height="13" />&nbsp;has a melting point of 2072 &deg;C and a boiling point of 2880 &deg;C.</p>\r\n<p>Over which temperature range will both pure compounds conduct electricity?</p>	f	\N	7	0	2015-02-19 04:59:46.056655	2015-02-19 05:03:57.078856		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 711	<p>The diagrams show an electrolysis experiment using inert electrodes.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/501_1424322388Fullscreen_capture_19-Feb-15_93421_AM.bmp.jpg?1424322387" alt="" width="616" height="439" /></p>\r\n<p>Which could be liquid Y?</p>	f	\N	7	0	2015-02-19 05:07:10.048137	2015-02-19 05:07:10.048137		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 712	<p>Which substance, when added to water, does not make a solution that is a good conductor of&nbsp;electricity?</p>	f	\N	7	0	2015-02-19 05:07:55.961384	2015-02-19 05:07:55.961384		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12055,6 +12277,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 727	<p>Which two substances are removed from the bottom of the blast furnace?</p>\r\n<ol>\r\n<li>coke</li>\r\n<li>iron</li>\r\n<li>limestone</li>\r\n<li>slag</li>\r\n</ol>	f	\N	7	0	2015-02-19 05:21:09.70841	2015-02-19 05:21:09.70841		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 728	<p>An alloy of copper and zinc is added to an excess of dilute hydrochloric acid. The resulting&nbsp;mixture is then filtered.<br />Which observations are correct?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/509_1424323294Fullscreen_capture_19-Feb-15_93458_AM.bmp.jpg?1424323293" alt="" width="528" height="218" /></p>	f	\N	7	0	2015-02-19 05:21:49.084339	2015-02-19 05:21:49.084339		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 730	<p>An aqueous solution of a compound X reacts with</p>\r\n<ul>\r\n<li>aqueous zinc chloride to form a white precipitate which dissolves when X is in excess,</li>\r\n<li>aluminium sulfate solution to form a white precipitate which is insoluble when X is in excess.</li>\r\n</ul>\r\n<p>What is the identity of X?</p>	f	\N	7	0	2015-02-19 05:23:09.547833	2015-02-19 05:23:09.547833		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+781	<p>Which compound, when mixed with aqueous barium nitrate, does not form a white precipitate?</p>	f	\N	7	0	2015-02-21 04:09:23.623623	2015-02-21 04:09:23.623623		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 731	<p>CFC compounds were commonly used as aerosol propellants. The structure of one CFC&nbsp;compound is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/510_1424323413Fullscreen_capture_19-Feb-15_93502_AM.bmp.jpg?1424323413" alt="" width="162" height="122" /></p>\r\n<p>Which element in this compound causes a depletion of ozone in the atmosphere?</p>	f	\N	7	0	2015-02-19 05:24:13.868298	2015-02-19 05:24:13.868298		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 732	<p>Which gas is most likely to react with limestone?</p>	f	\N	7	0	2015-02-19 05:24:52.15804	2015-02-19 05:24:52.15804		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 733	<p>The diagram shows the structure of an ester.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/511_1424323517Fullscreen_capture_19-Feb-15_93506_AM.bmp.jpg?1424323516" alt="" width="336" height="138" /></p>\r\n<p>What are the starting materials for making this compound?</p>	f	\N	7	0	2015-02-19 05:26:54.028707	2015-02-19 05:26:54.028707		1		UCLES 2013 - 5070/11/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12076,6 +12299,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 747	<p>Four substances have the following electrical properties.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/520_1424406834Fullscreen_capture_20-Feb-15_73023_AM.bmp.jpg?1424406834" alt="" width="647" height="221" /></p>\r\n<p>What are these four substances?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/521_1424406848Fullscreen_capture_20-Feb-15_73026_AM.bmp.jpg?1424406847" alt="" width="523" height="218" /></p>	f	\N	7	0	2015-02-20 04:34:41.935724	2015-02-20 04:34:41.935724		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 748	<p>The energy profile diagram shows the pathways for a reaction with and without a catalyst.<br />Which energy change is the activation energy for the catalysed reaction?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/522_1424406905Fullscreen_capture_20-Feb-15_73030_AM.bmp.jpg?1424406904" alt="" width="659" height="383" /></p>	f	\N	7	0	2015-02-20 04:35:24.190548	2015-02-20 04:35:24.190548		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 749	<p>Which statement about conduction of electricity is correct?</p>	f	\N	7	0	2015-02-20 04:36:07.784359	2015-02-20 04:36:07.784359		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+782	<p>The structure of metals consists of positive ions in a &lsquo;sea of electrons&rsquo;.<br />Which statement correctly describes what happens to the particles in the metallic heating element&nbsp;of an electric kettle when the kettle is switched on?</p>	f	\N	7	0	2015-02-21 04:10:42.50537	2015-02-21 04:10:42.50537		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 750	<p>When the rubber bulb of the dropper in the diagram is squeezed, the aqueous silver nitrate drops&nbsp;into the aqueous sodium chloride and a white precipitate of silver chloride is formed.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/523_1424406988Fullscreen_capture_20-Feb-15_73033_AM.bmp.jpg?1424406987" alt="" width="413" height="380" /></p>\r\n<p>What happens to the total mass of the bottle and contents?</p>	f	\N	7	0	2015-02-20 04:36:56.398178	2015-02-20 04:36:56.398178		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 755	<p>The oxide Q dissolves in water to form a colourless solution. This solution reacts with sodium&nbsp;carbonate to produce carbon dioxide.<br />What is Q?</p>	f	\N	7	0	2015-02-20 04:40:08.03631	2015-02-20 04:40:08.03631		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 756	<p>The following statements about dilute sulfuric acid are all correct.</p>\r\n<ol>\r\n<li>Addition of Universal Indicator shows that the solution has a pH value of less than 7.0.</li>\r\n<li>A white precipitate is formed when aqueous barium nitrate is added.</li>\r\n<li>The solution reacts with copper(II) oxide, forming a blue solution.</li>\r\n<li>The solution turns anhydrous copper(II) sulfate from white to blue.</li>\r\n</ol>\r\n<p>Which two statements confirm the acidic nature of the solution?</p>	f	\N	7	0	2015-02-20 04:41:03.137669	2015-02-20 04:41:03.137669		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12096,8 +12320,6 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 778	<p>The section of a polymer chain is shown.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/532_1424408566Fullscreen_capture_20-Feb-15_73153_AM.bmp.jpg?1424408565" alt="" width="395" height="154" /></p>\r\n<p>Which molecule would produce this polymer and by which type of polymerisation?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/533_1424408582Fullscreen_capture_20-Feb-15_73156_AM.bmp.jpg?1424408581" alt="" width="757" height="218" /></p>	f	\N	7	0	2015-02-20 05:03:16.838476	2015-02-20 05:03:16.838476		1		UCLES 2012 - 5070/12/M/J/12	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 779	<p>Which mixture could best be separated by using a separating funnel?</p>	f	\N	7	0	2015-02-21 04:05:59.429223	2015-02-21 04:05:59.429223		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 780	<p>Which process involves boiling a liquid and condensing the vapour?</p>	f	\N	7	0	2015-02-21 04:08:32.085026	2015-02-21 04:08:32.085026		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-781	<p>Which compound, when mixed with aqueous barium nitrate, does not form a white precipitate?</p>	f	\N	7	0	2015-02-21 04:09:23.623623	2015-02-21 04:09:23.623623		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-782	<p>The structure of metals consists of positive ions in a &lsquo;sea of electrons&rsquo;.<br />Which statement correctly describes what happens to the particles in the metallic heating element&nbsp;of an electric kettle when the kettle is switched on?</p>	f	\N	7	0	2015-02-21 04:10:42.50537	2015-02-21 04:10:42.50537		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 783	<p>Naturally-occurring bromine has a relative atomic mass of 80 and consists entirely of two&nbsp;isotopes of relative atomic masses 79 and 81.<br />What can be deduced about naturally-occurring bromine from this information only?</p>	f	\N	7	0	2015-02-21 04:11:28.7936	2015-02-21 04:11:28.7936		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 784	<p>Silicon carbide, SiC, has a structure similar to diamond. Boron nitride, BN, has a structure similar&nbsp;to graphite. Bronze is an alloy of copper and tin.<br />Which statements about SiC, BN and bronze are correct?</p>\r\n<ol>\r\n<li>All are bonded covalently.</li>\r\n<li>All except silicon carbide conduct electricity when solid.</li>\r\n<li>All have high melting points.</li>\r\n</ol>	f	\N	7	0	2015-02-21 04:12:18.64097	2015-02-21 04:12:18.64097		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 785	<p>What can be deduced about two gases that have the same relative molecular mass?</p>	f	\N	7	0	2015-02-21 04:12:57.224013	2015-02-21 04:12:57.224013		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12118,6 +12340,7 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 803	<p>Which two statements indicate that metal M may have a proton number between 21 and 30?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/542_1424493174Fullscreen_capture_21-Feb-15_72156_AM.bmp.jpg?1424493173" alt="" width="375" height="95" /></p>	f	\N	7	0	2015-02-21 04:33:38.823917	2015-02-21 04:33:38.823917		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 804	<p>An atom of which element has the same electronic configuration as the strontium ion?</p>	f	\N	7	0	2015-02-21 04:34:17.495776	2015-02-21 04:34:17.495776		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 805	<p>Which substance, in the given physical state, is found at the bottom of the blast furnace?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/543_1424493277Fullscreen_capture_21-Feb-15_72159_AM.bmp.jpg?1424493277" alt="" width="515" height="219" /></p>	f	\N	7	0	2015-02-21 04:34:53.252521	2015-02-21 04:34:53.252521		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
+1445	<p>A question to test descriptive display.&nbsp;</p>\r\n	f	\N	\N	0	2016-12-18 19:35:24.645686	2016-12-18 19:39:08.679084	<p>A question to test descriptive display.&nbsp;</p>\r\n	2	A question to test descriptive display. 	fahad	phy.teach2@els.com	\N	accepted	\N	3		0,3,0,0	undefined,undefined,undefined,undefined	0,4,0,0	20
 806	<p>Gas Z is to be separated from a mixture of gases X, Y and Z by the apparatus shown in the&nbsp;diagram.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/544_1424493319Fullscreen_capture_21-Feb-15_72201_AM.bmp.jpg?1424493318" alt="" width="843" height="387" /></p>\r\n<p>For which mixture will this system work successfully?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/545_1424493332Fullscreen_capture_21-Feb-15_72204_AM.bmp.jpg?1424493331" alt="" width="654" height="218" /></p>	f	\N	7	0	2015-02-21 04:35:57.353387	2015-02-21 04:35:57.353387		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 807	<p>Magnesium can be obtained by heating magnesium oxide with which element?</p>	f	\N	7	0	2015-02-21 04:36:30.96193	2015-02-21 04:36:30.96193		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 808	<p>Methanol is manufactured using the following reaction.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/546_1424493423Fullscreen_capture_21-Feb-15_72209_AM.bmp.jpg?1424493422" alt="" width="324" height="29" /></p>\r\n<p>The usual conditions are 30 atmospheres and 300 &deg;C.<br />At 400 &deg;C the percentage of methanol in the equilibrium mixture is lower than at 300 &deg;C.<br />What could be the explanation for this?</p>	f	\N	7	0	2015-02-21 04:37:27.617825	2015-02-21 04:37:27.617825		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
@@ -12130,32 +12353,72 @@ COPY questions (id, statement, deleted, test_id, topic_id, approval_status, crea
 816	<p>The diagram shows the partial structure of Terylene.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/556_1424493933Fullscreen_capture_21-Feb-15_72258_AM.bmp.jpg?1424493932" alt="" width="551" height="79" /></p>\r\n<p>From which pair of compounds is it made?</p>	f	\N	7	0	2015-02-21 04:46:55.607084	2015-02-21 04:46:55.607084		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 817	<p>Which straight chain hydrocarbon can form a polymer by addition polymerisation?</p>	f	\N	7	0	2015-02-21 04:47:54.287352	2015-02-21 04:47:54.287352		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
 818	<p>Which information is correct regarding the formation of ethanol by the process of fermentation?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/557_1424494113Fullscreen_capture_21-Feb-15_72321_AM.bmp.jpg?1424494113" alt="" width="537" height="248" /></p>	f	\N	7	0	2015-02-21 04:48:43.020385	2015-02-21 04:48:43.020385		1		UCLES 2013 - 5070/12/M/J/13	admin@els.com	2	\N	\N	2	1	\N	\N	\N	1
-1451	<p>Fig. 1.1 shows the distance-time graph for two cyclists A and B. They start a 500 m race together but finish the race at different times.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearning/files/original/9_fullscreen_capture_06-mar-17_102859_am_bmp.jpg" style="width: 396px; height: 317px;" /></p>\r\n\r\n<ol>\r\n\t<li>Use Fig. 1.1 to determine\r\n\t<ol>\r\n\t\t<li>the distance between A and B at time t = 20 s,</li>\r\n\t\t<li>(ii) the difference in the time taken by A and B for the race.<br />\r\n\t\t&nbsp;</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li>Cyclist C starts the race at the same time as A and B and covers the first 200 m of the race at a constant speed of 5.0 m / s. He then accelerates and finishes the race at t = 60 s.\r\n\t<ol>\r\n\t\t<li>On Fig. 1.1, draw the distance-time graph for cyclist C.</li>\r\n\t\t<li>Calculate the average speed of cyclist C for the whole race.</li>\r\n\t</ol>\r\n\t</li>\r\n</ol>\r\n	f	\N	\N	0	2017-03-06 05:34:53.503913	2017-03-06 05:34:53.503913		2		 UCLES 2015 - 5054/21/M/J/15	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	5
-1452	<p>Fig. 2.1 shows a student doing a press-up. A total force F acts upwards on his hands. There is also a force upwards on his toes.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearning/files/original/10_fullscreen_capture_06-mar-17_103647_am_bmp.jpg" style="width: 460px; height: 243px;" /></p>\r\n\r\n<p>The weight of the student is 600 N and this force acts downwards from his centre of mass.</p>\r\n\r\n<ol>\r\n\t<li>(a)\r\n\t<ol>\r\n\t\t<li>Explain why the student does work as his body rises from the ground.</li>\r\n\t\t<li>State the form of energy that the student uses to do this work<br />\r\n\t\t&nbsp;</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li>At the position shown in Fig. 2.1, the student is stationary.<br />\r\n\tThe weight of the student causes a moment about his toes.\r\n\t<ol>\r\n\t\t<li>Calculate the moment of the weight of the student about his toes.</li>\r\n\t\t<li>Calculate the value of the force F</li>\r\n\t</ol>\r\n\t</li>\r\n</ol>\r\n	f	\N	\N	0	2017-03-06 05:39:49.825963	2017-03-06 05:39:49.825963		2		 UCLES 2015 - 5054/21/M/J/15	deo1@els.com	\N	new	\N	3	1	\N	\N	\N	10
-1445	<p>A question to test descriptive display.&nbsp;</p>\r\n	f	\N	\N	0	2016-12-18 19:35:24.645686	2016-12-18 19:39:08.679084	<p>A question to test descriptive display.&nbsp;</p>\r\n	2	A question to test descriptive display. 	fahad	phy.teach2@els.com	\N	accepted	\N	3		0,3,0,0	undefined,undefined,undefined,undefined	0,4,0,0	20
+1451	<p>Fig. 1.1 shows the distance-time graph for two cyclists A and B. They start a 500 m race together but finish the race at different times.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearning/files/original/9_fullscreen_capture_06-mar-17_102859_am_bmp.jpg" style="width: 396px; height: 317px;" /></p>\r\n\r\n<ol>\r\n\t<li>Use Fig. 1.1 to determine\r\n\t<ol>\r\n\t\t<li>the distance between A and B at time t = 20 s,</li>\r\n\t\t<li>(ii) the difference in the time taken by A and B for the race.<br />\r\n\t\t&nbsp;</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li>Cyclist C starts the race at the same time as A and B and covers the first 200 m of the race at a constant speed of 5.0 m / s. He then accelerates and finishes the race at t = 60 s.\r\n\t<ol>\r\n\t\t<li>On Fig. 1.1, draw the distance-time graph for cyclist C.</li>\r\n\t\t<li>Calculate the average speed of cyclist C for the whole race.</li>\r\n\t</ol>\r\n\t</li>\r\n</ol>\r\n	f	\N	\N	0	2017-03-06 05:34:53.503913	2017-07-26 09:42:05.785313		2		 UCLES 2015 - 5054/21/M/J/15	deo1@els.com	\N	accepted	\N	3	1	0,96,0,0	undefined,undefined,undefined,undefined	0,4,0,0	5
 1441	<p>testing a descriptive questions</p>\r\n\r\n<p>this is the statement space</p>\r\n	f	\N	\N	0	2016-11-23 04:21:02.709271	2016-12-18 19:39:34.367405	<p>testing a descriptive questions</p>\r\n\r\n<p>and this is the detail answer space</p>\r\n	2	this should be the mark scheme for this question	fahadsid	deo1@els.com	\N	accepted	\N	3	1	0,3,0,0	undefined,undefined,undefined,undefined	0,4,0,0	1
-1329	<p>A lamp, designed to work at 1.5 V, is connected to a cell of electromotive force (e.m.f.) 1.5 V. The&nbsp;lamp lights at normal brightness.</p>\r\n\r\n<p><img alt="" height="110" src="http://s3.amazonaws.com/elslearning/files/original/911_1460904303Fullscreen_capture_15-Apr-16_63156_PM.bmp.jpg?1460904303" width="112" /></p>\r\n\r\n<p>The lamp is now connected to four similar cells, each of e.m.f. 1.5 V, arranged in parallel.</p>\r\n\r\n<p><img alt="" height="291" src="http://s3.amazonaws.com/elslearning/files/original/912_1460904330Fullscreen_capture_15-Apr-16_63159_PM.bmp.jpg?1460904330" width="120" /></p>\r\n\r\n<p>What is the effect of connecting the extra cells in this way?</p>\r\n	f	\N	\N	0	2016-04-17 14:46:08.93955	2017-03-10 05:13:18.321146		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	new	agaian reject	3	11	\N	\N	\N	1
-1453	<p>country of pakistan is ________ than emirates!</p>\r\n	f	\N	\N	0	2017-03-10 05:15:02.773437	2017-03-10 05:15:02.773437		3		testuing fahad	deo1@els.com	\N	new	\N	3		\N	\N	\N	1
 1447	<p>testing again workflow</p>\r\n	f	\N	\N	0	2017-01-11 06:26:10.951371	2017-01-11 06:38:49.932258		1		fahad	operator5@els.com	\N	accepted	\N	3	009	0,92,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
 1446	<p>testing the workflow</p>\r\n	f	\N	\N	0	2017-01-11 05:55:10.096807	2017-01-11 06:40:20.48341		1		fahad	operator5@els.com	\N	accepted	comment	3	123	0,93,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
 1448	<p>Testing with new teacher and new student!</p>\r\n	f	\N	\N	0	2017-02-04 08:39:03.446073	2017-02-04 08:49:36.782566		2		Book Name This	teacher.testing@els.com	\N	accepted	\N	3		0,112,207,0	undefined,undefined,undefined,undefined	0,0,0,0	10
 1449	<p>testing another question for structured</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearning/files/original/7_logo_copy.jpg" style="width: 418px; height: 203px;" /></p>\r\n	f	\N	\N	0	2017-02-04 08:52:50.357397	2017-02-04 08:54:07.019244		2		boon name	teacher.testing@els.com	\N	accepted	\N	3		0,113,0,0	undefined,undefined,undefined,undefined	0,0,0,0	20
 1450	<p>testing MCQs for taechers</p>\r\n	f	\N	\N	0	2017-02-09 05:55:07.829321	2017-02-09 05:55:07.8337		1		my own	phy.teach1@els.com	\N	reviewed_by_proofreader	\N	3		\N	\N	\N	1
+1452	<p>Fig. 2.1 shows a student doing a press-up. A total force F acts upwards on his hands. There is also a force upwards on his toes.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearning/files/original/10_fullscreen_capture_06-mar-17_103647_am_bmp.jpg" style="width: 460px; height: 243px;" /></p>\r\n\r\n<p>The weight of the student is 600 N and this force acts downwards from his centre of mass.</p>\r\n\r\n<ol>\r\n\t<li>(a)\r\n\t<ol>\r\n\t\t<li>Explain why the student does work as his body rises from the ground.</li>\r\n\t\t<li>State the form of energy that the student uses to do this work<br />\r\n\t\t&nbsp;</li>\r\n\t</ol>\r\n\t</li>\r\n\t<li>At the position shown in Fig. 2.1, the student is stationary.<br />\r\n\tThe weight of the student causes a moment about his toes.\r\n\t<ol>\r\n\t\t<li>Calculate the moment of the weight of the student about his toes.</li>\r\n\t\t<li>Calculate the value of the force F</li>\r\n\t</ol>\r\n\t</li>\r\n</ol>\r\n	f	\N	\N	0	2017-03-06 05:39:49.825963	2017-07-26 09:41:26.180006		2		 UCLES 2015 - 5054/21/M/J/15	deo1@els.com	\N	accepted	\N	3	1	0,104,0,0	undefined,undefined,undefined,undefined	0,4,0,0	10
+1454	<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/11_workin-process_-_copy.jpg" style="width: 896px; height: 1535px;" /></p>\r\n	t	\N	\N	0	2017-07-13 15:40:43.62033	2017-07-13 15:51:26.859212		1			admin@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1455	<p>This is a test question with following points.&nbsp;</p>\r\n\r\n<ol>\r\n\t<li>Point # 1</li>\r\n\t<li>Point # 2</li>\r\n\t<li>Point $ 3</li>\r\n\t<li><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/12_workin-process.jpg" style="width: 40px; height: 69px;" /></li>\r\n</ol>\r\n	f	\N	\N	0	2017-07-16 21:44:34.244677	2017-07-16 21:44:34.244677		1			admin@els.com	\N	pending_for_hod_approval	\N	3		\N	\N	\N	1
+1453	<p>country of pakistan is ________ than emirates!</p>\r\n	f	\N	\N	0	2017-03-10 05:15:02.773437	2017-07-16 21:46:41.718675		3		testuing fahad	deo1@els.com	\N	rejected	2225	3		\N	\N	\N	1
+1325	<p>The diagram shows an alarm system.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/906_1460904083Fullscreen_capture_15-Apr-16_63132_PM.bmp.jpg?1460904082" alt="" width="508" height="394" /></p>\r\n<p>What happens when battery P is disconnected?</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/907_1460904096Fullscreen_capture_15-Apr-16_63135_PM.bmp.jpg?1460904096" alt="" width="376" height="191" /></p>	f	\N	\N	0	2016-04-17 14:41:46.652206	2016-04-17 14:41:46.652206		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
+1328	<p>The resistance of a cylindrical wire P is 80 &Omega;. A second wire Q is made from the same material.</p>\r\n<p>The cross-sectional area of Q is four times that of P. The length of Q is twice the length of P.</p>\r\n<p><img src="http://s3.amazonaws.com/elslearning/files/original/910_1460904247Fullscreen_capture_15-Apr-16_63152_PM.bmp.jpg?1460904247" alt="" width="365" height="200" /></p>\r\n<p>What is the resistance of Q?</p>	f	\N	\N	0	2016-04-17 14:44:36.950491	2016-04-17 14:44:36.950491		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	\N	1
+1456	<p>testing with haji fazal talal</p>\r\n	f	\N	\N	0	2017-07-17 17:33:33.820348	2017-07-17 17:40:38.310342		1		source	deo1@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1458	<p>True False</p>\r\n	f	\N	\N	0	2017-08-17 12:47:46.680012	2017-08-21 18:20:04.951175	<p>adilawdn aidbnlaiwnd</p>\r\n	4			deo1@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	4,5,6,7	1
+1459	<p>Descriptive</p>\r\n	f	\N	\N	0	2017-08-17 12:48:59.92854	2017-08-21 18:22:20.905037	<p>aiwdnliawdnlkawdnailwdnlawd</p>\r\n	2			deo1@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	4,5,6,7	1
+1444	<p>Descriptive #1</p>\r\n	f	\N	\N	0	2016-11-28 18:11:50.362205	2017-08-21 18:28:46.065251		2			admin@els.com	\N	pending_for_hod_approval	\N	3		21,93,201,0	\N	4,5,6,7	1
+1457	<p>Fill in the blanks</p>\r\n	f	\N	3	0	2017-08-17 12:47:06.922339	2017-08-21 18:16:18.816026	<p>ailwhdiadbniabwdiawdbaiwdb</p>\r\n	3	alkndwad		deo1@els.com	\N	accepted	\N	3		21,93,201,0	undefined,undefined,undefined,undefined	4,5,6,7	1
+1460	<p><strong>Giant Truck Moving Company: Customer Inquiry Form</strong></p>\r\n\r\n<p>Inquiry Number: 1 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n	f	\N	\N	0	2019-10-27 14:52:58.079394	2019-10-27 15:04:13.824733		3	Section 1: Questions 1-10\r\n\r\nQuestions 1-6\r\n\r\nComplete the notes below.\r\n\r\nWrite NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer. Write your answers in boxes 1-6 on your answer sheet.\r\n\r\n		ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1462	<p><span style="font-size:14px;">Section 1: Questions 1-10 </span></p>\r\n\r\n<p><span style="font-size:14px;">Questions 1-6 </span></p>\r\n\r\n<p>Complete the notes below.</p>\r\n\r\n<p>Write <span style="font-size:14px;"><strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong></span> for each answer. Write your answers in boxes 1-6 on your answer sheet.</p>\r\n\r\n<p><span style="font-size:18px;"><strong>Giant Truck Moving Company: Customer Inquiry Form</strong></span></p>\r\n\r\n<p>Inquiry Number: 1 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n\r\n<p>Customer Name: Mrs. June Rayburn</p>\r\n\r\n<p>Destination: 2 798 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.. Street, Grand City.</p>\r\n\r\n<p>Origin: Street Address: 12 Irving Court, Grand City</p>\r\n\r\n<p>Move Distance: 3 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n\r\n<p>Apartment size, or number of bedrooms: 4 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n	f	\N	\N	0	2019-10-27 14:53:23.309806	2019-10-27 15:05:22.915667		4			ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1461	<p><strong>Section 1: Questions 1-10</strong></p>\r\n\r\n<p><strong>Questions 1-6</strong></p>\r\n\r\n<p>Complete the notes below.</p>\r\n\r\n<p>Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer. Write your answers in boxes 1-6 on your answer sheet.</p>\r\n\r\n<p><strong>Giant Truck Moving Company: Customer Inquiry Form</strong></p>\r\n\r\n<p>Inquiry Number: 1 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n	f	\N	\N	0	2019-10-27 14:53:16.245672	2019-10-27 15:05:51.900244		3		https://ielts.magoosh.com/ielts-practice-test-pdf?utm_source=ieltsblog&utm_medium=inline&utm_campaign=practicetest	ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1465	<p>Apartment size, or number of bedrooms: 4 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n	f	\N	\N	0	2019-10-27 14:59:32.009857	2019-10-27 15:02:35.62258		3			ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1464	<p>Origin: Street Address: 12 Irving Court, Grand City</p>\r\n\r\n<p>Move Distance: 3 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..</p>\r\n	f	\N	\N	0	2019-10-27 14:58:30.610976	2019-10-27 15:03:23.590789		3			ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1463	<p>Customer Name: Mrs. June Rayburn</p>\r\n\r\n<p>Destination: 2 798 &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.. Street, Grand City.</p>\r\n	f	\N	\N	0	2019-10-27 14:57:29.891761	2019-10-27 15:04:46.626384		3			ieltsteacher@elslearn.com	\N	accepted	\N	13		0,1260,0,0	undefined,undefined,undefined,undefined	0,0,0,0	1
+1467	<p>Temperature is a __________ quantity and velocity is a __________ quantity.</p>\r\n	f	\N	\N	0	2019-10-27 16:14:46.849599	2019-10-27 16:14:46.849599		3			physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1476	<p>The diagram shows a mercury manometer connected to a gas container. The density of mercury is 13 600 kg/ m<sup>3</sup>.&nbsp; The gravitational field strength <em>g</em> is 10 N/ kg. The pressure difference between the gas in the container and the atmosphere is __________ Pa.<img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/18_img_8450.jpg" style="float: left; width: 500px; height: 368px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:02:43.209246	2019-10-27 17:02:43.209246		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1475	<p>A block of metal is taken from the Earth to the Moon. The _________ of the block changes.</p>\r\n	f	\N	\N	0	2019-10-27 17:01:21.916521	2019-10-27 17:01:21.916521		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1473	<p>Four objects of equal mass rest on a table. The center of mass of each object is labeled G. Object _______ is least stable.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/16_img_8448.jpg" style="float: left; width: 500px; height: 186px;" /></p>\r\n	f	\N	\N	0	2019-10-27 16:58:54.738926	2019-10-27 16:58:54.738926		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1472	<p>A beam pivoted at one end has a force of 5N acting vertically upwards on it as shown. The beam is in equilibrium. The weight of the beam is _________.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/15_img_8447.jpg" style="width: 500px; height: 209px;" /></p>\r\n	f	\N	\N	0	2019-10-27 16:56:45.883048	2019-10-27 16:56:45.883048		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1471	<p>A car of mass 1500 kg is towing a trailer of mass 1100 kg along a level road. The acceleration of the car is 1.30 m/s<sup>2</sup>. Ignoring friction and air resistance, the driving force on the car is _________ N.</p>\r\n	f	\N	\N	0	2019-10-27 16:50:15.563133	2019-10-27 16:50:15.563133		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1470	<p>A hard stone hits the ground and comes to rest almost immediately. As the stone hits the ground, the direction of the force acting on the ground is _________ and the size of the force is ___________ than the weight of the stone.</p>\r\n	f	\N	\N	0	2019-10-27 16:49:03.556288	2019-10-27 16:49:03.556288		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1469	<p>A steel ball is released just below the surface of thick oil in a cylinder. During the first few centimeters of travel, the acceleration of the ball is __________.</p>\r\n	f	\N	\N	0	2019-10-27 16:48:00.104155	2019-10-27 16:48:00.104155		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1468	<p>The speed-time graph represents the journey of a car. The dots separate different sections of the journey. There are six different sections. __________ sections represent the car moving with non-uniform acceleration.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/25_img_8446.jpg" style="float: left; width: 500px; height: 276px;" /></p>\r\n	f	\N	\N	0	2019-10-27 16:46:38.666794	2019-10-27 17:29:46.842578		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1485	<p>For the same temperature rise and the same original volume, from the three states of matter, ___________ expands the most while __________ expands the least.</p>\r\n	f	\N	\N	0	2019-10-27 17:24:44.691798	2019-10-27 17:24:44.691798		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1484	<p>A hot liquid is allowed to cool. The graph shows the cooling curve. Latent heat is released from _________ to ________. (which part of the curve)</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/23_img_8455.jpg" style="float: left; width: 499px; height: 225px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:23:58.26017	2019-10-27 17:23:58.26017		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1483	<p>Many gas appliances such as ovens and heaters use a small flame to ignite the main burner. To make sure that the small flame is burning, a temperature-measuring device is inserted into the flame. The most suitable device to use is a _________________ thermometer.</p>\r\n	f	\N	\N	0	2019-10-27 17:18:32.322631	2019-10-27 17:18:32.322631		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1482	<p>A rod of metal is heated at one end. __________move from the hot end and hit atoms further along the rod.</p>\r\n	f	\N	\N	0	2019-10-27 17:16:34.559633	2019-10-27 17:16:34.559633		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1481	<p>Four containers are filled with equal volumes of water at the same temperature. Containers A and B are shaded by a tree. Sunlight falls on containers C and D. The water evaporates first from container ________.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/22_img_8454.jpg" style="float: left; width: 501px; height: 229px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:15:53.170507	2019-11-01 12:07:56.956759		3		New Source	admin@els.com	1	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1480	<p>A gas is enclosed in a container of fixed volume. It gains heat energy from an external source. The molecules of the gas move ________ inside the container.</p>\r\n	f	\N	\N	0	2019-10-27 17:13:35.194596	2019-10-27 17:13:35.194596		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1479	<p>A transformer connected to a 240 V mains supply is used to light a 24 W lamp. The input current to the transformer is 0.11 A and the input voltage is 240 V. The useful output power of the transformer is 24 W. The efficiency of the transformer is __________.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/21_img_8453.jpg" style="float: left; width: 501px; height: 223px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:11:46.243724	2019-10-27 17:11:46.243724		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1478	<p>A ball is held at rest on one side of a curved track. The ball is released. It rolls down one side of the track and part of the way up the other side. It then stops, before rolling back down again. The height of the stopping point is less than that of the starting point.&nbsp; For the first time, the sequences of energy changes that take place are __________ to __________ and&nbsp; __________ to __________&nbsp;&nbsp;and ____________.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/20_img_8452.jpg" style="width: 500px; height: 221px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:09:40.170705	2019-10-27 17:09:40.170705		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1477	<p>A partially-inflated balloon is placed inside a bell jar. The bell jar is connected to an air pump. The air pump is switched on and air is removed from the bell jar. The pressures of the gas inside the balloon _________ while the volume of the gas ___________.<img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/19_img_8451.jpg" style="float: left; width: 500px; height: 290px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:04:13.476332	2019-10-27 17:04:13.476332		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1474	<p>A 100 g mass is suspended from a spring next to a vertical meter rule. The top of the spring is level with the 0.0 cm mark. The bottom of the spring is level with the 27.2 cm mark. The 100 g mass is replaced with a 600 g mass. The length of the spring is now 89.7 cm. The spring has not reached the limit of proportionality. The 100 g mass is replaced with a 600 g mass. The length of the spring is_________ cm.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/17_img_8449.jpg" style="float: left; width: 389px; height: 500px;" /></p>\r\n	f	\N	\N	0	2019-10-27 17:00:07.187876	2019-10-27 17:00:07.187876		3		https://www.cambridgeinternational.org/	physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1466	<p>A manufacturer measures accurately the dimensions of a wooden floor tile. The approximate dimensions of the tile are shown. ____________ is used to measure the length, ________ to measure the width and ________ is used to measure the thickness.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/24_img_8445.jpg" style="width: 500px; height: 194px;" /></p>\r\n	f	\N	\N	0	2019-10-27 16:10:17.046362	2019-10-27 17:27:31.391699		3			physicsdata@elslearn.com	\N	pending_for_hod_approval	\N	3	11	\N	\N	4,5,6,7	1
+1329	<p>A lamp, designed to work at 1.5 V, is connected to a cell of electromotive force (e.m.f.) 1.5 V. The&nbsp;lamp lights at normal brightness.</p>\r\n\r\n<p><img alt="" height="110" src="http://s3.amazonaws.com/elslearning/files/original/911_1460904303Fullscreen_capture_15-Apr-16_63156_PM.bmp.jpg?1460904303" width="112" /></p>\r\n\r\n<p>The lamp is now connected to four similar cells, each of e.m.f. 1.5 V, arranged in parallel.</p>\r\n\r\n<p><img alt="" height="291" src="http://s3.amazonaws.com/elslearning/files/original/912_1460904330Fullscreen_capture_15-Apr-16_63159_PM.bmp.jpg?1460904330" width="120" /></p>\r\n\r\n<p>What is the effect of connecting the extra cells in this way?</p>\r\n	f	\N	\N	0	2016-04-17 14:46:08.93955	2017-03-10 05:13:18.321146		1		UCLES 2011 - 5054/11/O/N/11	deo1@els.com	\N	pending_for_hod_approval	agaian reject	3	11	\N	\N	\N	1
+1487	<p>what is computer?</p>\r\n\r\n<p>&nbsp;</p>\r\n	f	\N	\N	0	2019-11-16 23:02:00.19217	2019-11-16 23:02:00.19217		2		net	admin@els.com	\N	new	\N	3		\N	\N	4,5,6,7	1
+1486		t	\N	\N	0	2019-11-16 22:58:49.632299	2019-11-16 22:59:05.160945		3		net 	admin@els.com	\N	new	\N	3		\N	\N	4,5,6,7	1
+1488	<p>A manufacturer measures accurately the dimensions of a wooden floor tile.&nbsp;<br />\r\n&nbsp;<br />\r\nThe approximate dimensions of the tile are shown</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/32_img_8445.jpg" style="width: 400px; height: 155px;" /></p>\r\n\r\n<p>which instruments are used to measure accurately each of these dimensions?&nbsp;</p>\r\n	f	\N	\N	0	2019-11-19 16:02:06.10394	2019-11-19 16:05:02.599957		1		ucles 2012 - 5054/11/m/j/2004	dataielts@elslearn.com	\N	new	\N	3	11	\N	\N	4,5,6,7	1
+1489	<p>A manufacturer measures accurately the dimensions of a wooden floor tile.&nbsp;<br />\r\n&nbsp;<br />\r\nThe approximate dimensions of the tile are shown</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/32_img_8445.jpg" style="width: 400px; height: 155px;" /></p>\r\n\r\n<p>which instruments are used to measure accurately each of these dimensions?&nbsp;</p>\r\n	f	\N	\N	0	2019-11-19 16:05:48.047289	2019-11-19 16:05:48.047289		1		ucles 2012 - 5054/11/m/j/2004	dataielts@elslearn.com	\N	new	\N	3	11	\N	\N	4,5,6,7	1
+1490	<p>A manufacturer measures accurately the dimensions of a wooden floor tile. The approximate dimensions of the tile are shown. ____________ is used to measure the length, ________ to measure the width and ________ is used to measure the thickness.</p>\r\n\r\n<p><img alt="" src="http://s3.amazonaws.com/elslearnsystem/files/original/33_img_8445.jpg" style="width: 500px; height: 194px;" /></p>\r\n	f	\N	\N	0	2019-11-19 16:20:24.169765	2019-11-19 16:20:24.169765		3			dataielts@elslearn.com	\N	new	\N	3	11	\N	\N	4,5,6,7	1
+1491	<p>hp stand for:</p>\r\n	f	\N	\N	0	2019-11-27 11:19:30.07883	2019-11-27 11:19:30.163573		1		intro to electronic	teacher11@els.com	\N	reviewed_by_proofreader	\N	3		\N	\N	4,5,6,7	1
 \.
 
 
 --
--- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('questions_id_seq', 1453, true);
+SELECT pg_catalog.setval('public.questions_id_seq', 1491, true);
 
 
 --
--- Data for Name: quizzes; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: quizzes; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY quizzes (id, name, test_code, question_ids, user_id, created_at, updated_at, course_id, attempted, time_allowed, topic_ids) FROM stdin;
+COPY public.quizzes (id, name, test_code, question_ids, user_id, created_at, updated_at, course_id, attempted, time_allowed, topic_ids) FROM stdin;
 3	Testing Quiz 1	pFWe26cb	941,940,938,937,936,935,934,933,932,931,930,929,928,927,926,925,924,923,922,921,920,919,918,917,916,915,914,913,912,911,910,909,908,907,906,905,904,903,902,901,900,899,898,897,896,895,894,893,892,891,	7	2015-07-24 19:01:39.291583	2015-07-24 19:01:39.291583	3	f	\N	\N
 4	Testing Quiz 1	pFWe26cb	941,940,938,937,936,935,934,933,932,931,930,929,928,927,926,925,924,923,922,921,920,919,918,917,916,915,914,913,912,911,910,909,908,907,906,905,904,903,902,901,900,899,898,897,896,895,894,893,892,891,	7	2015-07-24 19:01:55.569815	2015-07-24 19:01:55.569815	3	f	\N	\N
 7	iqercsah	afhkk	1432,1420,1406	38	2016-10-03 13:47:56.986618	2016-10-03 13:47:56.986618	24	f	\N	\N
@@ -12198,21 +12461,27 @@ COPY quizzes (id, name, test_code, question_ids, user_id, created_at, updated_at
 35	14.10.16	bwydtipt	1416,1406	38	2016-10-14 05:28:12.744702	2017-01-11 07:06:16.967689	3	t	3	\N
 45	testing 445	phyphy1	1415,1411,1413	39	2017-02-06 19:18:07.316724	2017-02-06 19:18:07.316724	3	f	-1	\N
 46	gjbbv	hinnrvrb	1412,1446,1408	39	2017-02-20 16:33:11.755511	2017-02-20 16:33:11.755511	3	f	10	3,91,92,93,94
+47	test6	poiuyt	1456,1388,	39	2017-07-17 17:45:26.199911	2017-07-17 17:53:13.70214	3	t	3	\N
+48	19072017	lkjhgf	1389,1420,1408,	3	2017-07-18 21:45:41.92321	2017-07-18 21:47:47.478221	3	t	4.5	\N
+49	Test 26072017	checkmcq	1382,1403,1414,1399,1456,1384,	39	2017-07-26 09:38:46.551715	2017-07-26 20:31:03.639244	3	t	9	\N
+51	xyz	Jdhp3sn_	1465,1464,1463,1462,1461,1460,1465,1464,1463,1462,1461,1460,1465,1464,1463,1462,1461,1460,	101	2019-10-27 15:07:53.271917	2019-10-27 15:07:53.271917	95	f	27	\N
+52	ABC123	ABC123	1370,1407,1399,1405,	3	2019-10-28 19:44:59.574207	2019-10-28 19:44:59.574207	26	f	6	\N
+53	acadamic	PT4	1465,1464,1463,1462,1461,1460,	101	2019-10-30 12:11:41.447008	2019-10-30 12:11:41.447008	95	f	9	\N
 \.
 
 
 --
--- Name: quizzes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: quizzes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('quizzes_id_seq', 46, true);
+SELECT pg_catalog.setval('public.quizzes_id_seq', 53, true);
 
 
 --
--- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY roles (id, name, created_at, updated_at) FROM stdin;
+COPY public.roles (id, name, created_at, updated_at) FROM stdin;
 4	Admin	2015-03-27 15:12:20.100681	2015-03-27 15:12:20.100681
 5	Student	2015-03-28 15:45:07.00192	2015-03-28 15:45:07.00192
 6	Operator	2015-03-29 15:24:27.224534	2015-03-29 15:24:27.224534
@@ -12224,17 +12493,17 @@ COPY roles (id, name, created_at, updated_at) FROM stdin;
 
 
 --
--- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('roles_id_seq', 12, true);
+SELECT pg_catalog.setval('public.roles_id_seq', 12, true);
 
 
 --
--- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY schema_migrations (version) FROM stdin;
+COPY public.schema_migrations (version) FROM stdin;
 20160329142833
 20150317133738
 20150421145623
@@ -12367,10 +12636,10 @@ COPY schema_migrations (version) FROM stdin;
 
 
 --
--- Data for Name: teacher_courses; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: teacher_courses; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY teacher_courses (id, user_id, created_at, updated_at, course_id, degree_id) FROM stdin;
+COPY public.teacher_courses (id, user_id, created_at, updated_at, course_id, degree_id) FROM stdin;
 3	22	2015-06-15 18:50:05.560481	2015-06-15 18:50:05.560481	3	4
 4	22	2015-06-15 18:50:05.570706	2015-06-15 18:50:05.570706	3	5
 5	24	2015-07-06 19:15:42.481982	2015-07-06 19:15:42.481982	3	0
@@ -12403,10 +12672,6 @@ COPY teacher_courses (id, user_id, created_at, updated_at, course_id, degree_id)
 52	48	2016-04-05 04:07:43.697658	2016-04-05 04:07:43.697658	40	5
 53	48	2016-04-05 04:07:43.699792	2016-04-05 04:07:43.699792	28	4
 54	48	2016-04-05 04:07:43.701922	2016-04-05 04:07:43.701922	63	7
-55	42	2016-04-05 04:08:06.061127	2016-04-05 04:08:06.061127	21	6
-56	42	2016-04-05 04:08:06.063381	2016-04-05 04:08:06.063381	23	5
-57	42	2016-04-05 04:08:06.065552	2016-04-05 04:08:06.065552	4	4
-58	42	2016-04-05 04:08:06.067788	2016-04-05 04:08:06.067788	65	7
 59	43	2016-04-05 04:08:30.347535	2016-04-05 04:08:30.347535	21	6
 60	43	2016-04-05 04:08:30.349834	2016-04-05 04:08:30.349834	23	5
 61	43	2016-04-05 04:08:30.352222	2016-04-05 04:08:30.352222	4	4
@@ -12423,18 +12688,6 @@ COPY teacher_courses (id, user_id, created_at, updated_at, course_id, degree_id)
 72	41	2016-04-05 04:09:43.114339	2016-04-05 04:09:43.114339	23	0
 73	41	2016-04-05 04:09:43.116486	2016-04-05 04:09:43.116486	4	0
 74	41	2016-04-05 04:09:43.118561	2016-04-05 04:09:43.118561	65	0
-75	38	2016-04-05 04:10:39.19776	2016-04-05 04:10:39.19776	24	6
-76	38	2016-04-05 04:10:39.200026	2016-04-05 04:10:39.200026	26	5
-77	38	2016-04-05 04:10:39.202108	2016-04-05 04:10:39.202108	3	4
-78	38	2016-04-05 04:10:39.204181	2016-04-05 04:10:39.204181	69	7
-83	40	2016-04-05 04:11:35.022838	2016-04-05 04:11:35.022838	24	6
-84	40	2016-04-05 04:11:35.025057	2016-04-05 04:11:35.025057	26	5
-85	40	2016-04-05 04:11:35.027134	2016-04-05 04:11:35.027134	3	4
-86	40	2016-04-05 04:11:35.02919	2016-04-05 04:11:35.02919	69	7
-87	46	2016-04-09 20:42:48.867326	2016-04-09 20:42:48.867326	51	6
-88	46	2016-04-09 20:42:48.870819	2016-04-09 20:42:48.870819	40	5
-89	46	2016-04-09 20:42:48.873045	2016-04-09 20:42:48.873045	28	4
-90	46	2016-04-09 20:42:48.875214	2016-04-09 20:42:48.875214	63	7
 91	50	2016-04-16 12:39:29.399243	2016-04-16 12:39:29.399243	29	0
 92	50	2016-04-16 12:39:29.40213	2016-04-16 12:39:29.40213	41	0
 93	50	2016-04-16 12:39:29.403934	2016-04-16 12:39:29.403934	52	0
@@ -12463,57 +12716,82 @@ COPY teacher_courses (id, user_id, created_at, updated_at, course_id, degree_id)
 119	95	2017-02-04 05:59:55.349275	2017-02-04 05:59:55.349275	3	4
 120	95	2017-02-04 05:59:55.351966	2017-02-04 05:59:55.351966	28	4
 121	95	2017-02-04 05:59:55.353875	2017-02-04 05:59:55.353875	4	4
+122	101	2019-10-27 14:36:35.762614	2019-10-27 14:36:35.762614	95	4
+123	101	2019-10-27 14:36:35.768145	2019-10-27 14:36:35.768145	96	14
+124	111	2019-11-16 10:25:45.143091	2019-11-16 10:25:45.143091	3	4
+125	46	2019-11-16 10:36:31.734475	2019-11-16 10:36:31.734475	28	4
+126	46	2019-11-16 10:36:31.737469	2019-11-16 10:36:31.737469	40	5
+127	46	2019-11-16 10:36:31.740138	2019-11-16 10:36:31.740138	51	6
+128	46	2019-11-16 10:36:31.742756	2019-11-16 10:36:31.742756	63	7
+129	40	2019-11-16 10:48:02.157769	2019-11-16 10:48:02.157769	3	4
+130	40	2019-11-16 10:48:02.162271	2019-11-16 10:48:02.162271	26	5
+131	40	2019-11-16 10:48:02.16631	2019-11-16 10:48:02.16631	24	6
+132	40	2019-11-16 10:48:02.170415	2019-11-16 10:48:02.170415	69	7
+133	42	2019-11-16 10:52:20.523465	2019-11-16 10:52:20.523465	4	4
+134	42	2019-11-16 10:52:20.526658	2019-11-16 10:52:20.526658	23	5
+135	42	2019-11-16 10:52:20.529299	2019-11-16 10:52:20.529299	21	6
+136	42	2019-11-16 10:52:20.532005	2019-11-16 10:52:20.532005	65	7
+137	120	2019-11-27 10:36:37.664934	2019-11-27 10:36:37.664934	26	5
+138	38	2019-11-27 11:50:49.839367	2019-11-27 11:50:49.839367	3	4
+139	38	2019-11-27 11:50:49.842405	2019-11-27 11:50:49.842405	26	5
+140	38	2019-11-27 11:50:49.845209	2019-11-27 11:50:49.845209	24	6
+141	38	2019-11-27 11:50:49.848006	2019-11-27 11:50:49.848006	69	7
 \.
 
 
 --
--- Name: teacher_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: teacher_courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('teacher_courses_id_seq', 121, true);
+SELECT pg_catalog.setval('public.teacher_courses_id_seq', 141, true);
 
 
 --
--- Data for Name: teacher_requests; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: teacher_requests; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY teacher_requests (id, teacher_code, student_id, student_name, student_email, status, created_at, updated_at, teacher_token) FROM stdin;
+COPY public.teacher_requests (id, teacher_code, student_id, student_name, student_email, status, created_at, updated_at, teacher_token) FROM stdin;
 1	\N	60	FS	fs@els.com	SUCCESSFUL	2016-10-02 21:59:35.156521	2016-10-02 21:59:57.03602	TP2_58560
 2	\N	69	testing signup	signup@els.com	PENDING	2016-11-01 05:02:27.774598	2016-11-01 05:02:27.774598	jahd 
 3	\N	89	teacher is my name	teach@els.com	PENDING	2016-11-23 04:47:17.489464	2016-11-23 04:47:17.489464	FS345
 4	\N	94	fahad	fahadsid@els.com	FAILED	2017-01-11 06:49:35.450625	2017-01-11 06:49:53.40566	TP_97715
 5	\N	94	fahad	fahadsid@els.com	SUCCESSFUL	2017-01-11 06:50:05.647087	2017-01-11 06:50:13.298822	TP_97715
 6	\N	96	New Student	new.student@els.com	SUCCESSFUL	2017-02-04 08:59:06.600956	2017-02-04 08:59:16.760707	TT_56321
+7	\N	97	talal	pills@ait.com	SUCCESSFUL	2017-07-17 17:51:05.168472	2017-07-17 17:51:20.676323	TP2_58560
+8	\N	102	ieltsstudent	ieltsstudent@elslearn.com	PENDING	2019-10-27 15:13:17.257901	2019-10-27 15:13:17.257901	\tJdhp3sn_
+9	\N	107	abc	abc@els.com	PENDING	2019-11-14 14:26:04.752853	2019-11-14 14:26:04.752853	
+10	\N	109	ppp	ppp@els.com	PENDING	2019-11-15 15:13:06.621752	2019-11-15 15:13:06.621752	
+11	\N	109	ppp	ppp@els.com	PENDING	2019-11-15 15:13:30.856109	2019-11-15 15:13:30.856109	my test token create
 \.
 
 
 --
--- Name: teacher_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: teacher_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('teacher_requests_id_seq', 6, true);
+SELECT pg_catalog.setval('public.teacher_requests_id_seq', 11, true);
 
 
 --
--- Data for Name: tests; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: tests; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY tests (id, created_at, updated_at, name, questionids, question_ids, user_id, test_code, course_id) FROM stdin;
+COPY public.tests (id, created_at, updated_at, name, questionids, question_ids, user_id, test_code, course_id) FROM stdin;
 \.
 
 
 --
--- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('tests_id_seq', 1, false);
+SELECT pg_catalog.setval('public.tests_id_seq', 1, false);
 
 
 --
--- Data for Name: topic_linkings; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: topic_linkings; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY topic_linkings (id, topic_1, topic_2, topic_3, topic_4, course_linking_id, created_at, updated_at) FROM stdin;
+COPY public.topic_linkings (id, topic_1, topic_2, topic_3, topic_4, course_linking_id, created_at, updated_at) FROM stdin;
 8	980	907	939	\N	4	2016-04-14 13:10:07.245733	2016-04-14 13:10:07.245733
 9	982	909	939	\N	4	2016-04-14 13:10:30.554296	2016-04-14 13:10:30.554296
 10	981	908	940	\N	4	2016-04-14 13:10:44.667028	2016-04-14 13:10:44.667028
@@ -12609,21 +12887,22 @@ COPY topic_linkings (id, topic_1, topic_2, topic_3, topic_4, course_linking_id, 
 102	\N	163	270	\N	3	2016-07-04 19:43:54.405922	2016-07-04 19:43:54.405922
 103	\N	164	270	\N	3	2016-07-04 19:44:15.559042	2016-07-04 19:44:15.559042
 104	72	187	281	\N	3	2016-07-04 19:45:30.407118	2016-07-04 19:45:30.407118
+105	1049	1011	1079	\N	5	2019-11-16 11:52:11.070355	2019-11-16 11:52:11.070355
 \.
 
 
 --
--- Name: topic_linkings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: topic_linkings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('topic_linkings_id_seq', 104, true);
+SELECT pg_catalog.setval('public.topic_linkings_id_seq', 105, true);
 
 
 --
--- Data for Name: topics; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: topics; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM stdin;
+COPY public.topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM stdin;
 3	RANDOM	3	2015-01-17 17:59:40.380014	2015-01-17 17:59:40.380014	\N
 7	RANDOM	4	2015-01-27 11:27:55.232699	2015-01-27 11:27:55.232699	\N
 98	FREE-FALL	3	2016-01-18 02:30:09.624757	2016-01-18 02:30:09.624757	95
@@ -13016,6 +13295,7 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 413	ALCOHOLS	4	2016-01-20 10:42:04.001921	2016-01-20 10:42:04.001921	410
 414	CARBOXYLIC ACIDS	4	2016-01-20 10:42:11.436735	2016-01-20 10:42:11.436735	410
 415	MACROMOLECULES	4	2016-01-20 10:42:20.518504	2016-01-20 10:42:20.518504	410
+502	AMIDES	23	2016-01-20 16:58:12.766234	2016-01-20 16:58:12.766234	500
 416	ATOMS, MOLECULES AND STOICHIOMETRY	23	2016-01-20 10:46:07.61771	2016-01-20 10:46:07.61771	\N
 417	RELATIVE MASSES OF ATOMS AND MOLECULES	23	2016-01-20 10:46:18.838457	2016-01-20 10:46:18.838457	416
 418	THE MOLE AND THE AVOGADRO CONSTANT	23	2016-01-20 10:46:40.507102	2016-01-20 10:46:40.507102	416
@@ -13099,7 +13379,6 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 499	ACYL CHLORIDES	23	2016-01-20 16:57:52.733932	2016-01-20 16:57:52.733932	497
 500	NITROGEN COMPOUNDS	23	2016-01-20 16:58:03.40273	2016-01-20 16:58:03.40273	\N
 501	PRIMARY AMINES	23	2016-01-20 16:58:08.483972	2016-01-20 16:58:08.483972	500
-502	AMIDES	23	2016-01-20 16:58:12.766234	2016-01-20 16:58:12.766234	500
 503	AMINO ACIDS	23	2016-01-20 16:58:16.460765	2016-01-20 16:58:16.460765	500
 504	POLYMERISATION	23	2016-01-20 16:58:23.169871	2016-01-20 16:58:23.169871	\N
 505	CONDENSATION POLYMERISATION	23	2016-01-20 16:58:30.293817	2016-01-20 16:58:30.293817	504
@@ -13200,6 +13479,7 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 602	HABITAT DESTRUCTION	51	2016-01-21 05:49:48.624564	2016-01-21 05:49:48.624564	600
 603	POLLUTION	51	2016-01-21 05:49:53.056145	2016-01-21 05:49:53.056145	600
 604	CONSERVATION	51	2016-01-21 05:49:57.944332	2016-01-21 05:49:57.944332	600
+967	COSTS	41	2016-01-26 04:59:38.206199	2016-01-26 04:59:38.206199	964
 605	CELL STRUCTURE AND ORGANISATION	28	2016-01-25 05:41:55.37505	2016-01-25 05:41:55.37505	\N
 606	PLANT AND ANIMAL CELLS	28	2016-01-25 05:42:03.074606	2016-01-25 05:42:03.074606	605
 607	SPECIALISED CELLS, TISSUES AND ORGANS	28	2016-01-25 05:42:07.695507	2016-01-25 05:42:07.695507	605
@@ -13297,6 +13577,7 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 699	TRANSPORT MECHANISMS	40	2016-01-25 10:26:42.011749	2016-01-25 10:26:42.011749	697
 700	TRANSPORT IN MAMMALS	40	2016-01-25 10:26:50.501294	2016-01-25 10:26:50.501294	\N
 701	THE CIRCULATORY SYSTEM	40	2016-01-25 10:26:55.326415	2016-01-25 10:26:55.326415	700
+1157	DATABASES	30	2016-01-27 18:59:38.521153	2016-01-27 18:59:38.521153	\N
 702	THE HEART	40	2016-01-25 10:27:04.632728	2016-01-25 10:27:04.632728	700
 703	GAS EXCHANGE AND SMOKING	40	2016-01-25 10:27:12.73294	2016-01-25 10:27:12.73294	\N
 704	THE GAS EXCHANGE SYSTEM	40	2016-01-25 10:27:20.520633	2016-01-25 10:27:20.520633	703
@@ -13560,7 +13841,6 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 964	FINANCE AND ACCOUNTING	41	2016-01-26 04:59:24.815937	2016-01-26 04:59:24.815937	\N
 965	THE NEED FOR BUSINESS FINANCE	41	2016-01-26 04:59:29.648509	2016-01-26 04:59:29.648509	964
 966	SOURCES OF FINANCE	41	2016-01-26 04:59:33.867964	2016-01-26 04:59:33.867964	964
-967	COSTS	41	2016-01-26 04:59:38.206199	2016-01-26 04:59:38.206199	964
 968	ACCOUNTING FUNDAMENTALS	41	2016-01-26 04:59:42.293295	2016-01-26 04:59:42.293295	964
 969	FORECASTING CASH FLOWS AND MANAGING WORKING CAPITAL	41	2016-01-26 04:59:47.158464	2016-01-26 04:59:47.158464	964
 970	BUDGETS	41	2016-01-26 04:59:51.542905	2016-01-26 04:59:51.542905	964
@@ -13746,7 +14026,6 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 1154	PROGRAMMING	30	2016-01-27 18:59:24.366084	2016-01-27 18:59:24.366084	\N
 1155	PROGRAMMING CONCEPTS	30	2016-01-27 18:59:28.467574	2016-01-27 18:59:28.467574	1154
 1156	DATA STRUCTURES; ARRAYS	30	2016-01-27 18:59:33.301273	2016-01-27 18:59:33.301273	1154
-1157	DATABASES	30	2016-01-27 18:59:38.521153	2016-01-27 18:59:38.521153	\N
 1158	INFORMATION REPRESENTATION	42	2016-01-29 05:37:50.605653	2016-01-29 05:37:50.605653	\N
 1159	NUMBER REPRESENTATION	42	2016-01-29 05:37:56.15902	2016-01-29 05:37:56.15902	1158
 1160	IMAGES	42	2016-01-29 05:38:00.512586	2016-01-29 05:38:00.512586	1158
@@ -13845,948 +14124,252 @@ COPY topics (id, name, course_id, created_at, updated_at, parent_topic_id) FROM 
 1253	EXCEPTION HANDLING	42	2016-01-29 05:45:25.76832	2016-01-29 05:45:25.76832	1246
 1254	USE OF DEVELOPMENT TOOLS / PROGRAMMING ENVIRONMENTS	42	2016-01-29 05:45:29.524353	2016-01-29 05:45:29.524353	1246
 234	ELASTIC AND PLASTIC BEHAVIOUR	26	2016-01-20 05:43:41.185761	2016-07-04 19:35:08.662989	232
+1255	WRITING	96	2019-10-16 11:33:15.104654	2019-10-16 11:33:15.104654	\N
+1256	READING	96	2019-10-16 11:33:34.927037	2019-10-16 11:33:34.927037	\N
+1257	LISTENING	96	2019-10-16 11:34:35.508031	2019-10-16 11:34:35.508031	\N
+1258	SPEAKING	96	2019-10-16 11:34:46.475165	2019-10-16 11:34:46.475165	\N
+1259	SPEAKING	95	2019-10-16 14:08:14.523512	2019-10-16 14:08:14.523512	\N
+1260	LISTENING	95	2019-10-16 14:08:28.894579	2019-10-16 14:08:28.894579	\N
+1261	WRITING	95	2019-10-16 14:08:41.860677	2019-10-16 14:08:41.860677	\N
+1262	READING	95	2019-10-16 14:08:57.98111	2019-10-16 14:08:57.98111	\N
+1263	LOOPS	3	2019-11-16 10:00:42.264571	2019-11-16 10:00:42.264571	153
+1264	ASDDSAD	3	2019-11-16 10:00:47.299693	2019-11-16 10:00:47.299693	153
 \.
 
 
 --
--- Name: topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('topics_id_seq', 1254, true);
+SELECT pg_catalog.setval('public.topics_id_seq', 1264, true);
 
 
 --
--- Data for Name: user_addresses; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: user_addresses; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY user_addresses (id, address, state, city, zipcode, coutry, user_id, created_at, updated_at) FROM stdin;
+COPY public.user_addresses (id, address, state, city, zipcode, coutry, user_id, created_at, updated_at) FROM stdin;
 \.
 
 
 --
--- Name: user_addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: user_addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('user_addresses_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_addresses_id_seq', 1, false);
 
 
 --
--- Data for Name: user_packages; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: user_packages; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY user_packages (id, package_id, validity, credit_left, user_id, created_at, updated_at, plan, name, course_id) FROM stdin;
+COPY public.user_packages (id, package_id, validity, credit_left, user_id, created_at, updated_at, plan, name, course_id) FROM stdin;
 1	11	2016-12-11 10:40:30.811783	3850	87	2016-11-11 10:40:30.805365	2016-11-11 10:40:30.812164	complete	PHYSICS - 5054	3
 5	9	2016-12-28 10:47:42.921154	3850	90	2016-11-28 10:47:42.914204	2016-11-28 10:47:42.921542	complete	PHYSICS - 0625	24
 29	11	2017-03-06 06:02:47.261659	3850	96	2017-02-04 06:02:47.255894	2017-02-04 06:02:47.262056	complete	PHYSICS - 5054	3
 30	7	2017-03-06 06:02:47.268896	2750	96	2017-02-04 06:02:47.264309	2017-02-04 06:02:47.26921	value	CHEMISTRY - 5070	4
 31	11	2017-03-06 06:02:47.278704	3850	96	2017-02-04 06:02:47.271236	2017-02-04 06:02:47.279016	complete	BIOLOGY - 5090	28
 28	11	2017-02-10 06:43:05.520458	3826	94	2017-01-11 06:43:05.515826	2017-02-09 05:36:57.26173	complete	PHYSICS - 5054	3
-24	7	2017-02-19 15:10:58.273527	100	60	2016-12-27 02:36:14.866275	2017-01-20 14:41:46.055745	value	CHEMISTRY - 5070	4
-32	11	2017-03-30 16:06:59.130628	3762	60	2017-02-28 16:06:59.122415	2017-05-19 16:28:51.344022	complete	PHYSICS - 5054	3
+55	11	2019-11-27 19:48:55.864458	3850	105	2019-10-28 19:48:55.859026	2019-10-28 19:48:55.864992	complete	PAKISTAN STUDIES - 2059	37
+72	11	2019-11-29 10:46:14.752567	3850	107	2019-10-30 10:46:14.744423	2019-10-30 10:46:14.75385	complete	IELTS ACADEMIC	95
+33	11	2017-08-16 17:48:41.216423	4000	97	2017-07-17 17:48:41.206029	2017-07-26 20:42:45.22363	complete	PHYSICS - 5054	3
+34	11	2017-08-25 20:35:25.189234	4000	97	2017-07-26 20:35:25.165586	2017-07-26 20:42:45.228027	complete	CHEMISTRY - 5070	4
+56	11	2019-11-27 19:48:55.873151	3850	105	2019-10-28 19:48:55.867694	2019-10-28 19:48:55.873683	complete	ENGLISH LANGUAGE - 1123	38
+35	11	2017-09-07 13:02:17.496343	5000	60	2017-08-08 13:02:17.477544	2017-10-09 18:07:50.00944	complete	PHYSICS - 5054	3
+57	11	2019-11-27 19:48:55.881892	3850	105	2019-10-28 19:48:55.876369	2019-10-28 19:48:55.882438	complete	IELTS ACADEMIC	95
+82	11	2019-12-18 14:29:17.384123	3850	113	2019-11-18 14:29:17.372331	2019-11-18 14:29:17.386176	complete	CHEMISTRY - 5070	4
+58	11	2019-11-27 19:53:50.810255	3850	106	2019-10-28 19:53:50.804035	2019-10-28 19:53:50.810828	complete	PHYSICS - 5054	3
+38	11	2018-09-08 06:14:56.836216	3850	60	2018-08-09 06:14:56.822944	2018-08-09 06:14:56.836923	complete	ECONOMICS - 2281	31
+59	11	2019-11-27 19:53:50.819293	3850	106	2019-10-28 19:53:50.813495	2019-10-28 19:53:50.819869	complete	CHEMISTRY - 5070	4
+41	11	2019-11-26 17:32:57.090013	3850	98	2019-10-27 17:32:57.080302	2019-10-27 17:32:57.090658	complete	IELTS ACADEMIC	95
+60	11	2019-11-27 19:53:50.828335	3850	106	2019-10-28 19:53:50.822585	2019-10-28 19:53:50.82894	complete	PRINCIPLES OF ACCOUNTS - 7110	27
+83	11	2019-12-19 09:41:46.84016	3850	116	2019-11-19 09:41:46.831395	2019-11-19 09:41:46.841568	complete	PHYSICS - 5054	3
+61	11	2019-11-27 19:53:50.837289	3850	106	2019-10-28 19:53:50.831617	2019-10-28 19:53:50.837824	complete	BIOLOGY - 5090	28
+43	10	2019-11-27 19:41:49.912021	4950	49	2019-10-28 19:41:49.90302	2019-10-28 19:41:49.912614	complete	PHYSICS - 9702	26
+44	11	2019-11-27 19:48:55.769931	3850	105	2019-10-28 19:48:55.763995	2019-10-28 19:48:55.770509	complete	PHYSICS - 5054	3
+73	11	2019-11-29 10:46:58.950968	3806	107	2019-10-30 10:46:58.942641	2019-10-30 11:52:03.663162	complete	PHYSICS - 5054	3
+45	11	2019-11-27 19:48:55.778516	3850	105	2019-10-28 19:48:55.773075	2019-10-28 19:48:55.77902	complete	CHEMISTRY - 5070	4
+62	11	2019-11-27 19:53:50.846834	3850	106	2019-10-28 19:53:50.84047	2019-10-28 19:53:50.847499	complete	BUSINESS STUDIES - 7115	29
+46	11	2019-11-27 19:48:55.787056	3850	105	2019-10-28 19:48:55.781577	2019-10-28 19:48:55.787558	complete	PRINCIPLES OF ACCOUNTS - 7110	27
+47	11	2019-11-27 19:48:55.79562	3850	105	2019-10-28 19:48:55.790092	2019-10-28 19:48:55.796119	complete	BIOLOGY - 5090	28
+89	11	2019-12-20 17:17:41.015481	3850	119	2019-11-20 17:17:41.009315	2019-11-20 17:17:41.016078	complete	PHYSICS - 5054	3
+48	11	2019-11-27 19:48:55.803985	3850	105	2019-10-28 19:48:55.798683	2019-10-28 19:48:55.804518	complete	BUSINESS STUDIES - 7115	29
+63	11	2019-11-27 19:53:50.85618	3850	106	2019-10-28 19:53:50.850383	2019-10-28 19:53:50.856722	complete	COMPUTER SCIENCE - 2210	30
+49	11	2019-11-27 19:48:55.812612	3850	105	2019-10-28 19:48:55.807234	2019-10-28 19:48:55.813119	complete	COMPUTER SCIENCE - 2210	30
+50	11	2019-11-27 19:48:55.821211	3850	105	2019-10-28 19:48:55.815772	2019-10-28 19:48:55.821767	complete	ECONOMICS - 2281	31
+84	11	2019-12-19 09:42:42.392204	3850	116	2019-11-19 09:42:42.382777	2019-11-19 09:42:42.392985	complete	CHEMISTRY - 5070	4
+51	11	2019-11-27 19:48:55.829723	3850	105	2019-10-28 19:48:55.824397	2019-10-28 19:48:55.830254	complete	MATHEMATICS D - 4024	32
+64	11	2019-11-27 19:53:50.864838	3850	106	2019-10-28 19:53:50.859306	2019-10-28 19:53:50.865374	complete	ECONOMICS - 2281	31
+52	11	2019-11-27 19:48:55.838121	3850	105	2019-10-28 19:48:55.832791	2019-10-28 19:48:55.838667	complete	ADDITIONAL MATHEMATICS - 4037	33
+53	11	2019-11-27 19:48:55.846755	3850	105	2019-10-28 19:48:55.841258	2019-10-28 19:48:55.84727	complete	ISLAMIYAT - 2058	34
+54	11	2019-11-27 19:48:55.855866	3850	105	2019-10-28 19:48:55.849984	2019-10-28 19:48:55.856385	complete	COMPUTER STUDIES - 7010	36
+65	11	2019-11-27 19:53:50.873909	3850	106	2019-10-28 19:53:50.868097	2019-10-28 19:53:50.874476	complete	MATHEMATICS D - 4024	32
+66	11	2019-11-27 19:53:50.882786	3850	106	2019-10-28 19:53:50.877143	2019-10-28 19:53:50.883311	complete	ADDITIONAL MATHEMATICS - 4037	33
+67	11	2019-11-27 19:53:50.891756	3850	106	2019-10-28 19:53:50.886007	2019-10-28 19:53:50.892298	complete	ISLAMIYAT - 2058	34
+74	11	2019-12-01 13:57:26.157497	3850	98	2019-11-01 13:57:26.145821	2019-11-01 13:57:26.158095	complete	CHEMISTRY - 5070	4
+68	11	2019-11-27 19:53:50.900581	3850	106	2019-10-28 19:53:50.894978	2019-10-28 19:53:50.901127	complete	COMPUTER STUDIES - 7010	36
+85	7	2019-12-19 22:05:41.730209	2750	117	2019-11-19 22:05:41.722984	2019-11-19 22:05:41.730939	value	PHYSICS - 5054	3
+69	11	2019-11-27 19:53:50.909757	3850	106	2019-10-28 19:53:50.903978	2019-10-28 19:53:50.910323	complete	PAKISTAN STUDIES - 2059	37
+42	11	2019-11-26 17:37:57.840242	3766	98	2019-10-27 17:37:57.82745	2019-11-02 09:45:59.382092	complete	PHYSICS - 5054	3
+70	11	2019-11-27 19:53:50.918689	3850	106	2019-10-28 19:53:50.913091	2019-10-28 19:53:50.919218	complete	ENGLISH LANGUAGE - 1123	38
+71	11	2019-11-27 19:53:50.927777	3850	106	2019-10-28 19:53:50.922098	2019-10-28 19:53:50.928315	complete	IELTS ACADEMIC	95
+75	3	\N	\N	107	2019-11-14 14:27:29.074379	2019-11-14 14:27:29.086544	free	PAKISTAN STUDIES - 2059	37
+76	6	2019-12-14 14:53:18.625515	3850	108	2019-11-14 14:53:18.619151	2019-11-14 14:53:18.626267	value	COMPUTER SCIENCE - 9608	42
+77	3	\N	\N	109	2019-11-15 15:10:24.399989	2019-11-15 15:10:24.404158	free	PHYSICS - 5054	3
+78	3	\N	\N	109	2019-11-15 15:12:47.462578	2019-11-15 15:12:47.470115	free	COMPUTER SCIENCE - 2210	30
+79	3	\N	\N	110	2019-11-15 15:31:49.699811	2019-11-15 15:31:49.703404	free	PHYSICS - 5054	3
+80	3	\N	\N	112	2019-11-16 11:34:38.645623	2019-11-16 11:34:38.651674	free	BIOLOGY - 5090	28
+81	3	\N	\N	113	2019-11-18 14:27:08.167937	2019-11-18 14:27:08.173731	free	PHYSICS - 5054	3
+86	11	2019-12-19 22:06:36.511024	3850	117	2019-11-19 22:06:36.4963	2019-11-19 22:06:36.511932	complete	PRINCIPLES OF ACCOUNTS - 7110	27
+90	11	2019-12-20 17:18:58.314319	3850	119	2019-11-20 17:18:58.305232	2019-11-20 17:18:58.314901	complete	PRINCIPLES OF ACCOUNTS - 7110	27
+87	11	2019-12-20 07:27:09.710534	3850	118	2019-11-20 07:27:09.702009	2019-11-20 07:27:09.711301	complete	PHYSICS - 5054	3
 \.
 
 
 --
--- Name: user_packages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: user_packages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('user_packages_id_seq', 32, true);
+SELECT pg_catalog.setval('public.user_packages_id_seq', 90, true);
 
 
 --
--- Data for Name: user_test_histories; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: user_test_histories; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY user_test_histories (id, course, score, total, code, user_id, created_at, updated_at, board_id, degree_id, pastpaperflag, mcq, fill, truefalse, descriptive, year, session, course_id, topic_ids, quiz_name, is_live, video_review, teacher_id, student_feedback, reviewed, total_questions) FROM stdin;
-1	PHYSICS	0	5	\N	6	2015-03-29 15:22:56.36483	2015-03-29 15:22:56.36483	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	f	\N	\N	\N	f	\N
-2	3	0	25	\N	\N	2015-04-06 20:30:30.642183	2015-04-06 20:30:30.642183	1	4	2	5	0	0	0	2014	0	\N	\N	\N	f	\N	\N	\N	f	\N
-3	4	0	25	\N	\N	2015-04-06 20:34:24.403307	2015-04-06 20:34:24.403307	1	4	2	5	0	0	0	2014	0	\N	\N	\N	f	\N	\N	\N	f	\N
-4	4	-10	25	\N	\N	2015-04-07 10:28:15.151212	2015-04-07 10:28:15.151212	1	4	2	5	0	0	0	2013	0	\N	\N	\N	f	\N	\N	\N	f	\N
-5	4	-25	50	\N	\N	2015-04-09 21:06:06.971509	2015-04-09 21:06:06.971509	4	4	2	10	0	0	0	1997	0	\N	\N	\N	f	\N	\N	\N	f	\N
-6	3	-15	20	\N	\N	2015-04-14 08:11:59.689585	2015-04-14 08:11:59.689585	3	4	2	4	0	0	0	2014	0	\N	\N	\N	f	\N	\N	\N	f	\N
-7	3	\N	\N	\N	\N	2015-04-21 09:13:25.352621	2015-04-21 09:13:25.352621	3	4	1	0	0	0	0	2006	0	\N	\N	\N	f	\N	\N	\N	f	\N
-8	4	\N	\N	\N	\N	2015-04-21 09:14:26.806766	2015-04-21 09:14:26.806766	3	4	1	0	0	0	0	2013	0	\N	\N	\N	f	\N	\N	\N	f	\N
-9	4	\N	\N	\N	\N	2015-04-21 09:14:30.242687	2015-04-21 09:14:30.242687	3	4	1	0	0	0	0	2013	0	\N	\N	\N	f	\N	\N	\N	f	\N
-10	4	\N	\N	\N	\N	2015-04-21 09:47:15.32703	2015-04-21 09:47:15.32703	3	4	1	0	0	0	0	2013	0	\N	\N	\N	f	\N	\N	\N	f	\N
-12	3	\N	\N	\N	3	2015-05-06 09:28:16.262441	2015-05-06 09:28:16.262441	1	4	2	10	\N	\N	\N	2014	0	\N	\N	\N	f	\N	\N	\N	f	\N
-11	3	50	50	\N	3	2015-05-06 09:28:16.138488	2015-05-20 21:56:42.46832	1	4	2	10	\N	\N	\N	2014	0	3	\N	\N	f	\N	\N	\N	f	\N
-13	\N	\N	\N	\N	3	2015-06-12 13:01:31.844153	2015-06-12 13:01:31.844153	1	4	1	\N	\N	\N	\N	2013	0	4	\N	\N	f	\N	\N	\N	f	\N
-14	\N	\N	\N	\N	3	2015-06-12 13:01:32.244526	2015-06-12 13:01:32.244526	1	4	1	\N	\N	\N	\N	2013	0	4	\N	\N	f	\N	\N	\N	f	\N
-15	\N	5	50	\N	3	2015-06-12 13:02:56.297207	2015-06-12 13:03:52.183027	1	4	2	10	0	0	0	2014	0	3	\N	\N	f	\N	\N	\N	f	\N
-16	\N	\N	\N	\N	3	2015-06-12 13:05:34.108984	2015-06-12 13:07:58.89282	1	4	1	0	0	0	0	2013	0	4	\N	\N	f	\N	\N	\N	f	\N
-17	\N	\N	\N	\N	21	2015-06-12 13:38:38.619933	2015-06-12 13:38:38.619933	1	4	1	\N	\N	\N	\N	2012	0	3	\N	\N	f	\N	\N	\N	f	\N
-18	\N	\N	\N	\N	21	2015-06-12 13:38:38.909534	2015-06-12 13:38:38.909534	1	4	1	\N	\N	\N	\N	2012	0	3	\N	\N	f	\N	\N	\N	f	\N
-19	\N	\N	\N	\N	3	2015-06-12 16:40:59.436947	2015-06-12 16:40:59.436947	1	4	1	0	0	0	0	2012	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-20	\N	\N	\N	\N	3	2015-06-12 16:44:56.831717	2015-06-12 16:44:56.831717	1	4	1	\N	\N	\N	\N	2012	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-21	\N	\N	\N	\N	3	2015-06-12 16:44:57.559623	2015-06-12 16:44:57.559623	1	4	1	\N	\N	\N	\N	2012	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-22	\N	\N	\N	\N	3	2015-07-23 15:43:49.036873	2015-07-23 15:43:49.036873	3	4	2	20	\N	\N	\N	2014	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-23	\N	\N	\N	\N	3	2015-07-23 15:43:49.501154	2015-07-23 15:43:49.501154	3	4	2	20	\N	\N	\N	2014	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-24	\N	25	50	\N	7	2015-07-24 18:56:15.626332	2015-07-24 19:00:22.497419	1	4	2	10	0	0	0	2014	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-25	\N	\N	\N	\N	9	2015-09-22 15:25:42.399848	2015-09-22 15:25:42.399848	3	4	2	10	\N	\N	\N	2014	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-26	\N	15	50	\N	9	2015-09-22 15:25:42.502409	2015-09-22 15:27:32.846704	3	4	2	10	\N	\N	\N	2014	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-27	\N	\N	\N	\N	9	2015-09-23 09:42:00.160778	2015-09-23 09:42:00.160778	3	4	1	\N	\N	\N	\N	2011	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-28	\N	\N	\N	\N	9	2015-09-23 09:42:00.403565	2015-09-23 09:42:00.403565	3	4	1	\N	\N	\N	\N	2011	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-29	\N	\N	\N	\N	9	2015-11-12 16:12:42.846385	2015-11-12 16:12:42.846385	3	4	1	\N	\N	\N	\N	2011	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-30	\N	\N	\N	\N	9	2015-11-12 16:12:43.072832	2015-11-12 16:12:43.072832	3	4	1	\N	\N	\N	\N	2011	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-31	\N	\N	\N	\N	3	2016-04-14 08:13:52.040228	2016-04-14 08:13:52.040228	3	6	1	0	0	0	0	2016	May/June	\N	\N	\N	f	\N	\N	\N	f	\N
-32	\N	\N	\N	\N	3	2016-04-14 08:19:13.882932	2016-04-14 08:19:13.882932	3	6	1	0	0	0	0	2016	May/June	\N	\N	\N	f	\N	\N	\N	f	\N
-33	\N	\N	\N	\N	3	2016-04-14 10:30:07.003188	2016-04-14 10:30:07.003188	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-34	\N	\N	\N	\N	3	2016-04-14 16:11:48.025294	2016-04-14 16:11:48.025294	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-35	\N	\N	\N	\N	3	2016-04-14 16:47:05.284851	2016-04-14 16:47:05.284851	3	4	1	0	0	0	0	2012	May/June	3	\N	\N	f	\N	\N	\N	f	\N
-36	\N	\N	\N	\N	3	2016-04-14 17:46:11.312154	2016-04-14 17:46:11.312154	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-37	\N	\N	\N	\N	3	2016-04-15 08:56:17.771227	2016-04-15 08:56:17.771227	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-38	\N	\N	\N	\N	3	2016-04-15 08:58:23.560549	2016-04-15 08:58:23.560549	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-39	\N	0	5	\N	3	2016-04-15 09:43:29.845201	2016-04-15 09:43:42.644213	3	6	2	2	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-40	\N	\N	\N	\N	3	2016-04-15 09:44:15.160777	2016-04-15 09:44:15.160777	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-41	\N	\N	\N	\N	3	2016-04-15 09:45:05.013479	2016-04-15 09:45:05.013479	3	6	1	0	0	0	0	2015	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-42	\N	\N	\N	\N	3	2016-04-15 09:45:27.329636	2016-04-15 09:45:27.329636	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-43	\N	\N	\N	\N	3	2016-04-15 10:15:20.465533	2016-04-15 10:15:20.465533	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-55	\N	0	5	\N	3	2016-04-15 12:42:59.058257	2016-04-15 12:43:10.026384	3	6	2	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-45	\N	\N	\N	\N	3	2016-04-15 10:37:00.384814	2016-04-15 10:37:00.384814	3	6	1	0	0	0	0	2015	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-46	\N	5	5	\N	3	2016-04-15 10:39:23.539824	2016-04-15 10:39:34.280867	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-56	\N	5	5	\N	3	2016-04-15 12:43:29.900292	2016-04-15 12:43:44.995554	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-44	\N	5	5	\N	3	2016-04-15 10:15:59.036007	2016-04-15 10:40:11.539573	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-47	\N	\N	\N	\N	3	2016-04-15 10:40:53.696887	2016-04-15 10:40:53.696887	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-57	\N	\N	\N	\N	3	2016-04-15 12:44:08.181155	2016-04-15 12:44:08.181155	3	6	2	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-48	\N	5	5	\N	3	2016-04-15 10:46:09.701229	2016-04-15 10:46:55.520511	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-49	\N	\N	\N	\N	3	2016-04-15 11:00:34.306243	2016-04-15 11:00:34.306243	3	6	1	0	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-58	\N	\N	\N	\N	3	2016-04-15 13:06:50.475996	2016-04-15 13:06:50.475996	3	6	1	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-50	\N	5	5	\N	3	2016-04-15 11:35:59.930305	2016-04-15 11:36:35.254365	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-51	\N	5	5	\N	3	2016-04-15 11:37:26.037333	2016-04-15 11:37:50.444514	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-52	\N	0	5	\N	3	2016-04-15 11:38:12.665168	2016-04-15 11:38:22.158371	3	6	2	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-53	\N	5	5	\N	3	2016-04-15 11:38:44.697604	2016-04-15 11:38:57.933519	3	6	2	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-54	\N	0	5	\N	3	2016-04-15 11:39:16.92905	2016-04-15 11:39:27.071439	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-59	\N	5	5	\N	3	2016-04-15 13:07:23.484547	2016-04-15 13:11:17.88576	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-63	\N	0	5	\N	3	2016-04-15 16:27:26.62559	2016-04-15 16:27:38.717045	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-61	\N	5	5	\N	9	2016-04-15 14:32:24.494263	2016-04-15 14:32:33.927009	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-60	\N	5	5	\N	9	2016-04-15 14:31:54.092799	2016-04-15 14:32:44.934011	3	6	1	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-62	\N	5	5	\N	3	2016-04-15 16:26:17.141676	2016-04-15 16:26:34.241463	3	6	2	10	0	0	0	2015	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-64	\N	5	5	\N	3	2016-04-17 18:37:07.750561	2016-04-17 18:37:59.376667	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-65	\N	5	5	\N	3	2016-04-20 17:55:55.308254	2016-04-20 17:56:04.50477	3	6	1	0	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-66	\N	5	5	\N	3	2016-04-21 17:27:53.325485	2016-04-21 17:28:04.033111	3	6	1	10	0	0	0	2016	May/June	21	\N	\N	f	\N	\N	\N	f	\N
-67	\N	5	5	\N	3	2016-04-21 17:28:34.172824	2016-04-21 17:28:43.935398	3	6	2	10	0	0	0	2016	May/June	24	\N	\N	f	\N	\N	\N	f	\N
-68	\N	5	5	\N	3	2016-04-26 11:32:26.483825	2016-04-26 11:32:35.504523	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n- '361'\n- '359'\n	\N	f	\N	\N	\N	f	\N
-69	\N	5	5	\N	3	2016-04-26 11:35:28.500101	2016-04-26 11:35:39.498534	3	6	2	2	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '322'\n- '361'\n- '359'\n- '369'\n- '331'\n- '334'\n	\N	f	\N	\N	\N	f	\N
-70	\N	5	5	\N	3	2016-04-26 11:38:52.720088	2016-04-26 15:43:21.254998	3	6	2	2	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n	\N	f	\N	\N	\N	f	\N
-123	\N	0	45	\N	58	2016-10-07 19:19:08.778174	2016-10-07 19:19:18.410485	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-124	\N	0	60	asdfwqer	60	2016-10-08 04:38:32.385548	2016-10-08 04:39:42.542872	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-71	\N	10	10	\N	3	2016-04-26 11:40:12.29542	2016-04-26 11:44:45.735236	3	6	2	2	0	0	0	2016	May/June	21	---\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n	\N	f	\N	\N	\N	f	\N
-74	\N	5	5	\N	3	2016-04-26 15:40:36.925099	2016-04-26 15:41:25.99179	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n	\N	f	\N	\N	\N	f	\N
-75	\N	5	5	\N	3	2016-04-26 15:42:24.741129	2016-04-26 15:42:34.97351	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n	\N	f	\N	\N	\N	f	\N
-73	\N	5	5	\N	3	2016-04-26 14:46:06.715024	2016-04-26 15:42:58.621218	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n- '361'\n- '359'\n- '369'\n- '331'\n	\N	f	\N	\N	\N	f	\N
-72	\N	5	5	\N	3	2016-04-26 11:48:06.443946	2016-04-26 15:43:10.173191	3	6	2	2	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n	\N	f	\N	\N	\N	f	\N
-76	\N	\N	\N	\N	3	2016-04-26 15:48:50.683488	2016-04-26 15:48:50.683488	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n- '322'\n- '361'\n- '359'\n	\N	f	\N	\N	\N	f	\N
-77	\N	\N	\N	\N	3	2016-04-26 15:51:37.40247	2016-04-26 15:51:37.40247	3	6	2	10	0	0	0	2016	May/June	21	---\n- '339'\n- '357'\n- '355'\n- '368'\n- '366'\n- '367'\n- '321'\n- '320'\n	\N	f	\N	\N	\N	f	\N
-78	\N	5	5	\N	3	2016-04-26 17:55:38.889267	2016-04-26 17:55:49.216104	3	6	2	10	0	0	0	2016	May/June	21	339,357,355,368,366,367,321	\N	f	\N	\N	\N	f	\N
-86	\N	10	55	\N	58	2016-10-06 16:54:29.863921	2016-10-06 16:55:32.30138	3	5	2	12	0	0	0	2016	May/June	26	200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314	Created by you	f	\N	\N	\N	f	\N
-79	\N	10	10	\N	3	2016-04-27 08:40:50.757018	2016-04-27 08:41:31.312684	3	6	2	10	0	0	0	2016	May/June	21	339,357,355,368,366,367,321,320,322,361,359,369	\N	f	\N	\N	\N	f	\N
-80	\N	10	10	\N	3	2016-04-27 08:44:47.668617	2016-04-27 08:49:09.260561	3	6	2	10	0	0	0	2016	May/June	21	357,355	\N	f	\N	\N	\N	f	\N
-81	\N	\N	\N	\N	3	2016-08-24 14:18:23.359258	2016-08-24 14:18:23.359258	3	4	2	10	0	0	0	2016	May/June	3	3,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	\N	f	\N	\N	\N	f	\N
-82	\N	\N	\N	\N	3	2016-08-25 13:56:08.851176	2016-08-25 13:56:08.851176	3	6	2	10	10	0	0	2016	May/June	24	21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90	\N	f	\N	\N	\N	f	\N
-84	\N	\N	\N	\N	3	2016-09-22 09:39:56.224152	2016-09-22 09:39:56.224152	3	4	2	10	0	0	0	2016	May/June	3	3,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	\N	f	\N	\N	\N	f	\N
-85	\N	5	50	\N	61	2016-09-27 18:56:17.838199	2016-09-27 18:58:58.37712	3	5	2	10	0	0	0	2016	May/June	26	200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314	\N	f	\N	\N	\N	f	\N
-87	\N	0	10	asdfwqer	58	2016-10-06 16:56:28.753965	2016-10-06 16:59:54.19921	\N	\N	\N	2	0	0	0	\N		24		quiz	f	\N	\N	\N	f	\N
-88	\N	\N	\N	asdfwqer	58	2016-10-07 17:30:09.511771	2016-10-07 17:30:09.511771	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-89	\N	\N	\N	asdfwqer	38	2016-10-07 17:33:54.196912	2016-10-07 17:33:54.196912	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-90	\N	\N	\N	asdfwqer	38	2016-10-07 17:34:04.390602	2016-10-07 17:34:04.390602	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-91	\N	10	65	asdfwqer	3	2016-10-07 17:37:36.158808	2016-10-07 17:41:55.75106	\N	\N	\N	11	1	1	0	\N		3		test 4	f	\N	\N	\N	f	\N
-92	\N	\N	\N	asdfwqer	3	2016-10-07 17:43:29.109369	2016-10-07 17:43:29.109369	\N	\N	\N	11	1	1	0	\N		3		test 4	f	\N	\N	\N	f	\N
-93	\N	\N	\N	asdfwqer	3	2016-10-07 17:46:17.782373	2016-10-07 17:46:17.782373	\N	\N	\N	11	1	1	0	\N		3		test 4	f	\N	\N	\N	f	\N
-94	\N	15	55	asdfwqer	38	2016-10-07 17:49:17.274426	2016-10-07 17:49:38.018106	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-95	\N	10	55	asdfwqer	38	2016-10-07 17:55:54.324786	2016-10-07 17:56:50.965165	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-96	\N	10	55	asdfwqer	38	2016-10-07 18:03:15.791143	2016-10-07 18:03:56.542739	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-97	\N	15	55	asdfwqer	38	2016-10-07 18:05:10.766314	2016-10-07 18:05:31.103526	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-98	\N	0	55	asdfwqer	38	2016-10-07 18:08:46.697515	2016-10-07 18:09:15.682176	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-99	\N	\N	\N	asdfwqer	58	2016-10-07 18:20:19.727633	2016-10-07 18:20:19.727633	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-100	\N	0	55	asdfwqer	58	2016-10-07 18:21:16.4567	2016-10-07 18:21:38.740655	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-101	\N	\N	\N	asdfwqer	58	2016-10-07 18:22:15.429493	2016-10-07 18:22:15.429493	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-102	\N	0	60	asdfwqer	58	2016-10-07 18:28:16.229764	2016-10-07 18:28:39.283787	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-103	\N	10	60	asdfwqer	58	2016-10-07 18:29:38.014987	2016-10-07 18:29:56.496783	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-104	\N	0	60	asdfwqer	58	2016-10-07 18:50:48.341353	2016-10-07 18:51:00.211615	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-105	\N	0	60	asdfwqer	58	2016-10-07 18:54:22.222756	2016-10-07 18:54:31.27496	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-106	\N	\N	\N	asdfwqer	58	2016-10-07 18:54:35.135502	2016-10-07 18:54:35.135502	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-107	\N	0	60	asdfwqer	58	2016-10-07 18:57:05.760205	2016-10-07 18:57:12.528721	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-108	\N	0	60	asdfwqer	58	2016-10-07 18:57:41.437584	2016-10-07 18:57:53.230919	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-109	\N	5	45	\N	58	2016-10-07 19:01:36.061113	2016-10-07 19:01:44.591198	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-110	\N	0	50	\N	58	2016-10-07 19:03:48.170749	2016-10-07 19:04:03.289908	3	4	\N	13	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-111	\N	0	60	asdfwqer	58	2016-10-07 19:07:11.616371	2016-10-07 19:07:22.124378	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-112	\N	0	60	asdfwqer	58	2016-10-07 19:09:17.024557	2016-10-07 19:09:24.771943	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-113	\N	0	60	asdfwqer	58	2016-10-07 19:09:52.336899	2016-10-07 19:10:06.080018	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-114	\N	0	45	\N	58	2016-10-07 19:10:39.882448	2016-10-07 19:10:47.128805	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-115	\N	0	45	\N	58	2016-10-07 19:11:02.816292	2016-10-07 19:11:08.112751	3	4	\N	9	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-116	\N	20	55	asdfwqer	58	2016-10-07 19:14:11.750274	2016-10-07 19:14:45.80692	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-117	\N	0	10	\N	58	2016-10-07 19:15:13.45492	2016-10-07 19:15:19.558457	3	4	\N	2	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-118	\N	\N	\N	\N	58	2016-10-07 19:15:40.806826	2016-10-07 19:15:40.806826	3	4	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-119	\N	10	35	\N	58	2016-10-07 19:16:22.891791	2016-10-07 19:16:36.0324	3	4	\N	9	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-120	\N	5	15	\N	58	2016-10-07 19:16:53.109699	2016-10-07 19:16:58.247629	3	4	\N	3	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-121	\N	\N	\N	\N	58	2016-10-07 19:17:23.952927	2016-10-07 19:17:23.952927	3	4	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-122	\N	\N	\N	\N	58	2016-10-07 19:18:12.99809	2016-10-07 19:18:12.99809	3	4	\N	\N	\N	\N	\N	2012	May/June	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-125	\N	5	15	\N	60	2016-10-08 04:40:51.211249	2016-10-08 04:41:16.121621	3	4	\N	4	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-126	\N	5	10	\N	60	2016-10-08 05:58:07.321814	2016-10-08 05:58:28.331433	3	4	\N	2	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-127	\N	15	60	asdfwqer	60	2016-10-08 05:58:50.426603	2016-10-08 05:59:35.497161	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-128	\N	5	60	asdfwqer	60	2016-10-08 06:56:59.085997	2016-10-08 06:57:27.245383	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-129	\N	5	15	\N	60	2016-10-08 07:05:59.835612	2016-10-08 07:06:15.787561	3	4	\N	4	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-130	\N	10	55	asdfwqer	60	2016-10-08 07:06:41.215553	2016-10-08 07:07:50.890304	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-131	\N	\N	\N	\N	60	2016-10-10 09:04:34.018844	2016-10-10 09:04:34.018844	3	4	\N	\N	\N	\N	\N	2008	May/June	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-132	\N	0	60	asdfwqer	58	2016-10-10 09:06:41.901946	2016-10-10 09:09:26.917615	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-133	\N	\N	\N	asdfwqer	58	2016-10-10 12:29:07.834805	2016-10-10 12:29:07.834805	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-134	\N	\N	\N	asdfwqer	58	2016-10-10 12:29:19.674853	2016-10-10 12:29:19.674853	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-135	\N	\N	\N	asdfwqer	58	2016-10-10 13:29:12.78364	2016-10-10 13:29:12.78364	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-136	\N	\N	\N	asdfwqer	58	2016-10-10 13:35:27.954071	2016-10-10 13:35:27.954071	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-137	\N	\N	\N	asdfwqer	58	2016-10-10 15:13:56.659584	2016-10-10 15:13:56.659584	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-138	\N	\N	\N	asdfwqer	58	2016-10-10 15:17:04.465141	2016-10-10 15:17:04.465141	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-139	\N	0	15	yulsgmji	38	2016-10-10 17:16:16.054996	2016-10-10 17:16:37.508728	\N	\N	\N	3	0	0	0	\N		26		asad	f	\N	\N	\N	f	\N
-140	\N	5	15	yulsgmji	38	2016-10-10 17:17:49.141352	2016-10-10 17:28:36.745063	\N	\N	\N	3	0	0	0	\N		26		asad	f	\N	\N	\N	f	\N
-141	\N	0	15	yulsgmji	38	2016-10-10 17:28:58.822014	2016-10-10 17:29:21.486368	\N	\N	\N	3	0	0	0	\N		26		asad	f	\N	\N	\N	f	\N
-142	\N	5	15	wkqgvhtb	60	2016-10-12 21:15:08.832044	2016-10-12 21:15:34.292406	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	13.10.2016	f	\N	\N	\N	f	\N
-143	\N	\N	\N	phy456	64	2016-10-14 04:36:18.904576	2016-10-14 04:36:18.904576	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-144	\N	\N	\N	phy456	60	2016-10-14 04:40:48.619438	2016-10-14 04:40:48.619438	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-145	\N	\N	\N	phy456	64	2016-10-14 04:45:12.612202	2016-10-14 04:45:12.612202	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-146	\N	\N	\N	phy456	64	2016-10-14 04:48:50.744614	2016-10-14 04:48:50.744614	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-147	\N	\N	\N	phy456	64	2016-10-14 04:56:11.204817	2016-10-14 04:56:11.204817	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-148	\N	\N	\N	phy456	3	2016-10-14 05:15:26.248447	2016-10-14 05:15:26.248447	\N	\N	\N	7	0	0	0	\N	\N	3	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-149	\N	5	50	\N	3	2016-10-14 05:16:18.86753	2016-10-14 05:17:10.893464	3	4	2	10	0	0	0	2016	May/June	3	3,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Created by you	f	\N	\N	\N	f	\N
-150	\N	\N	\N	bwydtipt	60	2016-10-14 05:28:45.881371	2016-10-14 05:28:45.881371	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	14.10.16	t	\N	\N	\N	f	\N
-151	\N	\N	\N	\N	58	2016-10-17 12:26:00.519627	2016-10-17 12:26:00.519627	3	4	\N	1	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-152	\N	\N	\N	\N	58	2016-10-17 12:30:04.144578	2016-10-17 12:30:04.144578	3	4	\N	1	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-153	\N	\N	\N	\N	58	2016-10-17 12:35:26.298322	2016-10-17 12:35:26.298322	3	4	2	10	0	0	0	2016	May/June	3	3,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Created by you	f	\N	\N	\N	f	\N
-154	\N	\N	\N	\N	58	2016-10-17 12:40:00.898677	2016-10-17 12:40:00.898677	3	4	\N	1	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-155	\N	\N	\N	\N	58	2016-10-17 13:21:05.579023	2016-10-17 13:21:05.579023	3	4	\N	1	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-156	\N	\N	\N	\N	58	2016-10-17 13:21:51.785022	2016-10-17 13:21:51.785022	3	4	\N	10	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-157	\N	\N	\N	\N	58	2016-10-17 13:22:44.683449	2016-10-17 13:22:44.683449	3	4	\N	10	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-158	\N	\N	\N	\N	58	2016-10-17 13:24:06.810837	2016-10-17 13:24:06.810837	3	4	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-159	\N	\N	\N	\N	58	2016-10-17 13:26:59.429644	2016-10-17 13:26:59.429644	3	4	\N	5	0	1	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-160	\N	\N	\N	\N	58	2016-10-17 13:30:18.509258	2016-10-17 13:30:18.509258	3	4	2	10	0	0	0	2016	May/June	3	188,189,190,191,192,193,194,195,196,197,198,199	Created by you	f	\N	\N	\N	f	\N
-161	\N	\N	\N	\N	58	2016-10-17 13:31:01.360018	2016-10-17 13:31:01.360018	3	4	\N	10	4	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-162	\N	\N	\N	\N	58	2016-10-17 13:32:53.131838	2016-10-17 13:32:53.131838	3	4	\N	5	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-163	\N	\N	\N	\N	58	2016-10-17 15:45:00.621245	2016-10-17 15:45:00.621245	3	4	\N	3	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-164	\N	\N	\N	\N	58	2016-10-17 15:53:00.214065	2016-10-17 15:53:00.214065	3	4	\N	2	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-165	\N	\N	\N	\N	58	2016-10-17 15:55:00.415854	2016-10-17 15:55:00.415854	3	4	\N	2	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-166	\N	\N	\N	\N	58	2016-10-17 15:59:02.48764	2016-10-17 15:59:02.48764	3	4	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-167	\N	\N	\N	phy456	58	2016-10-17 16:30:43.563982	2016-10-17 16:30:43.563982	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-168	\N	\N	\N	asdfwqer	58	2016-10-17 16:31:29.230259	2016-10-17 16:31:29.230259	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-169	\N	\N	\N	\N	58	2016-10-17 16:45:19.591791	2016-10-17 16:45:19.591791	3	4	\N	\N	\N	\N	\N	2012		3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-170	\N	\N	\N	\N	58	2016-10-17 16:45:35.676938	2016-10-17 16:45:35.676938	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-171	\N	\N	\N	\N	58	2016-10-17 16:47:18.311546	2016-10-17 16:47:18.311546	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-172	\N	\N	\N	\N	58	2016-10-17 16:47:26.810935	2016-10-17 16:47:26.810935	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-173	\N	\N	\N	\N	58	2016-10-17 17:40:09.031293	2016-10-17 17:40:09.031293	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-174	\N	\N	\N	\N	58	2016-10-17 17:40:09.749695	2016-10-17 17:40:09.749695	3	4	\N	\N	\N	\N	\N	2012		3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-175	\N	\N	\N	\N	58	2016-10-17 18:01:20.88125	2016-10-17 18:01:20.88125	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-176	\N	\N	\N	\N	58	2016-10-17 18:01:20.963382	2016-10-17 18:01:20.963382	3	4	\N	\N	\N	\N	\N	2012		3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-177	\N	\N	\N	phy456	58	2016-10-18 09:51:56.768116	2016-10-18 09:51:56.768116	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-178	\N	\N	\N	phy456	58	2016-10-18 09:52:05.099457	2016-10-18 09:52:05.099457	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-179	\N	\N	\N	phy456	58	2016-10-18 09:52:59.719444	2016-10-18 09:52:59.719444	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-180	\N	\N	\N	asdfwqer	58	2016-10-18 09:59:57.667072	2016-10-18 09:59:57.667072	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-181	\N	\N	\N	asdfwqer	58	2016-10-18 10:03:25.572196	2016-10-18 10:03:25.572196	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-182	\N	\N	\N	phy456	58	2016-10-18 10:20:27.138473	2016-10-18 10:20:27.138473	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-183	\N	\N	\N	asdfwqer	58	2016-10-18 10:28:40.653155	2016-10-18 10:28:40.653155	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-184	\N	\N	\N	asdfwqer	58	2016-10-18 10:38:43.762724	2016-10-18 10:38:43.762724	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-185	\N	\N	\N	pFWe26cb	58	2016-10-18 10:40:15.601079	2016-10-18 10:40:15.601079	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Testing Quiz 1	t	\N	\N	\N	f	\N
-186	\N	\N	\N	phy456	58	2016-10-18 10:48:56.924969	2016-10-18 10:48:56.924969	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-187	\N	\N	\N	\N	58	2016-10-18 14:02:10.259291	2016-10-18 14:02:10.259291	3	4	\N	\N	\N	\N	\N	2012		3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-188	\N	\N	\N	asdfwqer	58	2016-10-18 14:04:12.248327	2016-10-18 14:04:12.248327	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-189	\N	\N	\N	\N	58	2016-10-18 14:04:49.315218	2016-10-18 14:04:49.315218	3	4	\N	3	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-190	\N	\N	\N	asdfwqer	58	2016-10-18 14:07:46.425422	2016-10-18 14:07:46.425422	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-191	\N	\N	\N	asdfwqer	58	2016-10-18 14:14:10.155283	2016-10-18 14:14:10.155283	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-192	\N	\N	\N	\N	58	2016-10-18 14:15:04.787455	2016-10-18 14:15:04.787455	3	4	\N	\N	\N	\N	\N	2012		3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-193	\N	\N	\N	asdfwqer	58	2016-10-18 14:18:24.582193	2016-10-18 14:18:24.582193	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-194	\N	\N	\N	\N	58	2016-10-18 14:28:51.380859	2016-10-18 14:28:51.380859	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-195	\N	\N	\N	\N	58	2016-10-18 14:29:23.010483	2016-10-18 14:29:23.010483	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-196	\N	\N	\N	phy456	58	2016-10-18 14:32:55.155075	2016-10-18 14:32:55.155075	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-197	\N	\N	\N	phy456	58	2016-10-18 14:33:15.224471	2016-10-18 14:33:15.224471	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-198	\N	\N	\N	asdfwqer	58	2016-10-18 15:04:11.951281	2016-10-18 15:04:11.951281	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-199	\N	\N	\N	asdfwqer	58	2016-10-18 15:05:45.289168	2016-10-18 15:05:45.289168	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-200	\N	\N	\N	asdfwqer	58	2016-10-18 15:08:46.851984	2016-10-18 15:08:46.851984	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-201	\N	\N	\N	asdfwqer	58	2016-10-18 15:09:29.082773	2016-10-18 15:09:29.082773	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-202	\N	\N	\N	asdfwqer	58	2016-10-18 15:13:10.408392	2016-10-18 15:13:10.408392	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-203	\N	\N	\N	asdfwqer	58	2016-10-18 15:14:41.91933	2016-10-18 15:14:41.91933	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-204	\N	\N	\N	asdfwqer	58	2016-10-18 15:22:13.128973	2016-10-18 15:22:13.128973	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-205	\N	\N	\N	asdfwqer	58	2016-10-18 15:23:09.477343	2016-10-18 15:23:09.477343	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-206	\N	\N	\N	asdfwqer	58	2016-10-18 15:24:07.685357	2016-10-18 15:24:07.685357	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-207	\N	\N	\N	asdfwqer	58	2016-10-18 15:35:38.620796	2016-10-18 15:35:38.620796	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-208	\N	\N	\N	asdfwqer	58	2016-10-18 15:36:24.977575	2016-10-18 15:36:24.977575	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-209	\N	\N	\N	asdfwqer	58	2016-10-18 15:36:43.642904	2016-10-18 15:36:43.642904	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-210	\N	\N	\N	asdfwqer	58	2016-10-18 15:37:10.731819	2016-10-18 15:37:10.731819	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-211	\N	\N	\N	asdfwqer	58	2016-10-18 16:11:50.697123	2016-10-18 16:11:50.697123	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-212	\N	\N	\N	uesusfje	58	2016-10-18 16:14:46.55923	2016-10-18 16:14:46.55923	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	asil	t	\N	\N	\N	f	\N
-213	\N	\N	\N	asdfwqer	58	2016-10-18 16:15:23.15652	2016-10-18 16:15:23.15652	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-214	\N	\N	\N	\N	58	2016-10-18 16:16:26.942069	2016-10-18 16:16:26.942069	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-215	\N	\N	\N	asdfwqer	58	2016-10-18 16:18:02.173517	2016-10-18 16:18:02.173517	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-216	\N	\N	\N	\N	58	2016-10-18 16:18:39.150924	2016-10-18 16:18:39.150924	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-217	\N	\N	\N	asdfwqer	58	2016-10-18 16:22:59.243956	2016-10-18 16:22:59.243956	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-218	\N	\N	\N	asdfwqer	58	2016-10-18 16:23:40.577129	2016-10-18 16:23:40.577129	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-219	\N	\N	\N	asdfwqer	58	2016-10-18 16:35:19.659182	2016-10-18 16:35:19.659182	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-220	\N	\N	\N	asdfwqer	58	2016-10-18 16:48:27.879403	2016-10-18 16:48:27.879403	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-221	\N	\N	\N	phy456	58	2016-10-18 16:48:46.969022	2016-10-18 16:48:46.969022	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-222	\N	\N	\N	\N	58	2016-10-18 16:49:34.337421	2016-10-18 16:49:34.337421	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-223	\N	\N	\N	asdfwqer	58	2016-10-18 16:52:20.968275	2016-10-18 16:52:20.968275	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-224	\N	\N	\N	asdfwqer	58	2016-10-18 16:58:14.258445	2016-10-18 16:58:14.258445	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-225	\N	\N	\N	asdfwqer	58	2016-10-18 16:59:21.107591	2016-10-18 16:59:21.107591	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-226	\N	\N	\N	asdfwqer	58	2016-10-18 17:01:26.800536	2016-10-18 17:01:26.800536	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-227	\N	\N	\N	\N	58	2016-10-18 17:23:27.420596	2016-10-18 17:23:27.420596	3	4	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-228	\N	\N	\N	asdfwqer	58	2016-10-18 17:23:37.540051	2016-10-18 17:23:37.540051	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-229	\N	\N	\N	asdfwqer	58	2016-10-19 10:08:45.420562	2016-10-19 10:08:45.420562	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-230	\N	\N	\N	asdfwqer	58	2016-10-19 10:11:55.852274	2016-10-19 10:11:55.852274	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-231	\N	\N	\N	asdfwqer	58	2016-10-19 10:12:38.850845	2016-10-19 10:12:38.850845	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-232	\N	\N	\N	asdfwqer	58	2016-10-19 10:24:12.87724	2016-10-19 10:24:12.87724	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-233	\N	\N	\N	asdfwqer	58	2016-10-19 10:34:27.998028	2016-10-19 10:34:27.998028	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-234	\N	\N	\N	asdfwqer	58	2016-10-19 11:09:00.868366	2016-10-19 11:09:00.868366	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-235	\N	\N	\N	asdfwqer	58	2016-10-19 11:09:07.312601	2016-10-19 11:09:07.312601	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-236	\N	\N	\N	asdfwqer	60	2016-10-19 11:22:32.610193	2016-10-19 11:22:32.610193	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-237	\N	\N	\N	\N	58	2016-10-19 13:09:10.78719	2016-10-19 13:09:10.78719	3	4	\N	1	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-238	\N	\N	\N	\N	58	2016-10-19 13:09:29.574114	2016-10-19 13:09:29.574114	3	4	\N	1	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-239	\N	\N	\N	\N	58	2016-10-19 13:09:36.488033	2016-10-19 13:09:36.488033	3	4	\N	1	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-240	\N	\N	\N	\N	58	2016-10-19 13:09:46.119314	2016-10-19 13:09:46.119314	3	4	\N	1	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-241	\N	\N	\N	\N	58	2016-10-19 13:17:22.290674	2016-10-19 13:17:22.290674	3	4	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-242	\N	\N	\N	\N	58	2016-10-19 13:17:26.10088	2016-10-19 13:17:26.10088	3	4	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-243	\N	\N	\N	\N	58	2016-10-19 13:20:45.738913	2016-10-19 13:20:45.738913	3	4	\N	7	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-244	\N	\N	\N	\N	58	2016-10-19 13:21:37.473051	2016-10-19 13:21:37.473051	3	4	\N	7	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-245	\N	\N	\N	\N	58	2016-10-19 13:21:44.865254	2016-10-19 13:21:44.865254	3	4	\N	7	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-246	\N	\N	\N	asdfwqer	58	2016-10-19 13:22:17.23905	2016-10-19 13:22:17.23905	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-247	\N	\N	\N	asdfwqer	58	2016-10-19 13:22:27.758034	2016-10-19 13:22:27.758034	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-248	\N	\N	\N	asdfwqer	58	2016-10-19 13:22:50.160104	2016-10-19 13:22:50.160104	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-249	\N	\N	\N	asdfwqer	58	2016-10-19 13:23:15.465649	2016-10-19 13:23:15.465649	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-250	\N	\N	\N	phy456	58	2016-10-19 15:12:57.605481	2016-10-19 15:12:57.605481	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-251	\N	\N	\N	phy456	58	2016-10-19 15:13:10.402921	2016-10-19 15:13:10.402921	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-252	\N	\N	\N	adilmalik	58	2016-10-19 15:18:12.516837	2016-10-19 15:18:12.516837	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	t	\N	\N	\N	f	\N
-253	\N	\N	\N	adilmalik	58	2016-10-19 15:18:20.416199	2016-10-19 15:18:20.416199	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	t	\N	\N	\N	f	\N
-254	\N	\N	\N	asdfwqer	58	2016-10-19 15:18:45.844684	2016-10-19 15:18:45.844684	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-255	\N	\N	\N	adilmalik	58	2016-10-19 15:22:53.670023	2016-10-19 15:22:53.670023	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	t	\N	\N	\N	f	\N
-256	\N	\N	\N	adilmalik	58	2016-10-19 15:23:22.195879	2016-10-19 15:23:22.195879	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	t	\N	\N	\N	f	\N
-257	\N	\N	\N	\N	65	2016-10-19 16:37:29.25952	2016-10-19 16:37:29.25952	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-258	\N	\N	\N	\N	65	2016-10-19 16:37:39.982873	2016-10-19 16:37:39.982873	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-259	\N	\N	\N	\N	65	2016-10-19 16:37:55.212228	2016-10-19 16:37:55.212228	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-260	\N	\N	\N	\N	65	2016-10-19 16:37:55.234706	2016-10-19 16:37:55.234706	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-261	\N	\N	\N	\N	58	2016-10-19 16:38:08.398783	2016-10-19 16:38:08.398783	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-262	\N	\N	\N	asdfwqer	60	2016-10-19 16:50:09.036998	2016-10-19 16:50:09.036998	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-263	\N	\N	\N	asdfwqer	58	2016-10-19 16:50:16.883965	2016-10-19 16:50:16.883965	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-264	\N	\N	\N	asdfwqer	60	2016-10-19 16:53:26.398606	2016-10-19 16:53:26.398606	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-265	\N	\N	\N	\N	60	2016-10-19 16:58:09.081149	2016-10-19 16:58:09.081149	3	4	\N	\N	\N	\N	\N	2009	May/June	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-266	\N	\N	\N	asdfwqer	58	2016-10-19 17:00:15.327737	2016-10-19 17:00:15.327737	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-267	\N	\N	\N	asdfwqer	58	2016-10-19 17:03:25.732625	2016-10-19 17:03:25.732625	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-268	\N	\N	\N	asdfwqer	60	2016-10-20 02:03:50.102187	2016-10-20 02:03:50.102187	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-269	\N	\N	\N	phy456	60	2016-10-20 05:04:08.85588	2016-10-20 05:04:08.85588	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-270	\N	\N	\N	phy987	60	2016-10-20 05:13:45.278997	2016-10-20 05:13:45.278997	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 20102016	t	\N	\N	\N	f	\N
-271	\N	\N	\N	phy987	60	2016-10-20 05:16:10.603581	2016-10-20 05:16:10.603581	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 20102016	t	\N	\N	\N	f	\N
-272	\N	\N	\N	phy987	60	2016-10-20 05:17:30.879786	2016-10-20 05:17:30.879786	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 20102016	t	\N	\N	\N	f	\N
-273	\N	\N	\N	phy456	60	2016-10-20 05:21:04.660678	2016-10-20 05:21:04.660678	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-274	\N	\N	\N	phy987	60	2016-10-20 05:25:34.092214	2016-10-20 05:25:34.092214	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 20102016	t	\N	\N	\N	f	\N
-275	\N	\N	\N	phy456	60	2016-10-20 05:26:12.813865	2016-10-20 05:26:12.813865	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-276	\N	\N	\N	\N	60	2016-10-20 05:27:05.773804	2016-10-20 05:27:05.773804	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-277	\N	\N	\N	\N	60	2016-10-20 05:33:24.475427	2016-10-20 05:33:24.475427	3	4	\N	4	9	9	9	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-278	\N	\N	\N	shnqwknn	60	2016-10-20 05:40:50.317656	2016-10-20 05:40:50.317656	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	tgjkjk	t	\N	\N	\N	f	\N
-279	\N	\N	\N	\N	58	2016-10-20 10:16:53.189991	2016-10-20 10:16:53.189991	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-280	\N	\N	\N	\N	58	2016-10-20 10:19:39.240171	2016-10-20 10:19:39.240171	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-281	\N	\N	\N	\N	58	2016-10-20 10:24:10.850087	2016-10-20 10:24:10.850087	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-282	\N	\N	\N	\N	58	2016-10-20 10:24:22.350689	2016-10-20 10:24:22.350689	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-283	\N	\N	\N	\N	58	2016-10-20 10:55:29.160852	2016-10-20 10:55:29.160852	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-284	\N	\N	\N	\N	58	2016-10-20 10:55:58.152767	2016-10-20 10:55:58.152767	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-285	\N	\N	\N	asdfwqer	58	2016-10-20 12:11:26.037795	2016-10-20 12:11:26.037795	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-355	\N	\N	\N	\N	58	2016-10-24 11:23:29.949665	2016-10-24 11:23:29.949665	3	4	\N	1	0	1	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-356	\N	\N	\N	\N	58	2016-10-24 11:23:35.027156	2016-10-24 11:23:35.027156	3	4	\N	1	0	1	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-286	\N	1	10	\N	3	2016-10-20 12:12:46.480124	2016-10-20 12:13:32.241434	3	4	2	10	10	10	0	2016	May/June	4	7,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415	Own Test	f	\N	\N	\N	f	\N
-287	\N	\N	\N	\N	3	2016-10-20 12:23:14.149457	2016-10-20 12:23:14.149457	3	4	1	0	0	0	0	2012	Oct/Nov	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-288	\N	0	2	\N	3	2016-10-20 12:24:19.915428	2016-10-20 12:24:33.241565	3	4	1	0	0	0	0	2012	Oct/Nov	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-325	\N	\N	\N	\N	67	2016-10-21 04:30:52.520181	2016-10-21 04:30:52.520181	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-290	\N	\N	\N	\N	65	2016-10-20 13:16:29.183056	2016-10-20 13:16:29.183056	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-291	\N	\N	\N	\N	58	2016-10-20 13:23:04.726144	2016-10-20 13:23:04.726144	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-292	\N	\N	\N	\N	58	2016-10-20 13:24:41.069086	2016-10-20 13:24:41.069086	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-293	\N	\N	\N	\N	58	2016-10-20 13:29:00.763288	2016-10-20 13:29:00.763288	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-294	\N	\N	\N	\N	58	2016-10-20 13:29:20.608518	2016-10-20 13:29:20.608518	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-289	\N	4	10	\N	3	2016-10-20 12:52:50.123038	2016-10-20 13:32:38.379074	3	4	2	10	10	10	0	2010	May/June	4	7,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415	Own Test	f	\N	\N	\N	f	\N
-295	\N	\N	\N	\N	58	2016-10-20 13:35:40.206427	2016-10-20 13:35:40.206427	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-296	\N	\N	\N	\N	58	2016-10-20 13:35:56.050487	2016-10-20 13:35:56.050487	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-297	\N	\N	\N	\N	58	2016-10-20 13:37:10.692092	2016-10-20 13:37:10.692092	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-298	\N	\N	\N	\N	58	2016-10-20 13:39:32.514654	2016-10-20 13:39:32.514654	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-300	\N	\N	\N	asdfwqer	58	2016-10-20 13:43:49.661373	2016-10-20 13:43:49.661373	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-301	\N	\N	\N	\N	58	2016-10-20 13:49:55.502479	2016-10-20 13:49:55.502479	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-302	\N	\N	\N	\N	58	2016-10-20 13:52:05.610717	2016-10-20 13:52:05.610717	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-303	\N	\N	\N	asdfwqer	58	2016-10-20 13:55:03.082809	2016-10-20 13:55:03.082809	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-304	\N	\N	\N	asdfwqer	58	2016-10-20 13:55:30.380247	2016-10-20 13:55:30.380247	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-305	\N	\N	\N	asdfwqer	58	2016-10-20 14:00:00.8238	2016-10-20 14:00:00.8238	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-306	\N	\N	\N	asdfwqer	58	2016-10-20 14:01:52.639954	2016-10-20 14:01:52.639954	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-307	\N	\N	\N	asdfwqer	58	2016-10-20 14:03:40.787698	2016-10-20 14:03:40.787698	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-308	\N	\N	\N	phy456	58	2016-10-20 14:38:40.287571	2016-10-20 14:38:40.287571	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Phy OL 15-10-16	t	\N	\N	\N	f	\N
-309	\N	0	10	\N	3	2016-10-20 15:16:58.838368	2016-10-20 15:17:50.310671	3	4	2	10	0	0	0	2016	May/June	4	7,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415	Own Test	f	\N	\N	\N	f	\N
-310	\N	1	5	\N	3	2016-10-20 15:19:03.496208	2016-10-20 15:19:32.235462	3	4	2	5	0	0	0	2016	May/June	4	7,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415	Own Test	f	\N	\N	\N	f	\N
-311	\N	\N	\N	asdfwqer	58	2016-10-20 15:54:52.979283	2016-10-20 15:54:52.979283	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-312	\N	\N	\N	asdfwqer	58	2016-10-20 15:57:24.845259	2016-10-20 15:57:24.845259	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-313	\N	\N	\N	asdfwqer	58	2016-10-20 16:00:26.910051	2016-10-20 16:00:26.910051	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-314	\N	\N	\N	asdfwqer	58	2016-10-20 16:04:19.851574	2016-10-20 16:04:19.851574	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-315	\N	\N	\N	asdfwqer	58	2016-10-20 16:07:06.013025	2016-10-20 16:07:06.013025	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-316	\N	\N	\N	asdfwqer	58	2016-10-20 16:08:20.630813	2016-10-20 16:08:20.630813	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-317	\N	\N	\N	asdfwqer	58	2016-10-20 16:12:55.40828	2016-10-20 16:12:55.40828	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-318	\N	\N	\N	asdfwqer	58	2016-10-20 16:15:02.111269	2016-10-20 16:15:02.111269	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-319	\N	\N	\N	asdfwqer	58	2016-10-20 16:21:17.18158	2016-10-20 16:21:17.18158	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-320	\N	\N	\N	asdfwqer	58	2016-10-20 16:22:12.813728	2016-10-20 16:22:12.813728	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-321	\N	\N	\N	asdfwqer	58	2016-10-20 16:22:59.598507	2016-10-20 16:22:59.598507	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-322	\N	\N	\N	asdfwqer	58	2016-10-20 16:27:32.451515	2016-10-20 16:27:32.451515	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-323	\N	\N	\N	asdfwqer	58	2016-10-20 16:34:16.844795	2016-10-20 16:34:16.844795	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-324	\N	\N	\N	asdfwqer	58	2016-10-20 16:37:12.864764	2016-10-20 16:37:12.864764	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-326	\N	\N	\N	\N	67	2016-10-21 04:32:51.103987	2016-10-21 04:32:51.103987	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-327	\N	\N	\N	asdfwqer	67	2016-10-21 04:34:31.886813	2016-10-21 04:34:31.886813	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-328	\N	\N	\N	asdfwqer	67	2016-10-21 04:36:42.678136	2016-10-21 04:36:42.678136	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-329	\N	\N	\N	asdfwqer	60	2016-10-21 04:48:20.789293	2016-10-21 04:48:20.789293	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-330	\N	\N	\N	asdfwqer	60	2016-10-21 04:51:01.312694	2016-10-21 04:51:01.312694	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-331	\N	\N	\N	\N	60	2016-10-21 04:59:50.868742	2016-10-21 04:59:50.868742	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-332	\N	\N	\N	\N	60	2016-10-21 05:01:16.910514	2016-10-21 05:01:16.910514	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-333	\N	\N	\N	\N	60	2016-10-21 05:05:14.778502	2016-10-21 05:05:14.778502	3	4	\N	6	6	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-334	\N	\N	\N	\N	60	2016-10-21 05:08:57.567387	2016-10-21 05:08:57.567387	3	4	\N	5	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-335	\N	\N	\N	phyphy	60	2016-10-21 05:14:00.156342	2016-10-21 05:14:00.156342	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	21102016	t	\N	\N	\N	f	\N
-336	\N	\N	\N	asdfwqer	58	2016-10-24 09:03:49.961926	2016-10-24 09:03:49.961926	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-337	\N	\N	\N	asdfwqer	58	2016-10-24 09:05:44.203312	2016-10-24 09:05:44.203312	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-338	\N	\N	\N	asdfwqer	58	2016-10-24 09:23:53.832699	2016-10-24 09:23:53.832699	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-339	\N	\N	\N	asdfwqer	58	2016-10-24 09:34:32.008201	2016-10-24 09:34:32.008201	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-340	\N	\N	\N	asdfwqer	58	2016-10-24 09:36:02.072426	2016-10-24 09:36:02.072426	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-341	\N	\N	\N	asdfwqer	58	2016-10-24 09:37:15.317411	2016-10-24 09:37:15.317411	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-342	\N	\N	\N	asdfwqer	58	2016-10-24 09:40:12.399103	2016-10-24 09:40:12.399103	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-343	\N	\N	\N	asdfwqer	58	2016-10-24 09:42:01.308105	2016-10-24 09:42:01.308105	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-344	\N	\N	\N	asdfwqer	58	2016-10-24 09:43:40.748777	2016-10-24 09:43:40.748777	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-345	\N	\N	\N	\N	58	2016-10-24 09:44:39.562111	2016-10-24 09:44:39.562111	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-346	\N	\N	\N	\N	58	2016-10-24 09:47:36.560632	2016-10-24 09:47:36.560632	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-347	\N	\N	\N	asdfwqer	58	2016-10-24 09:53:41.458557	2016-10-24 09:53:41.458557	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-348	\N	\N	\N	asdfwqer	58	2016-10-24 09:53:53.667053	2016-10-24 09:53:53.667053	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-349	\N	0	15	asdfwqer	58	2016-10-24 10:31:40.371124	2016-10-24 10:32:22.120226	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-350	\N	\N	\N	asdfwqer	58	2016-10-24 10:54:51.798781	2016-10-24 10:54:51.798781	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-351	\N	\N	\N	asdfwqer	58	2016-10-24 10:59:58.995341	2016-10-24 10:59:58.995341	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-352	\N	\N	\N	asdfwqer	58	2016-10-24 11:12:19.284328	2016-10-24 11:12:19.284328	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-353	\N	\N	\N	asdfwqer	58	2016-10-24 11:19:47.178938	2016-10-24 11:19:47.178938	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-354	\N	\N	\N	asdfwqer	58	2016-10-24 11:21:00.967498	2016-10-24 11:21:00.967498	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-357	\N	\N	\N	asdfwqer	58	2016-10-24 12:04:38.359499	2016-10-24 12:04:38.359499	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-358	\N	\N	\N	asdfwqer	58	2016-10-24 12:31:12.119788	2016-10-24 12:31:12.119788	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-359	\N	\N	\N	asdfwqer	58	2016-10-24 12:34:33.362328	2016-10-24 12:34:33.362328	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-360	\N	\N	\N	asdfwqer	58	2016-10-24 12:35:37.117613	2016-10-24 12:35:37.117613	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-361	\N	\N	\N	asdfwqer	58	2016-10-24 14:22:22.635571	2016-10-24 14:22:22.635571	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-362	\N	\N	\N	asdfwqer	58	2016-10-24 14:28:04.705282	2016-10-24 14:28:04.705282	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-363	\N	\N	\N	asdfwqer	58	2016-10-24 14:31:24.078059	2016-10-24 14:31:24.078059	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-364	\N	\N	\N	asdfwqer	58	2016-10-24 14:33:24.27846	2016-10-24 14:33:24.27846	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-365	\N	\N	\N	asdfwqer	58	2016-10-24 14:35:06.56085	2016-10-24 14:35:06.56085	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-366	\N	\N	\N	asdfwqer	58	2016-10-24 15:02:49.851975	2016-10-24 15:02:49.851975	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-367	\N	\N	\N	asdfwqer	58	2016-10-24 16:21:34.868123	2016-10-24 16:21:34.868123	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-368	\N	\N	\N	asdfwqer	58	2016-10-24 16:42:43.174156	2016-10-24 16:42:43.174156	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-369	\N	\N	\N	asdfwqer	58	2016-10-24 16:52:34.7806	2016-10-24 16:52:34.7806	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-370	\N	\N	\N	asdfwqer	58	2016-10-24 16:55:34.079118	2016-10-24 16:55:34.079118	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-371	\N	\N	\N	asdfwqer	58	2016-10-24 16:57:00.71789	2016-10-24 16:57:00.71789	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-372	\N	\N	\N	asdfwqer	58	2016-10-24 17:05:39.331479	2016-10-24 17:05:39.331479	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-373	\N	\N	\N	asdfwqer	58	2016-10-24 17:06:00.513111	2016-10-24 17:06:00.513111	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-374	\N	\N	\N	asdfwqer	58	2016-10-24 17:06:25.724	2016-10-24 17:06:25.724	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-375	\N	\N	\N	asdfwqer	58	2016-10-24 17:08:10.194897	2016-10-24 17:08:10.194897	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-376	\N	\N	\N	asdfwqer	58	2016-10-24 17:09:05.521645	2016-10-24 17:09:05.521645	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-377	\N	\N	\N	asdfwqer	58	2016-10-24 17:14:35.541025	2016-10-24 17:14:35.541025	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-378	\N	\N	\N	asdfwqer	58	2016-10-24 17:17:07.592609	2016-10-24 17:17:07.592609	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-379	\N	\N	\N	asdfwqer	58	2016-10-24 17:28:20.892876	2016-10-24 17:28:20.892876	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-380	\N	\N	\N	asdfwqer	58	2016-10-24 17:28:40.68215	2016-10-24 17:28:40.68215	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-381	\N	\N	\N	asdfwqer	58	2016-10-24 17:29:12.881374	2016-10-24 17:29:12.881374	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-382	\N	\N	\N	asdfwqer	58	2016-10-24 17:32:19.375315	2016-10-24 17:32:19.375315	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-383	\N	\N	\N	asdfwqer	58	2016-10-24 17:35:54.499931	2016-10-24 17:35:54.499931	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-384	\N	\N	\N	asdfwqer	58	2016-10-24 17:36:24.799226	2016-10-24 17:36:24.799226	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-385	\N	\N	\N	asdfwqer	58	2016-10-24 17:39:29.80916	2016-10-24 17:39:29.80916	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-386	\N	\N	\N	\N	60	2016-10-25 10:29:03.300992	2016-10-25 10:29:03.300992	3	4	\N	5	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-387	\N	\N	\N	pc123	60	2016-10-25 10:31:42.984501	2016-10-25 10:31:42.984501	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	testing	t	\N	\N	\N	f	\N
-388	\N	\N	\N	asdfwqer	60	2016-10-25 10:32:47.231021	2016-10-25 10:32:47.231021	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-389	\N	\N	\N	asdfwqer	58	2016-10-25 11:05:26.040726	2016-10-25 11:05:26.040726	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-390	\N	\N	\N	asdfwqer	58	2016-10-25 11:16:29.237983	2016-10-25 11:16:29.237983	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-391	\N	\N	\N	asdfwqer	58	2016-10-25 11:36:13.122801	2016-10-25 11:36:13.122801	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-392	\N	\N	\N	asdfwqer	58	2016-10-25 12:15:47.471208	2016-10-25 12:15:47.471208	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-393	\N	\N	\N	asdfwqer	58	2016-10-25 12:39:00.73136	2016-10-25 12:39:00.73136	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-394	\N	\N	\N	asdfwqer	58	2016-10-25 13:05:00.699106	2016-10-25 13:05:00.699106	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-395	\N	\N	\N	asdfwqer	58	2016-10-25 13:08:01.14637	2016-10-25 13:08:01.14637	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-396	\N	\N	\N	asdfwqer	58	2016-10-25 13:12:59.514872	2016-10-25 13:12:59.514872	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-397	\N	\N	\N	asdfwqer	58	2016-10-25 13:57:28.152382	2016-10-25 13:57:28.152382	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-398	\N	\N	\N	asdfwqer	58	2016-10-25 13:59:59.35531	2016-10-25 13:59:59.35531	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-399	\N	\N	\N	asdfwqer	58	2016-10-25 15:11:36.302851	2016-10-25 15:11:36.302851	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-400	\N	\N	\N	asdfwqer	58	2016-10-25 15:13:09.24565	2016-10-25 15:13:09.24565	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-401	\N	\N	\N	asdfwqer	58	2016-10-25 16:24:54.327946	2016-10-25 16:24:54.327946	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-402	\N	\N	\N	asdfwqer	58	2016-10-25 16:26:01.944018	2016-10-25 16:26:01.944018	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-403	\N	\N	\N	asdfwqer	58	2016-10-25 16:34:06.165761	2016-10-25 16:34:06.165761	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-404	\N	\N	\N	asdfwqer	58	2016-10-25 16:44:39.483234	2016-10-25 16:44:39.483234	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-405	\N	\N	\N	\N	67	2016-10-25 16:51:39.674929	2016-10-25 16:51:39.674929	3	4	\N	5	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-406	\N	\N	\N	asdfwqer	67	2016-10-25 16:52:26.892191	2016-10-25 16:52:26.892191	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-407	\N	\N	\N	asdfwqer	58	2016-10-25 16:54:42.617222	2016-10-25 16:54:42.617222	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-408	\N	\N	\N	asdfwqer	58	2016-10-25 17:06:14.446712	2016-10-25 17:06:14.446712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-409	\N	\N	\N	asdfwqer	58	2016-10-25 17:08:10.398737	2016-10-25 17:08:10.398737	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-410	\N	\N	\N	asdfwqer	58	2016-10-25 17:09:48.483533	2016-10-25 17:09:48.483533	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-411	\N	\N	\N	asdfwqer	58	2016-10-25 17:18:20.505754	2016-10-25 17:18:20.505754	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-412	\N	\N	\N	asdfwqer	58	2016-10-25 17:28:57.303691	2016-10-25 17:28:57.303691	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-413	\N	\N	\N	asdfwqer	67	2016-10-25 18:20:09.651121	2016-10-25 18:20:09.651121	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-414	\N	\N	\N	asdfwqer	67	2016-10-25 18:32:37.771959	2016-10-25 18:32:37.771959	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-415	\N	\N	\N	asdfwqer	67	2016-10-25 18:40:53.078955	2016-10-25 18:40:53.078955	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-416	\N	\N	\N	\N	67	2016-10-25 18:44:25.02857	2016-10-25 18:44:25.02857	3	4	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-417	\N	\N	\N	asdfwqer	67	2016-10-25 18:48:02.399939	2016-10-25 18:48:02.399939	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-418	\N	\N	\N	\N	67	2016-10-25 19:40:45.912083	2016-10-25 19:40:45.912083	3	4	\N	4	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-419	\N	\N	\N	\N	67	2016-10-25 19:41:46.986813	2016-10-25 19:41:46.986813	3	4	\N	4	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-420	\N	\N	\N	phyphy	67	2016-10-26 03:59:39.487766	2016-10-26 03:59:39.487766	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	21102016	t	\N	\N	\N	f	\N
-421	\N	\N	\N	asdfwqer	60	2016-10-26 06:24:47.562119	2016-10-26 06:24:47.562119	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-422	\N	\N	\N	asdfwqer	58	2016-10-26 13:21:05.428188	2016-10-26 13:21:05.428188	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-423	\N	\N	\N	asdfwqer	58	2016-10-26 14:03:48.143168	2016-10-26 14:03:48.143168	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-424	\N	\N	\N	asdfwqer	58	2016-10-26 14:17:46.796477	2016-10-26 14:17:46.796477	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-425	\N	\N	\N	asdfwqer	58	2016-10-26 14:23:45.786826	2016-10-26 14:23:45.786826	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-426	\N	\N	\N	asdfwqer	58	2016-10-26 14:24:09.011565	2016-10-26 14:24:09.011565	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-427	\N	\N	\N	asdfwqer	58	2016-10-26 15:26:28.544843	2016-10-26 15:26:28.544843	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-428	\N	\N	\N	asdfwqer	58	2016-10-26 16:04:52.962207	2016-10-26 16:04:52.962207	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-429	\N	\N	\N	asdfwqer	58	2016-10-26 16:19:46.438026	2016-10-26 16:19:46.438026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-430	\N	\N	\N	asdfwqer	58	2016-10-26 16:22:58.777702	2016-10-26 16:22:58.777702	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-431	\N	\N	\N	asdfwqer	58	2016-10-26 16:24:03.747425	2016-10-26 16:24:03.747425	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-433	\N	\N	\N	asdfwqer	58	2016-10-26 16:34:27.991501	2016-10-26 16:34:27.991501	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-434	\N	\N	\N	asdfwqer	58	2016-10-26 16:37:49.124819	2016-10-26 16:37:49.124819	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-435	\N	\N	\N	asdfwqer	58	2016-10-26 16:39:28.552812	2016-10-26 16:39:28.552812	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-436	\N	\N	\N	adilmalik	58	2016-10-26 16:41:36.069035	2016-10-26 16:41:36.069035	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	t	\N	\N	\N	f	\N
-437	\N	\N	\N	asdfwqer	58	2016-10-26 16:42:13.21005	2016-10-26 16:42:13.21005	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-438	\N	\N	\N	asdfwqer	58	2016-10-26 16:44:48.371001	2016-10-26 16:44:48.371001	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-439	\N	\N	\N	asdfwqer	58	2016-10-26 16:44:51.901437	2016-10-26 16:44:51.901437	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-440	\N	\N	\N	asdfwqer	58	2016-10-26 16:45:03.799544	2016-10-26 16:45:03.799544	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-441	\N	\N	\N	asdfwqer	58	2016-10-26 16:45:13.203883	2016-10-26 16:45:13.203883	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-442	\N	\N	\N	asdfwqer	58	2016-10-26 16:45:13.538421	2016-10-26 16:45:13.538421	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-443	\N	\N	\N	asdfwqer	58	2016-10-26 16:59:59.327112	2016-10-26 16:59:59.327112	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-444	\N	\N	\N	asdfwqer	58	2016-10-26 17:00:25.024721	2016-10-26 17:00:25.024721	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-445	\N	\N	\N	asdfwqer	58	2016-10-26 17:01:06.346473	2016-10-26 17:01:06.346473	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-446	\N	\N	\N	asdfwqer	58	2016-10-26 17:02:21.373834	2016-10-26 17:02:21.373834	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-447	\N	\N	\N	asdfwqer	58	2016-10-26 17:04:09.530338	2016-10-26 17:04:09.530338	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-448	\N	\N	\N	asdfwqer	58	2016-10-26 17:04:09.949756	2016-10-26 17:04:09.949756	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-449	\N	\N	\N	\N	58	2016-10-26 17:05:08.561312	2016-10-26 17:05:08.561312	3	4	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-450	\N	\N	\N	asdfwqer	58	2016-10-26 17:06:05.132535	2016-10-26 17:06:05.132535	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-451	\N	\N	\N	asdfwqer	58	2016-10-26 17:06:15.108914	2016-10-26 17:06:15.108914	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-452	\N	\N	\N	asdfwqer	58	2016-10-26 17:16:58.88053	2016-10-26 17:16:58.88053	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-453	\N	\N	\N	phyphy	67	2016-10-26 18:13:35.107923	2016-10-26 18:13:35.107923	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	21102016	t	\N	\N	\N	f	\N
-454	\N	\N	\N	asdfwqer	67	2016-10-26 18:14:39.784223	2016-10-26 18:14:39.784223	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-455	\N	\N	\N	asdfwqer	58	2016-10-27 09:44:04.097981	2016-10-27 09:44:04.097981	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-456	\N	8	15	asdfwqer	58	2016-10-27 11:31:25.801347	2016-10-27 11:32:38.84716	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-457	\N	1	5	\N	58	2016-10-27 11:41:09.977365	2016-10-27 11:41:29.856009	3	4	2	5	10	10	0	2015	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-458	\N	\N	\N	asdfwqer	58	2016-10-27 11:47:51.397577	2016-10-27 11:47:51.397577	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-459	\N	0	15	asdfwqer	58	2016-10-27 11:54:59.697216	2016-10-27 11:55:11.484809	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-460	\N	1	15	asdfwqer	58	2016-10-27 12:46:18.855423	2016-10-27 13:10:35.956187	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-461	\N	0	5	phyphy	60	2016-10-30 09:33:32.233232	2016-10-30 09:33:53.743097	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	21102016	f	\N	\N	\N	f	\N
-462	\N	\N	\N	\N	60	2016-10-31 18:20:19.773843	2016-10-31 18:20:19.773843	3	4	\N	5	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-463	\N	2	15	asdfwqer	60	2016-10-31 18:20:44.168663	2016-10-31 18:22:31.540329	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-464	\N	1	15	asdfwqer	60	2016-10-31 19:18:37.112546	2016-10-31 19:19:33.046698	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-465	\N	5	15	asdfwqer	69	2016-11-01 05:03:02.911553	2016-11-01 05:04:18.747461	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-466	\N	0	15	asdfwqer	38	2016-11-01 11:43:55.348948	2016-11-01 11:46:19.709463	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-467	\N	3	10	\N	58	2016-11-01 12:20:57.925873	2016-11-01 12:21:42.379101	3	4	2	10	10	10	0	2015	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-468	\N	0	15	asdfwqer	58	2016-11-01 12:28:41.801523	2016-11-01 12:28:55.49772	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-299	\N	3	10	asdfwqer	58	2016-10-20 13:41:33.301165	2016-11-01 14:43:11.431644	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-469	\N	7	15	asdfwqer	58	2016-11-01 15:32:33.850137	2016-11-01 15:33:10.585009	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-470	\N	\N	\N	asdfwqer	58	2016-11-01 16:05:07.12784	2016-11-01 16:05:07.12784	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-471	\N	\N	\N	asdfwqer	58	2016-11-01 16:05:12.217793	2016-11-01 16:05:12.217793	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-472	\N	4	15	asdfwqer	58	2016-11-01 16:24:53.750397	2016-11-01 16:25:18.949994	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-473	\N	2	15	asdfwqer	58	2016-11-01 16:29:19.449087	2016-11-01 16:29:56.671097	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-474	\N	0	15	asdfwqer	58	2016-11-01 16:37:32.422543	2016-11-01 16:37:36.727728	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-475	\N	0	15	asdfwqer	58	2016-11-01 16:46:25.22901	2016-11-01 16:46:30.522214	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-486	\N	0	3	adilmalik	58	2016-11-03 14:57:22.916526	2016-11-03 14:57:25.006043	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-477	\N	\N	\N	asdfwqer	58	2016-11-03 13:42:01.686194	2016-11-03 13:42:01.686194	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-476	\N	0	0	asdfwqer	58	2016-11-03 13:36:05.549246	2016-11-03 13:42:02.717181	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-478	\N	0	3	adilmalik	58	2016-11-03 13:45:21.81261	2016-11-03 13:45:24.95662	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-479	\N	0	15	asdfwqer	58	2016-11-03 13:50:19.350508	2016-11-03 13:50:27.117274	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-480	\N	0	15	asdfwqer	58	2016-11-03 13:58:49.445045	2016-11-03 13:58:56.507859	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-481	\N	0	3	adilmalik	58	2016-11-03 14:01:47.322341	2016-11-03 14:01:49.144293	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-482	\N	0	3	adilmalik	58	2016-11-03 14:39:58.388528	2016-11-03 14:40:00.696698	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-483	\N	0	3	adilmalik	58	2016-11-03 14:44:05.100934	2016-11-03 14:44:07.993198	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-484	\N	0	15	asdfwqer	58	2016-11-03 14:45:58.84934	2016-11-03 14:46:06.065945	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-485	\N	0	3	adilmalik	58	2016-11-03 14:50:02.073023	2016-11-03 14:50:03.413699	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-487	\N	0	15	asdfwqer	58	2016-11-03 15:06:31.571864	2016-11-03 15:06:35.794739	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-488	\N	0	15	asdfwqer	58	2016-11-03 15:15:34.579561	2016-11-03 15:15:41.927602	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-489	\N	0	3	adilmalik	58	2016-11-03 15:18:08.494172	2016-11-03 15:18:09.71793	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-490	\N	0	3	adilmalik	58	2016-11-03 15:24:44.803073	2016-11-03 15:24:46.416108	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-491	\N	0	3	adilmalik	58	2016-11-03 15:27:01.262538	2016-11-03 15:27:02.47075	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-492	\N	0	15	asdfwqer	58	2016-11-03 15:31:44.341525	2016-11-03 15:31:48.512279	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-493	\N	0	3	adilmalik	58	2016-11-03 15:32:10.372804	2016-11-03 15:32:20.825388	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-494	\N	0	3	adilmalik	58	2016-11-03 15:36:25.855271	2016-11-03 15:36:28.558342	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-495	\N	0	15	asdfwqer	58	2016-11-03 15:40:38.227221	2016-11-03 15:40:41.782781	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-496	\N	0	3	adilmalik	58	2016-11-03 15:46:32.088217	2016-11-03 15:46:34.494289	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-497	\N	3	15	asdfwqer	58	2016-11-03 15:53:38.151973	2016-11-03 15:54:21.510934	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-498	\N	0	15	asdfwqer	58	2016-11-03 15:55:33.297593	2016-11-03 15:55:38.873494	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-499	\N	0	15	asdfwqer	58	2016-11-03 16:02:07.75318	2016-11-03 16:02:12.078837	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-500	\N	0	3	adilmalik	58	2016-11-03 16:07:40.251602	2016-11-03 16:07:41.784727	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-501	\N	0	3	adilmalik	58	2016-11-03 16:11:06.056992	2016-11-03 16:11:07.16592	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-502	\N	0	3	adilmalik	58	2016-11-03 16:14:58.817996	2016-11-03 16:14:59.950266	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-503	\N	0	3	adilmalik	58	2016-11-03 16:16:43.717685	2016-11-03 16:16:44.896859	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-504	\N	0	3	adilmalik	58	2016-11-03 16:17:10.5403	2016-11-03 16:17:11.606435	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-505	\N	0	0	asdfwqer	58	2016-11-03 16:32:15.793446	2016-11-03 16:36:11.875977	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-507	\N	0	3	adilmalik	58	2016-11-03 16:54:07.972569	2016-11-03 16:54:09.455091	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-508	\N	\N	\N	\N	60	2016-11-04 04:22:17.347292	2016-11-04 04:22:17.347292	3	4	\N	\N	\N	\N	\N	2005	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-509	\N	\N	\N	asdfwqer	58	2016-11-04 11:17:34.594071	2016-11-04 11:17:34.594071	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-506	\N	0	0	asdfwqer	58	2016-11-03 16:36:10.742962	2016-11-04 11:17:36.01211	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-510	\N	0	15	asdfwqer	58	2016-11-04 11:19:53.109657	2016-11-04 11:19:56.723788	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-511	\N	0	3	adilmalik	58	2016-11-04 11:27:51.428907	2016-11-04 11:27:53.271088	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-512	\N	0	3	adilmalik	58	2016-11-04 11:30:24.848897	2016-11-04 11:30:26.005724	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-514	\N	0	3	adilmalik	58	2016-11-04 12:39:38.462038	2016-11-04 12:39:44.736937	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-515	\N	0	3	adilmalik	58	2016-11-04 12:51:01.32192	2016-11-04 12:51:02.481208	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-516	\N	0	3	adilmalik	58	2016-11-04 12:53:33.871898	2016-11-04 12:53:35.536933	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-517	\N	0	3	adilmalik	58	2016-11-04 13:40:38.656357	2016-11-04 13:40:46.337551	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-518	\N	0	3	adilmalik	58	2016-11-04 13:42:26.114203	2016-11-04 13:42:27.304196	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-513	\N	1	15	asdfwqer	58	2016-11-04 12:24:38.088819	2016-11-04 14:13:21.221046	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-519	\N	0	3	adilmalik	58	2016-11-04 14:24:29.149186	2016-11-04 14:24:34.827318	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-520	\N	1	3	adilmalik	58	2016-11-04 15:04:18.752264	2016-11-04 15:04:25.38641	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-521	\N	8	15	asdfwqer	58	2016-11-04 16:51:35.04089	2016-11-04 16:52:36.296136	\N	\N	\N	13	1	1	0	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-522	\N	\N	\N	\N	60	2016-11-05 05:26:23.616873	2016-11-05 05:26:23.616873	3	4	\N	5	0	0	0	\N	\N	29	\N	Own Test	f	\N	\N	\N	f	\N
-523	\N	6	15	asdfwqer	60	2016-11-05 05:28:29.703984	2016-11-05 05:29:51.210363	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-524	\N	\N	\N	\N	58	2016-11-06 19:26:54.318382	2016-11-06 19:26:54.318382	3	6	2	10	0	0	0	2015	May/June	24	21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90	Own Test	f	\N	\N	\N	f	\N
-525	\N	0	3	adilmalik	58	2016-11-07 12:10:13.927379	2016-11-07 12:10:28.600218	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-526	\N	0	3	adilmalik	58	2016-11-07 12:14:30.761603	2016-11-07 12:14:36.714362	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	adil	f	\N	\N	\N	f	\N
-527	\N	4	15	asdfwqer	58	2016-11-21 15:57:12.755925	2016-11-21 15:58:20.904471	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-528	\N	1	15	asdfwqer	58	2016-11-21 15:58:35.228502	2016-11-21 16:00:01.352193	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	f	\N	\N	\N	f	\N
-530	\N	\N	\N	asdfwqer	60	2016-11-26 03:20:26.853979	2016-11-26 03:20:26.853979	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-578	\N	\N	\N	tBb8dshr	60	2017-01-06 14:06:34.187478	2017-01-06 14:06:34.187478	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-579	\N	\N	\N	tBb8dshr	60	2017-01-06 14:14:55.606478	2017-01-06 14:14:55.606478	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-580	\N	\N	\N	tBb8dshr	60	2017-01-06 14:19:48.962009	2017-01-06 14:19:48.962009	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-581	\N	\N	\N	tBb8dshr	60	2017-01-06 14:40:31.099331	2017-01-06 14:40:31.099331	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-582	\N	\N	\N	tBb8dshr	60	2017-01-06 15:22:17.151468	2017-01-06 15:22:17.151468	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-561	\N	\N	\N	asdfwqer	60	2016-12-19 11:41:40.365487	2016-12-19 11:41:40.365487	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-583	\N	\N	\N	tBb8dshr	60	2017-01-06 15:27:40.157894	2017-01-06 15:27:40.157894	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-592	\N	0	2	tBb8dshr	94	2017-01-11 07:07:14.100449	2017-01-31 13:23:32.50561	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	38	\N	t	\N
-560	\N	1	2	tBb8dshr	60	2016-12-19 11:15:11.789126	2017-01-25 16:55:55.306837	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	39	good dud	t	\N
-537	\N	\N	\N	asdfwqer	60	2016-12-03 19:31:21.402912	2016-12-03 19:31:21.402912	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	f	\N
-559	\N	1	2	tBb8dshr	60	2016-12-19 08:25:44.246556	2017-01-31 13:05:10.00583	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	t	39	123	t	\N
-546	\N	0	2	tBb8dshr	88	2016-12-14 11:18:05.675924	2016-12-14 14:09:15.357233	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	t	-1	\N	t	\N
-562	\N	\N	\N	asdfwqer	60	2016-12-22 10:14:39.806993	2016-12-22 10:14:39.806993	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-554	\N	2	2	tBb8dshr	88	2016-12-15 14:27:59.520735	2016-12-15 14:32:07.042561	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-584	\N	\N	\N	tBb8dshr	60	2017-01-06 18:55:21.074707	2017-01-06 18:55:21.074707	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-553	\N	8	2	tBb8dshr	88	2016-12-15 12:48:57.131947	2017-01-24 15:01:27.40075	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-564	\N	\N	\N	tBb8dshr	58	2016-12-29 03:42:09.234191	2016-12-29 03:42:09.234191	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-547	\N	2	2	tBb8dshr	88	2016-12-14 16:29:15.661013	2016-12-14 16:31:41.343106	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	-1	thanks	t	\N
-548	\N	\N	\N	tBb8dshr	88	2016-12-15 11:52:27.440455	2016-12-15 11:52:27.440455	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-555	\N	2	2	tBb8dshr	60	2016-12-16 15:43:37.628235	2016-12-16 15:47:44.158437	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	39	Its like wow. I really like it <3	t	\N
-585	\N	0	0	tBb8dshr	60	2017-01-09 12:09:34.002694	2017-01-09 12:09:42.604342	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-549	\N	0	15	asdfwqer	88	2016-12-15 11:54:12.201744	2016-12-15 12:33:56.222451	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	f	f	\N	\N	f	\N
-566	\N	\N	\N	tBb8dshr	60	2016-12-29 10:19:21.421144	2016-12-29 10:19:21.421144	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-586	\N	\N	\N	tBb8dshr	60	2017-01-10 10:23:50.396045	2017-01-10 10:23:50.396045	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-550	\N	2	2	tBb8dshr	88	2016-12-15 11:59:45.803984	2016-12-15 12:34:34.414732	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-551	\N	\N	\N	asdfwqer	88	2016-12-15 12:36:20.27027	2016-12-15 12:36:20.27027	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-552	\N	3	15	asdfwqer	88	2016-12-15 12:46:31.915412	2016-12-15 12:47:47.08305	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-556	\N	5	20	bhatti	60	2016-12-18 19:41:21.656161	2016-12-18 19:46:44.711437	\N	\N	\N	\N	\N	\N	1445	\N	\N	3	\N	bhatti	f	f	39	good	t	\N
-565	\N	0	2	tBb8dshr	60	2016-12-29 10:14:06.344026	2017-01-26 12:24:22.834245	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	39	mmmm	t	\N
-557	\N	0	20	bhatti	60	2016-12-18 19:47:32.246642	2016-12-18 19:47:51.056088	\N	\N	\N	\N	\N	\N	1445	\N	\N	3	\N	bhatti	f	t	3	\N	f	\N
-567	\N	\N	\N	\N	60	2017-01-05 15:32:33.198826	2017-01-05 15:32:33.198826	4	7	\N	\N	\N	\N	\N	2012	May/June	69	\N	Past Paper Test	f	\N	\N	\N	f	\N
-568	\N	0	0	tBb8dshr	60	2017-01-06 10:06:19.048504	2017-01-06 10:07:03.467866	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-569	\N	\N	\N	tBb8dshr	60	2017-01-06 12:21:12.262344	2017-01-06 12:21:12.262344	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-570	\N	\N	\N	tBb8dshr	60	2017-01-06 12:21:48.482219	2017-01-06 12:21:48.482219	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-558	\N	15	20	bhatti	60	2016-12-18 19:49:20.18809	2017-01-27 10:47:57.560386	\N	\N	\N	\N	\N	\N	1445	\N	\N	3	\N	bhatti	f	t	39	sdff	t	\N
-571	\N	\N	\N	tBb8dshr	60	2017-01-06 12:28:55.291908	2017-01-06 12:28:55.291908	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-572	\N	\N	\N	tBb8dshr	60	2017-01-06 12:36:47.556846	2017-01-06 12:36:47.556846	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-573	\N	\N	\N	tBb8dshr	60	2017-01-06 12:41:19.548517	2017-01-06 12:41:19.548517	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-574	\N	\N	\N	tBb8dshr	60	2017-01-06 13:39:19.418051	2017-01-06 13:39:19.418051	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-575	\N	\N	\N	tBb8dshr	60	2017-01-06 13:41:53.741678	2017-01-06 13:41:53.741678	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-576	\N	\N	\N	tBb8dshr	60	2017-01-06 13:43:13.234525	2017-01-06 13:43:13.234525	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-577	\N	\N	\N	tBb8dshr	60	2017-01-06 13:45:40.894222	2017-01-06 13:45:40.894222	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-587	\N	\N	\N	\N	91	2017-01-11 04:09:18.439739	2017-01-11 04:09:27.058288	3	4	2	\N	\N	\N	\N	2016	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-588	\N	\N	\N	\N	94	2017-01-11 06:46:59.510645	2017-01-11 06:47:03.150126	3	4	2	\N	\N	\N	\N	2009	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
-589	\N	4	5	phyphy	94	2017-01-11 06:52:11.883096	2017-01-11 06:54:19.458758	\N	\N	\N	1419,1411,1414,1407,1408	\N	\N	\N	\N	\N	3	\N	21102016	f	\N	\N	\N	f	\N
-590	\N	2	2	tBb8dshr	94	2017-01-11 06:57:50.574578	2017-01-11 07:03:36.190905	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	t	38	\N	t	\N
-591	\N	0	2	bwydtipt	94	2017-01-11 07:05:32.515549	2017-01-11 07:06:16.972869	\N	\N	\N	1416,1406	\N	\N	\N	\N	\N	3	\N	14.10.16	f	\N	\N	\N	f	\N
-593	\N	\N	\N	tBb8dshr	60	2017-01-11 10:35:35.637329	2017-01-11 10:35:35.637329	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-594	\N	\N	\N	tBb8dshr	60	2017-01-11 10:36:02.706432	2017-01-11 10:36:02.706432	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-595	\N	\N	\N	tBb8dshr	60	2017-01-11 10:36:03.421498	2017-01-11 10:36:03.421498	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-596	\N	\N	\N	tBb8dshr	60	2017-01-11 10:41:32.165466	2017-01-11 10:41:32.165466	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-597	\N	\N	\N	tBb8dshr	60	2017-01-11 10:45:46.531236	2017-01-11 10:45:46.531236	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-598	\N	\N	\N	tBb8dshr	60	2017-01-11 11:07:15.876359	2017-01-11 11:07:15.876359	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-599	\N	\N	\N	tBb8dshr	60	2017-01-11 11:10:51.232156	2017-01-11 11:10:51.232156	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-600	\N	\N	\N	tBb8dshr	60	2017-01-11 11:10:52.958985	2017-01-11 11:10:52.958985	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-601	\N	\N	\N	tBb8dshr	60	2017-01-11 11:11:44.129865	2017-01-11 11:11:44.129865	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-602	\N	\N	\N	tBb8dshr	60	2017-01-11 11:27:59.536888	2017-01-11 11:27:59.536888	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-603	\N	\N	\N	tBb8dshr	60	2017-01-11 11:46:26.827154	2017-01-11 11:46:26.827154	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-604	\N	\N	\N	tBb8dshr	60	2017-01-11 11:48:23.898242	2017-01-11 11:48:23.898242	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-605	\N	\N	\N	tBb8dshr	60	2017-01-11 11:53:13.409454	2017-01-11 11:53:13.409454	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-606	\N	\N	\N	tBb8dshr	60	2017-01-11 12:07:19.034636	2017-01-11 12:07:19.034636	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-607	\N	\N	\N	tBb8dshr	60	2017-01-11 12:09:55.516459	2017-01-11 12:09:55.516459	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-608	\N	\N	\N	tBb8dshr	60	2017-01-11 12:10:29.982627	2017-01-11 12:10:29.982627	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-609	\N	\N	\N	tBb8dshr	60	2017-01-11 12:12:28.109712	2017-01-11 12:12:28.109712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-610	\N	\N	\N	tBb8dshr	60	2017-01-11 13:28:10.14186	2017-01-11 13:28:10.14186	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-611	\N	\N	\N	tBb8dshr	60	2017-01-11 13:32:05.907795	2017-01-11 13:32:05.907795	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-612	\N	\N	\N	tBb8dshr	60	2017-01-11 13:39:05.363056	2017-01-11 13:39:05.363056	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-613	\N	\N	\N	tBb8dshr	60	2017-01-11 13:43:43.839461	2017-01-11 13:43:43.839461	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-614	\N	\N	\N	tBb8dshr	60	2017-01-11 13:47:46.488472	2017-01-11 13:47:46.488472	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-615	\N	\N	\N	tBb8dshr	60	2017-01-11 14:11:12.087417	2017-01-11 14:11:12.087417	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-616	\N	\N	\N	tBb8dshr	60	2017-01-11 14:14:36.260855	2017-01-11 14:14:36.260855	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-617	\N	\N	\N	tBb8dshr	60	2017-01-11 14:37:07.468928	2017-01-11 14:37:07.468928	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-618	\N	\N	\N	tBb8dshr	60	2017-01-11 16:58:15.408612	2017-01-11 16:58:15.408612	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-619	\N	\N	\N	tBb8dshr	60	2017-01-11 16:59:25.905659	2017-01-11 16:59:25.905659	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-620	\N	\N	\N	tBb8dshr	60	2017-01-11 17:01:14.952963	2017-01-11 17:01:14.952963	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-621	\N	\N	\N	tBb8dshr	60	2017-01-11 17:04:06.464802	2017-01-11 17:04:06.464802	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-622	\N	\N	\N	tBb8dshr	60	2017-01-12 09:57:12.109171	2017-01-12 09:57:12.109171	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-623	\N	\N	\N	tBb8dshr	60	2017-01-12 11:26:24.340457	2017-01-12 11:26:24.340457	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-624	\N	\N	\N	tBb8dshr	60	2017-01-12 11:30:21.560856	2017-01-12 11:30:21.560856	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-625	\N	\N	\N	tBb8dshr	60	2017-01-12 11:31:58.858544	2017-01-12 11:31:58.858544	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-626	\N	\N	\N	tBb8dshr	60	2017-01-12 11:37:01.416058	2017-01-12 11:37:01.416058	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-627	\N	\N	\N	tBb8dshr	60	2017-01-12 12:02:00.997034	2017-01-12 12:02:00.997034	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-628	\N	\N	\N	tBb8dshr	60	2017-01-12 12:04:52.668342	2017-01-12 12:04:52.668342	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-629	\N	\N	\N	tBb8dshr	60	2017-01-12 12:07:15.012248	2017-01-12 12:07:15.012248	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-630	\N	\N	\N	tBb8dshr	60	2017-01-12 12:09:27.556222	2017-01-12 12:09:27.556222	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-631	\N	\N	\N	tBb8dshr	60	2017-01-12 12:13:56.018154	2017-01-12 12:13:56.018154	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-632	\N	\N	\N	tBb8dshr	60	2017-01-12 12:15:29.101933	2017-01-12 12:15:29.101933	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-633	\N	\N	\N	tBb8dshr	60	2017-01-12 12:22:33.368388	2017-01-12 12:22:33.368388	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-634	\N	\N	\N	tBb8dshr	60	2017-01-12 12:24:23.408357	2017-01-12 12:24:23.408357	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-635	\N	\N	\N	tBb8dshr	60	2017-01-12 12:26:13.778896	2017-01-12 12:26:13.778896	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-636	\N	\N	\N	tBb8dshr	60	2017-01-12 12:29:07.70754	2017-01-12 12:29:07.70754	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-637	\N	\N	\N	tBb8dshr	60	2017-01-12 12:34:40.619255	2017-01-12 12:34:40.619255	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-638	\N	\N	\N	tBb8dshr	60	2017-01-12 12:37:56.375431	2017-01-12 12:37:56.375431	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-639	\N	\N	\N	tBb8dshr	60	2017-01-12 12:41:44.963711	2017-01-12 12:41:44.963711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-640	\N	\N	\N	tBb8dshr	60	2017-01-12 12:53:21.89923	2017-01-12 12:53:21.89923	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-641	\N	\N	\N	tBb8dshr	60	2017-01-12 12:59:53.701388	2017-01-12 12:59:53.701388	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-642	\N	\N	\N	tBb8dshr	60	2017-01-12 13:02:13.804804	2017-01-12 13:02:13.804804	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-643	\N	\N	\N	tBb8dshr	60	2017-01-12 13:06:13.165403	2017-01-12 13:06:13.165403	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-644	\N	\N	\N	tBb8dshr	60	2017-01-12 13:06:29.25445	2017-01-12 13:06:29.25445	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-645	\N	\N	\N	tBb8dshr	60	2017-01-12 13:30:25.450766	2017-01-12 13:30:25.450766	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-646	\N	0	2	tBb8dshr	60	2017-01-12 13:32:15.688766	2017-01-12 13:32:37.235832	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-647	\N	\N	\N	tBb8dshr	60	2017-01-12 13:32:56.030038	2017-01-12 13:32:56.030038	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-648	\N	\N	\N	tBb8dshr	60	2017-01-12 13:35:53.799321	2017-01-12 13:35:53.799321	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-649	\N	0	2	tBb8dshr	60	2017-01-12 13:36:27.789303	2017-01-12 13:36:41.287772	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-650	\N	\N	\N	tBb8dshr	60	2017-01-12 13:36:49.754199	2017-01-12 13:36:49.754199	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-651	\N	\N	\N	tBb8dshr	60	2017-01-12 13:43:35.099003	2017-01-12 13:43:35.099003	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-652	\N	0	2	tBb8dshr	60	2017-01-12 13:44:59.373961	2017-01-12 13:45:12.014085	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-653	\N	0	2	tBb8dshr	60	2017-01-12 13:48:36.356665	2017-01-12 13:49:19.474875	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-654	\N	\N	\N	tBb8dshr	60	2017-01-12 13:49:34.300375	2017-01-12 13:49:34.300375	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-655	\N	\N	\N	tBb8dshr	60	2017-01-12 13:52:06.765277	2017-01-12 13:52:06.765277	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-656	\N	\N	\N	tBb8dshr	60	2017-01-12 14:01:04.575743	2017-01-12 14:01:04.575743	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-657	\N	\N	\N	tBb8dshr	60	2017-01-12 14:40:33.199553	2017-01-12 14:40:33.199553	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-658	\N	\N	\N	tBb8dshr	60	2017-01-12 14:45:25.341333	2017-01-12 14:45:25.341333	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-659	\N	0	2	tBb8dshr	60	2017-01-12 14:52:39.695551	2017-01-12 14:53:41.548585	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-660	\N	\N	\N	tBb8dshr	60	2017-01-12 15:03:27.255098	2017-01-12 15:03:27.255098	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-661	\N	0	2	tBb8dshr	60	2017-01-12 15:04:42.045944	2017-01-12 15:05:36.815037	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-662	\N	\N	\N	tBb8dshr	60	2017-01-12 15:06:08.685739	2017-01-12 15:06:08.685739	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-663	\N	\N	\N	tBb8dshr	60	2017-01-12 15:13:18.819958	2017-01-12 15:13:18.819958	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-664	\N	\N	\N	tBb8dshr	60	2017-01-12 15:14:08.675331	2017-01-12 15:14:08.675331	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-665	\N	0	2	tBb8dshr	60	2017-01-12 15:15:20.8375	2017-01-12 15:15:53.374482	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-666	\N	0	2	tBb8dshr	60	2017-01-12 15:19:30.770575	2017-01-12 15:21:01.391603	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-667	\N	\N	\N	tBb8dshr	60	2017-01-12 15:23:13.688134	2017-01-12 15:23:13.688134	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-668	\N	\N	\N	tBb8dshr	60	2017-01-12 15:59:22.774441	2017-01-12 15:59:22.774441	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-669	\N	\N	\N	tBb8dshr	60	2017-01-12 16:01:16.850381	2017-01-12 16:01:16.850381	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-670	\N	\N	\N	tBb8dshr	60	2017-01-12 16:04:10.606743	2017-01-12 16:04:10.606743	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-671	\N	\N	\N	tBb8dshr	60	2017-01-12 16:06:22.914854	2017-01-12 16:06:22.914854	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-672	\N	0	2	tBb8dshr	60	2017-01-12 16:08:42.725124	2017-01-12 16:08:47.083526	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-673	\N	0	2	tBb8dshr	60	2017-01-12 16:08:52.993727	2017-01-12 16:08:56.106678	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-674	\N	0	2	tBb8dshr	60	2017-01-12 16:09:03.936114	2017-01-12 16:09:37.669925	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	f	\N	\N	\N	f	\N
-725	\N	0	4	tBb8dshr	60	2017-01-26 14:23:52.318231	2017-01-27 10:48:37.491803	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	bsjje	t	\N
-676	\N	\N	\N	tBb8dshr	60	2017-01-13 10:30:22.709492	2017-01-13 10:30:22.709492	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-677	\N	\N	\N	tBb8dshr	60	2017-01-13 10:32:11.577727	2017-01-13 10:32:11.577727	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-678	\N	\N	\N	tBb8dshr	60	2017-01-13 10:50:47.759158	2017-01-13 10:50:47.759158	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-679	\N	\N	\N	tBb8dshr	60	2017-01-13 10:52:03.95693	2017-01-13 10:52:03.95693	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-680	\N	\N	\N	tBb8dshr	60	2017-01-13 12:47:35.843977	2017-01-13 12:47:35.843977	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-681	\N	\N	\N	tBb8dshr	60	2017-01-13 13:44:23.912087	2017-01-13 13:44:23.912087	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-682	\N	\N	\N	tBb8dshr	60	2017-01-13 13:53:08.123612	2017-01-13 13:53:08.123612	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-683	\N	\N	\N	tBb8dshr	60	2017-01-13 15:28:45.772217	2017-01-13 15:28:45.772217	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-684	\N	\N	\N	tBb8dshr	60	2017-01-13 15:30:37.580253	2017-01-13 15:30:37.580253	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-685	\N	\N	\N	tBb8dshr	60	2017-01-13 15:32:57.782263	2017-01-13 15:32:57.782263	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-686	\N	\N	\N	tBb8dshr	60	2017-01-13 15:36:27.923697	2017-01-13 15:36:27.923697	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-687	\N	\N	\N	tBb8dshr	60	2017-01-13 15:43:09.458229	2017-01-13 15:43:09.458229	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-736	\N	0	4	tBb8dshr	60	2017-01-31 14:01:44.246602	2017-02-01 18:26:36.607899	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-689	\N	\N	\N	tBb8dshr	60	2017-01-13 22:10:17.808286	2017-01-13 22:10:17.808286	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-690	\N	\N	\N	tBb8dshr	60	2017-01-16 12:29:50.294202	2017-01-16 12:29:50.294202	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-691	\N	\N	\N	tBb8dshr	60	2017-01-16 12:32:52.825414	2017-01-16 12:32:52.825414	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-692	\N	\N	\N	tBb8dshr	60	2017-01-16 12:38:05.008062	2017-01-16 12:38:05.008062	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-693	\N	\N	\N	tBb8dshr	60	2017-01-16 12:39:34.914448	2017-01-16 12:39:34.914448	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-694	\N	\N	\N	tBb8dshr	60	2017-01-16 12:45:31.97191	2017-01-16 12:45:31.97191	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-695	\N	\N	\N	tBb8dshr	60	2017-01-16 12:52:43.975848	2017-01-16 12:52:43.975848	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-696	\N	\N	\N	tBb8dshr	60	2017-01-16 13:16:05.900981	2017-01-16 13:16:05.900981	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-697	\N	\N	\N	tBb8dshr	60	2017-01-16 13:19:42.625506	2017-01-16 13:19:42.625506	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-698	\N	\N	\N	tBb8dshr	60	2017-01-16 13:27:19.911753	2017-01-16 13:27:19.911753	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-699	\N	\N	\N	tBb8dshr	60	2017-01-16 13:29:08.76891	2017-01-16 13:29:08.76891	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-700	\N	\N	\N	tBb8dshr	60	2017-01-16 13:31:29.515346	2017-01-16 13:31:29.515346	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-701	\N	\N	\N	tBb8dshr	60	2017-01-16 13:33:31.135467	2017-01-16 13:33:31.135467	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-718	\N	\N	\N	tBb8dshr	60	2017-01-16 17:25:05.252198	2017-01-16 17:25:05.252198	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-688	\N	0	2	tBb8dshr	60	2017-01-13 16:02:00.467087	2017-01-27 14:43:31.319425	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-732	\N	0	4	tBb8dshr	60	2017-01-27 14:32:24.910646	2017-01-27 14:52:12.448476	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	good 	t	\N
-726	\N	0	4	tBb8dshr	60	2017-01-27 10:49:15.010203	2017-01-27 11:52:37.147864	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-705	\N	3	30	asdfwqer	60	2017-01-16 13:54:05.678764	2017-01-16 13:54:28.851322	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-737	\N	0	4	tBb8dshr	60	2017-01-31 14:07:24.89591	2017-01-31 14:08:11.39941	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-707	\N	\N	\N	tBb8dshr	60	2017-01-16 16:11:37.850406	2017-01-16 16:11:37.850406	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-727	\N	0	4	tBb8dshr	60	2017-01-27 11:54:46.616369	2017-01-27 12:07:00.780132	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-709	\N	\N	\N	tBb8dshr	60	2017-01-16 16:22:09.349965	2017-01-16 16:22:09.349965	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-711	\N	\N	\N	tBb8dshr	60	2017-01-16 16:31:27.16669	2017-01-16 16:31:27.16669	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-712	\N	\N	\N	tBb8dshr	60	2017-01-16 16:53:10.471667	2017-01-16 16:53:10.471667	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-720	\N	0	4	tBb8dshr	60	2017-01-17 13:34:43.281613	2017-01-17 13:36:27.134637	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	3	\N	f	\N
-754	\N	0	4	tBb8dshr	60	2017-02-03 13:00:01.202801	2017-02-26 19:40:31.936548	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-721	\N	\N	\N	\N	60	2017-01-17 14:07:10.666014	2017-01-17 14:07:10.666014	3	4	\N	2	5	6	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-728	\N	0	4	tBb8dshr	60	2017-01-27 12:17:40.411917	2017-01-27 12:23:00.243922	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-722	\N	\N	\N	\N	60	2017-01-18 04:46:04.341543	2017-01-18 04:46:04.341543	3	4	\N	2	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-716	\N	\N	\N	tBb8dshr	60	2017-01-16 17:20:05.746888	2017-01-16 17:20:05.746888	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-723	\N	1	10	phyphy	60	2017-01-18 04:46:15.782202	2017-01-18 04:47:26.363054	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	21102016	f	\N	\N	\N	f	\N
-740	\N	0	4	tBb8dshr	60	2017-02-01 15:41:10.242377	2017-02-01 16:00:58.013567	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	dykfsgd	t	\N
-729	\N	0	4	tBb8dshr	60	2017-01-27 12:32:22.423504	2017-01-27 12:41:01.763923	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-730	\N	\N	\N	tBb8dshr	60	2017-01-27 12:56:07.564132	2017-01-27 12:56:07.564132	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-724	\N	1	2	tBb8dshr	60	2017-01-20 13:19:48.647562	2017-01-20 13:26:25.360527	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	39	nice :D	t	2
-432	\N	\N	\N	asdfwqer	58	2016-10-26 16:32:22.458027	2017-01-20 16:24:58.057779	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	test 4	t	\N	\N	\N	t	\N
-675	\N	0	2	tBb8dshr	60	2017-01-12 17:15:18.170698	2017-01-25 17:02:11.568653	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	t	\N
-734	\N	0	4	tBb8dshr	60	2017-01-30 10:44:05.031972	2017-01-30 10:45:15.991616	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-738	\N	0	4	tBb8dshr	60	2017-01-31 14:43:38.911945	2017-01-31 14:44:20.62826	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	3	\N	f	\N
-731	\N	0	4	tBb8dshr	60	2017-01-27 12:56:29.999372	2017-01-27 14:18:04.389447	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-739	\N	\N	\N	tBb8dshr	60	2017-02-01 15:40:10.894683	2017-02-01 15:40:10.894683	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-735	\N	0	4	tBb8dshr	60	2017-01-30 10:46:41.046711	2017-01-31 12:45:38.664678	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	hwjjwje	t	\N
-751	\N	\N	\N	tBb8dshr	60	2017-02-01 18:36:02.278926	2017-02-01 18:36:02.278926	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-741	\N	0	4	tBb8dshr	60	2017-02-01 15:42:14.504513	2017-02-01 15:43:53.290687	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-742	\N	\N	\N	tBb8dshr	60	2017-02-01 15:44:04.489076	2017-02-01 15:44:04.489076	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-743	\N	0	4	tBb8dshr	60	2017-02-01 18:12:47.141813	2017-03-16 15:35:10.102568	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-744	\N	0	4	tBb8dshr	60	2017-02-01 18:17:35.96951	2017-02-01 18:18:37.463896	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-746	\N	\N	\N	tBb8dshr	60	2017-02-01 18:34:52.360493	2017-02-01 18:34:52.360493	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-747	\N	\N	\N	tBb8dshr	60	2017-02-01 18:34:58.118869	2017-02-01 18:34:58.118869	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-748	\N	\N	\N	tBb8dshr	60	2017-02-01 18:35:03.889294	2017-02-01 18:35:03.889294	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-749	\N	\N	\N	tBb8dshr	60	2017-02-01 18:35:11.159615	2017-02-01 18:35:11.159615	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-750	\N	\N	\N	tBb8dshr	60	2017-02-01 18:35:14.74963	2017-02-01 18:35:14.74963	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-752	\N	0	4	tBb8dshr	60	2017-02-03 10:25:56.165751	2017-02-03 12:50:44.021182	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	gjvch	t	\N
-753	\N	0	4	tBb8dshr	60	2017-02-03 12:58:01.513453	2017-02-03 12:59:57.057579	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-755	\N	\N	\N	tBb8dshr	60	2017-02-03 13:04:44.038384	2017-02-03 13:04:44.038384	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-745	\N	0	4	tBb8dshr	60	2017-02-01 18:32:46.658383	2017-02-28 15:02:23.905424	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-733	\N	0	4	tBb8dshr	60	2017-01-27 14:57:31.354989	2017-02-07 14:53:56.10381	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	nbnj	t	\N
-757	\N	\N	\N	tBb8dshr	60	2017-02-03 13:16:30.42593	2017-02-03 13:16:30.42593	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-758	\N	\N	\N	tBb8dshr	60	2017-02-03 13:17:45.474244	2017-02-03 13:17:45.474244	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-815	\N	3	18	\N	60	2017-02-28 16:48:27.825263	2017-02-28 16:48:58.536906	0	0	\N	14	3	4	2	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-760	\N	\N	\N	\N	60	2017-02-03 14:43:12.078527	2017-02-03 14:43:12.078527	0	0	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-761	\N	\N	\N	\N	60	2017-02-03 14:45:38.799531	2017-02-03 14:45:38.799531	0	0	\N	0	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-762	\N	\N	\N	tBb8dshr	60	2017-02-03 16:49:25.990992	2017-02-03 16:49:25.990992	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-763	\N	\N	\N	tBb8dshr	60	2017-02-03 17:08:22.037746	2017-02-03 17:08:22.037746	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-764	\N	\N	\N	tBb8dshr	60	2017-02-03 17:12:30.818513	2017-02-03 17:12:30.818513	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-765	\N	\N	\N	tBb8dshr	60	2017-02-03 17:19:39.708287	2017-02-03 17:19:39.708287	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-797	\N	0	2	tBb8dshr	94	2017-02-09 05:33:57.709703	2017-02-09 05:36:57.268274	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	t	38	\N	f	2
-766	\N	0	4	tBb8dshr	60	2017-02-03 17:29:15.79293	2017-02-03 17:30:00.11327	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	3	\N	f	\N
-767	\N	\N	\N	tBb8dshr	60	2017-02-03 17:30:05.495936	2017-02-03 17:30:05.495936	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-768	\N	\N	\N	tBb8dshr	60	2017-02-03 17:33:47.128283	2017-02-03 17:33:47.128283	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-769	\N	\N	\N	tBb8dshr	60	2017-02-03 17:37:55.379191	2017-02-03 17:37:55.379191	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-770	\N	\N	\N	tBb8dshr	60	2017-02-03 17:39:51.865529	2017-02-03 17:39:51.865529	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-771	\N	\N	\N	tBb8dshr	60	2017-02-03 17:40:11.140805	2017-02-03 17:40:11.140805	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-772	\N	\N	\N	tBb8dshr	60	2017-02-03 17:41:51.922893	2017-02-03 17:41:51.922893	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-798	\N	0	2	\N	60	2017-02-21 01:54:54.376316	2017-02-21 01:55:25.801985	0	0	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-774	\N	\N	\N	tBb8dshr	60	2017-02-03 17:45:41.809247	2017-02-03 17:45:41.809247	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-775	\N	\N	\N	tBb8dshr	60	2017-02-03 17:51:28.66471	2017-02-03 17:51:28.66471	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-776	\N	\N	\N	tBb8dshr	60	2017-02-03 17:52:28.484479	2017-02-03 17:52:28.484479	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-777	\N	\N	\N	tBb8dshr	60	2017-02-03 17:54:34.824374	2017-02-03 17:54:34.824374	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-778	\N	\N	\N	tBb8dshr	60	2017-02-03 17:55:12.010273	2017-02-03 17:55:12.010273	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-779	\N	\N	\N	tBb8dshr	60	2017-02-03 17:59:18.726284	2017-02-03 17:59:18.726284	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-780	\N	0	4	tBb8dshr	60	2017-02-03 17:59:33.727848	2017-02-03 18:00:14.094913	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-781	\N	\N	\N	tBb8dshr	60	2017-02-03 18:01:57.090593	2017-02-03 18:01:57.090593	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-799	\N	3	30	asdfwqer	60	2017-02-24 16:33:55.891294	2017-02-24 16:34:12.234861	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-782	\N	0	4	tBb8dshr	60	2017-02-03 18:09:06.372007	2017-02-03 18:09:42.662698	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-783	\N	0	4	tBb8dshr	60	2017-02-03 18:09:52.949967	2017-02-03 18:10:25.645833	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-784	\N	\N	\N	\N	60	2017-02-04 02:29:12.329851	2017-02-04 02:29:12.329851	0	0	\N	\N	\N	\N	\N	2008	May/June	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-785	\N	0	2	\N	60	2017-02-04 02:29:35.501002	2017-02-04 02:30:04.029539	0	0	\N	7	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-786	\N	\N	\N	tBb8dshr	60	2017-02-05 16:47:58.707592	2017-02-05 16:47:58.707592	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-800	\N	1	30	asdfwqer	60	2017-02-24 16:40:02.770107	2017-02-24 16:40:18.030565	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-816	\N	\N	\N	\N	60	2017-02-28 19:01:22.769146	2017-02-28 19:01:22.769146	0	0	\N	\N	\N	\N	\N	2008	May/June	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-801	\N	0	4	tBb8dshr	60	2017-02-24 16:40:40.060679	2017-02-24 16:40:51.752958	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-787	\N	0	4	tBb8dshr	60	2017-02-05 16:51:20.333509	2017-02-06 18:38:02.452351	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-788	\N	0	4	tBb8dshr	60	2017-02-06 18:32:25.866814	2017-02-06 18:39:51.604893	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	ok	t	\N
-789	\N	0	10	phyphy	60	2017-02-06 19:12:18.279612	2017-02-06 19:13:21.213133	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	21102016	f	\N	\N	\N	f	\N
-759	\N	0	4	tBb8dshr	60	2017-02-03 13:31:59.15144	2017-02-07 15:41:28.122584	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-790	\N	\N	\N	tBb8dshr	60	2017-02-08 10:40:13.710606	2017-02-08 10:40:13.710606	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-791	\N	\N	\N	tBb8dshr	60	2017-02-08 11:10:43.217019	2017-02-08 11:10:43.217019	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-792	\N	\N	\N	asdfwqer	60	2017-02-08 15:37:07.470846	2017-02-08 15:37:07.470846	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-793	\N	\N	\N	asdfwqer	60	2017-02-08 16:11:57.628469	2017-02-08 16:11:57.628469	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-794	\N	\N	\N	tBb8dshr	60	2017-02-08 16:40:48.118861	2017-02-08 16:40:48.118861	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-809	\N	0	4	tBb8dshr	60	2017-02-26 19:23:15.929163	2017-02-26 19:29:49.579469	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	dydyfuf	t	\N
-756	\N	0	4	tBb8dshr	60	2017-02-03 13:08:15.29524	2017-02-26 19:39:37.29441	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-773	\N	0	4	tBb8dshr	60	2017-02-03 17:44:51.98925	2017-02-08 16:56:38.646506	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-795	\N	0	4	tBb8dshr	60	2017-02-08 16:45:15.818532	2017-02-08 16:57:34.406455	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	yjjj	t	\N
-796	\N	0	5	phyphy	94	2017-02-09 05:31:06.710321	2017-02-09 05:32:08.24778	\N	\N	\N	1411:5620,1407:5603,1414:5631,1408:5607,1419:5651	\N	\N	\N	\N	\N	3	\N	21102016	f	\N	\N	\N	t	5
-803	\N	0	30	asdfwqer	60	2017-02-24 16:42:43.02955	2017-02-24 16:42:58.657681	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	f	f	-1	\N	f	\N
-804	\N	\N	\N	\N	60	2017-02-24 16:43:29.394332	2017-02-24 16:43:29.394332	0	0	\N	5	4	4	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-805	\N	\N	\N	\N	60	2017-02-24 16:45:10.84627	2017-02-24 16:45:10.84627	0	0	\N	0	5	0	1	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-806	\N	0	4	\N	60	2017-02-24 16:45:30.818569	2017-02-24 16:45:47.60432	0	0	\N	2	4	2	4	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-807	\N	\N	\N	asdfwqer	60	2017-02-26 06:57:58.144723	2017-02-26 06:57:58.144723	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
-802	\N	0	4	tBb8dshr	60	2017-02-24 16:42:10.324907	2017-02-26 14:25:24.427117	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	t	\N
-810	\N	1	30	asdfwqer	60	2017-02-26 19:43:01.723854	2017-02-26 19:45:55.316218	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	f	\N
-808	\N	0	4	tBb8dshr	60	2017-02-26 14:28:46.208086	2017-02-26 14:31:23.912157	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-811	\N	0	78	\N	60	2017-02-28 15:19:48.282353	2017-02-28 15:20:54.243955	0	0	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-812	\N	1	78	\N	60	2017-02-28 15:25:45.285106	2017-02-28 15:26:15.349216	0	0	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-817	\N	1	8	\N	60	2017-02-28 19:02:13.541329	2017-02-28 19:03:45.893246	0	0	\N	9	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-813	\N	0	4	tBb8dshr	60	2017-02-28 16:36:27.419233	2017-02-28 16:37:56.606338	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-814	\N	0	78	\N	60	2017-02-28 16:46:04.599252	2017-02-28 16:47:00.118916	0	0	\N	\N	\N	\N	\N	2012	Oct/Nov	3	\N	Past Paper Test	f	\N	\N	\N	f	\N
-818	\N	1	6	\N	60	2017-02-28 19:05:24.395536	2017-02-28 19:05:53.731287	0	0	\N	6	6	3	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-819	\N	0	2	\N	60	2017-03-01 01:58:28.458468	2017-03-01 01:58:45.562246	0	0	\N	3	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-820	\N	0	6	\N	60	2017-03-01 14:51:23.915058	2017-03-01 14:51:34.236877	0	0	\N	25	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-821	\N	0	4	\N	60	2017-03-01 14:52:05.414744	2017-03-01 14:52:10.995166	0	0	\N	4	7	3	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-822	\N	0	6	\N	60	2017-03-01 15:01:51.97478	2017-03-01 15:02:03.599283	0	0	\N	3	6	4	5	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-823	\N	0	12	\N	60	2017-03-05 16:53:24.576448	2017-03-05 16:53:58.562867	0	0	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-824	\N	0	12	\N	60	2017-03-05 16:54:29.551293	2017-03-05 16:54:51.039683	0	0	\N	6	0	0	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-825	\N	0	4	tBb8dshr	60	2017-03-06 05:46:04.640669	2017-03-06 05:47:31.816163	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-826	\N	6	26	\N	60	2017-03-06 11:54:38.070912	2017-03-06 11:55:28.380106	0	0	\N	15	14	11	9	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-827	\N	1	6	\N	60	2017-03-06 13:23:18.516593	2017-03-06 13:23:25.551426	0	0	\N	6	7	7	6	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-828	\N	\N	\N	\N	60	2017-03-06 13:31:52.221301	2017-03-06 13:31:52.221301	0	0	\N	6	6	7	0	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-829	\N	0	2	\N	60	2017-03-06 13:32:20.591684	2017-03-06 13:33:41.329294	0	0	\N	6	5	7	6	\N	\N	4	\N	Own Test	f	\N	\N	\N	f	\N
-831	\N	\N	\N	\N	60	2017-03-06 13:36:04.076805	2017-03-06 13:36:04.076805	0	0	\N	24	24	24	23	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-830	\N	2	18	\N	60	2017-03-06 13:35:11.572199	2017-03-06 13:36:30.030726	0	0	\N	24	24	24	23	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-832	\N	0	4	tBb8dshr	60	2017-03-06 16:22:55.198314	2017-03-06 16:24:23.513235	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	f	\N
-833	\N	\N	\N	\N	60	2017-03-06 17:10:28.716398	2017-03-06 17:10:28.716398	0	0	\N	6	7	7	7	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-834	\N	1	12	\N	60	2017-03-06 17:14:20.189768	2017-03-06 17:14:28.97121	0	0	\N	6	8	7	7	\N	\N	3	\N	Own Test	f	\N	\N	\N	f	\N
-835	\N	\N	\N	tBb8dshr	60	2017-03-07 15:42:39.517386	2017-03-07 15:42:39.517386	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-836	\N	0	4	tBb8dshr	60	2017-03-12 11:27:00.531761	2017-03-12 11:29:44.403326	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	t	\N
-838	\N	\N	\N	tBb8dshr	60	2017-03-14 13:07:39.875244	2017-03-14 13:07:39.875244	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-839	\N	0	4	tBb8dshr	60	2017-03-16 15:29:20.435992	2017-03-16 15:31:09.496669	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	39	\N	f	\N
-837	\N	0	4	tBb8dshr	60	2017-03-13 13:00:41.81424	2017-03-16 15:33:39.067293	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	t	\N
-840	\N	0	4	tBb8dshr	60	2017-03-24 11:34:54.292466	2017-03-24 11:37:12.820619	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	f	\N
-841	\N	\N	\N	tBb8dshr	60	2017-03-24 11:42:35.833665	2017-03-24 11:42:35.833665	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-842	\N	\N	\N	tBb8dshr	60	2017-03-24 11:48:14.295647	2017-03-24 11:48:14.295647	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-843	\N	0	4	tBb8dshr	60	2017-03-24 11:49:44.856473	2017-03-24 11:51:30.415176	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	f	\N
-844	\N	0	4	tBb8dshr	60	2017-03-24 12:24:04.693049	2017-03-24 12:25:11.144847	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	t	39	\N	f	\N
-845	\N	\N	\N	tBb8dshr	60	2017-03-24 13:08:15.444134	2017-03-24 13:08:15.444134	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	t	\N	\N	\N	f	\N
-846	\N	0	4	tBb8dshr	60	2017-05-19 16:11:33.993197	2017-05-19 16:15:04.220677	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	f	\N
-847	\N	0	4	tBb8dshr	60	2017-05-19 16:27:07.278673	2017-05-19 16:28:51.346975	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	Descriptive Quiz	f	f	-1	\N	f	\N
-848	\N	\N	\N	asdfwqer	60	2017-07-03 18:25:32.761053	2017-07-03 18:25:32.761053	\N	\N	\N	\N	\N	\N	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+COPY public.user_test_histories (id, course, score, total, code, user_id, created_at, updated_at, board_id, degree_id, pastpaperflag, mcq, fill, truefalse, descriptive, year, session, course_id, topic_ids, quiz_name, is_live, video_review, teacher_id, student_feedback, reviewed, total_questions) FROM stdin;
+855	\N	\N	\N	checkmcq	97	2017-07-26 20:20:08.978357	2017-07-26 20:20:08.978357	\N	\N	\N	1382,1403,1414,1399,1456,1384	\N	\N	\N	\N	\N	3	\N	Test 26072017	t	\N	\N	\N	f	\N
+856	\N	2	6	checkmcq	97	2017-07-26 20:26:23.174578	2017-07-26 20:31:03.647602	\N	\N	\N	1414:5633,1456:5760,1382:5504,1403:5586,1399:5570,1384:5512	\N	\N	\N	\N	\N	3	\N	Test 26072017	f	\N	\N	\N	t	6
+857	\N	\N	\N	\N	60	2017-08-08 13:03:21.299081	2017-08-08 13:03:26.636008	3	4	2	\N	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
+858	\N	\N	\N	asdfwqer	60	2017-08-08 13:15:26.63922	2017-08-08 13:15:26.63922	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+859	\N	\N	\N	asdfwqer	60	2017-08-08 13:15:30.78814	2017-08-08 13:15:30.78814	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+860	\N	\N	\N	asdfwqer	60	2017-08-08 13:16:38.185998	2017-08-08 13:16:38.185998	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+861	\N	\N	\N	asdfwqer	60	2017-08-08 13:22:06.157521	2017-08-08 13:22:06.157521	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+862	\N	\N	\N	asdfwqer	60	2017-08-08 13:23:09.640547	2017-08-08 13:23:09.640547	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+863	\N	\N	\N	\N	60	2017-08-08 13:24:44.013358	2017-08-08 13:24:49.141001	3	4	2	\N	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
+864	\N	\N	\N	\N	60	2017-08-10 09:48:47.41388	2017-08-10 09:48:50.835507	3	4	2	1410,1417,1409,537,166,167,1421,1360,1408,1419	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
+865	\N	\N	\N	asdfwqer	60	2017-08-10 09:49:44.864389	2017-08-10 09:49:44.864389	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+866	\N	0	6	checkmcq	97	2017-08-11 01:30:44.352069	2017-08-11 01:31:17.236258	\N	\N	\N	1384:5511,1456:5761,1414:5631,1399:5573,1382:5502,1403:5588	\N	\N	\N	\N	\N	3	\N	Test 26072017	f	\N	\N	\N	t	6
+868	\N	1	1	\N	60	2017-08-21 18:20:34.11088	2017-08-21 18:20:47.388704	3	4	2	\N	\N	1458	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	1
+867	\N	0	1	\N	60	2017-08-21 18:17:06.054991	2017-08-21 18:17:18.25566	3	4	2	\N	1457	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	1
+874	\N	4	10	\N	105	2019-10-28 19:49:28.734686	2019-10-28 19:50:04.045638	3	4	2	1419,1409,166,1370,1417,1360,1408,167,1421,1420	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	10
+869	\N	\N	\N	asdfwqer	60	2017-08-23 21:09:30.737284	2017-08-23 21:09:30.737284	\N	\N	\N	40,41,68,18,9,5,7,861,860,1420,1411,1409,1385	1430	1429	\N	\N	\N	3	\N	test 4	t	\N	\N	\N	f	\N
+870	\N	4	15	asdfwqer	60	2017-08-24 20:31:01.228261	2017-08-24 20:33:12.740388	\N	\N	\N	5:ref_3,861:3442,40:158,1411:5621,41:163,68:272,7:27,1420:5656,860:3436,18:70,1385:5516,9:35,1409:5613	1430:answer1	1429:True	\N	\N	\N	3	\N	test 4	f	\N	\N	\N	t	15
+871	\N	2	6	checkmcq	98	2017-10-09 18:10:25.950719	2017-10-09 18:11:23.084067	\N	\N	\N	1384:5512,1399:5570,1403:5587,1414:5633,1456:5760,1382:5503	\N	\N	\N	\N	\N	3	\N	Test 26072017	f	\N	\N	\N	t	6
+875	\N	4	10	\N	106	2019-10-28 19:54:13.342032	2019-10-28 19:54:58.670028	3	4	2	166,1408,167,1417,1420,1419,537,1360,1421,1410	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	10
+872	\N	2	2	tBb8dshr	98	2017-10-09 18:14:14.417631	2017-10-09 18:22:22.086116	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	f	38		t	2
+877	\N	0	6	\N	107	2019-10-30 11:44:38.857126	2019-10-30 11:46:59.495096	3	4	1	\N	\N		1451	2015	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	t	3	\N	f	2
+873	\N	0	2	tBb8dshr	98	2017-10-09 18:24:26.549675	2017-10-09 18:25:38.407023	\N	\N	\N	\N	\N	\N	1443,1442	\N	\N	3	\N	Descriptive Quiz	f	t	3	\N	f	2
+876	\N	22	56	\N	107	2019-10-30 10:47:56.006103	2019-10-30 12:07:31.203608	3	4	2	1408,537,1410,1420,1360,1419,1417,167,1409,1370,166,1421	1457	1458	1441,1459,1452,1445,1451	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	f	101	\N	t	24
+878	\N	2	49	\N	107	2019-10-30 11:49:28.365606	2019-10-30 11:52:03.665525	3	4	2	1421,1417,167,1420,1419,1370,1408,1360,166,537	1457	1458	1452,1445,1441,1459,1451	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	t	3	\N	f	17
+885	\N	2	49	\N	98	2019-11-02 09:40:46.714172	2019-11-02 09:45:59.385443	3	4	2	537,167,1408,1421,1420,1410,1370,1417,166,1419	1457	1458	1451,1441,1459,1445,1452	2017	Oct/Nov	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	t	3	\N	f	17
+881	\N	0	5	\N	98	2019-11-01 11:52:18.207602	2019-11-01 11:52:45.35334	3	4	1	\N	\N		1451	2015	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	t	3	\N	f	1
+879	\N	0	1	\N	106	2019-11-01 11:36:45.93558	2019-11-01 11:41:46.157489	3	4	1	1447	\N		\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	1
+884	\N	3	51	\N	98	2019-11-01 14:00:48.367614	2019-11-01 14:11:40.930844	3	4	2	1420,166,1409,537,1421,1419,167,1360,1408,1417,1370,1410	1457	1458	1441,1451,1459,1452,1445	2014	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	t	3	\N	f	19
+880	\N	34	49	\N	98	2019-11-01 11:37:34.264727	2019-11-01 11:49:15.640811	3	4	2	1421,1417,1420,1409,1370,1408,167,1360,166,537	1457	1458	1445,1459,1441,1451,1452	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	f	3	\N	t	17
+882	\N	21	49	\N	98	2019-11-01 11:55:35.299141	2019-11-16 10:29:04.493369	3	4	2	1370,1408,537,167,1417,1410,1419,1420,166,1421	1457	1458	1451,1452,1459,1441,1445	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	f	111	\N	t	17
+883	\N	\N	\N	\N	98	2019-11-01 12:27:04.577156	2019-11-01 12:27:21.333321	3	4	2	1360,167,537,1419,1417,1409,1408,1421,166,1370	1457	1458	1445,1459,1452,1451,1441	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	\N
+888	\N	\N	\N	\N	98	2019-11-19 18:15:57.683701	2019-11-19 18:15:57.683701	3	4	2	10	10	10	10	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
+887	\N	1	1	\N	107	2019-11-14 15:00:46.38496	2019-11-14 15:01:42.66311	3	4	2	\N	\N	1458	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	1
+886	\N	2	11	\N	107	2019-11-14 14:30:05.860963	2019-11-14 14:38:49.031958	3	4	2	1417,1370,1421,1409,1420,1408,1419,1410,1360,167	\N	1458	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199	Own Test	f	\N	\N	\N	f	11
+889	\N	\N	\N	\N	98	2019-11-19 18:15:58.126828	2019-11-19 18:15:58.126828	3	4	2	10	10	10	10	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
+890	\N	\N	\N	\N	98	2019-11-19 18:15:59.240368	2019-11-19 18:15:59.240368	3	4	2	10	10	10	10	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
+891	\N	\N	\N	\N	98	2019-11-19 18:15:59.676275	2019-11-19 18:15:59.676275	3	4	2	10	10	10	10	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
+892	\N	\N	\N	\N	98	2019-11-19 18:16:00.724719	2019-11-19 18:16:07.160197	3	4	2	1419,1421,167,1410,537,1420,1370,166,1417,1408	1457	1458	1445,1451,1441,1452,1459	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
+893	\N	1	10	\N	118	2019-11-20 07:28:06.791494	2019-11-20 07:29:19.466	3	4	2	1419,1408,166,537,1409,1421,1360,1370,1410,167	\N	\N	\N	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	10
+894	\N	\N	\N	\N	98	2019-11-26 12:50:09.977147	2019-11-26 12:50:14.23044	3	4	2	1417,1409,537,166,167,1370,1408,1421,1360,1420	1457	1458	1441,1445,1452,1451,1459	2017	May/June	3	3,98,99,100,101,91,92,93,94,95,96,97,102,103,104,105,106,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,1263,1264	Own Test	f	\N	\N	\N	f	\N
 \.
 
 
 --
--- Name: user_test_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: user_test_histories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('user_test_histories_id_seq', 848, true);
+SELECT pg_catalog.setval('public.user_test_histories_id_seq', 894, true);
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, role, phone, name, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, provider, uid, institute, degree_id, student_amount, degrees, courses, membership_plan_id, teacher_token, free_plan_flag, device_token, test_permission_ids, is_active, review_permission_ids) FROM stdin;
+COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, sign_in_count, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, created_at, updated_at, role, phone, name, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at, provider, uid, institute, degree_id, student_amount, degrees, courses, membership_plan_id, teacher_token, free_plan_flag, device_token, test_permission_ids, is_active, review_permission_ids) FROM stdin;
 47	bio.teach2@els.com	$2a$10$AliiD6MfQk6l2ytpWl0oq.BVDqXLPR5uzfgqm2uY1nFYkxP651.la	\N	\N	\N	4	2016-05-03 03:52:50.613673	2016-04-07 05:41:58.38087	39.55.115.87	39.55.94.85	2016-04-03 04:01:41.460389	2016-12-16 10:47:34.974757	0	123	Biology Teacher 2	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	BT2_80829	\N	\N	\N	\N	2,3
 87	qwerty@qwerty.com	$2a$10$kzJb2nESdLuSDpqK3bAR5.5Sd/MWVo4gTlS7Kt/yKByiHp9bnilWG	\N	\N	\N	1	2016-11-11 10:40:30.814553	2016-11-11 10:40:30.814553	122.129.78.216	122.129.78.216	2016-11-11 10:40:30.790581	2016-12-28 03:38:40.17048	\N		QWERTY	\N	\N	\N	\N	\N	\N		4	\N	\N		\N	\N	\N	\N	\N	t	
-84	vulanpl2014@gmail.com	$2a$10$dswZXwyeijSbEhSzAkjT3O96dq3wG9SDPoLqVEW/pyPqVHUyyZ4AW	\N	\N	\N	1	2016-11-09 07:14:59.339337	2016-11-09 07:14:59.339337	171.233.109.178	171.233.109.178	2016-11-09 07:14:59.335979	2017-01-15 21:52:50.268993	\N	01649857341	Kinh Tế	\N	\N	\N	\N	\N	\N	PSB College	4	\N	\N		\N	\N	\N	\N	\N	f	
 56	asmasaleh_17@yahoo.com	$2a$10$SVedXvu.r/dWtjMrCrNFoeeCVt.Sv5XjthAyH5mGCg7mWob2./2Im	\N	\N	\N	5	2016-11-09 17:39:11.296945	2016-11-09 14:01:02.869299	103.255.4.43	119.160.116.204	2016-08-24 10:50:06.819378	2016-12-16 10:47:34.987723	0	1234567	Asma Saleh Khan	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
 33	student@elslearn.com	$2a$10$6RmSBvOLCd0yivbRcJYPB.3RBDUjAWUE69kV7EaBaNSWWOhWVK7Dm	\N	\N	\N	0	\N	\N	\N	\N	2016-01-01 12:58:24.594062	2016-12-16 10:47:34.888781	0	9879879879	student hun mein	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
-86	saimoon275@gmail.com	$2a$10$Rr4EJrPxwid3caMGTdsW4O8oDkzsWV2Va3s4lzqMgIaReefwocHtO	\N	\N	\N	1	2016-11-09 14:39:49.5176	2016-11-09 14:39:49.5176	182.179.147.40	182.179.147.40	2016-11-09 14:39:49.514744	2017-01-14 11:58:37.590139	\N		Saimoon 	\N	\N	\N	\N	\N	\N	Convent of Jesus and Mary	4	\N	\N		\N	\N	\N	\N	\N	f	
 50	hod.business@els.com	$2a$10$zUO5K0Yjp0zp2jwIgQZ3gOK8Mu1QAPHi232Xeri/uPZFfEkYOi5jy	\N	\N	\N	0	\N	\N	\N	\N	2016-04-16 12:39:29.373208	2016-12-16 10:47:34.993575	0	1234567	HOD Business	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
 54	ayman.waseem@yahoo.com	$2a$10$/4hnjiNOsB2jED6nGMSZ3.nrLDaE9dTpf.InvcsRznW7rD.HrO.c2	\N	\N	\N	9	2016-08-25 18:13:47.584388	2016-08-25 06:51:45.929631	103.255.5.99	202.154.247.20	2016-08-17 23:34:08.245278	2016-12-16 10:47:34.998847	0	1234567	Ayman Waseem	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
 53	hod@els.com	$2a$10$b8.QQ6RrYtW9W3vXI/h40em8u5DMEwltH0Ks1j7z5HfHU5siZwLqO	\N	\N	\N	1	2016-08-12 14:41:07.487383	2016-08-12 14:41:07.487383	122.129.78.216	122.129.78.216	2016-08-12 14:40:49.829188	2016-12-16 10:47:35.001438	0	12341234	HOD	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
 45	hod.biology@els.com	$2a$10$3Ib17oMBdU7A6IbE/B9/SuEU2fOhPGdYb5EH5uWSjRRGKBu0lr59G	\N	\N	\N	6	2016-05-09 05:50:40.886876	2016-05-03 03:52:37.82757	39.55.163.222	39.55.115.87	2016-04-03 04:00:22.623023	2016-12-16 10:47:35.004106	0	123	HOD Biology	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
 41	hod.chemistry@els.com	$2a$10$2/.aH/VBAYpkcRu0gAzPiOfALuzo6th4TUDqBGKBpG4NcA4WrUfHO	\N	\N	\N	4	2016-09-01 06:18:38.235485	2016-05-09 05:50:01.267485	140.206.254.249	39.55.163.222	2016-04-03 03:53:35.991694	2016-12-16 10:47:35.006768	0	123	HOD Chemistry	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
-60	fs@els.com	$2a$10$yO6lCQetUqZBdISHanrIDOP/jHM3baSlR9UqGVfajA0Xc1uq8yiEC	\N	\N	\N	55	2017-04-18 18:32:47.587948	2017-02-28 16:06:37.610399	39.46.189.124	39.46.69.56	2016-09-23 07:25:40.020441	2017-07-03 18:25:13.470683	0	1234567	FS	\N	\N	\N	\N	\N	\N	\N	4	\N	\N	4,3	\N	\N	\N	7bd5b33976d4719b	1,2,3	t	
-9	proofreader1@els.com	$2a$10$qoe1zXMydbUhFGxt.TpYqexJtAqu/zlUvyIekvYSB0ncXGTrdHA7e	\N	\N	\N	72	2017-02-04 08:47:50.532771	2016-09-05 14:51:56.074172	39.42.26.23	122.129.78.216	2015-03-31 17:14:31.638317	2017-02-04 08:47:50.533722	0	12341234	Proof Reader 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
-55	ammaraa.tahir@gmail.com	$2a$10$iPVHS2xW5EgqkNTd6UZOeerkFH64lINvn3iv6e6sKdyvA/2be46K2	\N	\N	2017-02-16 08:16:18.435675	10	2017-03-03 15:50:53.51282	2017-02-26 06:18:10.89459	119.160.97.143	119.160.97.119	2016-08-19 09:47:59.752315	2017-03-03 15:50:53.515279	0	03001234567	Ammaraa Tahir	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
-42	chem.teach1@els.com	$2a$10$A5BUUqdKCYa7zzuaS0oHHuD8kk1b89u1I5mC4LkrUCSmHCqh6dr9S	\N	\N	\N	0	\N	\N	\N	\N	2016-04-03 03:55:48.728462	2016-12-16 10:47:34.927815	0	123	Chemistry Teacher 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	CT1_26164	\N	\N	\N	\N	
 44	chem.teach3@els.com	$2a$10$cfffniIPLnlUCQnFmwlxzeeJcfk4YhuENKn2be71joWpXv9UyuL/.	\N	\N	\N	0	\N	\N	\N	\N	2016-04-03 03:57:46.741203	2016-12-16 10:47:34.930439	0	123	Chemistry Teacher 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	CT3_49089	\N	\N	\N	\N	
-24	hod.physics@els.com	$2a$10$C5L7iJ2VVnMVSnoSQPTHS.P5NnAwTNGSu7BPyi7EMmrT2CyyFfuAS	\N	\N	\N	71	2017-03-06 05:43:59.643416	2017-02-09 05:55:53.194289	39.42.109.126	103.255.4.5	2015-07-06 19:08:10.682563	2017-03-06 05:43:59.644145	0	12341234	HOD Physics	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
-46	bio.teach1@els.com	$2a$10$jgHslpRmM5c7.g3FdKvjBOf8ybCIUXDcStu1aouoieI2TUNwMp8Tm	\N	\N	\N	9	2016-07-10 19:13:54.068783	2016-04-07 05:41:26.124638	182.185.229.40	39.55.94.85	2016-04-03 04:01:01.795152	2016-12-16 10:47:34.935175	0	123	Biology Teacher 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	BT1_18946	\N	\N	\N	\N	
-34	pr3@els.com	$2a$10$vZJELb/VTaZywRgy9LCUXulglxP1YDZhmIPQ9JWEkWsd71kNjZUZK	\N	\N	\N	46	2017-06-19 09:51:29.076488	2017-05-20 09:26:17.458516	39.42.93.25	39.42.58.33	2016-02-20 03:41:11.137742	2017-06-19 09:51:29.079038	0	03001234567	Proof Reader 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
 20	operator1@els.com	$2a$10$8L5Q8s4zIC.uLxlT6W1UO.iKE13eIa3YAajMPHnVRK4rIbXpauGIe	\N	\N	\N	23	2016-07-10 19:25:36.829411	2016-07-10 14:01:49.168219	182.185.229.40	182.185.229.40	2015-05-11 07:20:55.232464	2016-12-16 10:47:34.939755	9	03001234567	test account	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
 43	chem.teach2@els.com	$2a$10$fBX5QaCnihf1U050d8Gsh.PCG0PkKpUu6q5Pl9uleRVzho7/PWdJu	\N	\N	\N	4	2016-05-02 12:54:13.899005	2016-05-02 10:56:16.269585	39.42.122.96	122.129.78.216	2016-04-03 03:57:02.410419	2016-12-16 10:47:34.942166	0	123	Chemistry Teacher 2	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	CT2_22135	\N	\N	\N	\N	
-36	deo1@els.com	$2a$10$RMrGsUltp5jkjvzLySEujOMevM6kTAWKgc391ICQS77BjhiZ0UAbO	\N	\N	\N	77	2017-03-10 05:12:30.587698	2017-03-10 05:11:59.046496	103.255.5.82	103.255.5.82	2016-02-20 03:48:29.578384	2017-03-10 05:12:30.58845	34	03001234567	Operator 11	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
-66	geek@els.com	$2a$10$yxAjLuCUDJxjTs/RSy8NEujZXJz5qmcc.NIC1464bPE9tABaN2RNe	\N	\N	\N	0	\N	\N	\N	\N	2016-10-19 16:12:54.378499	2016-12-16 10:47:34.946828	5	87612371231	Saqlain	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	2,3	\N	
 61	student230@els.com	$2a$10$glau1RvfuDpYUeadgEkQw.FFna/c7Sbgvqe32eoxXbd3KPjY5l9QO	\N	\N	\N	1	2016-09-27 18:54:59.090804	2016-09-27 18:54:59.090804	203.124.28.167	203.124.28.167	2016-09-27 18:54:59.08776	2016-12-16 10:47:34.949087	\N	12341234	Student 230	\N	\N	\N	\N	\N	\N	DPS	4	\N	\N		\N	\N	\N	3f2d88e3ddb5b535	\N	\N	
-40	phy.teach3@els.com	$2a$10$5pyvBmwCTayr/SCJRv3FQu8YpevoJNTvawaydmiTHDEhhMHPJdEs2	\N	\N	\N	1	2016-10-02 21:50:29.173929	2016-10-02 21:50:29.173929	103.255.5.100	103.255.5.100	2016-04-03 03:33:32.589371	2016-12-16 10:47:34.951425	0	123	Teacher Physics 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP3_39193	\N	\N	\N	\N	
-49	fahadbhatti@gmail.com	$2a$10$HYvGQdYGHx3G2.Qh7AqG5Ojh.UAo2vjdk87PLQEh3eL215QF4SzPq	\N	\N	\N	5	2016-09-09 10:35:33.713232	2016-08-30 10:07:40.376979	122.129.78.216	122.129.78.216	2016-04-09 20:46:21.085426	2016-12-16 10:47:34.953798	\N		Fahad Khalid	\N	\N	\N	\N	\N	\N		5	\N	\N		\N	\N	\N	880e254036bccfed	1,2,3	\N	
 65	new.stud@els.com	$2a$10$dShhnhpig9JFfjGMGO71R.CmNKqpTbaeLLECk8xvwhEkZB5umzz82	\N	\N	\N	2	2016-10-19 16:01:45.642744	2016-10-19 15:58:39.450284	122.129.78.216	122.129.78.216	2016-10-19 15:57:51.880234	2016-12-16 10:47:34.956124	5	04738465768	Saqlain	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	c23a4434c28b94bb	2,3	\N	
 82	see@this.com	$2a$10$JKsEVZCjZ5rUPFPWzdVUpOhhYDjkMuH4sx.0vhIBo2teBjMHSxhQ.	\N	\N	\N	1	2016-11-06 19:19:19.280401	2016-11-06 19:19:19.280401	182.185.167.175	182.185.167.175	2016-11-06 19:19:19.27739	2016-12-16 10:47:34.958458	\N	3214264167	See	\N	\N	\N	\N	\N	\N	fast	4	\N	\N		\N	\N	\N	\N	\N	f	
 75	phy.student@els.com	$2a$10$L3daGnYjn8bpLCTUyX6p0ub9iPF0O2qFmmvVoyFssb8rPZLaMU17q	\N	\N	\N	0	\N	\N	\N	\N	2016-11-03 14:12:03.079301	2016-12-16 10:47:34.960774	5	1234567	Saqlain	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	2,3	\N	
-39	phy.teach2@els.com	$2a$10$XCy47J/3bfSk3kyzZB4/t.wTV0RbXKmP2hHfUwsP/uVNImoT2V0HS	\N	\N	\N	28	2017-02-09 05:58:00.122908	2017-01-20 13:09:46.932487	103.255.4.5	122.129.78.216	2016-04-03 03:32:48.559713	2017-05-19 16:09:43.029517	0	123	Teacher Physics 2	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP2_58560	\N	22cdc61f495e8272	\N	\N	1,2,3
 48	bio.teach3@els.com	$2a$10$1Qdt0e6qi4ya2/FwdTE9GOhRAlz2sesUBuiheBwePLqSnt4QpRJ8a	\N	\N	\N	2	2016-11-26 03:15:24.69105	2016-04-07 05:42:33.699527	39.42.46.93	39.55.94.85	2016-04-03 04:02:22.573214	2016-12-16 10:47:34.972445	0	123	Biology Teacher 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	BT3_32426	\N	\N	\N	\N	
-58	student@els.com	$2a$10$p2SrphR4VR3pJKw/4txW3uhoG6nHuU3EBG0TIEBnWiyYS9aFsg47a	\N	\N	\N	17	2016-12-29 03:40:46.589697	2016-11-28 18:30:23.513737	103.255.4.18	122.129.78.216	2016-08-28 21:40:59.240769	2016-12-29 03:40:46.590433	0	1234567	abc	99fc2526-2408-4716-bb4e-224f5e308408.jpg	image/jpeg	37364	2016-09-28 10:03:24.356253	\N	\N	\N	\N	\N	\N		\N	\N	\N	880e254036bccfed	1,2,3	\N	
 93	operator5@els.com	$2a$10$m6zMN5BvA/bJAS/AIcgnGe/ih5zxzv2sMJnG3roV83HOPsAOOR9Xq	\N	\N	\N	2	2017-01-11 06:21:25.207024	2017-01-11 05:53:46.014121	202.142.189.246	202.142.189.246	2017-01-11 05:52:40.949945	2017-01-11 06:21:25.207857	92	1234567	test deo	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	
 92	pr5@els.com	$2a$10$v59RifzOaxDKwY13TKRnI.zQ3vDNyD7s3W3Jw/svb3AJpgKM9Orgm	\N	\N	\N	3	2017-03-06 05:40:14.702659	2017-02-04 08:45:17.81345	39.42.109.126	39.42.26.23	2017-01-11 05:52:03.139819	2017-03-06 05:40:14.703384	0	1234567	test PR	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	
 95	teacher.testing@els.com	$2a$10$il6Lzn4rQYYs7brujOf.A.Vd8DY0wd8vCafpZ71GaIgAAUnsBbdC2	\N	\N	\N	2	2017-02-04 08:38:02.477562	2017-02-04 06:07:20.662674	39.42.26.23	103.255.4.74	2017-02-04 05:59:55.321258	2017-02-04 08:38:02.4784	0	1234567	Test Teacher	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	TT_56321	\N	3c25122d748dc64	\N	\N	1,2,3
-38	phy.teach1@els.com	$2a$10$Wmg2hsqttuy9UaCf/es.I.gxayhFR3zVTJUbGxfDAHsqRJp3CHKCC	\N	\N	\N	64	2017-03-10 05:16:00.433865	2017-02-09 05:15:07.488752	103.255.5.82	103.255.4.5	2016-04-03 03:31:00.331985	2017-03-16 17:10:21.850521	0	123	Teacher Physics 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP_97715	\N	3f2d88e3ddb5b535	\N	\N	1,2,3
+86	saimoon275@gmail.com	$2a$10$Rr4EJrPxwid3caMGTdsW4O8oDkzsWV2Va3s4lzqMgIaReefwocHtO	\N	\N	\N	1	2016-11-09 14:39:49.5176	2016-11-09 14:39:49.5176	182.179.147.40	182.179.147.40	2016-11-09 14:39:49.514744	2019-10-27 15:39:55.358615	\N		Saimoon 	\N	\N	\N	\N	\N	\N	Convent of Jesus and Mary	4	\N	\N		\N	\N	\N	\N	\N	t	
+34	pr3@els.com	$2a$10$vZJELb/VTaZywRgy9LCUXulglxP1YDZhmIPQ9JWEkWsd71kNjZUZK	\N	\N	\N	47	2017-07-17 17:35:19.556544	2017-06-19 09:51:29.076488	119.160.97.56	39.42.93.25	2016-02-20 03:41:11.137742	2017-07-17 17:35:19.55886	0	03001234567	Proof Reader 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
+39	phy.teach2@els.com	$2a$10$XCy47J/3bfSk3kyzZB4/t.wTV0RbXKmP2hHfUwsP/uVNImoT2V0HS	\N	\N	\N	38	2017-10-09 18:26:31.497795	2017-10-09 18:03:48.660468	119.160.101.206	119.160.101.206	2016-04-03 03:32:48.559713	2017-10-09 18:26:31.500357	0	123	Teacher Physics 2	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP2_58560	\N	22cdc61f495e8272	\N	\N	1,2,3
+60	fs@els.com	$2a$10$yO6lCQetUqZBdISHanrIDOP/jHM3baSlR9UqGVfajA0Xc1uq8yiEC	\N	\N	\N	64	2018-08-09 06:13:11.132186	2017-10-09 18:08:07.358502	39.45.224.64	119.160.101.206	2016-09-23 07:25:40.020441	2018-08-09 06:14:56.830059	0	1234567	FS	\N	\N	\N	\N	\N	\N	\N	4	\N	\N	3,31	\N	\N	\N	7bd5b33976d4719b	1,2,3	t	
+24	hod.physics@els.com	$2a$10$C5L7iJ2VVnMVSnoSQPTHS.P5NnAwTNGSu7BPyi7EMmrT2CyyFfuAS	\N	\N	\N	74	2017-10-09 18:27:28.001234	2017-08-17 12:53:06.777782	119.160.101.206	39.46.98.195	2015-07-06 19:08:10.682563	2017-10-09 18:27:28.002235	0	12341234	HOD Physics	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
+36	deo1@els.com	$2a$10$RMrGsUltp5jkjvzLySEujOMevM6kTAWKgc391ICQS77BjhiZ0UAbO	\N	\N	\N	79	2017-08-17 12:46:14.557379	2017-07-17 17:31:46.812284	39.46.98.195	119.160.97.56	2016-02-20 03:48:29.578384	2017-08-17 12:46:14.559045	34	03001234567	Operator 11	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
+55	ammaraa.tahir@gmail.com	$2a$10$iPVHS2xW5EgqkNTd6UZOeerkFH64lINvn3iv6e6sKdyvA/2be46K2	\N	\N	2017-02-16 08:16:18.435675	11	2017-07-22 14:47:44.292682	2017-03-03 15:50:53.51282	119.160.98.207	119.160.97.143	2016-08-19 09:47:59.752315	2017-07-22 14:47:44.301185	0	03001234567	Ammaraa Tahir	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	1,2,3
+46	bio.teach1@els.com	$2a$10$acuAu8whwXnK5OvzQznnsuETsKEfk5quZAegO1F1csbwrHMLoVaNS	\N	\N	\N	10	2019-11-16 10:38:15.251209	2016-07-10 19:13:54.068783	182.185.159.192	182.185.229.40	2016-04-03 04:01:01.795152	2019-11-16 10:38:15.253306	0	123	Biology Teacher 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	BT1_18946	\N	\N	\N	\N	1,2,3
+84	vulanpl2014@gmail.com	$2a$10$dswZXwyeijSbEhSzAkjT3O96dq3wG9SDPoLqVEW/pyPqVHUyyZ4AW	\N	\N	\N	1	2016-11-09 07:14:59.339337	2016-11-09 07:14:59.339337	171.233.109.178	171.233.109.178	2016-11-09 07:14:59.335979	2019-09-23 10:57:52.769618	\N	01649857341	Kinh Tế	\N	\N	\N	\N	\N	\N	PSB College	4	\N	\N		\N	\N	\N	\N	\N	f	
+49	fahadbhatti@gmail.com	$2a$10$HYvGQdYGHx3G2.Qh7AqG5Ojh.UAo2vjdk87PLQEh3eL215QF4SzPq	\N	\N	\N	8	2019-10-28 19:29:18.807659	2019-10-15 15:17:46.943494	72.255.54.190	162.12.210.90	2016-04-09 20:46:21.085426	2019-10-28 19:41:49.907237	\N		Fahad Khalid	\N	\N	\N	\N	\N	\N		5	\N	\N	26	\N	\N	\N	880e254036bccfed	1,2,3	\N	
+38	phy.teach1@els.com	$2a$10$dG33i5ofe86XSQmob3JU4OUX9YJTKuRRC/ycWk2Yx737a97IaTHsK	\N	\N	\N	71	2019-11-27 11:51:19.26519	2017-10-09 18:26:16.873685	182.185.129.126	119.160.101.206	2016-04-03 03:31:00.331985	2019-11-27 11:51:19.266416	0	123	Teacher Physics 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP_97715	\N	3f2d88e3ddb5b535	\N	\N	1,2,3
+42	chem.teach1@els.com	$2a$10$QB4WGEfg2WBk8WYlJPT9p.3mSmMKNmAuP3VlDvZPvoGsQqFSX5K3O	\N	\N	\N	0	\N	\N	\N	\N	2016-04-03 03:55:48.728462	2019-11-16 10:52:20.452193	0	123	Chemistry Teacher 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	CT1_26164	\N	\N	\N	\N	1,2,3
+40	phy.teach3@els.com	$2a$10$CC.0n41R4dGJfdRXpNiqPO9kIaMLWJWIRPp0oSnsISMs9sy8qH/iO	\N	\N	\N	2	2019-11-16 10:54:22.299135	2016-10-02 21:50:29.173929	162.12.210.90	103.255.5.100	2016-04-03 03:33:32.589371	2019-11-16 10:54:22.300423	0	123	Teacher Physics 3	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	TP3_39193	\N	\N	\N	\N	1,2,3
+66	geek@els.com	$2a$10$cQwPGn976QiGuLbh.TlFquMesNUYpdcYZltKay/Ct8r5U/sBaksHO	\N	\N	\N	2	2019-11-19 11:08:57.672643	2019-11-19 07:28:33.251995	162.12.210.90	182.185.139.7	2016-10-19 16:12:54.378499	2019-11-19 11:08:57.674513	0	87612371231	Saqlain	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	2,3	\N	
 96	new.student@els.com	$2a$10$T28Ptp9q5u6bqxil8GjZ5Ox8ryiR6AVxUkPN.5QqOO7b47d8qyieS	\N	\N	\N	2	2017-02-04 08:58:21.338666	2017-02-04 06:02:47.28125	39.42.26.23	103.255.4.74	2017-02-04 06:02:47.251121	2017-02-04 08:58:21.339579	\N	1234567	New Student	\N	\N	\N	\N	\N	\N	Don't KNow	4	\N	\N	3,28,4	\N	\N	\N	3c25122d748dc64	1,2,3	t	
-3	admin@els.com	$2a$10$fluVrt9cVB7sTvwealKaDueM0/XRnDgmswKNWI9Rv4UWRCN7Wa1g6	\N	\N	\N	591	2017-07-10 15:05:50.461979	2017-07-04 11:19:12.294031	103.255.4.75	122.129.78.216	2015-02-19 10:33:17.988007	2017-07-10 15:05:50.462715	admin	0321-4264167	Fahad	IMG_0101.JPG	image/jpeg	7939621	2015-05-20 21:44:51.974805	\N	\N	\N	\N	\N	\N		\N	\N	\N	3f2d88e3ddb5b535	\N	\N	1,2,3
-94	fahadsid@els.com	$2a$10$E3yYVdPpbtq58q34WwKbW.9HDsFSXQ69T1AU/IXoH5zBJ4LwQB3u2	\N	\N	\N	2	2017-02-09 05:29:16.733859	2017-01-11 06:43:05.52291	103.255.4.5	202.142.189.246	2017-01-11 06:43:05.511391	2017-02-09 05:29:16.734566	\N		fahad	\N	\N	\N	\N	\N	\N		4	\N	\N	3	\N	\N	\N	3c25122d748dc64	1,2,3	t	
+108	s1122@els.com	$2a$10$hwJovOWfPDgNXyIBD/7zbOz/xwkhC/LVWlh8duzG3eEZPnr945Pii	\N	\N	\N	2	2019-11-14 14:56:09.332958	2019-11-14 14:53:18.629299	182.185.229.247	182.185.229.247	2019-11-14 14:53:18.613454	2019-11-14 14:56:09.334323	\N	03224368820	sheikh	\N	\N	\N	\N	\N	\N	sadad	5	\N	\N	42	\N	\N	\N	\N	1,2,3	f	
+94	fahadsid@els.com	$2a$10$E3yYVdPpbtq58q34WwKbW.9HDsFSXQ69T1AU/IXoH5zBJ4LwQB3u2	\N	\N	\N	3	2019-09-22 19:50:58.174958	2017-02-09 05:29:16.733859	42.201.187.49	103.255.4.5	2017-01-11 06:43:05.511391	2019-09-22 19:50:58.17611	\N		fahad	\N	\N	\N	\N	\N	\N		4	\N	\N	3	\N	\N	\N	3c25122d748dc64	1,2,3	t	
+103	ieltsstudent1@elslearn.com	$2a$10$khPToI4vkMiBYgOrhf18julJohb.osuAFTecBUVQ9RZX.Lkuxz9sK	\N	\N	\N	3	2019-11-01 12:09:22.445545	2019-10-27 15:54:01.193343	119.160.99.79	42.201.187.52	2019-10-27 15:42:15.959997	2019-11-01 12:09:22.446799	5	12345678	ieltsstudent1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	1,2,3	t	
+105	fahad@gmail.com	$2a$10$wENJCvm46/b3r1BwNUmeTOROt5fAuRlcjZoB/dSjB1owJZmEqJU4S	\N	\N	\N	1	2019-10-28 19:48:55.885129	2019-10-28 19:48:55.885129	72.255.54.190	72.255.54.190	2019-10-28 19:48:55.758922	2019-10-28 19:48:55.888673	\N	12341234	Fahad Bhatti	\N	\N	\N	\N	\N	\N	FAST	4	\N	\N	3,28,29,4,36,31,32,34,30,37,38,33,95,27	\N	\N	\N	\N	1,2,3	t	
+104	physicsdata@elslearn.com	$2a$10$sKoWFqqul46pl.hEx51yCegBDBaTmdBzslO5XG3mRm8Tb2NLNRfY6	\N	\N	\N	2	2019-11-01 12:13:27.099299	2019-10-27 15:56:33.109812	119.160.99.79	42.201.187.52	2019-10-27 15:56:07.439977	2019-11-01 12:13:27.100488	9	123456789	physica data	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	
+106	fazl@gmail.com	$2a$10$VRcU84hzq4Cs/8PsD5m5RO5O8.NGg3KlNndOMTXBt6FiTJmAvDwGW	\N	\N	\N	1	2019-10-28 19:53:50.931371	2019-10-28 19:53:50.931371	72.255.54.190	72.255.54.190	2019-10-28 19:53:50.79851	2019-10-28 19:53:50.935003	\N	12341234	Fazl e Azeem	\N	\N	\N	\N	\N	\N	LGS	4	\N	\N	3,28,29,4,36,31,32,34,30,37,38,33,95,27	\N	\N	\N	\N	1,2,3	t	
+97	pills@ait.com	$2a$10$Ok8Kc.K4AB737gyPvF5q9..MTQ5Yoaz4RXmYUcujeeQfte.j4NnqG	\N	\N	\N	7	2017-09-19 17:54:28.134671	2017-08-11 01:30:35.699089	39.42.122.81	39.42.88.174	2017-07-17 17:48:41.199567	2017-09-19 17:54:28.136237	0	03001234556	talal	\N	\N	\N	\N	\N	\N	lahore	4	\N	\N	3,4	\N	\N	\N	\N	1,2,3	t	
+102	ieltsstudent@elslearn.com	$2a$10$Dv3iKDvk/1HQ/Rn0nP/tLORnXMsQuPEbDVg0vuob9aWmNBTSmw0Re	\N	\N	\N	4	2019-10-27 15:37:53.403849	2019-10-27 15:32:53.628877	42.201.187.52	42.201.187.52	2019-10-27 15:10:42.27671	2019-10-27 15:37:53.405078	5	1234567	ieltsstudent	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	1,2,3	t	
+58	student@els.com	$2a$10$p2SrphR4VR3pJKw/4txW3uhoG6nHuU3EBG0TIEBnWiyYS9aFsg47a	\N	\N	\N	18	2017-10-09 18:06:42.215129	2016-12-29 03:40:46.589697	119.160.101.206	103.255.4.18	2016-08-28 21:40:59.240769	2017-10-09 18:06:42.216158	0	1234567	abc	99fc2526-2408-4716-bb4e-224f5e308408.jpg	image/jpeg	37364	2016-09-28 10:03:24.356253	\N	\N	\N	\N	\N	\N		\N	\N	\N	880e254036bccfed	1,2,3	\N	
+101	ieltsteacher@elslearn.com	$2a$10$4wed7mo9CbtY2tZbC9ONveNN2GhtpQYAdItC6IwQHTl5e8DCvVir2	\N	\N	\N	6	2019-11-02 09:48:34.213147	2019-11-01 14:42:49.399502	119.160.103.186	119.160.99.79	2019-10-27 14:36:35.722988	2019-11-02 09:48:34.214382	0	1233456678	Enter Papers	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	EP_84705	\N	\N	\N	\N	1,2,3
+115	employee@example.com	$2a$10$cetTOElZ7UTGPBSadSOx1e4Xwuz7JUrEKi4OcYXvntUBk1Z5Gylt2	\N	\N	\N	1	2019-11-18 21:18:37.088869	2019-11-18 21:18:37.088869	196.194.126.194	196.194.126.194	2019-11-18 21:18:37.078794	2019-11-18 21:18:37.089499	\N	\N	emp student	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	1,2,3	t	
+118	shahid@els.com	$2a$10$0wrextZnYne9n88ONTXTb.D.u6pQgH.4oHIAtfGLG467UecOsLM.y	\N	\N	\N	1	2019-11-20 07:27:09.714498	2019-11-20 07:27:09.714498	162.12.210.90	162.12.210.90	2019-11-20 07:27:09.694527	2019-11-20 07:33:54.756628	\N		shahid 	\N	\N	\N	\N	\N	\N		4	\N	\N	3	\N	\N	\N	\N	1,2,3	t	
+107	abc@els.com	$2a$10$2geyg6d7rWqf9gM4llMxguqC23x.UEaq0ljfNYj5yl6zQ/O.xd3n2	\N	\N	\N	7	2019-11-16 11:31:07.211323	2019-11-14 15:00:04.900736	182.185.155.29	182.185.229.247	2019-10-30 10:46:14.737852	2019-11-16 11:31:07.212563	0		abc	images.png	image/png	5615	2019-11-14 14:23:15.051235	\N	\N		4	\N	\N	95,3,37	\N	\N	\N	\N	1,2,3	t	
+109	ppp@els.com	$2a$10$OCXhhOBFK0haFOqvfAhHCOHBK/F0CieiSxlQEdo6kxiIQP2CRSipe	\N	\N	\N	2	2019-11-15 15:29:49.213687	2019-11-15 15:10:24.408219	162.12.210.90	182.185.159.192	2019-11-15 15:10:24.388346	2019-11-15 15:29:49.215146	\N	03224368820	ppp	\N	\N	\N	\N	\N	\N	lahore	4	\N	\N	3,30	\N	\N	\N	\N	1,2,3	t	
+100	dataielts@elslearn.com	$2a$10$aSx0HiPF0Tdas24iw7XhFunvtwvP2cQmIL1AzPgGly7fzFRqfPATO	\N	\N	\N	10	2019-11-19 16:08:26.213688	2019-11-19 15:50:17.105594	119.160.97.22	119.160.97.22	2019-10-16 11:43:38.930683	2019-11-19 16:08:26.214985	9	78979	data entery ielts	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	
+117	olx@els.com	$2a$10$j2y9hPXdY82SEq/1.0aM8uvWT101FFIZ8Zj/9F7qeOiFH03Ld.Ip6	\N	\N	\N	1	2019-11-19 22:05:41.734063	2019-11-19 22:05:41.734063	196.195.206.2	196.195.206.2	2019-11-19 22:05:41.717619	2019-11-19 22:06:36.502981	\N	03224368820	olx	\N	\N	\N	\N	\N	\N	lahore	4	\N	\N	3,27	\N	\N	\N	\N	1,2,3	t	
+110	sheikh@gmail.com	$2a$10$mUGNt.HLgEwZIiUNmghLYeNvsSfo0EakvX3Xc4G9MLMc0gJLhnQWu	\N	\N	\N	1	2019-11-15 15:31:49.706242	2019-11-15 15:31:49.706242	162.12.210.90	162.12.210.90	2019-11-15 15:31:49.690058	2019-11-15 15:32:34.356529	\N	03224368820	sheikh	admin.jpeg	image/jpeg	5074	2019-11-15 15:32:34.172093	\N	\N	lahore	4	\N	\N	3	\N	\N	\N	\N	1,2,3	t	
+112	teacher1123@els.com	$2a$10$CzIo1Rg95Pc.s4IoEN.kSONNlRbQf/SdhPA.U7h/onf4Er.Ve0.t6	\N	\N	\N	1	2019-11-16 11:34:38.655238	2019-11-16 11:34:38.655238	162.12.210.90	162.12.210.90	2019-11-16 11:34:38.623555	2019-11-16 11:34:56.466808	\N	03224368820	teeacher	359da2334960a6c6c4b792975bcbb67d.jpg	image/jpeg	25146	2019-11-16 11:34:56.266428	\N	\N	lahore	4	\N	\N	28	\N	\N	\N	\N	1,2,3	t	
+113	lololo@els.com	$2a$10$RH9x18k/DDlfVbg6UnhtGeFXnddel9VHKwgbAR3nSVku3EqDN2.si	\N	\N	\N	1	2019-11-18 14:27:08.177356	2019-11-18 14:27:08.177356	162.12.210.90	162.12.210.90	2019-11-18 14:27:08.025804	2019-11-18 14:29:17.377954	\N	03224368820	lololo	\N	\N	\N	\N	\N	\N	lahore	4	\N	\N	3,4	\N	\N	\N	\N	1,2,3	t	
+9	proofreader1@els.com	$2a$10$8h9J0zfLaukSkAbBN7nlKu7CddCyCrFeJZks42UuNfCDbl/xXb7Cu	\N	\N	\N	78	2019-11-01 14:38:50.129553	2019-11-01 11:59:49.889926	119.160.99.79	119.160.99.79	2015-03-31 17:14:31.638317	2019-11-01 14:38:50.130805	0	12341234	Proof Reader 1	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N		\N	\N	\N	\N	\N	\N	
+98	fahad@algorepublic.com	$2a$10$Ju4WaGN.PbdFW/Sf7sNxTeiWqk5rA5IkfGmY.OTwv9F1vYvxHCcp2	\N	\N	\N	16	2019-11-26 12:48:54.824651	2019-11-19 18:14:18.17521	119.160.98.97	119.160.100.154	2017-10-09 18:09:57.090229	2019-11-26 12:48:54.828861	0		Fahad edited by student account	\N	\N	\N	\N	\N	\N	DPS	4	\N	\N	95,3,4	\N	\N	\N	\N	1,2,3	t	
+111	teacher1122@els.com	$2a$10$j9mGtJIwXueAQUKbskrTLe2yc9PASXbT904cRAA4ODfE1oVlRxj1.	\N	\N	\N	1	2019-11-16 10:26:32.191288	2019-11-16 10:26:32.191288	162.12.210.90	162.12.210.90	2019-11-16 10:25:45.059913	2019-11-16 10:26:32.192476	0	03224368820	teacher1122	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	t_34331	\N	\N	\N	\N	1,2,3
+114	stuuu@els.com	$2a$10$8y/wlTPDr0zSy9J3HqLuTeg..pkc./TgsP262n70PJ3XjavOpyIsm	\N	\N	\N	1	2019-11-18 20:23:29.274741	2019-11-18 20:23:29.274741	196.194.126.194	196.194.126.194	2019-11-18 20:23:29.20481	2019-11-18 20:23:29.27559	\N	\N	stuuu	\N	\N	\N	\N	\N	\N	\N	0	\N	\N	\N	\N	\N	\N	\N	1,2,3	t	
+116	usama@gamail.com	$2a$10$BWRIR774pJdgH951nRZBH.j687VRuPQwA7DBHf7UO5wSI1aPbauBm	\N	\N	\N	1	2019-11-19 09:41:46.845264	2019-11-19 09:41:46.845264	162.12.210.90	162.12.210.90	2019-11-19 09:41:46.824581	2019-11-19 09:42:42.38719	\N		usama	\N	\N	\N	\N	\N	\N		4	\N	\N	3,4	\N	\N	\N	\N	1,2,3	t	
+3	admin@els.com	$2a$10$fluVrt9cVB7sTvwealKaDueM0/XRnDgmswKNWI9Rv4UWRCN7Wa1g6	\N	\N	\N	697	2019-11-27 11:50:03.827791	2019-11-27 11:20:29.301897	182.185.129.126	182.185.129.126	2015-02-19 10:33:17.988007	2019-11-27 11:50:03.829463	admin	0321-4264167	Fahad	IMG_0101.JPG	image/jpeg	7939621	2015-05-20 21:44:51.974805	\N	\N	\N	\N	\N	\N		\N	\N	\N	3f2d88e3ddb5b535	\N	\N	1,2,3
+119	sssss@els.com	$2a$10$hfaL9Jtj9e45psR3D854QOJxquy3ID/2NiQdkw8.DN0d.x5RR/DJS	\N	\N	\N	1	2019-11-20 17:17:41.019	2019-11-20 17:17:41.019	182.185.213.57	182.185.213.57	2019-11-20 17:17:41.003881	2019-11-20 17:18:58.309332	\N	03224368820	sssssss	\N	\N	\N	\N	\N	\N	lahore	4	\N	\N	3,27	\N	\N	\N	\N	1,2,3	t	
+120	teacher11@els.com	$2a$10$lu2GNN3R1pCnc0XhxRhT3OgCqqyfmAcRRLJ3LeFdpxGOk/cuTvyEa	\N	\N	\N	2	2019-11-27 10:37:54.190866	2019-11-27 10:36:37.76129	162.12.210.90	162.12.210.90	2019-11-27 10:36:37.627751	2019-11-27 10:37:54.192064	\N	03224368820	teacher	\N	\N	\N	\N	\N	\N	lahore	\N	\N	5	\N	\N	t_72136	\N	\N	\N	\N	
 \.
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('users_id_seq', 96, true);
+SELECT pg_catalog.setval('public.users_id_seq', 120, true);
 
 
 --
--- Data for Name: workflow_paths; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: workflow_paths; Type: TABLE DATA; Schema: public; Owner: elslearn
 --
 
-COPY workflow_paths (id, course_id, degree_id, is_complete, created_at, updated_at) FROM stdin;
+COPY public.workflow_paths (id, course_id, degree_id, is_complete, created_at, updated_at) FROM stdin;
 3	\N	\N	\N	2016-04-05 04:21:10.179301	2016-04-05 04:21:10.179301
 2	65	7	f	2016-04-05 04:21:09.992526	2016-04-16 12:37:01.030025
 13	23	5	f	2016-04-05 09:01:00.467635	2016-04-16 12:37:02.706895
@@ -14835,321 +14418,321 @@ COPY workflow_paths (id, course_id, degree_id, is_complete, created_at, updated_
 
 
 --
--- Name: workflow_paths_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: workflow_paths_id_seq; Type: SEQUENCE SET; Schema: public; Owner: elslearn
 --
 
-SELECT pg_catalog.setval('workflow_paths_id_seq', 44, true);
+SELECT pg_catalog.setval('public.workflow_paths_id_seq', 44, true);
 
 
 --
--- Name: answer_images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: answer_images_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY answer_images
+ALTER TABLE ONLY public.answer_images
     ADD CONSTRAINT answer_images_pkey PRIMARY KEY (id);
 
 
 --
--- Name: answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: answers_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY answers
+ALTER TABLE ONLY public.answers
     ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
 
 
 --
--- Name: assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY assignments
+ALTER TABLE ONLY public.assignments
     ADD CONSTRAINT assignments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: board_degree_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: board_degree_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY board_degree_assignments
+ALTER TABLE ONLY public.board_degree_assignments
     ADD CONSTRAINT board_degree_assignments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: board_question_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: board_question_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY board_question_assignments
+ALTER TABLE ONLY public.board_question_assignments
     ADD CONSTRAINT board_question_assignments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: boards_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: boards_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY boards
+ALTER TABLE ONLY public.boards
     ADD CONSTRAINT boards_pkey PRIMARY KEY (id);
 
 
 --
--- Name: bookrequests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: bookrequests_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY bookrequests
+ALTER TABLE ONLY public.bookrequests
     ADD CONSTRAINT bookrequests_pkey PRIMARY KEY (id);
 
 
 --
--- Name: books_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: books_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY books
+ALTER TABLE ONLY public.books
     ADD CONSTRAINT books_pkey PRIMARY KEY (id);
 
 
 --
--- Name: ckeditor_assets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: ckeditor_assets_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY ckeditor_assets
+ALTER TABLE ONLY public.ckeditor_assets
     ADD CONSTRAINT ckeditor_assets_pkey PRIMARY KEY (id);
 
 
 --
--- Name: course_linkings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: course_linkings_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY course_linkings
+ALTER TABLE ONLY public.course_linkings
     ADD CONSTRAINT course_linkings_pkey PRIMARY KEY (id);
 
 
 --
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY courses
+ALTER TABLE ONLY public.courses
     ADD CONSTRAINT courses_pkey PRIMARY KEY (id);
 
 
 --
--- Name: degree_course_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: degree_course_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY degree_course_assignments
+ALTER TABLE ONLY public.degree_course_assignments
     ADD CONSTRAINT degree_course_assignments_pkey PRIMARY KEY (id);
 
 
 --
--- Name: degrees_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: degrees_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY degrees
+ALTER TABLE ONLY public.degrees
     ADD CONSTRAINT degrees_pkey PRIMARY KEY (id);
 
 
 --
--- Name: images_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: images_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY images
+ALTER TABLE ONLY public.images
     ADD CONSTRAINT images_pkey PRIMARY KEY (id);
 
 
 --
--- Name: membership_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: membership_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY membership_plans
+ALTER TABLE ONLY public.membership_plans
     ADD CONSTRAINT membership_plans_pkey PRIMARY KEY (id);
 
 
 --
--- Name: news_feeds_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: news_feeds_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY news_feeds
+ALTER TABLE ONLY public.news_feeds
     ADD CONSTRAINT news_feeds_pkey PRIMARY KEY (id);
 
 
 --
--- Name: options_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: options_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY options
+ALTER TABLE ONLY public.options
     ADD CONSTRAINT options_pkey PRIMARY KEY (id);
 
 
 --
--- Name: packages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: packages_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY packages
+ALTER TABLE ONLY public.packages
     ADD CONSTRAINT packages_pkey PRIMARY KEY (id);
 
 
 --
--- Name: past_paper_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: past_paper_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY past_paper_histories
+ALTER TABLE ONLY public.past_paper_histories
     ADD CONSTRAINT past_paper_histories_pkey PRIMARY KEY (id);
 
 
 --
--- Name: question_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: question_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY question_histories
+ALTER TABLE ONLY public.question_histories
     ADD CONSTRAINT question_histories_pkey PRIMARY KEY (id);
 
 
 --
--- Name: question_quota_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: question_quota_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY question_quota
+ALTER TABLE ONLY public.question_quota
     ADD CONSTRAINT question_quota_pkey PRIMARY KEY (id);
 
 
 --
--- Name: questions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: questions_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY questions
+ALTER TABLE ONLY public.questions
     ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: quizzes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: quizzes_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY quizzes
+ALTER TABLE ONLY public.quizzes
     ADD CONSTRAINT quizzes_pkey PRIMARY KEY (id);
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY roles
+ALTER TABLE ONLY public.roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
 --
--- Name: teacher_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: teacher_courses_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY teacher_courses
+ALTER TABLE ONLY public.teacher_courses
     ADD CONSTRAINT teacher_courses_pkey PRIMARY KEY (id);
 
 
 --
--- Name: teacher_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: teacher_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY teacher_requests
+ALTER TABLE ONLY public.teacher_requests
     ADD CONSTRAINT teacher_requests_pkey PRIMARY KEY (id);
 
 
 --
--- Name: tests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: tests_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY tests
+ALTER TABLE ONLY public.tests
     ADD CONSTRAINT tests_pkey PRIMARY KEY (id);
 
 
 --
--- Name: topic_linkings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: topic_linkings_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY topic_linkings
+ALTER TABLE ONLY public.topic_linkings
     ADD CONSTRAINT topic_linkings_pkey PRIMARY KEY (id);
 
 
 --
--- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: topics_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY topics
+ALTER TABLE ONLY public.topics
     ADD CONSTRAINT topics_pkey PRIMARY KEY (id);
 
 
 --
--- Name: user_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_addresses
+ALTER TABLE ONLY public.user_addresses
     ADD CONSTRAINT user_addresses_pkey PRIMARY KEY (id);
 
 
 --
--- Name: user_packages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_packages_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_packages
+ALTER TABLE ONLY public.user_packages
     ADD CONSTRAINT user_packages_pkey PRIMARY KEY (id);
 
 
 --
--- Name: user_test_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: user_test_histories_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY user_test_histories
+ALTER TABLE ONLY public.user_test_histories
     ADD CONSTRAINT user_test_histories_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: workflow_paths_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+-- Name: workflow_paths_pkey; Type: CONSTRAINT; Schema: public; Owner: elslearn
 --
 
-ALTER TABLE ONLY workflow_paths
+ALTER TABLE ONLY public.workflow_paths
     ADD CONSTRAINT workflow_paths_pkey PRIMARY KEY (id);
 
 
 --
--- Name: idx_ckeditor_assetable; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: idx_ckeditor_assetable; Type: INDEX; Schema: public; Owner: elslearn
 --
 
-CREATE INDEX idx_ckeditor_assetable ON ckeditor_assets USING btree (assetable_type, assetable_id);
-
-
---
--- Name: idx_ckeditor_assetable_type; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE INDEX idx_ckeditor_assetable_type ON ckeditor_assets USING btree (assetable_type, type, assetable_id);
+CREATE INDEX idx_ckeditor_assetable ON public.ckeditor_assets USING btree (assetable_type, assetable_id);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: idx_ckeditor_assetable_type; Type: INDEX; Schema: public; Owner: elslearn
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE INDEX idx_ckeditor_assetable_type ON public.ckeditor_assets USING btree (assetable_type, type, assetable_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: elslearn
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: elslearn
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: elslearn
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;

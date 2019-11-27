@@ -6,8 +6,9 @@
     <div id="select_role_div">
       <select name="user[role]" id="user_role">
         <option value="student" selected="selected">Student</option>
-        <option value="visiting">Teacher</option>
+        <option value="teacher">Teacher</option>
         <option value="institute">Institute</option>
+        <option value="visiting">Visiting</option>
       </select>
     </div>
     <br>
@@ -49,9 +50,6 @@
               <%= hidden_field_tag :role, "5" %>
 
             </div>
-
-
-
 
         <% end %>
       </section>
@@ -129,9 +127,10 @@
               else
               {
                 $("#select_role_div").hide();
-                $.ajax({
-                  url: '/save_form_1?role='+$("#role").val()+"&user[email]="+$('#user_email').val()
-                        +"&user[name]="+$('#user_name').val()+"&user[password]="+$('#user_password').val()
+
+                  $.ajax({
+                    url: '/save_form_1?role='+$("#role").val()+"&user[email]="+$('#user_email').val()
+                    +"&user[name]="+$('#user_name').val()+"&user[password]="+$('#user_password').val()
                         +"&user[password_confirmation]="+$('#user_password_confirmation').val(),
                   method: "POST",
                   success: function(data) {
@@ -231,16 +230,18 @@
 
 
         $("#user_role").change(function(){
-          if($(this).val() == "")
+            $this = $(this)
+
+          if($(this).val() == "teacher")
           {
-            $(".main_container_steps").hide();
-            $("#role").val("");
+              $("#role").val("<%=get_teacher_role%>");
+              $('#greet').html("<p>Thank you for registering with E-Learning Services</p>");
           }
           else
           {
-            $(".main_container_steps").show();
-            $this = $(this);
-            if($this.val() == 'student'){
+              $(".main_container_steps").show();
+              $this = $(this);
+              if($this.val() == 'student'){
               $("#role").val("<%=get_student_role%>");
               $('#greet').html("<p>Thank you for registering with E-Learning Services</p>");
             }

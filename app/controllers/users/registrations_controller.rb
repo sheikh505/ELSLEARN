@@ -72,13 +72,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def save_form_1
+
     session[:user] = Hash.new
     session[:user][:email] = params[:user][:email]
     session[:user][:name] = params[:user][:name]
     session[:user][:password] = params[:user][:password]
     session[:user][:password_confirmation] = params[:user][:password_confirmation]
     session[:role] = params[:role]
+
+
+    # session [:user][:role] = params[:user][:role]
+    # session [:user][:role] = params[:role]
+
     @role = Role.find(params[:role])
+
+
     if params[:role] != "5"
       degrees = Degree.all
       puts "==============> degrees" + degrees.inspect
@@ -90,91 +98,155 @@ class Users::RegistrationsController < Devise::RegistrationsController
         cdegree.each do |c|
           id_array << c.course_id
         end
+
         puts "==============> id_array" + id_array.inspect
-        @courses[d.id] = Course.where("id IN (?) AND enable=true", id_array)
+        @courses[d.id] = Course.where("id IN (?) AND enable = true", id_array)
+
       end
+
+
     end
+
+   debugger
+
     @degrees = Degree.where(:enable => true)
     puts "=============>" + @courses.inspect
     render partial: "save_form_1"
+
   end
 
   def save_form_2
+
+
     if session[:role] != "5"
-      user = User.create(name: session[:user][:name], email: session[:user][:email],
-                          password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
-                          phone: params[:phone], institute: params[:institute],
-                          degrees: params[:degrees])
-      if session[:role] == "8"
+
+debugger
+
+       user = User.create(name: session[:user][:name], email: session[:user][:email],
+                         password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                         phone: params[:phone], institute: params[:institute],
+                         degree_id: params[:degree_id],degrees: params[:degrees])
+
+      if session[:role] == "teacher"
         user.teacher_token = "#{user.name.split(" ").map{|x| x[0]}.join("")}_#{(10_000 + Random.rand(100_000 - 10_000)).to_s}"
         user.save
         params[:courses].split(',').each do |course_id|
           TeacherCourse.create(user_id: user.id, course_id: course_id.to_i,
-                       degree_id: Course.find(course_id.to_i).degree_course_assignments.first.board_degree_assignment.degree.id)
+                               degree_id: Course.find(course_id.to_i).degree_course_assignments.first.board_degree_assignment.degree.id)
         end
+
       elsif session[:role] == "12"
         user[:courses] = params[:courses]
       end
 
+debugger
+
+      puts "===============>", user.inspect
+      puts "@@@@@@@@@@@@@@@@@@@", user.inspect
       user.save
+
       Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
       user.reload
       sign_in(user)
       @role = session[:role]
+      session[:user][:id]= current_user.id
       puts "=============>" + @role.inspect
+
+
       @flag = true
+      @courses = Course.find(params[:courses].split(','))
+
       render partial: "save_form_2"
+
+
     else
+
       session[:user][:institute] = params[:institute]
       session[:user][:phone] = params[:phone]
       session[:user][:courses] = params[:courses]
       session[:user][:degree_id] = params[:degree_id]
+
+
       @courses = Course.find(params[:courses].split(','))
+
       render partial: "save_form_2"
+
     end
   end
 
   def save_form_3
+
     user_packages = params[:packages].split(',')
+    session[:user][:packages]= params[:packages].split(',')
+
+
+    debugger
+
+  puts"------------------------", params.inspect
+
+    user_packages = params[:packages].split(',')
+
     session[:user][:packages] = params[:packages].split(',')
-    packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
+
+    degree_id = Course.find(user_packages[0].split(':')[0]).degree_course_assignments.first.board_degree_assignment.degree_id
+    packages = Package.where(:degree_id => degree_id)
+
+    debugger
+
     @total_price = 0
-    user_packages.each do |p|
-      @total_price += packages.where(:flag => p.split(':')[1]).first.price
+
+      user_packages.each do |p|
+      package = packages.where(:flag => p.split(':')[1]).first
+      @total_price = @total_price + package.price
+
     end
+
     if @total_price == 0
+
       user = User.create(name: session[:user][:name], email: session[:user][:email],
-                          password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
-                          degree_id: session[:user][:degree_id].to_i,
-                          phone: session[:user][:phone], institute: session[:user][:institute])
+                         password: session[:user][:password], password_confirmation: session[:user][:password_confirmation],
+                         degree_id: session[:user][:degree_id].to_i,
+                         phone: session[:user][:phone], institute: session[:user][:institute])
+
       user[:courses] = session[:user][:courses]
       user.test_permission_ids = "1,2,3"
       user.is_active = true
       user.save
+
       Assignment.create!(user_id: user.id,role_id: session[:role].to_i)
 
       user_packages.each do |p|
+
         package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
         course = Course.find(p.split(':')[0])
         package.name = course.name
         package.course_id = course.id
         package.plan = packages.where(:flag => p.split(':')[1]).first.name
+
         package.save
+
         if p.split(':')[1] != "1"
           package.credit_left = packages.where(:flag => p.split(':')[1]).first.price
           package.validity = 30.days.from_now
           package.save
         end
       end
+      debugger
       user.reload
       sign_in(user)
     end
     puts "==============>price = " + @total_price.inspect
-    render partial: "save_form_3"
+     render partial: "save_form_3"
+
   end
 
   def registration
-    if params[:request] == "1"
+
+      debugger
+
+  if params[:request] == "1"
+
+
       user_packages = session[:user][:packages]
       packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
       user = User.create(name: session[:user][:name], email: session[:user][:email],
@@ -183,11 +255,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
                          phone: session[:user][:phone], institute: session[:user][:institute])
       puts "============>" + user.inspect
 
+
       user_packages.each do |p|
         package = UserPackage.create(user_id: user.id, package_id: packages.where(:flag => p.split(':')[1]).first.id)
         course = Course.find(p.split(':')[0])
         package.name = course.name
         package.course_id = course.id
+        package.price= package.price
+
         package.plan = packages.where(:flag => p.split(':')[1]).first.name
         package.save
         if p.split(':')[1] != "1"
@@ -196,6 +271,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
           package.save
         end
       end
+
+      debugger
 
       user.reload
       sign_in(user)
@@ -229,6 +306,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
       end
 
+
+      debugger
+
       user.reload
       sign_in(user)
       user.is_active = false
@@ -239,6 +319,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
       redirect_to "/"
     else
+
+      # Course.find(user_packages[0].split(':')[0]).degree_course_assignments.first.board_degree_assignment.degree_id
+      # packages = Package.where(:degree_id => degree_id)
+
+
       user_packages = session[:user][:packages]
       packages = Package.where(:degree_id => session[:user][:degree_id].to_i)
       user = User.create(name: session[:user][:name], email: session[:user][:email],
@@ -260,6 +345,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
           package.save
         end
       end
+
+
+      debugger
 
       user.reload
       sign_in(user)

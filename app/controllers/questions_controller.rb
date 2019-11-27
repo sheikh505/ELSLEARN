@@ -29,7 +29,6 @@ class QuestionsController < ApplicationController
       @degrees = @degrees.uniq
     end
 
-
     render :partial => 'questions/board_degree'
 
   end
@@ -109,10 +108,10 @@ class QuestionsController < ApplicationController
 
     # @question_heading = type + ' - ' + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_1).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_2).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_3).name + ", " + Course.find_by_id(CourseLinking.find_by_id(@question.course_linking_id).course_4).name
 
-
   end
 
   def index
+
     session[:question] = nil
     @board = Board.new
     @board_hash = @board.board_degree_hash
@@ -150,8 +149,11 @@ class QuestionsController < ApplicationController
     if @question.deleted == false
       @boards = []
       @degrees = []
+
       @question.board_degree_assignments.each do |bd|
+
         @boards << bd.board_id
+
         @degrees << bd.degree_id
       end
 
@@ -477,7 +479,6 @@ class QuestionsController < ApplicationController
 
   def create
 
-
     puts "===================>>>params.inspect="+params.inspect
 
     @boards = params[:boards]
@@ -492,7 +493,7 @@ class QuestionsController < ApplicationController
     @question.difficulty= params[:difficulty]
     @question.statement = params[:statement] if params[:statement]
     @question.description = params[:detail_answer]
-    @question.degree_ids = "4,5,6,7"
+    # @question.degree_ids = "4,5,6,7"
 
     @question.course_linking_id = params[:course_linking_id]
 

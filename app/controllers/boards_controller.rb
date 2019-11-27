@@ -1,4 +1,3 @@
-
 class BoardsController < ApplicationController
   load_and_authorize_resource
   before_filter :set_board, :only=> [:show, :edit, :update, :destroy]
@@ -20,11 +19,14 @@ class BoardsController < ApplicationController
   end
 
   def new
+
     @board = Board.new
     render partial: "new"
+
   end
 
   def edit
+
     render partial: "edit"
   end
 
@@ -56,11 +58,15 @@ class BoardsController < ApplicationController
   end
 
   def destroy
+
     BoardDegreeAssignment.all.each {|bd| bd.destroy if bd.board_id.eql?(@board.id) }
     @board.destroy
     @boards = Board.all
     render partial: "manage_boards"
   end
+
+
+
 
   private
     def set_board

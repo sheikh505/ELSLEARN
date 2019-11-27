@@ -3,7 +3,10 @@ class CourseLinking < ActiveRecord::Base
   has_many :topic_linking,dependent: :destroy
   has_many :questions
 
+
   def self.search_on_course_column course_id
+
+
     if course_id.nil?
       return nil
     else
@@ -11,4 +14,9 @@ class CourseLinking < ActiveRecord::Base
       return arr.blank? ? nil : arr.first
     end
   end
+
+
+
+
+
 end

@@ -1,4 +1,5 @@
 module ApplicationHelper
+
   def show_difficulty difficulty
     case difficulty
       when 1
@@ -42,6 +43,13 @@ module ApplicationHelper
     temp = Role.all.select{|x| x.name.downcase == 'student'}
     return temp.blank? ? nil : temp.first.id
   end
+
+  def get_teacher_role
+    temp = Role.all.select{|x| x.name.downcase == 'teacher'}
+    return temp.blank? ? nil : temp.first.id
+  end
+
+
 
   def get_visiting_teacher_role
     temp = Role.all.select{|x| x.name.downcase == 'teacher'}
@@ -190,6 +198,5 @@ module ApplicationHelper
 
     return questions.size
   end
-
 
 end

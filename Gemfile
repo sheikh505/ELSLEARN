@@ -9,6 +9,8 @@ gem 'rails', '3.2.14'
 gem 'table_print'
 
 gem 'pg'
+
+gem 'byebug'
 #gem 'mysql2'
 gem 'devise'
 gem 'cancan'

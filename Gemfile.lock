@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/JangoSteve/remotipart.git
+  revision: 7092d4fb1c3ae075fff05358d5943c0c997b9f60
+  specs:
+    remotipart (1.4.3)
+
+GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
   revision: b8e6b6fa51e0074ea44b4771a68b1817a14023fc
   specs:
@@ -51,6 +57,7 @@ GEM
       actionpack (>= 3.2)
       railties (>= 3.2)
     builder (3.0.4)
+    byebug (11.0.1)
     cancan (1.6.10)
     ckeditor (4.2.0)
       cocaine
@@ -224,6 +231,7 @@ DEPENDENCIES
   aws-sdk (< 2.0)
   bcrypt-ruby (= 3.1.1.rc1)
   best_in_place (~> 3.0.1)
+  byebug
   cancan
   ckeditor
   coffee-rails (~> 3.2.1)
@@ -237,6 +245,7 @@ DEPENDENCIES
   paperclip (~> 3.5.3)
   pg
   rails (= 3.2.14)
+  remotipart!
   sass-rails (~> 3.2.3)
   sinatra
   table_print
@@ -250,4 +259,4 @@ DEPENDENCIES
   workflow (~> 1.2.0)
 
 BUNDLED WITH
-   1.11.2
+   1.17.3

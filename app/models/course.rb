@@ -7,4 +7,5 @@ class Course < ActiveRecord::Base
   has_many :workflow_paths, :dependent => :destroy
 
   attr_accessible :name, :enable
+
 end

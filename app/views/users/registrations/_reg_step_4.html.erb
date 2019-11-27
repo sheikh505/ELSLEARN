@@ -25,9 +25,10 @@
       <br>
 
       <div id="card">
-        <%= form_for :user, :remote => true, url: "#" do |f| %>
+        <%= form_for :user, :remote => true, url: "/users" do |f| %>
+
           <div class="field">
-            <%= f.label :card_number %>
+            <%= f.label :card_number  %>
             <%= f.text_field :card_number %>
           </div>
           <div class="field">
@@ -50,7 +51,6 @@
         <a class="actions buttons" id="button" style="font-size:15px" href="/registration?request=1" id="user_profile">User Profile</a>  |
         <a class="actions buttons" id="button" style="font-size:15px" href="/registration?request=2"  id="home_page">  Home Page</a>
       </div>
-
     </div>
 
     <div id="finally" style="display:none">
@@ -78,9 +78,9 @@
     }
   });
 
-    $('#finish').click(function(){
+    $('#finish').click(function(){debugger
       $.ajax({
-        url: "/registration?card_number="+$('input[name="card_number"]').val()+"&month="+$('input[name="month"]').val()+
+          url: "/registration?card_number="+`$('input[name="card_number"]').val()`+"&month="+$('input[name="month"]').val()+
         "&year="+$('input[name="year"]').val()+"&cvv2="+$('input[name="cvv2"]').val(),
         method: "POST",
         success: function(data){
@@ -90,4 +90,3 @@
       });
     });
 </script>
-

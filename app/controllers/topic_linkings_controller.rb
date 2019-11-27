@@ -4,13 +4,17 @@ class TopicLinkingsController < ApplicationController
   layout "admin_panel_layout"
   respond_to :html
 
+
   def index
-    @courses = Course.all
-    clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", @courses.first.id,
-                                @courses.first.id, @courses.first.id, @courses.first.id)
-    @topic_linkings = TopicLinking.where(course_linking_id: clink.first.id)
-    respond_with(@topic_linkings)
+
+    if  @courses = Course.all
+     @clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3= ? OR course_4= ?  ", @courses.first.id,@courses.first.id,@courses.first.id,@courses.first.id)
+     @topic_linkings = TopicLinking.where(course_linking_id: @clink.first.id)
+     respond_with(@topic_linkings)
+     end
+
   end
+
 
   def fetch_topic_linkings
     clink = CourseLinking.where("course_1 = ? OR course_2 = ? OR course_3 = ? OR course_4 = ?", params[:course_id],

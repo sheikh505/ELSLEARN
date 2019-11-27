@@ -18,11 +18,15 @@ class TeacherController < ApplicationController
   end
 
   def fetch_users
+
     @users = User.joins("INNER JOIN assignments a ON users.id = a.user_id").where("a.role_id = ?", params[:role_id])
     render partial: "fetch_users"
+
+
   end
 
   def check_quiz
+
     @tests = UserTestHistory.where("(teacher_id = ? OR teacher_id = -1) AND reviewed = false AND video_review = true", current_user.id).order('created_at DESC')
     # @students = User.where("id IN (?)", @tests.pluck(:user_id))
     @courses = Course.where("id IN (?)", @tests.pluck(:course_id))
@@ -30,9 +34,11 @@ class TeacherController < ApplicationController
     #reviewed quizzes
     @reviewed_tests = UserTestHistory.where("teacher_id = ? AND reviewed = true AND video_review = true", current_user.id).order('created_at DESC')
     @reviewed_test_courses = Course.where("id IN (?)", @reviewed_tests.pluck(:course_id))
+
   end
 
   def student_test
+
     @test = UserTestHistory.find(params[:test_id])
     session[:user_test_history_id] = @test.id
     #@questions = Question.where("id IN (?)", @test.descriptive.split(','))
@@ -42,6 +48,7 @@ class TeacherController < ApplicationController
     puts "===============> " + question_ids.inspect
     # session[:question_ids] = question_ids
     redirect_to student_review_question_path(question_ids: question_ids, test_id: @test.id)
+
   end
 
   def save_remarks
@@ -186,8 +193,10 @@ class TeacherController < ApplicationController
   # end
 
   def destroy
+
     @user.destroy
     redirect_to "/user"
+
   end
 
   def get_courses
@@ -207,7 +216,6 @@ class TeacherController < ApplicationController
       course.each do |i|
         @courses << i
       end
-
 
     end
     @courses = @courses.uniq();

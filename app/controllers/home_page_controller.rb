@@ -1,4 +1,5 @@
 class HomePageController < ApplicationController
+  load_and_authorize_resource
 
   def index
     if user_signed_in?
@@ -947,16 +948,20 @@ class HomePageController < ApplicationController
   end
 
   def pricing
+
     @membership_plans = MembershipPlan.order(:price)
     @news_feed = NewsFeed.last
+
   end
 
   def try_it
+
     @past_papers = PastPaperHistory.all
     @years = []
     @past_papers.each do |paper|
       @years << paper.year
     end
+
     @years.uniq!
     @years.sort!
     @years.reverse!
@@ -1094,5 +1099,6 @@ class HomePageController < ApplicationController
   def check_session
 
   end
+
 
 end

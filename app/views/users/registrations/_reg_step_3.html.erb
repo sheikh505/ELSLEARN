@@ -1,4 +1,9 @@
-<% if @flag %>
+
+
+
+
+<% if @flag == false%>
+
     <div>
       <div>
         <% if @role == "12" %>
@@ -12,11 +17,16 @@
       <a class="actions buttons" id="button" style="font-size:15px" href="/"  id="home_page">  Home Page</a>
     </div>
 <% else %>
+
+
     <%= form_tag remote: true, :url=> '/users/save_form_2',html: {id: 'sign_up_form_3'} do |f| %>
+
         <div class="field">
           <div>
+
             Please choose your package.
             you can see the package details below..
+
           </div>
           <table style="border-bottom: 3px solid">
             <thead>

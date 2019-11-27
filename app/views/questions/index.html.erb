@@ -26,6 +26,8 @@
             <option value="" selected>Select Course</option>
             <% if current_user.is_teacher? %>
                 <% current_user.teacher_courses.each do |x| %>
+
+
                     <% unless CourseLinking.search_on_course_column(x.course_id).nil? %>
                         <%# unless CourseLinking.search_on_course_column(course.id).nil? %>
 
@@ -37,6 +39,8 @@
 
             <% else %>
                 <% Course.all.each do |course| %>
+
+
 
                     <% unless CourseLinking.search_on_course_column(course.id).nil? %>
                         <option value="<%=course.id %>"><%=course.name%></option>

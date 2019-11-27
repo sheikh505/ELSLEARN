@@ -17,9 +17,11 @@ class UserController < ApplicationController
   end
 
   def my_profile
+
     @user = User.find(current_user.id)
     @news_feed = NewsFeed.last
     @last_user_history = UserTestHistory.find_all_by_user_id(@user.id).last
+
   end
 
   def test_reviews
@@ -105,14 +107,16 @@ class UserController < ApplicationController
   end
 
   def manage_courses
+    # degree_id= Degree.where("degre_id=?", @degree.id)
     # bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
     # course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => 20).pluck(:course_id)
     # @courses = Course.find_all_by_id(course_ids)
-    # @user_course_ids = current_user[:courses].split(',')
+    # # # @user_course_ids = current_user[:courses].split(',')
     @packages = UserPackage.where(user_id: current_user.id)
   end
 
   def delete_package
+
     package = UserPackage.find(params[:id])
     courses = current_user[:courses].split(',')
     puts "==============>"+courses.inspect
@@ -127,6 +131,7 @@ class UserController < ApplicationController
   end
 
   def add_course
+
     bdgree = BoardDegreeAssignment.where(:degree_id => current_user.degree_id)
     course_ids = DegreeCourseAssignment.where(:board_degree_assignment_id => bdgree.first.id).pluck(:course_id)
     if current_user[:courses]
@@ -140,8 +145,12 @@ class UserController < ApplicationController
     else
       @courses = Course.find_all_by_id_and_enable(course_ids, true)
     end
+
+  else
+
     # puts "==============>",params[:course_id].inspect,bdgree.inspect,course_ids.inspect,user_courses.inspect,@courses.inspect
     render partial: "add_course"
+
   end
 
   def fetch_packages
@@ -151,12 +160,15 @@ class UserController < ApplicationController
   end
 
   def buy
+
+
     degree_id = current_user.degree_id
     plan = params[:plan]
     session[:plan] = params[:plan]
-    @price = Package.where(degree_id: degree_id, flag: plan).first.price
+    @price = Package.where(degree_id: degree_id, flag: plan).first
     if @price == 0
       degree_id = current_user.degree_id
+
       packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i).first
       package = UserPackage.create(user_id: current_user.id, package_id: packages.id)
       course = Course.find(session[:course_id])
@@ -173,11 +185,20 @@ class UserController < ApplicationController
   end
 
   def purchase
+
+
+
+    debugger
+
     degree_id = current_user.degree_id
-    packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i).first
-    package = UserPackage.create(user_id: current_user.id, package_id: packages.id)
+
+    packages = Package.where( degree_id: degree_id, flag: session[:plan].to_i)
+
+    package = UserPackage.create(user_id: current_user.id, package_id: packages.first.id)
+
     course = Course.find(session[:course_id])
-    if current_user[:courses]
+   # course= current_user.all
+          if current_user[:courses]
       courses = current_user[:courses].split(',')
       courses << course.id.to_s
       current_user[:courses] = courses.join(',')
@@ -186,16 +207,22 @@ class UserController < ApplicationController
       current_user[:courses] = course.id.to_s
       current_user.save
     end
+
+    debugger
+
     package.name = course.name
     package.course_id = course.id
     package.plan = packages.name
     package.save
     if session[:plan] != "1"
-      package.credit_left = packages.price
+      # package.credit_left = packages.price
+
       package.validity = 30.days.from_now
       package.save
     end
+
     render json: {success: true}
+
   end
 
   def update_courses
@@ -216,6 +243,7 @@ class UserController < ApplicationController
   end
 
   def ReTakeTest
+
     user_test_history_id = params[:user_test_history_id]
     @user_test_histories = UserTestHistory.find(user_test_history_id)
     redirect_to :action => 'quiz', :controller => "home_page", :user_test_history_id=>user_test_history_id
@@ -225,6 +253,7 @@ class UserController < ApplicationController
     # :true_false=> @user_test_histories[:truefalse],:fill=> @user_test_histories[:fill],
     # :descriptive=> @user_test_histories[:descriptive], :pre_Past=> @user_test_histories[:pastpaperflag],
     # :year=> @user_test_histories[:year], :session=> @user_test_histories[:session]
+
   end
 
   def request_teacher
@@ -247,22 +276,30 @@ class UserController < ApplicationController
       format.js
     end
   end
+
+
   def get_courses_by_degree_id
+
+    debugger
+
     @degree_id_selected = params[:degree_id].to_i
     puts "----------course=======",@degree_id_selected.inspect
-    sql = "Select distinct c.id, name
-          From courses c
-          Inner join degree_course_assignments dca on c.id = dca.course_id
-          Inner join board_degree_assignments bda on dca.board_degree_assignment_id = bda.id
+    sql = "Select distinct c.id, name From courses c Inner join degree_course_assignments dca on c.id = dca.course_id Inner join board_degree_assignments bda on dca.board_degree_assignment_id = bda.id
           where degree_id = ?", @degree_id_selected
+
+    # result = ActiveRecord::Base.connection.execute(sql)
+
     @courses_selected = Course.find_by_sql(sql)
     puts "-===========-=",@courses_selected.inspect
     render :partial => 'users/registrations/get_course'
+
   end
+
 
   def progress
 
   end
+
 
   private
 
@@ -270,6 +307,5 @@ class UserController < ApplicationController
     # NOTE: Using `strong_parameters` gem
     params.required(:user).permit(:password, :password_confirmation)
   end
-
 
 end

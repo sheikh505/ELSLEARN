@@ -33,15 +33,24 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   attr_accessible :avatar
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" },
-                    :default_url => "/images/:style/missing.png",
-                    :storage => :s3,
-                    :url => 's3_domain_url',
-                    :s3_host_alias => 'elslearning.s3-website-us-east-1.amazonaws.com',
-                    :s3_credentials => File.join(Rails.root, 'config', 's3.yml'),
-                    :path => "/files/:style/:id_:filename"
+  # has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" },
+  #                   :default_url => "/images/:style/missing.png",
+  #                   :storage => :s3,
+  #                   :url => 's3_domain_url',
+  #                   :s3_host_alias => 'elslearning.s3-website-us-east-1.amazonaws.com',
+  #                   :s3_credentials => File.join(Rails.root, 'config', 's3.yml'),
+  #                   :path => "/files/:style/:id_:filename"
+  #
+  # validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
+  has_attached_file :avatar
+
+
+  validates_attachment :avatar,
+                       content_type: { content_type: ["image/jpeg", "image/gif", "image/png"] }, styles: { thumb: ["100x100#", :jpg], original: ["50x50>", :jpg] },
+                       size: { in: 0..200.kilobytes }
+
   def is_admin?
     return true if(self.roles.first.name.eql?("Admin") unless self.roles.nil?)
   end
@@ -50,7 +59,7 @@ class User < ActiveRecord::Base
     return true if(self.roles.first.name.eql?("Operator") unless self.roles.nil?)
   end
   def is_teacher?
-    return self.roles.first.name == 'Teacher' ? true : false
+    return self.roles.first.name == 'teacher' ? true : false
   end
   def is_proofreader?
     return (self.roles.first.name == 'Proofreader' || self.roles.first.name == 'Proof Reader') ? true : false
@@ -69,9 +78,11 @@ class User < ActiveRecord::Base
   def is_not_student?
     return self.roles.first.name.downcase != 'student' ? true : false
   end
+
   def is_not_admin?
     return self.roles.first.name.downcase != 'admin' ? true : false
   end
+
   def self.from_omniauth(auth)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
