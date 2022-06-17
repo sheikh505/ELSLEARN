@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/JangoSteve/remotipart.git
-  revision: 7092d4fb1c3ae075fff05358d5943c0c997b9f60
+  remote: https://github.com/JangoSteve/remotipart.git
+  revision: a1860d64aef484047bc1ef50e2f19ef2480eacf9
   specs:
-    remotipart (1.4.3)
+    remotipart (1.4.4)
 
 GIT
-  remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: b8e6b6fa51e0074ea44b4771a68b1817a14023fc
+  remote: https://github.com/rweng/jquery-datatables-rails.git
+  revision: d486b31b192a2924b1913e080ad23460e6b96d31
   specs:
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
@@ -73,6 +73,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    concurrent-ruby (1.1.10)
     devise (3.5.10)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -91,7 +92,8 @@ GEM
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    i18n (0.7.0)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     journey (1.0.4)
     jquery-bootstrap-pagination (1.2.0)
     jquery-rails (3.1.4)
