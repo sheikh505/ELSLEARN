@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/JangoSteve/remotipart.git
-  revision: 7092d4fb1c3ae075fff05358d5943c0c997b9f60
+  remote: https://github.com/JangoSteve/remotipart.git
+  revision: a1860d64aef484047bc1ef50e2f19ef2480eacf9
   specs:
-    remotipart (1.4.3)
+    remotipart (1.4.4)
 
 GIT
-  remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: b8e6b6fa51e0074ea44b4771a68b1817a14023fc
+  remote: https://github.com/rweng/jquery-datatables-rails.git
+  revision: d486b31b192a2924b1913e080ad23460e6b96d31
   specs:
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
@@ -209,7 +209,7 @@ GEM
       polyglot (>= 0.3.1)
     twocheckout (0.4.0)
       rest-client (~> 1.4)
-    tzinfo (0.3.51)
+    tzinfo (0.3.61)
     uglifier (3.0.2)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
